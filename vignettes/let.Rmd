@@ -25,3 +25,5 @@ let(
 print(d)
 ```
 
+For more please see [our video](https://youtu.be/iKLGxzzm9Hk?list=PLAKBwakacHbQp_Z66asDnjn-0qttTO-o9.)
+

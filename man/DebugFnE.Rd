@@ -7,7 +7,7 @@
 DebugFnE(saveDest, fn, ...)
 }
 \arguments{
-\item{saveDest}{path to save RDS or function to pass argument to for saving.}
+\item{saveDest}{where to write captured state (determined by type): NULL random temp file, character temp file, name globalenv() variable, and function triggers callback.}
 
 \item{fn}{function to call}
 

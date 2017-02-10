@@ -90,7 +90,7 @@ returnCapture <- function(e, saveDest, cap, wrapperName,
 #' Run fn, save arguments on failure.
 #' @seealso \code{\link{DebugFn}}, \code{\link{DebugFnW}},  \code{\link{DebugFnWE}}, \code{\link{DebugPrintFn}}, \code{\link{DebugFnE}}, \code{\link{DebugPrintFnE}}
 #'
-#' @param saveDest path to save RDS or function to pass argument to for saving.
+#' @param saveDest where to write captured state (determined by type): NULL random temp file, character temp file, name globalenv() variable, and function triggers callback.
 #' @param fn function to call
 #' @param ... arguments for fn
 #' @return fn(...) normally, but if fn(...) throws an exception save to saveDest RDS of list r such that do.call(r$fn,r$args) repeats the call to fn with args.
@@ -142,7 +142,7 @@ DebugFn <- function(saveDest,fn,...) {
 #'
 #' Idea from: https://gist.github.com/nassimhaddad/c9c327d10a91dcf9a3370d30dff8ac3d
 #'
-#' @param saveDest path to save RDS or function to pass argument to for saving.
+#' @param saveDest where to write captured state (determined by type): NULL random temp file, character temp file, name globalenv() variable, and function triggers callback.
 #' @param fn function to call
 #' @return wrapped function that saves state on error.
 #'
@@ -213,7 +213,7 @@ DebugFnW <- function(saveDest,fn) {
 #'
 #' @seealso \code{\link{DebugFn}}, \code{\link{DebugFnW}},  \code{\link{DebugFnWE}}, \code{\link{DebugPrintFn}}, \code{\link{DebugFnE}}, \code{\link{DebugPrintFnE}}
 #'
-#' @param saveDest path to save RDS or function to pass argument to for saving.
+#' @param saveDest where to write captured state (determined by type): NULL random temp file, character temp file, name globalenv() variable, and function triggers callback.
 #' @param fn function to call
 #' @param ... arguments for fn
 #' @return fn(...) normally, but if fn(...) throws an exception save to saveDest RDS of list r such that do.call(r$fn,r$args) repeats the call to fn with args.
@@ -265,7 +265,7 @@ DebugPrintFn <- function(saveDest,fn,...) {
 #' Run fn, save arguments, and environment on failure.
 #' @seealso \code{\link{DebugFn}}, \code{\link{DebugFnW}},  \code{\link{DebugFnWE}}, \code{\link{DebugPrintFn}}, \code{\link{DebugFnE}}, \code{\link{DebugPrintFnE}}
 #'
-#' @param saveDest path to save RDS or function to pass argument to for saving.
+#' @param saveDest where to write captured state (determined by type): NULL random temp file, character temp file, name globalenv() variable, and function triggers callback.
 #' @param fn function to call
 #' @param ... arguments for fn
 #' @return fn(...) normally, but if fn(...) throws an exception save to saveDest RDS of list r such that do.call(r$fn,r$args) repeats the call to fn with args.
@@ -320,7 +320,7 @@ DebugFnE <- function(saveDest,fn,...) {
 #'
 #' Idea from: https://gist.github.com/nassimhaddad/c9c327d10a91dcf9a3370d30dff8ac3d
 #'
-#' @param saveDest path to save RDS or function to pass argument to for saving.
+#' @param saveDest where to write captured state (determined by type): NULL random temp file, character temp file, name globalenv() variable, and function triggers callback.
 #' @param fn function to call
 #' @param ... arguments for fn
 #' @return wrapped function that captures state on error.
@@ -379,7 +379,7 @@ DebugFnWE <- function(saveDest,fn,...) {
 #'
 #' @seealso \code{\link{DebugFn}}, \code{\link{DebugFnW}},  \code{\link{DebugFnWE}}, \code{\link{DebugPrintFn}}, \code{\link{DebugFnE}}, \code{\link{DebugPrintFnE}}
 #'
-#' @param saveDest path to save RDS or function to pass argument to for saving.
+#' @param saveDest where to write captured state (determined by type): NULL random temp file, character temp file, name globalenv() variable, and function triggers callback.
 #' @param fn function to call
 #' @param ... arguments for fn
 #' @return fn(...) normally, but if fn(...) throws an exception save to saveDest RDS of list r such that do.call(r$fn,r$args) repeats the call to fn with args.
