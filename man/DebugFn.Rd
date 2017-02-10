@@ -35,7 +35,7 @@ situation <- readRDS(saveDest)
 str(situation)
 # fix and re-run
 situation$args[[1]] <- 6
-do.call(situation$fn,situation$args)
+do.call(situation$fn_name,situation$args)
 # clean up
 file.remove(saveDest)
 

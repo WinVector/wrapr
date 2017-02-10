@@ -1,0 +1,27 @@
+---
+title: "let"
+author: "John Mount, Nina Zumel"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{let}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r}
+library("wrapr")
+
+d <- data.frame(x=c(1,NA))
+
+cname <- 'x'
+rname <- paste0(cname,'_isNA')
+
+let(
+  list(CNAME=cname, RNAME=rname),
+  d$RNAME <- is.na(d$CNAME)
+)
+print(d)
+```
+

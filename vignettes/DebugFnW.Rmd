@@ -1,0 +1,61 @@
+---
+title: "Debug"
+author: "John Mount, Nina Zumel"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Debug}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup}
+# load package
+library("wrapr")
+
+# user function
+f <- function(i) { (1:10)[[i]] }
+```
+
+File version.
+
+```{r FileVersion}
+saveDest <- paste0(tempfile('debug'),'.RDS')
+# wrap funciton with saveDeest
+df <- DebugFnW(saveDest,f)
+# capture error (Note: tryCatch not needed for user code!)
+tryCatch(
+  df(12),
+   error = function(e) { print(e) })
+# load data
+lastError <- readRDS(saveDest)
+# examine error
+str(lastError)
+# redo call, perhaps debugging
+tryCatch(
+  do.call(lastError$fn_name, lastError$args),
+  error = function(e) { print(e) })
+# clean up
+file.remove(list=c(saveDest,'lastError'))
+```
+
+User writeback version.
+
+```{r writeBackVersion}
+# capture last error in variable called "lastError"
+writeBack <- buildNameCallback('lastError')
+# wrap funciton with writeBack
+df <- DebugFnW(writeBack,f)
+# capture error (Note: tryCatch not needed for user code!)
+tryCatch(
+  df(12),
+   error = function(e) { print(e) })
+# examine error
+str(lastError)
+# redo call, perhaps debugging
+tryCatch(
+  do.call(lastError$fn_name, lastError$args),
+  error = function(e) { print(e) })
+# clean up
+file.remove(list='lastError')
+```

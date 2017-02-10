@@ -1,4 +1,38 @@
 
+#' Build a custom writeback function that writes state into a user named variable.
+#'
+#' @param varName character where to write captured state
+#' @return writeback function for use with functions such as  \code{\link{DebugFnW}}
+#'
+#' @examples
+#'
+#' # user function
+#' f <- function(i) { (1:10)[[i]] }
+#' # capture last error in variable called "lastError"
+#' writeBack <- buildNameCallback('lastError')
+#' # wrap function with writeBack
+#' df <- DebugFnW(writeBack,f)
+#' # capture error (Note: tryCatch not needed for user code!)
+#' tryCatch(
+#'   df(12),
+#'    error = function(e) { print(e) })
+#' # examine error
+#' str(lastError)
+#' # redo call, perhaps debugging
+#' tryCatch(
+#'  do.call(lastError$fn_name, lastError$args),
+#'    error = function(e) { print(e) })
+#'
+#' @export
+buildNameCallback <- function(varName) {
+  curEnv <- parent.frame()
+  writeBack <- function(sit) {
+    assign('lastError', sit, envir=curEnv)
+  }
+  attr(writeBack,'name') <- paste0('writing to variable: "', varName, '"')
+  writeBack
+}
+
 
 # return an error to a file or callback
 returnCapture <- function(e, saveDest, cap, wrapperName,
@@ -67,7 +101,7 @@ returnCapture <- function(e, saveDest, cap, wrapperName,
 #' str(situation)
 #' # fix and re-run
 #' situation$args[[1]] <- 6
-#' do.call(situation$fn,situation$args)
+#' do.call(situation$fn_name,situation$args)
 #' # clean up
 #' file.remove(saveDest)
 #'
