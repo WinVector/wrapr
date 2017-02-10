@@ -41,14 +41,14 @@ The state data is written to:
 
  * a random temp file (if `saveDest` is null)
  * a user chosen file (if `saveDest` is character)
- * a `globalenv()` variable (if `saveDest` is a name, as produced by `quote()`)
+ * a `globalenv()` variable (if `saveDest` is a name, as produced by `as.name()` or `quote()`)
  * passed to a user function (if `saveDest` is a function).
 
 Here, we wrap `f` and save error state into the global variable `lastError`.
 
 ```{r writeBackVersion2}
 # wrap function with writeBack
-df <- DebugFnW(quote(lastError), f)
+df <- DebugFnW(as.name('lastError'), f)
 ```
 
 Now we run the same loop as above, with the wrapped function `df` (note that the `tryCatch` is not strictly needed, this is just for running this example in a vignette).
