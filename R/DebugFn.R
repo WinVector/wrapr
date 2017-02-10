@@ -34,12 +34,22 @@ buildNameCallback <- function(varName) {
 }
 
 
-# return an error to a file or callback
+# return an error to a file, environment (no names) or callback
 returnCapture <- function(e, saveDest, cap, wrapperName,
                           recallString = 'do.call(p$fn, p$args)') {
   es <- trimws(paste(as.character(e), collapse = ' '))
   if(is.null(saveDest)) {
     saveDest <- paste0(tempfile('debug'),'.RDS')
+  }
+  if(is.name(saveDest)) {
+    curEnv <- globalenv()
+    assign(as.character(saveDest), cap, envir=curEnv)
+    return(paste0("wrapr::", wrapperName,
+                  ": wrote error to globalenv() variable '",
+                  as.character(saveDest), "'",
+                  "\n You can reproduce the error with:",
+                  "\n '", recallString,
+                  "' (replace 'p' with actual variable name)"))
   }
   if(is.function(saveDest)) {
     saveDest(cap)

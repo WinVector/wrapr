@@ -1,5 +1,5 @@
 ---
-title: "Debug"
+title: "Debug Vignette"
 author: "John Mount, Nina Zumel"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -9,24 +9,95 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+This vignette demonstrates debugging a user-created function with the `DebugFnW` call. For our example, we will use a simple function that takes an argument `i` and returns the `i`th index of a ten-element vector:
+
 ```{r setup}
 # load package
 library("wrapr")
 
 # user function
 f <- function(i) { (1:10)[[i]] }
+
 ```
 
-File version.
+Let's imagine that we are calling this function deep within another process; perhaps we are calling it repeatedly, on a long sequence of (possibly unknown to us) inputs.
 
-```{r FileVersion}
+```{r unwrapped}
+
+inputs = c(4,5,2,9,0,8)
+
+tryCatch(
+  for(x in inputs) {
+     f(x)
+  },
+  error = function(e) { print(e) })
+```
+
+Oops! We've crashed, and if this loop were deep in another process, we wouldn't know why, or where. If we suspect that the function `f` is the cause, then we can wrap `f` using `wrapr:DebugFn`.
+
+`DebugFnW(saveDest, fn)` wraps its function argument `fn`, captures any arguments that cause it to fail, and saved those arguments and other state to a specified destination `saveDest`.
+
+The state data is written to:
+
+ * a random temp file (if `saveDest` is null)
+ * a user chosen file (if `saveDest` is character)
+ * a `globalenv()` variable (if `saveDest` is a name, as produced by `quote()`)
+ * passed to a user function (if `saveDest` is a function).
+
+Here, we wrap `f` and save error state into the global variable `lastError`.
+
+```{r writeBackVersion2}
+# wrap function with writeBack
+df <- DebugFnW(quote(lastError), f)
+```
+
+Now we run the same loop as above, with the wrapped function `df` (note that the `tryCatch` is not strictly needed, this is just for running this example in a vignette).
+
+```{r writeBackVersion3}
+# capture error (Note: tryCatch not needed for user code!)
+tryCatch(
+  for(x in inputs) {
+     df(x)
+  },
+  error = function(e) { print(e) })
+```
+
+We can then examine the error. Note in particular that `lastError$fn_name` records the name of the function that crashed, and `lastError$args` records the arguments that the function was called with.
+
+```{r writeBackVersion4}
+# examine error
+str(lastError)
+lastError$args
+```
+
+In many situations, just knowing the arguments is enough information ("Oops, we tried to index the vector from zero!"). In more complicated cases, we can set a debug point on the offending function, and then call it again with the failing arguments in order to track down the bug.
+
+```{r writeBackVersion5}
+# redo call, perhaps debugging
+tryCatch(
+  do.call(lastError$fn_name, lastError$args),
+  error = function(e) { print(e) })
+# clean up
+rm(list='lastError')
+```
+
+In many cases you may prefer to save the failing state into an external file rather than into the current runtime environment. Below we show example code for saving state to an RDS file. 
+
+```{r FileVersion, eval=FALSE}
 saveDest <- paste0(tempfile('debug'),'.RDS')
-# wrap funciton with saveDeest
+# wrap function with saveDeest
 df <- DebugFnW(saveDest,f)
 # capture error (Note: tryCatch not needed for user code!)
 tryCatch(
-  df(12),
-   error = function(e) { print(e) })
+  for(x in inputs) {
+    df(x)
+  },
+  error = function(e) { print(e) })
+```
+
+We can later read that file back into R, for debugging.
+
+```{r FileVersion2, eval=FALSE}
 # load data
 lastError <- readRDS(saveDest)
 # examine error
@@ -36,26 +107,7 @@ tryCatch(
   do.call(lastError$fn_name, lastError$args),
   error = function(e) { print(e) })
 # clean up
-file.remove(list=c(saveDest,'lastError'))
+file.remove(saveDest)
 ```
 
-User writeback version.
-
-```{r writeBackVersion}
-# capture last error in variable called "lastError"
-writeBack <- buildNameCallback('lastError')
-# wrap funciton with writeBack
-df <- DebugFnW(writeBack,f)
-# capture error (Note: tryCatch not needed for user code!)
-tryCatch(
-  df(12),
-   error = function(e) { print(e) })
-# examine error
-str(lastError)
-# redo call, perhaps debugging
-tryCatch(
-  do.call(lastError$fn_name, lastError$args),
-  error = function(e) { print(e) })
-# clean up
-file.remove(list='lastError')
-```
+For more practice, please view [our video on wrapper debugging](https://youtu.be/zFEC9-1XSN8?list=PLAKBwakacHbQT51nPHex1on3YNCCmggZA).
