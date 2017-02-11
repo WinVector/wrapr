@@ -39,7 +39,7 @@ d$x
 
 Issues arise when you want to use functions that use non-standard evaluation -- for brevity, I'll call these *NSE expressions* --  but you don't know the name of the variable, as might happen when you are calling these expression from within another function. Generally in these situations, you are taking the name of the desired variable from a string. But how do you pass it to the NSE expression?
 
-```{r}
+<pre>
 # this fails if you forget to set character.only=TRUE
 libname = "ggplot2"
 tryCatch(
@@ -52,7 +52,7 @@ yvariable = "yvar"
 tryCatch(
   plot(xvariable, yvariable),
   error = function(e) { print(e) })
-```
+</pre>
 
 Clearly, these examples are trivial, and one can find a workaround. There are other situations that are much more complex, for example trying to write parameterized `dplyr` transformations. See [this blog post](http://www.win-vector.com/blog/2016/12/using-replyrlet-to-parameterize-dplyr-expressions/) for an example of using `let` to parameterize `dplyr` expressions, and [this post](http://www.win-vector.com/blog/2016/12/comparative-examples-using-replyrlet/) for a discussion of alternative solutions (as of this writing and version 0.5.0 of `dplyr`).
 
