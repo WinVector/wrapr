@@ -1,5 +1,5 @@
 ---
-title: "let"
+title: "Let"
 author: "John Mount, Nina Zumel"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -9,21 +9,74 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+The vignette demonstrates the use of `let` to standardize calls to functions that use non-standard evaluation.
+
+For the purposes of this discussion, *standard evaluation* of variables preserves referential transparency: that is, values and references to values behave the same.
+
+```{r}
+x = 5
+print(5 + 1)
+print(x + 1)
+```
+
+Some functions in R use *non-standard evaluation* (NSE) of variables, in order to snoop variable names (for example, `plot`), or to delay or even avoid argument evaluation (for example `library(foobar)` versus `library("foobar")`).
+
+In the case of `plot`, NSE lets `plot` use the variable names as the axis labels.
+
+```{r}
+set.seed(1234)
+xvar = runif(100) - 0.5
+yvar = dnorm(xvar)
+
+plot(xvar, yvar) 
+```
+
+In the case of `library`, non-standard evaluation saves typing a couple of quotes. The dollar sign notation for accessing data frame columns also uses non standard evaluation.
+```{r}
+d <- data.frame(x=c(1,NA))
+d$x
+```
+
+Issues arise when you want to use functions that use non-standard evaluation -- for brevity, I'll call these *NSE expressions* --  but you don't know the name of the variable, as might happen when you are calling these expression from within another function. Generally in these situations, you are taking the name of the desired variable from a string. But how do you pass it to the NSE expression?
+
+```{r}
+# this fails if you forget to set character.only=TRUE
+libname = "ggplot2"
+tryCatch(
+  library(libname),
+  error = function(e) { print(e) })
+
+# this fails referential transparency
+xvariable = "xvar"
+yvariable = "yvar"
+tryCatch(
+  plot(xvariable, yvariable),
+  error = function(e) { print(e) })
+```
+
+Clearly, these examples are trivial, and one can find a workaround. There are other situations that are much more complex, for example trying to write parameterized `dplyr` transformations. See [this blog post](http://www.win-vector.com/blog/2016/12/using-replyrlet-to-parameterize-dplyr-expressions/) for an example of using `let` to parameterize `dplyr` expressions, and [this post](http://www.win-vector.com/blog/2016/12/comparative-examples-using-replyrlet/) for a discussion of alternative solutions (as of this writing and version 0.5.0 of `dplyr`).
+
+For this discussion, we will demonstrate `let` to standardize calling `plot` with unknown variables.
+`let` takes two arguments:
+
+ * A list of assignments *symname=varname*, where *symname* is the name used in the NSE expression, and *varname* is the name (as a string) of the desired variable. 
+ * The NSE expression. Enclose a block of multiple expressions in brackets.
+ 
+ Here's the `plot` example again.
 
 ```{r}
 library("wrapr")
 
-d <- data.frame(x=c(1,NA))
-
-cname <- 'x'
-rname <- paste0(cname,'_isNA')
-
+xvariable = "xvar"
+yvariable = "yvar"
 let(
-  list(CNAME=cname, RNAME=rname),
-  d$RNAME <- is.na(d$CNAME)
+  list(X=xvariable, Y=yvariable),
+  { # since we have the names as strings, we can create a title
+    title = paste(yvariable, "vs", xvariable)
+    plot(X, Y, main=title)
+  }
 )
-print(d)
 ```
 
-For more please see [our video](https://youtu.be/iKLGxzzm9Hk?list=PLAKBwakacHbQp_Z66asDnjn-0qttTO-o9.)
+For more discussionplease see [our video on non-standard evaluation and `let`](https://youtu.be/iKLGxzzm9Hk?list=PLAKBwakacHbQp_Z66asDnjn-0qttTO-o9).
 
