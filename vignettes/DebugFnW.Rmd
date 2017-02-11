@@ -62,7 +62,7 @@ tryCatch(
   error = function(e) { print(e) })
 ```
 
-We can then examine the error. Note in particular that `lastError$fn_name` records the name of the function that crashed, and `lastError$args` records the arguments that the function was called with.
+We can then examine the error. Note in particular that `lastError$fn_name` records the name of the function that crashed, and `lastError$args` records the arguments that the function was called with.  Also in these examples we are wrapping our code with a `tryCatch` block to capture exceptions; this is only to allow the `knitr` sheet to continue and *not* needed to use the debugging wrappers effectively.
 
 ```{r writeBackVersion4}
 # examine error
