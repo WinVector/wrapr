@@ -4,6 +4,10 @@ This document describes `wrapr`, an [R](https://cran.r-project.org) package avai
 Introduction
 ------------
 
+`wrapr` wraps `R` functions debugging and better standard evaluation.
+
+![](wrapper.jpg)
+
 Primary `wrapr` services include:
 
 -   `wrapr::let()`
