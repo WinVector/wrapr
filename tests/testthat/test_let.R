@@ -3,7 +3,7 @@ library('wrapr')
 context("let")
 
 test_that("test_let.R", {
-  library('dplyr')
+
   d <- data.frame(
     Sepal_Length = c(5.8, 5.7),
     Sepal_Width = c(4.0, 4.4),
