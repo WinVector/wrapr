@@ -110,4 +110,7 @@ tryCatch(
 file.remove(saveDest)
 ```
 
-For more practice, please view [our video on wrapper debugging](https://youtu.be/zFEC9-1XSN8?list=PLAKBwakacHbQT51nPHex1on3YNCCmggZA).
+
+For more practice, please view [our video on wrapper debugging](https://youtu.be/zFEC9-1XSN8?list=PLAKBwakacHbQT51nPHex1on3YNCCmggZA).  
+
+Note: `wrapr` debug functionality rehashes some of the capabilities of `dump.frames` (see `help(dump.frames)`).  Roughly `dump.frames` catches the exception (so continuing re-throws) and `wrapr` catches the call causing the exception.  We have found some cases where `wrapr` is a bit more convenient in how it interacts with the `RStudio` visual debugger (please see this [screencast](https://youtu.be/2NCj4Hacm8E?list=PLAKBwakacHbQT51nPHex1on3YNCCmggZA) for some comparison).

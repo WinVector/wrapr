@@ -88,7 +88,7 @@ returnCapture <- function(e, saveDest, cap, wrapperName,
 #' Capture arguments of exception throwing function call for later debugging.
 #'
 #' Run fn, save arguments on failure.
-#' @seealso \code{\link{DebugFn}}, \code{\link{DebugFnW}},  \code{\link{DebugFnWE}}, \code{\link{DebugPrintFn}}, \code{\link{DebugFnE}}, \code{\link{DebugPrintFnE}}
+#' @seealso \code{\link[utils]{dump.frames}}, \code{\link{DebugFn}}, \code{\link{DebugFnW}},  \code{\link{DebugFnWE}}, \code{\link{DebugPrintFn}}, \code{\link{DebugFnE}}, \code{\link{DebugPrintFnE}}
 #'
 #' @param saveDest where to write captured state (determined by type): NULL random temp file, character temp file, name globalenv() variable, and function triggers callback.
 #' @param fn function to call
@@ -138,7 +138,7 @@ DebugFn <- function(saveDest,fn,...) {
 #' Wrap a function for debugging.
 #'
 #' Wrap fn, so it will save arguments on failure.
-#' @seealso \code{\link{DebugFn}}, \code{\link{DebugFnW}},  \code{\link{DebugFnWE}}, \code{\link{DebugPrintFn}}, \code{\link{DebugFnE}}, \code{\link{DebugPrintFnE}}
+#' @seealso \code{\link[utils]{dump.frames}}, \code{\link{DebugFn}}, \code{\link{DebugFnW}},  \code{\link{DebugFnWE}}, \code{\link{DebugPrintFn}}, \code{\link{DebugFnE}}, \code{\link{DebugPrintFnE}}
 #'
 #' Idea from: https://gist.github.com/nassimhaddad/c9c327d10a91dcf9a3370d30dff8ac3d
 #'
@@ -211,7 +211,7 @@ DebugFnW <- function(saveDest,fn) {
 #' Run fn and print result, save arguments on failure.  Use on systems like \code{ggplot()}
 #' where some calculation is delayed until \code{print()}.
 #'
-#' @seealso \code{\link{DebugFn}}, \code{\link{DebugFnW}},  \code{\link{DebugFnWE}}, \code{\link{DebugPrintFn}}, \code{\link{DebugFnE}}, \code{\link{DebugPrintFnE}}
+#' @seealso \code{\link[utils]{dump.frames}}, \code{\link{DebugFn}}, \code{\link{DebugFnW}},  \code{\link{DebugFnWE}}, \code{\link{DebugPrintFn}}, \code{\link{DebugFnE}}, \code{\link{DebugPrintFnE}}
 #'
 #' @param saveDest where to write captured state (determined by type): NULL random temp file, character temp file, name globalenv() variable, and function triggers callback.
 #' @param fn function to call
@@ -263,7 +263,7 @@ DebugPrintFn <- function(saveDest,fn,...) {
 #' Capture arguments and environment of exception throwing function call for later debugging.
 #'
 #' Run fn, save arguments, and environment on failure.
-#' @seealso \code{\link{DebugFn}}, \code{\link{DebugFnW}},  \code{\link{DebugFnWE}}, \code{\link{DebugPrintFn}}, \code{\link{DebugFnE}}, \code{\link{DebugPrintFnE}}
+#' @seealso \code{\link[utils]{dump.frames}}, \code{\link{DebugFn}}, \code{\link{DebugFnW}},  \code{\link{DebugFnWE}}, \code{\link{DebugPrintFn}}, \code{\link{DebugFnE}}, \code{\link{DebugPrintFnE}}
 #'
 #' @param saveDest where to write captured state (determined by type): NULL random temp file, character temp file, name globalenv() variable, and function triggers callback.
 #' @param fn function to call
@@ -316,7 +316,7 @@ DebugFnE <- function(saveDest,fn,...) {
 #' Wrap function to capture arguments and environment of exception throwing function call for later debugging.
 #'
 #' Wrap fn, so it will save arguments and environment on failure.
-#' @seealso \code{\link{DebugFn}}, \code{\link{DebugFnW}},  \code{\link{DebugFnWE}}, \code{\link{DebugPrintFn}}, \code{\link{DebugFnE}}, \code{\link{DebugPrintFnE}}
+#' @seealso \code{\link[utils]{dump.frames}}, \code{\link{DebugFn}}, \code{\link{DebugFnW}},  \code{\link{DebugFnWE}}, \code{\link{DebugPrintFn}}, \code{\link{DebugFnE}}, \code{\link{DebugPrintFnE}}
 #'
 #' Idea from: https://gist.github.com/nassimhaddad/c9c327d10a91dcf9a3370d30dff8ac3d
 #'
@@ -377,7 +377,7 @@ DebugFnWE <- function(saveDest,fn,...) {
 #' Run fn and print result, save arguments and environment on failure.  Use on systems like ggplot()
 #' where some calculation is delayed until print().
 #'
-#' @seealso \code{\link{DebugFn}}, \code{\link{DebugFnW}},  \code{\link{DebugFnWE}}, \code{\link{DebugPrintFn}}, \code{\link{DebugFnE}}, \code{\link{DebugPrintFnE}}
+#' @seealso \code{\link[utils]{dump.frames}}, \code{\link{DebugFn}}, \code{\link{DebugFnW}},  \code{\link{DebugFnWE}}, \code{\link{DebugPrintFn}}, \code{\link{DebugFnE}}, \code{\link{DebugPrintFnE}}
 #'
 #' @param saveDest where to write captured state (determined by type): NULL random temp file, character temp file, name globalenv() variable, and function triggers callback.
 #' @param fn function to call
