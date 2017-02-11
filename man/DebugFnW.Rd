@@ -15,7 +15,7 @@ DebugFnW(saveDest, fn)
 wrapped function that saves state on error.
 }
 \description{
-Wrap fn, sot it will save arguments on failure.
+Wrap fn, so it will save arguments on failure.
 }
 \examples{
 

@@ -17,8 +17,8 @@ DebugPrintFn(saveDest, fn, ...)
 fn(...) normally, but if fn(...) throws an exception save to saveDest RDS of list r such that do.call(r$fn,r$args) repeats the call to fn with args.
 }
 \description{
-Run fn and print result, save arguments on failure.  Use on systems like ggplot()
-where some calculation is delayed until print().
+Run fn and print result, save arguments on failure.  Use on systems like \code{ggplot()}
+where some calculation is delayed until \code{print()}.
 }
 \examples{
 

@@ -137,7 +137,7 @@ DebugFn <- function(saveDest,fn,...) {
 
 #' Wrap a function for debugging.
 #'
-#' Wrap fn, sot it will save arguments on failure.
+#' Wrap fn, so it will save arguments on failure.
 #' @seealso \code{\link{DebugFn}}, \code{\link{DebugFnW}},  \code{\link{DebugFnWE}}, \code{\link{DebugPrintFn}}, \code{\link{DebugFnE}}, \code{\link{DebugPrintFnE}}
 #'
 #' Idea from: https://gist.github.com/nassimhaddad/c9c327d10a91dcf9a3370d30dff8ac3d
@@ -208,8 +208,8 @@ DebugFnW <- function(saveDest,fn) {
 
 #' Capture arguments of exception throwing function call for later debugging.
 #'
-#' Run fn and print result, save arguments on failure.  Use on systems like ggplot()
-#' where some calculation is delayed until print().
+#' Run fn and print result, save arguments on failure.  Use on systems like \code{ggplot()}
+#' where some calculation is delayed until \code{print()}.
 #'
 #' @seealso \code{\link{DebugFn}}, \code{\link{DebugFnW}},  \code{\link{DebugFnWE}}, \code{\link{DebugPrintFn}}, \code{\link{DebugFnE}}, \code{\link{DebugPrintFnE}}
 #'
