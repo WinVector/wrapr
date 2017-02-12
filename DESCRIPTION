@@ -9,6 +9,10 @@ BugReports: https://github.com/WinVector/wrapr/issues
 Description: Provides 'DebugFnW()' to capture function context on error for
     debugging, and 'let()' which converts non-standard evaluation interfaces to
     standard evaluation interfaces.
+    'DebugFnW()' catches the calling function and arguments prior to the 
+    call causing the exception, while 
+    the classic `options(error=dump.frames)` form catches the exception
+    itself (thus function arguments may not be at their starting values).
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
