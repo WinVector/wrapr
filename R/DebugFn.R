@@ -1,6 +1,7 @@
 
 #' Build a custom writeback function that writes state into a user named variable.
 #'
+#'
 #' @param varName character where to write captured state
 #' @return writeback function for use with functions such as  \code{\link{DebugFnW}}
 #'
@@ -88,6 +89,7 @@ returnCapture <- function(e, saveDest, cap, wrapperName,
 #' Capture arguments of exception throwing function call for later debugging.
 #'
 #' Run fn, save arguments on failure.
+#' Please see: \code{vignette("DebugFnW", package="wrapr")}.
 #' @seealso \code{\link[utils]{dump.frames}}, \code{\link{DebugFn}}, \code{\link{DebugFnW}},  \code{\link{DebugFnWE}}, \code{\link{DebugPrintFn}}, \code{\link{DebugFnE}}, \code{\link{DebugPrintFnE}}
 #'
 #' @param saveDest where to write captured state (determined by type): NULL random temp file, character temp file, name globalenv() variable, and function triggers callback.
@@ -139,8 +141,8 @@ DebugFn <- function(saveDest,fn,...) {
 #'
 #' Wrap fn, so it will save arguments on failure.
 #' @seealso \code{\link[utils]{dump.frames}}, \code{\link{DebugFn}}, \code{\link{DebugFnW}},  \code{\link{DebugFnWE}}, \code{\link{DebugPrintFn}}, \code{\link{DebugFnE}}, \code{\link{DebugPrintFnE}}
-#'
-#' Idea from: https://gist.github.com/nassimhaddad/c9c327d10a91dcf9a3370d30dff8ac3d
+#' Operator idea from: https://gist.github.com/nassimhaddad/c9c327d10a91dcf9a3370d30dff8ac3d .
+#' Please see: \code{vignette("DebugFnW", package="wrapr")}.
 #'
 #' @param saveDest where to write captured state (determined by type): NULL random temp file, character temp file, name globalenv() variable, and function triggers callback.
 #' @param fn function to call
@@ -210,6 +212,7 @@ DebugFnW <- function(saveDest,fn) {
 #'
 #' Run fn and print result, save arguments on failure.  Use on systems like \code{ggplot()}
 #' where some calculation is delayed until \code{print()}.
+#' Please see: \code{vignette("DebugFnW", package="wrapr")}.
 #'
 #' @seealso \code{\link[utils]{dump.frames}}, \code{\link{DebugFn}}, \code{\link{DebugFnW}},  \code{\link{DebugFnWE}}, \code{\link{DebugPrintFn}}, \code{\link{DebugFnE}}, \code{\link{DebugPrintFnE}}
 #'
@@ -263,6 +266,7 @@ DebugPrintFn <- function(saveDest,fn,...) {
 #' Capture arguments and environment of exception throwing function call for later debugging.
 #'
 #' Run fn, save arguments, and environment on failure.
+#' Please see: \code{vignette("DebugFnW", package="wrapr")}.
 #' @seealso \code{\link[utils]{dump.frames}}, \code{\link{DebugFn}}, \code{\link{DebugFnW}},  \code{\link{DebugFnWE}}, \code{\link{DebugPrintFn}}, \code{\link{DebugFnE}}, \code{\link{DebugPrintFnE}}
 #'
 #' @param saveDest where to write captured state (determined by type): NULL random temp file, character temp file, name globalenv() variable, and function triggers callback.
@@ -316,6 +320,7 @@ DebugFnE <- function(saveDest,fn,...) {
 #' Wrap function to capture arguments and environment of exception throwing function call for later debugging.
 #'
 #' Wrap fn, so it will save arguments and environment on failure.
+#' Please see: \code{vignette("DebugFnW", package="wrapr")}.
 #' @seealso \code{\link[utils]{dump.frames}}, \code{\link{DebugFn}}, \code{\link{DebugFnW}},  \code{\link{DebugFnWE}}, \code{\link{DebugPrintFn}}, \code{\link{DebugFnE}}, \code{\link{DebugPrintFnE}}
 #'
 #' Idea from: https://gist.github.com/nassimhaddad/c9c327d10a91dcf9a3370d30dff8ac3d
@@ -376,7 +381,7 @@ DebugFnWE <- function(saveDest,fn,...) {
 #'
 #' Run fn and print result, save arguments and environment on failure.  Use on systems like ggplot()
 #' where some calculation is delayed until print().
-#'
+#' Please see: \code{vignette("DebugFnW", package="wrapr")}.
 #' @seealso \code{\link[utils]{dump.frames}}, \code{\link{DebugFn}}, \code{\link{DebugFnW}},  \code{\link{DebugFnWE}}, \code{\link{DebugPrintFn}}, \code{\link{DebugFnE}}, \code{\link{DebugPrintFnE}}
 #'
 #' @param saveDest where to write captured state (determined by type): NULL random temp file, character temp file, name globalenv() variable, and function triggers callback.

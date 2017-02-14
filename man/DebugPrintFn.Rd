@@ -19,6 +19,7 @@ fn(...) normally, but if fn(...) throws an exception save to saveDest RDS of lis
 \description{
 Run fn and print result, save arguments on failure.  Use on systems like \code{ggplot()}
 where some calculation is delayed until \code{print()}.
+Please see: \code{vignette("DebugFnW", package="wrapr")}.
 }
 \examples{
 

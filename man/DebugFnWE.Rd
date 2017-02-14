@@ -18,6 +18,7 @@ wrapped function that captures state on error.
 }
 \description{
 Wrap fn, so it will save arguments and environment on failure.
+Please see: \code{vignette("DebugFnW", package="wrapr")}.
 }
 \examples{
 

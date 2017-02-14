@@ -18,6 +18,7 @@ fn(...) normally, but if fn(...) throws an exception save to saveDest RDS of lis
 }
 \description{
 Run fn, save arguments on failure.
+Please see: \code{vignette("DebugFnW", package="wrapr")}.
 }
 \examples{
 
