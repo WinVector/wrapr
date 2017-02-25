@@ -8,8 +8,6 @@ Introduction
 
 ![](wraprs.png)
 
-[Image: Friedensreich Hundertwasser](https://commons.m.wikimedia.org/wiki/File:Furoshiki_designed_by_Friedensreich_Hundertwasser_for_%27Fernwärme_Wien%27_AG.jpg#mw-jump-to-license)
-
 Primary `wrapr` services include:
 
 -   `wrapr::let()`
