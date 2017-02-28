@@ -58,4 +58,3 @@ str(lastError)
 Operator idea from: https://gist.github.com/nassimhaddad/c9c327d10a91dcf9a3370d30dff8ac3d .
 Please see: \code{vignette("DebugFnW", package="wrapr")}.
 }
-

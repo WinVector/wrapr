@@ -47,4 +47,3 @@ file.remove(saveDest)
 
 Idea from: https://gist.github.com/nassimhaddad/c9c327d10a91dcf9a3370d30dff8ac3d
 }
-
