@@ -193,26 +193,28 @@ let <- function(alias, expr) {
        enclos=parent.frame())
 }
 
-#
-# a <- 1
-# b <- 2
-# # Given:
-# let(c(z = 'a'), z+b)
-# # Behaves a lot like:
-# eval(substitute(z+b, c(z=quote(a))))
-# # You would think the following below would be an easy
-# # realization of "let".
-# wrapr:::letSub(c(z = quote(a)), z+b)
-# # This fails because it is hard to control the when/were
-# # of both the substitute and eval at the same time.
-# # Likely some form of enquote, list2env and so on
-# # can get this to work, but it doesn't seem
-# # attractive at this time.
-#
-#
-letSub <-  function(alias, expr) {
-  # quote based implementation, not working
-  eval(substitute(expr, alias),
-       envir=parent.frame(),
-       enclos=parent.frame())
-}
+# #
+# # a <- 1
+# # b <- 2
+# # # Given:
+# # let(c(z = 'a'), z+b)
+# # # Behaves a lot like:
+# # eval(substitute(z+b, c(z=quote(a))))
+# # # You would think the following below would be an easy
+# # # realization of "let".
+# # wrapr:::letSub(c(z = quote(a)), z+b)
+# # # This fails because it is hard to control the when/were
+# # # of both the substitute and eval at the same time.
+# # # Likely some form of enquote, list2env and so on
+# # # can get this to work, but it doesn't seem
+# # # attractive at this time.
+# #
+# #
+# letSub <-  function(alias, expr) {
+#   # quote based implementation, not working
+#   # pryr::subs() works about the same
+#   # pryr::substitute_q() might fix
+#   eval(substitute(expr, alias),
+#        envir=parent.frame(),
+#        enclos=parent.frame())
+# }
