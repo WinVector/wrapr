@@ -32,6 +32,7 @@ plot(xvar, yvar)
 ```
 
 In the case of `library`, non-standard evaluation saves typing a couple of quotes. The dollar sign notation for accessing data frame columns also uses non standard evaluation.
+
 ```{r}
 d <- data.frame(x=c(1,NA))
 d$x
@@ -78,5 +79,28 @@ let(
 )
 ```
 
-For more discussionplease see [our video on non-standard evaluation and `let`](https://youtu.be/iKLGxzzm9Hk?list=PLAKBwakacHbQp_Z66asDnjn-0qttTO-o9).
+## Implementation details
+
+Roughly `wrapr::let(A, B)` behaves like a syntatic sugar for `eval(substitute(B, A))`.
+
+
+```{r}
+a <- 1
+b <- 2
+let(c(z=quote(a)), z+b)
+eval(substitute(z+b, c(z=quote(a))))
+```
+
+However, `wrapr::let()` is actually implemented in terms of a de-parse and string substitution
+(to get around some issues of when and in what environment things are executed).
+
+## More
+
+For more discussion please see:
+
+  * [our video on non-standard evaluation and `let`](https://youtu.be/iKLGxzzm9Hk?list=PLAKBwakacHbQp_Z66asDnjn-0qttTO-o9)
+  * [Advanced R NSE](http://adv-r.had.co.nz/Computing-on-the-language.html)
+  * [Standard nonstandard evaluation rules](http://developer.r-project.org/nonstandard-eval.pdf)
+  * [dplyr NSE](https://github.com/hadley/dplyr/blob/master/vignettes/nse.Rmd)
+  
 

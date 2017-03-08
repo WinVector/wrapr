@@ -33,6 +33,11 @@ we can use a \code{let} helper.   \code{dplyr::mutate} is
 parameterized (in the sense it can work over user supplied columns and expressions), but column names are captured through non-standard evaluation
 (and it rapidly becomes unwieldy to use complex formulas with the standard evaluation equivalent \code{dplyr::mutate_}).
 \code{alias} can not include the symbol "\code{.}". Except for identity assignments keys and destinations must be disjoint.
+
+The intent from is from the user perspective to have (if
+\code{a <- 1; b <- 2}):
+\code{let(c(z = 'a'), z+b)} to behave a lot like
+\code{eval(substitute(z+b, c(z=quote(a))))}.
 }
 \examples{
 
