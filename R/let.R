@@ -60,7 +60,7 @@ letprep <- function(alias, strexpr) {
       stop('wrapr:let alias keys must all be strings')
     }
     if (length(ni) != 1) {
-      stop('wrapr:let alias keys must all be strings')
+      stop('wrapr:let alias keys must all be scalars')
     }
     if (nchar(ni) <= 0) {
       stop('wrapr:let alias keys must be empty string')
@@ -72,8 +72,11 @@ letprep <- function(alias, strexpr) {
     if (is.null(vi)) {
       stop('wrapr:let alias values must not be null')
     }
+    if (is.name(vi)) {
+      vi <- as.character(vi)
+    }
     if (!is.character(vi)) {
-      stop('wrapr:let alias values must all be strings')
+      stop('wrapr:let alias values must all be strings or names')
     }
     if (length(vi) != 1) {
       stop('wrapr:let alias values must all be single strings (not arrays)')
@@ -93,7 +96,7 @@ letprep <- function(alias, strexpr) {
   # re-write the parse tree and prepare for execution
   body <- strexpr
   for (ni in names(alias)) {
-    value <- alias[[ni]]
+    value <- as.character(alias[[ni]])
     if(ni!=value) {
       pattern <- paste0("\\b", ni, "\\b")
       body <- gsub(pattern, value, body)
