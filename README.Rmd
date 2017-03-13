@@ -25,7 +25,7 @@ This document describes `wrapr`, an [R](https://cran.r-project.org) package avai
 `wrapr` wraps `R` functions debugging and better standard evaluation.
 
 
-![](vignettes/wraprs.png)
+![](tools/wraprs.png)
 
 
 Primary `wrapr` services include:

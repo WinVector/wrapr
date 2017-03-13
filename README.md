@@ -6,7 +6,7 @@ Introduction
 
 `wrapr` wraps `R` functions debugging and better standard evaluation.
 
-![](vignettes/wraprs.png)
+![](tools/wraprs.png)
 
 Primary `wrapr` services include:
 
