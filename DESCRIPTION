@@ -12,11 +12,11 @@ Description: Provides 'DebugFnW()' to capture function context on error for
     standard evaluation interfaces.
     'DebugFnW()' captures the calling function and arguments prior to the 
     call causing the exception, while 
-    the classic `options(error=dump.frames)` form captures at the
+    the classic 'options(error=dump.frames)' form captures at the
     moment of the exception
     itself (thus function arguments may not be at their starting values).
-    `let()` rebinds (possibly unbound) names to names, which is different than
-    `with()` rebinds names to values.
+    'let()' rebinds (possibly unbound) names to names, which is different than
+    'with()' rebinds names to values.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
