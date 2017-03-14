@@ -1,5 +1,5 @@
 
-`wrapr` 0.1.1
+`wrapr` 0.1.1 2017-03-13
 
  * Allow names in `let`.
 
