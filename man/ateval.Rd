@@ -17,8 +17,8 @@ be a non-standard evaluation situation.  This adaption allows some parametric
 or standard-evaluation effects in such circumstances.
 }
 \details{
-Notation idea: Jonathan Carroll \link{https://jcarroll.com.au} \link{https://twitter.com/carroll_jono/status/842142292253196290}
-Similar to: \link{https://dev.mysql.com/doc/refman/5.7/en/user-variables.html}
+Notation idea: Jonathan Carroll \url{https://jcarroll.com.au} \url{https://twitter.com/carroll_jono/status/842142292253196290}
+Similar to: \url{https://dev.mysql.com/doc/refman/5.7/en/user-variables.html}
 }
 \examples{
 

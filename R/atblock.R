@@ -9,8 +9,8 @@
 #' or standard-evaluation effects in such circumstances.
 #'
 #'
-#' Notation idea: Jonathan Carroll \link{https://jcarroll.com.au} \link{https://twitter.com/carroll_jono/status/842142292253196290}
-#' Similar to: \link{https://dev.mysql.com/doc/refman/5.7/en/user-variables.html}
+#' Notation idea: Jonathan Carroll \url{https://jcarroll.com.au} \url{https://twitter.com/carroll_jono/status/842142292253196290}
+#' Similar to: \url{https://dev.mysql.com/doc/refman/5.7/en/user-variables.html}
 #'
 #' @param . character text of expression or block to evaluate
 #'
@@ -31,8 +31,8 @@
 #' @export
 #'
 ateval <- function(.) {
-  # find @symbols
   exprtext <- paste0(' ', ., ' ')
+  # find @symbols
   pattern <- '[^\\w._]@[[:alpha:]._][\\w._]*\\b'
   matches <- gregexpr(pattern, exprtext, perl=TRUE)
   starts <- as.numeric(matches[[1]])
