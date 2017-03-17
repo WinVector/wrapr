@@ -42,7 +42,7 @@ ateval <- function(.) {
                    si <- starts[[i]]
                    li <- lens[[i]]
                    v <- ''
-                   if((si>=1)&&(li>=1)) {
+                   if((si>=1)&&(li>=1)&&(si+li-1>=si+2)) {
                      v <- substr(exprtext, si+2, si+li-1)
                    }
                    v
