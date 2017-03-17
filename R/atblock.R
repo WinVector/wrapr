@@ -58,12 +58,12 @@ ateval <- function(.) {
     #              envir=pf,
     #              enclos=pf)
     vali <- get(symi, envir=pf)
-    if(is.name(vali)) {
-      vali <- as.character(vali)
-    }
-    if(!is.character(vali)) {
-      stop(paste("wrapr::atblock", pati, "must be a name or string"))
-    }
+    # if(is.name(vali)) {
+    #   vali <- as.character(vali)
+    # }
+    # if(!is.character(vali)) {
+    #   stop(paste("wrapr::atblock", pati, "must be a name or string"))
+    # }
     exprtext2 <- gsub(pati, vali, exprtext2, fixed=TRUE)
   }
   eval(parse(text=exprtext2),
