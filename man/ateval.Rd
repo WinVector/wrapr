@@ -29,7 +29,7 @@ col1 <- 'c1'
 col2 <- 'c2'
 new_col_name <- 'res'
 ateval(
-  '@new_col_name = @col1 + @col2'
+  '@new_col_name <- @col1 + @col2'
 )
 print(res)
 
