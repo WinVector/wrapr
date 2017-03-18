@@ -2,7 +2,7 @@
 % Please edit documentation in R/atblock.R
 \name{ateval}
 \alias{ateval}
-\title{Evaluate an expression with @-value substitution}
+\title{Evaluate an expression with @name substitution.}
 \usage{
 ateval(.)
 }
@@ -18,7 +18,7 @@ or standard-evaluation effects in such circumstances.
 }
 \details{
 Notation idea: Jonathan Carroll \url{https://jcarroll.com.au} \url{https://twitter.com/carroll_jono/status/842142292253196290}
-Similar to: \url{https://dev.mysql.com/doc/refman/5.7/en/user-variables.html}
+Similar to: \url{https://dev.mysql.com/doc/refman/5.7/en/user-variables.html}.
 }
 \examples{
 
