@@ -2,7 +2,7 @@
 % Please edit documentation in R/atblock.R
 \name{beval}
 \alias{beval}
-\title{Evaluate an expression with (!!name) substitution.}
+\title{Evaluate an expression with \code{(!!name)} substitution.}
 \usage{
 beval(...)
 }
@@ -10,8 +10,8 @@ beval(...)
 \item{...}{expression or block to evaluate}
 }
 \description{
-The expression represented by the text of the .-argument is evaluated in
-the current environment will all "(!!name)" forms replaced by the value of name.
+The expression represented by the text of the \code{.}-argument is evaluated in
+the current environment will all "\code{(!!name)}" forms replaced by the value of name.
 Note: this substitution can only be performed on the right hand side of assignments.
 This allows variables to carry the names of other variables into what would
 be a non-standard evaluation situation.  This adaption allows some parametric
@@ -19,6 +19,8 @@ or standard-evaluation effects in such circumstances.
 }
 \details{
 Notation idea: \url{https://github.com/hadley/dplyr/commit/8f03f835185370626a566e95d268623b20189e07},
+Note: \code{!!} is not a no-op, but is a sufficiently uncommon expression I thought we could use it
+(the original source uses \code{!!!} as it is equivalent to \code{!} and therefore not strictly necessary).
 }
 \examples{
 

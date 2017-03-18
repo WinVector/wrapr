@@ -2,7 +2,7 @@
 % Please edit documentation in R/atblock.R
 \name{ateval}
 \alias{ateval}
-\title{Evaluate an expression with @name substitution.}
+\title{Evaluate an expression with \code{@name} substitution.}
 \usage{
 ateval(.)
 }
@@ -10,8 +10,8 @@ ateval(.)
 \item{.}{character text of expression or block to evaluate}
 }
 \description{
-The expression represented by the text of the .-argument is evaluated in
-the current environment will all "@name" forms replaced by the value of name.
+The expression represented by the text of the \code{.}-argument is evaluated in
+the current environment will all "\code{@name}" forms replaced by the value of name.
 This allows variables to carry the names of other variables into what would
 be a non-standard evaluation situation.  This adaption allows some parametric
 or standard-evaluation effects in such circumstances.
