@@ -19,8 +19,8 @@ or standard-evaluation effects in such circumstances.
 }
 \details{
 Notation idea: \url{https://github.com/hadley/dplyr/commit/8f03f835185370626a566e95d268623b20189e07},
-Note: \code{!!} is not a no-op, but is a sufficiently uncommon expression I thought we could use it
-(the original source uses \code{!!!} as it is equivalent to \code{!} and therefore not strictly necessary).
+\url{https://github.com/hadley/rlang/blob/master/R/tidy-quote.R}.
+Note: "\code{!!}" is not a no-op, but is a sufficiently uncommon expression I thought we could use it.
 }
 \examples{
 
