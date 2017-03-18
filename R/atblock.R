@@ -53,18 +53,9 @@ ateval <- function(.) {
   pf <- parent.frame()
   exprtext2 <- exprtext
   for(symi in syms) {
-    pati <- paste0('@', symi)
-    # vali <- eval(parse(text=symi),
-    #              envir=pf,
-    #              enclos=pf)
+    pati <- paste0('@', symi, '\\b')
     vali <- get(symi, envir=pf)
-    # if(is.name(vali)) {
-    #   vali <- as.character(vali)
-    # }
-    # if(!is.character(vali)) {
-    #   stop(paste("wrapr::atblock", pati, "must be a name or string"))
-    # }
-    exprtext2 <- gsub(pati, vali, exprtext2, fixed=TRUE)
+    exprtext2 <- gsub(pati, vali, exprtext2)
   }
   eval(parse(text=exprtext2),
        envir=pf,
