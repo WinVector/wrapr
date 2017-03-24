@@ -109,8 +109,40 @@ prepareAlias <- function(alias, useNames, strict) {
   alias
 }
 
+#' Substitute text.
+#'
+#' @param alias mapping named list/vector to strings/names or general
+#' @param strexpr character vector source text to be re-writtin
+#' @param strict logocal if TRUE only map to non-reserved names
+#' @return parsed R expression
+#'
+#' @examples
+#'
+#'
+#' letprep(alias= list(RankColumn= 'rank', GroupColumn= 'Species'),
+#'     strexpr= '{
+#'        # Notice code here can be written in terms of known or concrete
+#'        # names "RankColumn" and "GroupColumn", but executes as if we
+#'        # had written mapping specified columns "rank" and "Species".
+#'
+#'        # restart ranks at zero.
+#'        dres <- d
+#'        dres$RankColumn <- dres$RankColumn - 1 # notice using $ not [[]]
+#'
+#'        # confirm set of groups.
+#'        groups <- unique(d$GroupColumn)
+#'     }',
+#'     strict= TRUE)
+#'
+#'
+#' @export
+#'
+#'
 letprep <- function(alias, strexpr, strict) {
   alias <- prepareAlias(alias, FALSE, strict)
+  if(!is.character(strexpr)) {
+    stop("wrapr::letprep strexpr must be length 1 character array")
+  }
   # re-write the parse tree and prepare for execution
   body <- strexpr
   for (ni in names(alias)) {
@@ -164,7 +196,7 @@ letprep <- function(alias, strexpr, strict) {
 #'                 Species='setosa',
 #'                 rank=c(1,2))
 #'
-#' mapping = list(RankColumn='rank',GroupColumn='Species')
+#' mapping = list(RankColumn= 'rank', GroupColumn= 'Species')
 #' let(alias=mapping,
 #'     expr={
 #'        # Notice code here can be written in terms of known or concrete

@@ -48,7 +48,7 @@ d <- data.frame(Sepal_Length=c(5.8,5.7),
                 Species='setosa',
                 rank=c(1,2))
 
-mapping = list(RankColumn='rank',GroupColumn='Species')
+mapping = list(RankColumn= 'rank', GroupColumn= 'Species')
 let(alias=mapping,
     expr={
        # Notice code here can be written in terms of known or concrete
