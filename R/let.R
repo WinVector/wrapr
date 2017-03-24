@@ -42,15 +42,15 @@ restrictToNameAssignments <- function(alias, restrictToAllCaps=TRUE) {
   alias[usableEntries]
 }
 
-prepareAlias <- function(alias, useNames) {
+prepareAlias <- function(alias, useNames, strict) {
   # make sure alias is a list (not a named vector)
   alias <- as.list(alias)
   # confirm alias is mapping strings to strings
   if (length(unique(names(alias))) != length(names(alias))) {
-    stop('wrapr::let alias keys must be unique')
+    stop('wrapr::prepareAlias alias keys must be unique')
   }
   if ('.' %in% c(names(alias),as.character(alias))) {
-    stop("wrapr::let can not map to/from '.'")
+    stop("wrapr::prepareAlias can not map to/from '.'")
   }
   for (ni in names(alias)) {
     if (is.null(ni)) {
@@ -63,7 +63,7 @@ prepareAlias <- function(alias, useNames) {
       stop('wrapr:let alias keys must all be scalars')
     }
     if (nchar(ni) <= 0) {
-      stop('wrapr:let alias keys must be empty string')
+      stop('wrapr:let alias keys must be non-empty string')
     }
     if (!isValidAndUnreservedName(ni)) {
       stop(paste('wrapr:let alias key not a valid name: "', ni, '"'))
@@ -79,17 +79,19 @@ prepareAlias <- function(alias, useNames) {
       stop('wrapr:let alias values must all be strings or names')
     }
     if (length(vi) != 1) {
-      stop('wrapr:let alias values must all be single strings (not arrays)')
+      stop('wrapr:let alias values must all be single strings (not arrays or null)')
     }
-    if (nchar(vi) <= 0) {
-      stop('wrapr:let alias values must not be empty string')
-    }
-    if (!isValidAndUnreservedName(vi)) {
-      stop(paste('wrapr:let alias value not a valid name: "', vi, '"'))
+    if(strict) {
+      if (nchar(vi) <= 0) {
+        stop('wrapr:let alias values must not be empty string')
+      }
+      if (!isValidAndUnreservedName(vi)) {
+        stop(paste('wrapr:let alias value not a valid name: "', vi, '"'))
+      }
     }
     if(vi!=ni) {
       if(vi %in% names(alias)) {
-        stop("wrapr::let except for identity assignments keys and destinations must be disjoint")
+        stop("wrapr::prepareAlias except for identity assignments keys and destinations must be disjoint")
       }
     }
   }
@@ -107,8 +109,8 @@ prepareAlias <- function(alias, useNames) {
   alias
 }
 
-letprep <- function(alias, strexpr) {
-  alias <- prepareAlias(alias, FALSE)
+letprep <- function(alias, strexpr, strict) {
+  alias <- prepareAlias(alias, FALSE, strict)
   # re-write the parse tree and prepare for execution
   body <- strexpr
   for (ni in names(alias)) {
@@ -152,6 +154,7 @@ letprep <- function(alias, strexpr) {
 #'
 #' @param alias mapping from free names in expr to target names to use.
 #' @param expr block to prepare for execution
+#' @param strict logical is TRUE restrict map values to non-reserved non-dot names
 #' @return result of expr executed in calling environment
 #'
 #' @examples
@@ -184,10 +187,12 @@ letprep <- function(alias, strexpr) {
 #' let(list(x='y'),'x')
 #'
 #' @export
-let <- function(alias, expr) {
+let <- function(alias, expr,
+                strict= FALSE) {
   # try to execute expression in parent environment
   # string substitution based implementation
-  exprS <- letprep(alias, deparse(substitute(expr)))
+  exprS <- letprep(alias, deparse(substitute(expr)),
+                   strict)
   eval(exprS,
        envir=parent.frame(),
        enclos=parent.frame())

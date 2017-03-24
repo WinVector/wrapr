@@ -4,12 +4,14 @@
 \alias{let}
 \title{Execute expr with name substitutions specified in alias.}
 \usage{
-let(alias, expr)
+let(alias, expr, strict = FALSE)
 }
 \arguments{
 \item{alias}{mapping from free names in expr to target names to use.}
 
 \item{expr}{block to prepare for execution}
+
+\item{strict}{logical is TRUE restrict map values to non-reserved non-dot names}
 }
 \value{
 result of expr executed in calling environment
