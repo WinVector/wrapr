@@ -28,6 +28,10 @@
 #' )
 #' print(res)
 #'
+#' # larger example
+#' c3 <- 4:8
+#' terms <- paste(c('c1', 'c2', 'c3'), collapse = ' + ')
+#' print(ateval('@terms'))
 #'
 #' @export
 #'
@@ -92,6 +96,10 @@ ateval <- function(.) {
 #' )
 #' print(res)
 #'
+#' # larger example
+#' c3 <- 4:8
+#' terms <- paste(c('c1', 'c2', 'c3'), collapse = ' + ')
+#' print(beval((!!terms)))
 #'
 #' @export
 #'

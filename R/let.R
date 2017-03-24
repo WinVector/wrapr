@@ -216,11 +216,14 @@ letprep <- function(alias, strexpr, strict) {
 #'
 #' # let works by string substitution aligning on word boundaries,
 #' # so it does (unfortunately) also re-write strings.
-#' let(list(x='y'),'x')
+#' let(list(x='y'), 'x')
+#'
+#' # let can also substitute arbitrary expressions if strict=FALSE
+#' let(list(e='1+3'), e, strict= FALSE)
 #'
 #' @export
 let <- function(alias, expr,
-                strict= FALSE) {
+                strict= TRUE) {
   # try to execute expression in parent environment
   # string substitution based implementation
   exprS <- letprep(alias, deparse(substitute(expr)),

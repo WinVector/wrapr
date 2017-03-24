@@ -4,7 +4,7 @@
 \alias{let}
 \title{Execute expr with name substitutions specified in alias.}
 \usage{
-let(alias, expr, strict = FALSE)
+let(alias, expr, strict = TRUE)
 }
 \arguments{
 \item{alias}{mapping from free names in expr to target names to use.}
@@ -68,6 +68,9 @@ print(dres)
 
 # let works by string substitution aligning on word boundaries,
 # so it does (unfortunately) also re-write strings.
-let(list(x='y'),'x')
+let(list(x='y'), 'x')
+
+# let can also substitute arbitrary expressions if strict=FALSE
+let(list(e='1+3'), e, strict= FALSE)
 
 }
