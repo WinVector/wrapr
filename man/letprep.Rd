@@ -4,7 +4,7 @@
 \alias{letprep}
 \title{Substitute text.}
 \usage{
-letprep(alias, strexpr, strict)
+letprep(alias, strexpr, strict = FALSE)
 }
 \arguments{
 \item{alias}{mapping named list/vector to strings/names or general}

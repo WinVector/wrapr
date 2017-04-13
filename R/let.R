@@ -138,7 +138,7 @@ prepareAlias <- function(alias, useNames, strict) {
 #' @export
 #'
 #'
-letprep <- function(alias, strexpr, strict) {
+letprep <- function(alias, strexpr, strict= FALSE) {
   alias <- prepareAlias(alias, FALSE, strict)
   if(!is.character(strexpr)) {
     stop("wrapr::letprep strexpr must be length 1 character array")
