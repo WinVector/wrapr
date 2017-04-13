@@ -18,8 +18,7 @@ be a non-standard evaluation situation.  This adaption allows some parametric
 or standard-evaluation effects in such circumstances.
 }
 \details{
-Notation idea: \url{https://github.com/hadley/dplyr/commit/8f03f835185370626a566e95d268623b20189e07},
-\url{https://github.com/hadley/rlang/blob/master/R/tidy-quote.R}.
+Notation idea: \url{https://github.com/hadley/dplyr/commit/8f03f835185370626a566e95d268623b20189e07}.
 Note: "\code{!!}" is not a no-op, but is a sufficiently uncommon expression I thought we could use it.
 }
 \examples{
