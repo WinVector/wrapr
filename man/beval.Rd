@@ -2,7 +2,7 @@
 % Please edit documentation in R/atblock.R
 \name{beval}
 \alias{beval}
-\title{Evaluate an expression with \code{(!!name)} substitution.}
+\title{Evaluate an expression with \code{(!!name)} and \code{:=} to \code{=} substitution.}
 \usage{
 beval(...)
 }

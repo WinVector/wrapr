@@ -67,7 +67,7 @@ ateval <- function(.) {
        enclos=pf)
 }
 
-#' Evaluate an expression with \code{(!!name)} substitution.
+#' Evaluate an expression with \code{(!!name)} and \code{:=} to \code{=} substitution.
 #'
 #'
 #' The expression represented by the text of the \code{.}-argument is evaluated in
@@ -122,9 +122,19 @@ beval <- function(...) {
                  }, character(1))
   syms <- Filter(function(symi) { nchar(symi)>0 }, syms)
   syms <- sort(unique(syms))
-  # substitute for new names
   pf <- parent.frame()
   exprtext2 <- exprtext
+  # subtitute := for = (work as assignment in statements:
+  # varName <- 'x'
+  # beval((!!varName) := 7)
+  # and argument binding in dplyr verbs) such as:
+  # http://www.win-vector.com/blog/2017/04/programming-over-r/
+  # beval(d %>% mutate((!!rname) := is.na((!!cname))))
+  # note string it is actually applied to is:
+  #   beval(`:=`((!(!varName)), 7))
+  # and the argument name does not get passed to mutate successfully
+  exprtext2 <- gsub(':=', '=', exprtext2, fixed=TRUE)
+  # substitute for new names
   for(symi in syms) {
     pati <- paste0('(!(!', symi, '))')
     vali <- get(symi, envir=pf)
