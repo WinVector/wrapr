@@ -22,18 +22,18 @@ Substitute text.
 \examples{
 
 
-letprep(alias= list(RankColumn= 'rank', GroupColumn= 'Species'),
+letprep(alias= list(RANKCOLUMN= 'rank', GROUPCOLUMN= 'Species'),
     strexpr= '{
        # Notice code here can be written in terms of known or concrete
-       # names "RankColumn" and "GroupColumn", but executes as if we
+       # names "RANKCOLUMN" and "GROUPCOLUMN", but executes as if we
        # had written mapping specified columns "rank" and "Species".
 
        # restart ranks at zero.
        dres <- d
-       dres$RankColumn <- dres$RankColumn - 1 # notice using $ not [[]]
+       dres$RANKCOLUMN <- dres$RANKCOLUMN - 1 # notice using $ not [[]]
 
        # confirm set of groups.
-       groups <- unique(d$GroupColumn)
+       groups <- unique(d$GROUPCOLUMN)
     }',
     strict= TRUE)
 

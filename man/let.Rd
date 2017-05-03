@@ -40,6 +40,10 @@ The intent from is from the user perspective to have (if
 \code{a <- 1; b <- 2}):
 \code{let(c(z = 'a'), z+b)} to behave a lot like
 \code{eval(substitute(z+b, c(z=quote(a))))}.
+
+\code{let} deliberately checks that it is mapping only to legal \code{R} names;
+this is to discourage the use of \code{let} to make names to arbitrary values, as
+that is the more properly left to \code{R}'s enviroment systems.
 }
 \examples{
 
@@ -48,19 +52,21 @@ d <- data.frame(Sepal_Length=c(5.8,5.7),
                 Species='setosa',
                 rank=c(1,2))
 
-mapping = list(RankColumn= 'rank', GroupColumn= 'Species')
+RANKCOLUMN <- NULL # optional, make sure marco target does not look like unbound variable.
+GROUPCOLUMN <- NULL # optional, make sure marco target does not look like unbound variable.
+mapping = list(RANKCOLUMN= 'rank', GROUPCOLUMN= 'Species')
 let(alias=mapping,
     expr={
        # Notice code here can be written in terms of known or concrete
-       # names "RankColumn" and "GroupColumn", but executes as if we
+       # names "RANKCOLUMN" and "GROUPCOLUMN", but executes as if we
        # had written mapping specified columns "rank" and "Species".
 
        # restart ranks at zero.
        dres <- d
-       dres$RankColumn <- dres$RankColumn - 1 # notice using $ not [[]]
+       dres$RANKCOLUMN <- dres$RANKCOLUMN - 1 # notice using $ not [[]]
 
        # confirm set of groups.
-       groups <- unique(d$GroupColumn)
+       groups <- unique(d$GROUPCOLUMN)
     })
 print(groups)
 print(length(groups))
