@@ -7,7 +7,7 @@
 #  this is essentially treating "." as reserved (which is more compatible with magrittr)
 # from: http://stackoverflow.com/questions/8396577/check-if-character-value-is-a-valid-r-object-name
 isValidAndUnreservedName <- function(string) {
-  if("NULL" %in% class(string)) {
+  if(is.null(string)) {
     return(FALSE)
   }
   (is.character(string)) &&
@@ -50,7 +50,7 @@ prepareAlias <- function(alias, strict) {
   alias <- as.list(alias)
   # skip any NULL slots
   nulls <- vapply(names(alias), is.null, logical(1)) |
-    vapply(alias, function(ai) { "NULL" %in% class(ai) }, logical(1))
+    vapply(alias, is.null, logical(1))
   alias <- alias[!nulls]
   # confirm alias is mapping strings to strings
   if (length(unique(names(alias))) != length(names(alias))) {
