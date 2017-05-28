@@ -7,6 +7,9 @@
 #  this is essentially treating "." as reserved (which is more compatible with magrittr)
 # from: http://stackoverflow.com/questions/8396577/check-if-character-value-is-a-valid-r-object-name
 isValidAndUnreservedName <- function(string) {
+  if("NULL" %in% class(string)) {
+    return(FALSE)
+  }
   (is.character(string)) &&
     (length(string)==1) &&
     (string!='.') &&
@@ -42,9 +45,13 @@ restrictToNameAssignments <- function(alias, restrictToAllCaps=TRUE) {
   alias[usableEntries]
 }
 
-prepareAlias <- function(alias, useNames, strict) {
+prepareAlias <- function(alias, strict) {
   # make sure alias is a list (not a named vector)
   alias <- as.list(alias)
+  # skip any NULL slots
+  nulls <- vapply(names(alias), is.null, logical(1)) |
+    vapply(alias, function(ai) { "NULL" %in% class(ai) }, logical(1))
+  alias <- alias[!nulls]
   # confirm alias is mapping strings to strings
   if (length(unique(names(alias))) != length(names(alias))) {
     stop('wrapr::prepareAlias alias keys must be unique')
@@ -95,17 +102,7 @@ prepareAlias <- function(alias, useNames, strict) {
       }
     }
   }
-  if(useNames) {
-    alias <- lapply(alias,
-                    function(x) {
-                      if(is.name(x)) {
-                        return(x)
-                      }
-                      as.name(as.character(x))
-                    })
-  } else {
-    alias <- lapply(alias, as.character)
-  }
+  alias <- lapply(alias, as.character)
   alias
 }
 
@@ -139,7 +136,7 @@ prepareAlias <- function(alias, useNames, strict) {
 #'
 #'
 letprep <- function(alias, strexpr, strict= FALSE) {
-  alias <- prepareAlias(alias, FALSE, strict)
+  alias <- prepareAlias(alias, strict)
   if(!is.character(strexpr)) {
     stop("wrapr::letprep strexpr must be length 1 character array")
   }
