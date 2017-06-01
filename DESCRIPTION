@@ -1,21 +1,15 @@
 Package: wrapr
 Type: Package
-Title: Wrap R Functions for Debugging and Ease of Use
-Version: 0.1.2
-Date: 2017-04-13
+Title: Wrap R Functions for Debugging and Parametric Programming
+Version: 0.1.3
+Date: 2017-06-01
 Author: John Mount, Nina Zumel
 Maintainer: John Mount <jmount@win-vector.com>
 URL: https://github.com/WinVector/wrapr
 BugReports: https://github.com/WinVector/wrapr/issues
 Description: Provides 'DebugFnW()' to capture function context on error for
     debugging, and 'let()' which converts non-standard evaluation interfaces to
-    standard evaluation interfaces.
-    'DebugFnW()' captures the calling function and arguments prior to the 
-    call causing the exception, while 
-    the classic 'options(error=dump.frames)' form captures at the
-    moment of the exception
-    itself (thus function arguments may not be at their starting values).
-    'let()' rebinds (possibly unbound) names to names.
+    parametric standard evaluation interfaces.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

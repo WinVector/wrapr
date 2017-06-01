@@ -4,11 +4,17 @@
 \name{wrapr}
 \alias{wrapr}
 \alias{wrapr-package}
-\title{\code{wrapr}: Wrap R Functions for Debugging and Ease of Use}
+\title{\code{wrapr}: Wrap R Functions for Debugging and Parametric Programming}
 \description{
-Provides \code{DebugFnW} to capture function context on error for
-debugging, and \code{let} which converts non-standard evaluation interfaces to
-parameterized standard evaluation interfaces.
+Provides \code{DebugFnW()} to capture function context on error for
+debugging, and \code{let()} which converts non-standard evaluation interfaces to
+parametric standard evaluation interfaces.
+\code{DebugFnW()} captures the calling function and arguments prior to the
+call causing the exception, while
+the classic \code{options(error=dump.frames)} form captures at the
+moment of the exception
+itself (thus function arguments may not be at their starting values).
+\code{let()} rebinds (possibly unbound) names to names.
 }
 \details{
 For more information:

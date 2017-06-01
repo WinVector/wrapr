@@ -1,4 +1,8 @@
 
+`wrapr` 0.1.3 2017-06-01
+
+ * More flexible treatment of `NULL`.
+
 `wrapr` 0.1.2 2017-04-13
  
  * add `ateval()`
