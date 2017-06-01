@@ -37,6 +37,9 @@ restrictToNameAssignments <- function(alias, restrictToAllCaps= FALSE) {
   usableEntries <- vapply(names(alias),
                           function(ai) {
                             vi <- alias[[ai]]
+                            if(is.name(vi)) {
+                              vi <- as.character(vi)
+                            }
                             isValidAndUnreservedName(ai) && isValidAndUnreservedName(vi) &&
                             ( (!restrictToAllCaps) || (toupper(ai)==ai))
                           },
@@ -88,10 +91,10 @@ prepareAlias <- function(alias, strict) {
     if (length(vi) != 1) {
       stop('wrapr:let alias values must all be single strings (not arrays or null)')
     }
+    if (nchar(vi) <= 0) {
+      stop('wrapr:let alias values must not be empty string')
+    }
     if(strict) {
-      if (nchar(vi) <= 0) {
-        stop('wrapr:let alias values must not be empty string')
-      }
       if (!isValidAndUnreservedName(vi)) {
         stop(paste('wrapr:let alias value not a valid name: "', vi, '"'))
       }
@@ -135,7 +138,7 @@ prepareAlias <- function(alias, strict) {
 #' @export
 #'
 #'
-letprep <- function(alias, strexpr, strict= FALSE) {
+letprep <- function(alias, strexpr, strict= TRUE) {
   alias <- prepareAlias(alias, strict)
   if(!is.character(strexpr)) {
     stop("wrapr::letprep strexpr must be length 1 character array")
