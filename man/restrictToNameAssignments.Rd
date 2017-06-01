@@ -4,7 +4,7 @@
 \alias{restrictToNameAssignments}
 \title{Restrict an alias mapping list to things that look like name assignments}
 \usage{
-restrictToNameAssignments(alias, restrictToAllCaps = TRUE)
+restrictToNameAssignments(alias, restrictToAllCaps = FALSE)
 }
 \arguments{
 \item{alias}{mapping list}

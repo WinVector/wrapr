@@ -31,7 +31,7 @@ isValidAndUnreservedName <- function(string) {
 #'
 #' @export
 #'
-restrictToNameAssignments <- function(alias, restrictToAllCaps=TRUE) {
+restrictToNameAssignments <- function(alias, restrictToAllCaps= FALSE) {
   # make sure alias is a list (not a named vector)
   alias <- as.list(alias)
   usableEntries <- vapply(names(alias),
@@ -143,10 +143,13 @@ letprep <- function(alias, strexpr, strict= FALSE) {
   # re-write the parse tree and prepare for execution
   body <- strexpr
   for (ni in names(alias)) {
-    value <- as.character(alias[[ni]])
-    if(ni!=value) {
-      pattern <- paste0("\\b", ni, "\\b")
-      body <- gsub(pattern, value, body)
+    value <- alias[[ni]]
+    if(!is.null(value)) {
+      value <- as.character(value)
+      if(ni!=value) {
+        pattern <- paste0("\\b", ni, "\\b")
+        body <- gsub(pattern, value, body)
+      }
     }
   }
   parse(text = body)
