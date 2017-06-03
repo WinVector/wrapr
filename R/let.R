@@ -261,34 +261,6 @@ let <- function(alias, expr,
 }
 
 
-#' Conditionally echo and always execute expression (equivilant to let() with no alias).
-#'
-#' @param expr block to prepare for execution.
-#' @param ... force later arguments to be bound by name.
-#' @param debugPrint logical if TRUE print debugging information
-#' @return result of expr executed in calling environment
-#'
-#' @examples
-#'
-#' echoAndExecute(1+1, debugPrint= FALSE)
-#' echoAndExecute(1+1, debugPrint= TRUE)
-#'
-#' @export
-echoAndExecute <- function(expr,
-                           ...,
-                           debugPrint= FALSE) {
-  if(length(list(...))>0) {
-    stop("wrapr::echoAndExecute unexpected arguments")
-  }
-  # try to execute expression in parent environment
-  # string substitution based implementation
-  exprS <- letprep(NULL, deparse(substitute(expr)),
-                   strict=TRUE,
-                   debugPrint=debugPrint)
-  eval(exprS,
-       envir=parent.frame(),
-       enclos=parent.frame())
-}
 
 # #
 # # a <- 1
