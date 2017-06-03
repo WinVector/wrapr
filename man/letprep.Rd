@@ -4,14 +4,18 @@
 \alias{letprep}
 \title{Substitute text.}
 \usage{
-letprep(alias, strexpr, strict = TRUE)
+letprep(alias, strexpr, ..., strict = TRUE, debugPrint = FALSE)
 }
 \arguments{
 \item{alias}{mapping named list/vector to strings/names or general}
 
-\item{strexpr}{character vector source text to be re-writtin}
+\item{strexpr}{character vector source text to be re-written}
 
-\item{strict}{logocal if TRUE only map to non-reserved names}
+\item{...}{force later arguments to be bound by name.}
+
+\item{strict}{logical if TRUE only map to non-reserved names}
+
+\item{debugPrint}{logical if TRUE print debugging information}
 }
 \value{
 parsed R expression

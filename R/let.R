@@ -112,8 +112,10 @@ prepareAlias <- function(alias, strict) {
 #' Substitute text.
 #'
 #' @param alias mapping named list/vector to strings/names or general
-#' @param strexpr character vector source text to be re-writtin
-#' @param strict logocal if TRUE only map to non-reserved names
+#' @param strexpr character vector source text to be re-written
+#' @param ... force later arguments to be bound by name.
+#' @param strict logical if TRUE only map to non-reserved names
+#' @param debugPrint logical if TRUE print debugging information
 #' @return parsed R expression
 #'
 #' @examples
@@ -138,7 +140,13 @@ prepareAlias <- function(alias, strict) {
 #' @export
 #'
 #'
-letprep <- function(alias, strexpr, strict= TRUE) {
+letprep <- function(alias, strexpr,
+                    ...,
+                    strict= TRUE,
+                    debugPrint= FALSE) {
+  if(length(list(...))>0) {
+    stop("wrapr::letprep unexpected arguments.")
+  }
   alias <- prepareAlias(alias, strict)
   if(!is.character(strexpr)) {
     stop("wrapr::letprep strexpr must be length 1 character array")
@@ -154,6 +162,9 @@ letprep <- function(alias, strexpr, strict= TRUE) {
         body <- gsub(pattern, value, body)
       }
     }
+  }
+  if(debugPrint) {
+    print(body)
   }
   parse(text = body)
 }
@@ -191,8 +202,10 @@ letprep <- function(alias, strexpr, strict= TRUE) {
 #'
 #'
 #' @param alias mapping from free names in expr to target names to use.
-#' @param expr block to prepare for execution
-#' @param strict logical is TRUE restrict map values to non-reserved non-dot names
+#' @param expr block to prepare for execution.
+#' @param ... force later arguments to be bound by name.
+#' @param strict logical is TRUE restrict map values to non-reserved non-dot names.
+#' @param debugPrint logical if TRUE print debugging information
 #' @return result of expr executed in calling environment
 #'
 #' @examples
@@ -231,11 +244,47 @@ letprep <- function(alias, strexpr, strict= TRUE) {
 #'
 #' @export
 let <- function(alias, expr,
-                strict= TRUE) {
+                ...,
+                strict= TRUE,
+                debugPrint= FALSE) {
+  if(length(list(...))>0) {
+    stop("wrapr::let unexpected arguments")
+  }
   # try to execute expression in parent environment
   # string substitution based implementation
   exprS <- letprep(alias, deparse(substitute(expr)),
-                   strict)
+                   strict=strict,
+                   debugPrint=debugPrint)
+  eval(exprS,
+       envir=parent.frame(),
+       enclos=parent.frame())
+}
+
+
+#' Conditionally echo and always execute expression (equivilant to let() with no alias).
+#'
+#' @param expr block to prepare for execution.
+#' @param ... force later arguments to be bound by name.
+#' @param debugPrint logical if TRUE print debugging information
+#' @return result of expr executed in calling environment
+#'
+#' @examples
+#'
+#' echoAndExecute(1+1, debugPrint= FALSE)
+#' echoAndExecute(1+1, debugPrint= TRUE)
+#'
+#' @export
+echoAndExecute <- function(expr,
+                           ...,
+                           debugPrint= FALSE) {
+  if(length(list(...))>0) {
+    stop("wrapr::echoAndExecute unexpected arguments")
+  }
+  # try to execute expression in parent environment
+  # string substitution based implementation
+  exprS <- letprep(NULL, deparse(substitute(expr)),
+                   strict=TRUE,
+                   debugPrint=debugPrint)
   eval(exprS,
        envir=parent.frame(),
        enclos=parent.frame())
