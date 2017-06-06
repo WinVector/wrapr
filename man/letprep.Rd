@@ -4,7 +4,7 @@
 \alias{letprep}
 \title{Substitute text.}
 \usage{
-letprep(alias, strexpr, ..., strict = TRUE, debugPrint = FALSE)
+letprep(alias, strexpr, ..., debugPrint = FALSE)
 }
 \arguments{
 \item{alias}{mapping named list/vector to strings/names or general}
@@ -13,33 +13,11 @@ letprep(alias, strexpr, ..., strict = TRUE, debugPrint = FALSE)
 
 \item{...}{force later arguments to be bound by name.}
 
-\item{strict}{logical if TRUE only map to non-reserved names}
-
 \item{debugPrint}{logical if TRUE print debugging information}
 }
 \value{
-parsed R expression
+parsed R expression with substitutions
 }
 \description{
 Substitute text.
-}
-\examples{
-
-
-letprep(alias= list(RANKCOLUMN= 'rank', GROUPCOLUMN= 'Species'),
-    strexpr= '{
-       # Notice code here can be written in terms of known or concrete
-       # names "RANKCOLUMN" and "GROUPCOLUMN", but executes as if we
-       # had written mapping specified columns "rank" and "Species".
-
-       # restart ranks at zero.
-       dres <- d
-       dres$RANKCOLUMN <- dres$RANKCOLUMN - 1 # notice using $ not [[]]
-
-       # confirm set of groups.
-       groups <- unique(d$GROUPCOLUMN)
-    }',
-    strict= TRUE)
-
-
 }

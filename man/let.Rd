@@ -4,7 +4,7 @@
 \alias{let}
 \title{Execute expr with name substitutions specified in alias.}
 \usage{
-let(alias, expr, ..., strict = TRUE, debugPrint = FALSE)
+let(alias, expr, ..., subsMethod = "stringsubs", debugPrint = FALSE)
 }
 \arguments{
 \item{alias}{mapping from free names in expr to target names to use.}
@@ -13,7 +13,7 @@ let(alias, expr, ..., strict = TRUE, debugPrint = FALSE)
 
 \item{...}{force later arguments to be bound by name.}
 
-\item{strict}{logical is TRUE restrict map values to non-reserved non-dot names.}
+\item{subsMethod}{character, one of 'stringsubs', 'langsubs'}
 
 \item{debugPrint}{logical if TRUE print debugging information}
 }
@@ -76,11 +76,10 @@ print(groups)
 print(length(groups))
 print(dres)
 
-# let works by string substitution aligning on word boundaries,
-# so it does (unfortunately) also re-write strings.
-let(list(x='y'), 'x')
+# In string substitution mode let can replace string contents.
+let(list(x='y'), 'x', subsMethod= 'stringsubs')
+# In langsubs mode it will not:
+let(list(x='y'), 'x', subsMethod= 'langsubs')
 
-# let can also substitute arbitrary expressions if strict=FALSE
-let(list(e='1+3'), e, strict= FALSE)
 
 }

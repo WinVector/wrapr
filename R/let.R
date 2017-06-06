@@ -48,7 +48,7 @@ restrictToNameAssignments <- function(alias, restrictToAllCaps= FALSE) {
   alias[usableEntries]
 }
 
-prepareAlias <- function(alias, strict) {
+prepareAlias <- function(alias) {
   # make sure alias is a list (not a named vector)
   alias <- as.list(alias)
   # skip any NULL slots
@@ -94,10 +94,8 @@ prepareAlias <- function(alias, strict) {
     if (nchar(vi) <= 0) {
       stop('wrapr:let alias values must not be empty string')
     }
-    if(strict) {
-      if (!isValidAndUnreservedName(vi)) {
+    if (!isValidAndUnreservedName(vi)) {
         stop(paste('wrapr:let alias value not a valid name: "', vi, '"'))
-      }
     }
     if(vi!=ni) {
       if(vi %in% names(alias)) {
@@ -114,40 +112,18 @@ prepareAlias <- function(alias, strict) {
 #' @param alias mapping named list/vector to strings/names or general
 #' @param strexpr character vector source text to be re-written
 #' @param ... force later arguments to be bound by name.
-#' @param strict logical if TRUE only map to non-reserved names
 #' @param debugPrint logical if TRUE print debugging information
-#' @return parsed R expression
+#' @return parsed R expression with substitutions
 #'
-#' @examples
-#'
-#'
-#' letprep(alias= list(RANKCOLUMN= 'rank', GROUPCOLUMN= 'Species'),
-#'     strexpr= '{
-#'        # Notice code here can be written in terms of known or concrete
-#'        # names "RANKCOLUMN" and "GROUPCOLUMN", but executes as if we
-#'        # had written mapping specified columns "rank" and "Species".
-#'
-#'        # restart ranks at zero.
-#'        dres <- d
-#'        dres$RANKCOLUMN <- dres$RANKCOLUMN - 1 # notice using $ not [[]]
-#'
-#'        # confirm set of groups.
-#'        groups <- unique(d$GROUPCOLUMN)
-#'     }',
-#'     strict= TRUE)
-#'
-#'
-#' @export
 #'
 #'
 letprep <- function(alias, strexpr,
                     ...,
-                    strict= TRUE,
                     debugPrint= FALSE) {
   if(length(list(...))>0) {
     stop("wrapr::letprep unexpected arguments.")
   }
-  alias <- prepareAlias(alias, strict)
+  alias <- prepareAlias(alias)
   if(!is.character(strexpr)) {
     stop("wrapr::letprep strexpr must be length 1 character array")
   }
@@ -168,6 +144,37 @@ letprep <- function(alias, strexpr,
   }
   parse(text = body)
 }
+
+
+#' Substitute language elements.
+#'
+#' @param alias mapping named list/vector to strings/names or general
+#' @param lexpr language item
+#' @param ... force later arguments to be bound by name.
+#' @return R language element with substitutions
+#'
+#'
+#'
+letprepl <- function(alias, lexpr) {
+  if(is.symbol(lexpr)) {
+    ki <- as.character(lexpr)
+    ri <- alias[[ki]]
+    if((!is.null(ri))&&(ri!=ki)) {
+      return(as.name(ri))
+    }
+    return(lexpr)
+  }
+  if(is.language(lexpr)) {
+    n <- length(lexpr)
+    nexpr <- lexpr
+    for(i in seq_len(n)) {
+      nexpr[[i]] <- letprepl(alias, lexpr[[i]])
+    }
+    return(nexpr)
+  }
+  return(lexpr)
+}
+
 
 #' Execute expr with name substitutions specified in alias.
 #'
@@ -204,7 +211,7 @@ letprep <- function(alias, strexpr,
 #' @param alias mapping from free names in expr to target names to use.
 #' @param expr block to prepare for execution.
 #' @param ... force later arguments to be bound by name.
-#' @param strict logical is TRUE restrict map values to non-reserved non-dot names.
+#' @param subsMethod character, one of 'stringsubs', 'langsubs'
 #' @param debugPrint logical if TRUE print debugging information
 #' @return result of expr executed in calling environment
 #'
@@ -235,26 +242,48 @@ letprep <- function(alias, strexpr,
 #' print(length(groups))
 #' print(dres)
 #'
-#' # let works by string substitution aligning on word boundaries,
-#' # so it does (unfortunately) also re-write strings.
-#' let(list(x='y'), 'x')
+#' # In string substitution mode let can replace string contents.
+#' let(list(x='y'), 'x', subsMethod= 'stringsubs')
+#' # In langsubs mode it will not:
+#' let(list(x='y'), 'x', subsMethod= 'langsubs')
 #'
-#' # let can also substitute arbitrary expressions if strict=FALSE
-#' let(list(e='1+3'), e, strict= FALSE)
 #'
 #' @export
 let <- function(alias, expr,
                 ...,
-                strict= TRUE,
+                subsMethod= 'stringsubs',
                 debugPrint= FALSE) {
   if(length(list(...))>0) {
     stop("wrapr::let unexpected arguments")
   }
+  allowedMethods <- c('stringsubs', 'langsubs')
+  if((!is.character(subsMethod)) ||
+     (length(subsMethod)!=1) ||
+     (!(subsMethod %in% allowedMethods))) {
+    stop(paste("wrapr::let subsMethod must be one of:",
+               paste(allowedMethods, collapse = ', ')))
+  }
+  exprS <- NULL
+  if(subsMethod=='langsubs') {
+    # recursive language implementation
+    exprS <- letprepl(prepareAlias(alias),
+                      substitute(expr))
+  } else if(subsMethod=='stringsubs') {
+    # string substitution based implementation
+    exprS <- letprep(alias, deparse(substitute(expr)),
+                     debugPrint=debugPrint)
+  } else {
+    stop(paste("wrapr::let unexpected subsMethod '", subsMethod, "'"))
+  }
+
+  ## substitute based solution (not working)
+  ## returns "expr"
+  ## once envs are different things change
+  ## alias <- prepareAlias(alias)
+  ## aliasN <- lapply(alias, as.name)
+  ## exprSu <- substitute(expr, env = as.environment(aliasN))
+
   # try to execute expression in parent environment
-  # string substitution based implementation
-  exprS <- letprep(alias, deparse(substitute(expr)),
-                   strict=strict,
-                   debugPrint=debugPrint)
   eval(exprS,
        envir=parent.frame(),
        enclos=parent.frame())
