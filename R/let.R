@@ -265,23 +265,24 @@ let <- function(alias, expr,
   }
   exprS <- NULL
   if(subsMethod=='langsubs') {
-    # recursive language implementation
+    # recursive language implementation.
+    # only replace matching symbols.
     exprS <- letprepl(prepareAlias(alias),
                       substitute(expr))
   } else if(subsMethod=='stringsubs') {
-    # string substitution based implementation
+    # string substitution based implementation.
+    # Similar to \code{gtools::strmacro} by Gregory R. Warnes.
     exprS <- letprep(alias, deparse(substitute(expr)),
                      debugPrint=debugPrint)
   } else {
     stop(paste("wrapr::let unexpected subsMethod '", subsMethod, "'"))
   }
 
-  ## substitute based solution (not working)
-  ## returns "expr"
-  ## once envs are different things change
-  ## alias <- prepareAlias(alias)
-  ## aliasN <- lapply(alias, as.name)
-  ## exprSu <- substitute(expr, env = as.environment(aliasN))
+  # ## substitute based solution (not working)
+  # ## returns "expr"
+  # ## once envs are different things change
+  # aliasN <- lapply(prepareAlias(alias), as.name)
+  # exprSu <- substitute(expr, env = as.environment(aliasN))
 
   # try to execute expression in parent environment
   eval(exprS,
