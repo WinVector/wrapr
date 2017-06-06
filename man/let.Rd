@@ -4,7 +4,7 @@
 \alias{let}
 \title{Execute expr with name substitutions specified in alias.}
 \usage{
-let(alias, expr, ..., subsMethod = "stringsubs", debugPrint = FALSE)
+let(alias, expr, ..., subsMethod = "langsubs", debugPrint = FALSE)
 }
 \arguments{
 \item{alias}{mapping from free names in expr to target names to use.}
@@ -15,7 +15,7 @@ let(alias, expr, ..., subsMethod = "stringsubs", debugPrint = FALSE)
 
 \item{subsMethod}{character, one of 'stringsubs', 'langsubs'}
 
-\item{debugPrint}{logical if TRUE print debugging information}
+\item{debugPrint}{logical if TRUE print debugging information when in stringsubs mode.}
 }
 \value{
 result of expr executed in calling environment

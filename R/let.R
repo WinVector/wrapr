@@ -117,15 +117,15 @@ prepareAlias <- function(alias) {
 #'
 #'
 #'
-letprep <- function(alias, strexpr,
+letprep_str <- function(alias, strexpr,
                     ...,
                     debugPrint= FALSE) {
   if(length(list(...))>0) {
-    stop("wrapr::letprep unexpected arguments.")
+    stop("wrapr::letprep_str unexpected arguments.")
   }
   alias <- prepareAlias(alias)
   if(!is.character(strexpr)) {
-    stop("wrapr::letprep strexpr must be length 1 character array")
+    stop("wrapr::letprep_str strexpr must be length 1 character array")
   }
   # re-write the parse tree and prepare for execution
   body <- strexpr
@@ -155,7 +155,7 @@ letprep <- function(alias, strexpr,
 #'
 #'
 #'
-letprepl <- function(alias, lexpr) {
+letprep_lang <- function(alias, lexpr) {
   if(is.symbol(lexpr)) {
     ki <- as.character(lexpr)
     ri <- alias[[ki]]
@@ -168,7 +168,7 @@ letprepl <- function(alias, lexpr) {
     n <- length(lexpr)
     nexpr <- lexpr
     for(i in seq_len(n)) {
-      nexpr[[i]] <- letprepl(alias, lexpr[[i]])
+      nexpr[[i]] <- letprep_lang(alias, lexpr[[i]])
     }
     return(nexpr)
   }
@@ -212,7 +212,7 @@ letprepl <- function(alias, lexpr) {
 #' @param expr block to prepare for execution.
 #' @param ... force later arguments to be bound by name.
 #' @param subsMethod character, one of 'stringsubs', 'langsubs'
-#' @param debugPrint logical if TRUE print debugging information
+#' @param debugPrint logical if TRUE print debugging information when in stringsubs mode.
 #' @return result of expr executed in calling environment
 #'
 #' @examples
@@ -251,7 +251,7 @@ letprepl <- function(alias, lexpr) {
 #' @export
 let <- function(alias, expr,
                 ...,
-                subsMethod= 'stringsubs',
+                subsMethod= 'langsubs',
                 debugPrint= FALSE) {
   if(length(list(...))>0) {
     stop("wrapr::let unexpected arguments")
@@ -267,12 +267,12 @@ let <- function(alias, expr,
   if(subsMethod=='langsubs') {
     # recursive language implementation.
     # only replace matching symbols.
-    exprS <- letprepl(prepareAlias(alias),
+    exprS <- letprep_lang(prepareAlias(alias),
                       substitute(expr))
   } else if(subsMethod=='stringsubs') {
     # string substitution based implementation.
     # Similar to \code{gtools::strmacro} by Gregory R. Warnes.
-    exprS <- letprep(alias, deparse(substitute(expr)),
+    exprS <- letprep_str(alias, deparse(substitute(expr)),
                      debugPrint=debugPrint)
   } else {
     stop(paste("wrapr::let unexpected subsMethod '", subsMethod, "'"))
