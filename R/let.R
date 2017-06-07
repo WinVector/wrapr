@@ -280,7 +280,7 @@ let <- function(alias, expr,
   #   aliasN <- lapply(prepareAlias(alias), as.name)
   #   # exprS <- substitute(deparse(exprQ), aliasN) # doesn't work as substitute sees "exprQ"
   #   exprS <- do.call(substitute, list(exprQ, aliasN))
-  #   # substitute also fails to rebind-values as in dplyr::mutate(d, NEWCOL = 7) list(NEWCOL='z')
+  #   # substitute also fails to rebind left-hand side values as in dplyr::mutate(d, NEWCOL = 7) list(NEWCOL='z')
   #   # example find in tests/testthat/test_letl.R
   # } else
   if(subsMethod=='langsubs') {
