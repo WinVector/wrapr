@@ -156,23 +156,34 @@ letprep_str <- function(alias, strexpr,
 #'
 #'
 letprep_lang <- function(alias, lexpr) {
-  if(is.symbol(lexpr)) {
-    ki <- as.character(lexpr)
+  nexpr <- lexpr
+  n <- length(nexpr)
+  nms <- names(nexpr)
+  for(i in seq_len(n)) {
+    ki <- as.character(nms[[i]])
+    if(length(ki)>0) {
+      ri <- alias[[ki]]
+      if((!is.null(ri))&&(ri!=ki)) {
+        nms[[i]] <- ri
+      }
+    }
+  }
+  names(nexpr) <- nms
+  if(is.symbol(nexpr)) {
+    ki <- as.character(nexpr)
     ri <- alias[[ki]]
     if((!is.null(ri))&&(ri!=ki)) {
       return(as.name(ri))
     }
-    return(lexpr)
+    return(nexpr)
   }
-  if(is.language(lexpr)) {
-    n <- length(lexpr)
-    nexpr <- lexpr
+  if(is.language(nexpr)) {
     for(i in seq_len(n)) {
-      nexpr[[i]] <- letprep_lang(alias, lexpr[[i]])
+      nexpr[[i]] <- letprep_lang(alias, nexpr[[i]])
     }
     return(nexpr)
   }
-  return(lexpr)
+  return(nexpr)
 }
 
 
@@ -242,8 +253,9 @@ letprep_lang <- function(alias, lexpr) {
 #' print(length(groups))
 #' print(dres)
 #'
-#' # In string substitution mode let can replace string contents.
+#' # In string substitution mode let can replace string contents:
 #' let(list(x='y'), 'x', subsMethod= 'stringsubs')
+#'
 #' # In langsubs mode it will not:
 #' let(list(x='y'), 'x', subsMethod= 'langsubs')
 #'
@@ -251,7 +263,7 @@ letprep_lang <- function(alias, lexpr) {
 #' @export
 let <- function(alias, expr,
                 ...,
-                subsMethod= 'langsubs',
+                subsMethod= 'stringsubs',
                 debugPrint= FALSE) {
   if(length(list(...))>0) {
     stop("wrapr::let unexpected arguments")

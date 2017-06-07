@@ -4,7 +4,7 @@
 \alias{let}
 \title{Execute expr with name substitutions specified in alias.}
 \usage{
-let(alias, expr, ..., subsMethod = "langsubs", debugPrint = FALSE)
+let(alias, expr, ..., subsMethod = "stringsubs", debugPrint = FALSE)
 }
 \arguments{
 \item{alias}{mapping from free names in expr to target names to use.}
@@ -76,8 +76,9 @@ print(groups)
 print(length(groups))
 print(dres)
 
-# In string substitution mode let can replace string contents.
+# In string substitution mode let can replace string contents:
 let(list(x='y'), 'x', subsMethod= 'stringsubs')
+
 # In langsubs mode it will not:
 let(list(x='y'), 'x', subsMethod= 'langsubs')
 
