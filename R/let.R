@@ -297,6 +297,7 @@ let <- function(alias, expr,
     stop(paste("wrapr::let unexpected subsMethod '", subsMethod, "'"))
   }
   # try to execute expression in parent environment
+  rm(list=setdiff(ls(),'exprS'))
   eval(exprS,
        envir=parent.frame(),
        enclos=parent.frame())
