@@ -13,7 +13,7 @@ let(alias, expr, ..., subsMethod = "stringsubs", debugPrint = FALSE)
 
 \item{...}{force later arguments to be bound by name.}
 
-\item{subsMethod}{character, one of 'stringsubs', 'langsubs'}
+\item{subsMethod}{character, one of  c('stringsubs', 'langsubs')}
 
 \item{debugPrint}{logical if TRUE print debugging information when in stringsubs mode.}
 }
@@ -25,7 +25,6 @@ result of expr executed in calling environment
 Mnemonic: "expr code symbols are on the left, external data and function argument names are on the right."
 }
 \details{
-Inspired by \code{gtools::strmacro} by Gregory R. Warnes.
 Please see the \code{wrapr} \code{vignette} for some discussion of let and crossing function call boundaries: \code{vignette('wrapr','wrapr')}.
 Transformation is performed by substitution on the expression parse tree, so be wary of name collisions or aliasing.
 

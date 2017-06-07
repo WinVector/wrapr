@@ -187,14 +187,12 @@ letprep_lang <- function(alias, lexpr) {
 }
 
 
+
 #' Execute expr with name substitutions specified in alias.
 #'
 #' \code{let} implements a mapping from desired names (names used directly in the expr code) to names used in the data.
 #' Mnemonic: "expr code symbols are on the left, external data and function argument names are on the right."
 #'
-#'
-#'
-#' Inspired by \code{gtools::strmacro} by Gregory R. Warnes.
 #' Please see the \code{wrapr} \code{vignette} for some discussion of let and crossing function call boundaries: \code{vignette('wrapr','wrapr')}.
 #' Transformation is performed by substitution on the expression parse tree, so be wary of name collisions or aliasing.
 #'
@@ -222,7 +220,7 @@ letprep_lang <- function(alias, lexpr) {
 #' @param alias mapping from free names in expr to target names to use.
 #' @param expr block to prepare for execution.
 #' @param ... force later arguments to be bound by name.
-#' @param subsMethod character, one of 'stringsubs', 'langsubs'
+#' @param subsMethod character, one of  c('stringsubs', 'langsubs')
 #' @param debugPrint logical if TRUE print debugging information when in stringsubs mode.
 #' @return result of expr executed in calling environment
 #'
@@ -265,6 +263,7 @@ let <- function(alias, expr,
                 ...,
                 subsMethod= 'stringsubs',
                 debugPrint= FALSE) {
+  exprQ <- substitute(expr)  # do this early before things enter local environment
   if(length(list(...))>0) {
     stop("wrapr::let unexpected arguments")
   }
@@ -276,26 +275,27 @@ let <- function(alias, expr,
                paste(allowedMethods, collapse = ', ')))
   }
   exprS <- NULL
+  # if(subsMethod=='subsubs') {
+  #   # substitute based solution, not working so commented out
+  #   aliasN <- lapply(prepareAlias(alias), as.name)
+  #   # exprS <- substitute(deparse(exprQ), aliasN) # doesn't work as substitute sees "exprQ"
+  #   exprS <- do.call(substitute, list(exprQ, aliasN))
+  #   # substitute also fails to rebind-values as in dplyr::mutate(d, NEWCOL = 7) list(NEWCOL='z')
+  #   # example find in tests/testthat/test_letl.R
+  # } else
   if(subsMethod=='langsubs') {
     # recursive language implementation.
     # only replace matching symbols.
     exprS <- letprep_lang(prepareAlias(alias),
-                      substitute(expr))
+                          exprQ)
   } else if(subsMethod=='stringsubs') {
     # string substitution based implementation.
     # Similar to \code{gtools::strmacro} by Gregory R. Warnes.
-    exprS <- letprep_str(alias, deparse(substitute(expr)),
+    exprS <- letprep_str(alias, deparse(exprQ),
                      debugPrint=debugPrint)
   } else {
     stop(paste("wrapr::let unexpected subsMethod '", subsMethod, "'"))
   }
-
-  # ## substitute based solution (not working)
-  # ## returns "expr"
-  # ## once envs are different things change
-  # aliasN <- lapply(prepareAlias(alias), as.name)
-  # exprSu <- substitute(expr, env = as.environment(aliasN))
-
   # try to execute expression in parent environment
   eval(exprS,
        envir=parent.frame(),
@@ -304,28 +304,3 @@ let <- function(alias, expr,
 
 
 
-# #
-# # a <- 1
-# # b <- 2
-# # # Given:
-# # let(c(z = 'a'), z+b)
-# # # Behaves a lot like:
-# # eval(substitute(z+b, c(z=quote(a))))
-# # # You would think the following below would be an easy
-# # # realization of "let".
-# # wrapr:::letSub(c(z = quote(a)), z+b)
-# # # This fails because it is hard to control the when/were
-# # # of both the substitute and eval at the same time.
-# # # Likely some form of enquote, list2env and so on
-# # # can get this to work, but it doesn't seem
-# # # attractive at this time.
-# #
-# #
-# letSub <-  function(alias, expr) {
-#   # quote based implementation, not working
-#   # pryr::subs() works about the same
-#   # pryr::substitute_q() might fix
-#   eval(substitute(expr, alias),
-#        envir=parent.frame(),
-#        enclos=parent.frame())
-# }
