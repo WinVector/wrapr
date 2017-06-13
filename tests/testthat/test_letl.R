@@ -9,17 +9,15 @@ test_that("testl_let.R", {
     name= c('a', 'a'),
     stringsAsFactors = FALSE)
 
-  # dsub <- let(list(NEWCOL='val'),
-  #             dplyr::mutate(d, NEWCOL = 7),
-  #             subsMethod= 'subsubs'
-  # )
-  dstr <- let(list(NEWCOL='val'),
-            dplyr::mutate(d, NEWCOL = 7),
-            subsMethod= 'stringsubs'
+  dstr <- d
+  let(list(NEWCOL='val'),
+      dstr$NEWCOL <- 7,
+      subsMethod= 'stringsubs'
   )
-  dlan <- let(list(NEWCOL='val'),
-            dplyr::mutate(d, NEWCOL = 7),
-            subsMethod= 'langsubs'
+  dlan <- d
+  let(list(NEWCOL='val'),
+      dlan$NEWCOL <- 7,
+      subsMethod= 'langsubs'
   )
   #expect_equal(dsub, dstr)
   expect_equal(dstr, dlan)
