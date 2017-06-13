@@ -12,12 +12,14 @@
 * using platform: x86_64-apple-darwin15.6.0 (64-bit)
 * using option ‘--as-cran’
 
+Note_to_CRAN_maintainers
+Maintainer: ‘John Mount <jmount@win-vector.com>’
 
 Status: OK
 
 ## Downstream dependencies
 
-Checked against all downstream dependencies.
+Checked all downstream dependnecies.
 
   devtools::revdep('wrapr')
   [1] "cdata"   "replyr"  "WVPlots"

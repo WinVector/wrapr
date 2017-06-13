@@ -1,7 +1,8 @@
 
-`wrapr` 0.1.3 2017-06-01
+`wrapr` 0.1.3 2017-06-13
 
  * More flexible treatment of `NULL`.
+ * Add non string based version of let() replacement.
 
 `wrapr` 0.1.2 2017-04-13
  
