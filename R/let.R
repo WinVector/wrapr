@@ -86,7 +86,8 @@ prepareAlias <- function(alias) {
       vi <- as.character(vi)
     }
     if (!is.character(vi)) {
-      stop('wrapr:let alias values must all be strings or names')
+      stop(paste('wrapr:let alias values must all be strings or names (',
+                 ni,'is class:', paste(class(vi), collapse=', '), ')'))
     }
     if (length(vi) != 1) {
       stop('wrapr:let alias values must all be single strings (not arrays or null)')
