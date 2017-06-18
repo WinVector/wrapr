@@ -215,13 +215,14 @@ letprep_lang <- function(alias, lexpr) {
 #'
 #' \code{let} deliberately checks that it is mapping only to legal \code{R} names;
 #' this is to discourage the use of \code{let} to make names to arbitrary values, as
-#' that is the more properly left to \code{R}'s enviroment systems.
+#' that is the more properly left to \code{R}'s environment systems.
 #'
 #'
 #' @param alias mapping from free names in expr to target names to use.
 #' @param expr block to prepare for execution.
 #' @param ... force later arguments to be bound by name.
-#' @param subsMethod character, one of  c('stringsubs', 'langsubs')
+#' @param subsMethod character substitution method, one of  c('stringsubs', 'langsubs', 'subsubs') (note: 'subsubs' does not re-map left-hand-sides).
+#' @param eval logical if TRUE execute the re-mapped expression (else return it).
 #' @param debugPrint logical if TRUE print debugging information when in stringsubs mode.
 #' @return result of expr executed in calling environment
 #'
@@ -232,9 +233,9 @@ letprep_lang <- function(alias, lexpr) {
 #'                 Species='setosa',
 #'                 rank=c(1,2))
 #'
-#' RANKCOLUMN <- NULL # optional, make sure marco target does not look like unbound variable.
-#' GROUPCOLUMN <- NULL # optional, make sure marco target does not look like unbound variable.
-#' mapping = list(RANKCOLUMN= 'rank', GROUPCOLUMN= 'Species')
+#' RANKCOLUMN <- NULL # optional, make sure macro target does not look like unbound variable.
+#' GROUPCOLUMN <- NULL # optional, make sure macro target does not look like unbound variable.
+#' mapping = c(RANKCOLUMN= 'rank', GROUPCOLUMN= 'Species')
 #' let(alias=mapping,
 #'     expr={
 #'        # Notice code here can be written in terms of known or concrete
@@ -252,23 +253,39 @@ letprep_lang <- function(alias, lexpr) {
 #' print(length(groups))
 #' print(dres)
 #'
-#' # In string substitution mode let can replace string contents:
-#' let(list(x='y'), 'x', subsMethod= 'stringsubs')
+#' # The following 3 examples show the different consequences of the different substitutions methods:
+#' y <- 7
 #'
-#' # In langsubs mode it will not:
-#' let(list(x='y'), 'x', subsMethod= 'langsubs')
+#' # In string substitution mode let can replace string contents and left/right sides:
+#' let(c('X'='y'), list(X=X, str='X'), subsMethod= 'stringsubs')
+#' # list(y=7, str="y")
+#' let(c('X'='y'), X <- list(X=X, str='X'), eval=FALSE, subsMethod= 'stringsubs')
+#' # expression(y <- list(y = y, str = "y"))
 #'
+#' # In langsubs mode let replaces left/right sides, but not strings:
+#' let(c('X'='y'), list(X=X, str='X'), subsMethod= 'langsubs')
+#' # list(y=7, str="X")
+#' let(c('X'='y'), X <- list(X=X, str='X'), eval=FALSE, subsMethod= 'langsubs')
+#' # y <- list(y = y, str = "X")
+#'
+#' # In subsubs mode strings and left-hand-side of function arguments are not
+#' #  re-mapped (though left hand side of assignment is):
+#' let(c('X'='y'), list(X=X, str='X'), subsMethod= 'subsubs')
+#' # list(X=7, str='X')
+#' let(c('X'='y'), X <- list(X=X, str='X'), eval=FALSE, subsMethod= 'subsubs')
+#' # y <- list(X = y, str = "X")
 #'
 #' @export
 let <- function(alias, expr,
                 ...,
                 subsMethod= 'stringsubs',
+                eval= TRUE,
                 debugPrint= FALSE) {
   exprQ <- substitute(expr)  # do this early before things enter local environment
   if(length(list(...))>0) {
     stop("wrapr::let unexpected arguments")
   }
-  allowedMethods <- c('stringsubs', 'langsubs')
+  allowedMethods <- c('stringsubs', 'langsubs', 'subsubs')
   if((!is.character(subsMethod)) ||
      (length(subsMethod)!=1) ||
      (!(subsMethod %in% allowedMethods))) {
@@ -276,19 +293,21 @@ let <- function(alias, expr,
                paste(allowedMethods, collapse = ', ')))
   }
   exprS <- NULL
-  # if(subsMethod=='subsubs') {
-  #   # substitute based solution, not working so commented out
-  #   aliasN <- lapply(prepareAlias(alias), as.name)
-  #   # exprS <- substitute(deparse(exprQ), aliasN) # doesn't work as substitute sees "exprQ"
-  #   exprS <- do.call(substitute, list(exprQ, aliasN))
-  #   # substitute also fails to rebind left-hand side values as in dplyr::mutate(d, NEWCOL = 7) list(NEWCOL='z')
-  #   # example find in tests/testthat/test_letl.R
-  # } else
-  if(subsMethod=='langsubs') {
+  if(subsMethod=='subsubs') {
+    # substitute based solution, does not bind left-hand sides
+    aliasN <- lapply(prepareAlias(alias), as.name)
+    exprS <- do.call(substitute, list(exprQ, aliasN))
+    if(debugPrint) {
+      print(exprS)
+    }
+  } else if(subsMethod=='langsubs') {
     # recursive language implementation.
     # only replace matching symbols.
     exprS <- letprep_lang(prepareAlias(alias),
                           exprQ)
+    if(debugPrint) {
+      print(exprS)
+    }
   } else if(subsMethod=='stringsubs') {
     # string substitution based implementation.
     # Similar to \code{gtools::strmacro} by Gregory R. Warnes.
@@ -298,6 +317,9 @@ let <- function(alias, expr,
     stop(paste("wrapr::let unexpected subsMethod '", subsMethod, "'"))
   }
   # try to execute expression in parent environment
+  if(!eval) {
+    return(exprS)
+  }
   rm(list=setdiff(ls(),'exprS'))
   eval(exprS,
        envir=parent.frame(),

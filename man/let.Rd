@@ -4,7 +4,8 @@
 \alias{let}
 \title{Execute expr with name substitutions specified in alias.}
 \usage{
-let(alias, expr, ..., subsMethod = "stringsubs", debugPrint = FALSE)
+let(alias, expr, ..., subsMethod = "stringsubs", eval = TRUE,
+  debugPrint = FALSE)
 }
 \arguments{
 \item{alias}{mapping from free names in expr to target names to use.}
@@ -13,7 +14,9 @@ let(alias, expr, ..., subsMethod = "stringsubs", debugPrint = FALSE)
 
 \item{...}{force later arguments to be bound by name.}
 
-\item{subsMethod}{character, one of  c('stringsubs', 'langsubs')}
+\item{subsMethod}{character substitution method, one of  c('stringsubs', 'langsubs', 'subsubs') (note: 'subsubs' does not re-map left-hand-sides).}
+
+\item{eval}{logical if TRUE execute the re-mapped expression (else return it).}
 
 \item{debugPrint}{logical if TRUE print debugging information when in stringsubs mode.}
 }
@@ -46,7 +49,7 @@ The intent from is from the user perspective to have (if
 
 \code{let} deliberately checks that it is mapping only to legal \code{R} names;
 this is to discourage the use of \code{let} to make names to arbitrary values, as
-that is the more properly left to \code{R}'s enviroment systems.
+that is the more properly left to \code{R}'s environment systems.
 }
 \examples{
 
@@ -55,9 +58,9 @@ d <- data.frame(Sepal_Length=c(5.8,5.7),
                 Species='setosa',
                 rank=c(1,2))
 
-RANKCOLUMN <- NULL # optional, make sure marco target does not look like unbound variable.
-GROUPCOLUMN <- NULL # optional, make sure marco target does not look like unbound variable.
-mapping = list(RANKCOLUMN= 'rank', GROUPCOLUMN= 'Species')
+RANKCOLUMN <- NULL # optional, make sure macro target does not look like unbound variable.
+GROUPCOLUMN <- NULL # optional, make sure macro target does not look like unbound variable.
+mapping = c(RANKCOLUMN= 'rank', GROUPCOLUMN= 'Species')
 let(alias=mapping,
     expr={
        # Notice code here can be written in terms of known or concrete
@@ -75,11 +78,26 @@ print(groups)
 print(length(groups))
 print(dres)
 
-# In string substitution mode let can replace string contents:
-let(list(x='y'), 'x', subsMethod= 'stringsubs')
+# The following 3 examples show the different consequences of the different substitutions methods:
+y <- 7
 
-# In langsubs mode it will not:
-let(list(x='y'), 'x', subsMethod= 'langsubs')
+# In string substitution mode let can replace string contents and left/right sides:
+let(c('X'='y'), list(X=X, str='X'), subsMethod= 'stringsubs')
+# list(y=7, str="y")
+let(c('X'='y'), X <- list(X=X, str='X'), eval=FALSE, subsMethod= 'stringsubs')
+# expression(y <- list(y = y, str = "y"))
 
+# In langsubs mode let replaces left/right sides, but not strings:
+let(c('X'='y'), list(X=X, str='X'), subsMethod= 'langsubs')
+# list(y=7, str="X")
+let(c('X'='y'), X <- list(X=X, str='X'), eval=FALSE, subsMethod= 'langsubs')
+# y <- list(y = y, str = "X")
+
+# In subsubs mode strings and left-hand-side of function arguments are not
+#  re-mapped (though left hand side of assignment is):
+let(c('X'='y'), list(X=X, str='X'), subsMethod= 'subsubs')
+# list(X=7, str='X')
+let(c('X'='y'), X <- list(X=X, str='X'), eval=FALSE, subsMethod= 'subsubs')
+# y <- list(X = y, str = "X")
 
 }
