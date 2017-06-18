@@ -102,7 +102,7 @@ ateval <- function(.) {
 #' @export
 #'
 beval <- function(...) {
-  exprtext0 <- paste(deparse(substitute(alist(...))))
+  exprtext0 <- deparse(substitute(alist(...)))
   exprtext <- gsub("^alist\\(","", exprtext0)
   exprtext <- gsub("\\)$","", exprtext)
   # find (!!symbols)

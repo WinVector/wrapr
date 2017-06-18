@@ -2,7 +2,7 @@
 % Please edit documentation in R/let.R
 \name{letprep_str}
 \alias{letprep_str}
-\title{Substitute text.}
+\title{Substitute text (note text can be a vector).}
 \usage{
 letprep_str(alias, strexpr, ..., debugPrint = FALSE)
 }
@@ -19,5 +19,5 @@ letprep_str(alias, strexpr, ..., debugPrint = FALSE)
 parsed R expression with substitutions
 }
 \description{
-Substitute text.
+Substitute text (note text can be a vector).
 }

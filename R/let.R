@@ -108,7 +108,7 @@ prepareAlias <- function(alias) {
   alias
 }
 
-#' Substitute text.
+#' Substitute text (note text can be a vector).
 #'
 #' @param alias mapping named list/vector to strings/names or general
 #' @param strexpr character vector source text to be re-written
@@ -128,7 +128,6 @@ letprep_str <- function(alias, strexpr,
   if(!is.character(strexpr)) {
     stop("wrapr::letprep_str strexpr must be a character array")
   }
-  strexpr <- paste(strexpr)  # deal with more than one piece case
   # re-write the parse tree and prepare for execution
   body <- strexpr
   for (ni in names(alias)) {
