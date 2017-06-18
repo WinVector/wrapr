@@ -4,9 +4,9 @@
 Introduction
 ------------
 
-The development version of `wrapr::let()` has switched from string-based substitution to abstract syntax tree based substitution (AST based subsitution, or language based substitution).
+The [development version](https://github.com/WinVector/wrapr) of our [`R`](https://cran.r-project.org) helper function `wrapr::let()` has switched from string-based substitution to abstract syntax tree based substitution (AST based subsitution, or language based substitution).
 
-I am looking for some feedback from `wrapr::let()` users already doing substantial work with `wrapr::let()`. If you are already using `wrapr::let()` please test if adding `subsMethod='langsubs'` works for you in the current `CRAN` release, or please try the current development release (from GitHub). If you run into problems: I apologize and please file a GitHub issue.
+I am looking for some feedback from `wrapr::let()` users already doing substantial work with `wrapr::let()`. If you are already using `wrapr::let()` please test if adding `subsMethod='langsubs'` works for you in the [current `CRAN` release](https://CRAN.R-project.org/package=wrapr), or please try the current development version (from GitHub). If you run into problems: I apologize and please file a GitHub issue.
 
 The substitution modes
 ----------------------
