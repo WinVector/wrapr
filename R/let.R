@@ -159,6 +159,7 @@ letprep_str <- function(alias, strexpr,
 letprep_lang <- function(alias, lexpr) {
   nexpr <- lexpr
   n <- length(nexpr)
+  # left-hand sides of lists/calls are represented as keys
   nms <- names(nexpr)
   if(length(nms)>0) {
     for(i in seq_len(length(nms))) {
@@ -172,7 +173,19 @@ letprep_lang <- function(alias, lexpr) {
     }
     names(nexpr) <- nms
   }
+  # try some easy cases first
+  if(is.character(nexpr)) {
+    return(nexpr)
+  }
+  # this is the main re-mapper
   if(is.symbol(nexpr)) {
+    # symbol is not subsettable, so length==1
+    #  as.name('x')[[1]]
+    #  # Error in as.name("x")[[1]] : object of type 'symbol' is not subsettable
+    # and can't have names
+    #   names(as.name("x")) <- 'a'
+    #   ## Error in names(as.name("x")) <- "a" :
+    #   ## target of assignment expands to non-language object
     ki <- as.character(nexpr)
     ri <- alias[[ki]]
     if((!is.null(ri))&&(ri!=ki)) {
@@ -180,6 +193,11 @@ letprep_lang <- function(alias, lexpr) {
     }
     return(nexpr)
   }
+  # just in case (establishes an invarient of n>=1)
+  if(n<=0) {
+    return(nexpr)
+  }
+  # special cases
   if(is.call(nexpr)) {
     callName <- as.character(nexpr[[1]])
     if(length(callName)==1) {
@@ -187,7 +205,7 @@ letprep_lang <- function(alias, lexpr) {
       #  detect them very strictly and return out of them
       if((callName=='$') && (n==3)) {
         # special case a$"b"
-        # let(c(x='y'), d$"x", eval=FALSE))
+        # let(c(x='y'), d$"x", eval=FALSE)
         # know length should be 3 from:
         #  do.call('$',list(data.frame(x=1:3),'x','z'))
         #  # Error in list(x = 1:3)$x : 3 arguments passed to '$' which requires 2
@@ -200,6 +218,8 @@ letprep_lang <- function(alias, lexpr) {
       }
     }
   }
+  # the recurse, assuming language objects are list-like in that
+  #  x[[1]] isn't x (which is not true for vectors as 1[[1]]  is 1).
   if(is.language(nexpr)) {
     for(i in seq_len(n)) {
       nexpr[[i]] <- letprep_lang(alias, nexpr[[i]])

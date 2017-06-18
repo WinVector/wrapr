@@ -13,7 +13,7 @@ output:
 
 The [development version](https://github.com/WinVector/wrapr) of our [`R`](https://cran.r-project.org) helper function `wrapr::let()` has switched from string-based substitution to abstract syntax tree based substitution (AST based subsitution, or language based substitution).  
 
-I am looking for some feedback from `wrapr::let()` users already doing substantial work with `wrapr::let()`.  If you are already using `wrapr::let()` please test if the current [development version of `wrapr`](https://github.com/WinVector/wrapr) works with your code.  If you run into problems: I apologize and please file a GitHub issue.
+I am looking for some feedback from `wrapr::let()` users already doing substantial work with `wrapr::let()`.  If you are already using `wrapr::let()` please test if the current [development version of `wrapr`](https://github.com/WinVector/wrapr) works with your code.  If you run into problems: I apologize, and please file a `GitHub` issue.
 
 
 ## The substitution modes
