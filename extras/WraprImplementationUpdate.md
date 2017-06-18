@@ -4,22 +4,26 @@
 Introduction
 ------------
 
-The development version of `wrapr::let()` has switched from string-based substitution to abstract syntax tree based substitution (AST, or language based substitution).
+The development version of `wrapr::let()` has switched from string-based substitution to abstract syntax tree based substitution (AST based subsitution, or language based substitution).
 
 I am looking for some feedback from `wrapr::let()` users already doing substantial work with `wrapr::let()`. If you are already using `wrapr::let()` please test if adding `subsMethod='langsubs'` works for you in the current `CRAN` release, or please try the current development release (from GitHub). If you run into problems: I apologize and please file a GitHub issue.
 
 The substitution modes
 ----------------------
 
-The development version of `wrapr::let()` now has 3 substitution implementations:
+The development version of `wrapr::let()` now has three substitution implementations:
 
 -   Language substitution (`subsMethod='langsubs'` the new default, also available as an option in the current `CRAN` release). In this mode user code is captured as an abstract syntax tree (or parse tree) and substitution is performed only on nodes known to be symbols.
 -   String substitution (`subsMethod='stringsubs'`, the CRAN current default). In this mode user code is captured as text and then string replacement on word-boundaries is used to substitute in variable re-mappings.
 -   Substitute substitution (`subsMethod='subsubs'`, new to the development version). In this mode substitution is performed by `R`'s own `base::substitute()`.
 
-The semantics of the three methods can be illustrated by showing the effects of substituting the variable name "`y`" for "`X`" in the somewhat complicated expression "`X <- list(X = d$X, XX = 'XX', .X = X_, q1 =`X`, q2 =` X`)`". The expression includes an assignment (letting us see what happens on the left and right sides of such), named argument bindings, and quoted strings.
+The semantics of the three methods can be illustrated by showing the effects of substituting the variable name "`y`" for "`X`" in the somewhat complicated expression:
 
-Using the "`eval=FALSE`" option (again, new to the development version of the package) we can get a clear picture of each of the three substitution implementations.
+``` r
+   X <- list(X = d$X, XX = 'XX', .X = X_, q1 =`X`, q2 =` X`)
+```
+
+This expression includes an assignment (letting us see what happens on the left and right sides of such), named argument bindings, quoted strings, and some nasty corner-cases.
 
 #### Language substitution (`subsMethod='langsubs'`)
 
@@ -88,14 +92,14 @@ Obviously `wrapr::let()` is not interesting if you have no idea why you would ne
 For example suppose we have a `data.frame` "`d`" defined as follows:
 
 ``` r
-d <- data.frame(x = c(1, 2, 3))
+d <- data.frame(x = c(15, 30, 40))
 print( d )
 ```
 
-    ##   x
-    ## 1 1
-    ## 2 2
-    ## 3 3
+    ##    x
+    ## 1 15
+    ## 2 30
+    ## 3 40
 
 If we know the name of the column we can access it as follows:
 
@@ -103,7 +107,7 @@ If we know the name of the column we can access it as follows:
 print( d$x )
 ```
 
-    ## [1] 1 2 3
+    ## [1] 15 30 40
 
 If we don't know the name of the column (such as would be the case when writing a function) we write code like the following:
 
@@ -115,7 +119,7 @@ getColumn <- function(d, columnName) {
 print( getColumn(d, 'x') )
 ```
 
-    ## [1] 1 2 3
+    ## [1] 15 30 40
 
 This works because `R` takes a lot of trouble to supply parametric interfaces for most use cases.
 
@@ -131,10 +135,10 @@ suppressPackageStartupMessages(library("dplyr"))
 d %>% mutate(v2 = x + 1)
 ```
 
-    ##   x v2
-    ## 1 1  2
-    ## 2 2  3
-    ## 3 3  4
+    ##    x v2
+    ## 1 15 16
+    ## 2 30 31
+    ## 3 40 41
 
 If we were writing the above in a function it would plausible that we would not know the name of the desired result column or the name of the column to add one to. `wrapr::let()` lets us write such code easily:
 
@@ -156,10 +160,10 @@ addOneToColumn <- function(d,
 d %>% addOneToColumn('v2', 'x')
 ```
 
-    ##   x v2
-    ## 1 1  2
-    ## 2 2  3
-    ## 3 3  4
+    ##    x v2
+    ## 1 15 16
+    ## 2 30 31
+    ## 3 40 41
 
 Again, writing the function `addOneToColumn()` was the goal. The issue was that in such a function we don't know what column names the user is going to end up supplying. We work around this difficulty with `wrapr::let()`
 
