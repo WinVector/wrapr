@@ -126,8 +126,9 @@ letprep_str <- function(alias, strexpr,
   }
   alias <- prepareAlias(alias)
   if(!is.character(strexpr)) {
-    stop("wrapr::letprep_str strexpr must be length 1 character array")
+    stop("wrapr::letprep_str strexpr must be a character array")
   }
+  strexpr <- paste(strexpr)  # deal with more than one piece case
   # re-write the parse tree and prepare for execution
   body <- strexpr
   for (ni in names(alias)) {
