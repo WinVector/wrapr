@@ -17,13 +17,16 @@ The development version of `wrapr::let()` now has three substitution implementat
 -   String substitution (`subsMethod='stringsubs'`, the CRAN current default). In this mode user code is captured as text and then string replacement on word-boundaries is used to substitute in variable re-mappings.
 -   Substitute substitution (`subsMethod='subsubs'`, new to the development version). In this mode substitution is performed by `R`'s own `base::substitute()`.
 
-The semantics of the three methods can be illustrated by showing the effects of substituting the variable name "`y`" for "`X`" in the somewhat complicated expression:
+The semantics of the three methods can be illustrated by showing the effects of substituting the variable name "`y`" for "`X`" in the somewhat complicated block of statements:
 
 ``` r
-   X <- list(X = d$X, XX = 'XX', .X = X_, q1 =`X`, q2 =` X`)
+  {
+    d <- data.frame("X" = X, s = "XX", X2 = "X", .X = X_)
+    X <- list(X = d$X, X2 = d$"X", q1 = `X`, q2 = ` X`)
+  }
 ```
 
-This expression includes an assignment (letting us see what happens on the left and right sides of such), named argument bindings, quoted strings, and some nasty corner-cases.
+This block a lot of different examples and corner-cases.
 
 #### Language substitution (`subsMethod='langsubs'`)
 
@@ -33,16 +36,20 @@ library("wrapr")
 let(
   c(X = 'y'), 
   {
-    X <- list(X = d$X, XX = 'XX', .X = X_, q1 = `X`, q2 = ` X`)
-  }, 
+    d <- data.frame("X" = X, s = "XX", X2 = "X", .X = X_)
+    X <- list(X = d$X, X2 = d$"X", q1 = `X`, q2 = ` X`)
+  },
   eval = FALSE, subsMethod = 'langsubs')
 ```
 
     ## {
-    ##     y <- list(y = d$y, XX = "XX", .X = X_, q1 = y, q2 = ` X`)
+    ##     d <- data.frame(y = y, s = "XX", X2 = "X", .X = X_)
+    ##     y <- list(y = d$y, X2 = d$X, q1 = y, q2 = ` X`)
     ## }
 
-Notice the substitution replaced all symbol-like uses of "`X`", and only these. The reason I need more testing on this method is `R` language structures are fairly complicated, so there may be some corner cases we want additional coding for.
+Notice the substitution replaced all symbol-like uses of "`X`", and only these. The only foible is the `d$"X"` did not get replaced with `d$y`. We will just have to leave that as code you are not supposed to include inside a `wrapr::let()` block (i.e., *please* write `d$X`, not `d$"X"`).
+
+The reason I need more testing on this method is `R` language structures are fairly complicated, so there may be some corner cases we want additional coding for.
 
 #### String substitution (`subsMethod='stringsubs'`)
 
@@ -50,29 +57,35 @@ Notice the substitution replaced all symbol-like uses of "`X`", and only these. 
 let(
   c(X = 'y'), 
   {
-    X <- list(X = d$X, XX = 'XX', .X = X_, q1 = `X`, q2 = ` X`)
-  }, 
+    d <- data.frame("X" = X, s = "XX", X2 = "X", .X = X_)
+    X <- list(X = d$X, X2 = d$"X", q1 = `X`, q2 = ` X`)
+  },
   eval = FALSE, subsMethod = 'stringsubs')
 ```
 
     ## expression({
-    ##     y <- list(y = d$y, XX = "XX", .y = X_, q1 = y, q2 = ` y`)
+    ##     d <- data.frame(y = y, s = "XX", X2 = "y", .y = X_)
+    ##     y <- list(y = d$y, X2 = d$y, q1 = y, q2 = ` y`)
     ## })
 
-Notice string substitution has a few flaws: it went after variable names that appeared to start with a word-boundary (the cases where the variable name started with a dot or a space). Substitution also occurred in some string constants. These situations are all avoidable as both the code inside the `let`-block and the substitution targets are chosen by the programmer, so they can be chosen to be simple and mutually consisitent. We suggest "`ALL_CAPS`" style substitution targets as they jump out as being macro targets. But, of course, it is better to have stricter control on substitution.
+Notice string substitution has a few flaws: it went after variable names that appeared to start with a word-boundary (the cases where the variable name started with a dot or a space). Substitution also occurred in some string constants (which as we have seen could be considered a good thing).
+
+These situations are all avoidable as both the code inside the `let`-block and the substitution targets are chosen by the programmer, so they can be chosen to be simple and mutually consisitent. We suggest "`ALL_CAPS`" style substitution targets as they jump out as being macro targets. But, of course, it is better to have stricter control on substitution.
 
 #### Substitute substitution (`subsMethod='subsubs'`)
 
 ``` r
 let(c(X = 'y'), 
     {
-      X <- list(X = d$X, XX = 'XX', .X = X_, q1 = `X`, q2 = ` X`)
-    }, 
+      d <- data.frame("X" = X, s = "XX", X2 = "X", .X = X_)
+      X <- list(X = d$X, X2 = d$"X", q1 = `X`, q2 = ` X`)
+    },
     eval = FALSE, subsMethod = 'subsubs')
 ```
 
     ## {
-    ##     y <- list(X = d$y, XX = "XX", .X = X_, q1 = y, q2 = ` X`)
+    ##     d <- data.frame(X = y, s = "XX", X2 = "X", .X = X_)
+    ##     y <- list(X = d$y, X2 = d$X, q1 = y, q2 = ` X`)
     ## }
 
 Notice `base::substitute()` doesn't re-write left-hand-sides of argument bindings. This is why I originally didn't consider using this implementation. Re-writing left-hand-sides of assignments is critical in expressions such as `dplyr::mutate( RESULTCOL = INPUTCOL + 1)`.
@@ -112,8 +125,8 @@ print( d$x )
 If we don't know the name of the column (such as would be the case when writing a function) we write code like the following:
 
 ``` r
-getColumn <- function(d, columnName) {
-  d[[columnName]]
+getColumn <- function(df, columnName) {
+  df[[columnName]]
 }
 
 print( getColumn(d, 'x') )
@@ -132,7 +145,7 @@ The issue is: it is common to write statements such as the following in `dplyr`:
 ``` r
 suppressPackageStartupMessages(library("dplyr"))
 
-d %>% mutate(v2 = x + 1)
+d %>% mutate( v2 = x + 1 )
 ```
 
     ##    x v2
@@ -145,14 +158,14 @@ If we were writing the above in a function it would plausible that we would not 
 ``` r
 library("wrapr")
 
-addOneToColumn <- function(d, 
+addOneToColumn <- function(df, 
                            result_column_name, 
                            input_column_name) {
   let(
     c(RESULT_COL = result_column_name,
       INPUT_COL = input_column_name),
     
-    d %>% mutate( RESULT_COL = INPUT_COL + 1)
+    df %>% mutate( RESULT_COL = INPUT_COL + 1 )
     
   )
 }
