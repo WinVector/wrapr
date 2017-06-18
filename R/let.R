@@ -195,7 +195,7 @@ letprep_lang <- function(alias, lexpr) {
 #' Mnemonic: "expr code symbols are on the left, external data and function argument names are on the right."
 #'
 #' Please see the \code{wrapr} \code{vignette} for some discussion of let and crossing function call boundaries: \code{vignette('wrapr','wrapr')}.
-#' Transformation is performed by substitution on the expression parse tree, so be wary of name collisions or aliasing.
+#' Transformation is performed by substitution, so please be wary of name collisions or aliasing.
 #'
 #' Something like \code{let} is only useful to get control of a function that is parameterized
 #' (in the sense it take column names) but non-standard (in that it takes column names from
@@ -216,6 +216,11 @@ letprep_lang <- function(alias, lexpr) {
 #' \code{let} deliberately checks that it is mapping only to legal \code{R} names;
 #' this is to discourage the use of \code{let} to make names to arbitrary values, as
 #' that is the more properly left to \code{R}'s environment systems.
+#' \code{let} is intended to transform
+#' "tame" variable and column names to "tame" variable and column names.  Substitution
+#' outcomes that are not valid simple \code{R} variable names (produced with out use of
+#' back-ticks) are forbidden.  It is suggested that substitution targets be written
+#' \code{ALL_CAPS} style to make them stand out.
 #'
 #'
 #' @param alias mapping from free names in expr to target names to use.
@@ -257,22 +262,28 @@ letprep_lang <- function(alias, lexpr) {
 #' y <- 7
 #'
 #' # In string substitution mode let can replace string contents and left/right sides:
-#' let(c('X'='y'), list(X=X, str='X'), subsMethod= 'stringsubs')
+#' let(c('X'='y'), list(X=X, str='X'),
+#'     subsMethod = 'stringsubs', debugPrint = TRUE)
 #' # list(y=7, str="y")
-#' let(c('X'='y'), X <- list(X=X, str='X'), eval=FALSE, subsMethod= 'stringsubs')
+#' let(c('X'='y'), X <- list(X=X, str='X'),
+#'     eval=FALSE, subsMethod= 'stringsubs')
 #' # expression(y <- list(y = y, str = "y"))
 #'
 #' # In langsubs mode let replaces left/right sides, but not strings:
-#' let(c('X'='y'), list(X=X, str='X'), subsMethod= 'langsubs')
+#' let(c('X'='y'), list(X=X, str='X'),
+#'     subsMethod = 'langsubs', debugPrint = TRUE)
 #' # list(y=7, str="X")
-#' let(c('X'='y'), X <- list(X=X, str='X'), eval=FALSE, subsMethod= 'langsubs')
+#' let(c('X'='y'), X <- list(X=X, str='X'),
+#'     eval=FALSE, subsMethod= 'langsubs')
 #' # y <- list(y = y, str = "X")
 #'
 #' # In subsubs mode strings and left-hand-side of function arguments are not
 #' #  re-mapped (though left hand side of assignment is):
-#' let(c('X'='y'), list(X=X, str='X'), subsMethod= 'subsubs')
+#' let(c('X'='y'), list(X=X, str='X'),
+#'     subsMethod= 'subsubs', debugPrint = TRUE)
 #' # list(X=7, str='X')
-#' let(c('X'='y'), X <- list(X=X, str='X'), eval=FALSE, subsMethod= 'subsubs')
+#' let(c('X'='y'), X <- list(X=X, str='X'),
+#'     eval=FALSE, subsMethod= 'subsubs')
 #' # y <- list(X = y, str = "X")
 #'
 #' @export
