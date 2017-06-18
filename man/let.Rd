@@ -4,7 +4,7 @@
 \alias{let}
 \title{Execute expr with name substitutions specified in alias.}
 \usage{
-let(alias, expr, ..., subsMethod = "stringsubs", eval = TRUE,
+let(alias, expr, ..., subsMethod = "langsubs", eval = TRUE,
   debugPrint = FALSE)
 }
 \arguments{
@@ -14,7 +14,7 @@ let(alias, expr, ..., subsMethod = "stringsubs", eval = TRUE,
 
 \item{...}{force later arguments to be bound by name.}
 
-\item{subsMethod}{character substitution method, one of  c('stringsubs', 'langsubs', 'subsubs') (note: 'subsubs' does not re-map left-hand-sides).}
+\item{subsMethod}{character substitution method, one of  c('langsubs', 'stringsubs', 'subsubs').}
 
 \item{eval}{logical if TRUE execute the re-mapped expression (else return it).}
 
@@ -86,14 +86,6 @@ print(dres)
 # The following 3 examples show the different consequences of the different substitutions methods:
 y <- 7
 
-# In string substitution mode let can replace string contents and left/right sides:
-let(c('X'='y'), list(X=X, str='X'),
-    subsMethod = 'stringsubs', debugPrint = TRUE)
-# list(y=7, str="y")
-let(c('X'='y'), X <- list(X=X, str='X'),
-    eval=FALSE, subsMethod= 'stringsubs')
-# expression(y <- list(y = y, str = "y"))
-
 # In langsubs mode let replaces left/right sides, but not strings:
 let(c('X'='y'), list(X=X, str='X'),
     subsMethod = 'langsubs', debugPrint = TRUE)
@@ -101,6 +93,14 @@ let(c('X'='y'), list(X=X, str='X'),
 let(c('X'='y'), X <- list(X=X, str='X'),
     eval=FALSE, subsMethod= 'langsubs')
 # y <- list(y = y, str = "X")
+
+# In string substitution mode let can replace string contents and left/right sides:
+let(c('X'='y'), list(X=X, str='X'),
+    subsMethod = 'stringsubs', debugPrint = TRUE)
+# list(y=7, str="y")
+let(c('X'='y'), X <- list(X=X, str='X'),
+    eval=FALSE, subsMethod= 'stringsubs')
+# expression(y <- list(y = y, str = "y"))
 
 # In subsubs mode strings and left-hand-side of function arguments are not
 #  re-mapped (though left hand side of assignment is):

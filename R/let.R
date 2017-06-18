@@ -226,7 +226,7 @@ letprep_lang <- function(alias, lexpr) {
 #' @param alias mapping from free names in expr to target names to use.
 #' @param expr block to prepare for execution.
 #' @param ... force later arguments to be bound by name.
-#' @param subsMethod character substitution method, one of  c('stringsubs', 'langsubs', 'subsubs') (note: 'subsubs' does not re-map left-hand-sides).
+#' @param subsMethod character substitution method, one of  c('langsubs', 'stringsubs', 'subsubs').
 #' @param eval logical if TRUE execute the re-mapped expression (else return it).
 #' @param debugPrint logical if TRUE print debugging information when in stringsubs mode.
 #' @return result of expr executed in calling environment
@@ -261,14 +261,6 @@ letprep_lang <- function(alias, lexpr) {
 #' # The following 3 examples show the different consequences of the different substitutions methods:
 #' y <- 7
 #'
-#' # In string substitution mode let can replace string contents and left/right sides:
-#' let(c('X'='y'), list(X=X, str='X'),
-#'     subsMethod = 'stringsubs', debugPrint = TRUE)
-#' # list(y=7, str="y")
-#' let(c('X'='y'), X <- list(X=X, str='X'),
-#'     eval=FALSE, subsMethod= 'stringsubs')
-#' # expression(y <- list(y = y, str = "y"))
-#'
 #' # In langsubs mode let replaces left/right sides, but not strings:
 #' let(c('X'='y'), list(X=X, str='X'),
 #'     subsMethod = 'langsubs', debugPrint = TRUE)
@@ -276,6 +268,14 @@ letprep_lang <- function(alias, lexpr) {
 #' let(c('X'='y'), X <- list(X=X, str='X'),
 #'     eval=FALSE, subsMethod= 'langsubs')
 #' # y <- list(y = y, str = "X")
+#'
+#' # In string substitution mode let can replace string contents and left/right sides:
+#' let(c('X'='y'), list(X=X, str='X'),
+#'     subsMethod = 'stringsubs', debugPrint = TRUE)
+#' # list(y=7, str="y")
+#' let(c('X'='y'), X <- list(X=X, str='X'),
+#'     eval=FALSE, subsMethod= 'stringsubs')
+#' # expression(y <- list(y = y, str = "y"))
 #'
 #' # In subsubs mode strings and left-hand-side of function arguments are not
 #' #  re-mapped (though left hand side of assignment is):
@@ -289,14 +289,14 @@ letprep_lang <- function(alias, lexpr) {
 #' @export
 let <- function(alias, expr,
                 ...,
-                subsMethod= 'stringsubs',
+                subsMethod= 'langsubs',
                 eval= TRUE,
                 debugPrint= FALSE) {
   exprQ <- substitute(expr)  # do this early before things enter local environment
   if(length(list(...))>0) {
     stop("wrapr::let unexpected arguments")
   }
-  allowedMethods <- c('stringsubs', 'langsubs', 'subsubs')
+  allowedMethods <- c('langsubs', 'stringsubs', 'subsubs')
   if((!is.character(subsMethod)) ||
      (length(subsMethod)!=1) ||
      (!(subsMethod %in% allowedMethods))) {
@@ -304,18 +304,18 @@ let <- function(alias, expr,
                paste(allowedMethods, collapse = ', ')))
   }
   exprS <- NULL
-  if(subsMethod=='subsubs') {
-    # substitute based solution, does not bind left-hand sides
-    aliasN <- lapply(prepareAlias(alias), as.name)
-    exprS <- do.call(substitute, list(exprQ, aliasN))
-    if(debugPrint) {
-      print(exprS)
-    }
-  } else if(subsMethod=='langsubs') {
+  if(subsMethod=='langsubs') {
     # recursive language implementation.
     # only replace matching symbols.
     exprS <- letprep_lang(prepareAlias(alias),
                           exprQ)
+    if(debugPrint) {
+      print(exprS)
+    }
+  } else if(subsMethod=='subsubs') {
+    # substitute based solution, does not bind left-hand sides
+    aliasN <- lapply(prepareAlias(alias), as.name)
+    exprS <- do.call(substitute, list(exprQ, aliasN))
     if(debugPrint) {
       print(exprS)
     }
