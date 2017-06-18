@@ -160,16 +160,18 @@ letprep_lang <- function(alias, lexpr) {
   nexpr <- lexpr
   n <- length(nexpr)
   nms <- names(nexpr)
-  for(i in seq_len(n)) {
-    ki <- as.character(nms[[i]])
-    if(length(ki)>0) {
-      ri <- alias[[ki]]
-      if((!is.null(ri))&&(ri!=ki)) {
-        nms[[i]] <- ri
+  if(length(nms)>0) {
+    for(i in seq_len(length(nms))) {
+      ki <- as.character(nms[[i]])
+      if(length(ki)>0) {
+        ri <- alias[[ki]]
+        if((length(ri)>0)&&(ri!=ki)) {
+          nms[[i]] <- ri
+        }
       }
     }
+    names(nexpr) <- nms
   }
-  names(nexpr) <- nms
   if(is.symbol(nexpr)) {
     ki <- as.character(nexpr)
     ri <- alias[[ki]]
@@ -177,6 +179,26 @@ letprep_lang <- function(alias, lexpr) {
       return(as.name(ri))
     }
     return(nexpr)
+  }
+  if(is.call(nexpr)) {
+    callName <- as.character(nexpr[[1]])
+    if(length(callName)==1) {
+      # get into special cases,
+      #  detect them very strictly and return out of them
+      if((callName=='$') && (n==3)) {
+        # special case a$"b"
+        # let(c(x='y'), d$"x", eval=FALSE))
+        # know length should be 3 from:
+        #  do.call('$',list(data.frame(x=1:3),'x','z'))
+        #  # Error in list(x = 1:3)$x : 3 arguments passed to '$' which requires 2
+        # know the 3rd argument can be treated as a name from:
+        #  data.frame(x=1:3)$1
+        #  # Error: unexpected numeric constant in "data.frame(x=1:3)$1"
+        nexpr[[2]] <- letprep_lang(alias, nexpr[[2]])
+        nexpr[[3]] <- letprep_lang(alias, as.name(nexpr[[3]]))
+        return(nexpr)
+      }
+    }
   }
   if(is.language(nexpr)) {
     for(i in seq_len(n)) {

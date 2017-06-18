@@ -6,14 +6,14 @@ Introduction
 
 The [development version](https://github.com/WinVector/wrapr) of our [`R`](https://cran.r-project.org) helper function `wrapr::let()` has switched from string-based substitution to abstract syntax tree based substitution (AST based subsitution, or language based substitution).
 
-I am looking for some feedback from `wrapr::let()` users already doing substantial work with `wrapr::let()`. If you are already using `wrapr::let()` please test if adding `subsMethod='langsubs'` works for you in the [current `CRAN` release](https://CRAN.R-project.org/package=wrapr), or please try the current development version (from GitHub). If you run into problems: I apologize and please file a GitHub issue.
+I am looking for some feedback from `wrapr::let()` users already doing substantial work with `wrapr::let()`. If you are already using `wrapr::let()` please test if the current [development version of `wrapr`](https://github.com/WinVector/wrapr) works with your code. If you run into problems: I apologize and please file a GitHub issue.
 
 The substitution modes
 ----------------------
 
 The development version of `wrapr::let()` now has three substitution implementations:
 
--   Language substitution (`subsMethod='langsubs'` the new default, also available as an option in the current `CRAN` release). In this mode user code is captured as an abstract syntax tree (or parse tree) and substitution is performed only on nodes known to be symbols.
+-   Language substitution (`subsMethod='langsubs'` the new default). In this mode user code is captured as an abstract syntax tree (or parse tree) and substitution is performed only on nodes known to be symbols.
 -   String substitution (`subsMethod='stringsubs'`, the CRAN current default). In this mode user code is captured as text and then string replacement on word-boundaries is used to substitute in variable re-mappings.
 -   Substitute substitution (`subsMethod='subsubs'`, new to the development version). In this mode substitution is performed by `R`'s own `base::substitute()`.
 
@@ -21,8 +21,8 @@ The semantics of the three methods can be illustrated by showing the effects of 
 
 ``` r
   {
-    d <- data.frame("X" = X, s = "XX", X2 = "X", .X = X_)
-    X <- list(X = d$X, X2 = d$"X", q1 = `X`, q2 = ` X`)
+    d <- data.frame("X" = "X", X2 = "XX", d = X*X, .X = X_)
+    X <- list(X = d$X, X2 = d$"X", v1 = `X`, v2 = ` X`)
   }
 ```
 
@@ -36,20 +36,20 @@ library("wrapr")
 let(
   c(X = 'y'), 
   {
-    d <- data.frame("X" = X, s = "XX", X2 = "X", .X = X_)
-    X <- list(X = d$X, X2 = d$"X", q1 = `X`, q2 = ` X`)
+    d <- data.frame("X" = "X", X2 = "XX", d = X*X, .X = X_)
+    X <- list(X = d$X, X2 = d$"X", v1 = `X`, v2 = ` X`)
   },
   eval = FALSE, subsMethod = 'langsubs')
 ```
 
     ## {
-    ##     d <- data.frame(y = y, s = "XX", X2 = "X", .X = X_)
-    ##     y <- list(y = d$y, X2 = d$X, q1 = y, q2 = ` X`)
+    ##     d <- data.frame(y = "X", X2 = "XX", d = y * y, .X = X_)
+    ##     y <- list(y = d$y, X2 = d$y, v1 = y, v2 = ` X`)
     ## }
 
-Notice the substitution replaced all symbol-like uses of "`X`", and only these. The only foible is the `d$"X"` did not get replaced with `d$y`. We will just have to leave that as code you are not supposed to include inside a `wrapr::let()` block (i.e., *please* write `d$X`, not `d$"X"`).
+Notice the substitution replaced all symbol-like uses of "`X`", and only these (including some that were quoted!).
 
-The reason I need more testing on this method is `R` language structures are fairly complicated, so there may be some corner cases we want additional coding for.
+The reason I need more testing on this method is `R` language structures are fairly complicated, so there may be some corner cases we want additional coding for. For example treating `d$"X"` the same as `d$X` is in fact handled by some special-case code.
 
 #### String substitution (`subsMethod='stringsubs'`)
 
@@ -57,35 +57,37 @@ The reason I need more testing on this method is `R` language structures are fai
 let(
   c(X = 'y'), 
   {
-    d <- data.frame("X" = X, s = "XX", X2 = "X", .X = X_)
-    X <- list(X = d$X, X2 = d$"X", q1 = `X`, q2 = ` X`)
+    d <- data.frame("X" = "X", X2 = "XX", d = X*X, .X = X_)
+    X <- list(X = d$X, X2 = d$"X", v1 = `X`, v2 = ` X`)
   },
   eval = FALSE, subsMethod = 'stringsubs')
 ```
 
     ## expression({
-    ##     d <- data.frame(y = y, s = "XX", X2 = "y", .y = X_)
-    ##     y <- list(y = d$y, X2 = d$y, q1 = y, q2 = ` y`)
+    ##     d <- data.frame(y = "y", X2 = "XX", d = y * y, .y = X_)
+    ##     y <- list(y = d$y, X2 = d$y, v1 = y, v2 = ` y`)
     ## })
 
 Notice string substitution has a few flaws: it went after variable names that appeared to start with a word-boundary (the cases where the variable name started with a dot or a space). Substitution also occurred in some string constants (which as we have seen could be considered a good thing).
 
 These situations are all avoidable as both the code inside the `let`-block and the substitution targets are chosen by the programmer, so they can be chosen to be simple and mutually consisitent. We suggest "`ALL_CAPS`" style substitution targets as they jump out as being macro targets. But, of course, it is better to have stricter control on substitution.
 
+Think of the language substitution implementation as a lower-bound on a perfect implementation (cautious, with a few corner cases to get coverage) and string substitution as an upper bound on a perfect implementation (aggressive, with a few over-reaches).
+
 #### Substitute substitution (`subsMethod='subsubs'`)
 
 ``` r
 let(c(X = 'y'), 
     {
-      d <- data.frame("X" = X, s = "XX", X2 = "X", .X = X_)
-      X <- list(X = d$X, X2 = d$"X", q1 = `X`, q2 = ` X`)
+      d <- data.frame("X" = "X", X2 = "XX", d = X*X, .X = X_)
+      X <- list(X = d$X, X2 = d$"X", v1 = `X`, v2 = ` X`)
     },
     eval = FALSE, subsMethod = 'subsubs')
 ```
 
     ## {
-    ##     d <- data.frame(X = y, s = "XX", X2 = "X", .X = X_)
-    ##     y <- list(X = d$y, X2 = d$X, q1 = y, q2 = ` X`)
+    ##     d <- data.frame(X = "X", X2 = "XX", d = y * y, .X = X_)
+    ##     y <- list(X = d$y, X2 = d$X, v1 = y, v2 = ` X`)
     ## }
 
 Notice `base::substitute()` doesn't re-write left-hand-sides of argument bindings. This is why I originally didn't consider using this implementation. Re-writing left-hand-sides of assignments is critical in expressions such as `dplyr::mutate( RESULTCOL = INPUTCOL + 1)`.
