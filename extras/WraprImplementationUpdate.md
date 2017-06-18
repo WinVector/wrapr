@@ -90,7 +90,7 @@ let(c(X = 'y'),
     ##     y <- list(X = d$y, X2 = d$X, v1 = y, v2 = ` X`)
     ## }
 
-Notice `base::substitute()` doesn't re-write left-hand-sides of argument bindings. This is why I originally didn't consider using this implementation. Re-writing left-hand-sides of assignments is critical in expressions such as `dplyr::mutate( RESULTCOL = INPUTCOL + 1)`.
+Notice `base::substitute()` doesn't re-write left-hand-sides of argument bindings. This is why I originally didn't consider using this implementation. Re-writing left-hand-sides of assignments is critical in expressions such as `dplyr::mutate( RESULTCOL = INPUTCOL + 1)`. Also `base::substitute()` doesn't special case the `d$"X"` situation (which really isn't that important).
 
 Conclusion
 ----------
