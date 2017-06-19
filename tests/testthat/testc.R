@@ -6,6 +6,7 @@ test_that("testc.R", {
   ` X` <- 3
   y <- 7
   X <- 2
+  X_ <- 5
 
   let(
     c(X = 'y'),
