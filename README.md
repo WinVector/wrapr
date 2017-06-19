@@ -1,5 +1,5 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-This document describes `wrapr`, an [R](https://cran.r-project.org) package available from [Github](https://github.com/WinVector/wrapr) and [CRAN](https://CRAN.R-project.org/).
+This document describes `wrapr`, an [R](https://cran.r-project.org) package available from [Github](https://github.com/WinVector/wrapr) (via `devtools::install_github("WinVector/wrapr")`) and [CRAN](https://CRAN.R-project.org/) (via `install.packages("wrapr")`).
 
 Introduction
 ------------
