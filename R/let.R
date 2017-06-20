@@ -284,7 +284,7 @@ letprep_lang <- function(alias, lexpr) {
 #' @param subsMethod character substitution method, one of  c('langsubs', 'stringsubs', 'subsubs').
 #' @param eval logical if TRUE execute the re-mapped expression (else return it).
 #' @param debugPrint logical if TRUE print debugging information when in stringsubs mode.
-#' @return result of expr executed in calling environment
+#' @return result of expr executed in calling environment (or expression if eval==FALSE)
 #'
 #' @examples
 #'
@@ -382,10 +382,10 @@ let <- function(alias, expr,
   } else {
     stop(paste("wrapr::let unexpected subsMethod '", subsMethod, "'"))
   }
-  # try to execute expression in parent environment
   if(!eval) {
     return(exprS)
   }
+  # try to execute expression in parent environment
   rm(list=setdiff(ls(),'exprS'))
   eval(exprS,
        envir=parent.frame(),

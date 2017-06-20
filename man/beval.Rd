@@ -39,3 +39,6 @@ terms <- paste(c('c1', 'c2', 'c3'), collapse = ' + ')
 print(beval((!!terms)))
 
 }
+\seealso{
+\code{\link{let}}, \code{\link{ateval}}, \code{\link{seval}}
+}

@@ -12,6 +12,7 @@
 #' Notation idea: Jonathan Carroll \url{https://jcarroll.com.au} \url{https://twitter.com/carroll_jono/status/842142292253196290}
 #' Similar to: \url{https://dev.mysql.com/doc/refman/5.7/en/user-variables.html}.
 #'
+#' @seealso \code{\link{let}}, \code{\link{beval}},  \code{\link{seval}}
 #'
 #' @param . character text of expression or block to evaluate
 #'
@@ -80,6 +81,8 @@ ateval <- function(.) {
 #' Notation idea: \url{https://github.com/hadley/dplyr/commit/8f03f835185370626a566e95d268623b20189e07}.
 #' Note: "\code{!!}" is not a no-op, but is a sufficiently uncommon expression I thought we could use it.
 #'
+#' @seealso \code{\link{let}}, \code{\link{ateval}}, \code{\link{seval}}
+#'
 #' @param ... expression or block to evaluate
 #'
 #' @examples
@@ -144,3 +147,58 @@ beval <- function(...) {
        envir=pf,
        enclos=pf)
 }
+
+
+#' Execute expr with general substitutions specified in alias.
+#'
+#' @seealso \code{\link{let}}, \code{\link{ateval}}, \code{\link{beval}}
+#'
+#'
+#' @param alias mapping from free names in expr to target names to use.
+#' @param expr block to prepare for execution.
+#' @param ... force later arguments to be bound by name.
+#' @param eval logical if TRUE execute the re-mapped expression (else return it).
+#' @param debugPrint logical if TRUE print debugging information when in stringsubs mode.
+#' @return result of expr executed in calling environment (or expression if eval==FALSE)
+#'
+#' @examples
+#'
+#' seval(c(COLS= "c('Sepal.Width', 'Petal.Length')"),
+#'       head(iris[, COLS, drop=FALSE]) )
+#'
+#' @export
+seval <- function(alias, expr,
+                  ...,
+                  eval= TRUE,
+                  debugPrint= FALSE) {
+  exprQ <- deparse(substitute(expr))  # do this early before things enter local environment
+  if(length(list(...))>0) {
+    stop("wrapr::seval unexpected arguments")
+  }
+  body <- exprQ
+  for (ni in names(alias)) {
+    value <- alias[[ni]]
+    if(!is.null(value)) {
+      value <- as.character(value)
+      if(ni!=value) {
+        pattern <- paste0("\\b", ni, "\\b")
+        body <- gsub(pattern, value, body)
+      }
+    }
+  }
+  exprS <- parse(text= body)
+  if(debugPrint) {
+    print(exprS)
+  }
+  if(!eval) {
+    return(exprS)
+  }
+  # try to execute expression in parent environment
+  rm(list=setdiff(ls(),'exprS'))
+  eval(exprS,
+       envir=parent.frame(),
+       enclos=parent.frame())
+}
+
+
+

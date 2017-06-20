@@ -21,7 +21,7 @@ let(alias, expr, ..., subsMethod = "langsubs", eval = TRUE,
 \item{debugPrint}{logical if TRUE print debugging information when in stringsubs mode.}
 }
 \value{
-result of expr executed in calling environment
+result of expr executed in calling environment (or expression if eval==FALSE)
 }
 \description{
 \code{let} implements a mapping from desired names (names used directly in the expr code) to names used in the data.
