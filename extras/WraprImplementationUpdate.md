@@ -22,7 +22,7 @@ The semantics of the three methods can be illustrated by showing the effects of 
 ``` r
   {
     d <- data.frame("X" = "X", X2 = "XX", d = X*X, .X = X_)
-    X <- list(X = d$X, X2 = d$"X", v1 = `X`, v2 = ` X`)
+    X <- list(X = d$X, X2 = d$"X", v1 = `X`, v2 = ` X`, F(1:2))
   }
 ```
 
@@ -34,17 +34,17 @@ This block a lot of different examples and corner-cases.
 library("wrapr")
 
 let(
-  c(X = 'y'), 
+  c(X = 'y', F = 'sin'), 
   {
     d <- data.frame("X" = "X", X2 = "XX", d = X*X, .X = X_)
-    X <- list(X = d$X, X2 = d$"X", v1 = `X`, v2 = ` X`)
+    X <- list(X = d$X, X2 = d$"X", v1 = `X`, v2 = ` X`, F(1:2))
   },
   eval = FALSE, subsMethod = 'langsubs')
 ```
 
     ## {
     ##     d <- data.frame(y = "X", X2 = "XX", d = y * y, .X = X_)
-    ##     y <- list(y = d$y, X2 = d$y, v1 = y, v2 = ` X`)
+    ##     y <- list(y = d$y, X2 = d$y, v1 = y, v2 = ` X`, sin(1:2))
     ## }
 
 Notice the substitution replaced all symbol-like uses of "`X`", and only these (including some that were quoted!).
@@ -55,17 +55,17 @@ The reason I need more testing on this method is `R` language structures are fai
 
 ``` r
 let(
-  c(X = 'y'), 
+  c(X = 'y', F = 'sin'), 
   {
     d <- data.frame("X" = "X", X2 = "XX", d = X*X, .X = X_)
-    X <- list(X = d$X, X2 = d$"X", v1 = `X`, v2 = ` X`)
+    X <- list(X = d$X, X2 = d$"X", v1 = `X`, v2 = ` X`, F(1:2))
   },
   eval = FALSE, subsMethod = 'stringsubs')
 ```
 
     ## expression({
     ##     d <- data.frame(y = "y", X2 = "XX", d = y * y, .y = X_)
-    ##     y <- list(y = d$y, X2 = d$y, v1 = y, v2 = ` y`)
+    ##     y <- list(y = d$y, X2 = d$y, v1 = y, v2 = ` y`, sin(1:2))
     ## })
 
 Notice string substitution has a few flaws: it went after variable names that appeared to start with a word-boundary (the cases where the variable name started with a dot or a space). Substitution also occurred in some string constants (which as we have seen could be considered a good thing).
@@ -77,17 +77,17 @@ Think of the language substitution implementation as a lower-bound on a perfect 
 #### Substitute substitution (`subsMethod='subsubs'`)
 
 ``` r
-let(c(X = 'y'), 
+let(c(X = 'y', F = 'sin'), 
     {
       d <- data.frame("X" = "X", X2 = "XX", d = X*X, .X = X_)
-      X <- list(X = d$X, X2 = d$"X", v1 = `X`, v2 = ` X`)
+      X <- list(X = d$X, X2 = d$"X", v1 = `X`, v2 = ` X`, F(1:2))
     },
     eval = FALSE, subsMethod = 'subsubs')
 ```
 
     ## {
     ##     d <- data.frame(X = "X", X2 = "XX", d = y * y, .X = X_)
-    ##     y <- list(X = d$y, X2 = d$X, v1 = y, v2 = ` X`)
+    ##     y <- list(X = d$y, X2 = d$X, v1 = y, v2 = ` X`, sin(1:2))
     ## }
 
 Notice `base::substitute()` doesn't re-write left-hand-sides of argument bindings. This is why I originally didn't consider using this implementation. Re-writing left-hand-sides of assignments is critical in expressions such as `dplyr::mutate( RESULTCOL = INPUTCOL + 1)`. Also `base::substitute()` doesn't special case the `d$"X"` situation (which really isn't that important).

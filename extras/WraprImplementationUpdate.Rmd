@@ -29,7 +29,7 @@ The semantics of the three methods can be illustrated by showing the effects of 
 ```r
   {
     d <- data.frame("X" = "X", X2 = "XX", d = X*X, .X = X_)
-    X <- list(X = d$X, X2 = d$"X", v1 = `X`, v2 = ` X`)
+    X <- list(X = d$X, X2 = d$"X", v1 = `X`, v2 = ` X`, F(1:2))
   }
 ```
 
@@ -41,10 +41,10 @@ This block a lot of different examples and corner-cases.
 library("wrapr")
 
 let(
-  c(X = 'y'), 
+  c(X = 'y', F = 'sin'), 
   {
     d <- data.frame("X" = "X", X2 = "XX", d = X*X, .X = X_)
-    X <- list(X = d$X, X2 = d$"X", v1 = `X`, v2 = ` X`)
+    X <- list(X = d$X, X2 = d$"X", v1 = `X`, v2 = ` X`, F(1:2))
   },
   eval = FALSE, subsMethod = 'langsubs')
 ```
@@ -57,10 +57,10 @@ The reason I need more testing on this method is `R` language structures are fai
 
 ```{r exstr}
 let(
-  c(X = 'y'), 
+  c(X = 'y', F = 'sin'), 
   {
     d <- data.frame("X" = "X", X2 = "XX", d = X*X, .X = X_)
-    X <- list(X = d$X, X2 = d$"X", v1 = `X`, v2 = ` X`)
+    X <- list(X = d$X, X2 = d$"X", v1 = `X`, v2 = ` X`, F(1:2))
   },
   eval = FALSE, subsMethod = 'stringsubs')
 ```
@@ -74,15 +74,17 @@ Think of the language substitution implementation as a lower-bound on a perfect 
 #### Substitute substitution  (`subsMethod='subsubs'`)
 
 ```{r exsubs}
-let(c(X = 'y'), 
+let(c(X = 'y', F = 'sin'), 
     {
       d <- data.frame("X" = "X", X2 = "XX", d = X*X, .X = X_)
-      X <- list(X = d$X, X2 = d$"X", v1 = `X`, v2 = ` X`)
+      X <- list(X = d$X, X2 = d$"X", v1 = `X`, v2 = ` X`, F(1:2))
     },
     eval = FALSE, subsMethod = 'subsubs')
 ```
 
 Notice `base::substitute()` doesn't re-write left-hand-sides of argument bindings.  This is why I originally didn't consider using this implementation. Re-writing left-hand-sides of assignments is critical in expressions such as `dplyr::mutate( RESULTCOL = INPUTCOL + 1)`.   Also `base::substitute()` doesn't special case the `d$"X"` situation (which really isn't that important).
+
+
 
 ## Conclusion
 
