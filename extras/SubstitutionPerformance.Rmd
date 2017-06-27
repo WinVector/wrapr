@@ -7,6 +7,7 @@ output:
     variant: markdown_github
 ---
 
+Some timings for [`wrapr::let()`](https://github.com/WinVector/wrapr).
 
 Keep in mind for any *serious* application the calculation time on data will far dominate any expression re-write time from either `rlang`/`tidyeval` or `wrapr`.  But it has been [asked what the timings are](http://www.win-vector.com/blog/2017/06/please-consider-using-wraprlet-for-replacement-tasks/#comment-66574), and it is fun to look.
 
@@ -203,7 +204,9 @@ dfits$fn <- names(fits)
 # "size" is slope or growth rate
 print(dfits)
 
-# solve for size where two lines interesect
+# solve for size where two lines interesect.
+# Note: this is a naive estimate, and not stable
+# in the face of estimated slopes and intercepts.
 solve <- function(dfits, f1, f2) {
   idx1 <- which(dfits$fn==f1)
   idx2 <- which(dfits$fn==f2)

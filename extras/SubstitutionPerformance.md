@@ -1,3 +1,5 @@
+Some timings for [`wrapr::let()`](https://github.com/WinVector/wrapr).
+
 Keep in mind for any *serious* application the calculation time on data will far dominate any expression re-write time from either `rlang`/`tidyeval` or `wrapr`. But it has been [asked what the timings are](http://www.win-vector.com/blog/2017/06/please-consider-using-wraprlet-for-replacement-tasks/#comment-66574), and it is fun to look.
 
 So we will compare:
@@ -182,15 +184,15 @@ print(bm)
 
     ## Unit: microseconds
     ##        expr      min        lq      mean    median        uq       max
-    ##   fWrapr1()   91.433  121.4530  176.2621  167.5810  188.0125  2139.932
-    ##   fTidyN1()  874.199  931.2350 1173.1325  977.3835 1196.2440  5845.849
-    ##   fTidyQ1() 1244.919 1320.2530 1663.9862 1391.2795 1785.2260  8399.738
-    ##   fWrapr5()  189.570  228.7015  306.6752  276.9290  309.8075  3655.244
-    ##   fTidyN5()  887.161  947.4945 1215.8974  997.2010 1261.4300 13105.914
-    ##   fTidyQ5() 2704.216 2852.1515 3576.2769 3020.6920 3810.2780 52277.314
-    ##  fWrapr10()  303.655  358.1110  471.3713  409.3945  460.9975  8310.655
-    ##  fTidyN10()  904.735  973.8165 1247.9337 1027.7800 1289.6480 11833.921
-    ##  fTidyQ10() 4523.994 4815.8035 5938.2648 5152.9105 6481.9520 28247.704
+    ##   fWrapr1()   94.808  124.6830  151.1815  145.1510  167.0010  2025.283
+    ##   fTidyN1()  867.243  916.9460  974.6151  940.3315  973.7615  5445.236
+    ##   fTidyQ1() 1226.214 1291.3980 1394.0346 1324.0195 1373.2235  7001.943
+    ##   fWrapr5()  195.518  227.6045  267.3506  250.3230  276.7485  3346.456
+    ##   fTidyN5()  885.377  937.4605 1012.9046  959.4220  992.6475 10740.776
+    ##   fTidyQ5() 2678.875 2791.9510 3024.8745 2862.5725 2987.6835 13278.641
+    ##  fWrapr10()  312.794  352.9460  405.8907  377.0585  407.9080  7829.577
+    ##  fTidyN10()  907.069  955.2185 1085.2469  978.7650 1018.6950 53768.089
+    ##  fTidyQ10() 4471.858 4672.8420 5009.7338 4796.5425 5033.6830 10063.340
     ##  neval
     ##   1000
     ##   1000
@@ -266,13 +268,15 @@ dfits$fn <- names(fits)
 print(dfits)
 ```
 
-    ##   Intercept       size     fn
-    ## 1 1168410.8   8233.212 fTidyN
-    ## 2 1193821.5 474816.470 fTidyQ
-    ## 3  143190.8  32796.023 fWrapr
+    ##   Intercept      size     fn
+    ## 1  958220.3  12381.60 fTidyN
+    ## 2 1001287.6 401548.76 fTidyQ
+    ## 3  123998.4  28276.72 fWrapr
 
 ``` r
-# solve for size where two lines interesect
+# solve for size where two lines interesect.
+# Note: this is a naive estimate, and not stable
+# in the face of estimated slopes and intercepts.
 solve <- function(dfits, f1, f2) {
   idx1 <- which(dfits$fn==f1)
   idx2 <- which(dfits$fn==f2)
@@ -285,10 +289,10 @@ crossingPoint <- solve(dfits, 'fTidyN', 'fWrapr')
 print(crossingPoint)
 ```
 
-    ## [1] 41.73871
+    ## [1] 52.48289
 
 Overall:
 
 -   Remember: these timings are *not* important, for any interesting calculation data manipulation time will quickly dominate expression manipulation time (meaning [tuning here is not important](https://en.wikipedia.org/wiki/Amdahl%27s_law)).
--   `fWrapr*` is fastest, but seems to have worse size dependent growth rate (or slope) than `fTidyN*`. This means that we would expect at some large substitution size `fTidyN*` could become quicker (about 42 or more variables). Likely `wrapr::let()` is paying too much for a map-lookup somewhere and this could be fixed at some point.
+-   `fWrapr*` is fastest, but seems to have worse size dependent growth rate (or slope) than `fTidyN*`. This means that we would expect at some large substitution size `fTidyN*` could become quicker (about 52 or more variables). Likely `wrapr::let()` is paying too much for a map-lookup somewhere and this could be fixed at some point.
 -   `fTidyQ*` is very much slower with a much worse slope. Likely the slope is also some expensive mapping that can also be fixed.
