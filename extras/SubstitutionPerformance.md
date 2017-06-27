@@ -25,7 +25,7 @@ for(i in seq(0, nvars-1)) {
 }
 
 fWrapr_1 <- function() {
-  wrapr::let(
+  let(
    c( NM_0 = 'var_0' ),
    NM_0
  )}
@@ -59,7 +59,7 @@ fTidyQ_1()
 
 ``` r
 fWrapr_5 <- function() {
-  wrapr::let(
+  let(
    c( NM_0 = 'var_0', NM_1 = 'var_1', NM_2 = 'var_2', NM_3 = 'var_3', NM_4 = 'var_4' ),
    NM_0 + NM_1 + NM_2 + NM_3 + NM_4
  )}
@@ -138,32 +138,32 @@ print(bm)
 ```
 
     ## Unit: microseconds
-    ##         expr       min         lq       mean    median        uq
-    ##   fWrapr_1()   167.001   248.4945   348.0398   288.128   372.710
-    ##   fTidyN_1()  1452.355  1806.4790  2728.6704  2177.644  2767.701
-    ##   fTidyQ_1()  2069.096  2640.8270  3509.6158  3151.965  3867.936
-    ##   fWrapr_5()   347.233   488.1820   696.7221   564.073   742.475
-    ##   fTidyN_5()  1473.380  1828.5410  2552.3266  2139.356  2797.641
-    ##   fTidyQ_5()  4658.711  6122.6120  7851.6910  6942.704  8154.983
-    ##  fWrapr_10()   581.950   759.6370  1098.4297   849.695  1119.257
-    ##  fTidyN_10()  1483.017  1879.3650  2639.3601  2202.217  2852.215
-    ##  fTidyQ_10()  8316.819 10523.1680 13777.6016 11621.012 13195.401
-    ##  fWrapr_25()  1334.397  1634.3900  2270.5854  1852.919  2458.212
-    ##  fTidyN_25()  1547.930  1985.1280  2775.9654  2334.631  3053.285
-    ##  fTidyQ_25() 19634.908 23834.2485 28061.7213 25523.425 28239.903
-    ##         max neval
-    ##   10037.589  1000
-    ##  215533.911  1000
-    ##   22641.909  1000
-    ##    7154.883  1000
-    ##   45975.217  1000
-    ##  218724.513  1000
-    ##   39353.159  1000
-    ##   55276.051  1000
-    ##  329141.257  1000
-    ##   50153.143  1000
-    ##   60156.841  1000
-    ##  253155.321  1000
+    ##         expr       min         lq       mean    median         uq
+    ##   fWrapr_1()   145.735   181.1520   237.9062   220.708   251.5510
+    ##   fTidyN_1()  1365.729  1446.4355  1792.4694  1608.348  1970.5275
+    ##   fTidyQ_1()  1938.561  2073.4885  2579.4358  2302.308  2886.3375
+    ##   fWrapr_5()   330.086   393.6680   490.4902   428.039   512.1080
+    ##   fTidyN_5()  1386.237  1474.9000  1884.3215  1657.920  2090.2950
+    ##   fTidyQ_5()  4288.974  4620.4470  5603.4359  5225.815  6333.5840
+    ##  fWrapr_10()   556.672   622.0985   773.5402   664.699   818.9505
+    ##  fTidyN_10()  1400.824  1494.5610  1894.3997  1655.782  2050.6070
+    ##  fTidyQ_10()  7208.277  7750.0125  9437.7881  8948.324 10409.2875
+    ##  fWrapr_25()  1260.949  1355.7435  1616.4876  1443.938  1740.2485
+    ##  fTidyN_25()  1471.529  1566.0075  1949.3996  1740.274  2187.2590
+    ##  fTidyQ_25() 16016.757 17964.6150 20568.9579 20125.162 22293.2890
+    ##        max neval
+    ##   3402.335  1000
+    ##   7826.433  1000
+    ##  11562.311  1000
+    ##   5733.013  1000
+    ##  18709.916  1000
+    ##  24059.602  1000
+    ##  11497.049  1000
+    ##  44358.866  1000
+    ##  71817.655  1000
+    ##   4329.779  1000
+    ##   5241.169  1000
+    ##  85265.523  1000
 
 ``` r
 autoplot(bm)
@@ -229,10 +229,10 @@ dfits$fn <- names(fits)
 print(dfits)
 ```
 
-    ##   Intercept        size     fn
-    ## 1 2623079.1    4975.762 fTidyN
-    ## 2 2863266.0 1018233.305 fTidyQ
-    ## 3  287182.7   79635.277 fWrapr
+    ##   Intercept       size     fn
+    ## 1 1824147.9   5463.382 fTidyN
+    ## 2 1869438.2 749069.878 fTidyQ
+    ## 3  194694.4  57064.556 fWrapr
 
 ``` r
 # solve for size where two lines interesect.
@@ -250,10 +250,10 @@ crossingPoint <- solve(dfits, 'fTidyN', 'fWrapr')
 print(crossingPoint)
 ```
 
-    ## [1] 31.28732
+    ## [1] 31.57784
 
 Overall:
 
 -   Remember: these timings are *not* important, for any interesting calculation data manipulation time will quickly dominate expression manipulation time (meaning [tuning here is not important](https://en.wikipedia.org/wiki/Amdahl%27s_law)).
--   `fWrapr*` is fastest, but seems to have worse size dependent growth rate (or slope) than `fTidyN*`. This means that we would expect at some large substitution size `fTidyN*` could become quicker (about 31 or more variables). Likely `wrapr::let()` is paying too much for a map-lookup somewhere and this could be fixed at some point.
+-   `fWrapr*` is fastest, but seems to have worse size dependent growth rate (or slope) than `fTidyN*`. This means that we would expect at some large substitution size `fTidyN*` could become quicker (about 32 or more variables). Likely `wrapr::let()` is paying too much for a map-lookup somewhere and this could be fixed at some point.
 -   `fTidyQ*` is very much slower with a much worse slope. Likely the slope is also some expensive mapping that can also be fixed.

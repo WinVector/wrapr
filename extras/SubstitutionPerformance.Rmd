@@ -25,20 +25,20 @@ buildFnsK <- function(k) {
   
   aliasStr <- paste("c(",
                     paste(paste(nmlist, "=", paste0("'", varlist, "'"),
-                                collapse= ", "),
+                                collapse= ",\n    "),
                           ")"))
-  exprStr <- paste(nmlist, collapse= " + ")
+  exprStr <- paste(nmlist, collapse= " +\n    ")
   
   wFn <- paste0("
 fWrapr_", k, " <- function() {
-  wrapr::let(
+  let(
    ", aliasStr, ",
    ", exprStr, "
  )}
 ")
   t1Str <- paste(nmlist, "=", paste0("as.name('", varlist, "')"),
                  collapse= "\n   ")
-  t1Expr <- exprStr <- paste(paste0("(!!", nmlist, ")"), collapse= " + ")
+  t1Expr <- exprStr <- paste(paste0("(!!", nmlist, ")"), collapse= " +\n    ")
   
   tFn1 <- paste0("
 fTidyN_", k, " <- function() {
@@ -90,7 +90,7 @@ for(i in seq(0, nvars-1)) {
 }
 
 fWrapr_1 <- function() {
-  wrapr::let(
+  let(
    c( NM_0 = 'var_0' ),
    NM_0
  )}
@@ -111,7 +111,7 @@ fTidyQ_1()
 
 
 fWrapr_5 <- function() {
-  wrapr::let(
+  let(
    c( NM_0 = 'var_0', NM_1 = 'var_1', NM_2 = 'var_2', NM_3 = 'var_3', NM_4 = 'var_4' ),
    NM_0 + NM_1 + NM_2 + NM_3 + NM_4
  )}

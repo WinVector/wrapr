@@ -1,8 +1,26 @@
 
 fWrapr_10 <- function() {
-  wrapr::let(
-   c( NM_0 = 'var_0', NM_1 = 'var_1', NM_2 = 'var_2', NM_3 = 'var_3', NM_4 = 'var_4', NM_5 = 'var_5', NM_6 = 'var_6', NM_7 = 'var_7', NM_8 = 'var_8', NM_9 = 'var_9' ),
-   NM_0 + NM_1 + NM_2 + NM_3 + NM_4 + NM_5 + NM_6 + NM_7 + NM_8 + NM_9
+  let(
+   c( NM_0 = 'var_0',
+    NM_1 = 'var_1',
+    NM_2 = 'var_2',
+    NM_3 = 'var_3',
+    NM_4 = 'var_4',
+    NM_5 = 'var_5',
+    NM_6 = 'var_6',
+    NM_7 = 'var_7',
+    NM_8 = 'var_8',
+    NM_9 = 'var_9' ),
+   NM_0 +
+    NM_1 +
+    NM_2 +
+    NM_3 +
+    NM_4 +
+    NM_5 +
+    NM_6 +
+    NM_7 +
+    NM_8 +
+    NM_9
  )}
  
 fTidyN_10 <- function() {
@@ -16,7 +34,16 @@ fTidyN_10 <- function() {
    NM_7 = as.name('var_7')
    NM_8 = as.name('var_8')
    NM_9 = as.name('var_9')
-   eval_tidy(quo( (!!NM_0) + (!!NM_1) + (!!NM_2) + (!!NM_3) + (!!NM_4) + (!!NM_5) + (!!NM_6) + (!!NM_7) + (!!NM_8) + (!!NM_9) ))
+   eval_tidy(quo( (!!NM_0) +
+    (!!NM_1) +
+    (!!NM_2) +
+    (!!NM_3) +
+    (!!NM_4) +
+    (!!NM_5) +
+    (!!NM_6) +
+    (!!NM_7) +
+    (!!NM_8) +
+    (!!NM_9) ))
 }
  
 fTidyQ_10 <- function() {
@@ -30,13 +57,70 @@ fTidyQ_10 <- function() {
    NM_7 = quo(var_7)
    NM_8 = quo(var_8)
    NM_9 = quo(var_9)
-   eval_tidy(quo( (!!NM_0) + (!!NM_1) + (!!NM_2) + (!!NM_3) + (!!NM_4) + (!!NM_5) + (!!NM_6) + (!!NM_7) + (!!NM_8) + (!!NM_9) ))
+   eval_tidy(quo( (!!NM_0) +
+    (!!NM_1) +
+    (!!NM_2) +
+    (!!NM_3) +
+    (!!NM_4) +
+    (!!NM_5) +
+    (!!NM_6) +
+    (!!NM_7) +
+    (!!NM_8) +
+    (!!NM_9) ))
 }
  
 fWrapr_25 <- function() {
-  wrapr::let(
-   c( NM_0 = 'var_0', NM_1 = 'var_1', NM_2 = 'var_2', NM_3 = 'var_3', NM_4 = 'var_4', NM_5 = 'var_5', NM_6 = 'var_6', NM_7 = 'var_7', NM_8 = 'var_8', NM_9 = 'var_9', NM_10 = 'var_10', NM_11 = 'var_11', NM_12 = 'var_12', NM_13 = 'var_13', NM_14 = 'var_14', NM_15 = 'var_15', NM_16 = 'var_16', NM_17 = 'var_17', NM_18 = 'var_18', NM_19 = 'var_19', NM_20 = 'var_20', NM_21 = 'var_21', NM_22 = 'var_22', NM_23 = 'var_23', NM_24 = 'var_24' ),
-   NM_0 + NM_1 + NM_2 + NM_3 + NM_4 + NM_5 + NM_6 + NM_7 + NM_8 + NM_9 + NM_10 + NM_11 + NM_12 + NM_13 + NM_14 + NM_15 + NM_16 + NM_17 + NM_18 + NM_19 + NM_20 + NM_21 + NM_22 + NM_23 + NM_24
+  let(
+   c( NM_0 = 'var_0',
+    NM_1 = 'var_1',
+    NM_2 = 'var_2',
+    NM_3 = 'var_3',
+    NM_4 = 'var_4',
+    NM_5 = 'var_5',
+    NM_6 = 'var_6',
+    NM_7 = 'var_7',
+    NM_8 = 'var_8',
+    NM_9 = 'var_9',
+    NM_10 = 'var_10',
+    NM_11 = 'var_11',
+    NM_12 = 'var_12',
+    NM_13 = 'var_13',
+    NM_14 = 'var_14',
+    NM_15 = 'var_15',
+    NM_16 = 'var_16',
+    NM_17 = 'var_17',
+    NM_18 = 'var_18',
+    NM_19 = 'var_19',
+    NM_20 = 'var_20',
+    NM_21 = 'var_21',
+    NM_22 = 'var_22',
+    NM_23 = 'var_23',
+    NM_24 = 'var_24' ),
+   NM_0 +
+    NM_1 +
+    NM_2 +
+    NM_3 +
+    NM_4 +
+    NM_5 +
+    NM_6 +
+    NM_7 +
+    NM_8 +
+    NM_9 +
+    NM_10 +
+    NM_11 +
+    NM_12 +
+    NM_13 +
+    NM_14 +
+    NM_15 +
+    NM_16 +
+    NM_17 +
+    NM_18 +
+    NM_19 +
+    NM_20 +
+    NM_21 +
+    NM_22 +
+    NM_23 +
+    NM_24
  )}
  
 fTidyN_25 <- function() {
@@ -65,7 +149,31 @@ fTidyN_25 <- function() {
    NM_22 = as.name('var_22')
    NM_23 = as.name('var_23')
    NM_24 = as.name('var_24')
-   eval_tidy(quo( (!!NM_0) + (!!NM_1) + (!!NM_2) + (!!NM_3) + (!!NM_4) + (!!NM_5) + (!!NM_6) + (!!NM_7) + (!!NM_8) + (!!NM_9) + (!!NM_10) + (!!NM_11) + (!!NM_12) + (!!NM_13) + (!!NM_14) + (!!NM_15) + (!!NM_16) + (!!NM_17) + (!!NM_18) + (!!NM_19) + (!!NM_20) + (!!NM_21) + (!!NM_22) + (!!NM_23) + (!!NM_24) ))
+   eval_tidy(quo( (!!NM_0) +
+    (!!NM_1) +
+    (!!NM_2) +
+    (!!NM_3) +
+    (!!NM_4) +
+    (!!NM_5) +
+    (!!NM_6) +
+    (!!NM_7) +
+    (!!NM_8) +
+    (!!NM_9) +
+    (!!NM_10) +
+    (!!NM_11) +
+    (!!NM_12) +
+    (!!NM_13) +
+    (!!NM_14) +
+    (!!NM_15) +
+    (!!NM_16) +
+    (!!NM_17) +
+    (!!NM_18) +
+    (!!NM_19) +
+    (!!NM_20) +
+    (!!NM_21) +
+    (!!NM_22) +
+    (!!NM_23) +
+    (!!NM_24) ))
 }
  
 fTidyQ_25 <- function() {
@@ -94,13 +202,135 @@ fTidyQ_25 <- function() {
    NM_22 = quo(var_22)
    NM_23 = quo(var_23)
    NM_24 = quo(var_24)
-   eval_tidy(quo( (!!NM_0) + (!!NM_1) + (!!NM_2) + (!!NM_3) + (!!NM_4) + (!!NM_5) + (!!NM_6) + (!!NM_7) + (!!NM_8) + (!!NM_9) + (!!NM_10) + (!!NM_11) + (!!NM_12) + (!!NM_13) + (!!NM_14) + (!!NM_15) + (!!NM_16) + (!!NM_17) + (!!NM_18) + (!!NM_19) + (!!NM_20) + (!!NM_21) + (!!NM_22) + (!!NM_23) + (!!NM_24) ))
+   eval_tidy(quo( (!!NM_0) +
+    (!!NM_1) +
+    (!!NM_2) +
+    (!!NM_3) +
+    (!!NM_4) +
+    (!!NM_5) +
+    (!!NM_6) +
+    (!!NM_7) +
+    (!!NM_8) +
+    (!!NM_9) +
+    (!!NM_10) +
+    (!!NM_11) +
+    (!!NM_12) +
+    (!!NM_13) +
+    (!!NM_14) +
+    (!!NM_15) +
+    (!!NM_16) +
+    (!!NM_17) +
+    (!!NM_18) +
+    (!!NM_19) +
+    (!!NM_20) +
+    (!!NM_21) +
+    (!!NM_22) +
+    (!!NM_23) +
+    (!!NM_24) ))
 }
  
 fWrapr_50 <- function() {
-  wrapr::let(
-   c( NM_0 = 'var_0', NM_1 = 'var_1', NM_2 = 'var_2', NM_3 = 'var_3', NM_4 = 'var_4', NM_5 = 'var_5', NM_6 = 'var_6', NM_7 = 'var_7', NM_8 = 'var_8', NM_9 = 'var_9', NM_10 = 'var_10', NM_11 = 'var_11', NM_12 = 'var_12', NM_13 = 'var_13', NM_14 = 'var_14', NM_15 = 'var_15', NM_16 = 'var_16', NM_17 = 'var_17', NM_18 = 'var_18', NM_19 = 'var_19', NM_20 = 'var_20', NM_21 = 'var_21', NM_22 = 'var_22', NM_23 = 'var_23', NM_24 = 'var_24', NM_25 = 'var_25', NM_26 = 'var_26', NM_27 = 'var_27', NM_28 = 'var_28', NM_29 = 'var_29', NM_30 = 'var_30', NM_31 = 'var_31', NM_32 = 'var_32', NM_33 = 'var_33', NM_34 = 'var_34', NM_35 = 'var_35', NM_36 = 'var_36', NM_37 = 'var_37', NM_38 = 'var_38', NM_39 = 'var_39', NM_40 = 'var_40', NM_41 = 'var_41', NM_42 = 'var_42', NM_43 = 'var_43', NM_44 = 'var_44', NM_45 = 'var_45', NM_46 = 'var_46', NM_47 = 'var_47', NM_48 = 'var_48', NM_49 = 'var_49' ),
-   NM_0 + NM_1 + NM_2 + NM_3 + NM_4 + NM_5 + NM_6 + NM_7 + NM_8 + NM_9 + NM_10 + NM_11 + NM_12 + NM_13 + NM_14 + NM_15 + NM_16 + NM_17 + NM_18 + NM_19 + NM_20 + NM_21 + NM_22 + NM_23 + NM_24 + NM_25 + NM_26 + NM_27 + NM_28 + NM_29 + NM_30 + NM_31 + NM_32 + NM_33 + NM_34 + NM_35 + NM_36 + NM_37 + NM_38 + NM_39 + NM_40 + NM_41 + NM_42 + NM_43 + NM_44 + NM_45 + NM_46 + NM_47 + NM_48 + NM_49
+  let(
+   c( NM_0 = 'var_0',
+    NM_1 = 'var_1',
+    NM_2 = 'var_2',
+    NM_3 = 'var_3',
+    NM_4 = 'var_4',
+    NM_5 = 'var_5',
+    NM_6 = 'var_6',
+    NM_7 = 'var_7',
+    NM_8 = 'var_8',
+    NM_9 = 'var_9',
+    NM_10 = 'var_10',
+    NM_11 = 'var_11',
+    NM_12 = 'var_12',
+    NM_13 = 'var_13',
+    NM_14 = 'var_14',
+    NM_15 = 'var_15',
+    NM_16 = 'var_16',
+    NM_17 = 'var_17',
+    NM_18 = 'var_18',
+    NM_19 = 'var_19',
+    NM_20 = 'var_20',
+    NM_21 = 'var_21',
+    NM_22 = 'var_22',
+    NM_23 = 'var_23',
+    NM_24 = 'var_24',
+    NM_25 = 'var_25',
+    NM_26 = 'var_26',
+    NM_27 = 'var_27',
+    NM_28 = 'var_28',
+    NM_29 = 'var_29',
+    NM_30 = 'var_30',
+    NM_31 = 'var_31',
+    NM_32 = 'var_32',
+    NM_33 = 'var_33',
+    NM_34 = 'var_34',
+    NM_35 = 'var_35',
+    NM_36 = 'var_36',
+    NM_37 = 'var_37',
+    NM_38 = 'var_38',
+    NM_39 = 'var_39',
+    NM_40 = 'var_40',
+    NM_41 = 'var_41',
+    NM_42 = 'var_42',
+    NM_43 = 'var_43',
+    NM_44 = 'var_44',
+    NM_45 = 'var_45',
+    NM_46 = 'var_46',
+    NM_47 = 'var_47',
+    NM_48 = 'var_48',
+    NM_49 = 'var_49' ),
+   NM_0 +
+    NM_1 +
+    NM_2 +
+    NM_3 +
+    NM_4 +
+    NM_5 +
+    NM_6 +
+    NM_7 +
+    NM_8 +
+    NM_9 +
+    NM_10 +
+    NM_11 +
+    NM_12 +
+    NM_13 +
+    NM_14 +
+    NM_15 +
+    NM_16 +
+    NM_17 +
+    NM_18 +
+    NM_19 +
+    NM_20 +
+    NM_21 +
+    NM_22 +
+    NM_23 +
+    NM_24 +
+    NM_25 +
+    NM_26 +
+    NM_27 +
+    NM_28 +
+    NM_29 +
+    NM_30 +
+    NM_31 +
+    NM_32 +
+    NM_33 +
+    NM_34 +
+    NM_35 +
+    NM_36 +
+    NM_37 +
+    NM_38 +
+    NM_39 +
+    NM_40 +
+    NM_41 +
+    NM_42 +
+    NM_43 +
+    NM_44 +
+    NM_45 +
+    NM_46 +
+    NM_47 +
+    NM_48 +
+    NM_49
  )}
  
 fTidyN_50 <- function() {
@@ -154,7 +384,56 @@ fTidyN_50 <- function() {
    NM_47 = as.name('var_47')
    NM_48 = as.name('var_48')
    NM_49 = as.name('var_49')
-   eval_tidy(quo( (!!NM_0) + (!!NM_1) + (!!NM_2) + (!!NM_3) + (!!NM_4) + (!!NM_5) + (!!NM_6) + (!!NM_7) + (!!NM_8) + (!!NM_9) + (!!NM_10) + (!!NM_11) + (!!NM_12) + (!!NM_13) + (!!NM_14) + (!!NM_15) + (!!NM_16) + (!!NM_17) + (!!NM_18) + (!!NM_19) + (!!NM_20) + (!!NM_21) + (!!NM_22) + (!!NM_23) + (!!NM_24) + (!!NM_25) + (!!NM_26) + (!!NM_27) + (!!NM_28) + (!!NM_29) + (!!NM_30) + (!!NM_31) + (!!NM_32) + (!!NM_33) + (!!NM_34) + (!!NM_35) + (!!NM_36) + (!!NM_37) + (!!NM_38) + (!!NM_39) + (!!NM_40) + (!!NM_41) + (!!NM_42) + (!!NM_43) + (!!NM_44) + (!!NM_45) + (!!NM_46) + (!!NM_47) + (!!NM_48) + (!!NM_49) ))
+   eval_tidy(quo( (!!NM_0) +
+    (!!NM_1) +
+    (!!NM_2) +
+    (!!NM_3) +
+    (!!NM_4) +
+    (!!NM_5) +
+    (!!NM_6) +
+    (!!NM_7) +
+    (!!NM_8) +
+    (!!NM_9) +
+    (!!NM_10) +
+    (!!NM_11) +
+    (!!NM_12) +
+    (!!NM_13) +
+    (!!NM_14) +
+    (!!NM_15) +
+    (!!NM_16) +
+    (!!NM_17) +
+    (!!NM_18) +
+    (!!NM_19) +
+    (!!NM_20) +
+    (!!NM_21) +
+    (!!NM_22) +
+    (!!NM_23) +
+    (!!NM_24) +
+    (!!NM_25) +
+    (!!NM_26) +
+    (!!NM_27) +
+    (!!NM_28) +
+    (!!NM_29) +
+    (!!NM_30) +
+    (!!NM_31) +
+    (!!NM_32) +
+    (!!NM_33) +
+    (!!NM_34) +
+    (!!NM_35) +
+    (!!NM_36) +
+    (!!NM_37) +
+    (!!NM_38) +
+    (!!NM_39) +
+    (!!NM_40) +
+    (!!NM_41) +
+    (!!NM_42) +
+    (!!NM_43) +
+    (!!NM_44) +
+    (!!NM_45) +
+    (!!NM_46) +
+    (!!NM_47) +
+    (!!NM_48) +
+    (!!NM_49) ))
 }
  
 fTidyQ_50 <- function() {
@@ -208,6 +487,55 @@ fTidyQ_50 <- function() {
    NM_47 = quo(var_47)
    NM_48 = quo(var_48)
    NM_49 = quo(var_49)
-   eval_tidy(quo( (!!NM_0) + (!!NM_1) + (!!NM_2) + (!!NM_3) + (!!NM_4) + (!!NM_5) + (!!NM_6) + (!!NM_7) + (!!NM_8) + (!!NM_9) + (!!NM_10) + (!!NM_11) + (!!NM_12) + (!!NM_13) + (!!NM_14) + (!!NM_15) + (!!NM_16) + (!!NM_17) + (!!NM_18) + (!!NM_19) + (!!NM_20) + (!!NM_21) + (!!NM_22) + (!!NM_23) + (!!NM_24) + (!!NM_25) + (!!NM_26) + (!!NM_27) + (!!NM_28) + (!!NM_29) + (!!NM_30) + (!!NM_31) + (!!NM_32) + (!!NM_33) + (!!NM_34) + (!!NM_35) + (!!NM_36) + (!!NM_37) + (!!NM_38) + (!!NM_39) + (!!NM_40) + (!!NM_41) + (!!NM_42) + (!!NM_43) + (!!NM_44) + (!!NM_45) + (!!NM_46) + (!!NM_47) + (!!NM_48) + (!!NM_49) ))
+   eval_tidy(quo( (!!NM_0) +
+    (!!NM_1) +
+    (!!NM_2) +
+    (!!NM_3) +
+    (!!NM_4) +
+    (!!NM_5) +
+    (!!NM_6) +
+    (!!NM_7) +
+    (!!NM_8) +
+    (!!NM_9) +
+    (!!NM_10) +
+    (!!NM_11) +
+    (!!NM_12) +
+    (!!NM_13) +
+    (!!NM_14) +
+    (!!NM_15) +
+    (!!NM_16) +
+    (!!NM_17) +
+    (!!NM_18) +
+    (!!NM_19) +
+    (!!NM_20) +
+    (!!NM_21) +
+    (!!NM_22) +
+    (!!NM_23) +
+    (!!NM_24) +
+    (!!NM_25) +
+    (!!NM_26) +
+    (!!NM_27) +
+    (!!NM_28) +
+    (!!NM_29) +
+    (!!NM_30) +
+    (!!NM_31) +
+    (!!NM_32) +
+    (!!NM_33) +
+    (!!NM_34) +
+    (!!NM_35) +
+    (!!NM_36) +
+    (!!NM_37) +
+    (!!NM_38) +
+    (!!NM_39) +
+    (!!NM_40) +
+    (!!NM_41) +
+    (!!NM_42) +
+    (!!NM_43) +
+    (!!NM_44) +
+    (!!NM_45) +
+    (!!NM_46) +
+    (!!NM_47) +
+    (!!NM_48) +
+    (!!NM_49) ))
 }
 
