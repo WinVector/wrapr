@@ -16,143 +16,149 @@ So we will compare:
  * `fWrapr*` `wrapr::let()` substitution (`"langsubs"` mode).
  * `fTidyN*` `rlang::eval_tidy()` substitution to quoted names (the closest I found to `wrapr::let()`).
  * `fTidyQ*` `rlang::eval_tidy()` substitution to `quo()` free names (what seems to be the preferred case/notation by `rlang` developers as it moves from NSE (non-standard evaluation interface) to NSE).
+ 
+```{r generator, include=FALSE, echo=FALSE}
+# build source code for fns of size k
+buildFnsK <- function(k) {
+  varlist <- paste0("var_", seq(0, k-1))
+  nmlist <- paste0("NM_", seq(0, k-1))
+  
+  aliasStr <- paste("c(",
+                    paste(paste(nmlist, "=", paste0("'", varlist, "'"),
+                                collapse= ", "),
+                          ")"))
+  exprStr <- paste(nmlist, collapse= " + ")
+  
+  wFn <- paste0("
+fWrapr_", k, " <- function() {
+  wrapr::let(
+   ", aliasStr, ",
+   ", exprStr, "
+ )}
+")
+  t1Str <- paste(nmlist, "=", paste0("as.name('", varlist, "')"),
+                 collapse= "\n   ")
+  t1Expr <- exprStr <- paste(paste0("(!!", nmlist, ")"), collapse= " + ")
+  
+  tFn1 <- paste0("
+fTidyN_", k, " <- function() {
+   ", t1Str, "
+   eval_tidy(quo( ", t1Expr, " ))
+}
+")
+  
+  t2Str <- paste(nmlist, "=", paste0("quo(", varlist, ")"),
+                 collapse= "\n   ")
+  
+  tFn2 <- paste0("
+fTidyQ_", k, " <- function() {
+   ", t2Str, "
+   eval_tidy(quo( ", t1Expr, " ))
+}
+")
+  
+  paste(wFn, tFn1, tFn2,
+        collapse = "\n\n\n")
+}
+
+ftext <- paste(
+  buildFnsK(10),
+  buildFnsK(25),
+  buildFnsK(50),
+  collapse = "\n\n")
+
+fileConn<-file("genFns.R")
+writeLines(ftext, fileConn)
+close(fileConn)
+
+```
 
 ```{r defs}
 library("microbenchmark")
 library("wrapr")
 library("rlang")
-library("ggplot2")
+suppressPackageStartupMessages(library("ggplot2"))
 suppressPackageStartupMessages(library("dplyr"))
 
-a <-  1
-b <-  2
-c <-  3
-d <-  4
-e <-  5
-f <-  6
-g <-  7
-h <-  8
-i <-  9
-j <- 10
+# load generated examples
+source("genFns.R")
 
-fWrapr1 <- function() {
+# load up vars
+nvars <- 200
+for(i in seq(0, nvars-1)) {
+  assign(paste('var', i, sep='_'), i)
+}
+
+fWrapr_1 <- function() {
   wrapr::let(
-    c(VAR1= 'a'),
-    VAR1
-  )
+   c( NM_0 = 'var_0' ),
+   NM_0
+ )}
+ 
+fTidyN_1 <- function() {
+   NM_0 = as.name('var_0')
+   eval_tidy(quo( (!!NM_0) ))
+}
+ 
+fTidyQ_1 <- function() {
+   NM_0 = quo(var_0)
+   eval_tidy(quo( (!!NM_0) ))
 }
 
-fTidyN1 <- function() {
-  TV1 = as.name('a')
-  
-  eval_tidy(quo( (!!TV1) ))
-}
-
-fTidyQ1 <- function() {
-  TV1 = quo(a)
-  
-  eval_tidy(quo( (!!TV1) ))
-}
-
-fWrapr1()
-fTidyN1()
-fTidyQ1()
+fWrapr_1()
+fTidyN_1()
+fTidyQ_1()
 
 
-
-
-fWrapr5 <- function() {
+fWrapr_5 <- function() {
   wrapr::let(
-    c(VAR1= 'a', VAR2= 'b', VAR3= 'c', VAR4= 'd', VAR5= 'e'),
-    VAR1 + VAR2 + VAR3 + VAR4 + VAR5
-  )
+   c( NM_0 = 'var_0', NM_1 = 'var_1', NM_2 = 'var_2', NM_3 = 'var_3', NM_4 = 'var_4' ),
+   NM_0 + NM_1 + NM_2 + NM_3 + NM_4
+ )}
+ 
+fTidyN_5 <- function() {
+   NM_0 = as.name('var_0')
+   NM_1 = as.name('var_1')
+   NM_2 = as.name('var_2')
+   NM_3 = as.name('var_3')
+   NM_4 = as.name('var_4')
+   eval_tidy(quo( (!!NM_0) + (!!NM_1) + (!!NM_2) + (!!NM_3) + (!!NM_4) ))
+}
+ 
+fTidyQ_5 <- function() {
+   NM_0 = quo(var_0)
+   NM_1 = quo(var_1)
+   NM_2 = quo(var_2)
+   NM_3 = quo(var_3)
+   NM_4 = quo(var_4)
+   eval_tidy(quo( (!!NM_0) + (!!NM_1) + (!!NM_2) + (!!NM_3) + (!!NM_4) ))
 }
 
-fTidyN5 <- function() {
-  TV1 =  as.name('a')
-  TV2 =  as.name('b')
-  TV3 =  as.name('c')
-  TV4 =  as.name('d')
-  TV5 =  as.name('e')
-  
-  eval_tidy(quo( (!!TV1) + (!!TV2) + (!!TV3) + (!!TV4) + (!!TV5) ))
-}
 
-fTidyQ5 <- function() {
-  TV1 = quo(a)
-  TV2 = quo(b)
-  TV3 = quo(c)
-  TV4 = quo(d)
-  TV5 = quo(e)
-  
-  eval_tidy(quo( (!!TV1) + (!!TV2) + (!!TV3) + (!!TV4) + (!!TV5) ))
-}
+fWrapr_5()
+fTidyN_5()
+fTidyQ_5()
 
-fWrapr5()
-fTidyN5()
-fTidyQ5()
-
-
-
-
-fWrapr10 <- function() {
-  wrapr::let(
-    c(VAR01= 'a', VAR02= 'b', VAR03= 'c', VAR04= 'd', VAR05= 'e',
-      VAR06= 'f', VAR07= 'g', VAR08= 'h', VAR09= 'i', VAR10= 'j'),
-    VAR01 + VAR02 + VAR03 + VAR04 + VAR05 +
-      VAR06 + VAR07 + VAR08 + VAR09 + VAR10
-  )
-}
-
-fTidyN10 <- function() {
-  TV01 =  as.name('a')
-  TV02 =  as.name('b')
-  TV03 =  as.name('c')
-  TV04 =  as.name('d')
-  TV05 =  as.name('e')
-  TV06 =  as.name('f')
-  TV07 =  as.name('g')
-  TV08 =  as.name('h')
-  TV09 =  as.name('i')
-  TV10 =  as.name('j')
-  
-  eval_tidy(quo( (!!TV01) + (!!TV02) + (!!TV03) + (!!TV04) + (!!TV05) +
-                   (!!TV06) + (!!TV07) + (!!TV08) + (!!TV09) + (!!TV10) ))
-}
-
-fTidyQ10 <- function() {
-  TV01 = quo(a)
-  TV02 = quo(b)
-  TV03 = quo(c)
-  TV04 = quo(d)
-  TV05 = quo(e)
-  TV06 = quo(f)
-  TV07 = quo(g)
-  TV08 = quo(h)
-  TV09 = quo(i)
-  TV10 = quo(j)
-  
-  eval_tidy(quo( (!!TV01) + (!!TV02) + (!!TV03) + (!!TV04) + (!!TV05) +
-                   (!!TV06) + (!!TV07) + (!!TV08) + (!!TV09) + (!!TV10) ))
-}
-
-fWrapr10()
-fTidyN10()
-fTidyQ10()
+fWrapr_25()
+fTidyN_25()
+fTidyQ_25()
 ```
 
 ```{r timings}
 
 bm <- microbenchmark(
-  fWrapr1(),
-  fTidyN1(),
-  fTidyQ1(),
-  fWrapr5(),
-  fTidyN5(),
-  fTidyQ5(),
-  fWrapr10(),
-  fTidyN10(),
-  fTidyQ10(),
+  fWrapr_1(),
+  fTidyN_1(),
+  fTidyQ_1(),
+  fWrapr_5(),
+  fTidyN_5(),
+  fTidyQ_5(),
+  fWrapr_10(),
+  fTidyN_10(),
+  fTidyQ_10(),
+  fWrapr_25(),
+  fTidyN_25(),
+  fTidyQ_25(), 
   times=1000L
 )
 print(bm)
@@ -162,7 +168,7 @@ autoplot(bm)
 ```{r replot}
 d <- as.data.frame(bm)
 d$size <- as.numeric(gsub("[^0-9]+", "", d$expr))
-d$fn <- gsub("[0-9].*$", "", d$expr)
+d$fn <- gsub("[_0-9].*$", "", d$expr)
 
 mkPlot <- function(d, title) {
   d$size <- as.factor(d$size)

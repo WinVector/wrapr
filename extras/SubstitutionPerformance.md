@@ -12,197 +12,158 @@ So we will compare:
 library("microbenchmark")
 library("wrapr")
 library("rlang")
-library("ggplot2")
+suppressPackageStartupMessages(library("ggplot2"))
 suppressPackageStartupMessages(library("dplyr"))
 
-a <-  1
-b <-  2
-c <-  3
-d <-  4
-e <-  5
-f <-  6
-g <-  7
-h <-  8
-i <-  9
-j <- 10
+# load generated examples
+source("genFns.R")
 
-fWrapr1 <- function() {
+# load up vars
+nvars <- 200
+for(i in seq(0, nvars-1)) {
+  assign(paste('var', i, sep='_'), i)
+}
+
+fWrapr_1 <- function() {
   wrapr::let(
-    c(VAR1= 'a'),
-    VAR1
-  )
+   c( NM_0 = 'var_0' ),
+   NM_0
+ )}
+ 
+fTidyN_1 <- function() {
+   NM_0 = as.name('var_0')
+   eval_tidy(quo( (!!NM_0) ))
+}
+ 
+fTidyQ_1 <- function() {
+   NM_0 = quo(var_0)
+   eval_tidy(quo( (!!NM_0) ))
 }
 
-fTidyN1 <- function() {
-  TV1 = as.name('a')
-  
-  eval_tidy(quo( (!!TV1) ))
-}
-
-fTidyQ1 <- function() {
-  TV1 = quo(a)
-  
-  eval_tidy(quo( (!!TV1) ))
-}
-
-fWrapr1()
+fWrapr_1()
 ```
 
-    ## [1] 1
+    ## [1] 0
 
 ``` r
-fTidyN1()
+fTidyN_1()
 ```
 
-    ## [1] 1
+    ## [1] 0
 
 ``` r
-fTidyQ1()
+fTidyQ_1()
 ```
 
-    ## [1] 1
+    ## [1] 0
 
 ``` r
-fWrapr5 <- function() {
+fWrapr_5 <- function() {
   wrapr::let(
-    c(VAR1= 'a', VAR2= 'b', VAR3= 'c', VAR4= 'd', VAR5= 'e'),
-    VAR1 + VAR2 + VAR3 + VAR4 + VAR5
-  )
+   c( NM_0 = 'var_0', NM_1 = 'var_1', NM_2 = 'var_2', NM_3 = 'var_3', NM_4 = 'var_4' ),
+   NM_0 + NM_1 + NM_2 + NM_3 + NM_4
+ )}
+ 
+fTidyN_5 <- function() {
+   NM_0 = as.name('var_0')
+   NM_1 = as.name('var_1')
+   NM_2 = as.name('var_2')
+   NM_3 = as.name('var_3')
+   NM_4 = as.name('var_4')
+   eval_tidy(quo( (!!NM_0) + (!!NM_1) + (!!NM_2) + (!!NM_3) + (!!NM_4) ))
+}
+ 
+fTidyQ_5 <- function() {
+   NM_0 = quo(var_0)
+   NM_1 = quo(var_1)
+   NM_2 = quo(var_2)
+   NM_3 = quo(var_3)
+   NM_4 = quo(var_4)
+   eval_tidy(quo( (!!NM_0) + (!!NM_1) + (!!NM_2) + (!!NM_3) + (!!NM_4) ))
 }
 
-fTidyN5 <- function() {
-  TV1 =  as.name('a')
-  TV2 =  as.name('b')
-  TV3 =  as.name('c')
-  TV4 =  as.name('d')
-  TV5 =  as.name('e')
-  
-  eval_tidy(quo( (!!TV1) + (!!TV2) + (!!TV3) + (!!TV4) + (!!TV5) ))
-}
 
-fTidyQ5 <- function() {
-  TV1 = quo(a)
-  TV2 = quo(b)
-  TV3 = quo(c)
-  TV4 = quo(d)
-  TV5 = quo(e)
-  
-  eval_tidy(quo( (!!TV1) + (!!TV2) + (!!TV3) + (!!TV4) + (!!TV5) ))
-}
-
-fWrapr5()
+fWrapr_5()
 ```
 
-    ## [1] 15
+    ## [1] 10
 
 ``` r
-fTidyN5()
+fTidyN_5()
 ```
 
-    ## [1] 15
+    ## [1] 10
 
 ``` r
-fTidyQ5()
+fTidyQ_5()
 ```
 
-    ## [1] 15
+    ## [1] 10
 
 ``` r
-fWrapr10 <- function() {
-  wrapr::let(
-    c(VAR01= 'a', VAR02= 'b', VAR03= 'c', VAR04= 'd', VAR05= 'e',
-      VAR06= 'f', VAR07= 'g', VAR08= 'h', VAR09= 'i', VAR10= 'j'),
-    VAR01 + VAR02 + VAR03 + VAR04 + VAR05 +
-      VAR06 + VAR07 + VAR08 + VAR09 + VAR10
-  )
-}
-
-fTidyN10 <- function() {
-  TV01 =  as.name('a')
-  TV02 =  as.name('b')
-  TV03 =  as.name('c')
-  TV04 =  as.name('d')
-  TV05 =  as.name('e')
-  TV06 =  as.name('f')
-  TV07 =  as.name('g')
-  TV08 =  as.name('h')
-  TV09 =  as.name('i')
-  TV10 =  as.name('j')
-  
-  eval_tidy(quo( (!!TV01) + (!!TV02) + (!!TV03) + (!!TV04) + (!!TV05) +
-                   (!!TV06) + (!!TV07) + (!!TV08) + (!!TV09) + (!!TV10) ))
-}
-
-fTidyQ10 <- function() {
-  TV01 = quo(a)
-  TV02 = quo(b)
-  TV03 = quo(c)
-  TV04 = quo(d)
-  TV05 = quo(e)
-  TV06 = quo(f)
-  TV07 = quo(g)
-  TV08 = quo(h)
-  TV09 = quo(i)
-  TV10 = quo(j)
-  
-  eval_tidy(quo( (!!TV01) + (!!TV02) + (!!TV03) + (!!TV04) + (!!TV05) +
-                   (!!TV06) + (!!TV07) + (!!TV08) + (!!TV09) + (!!TV10) ))
-}
-
-fWrapr10()
+fWrapr_25()
 ```
 
-    ## [1] 55
+    ## [1] 300
 
 ``` r
-fTidyN10()
+fTidyN_25()
 ```
 
-    ## [1] 55
+    ## [1] 300
 
 ``` r
-fTidyQ10()
+fTidyQ_25()
 ```
 
-    ## [1] 55
+    ## [1] 300
 
 ``` r
 bm <- microbenchmark(
-  fWrapr1(),
-  fTidyN1(),
-  fTidyQ1(),
-  fWrapr5(),
-  fTidyN5(),
-  fTidyQ5(),
-  fWrapr10(),
-  fTidyN10(),
-  fTidyQ10(),
+  fWrapr_1(),
+  fTidyN_1(),
+  fTidyQ_1(),
+  fWrapr_5(),
+  fTidyN_5(),
+  fTidyQ_5(),
+  fWrapr_10(),
+  fTidyN_10(),
+  fTidyQ_10(),
+  fWrapr_25(),
+  fTidyN_25(),
+  fTidyQ_25(), 
   times=1000L
 )
 print(bm)
 ```
 
     ## Unit: microseconds
-    ##        expr      min        lq      mean    median        uq       max
-    ##   fWrapr1()   94.808  124.6830  151.1815  145.1510  167.0010  2025.283
-    ##   fTidyN1()  867.243  916.9460  974.6151  940.3315  973.7615  5445.236
-    ##   fTidyQ1() 1226.214 1291.3980 1394.0346 1324.0195 1373.2235  7001.943
-    ##   fWrapr5()  195.518  227.6045  267.3506  250.3230  276.7485  3346.456
-    ##   fTidyN5()  885.377  937.4605 1012.9046  959.4220  992.6475 10740.776
-    ##   fTidyQ5() 2678.875 2791.9510 3024.8745 2862.5725 2987.6835 13278.641
-    ##  fWrapr10()  312.794  352.9460  405.8907  377.0585  407.9080  7829.577
-    ##  fTidyN10()  907.069  955.2185 1085.2469  978.7650 1018.6950 53768.089
-    ##  fTidyQ10() 4471.858 4672.8420 5009.7338 4796.5425 5033.6830 10063.340
-    ##  neval
-    ##   1000
-    ##   1000
-    ##   1000
-    ##   1000
-    ##   1000
-    ##   1000
-    ##   1000
-    ##   1000
-    ##   1000
+    ##         expr       min         lq       mean    median        uq
+    ##   fWrapr_1()   167.001   248.4945   348.0398   288.128   372.710
+    ##   fTidyN_1()  1452.355  1806.4790  2728.6704  2177.644  2767.701
+    ##   fTidyQ_1()  2069.096  2640.8270  3509.6158  3151.965  3867.936
+    ##   fWrapr_5()   347.233   488.1820   696.7221   564.073   742.475
+    ##   fTidyN_5()  1473.380  1828.5410  2552.3266  2139.356  2797.641
+    ##   fTidyQ_5()  4658.711  6122.6120  7851.6910  6942.704  8154.983
+    ##  fWrapr_10()   581.950   759.6370  1098.4297   849.695  1119.257
+    ##  fTidyN_10()  1483.017  1879.3650  2639.3601  2202.217  2852.215
+    ##  fTidyQ_10()  8316.819 10523.1680 13777.6016 11621.012 13195.401
+    ##  fWrapr_25()  1334.397  1634.3900  2270.5854  1852.919  2458.212
+    ##  fTidyN_25()  1547.930  1985.1280  2775.9654  2334.631  3053.285
+    ##  fTidyQ_25() 19634.908 23834.2485 28061.7213 25523.425 28239.903
+    ##         max neval
+    ##   10037.589  1000
+    ##  215533.911  1000
+    ##   22641.909  1000
+    ##    7154.883  1000
+    ##   45975.217  1000
+    ##  218724.513  1000
+    ##   39353.159  1000
+    ##   55276.051  1000
+    ##  329141.257  1000
+    ##   50153.143  1000
+    ##   60156.841  1000
+    ##  253155.321  1000
 
 ``` r
 autoplot(bm)
@@ -213,7 +174,7 @@ autoplot(bm)
 ``` r
 d <- as.data.frame(bm)
 d$size <- as.numeric(gsub("[^0-9]+", "", d$expr))
-d$fn <- gsub("[0-9].*$", "", d$expr)
+d$fn <- gsub("[_0-9].*$", "", d$expr)
 
 mkPlot <- function(d, title) {
   d$size <- as.factor(d$size)
@@ -268,10 +229,10 @@ dfits$fn <- names(fits)
 print(dfits)
 ```
 
-    ##   Intercept      size     fn
-    ## 1  958220.3  12381.60 fTidyN
-    ## 2 1001287.6 401548.76 fTidyQ
-    ## 3  123998.4  28276.72 fWrapr
+    ##   Intercept        size     fn
+    ## 1 2623079.1    4975.762 fTidyN
+    ## 2 2863266.0 1018233.305 fTidyQ
+    ## 3  287182.7   79635.277 fWrapr
 
 ``` r
 # solve for size where two lines interesect.
@@ -289,10 +250,10 @@ crossingPoint <- solve(dfits, 'fTidyN', 'fWrapr')
 print(crossingPoint)
 ```
 
-    ## [1] 52.48289
+    ## [1] 31.28732
 
 Overall:
 
 -   Remember: these timings are *not* important, for any interesting calculation data manipulation time will quickly dominate expression manipulation time (meaning [tuning here is not important](https://en.wikipedia.org/wiki/Amdahl%27s_law)).
--   `fWrapr*` is fastest, but seems to have worse size dependent growth rate (or slope) than `fTidyN*`. This means that we would expect at some large substitution size `fTidyN*` could become quicker (about 52 or more variables). Likely `wrapr::let()` is paying too much for a map-lookup somewhere and this could be fixed at some point.
+-   `fWrapr*` is fastest, but seems to have worse size dependent growth rate (or slope) than `fTidyN*`. This means that we would expect at some large substitution size `fTidyN*` could become quicker (about 31 or more variables). Likely `wrapr::let()` is paying too much for a map-lookup somewhere and this could be fixed at some point.
 -   `fTidyQ*` is very much slower with a much worse slope. Likely the slope is also some expensive mapping that can also be fixed.
