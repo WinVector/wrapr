@@ -15,7 +15,7 @@ So we will compare:
 
  * `fWrapr*` `wrapr::let()` substitution (`"langsubs"` mode).
  * `fTidyN*` `rlang::eval_tidy()` substitution to quoted names (the closest I found to `wrapr::let()`).
- * `fTidyQ*` `rlang::eval_tidy()` substitution to `quo()` free names (what seems to be the preferred case/notation by `rlang` developers as it moves from NSE (non-standard evaluation interface) to NSE).
+ * `fTidyQ*` `rlang::eval_tidy()` substitution to `quo()` free names (what seems to be the preferred case/notation by `rlang`/`tidyeval` developers as it moves from NSE (non-standard evaluation interface) to NSE).
  
 ```{r generator, include=FALSE, echo=FALSE}
 # build source code for fns of size k
@@ -63,6 +63,8 @@ fTidyQ_", k, " <- function() {
 
 ftext <- paste(
   buildFnsK(10),
+  buildFnsK(15),
+  buildFnsK(20),
   buildFnsK(25),
   buildFnsK(50),
   collapse = "\n\n")
@@ -156,6 +158,12 @@ bm <- microbenchmark(
   fWrapr_10(),
   fTidyN_10(),
   fTidyQ_10(),
+  fWrapr_15(),
+  fTidyN_15(),
+  fTidyQ_15(),
+  fWrapr_20(),
+  fTidyN_20(),
+  fTidyQ_20(),
   fWrapr_25(),
   fTidyN_25(),
   fTidyQ_25(), 

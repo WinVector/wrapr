@@ -6,7 +6,7 @@ So we will compare:
 
 -   `fWrapr*` `wrapr::let()` substitution (`"langsubs"` mode).
 -   `fTidyN*` `rlang::eval_tidy()` substitution to quoted names (the closest I found to `wrapr::let()`).
--   `fTidyQ*` `rlang::eval_tidy()` substitution to `quo()` free names (what seems to be the preferred case/notation by `rlang` developers as it moves from NSE (non-standard evaluation interface) to NSE).
+-   `fTidyQ*` `rlang::eval_tidy()` substitution to `quo()` free names (what seems to be the preferred case/notation by `rlang`/`tidyeval` developers as it moves from NSE (non-standard evaluation interface) to NSE).
 
 ``` r
 library("microbenchmark")
@@ -129,6 +129,12 @@ bm <- microbenchmark(
   fWrapr_10(),
   fTidyN_10(),
   fTidyQ_10(),
+  fWrapr_15(),
+  fTidyN_15(),
+  fTidyQ_15(),
+  fWrapr_20(),
+  fTidyN_20(),
+  fTidyQ_20(),
   fWrapr_25(),
   fTidyN_25(),
   fTidyQ_25(), 
@@ -138,32 +144,44 @@ print(bm)
 ```
 
     ## Unit: microseconds
-    ##         expr       min         lq       mean    median         uq
-    ##   fWrapr_1()   145.735   181.1520   237.9062   220.708   251.5510
-    ##   fTidyN_1()  1365.729  1446.4355  1792.4694  1608.348  1970.5275
-    ##   fTidyQ_1()  1938.561  2073.4885  2579.4358  2302.308  2886.3375
-    ##   fWrapr_5()   330.086   393.6680   490.4902   428.039   512.1080
-    ##   fTidyN_5()  1386.237  1474.9000  1884.3215  1657.920  2090.2950
-    ##   fTidyQ_5()  4288.974  4620.4470  5603.4359  5225.815  6333.5840
-    ##  fWrapr_10()   556.672   622.0985   773.5402   664.699   818.9505
-    ##  fTidyN_10()  1400.824  1494.5610  1894.3997  1655.782  2050.6070
-    ##  fTidyQ_10()  7208.277  7750.0125  9437.7881  8948.324 10409.2875
-    ##  fWrapr_25()  1260.949  1355.7435  1616.4876  1443.938  1740.2485
-    ##  fTidyN_25()  1471.529  1566.0075  1949.3996  1740.274  2187.2590
-    ##  fTidyQ_25() 16016.757 17964.6150 20568.9579 20125.162 22293.2890
-    ##        max neval
-    ##   3402.335  1000
-    ##   7826.433  1000
-    ##  11562.311  1000
-    ##   5733.013  1000
-    ##  18709.916  1000
-    ##  24059.602  1000
-    ##  11497.049  1000
-    ##  44358.866  1000
-    ##  71817.655  1000
-    ##   4329.779  1000
-    ##   5241.169  1000
-    ##  85265.523  1000
+    ##         expr       min         lq       mean     median         uq
+    ##   fWrapr_1()   148.048   201.0025   273.8819   237.7375   296.1120
+    ##   fTidyN_1()  1368.947  1559.3150  2074.3606  1839.7895  2326.7050
+    ##   fTidyQ_1()  1956.564  2233.3245  2871.6935  2598.2015  3294.5915
+    ##   fWrapr_5()   340.094   425.5780   565.8574   483.6480   606.7970
+    ##   fTidyN_5()  1387.142  1569.7500  2107.4814  1880.9950  2338.0160
+    ##   fTidyQ_5()  4312.149  5078.6185  6260.1377  5789.0695  6956.0025
+    ##  fWrapr_10()   565.508   658.3280   881.0286   743.5270   933.4715
+    ##  fTidyN_10()  1414.695  1602.7975  2235.2447  1874.9505  2408.4165
+    ##  fTidyQ_10()  7346.769  8734.3260 10564.3927  9784.6115 11344.0125
+    ##  fWrapr_15()   803.000   906.8675  1230.1181  1038.7860  1341.5190
+    ##  fTidyN_15()  1426.589  1648.2810  2287.4180  1910.3950  2444.2865
+    ##  fTidyQ_15() 10470.894 12724.8795 14891.8311 14016.9590 15659.8575
+    ##  fWrapr_20()  1044.288  1168.4675  1613.6109  1365.1895  1748.8135
+    ##  fTidyN_20()  1448.482  1634.5535  2277.7484  1929.7370  2434.3305
+    ##  fTidyQ_20() 13796.000 16366.8675 19164.9470 18007.2765 19976.0415
+    ##  fWrapr_25()  1295.653  1438.4880  1895.8267  1665.7635  2121.4040
+    ##  fTidyN_25()  1464.539  1656.7265  2177.8992  1955.2730  2479.1840
+    ##  fTidyQ_25() 17229.042 20351.6545 23305.7143 22194.1290 24252.3310
+    ##         max neval
+    ##    6205.813  1000
+    ##   14608.459  1000
+    ##   11292.671  1000
+    ##    7923.543  1000
+    ##   25204.200  1000
+    ##   38997.097  1000
+    ##   16310.627  1000
+    ##   78957.084  1000
+    ##   89258.373  1000
+    ##   26614.581  1000
+    ##   75241.241  1000
+    ##   87180.671  1000
+    ##   42665.027  1000
+    ##  108109.540  1000
+    ##  262896.001  1000
+    ##   12879.029  1000
+    ##   10460.414  1000
+    ##  104531.519  1000
 
 ``` r
 autoplot(bm)
@@ -230,9 +248,9 @@ print(dfits)
 ```
 
     ##   Intercept       size     fn
-    ## 1 1824147.9   5463.382 fTidyN
-    ## 2 1869438.2 749069.878 fTidyQ
-    ## 3  194694.4  57064.556 fWrapr
+    ## 1 2114212.4   6248.395 fTidyN
+    ## 2 2023584.7 854173.790 fTidyQ
+    ## 3  212455.2  68231.482 fWrapr
 
 ``` r
 # solve for size where two lines interesect.
@@ -250,10 +268,10 @@ crossingPoint <- solve(dfits, 'fTidyN', 'fWrapr')
 print(crossingPoint)
 ```
 
-    ## [1] 31.57784
+    ## [1] 30.68187
 
 Overall:
 
 -   Remember: these timings are *not* important, for any interesting calculation data manipulation time will quickly dominate expression manipulation time (meaning [tuning here is not important](https://en.wikipedia.org/wiki/Amdahl%27s_law)).
--   `fWrapr*` is fastest, but seems to have worse size dependent growth rate (or slope) than `fTidyN*`. This means that we would expect at some large substitution size `fTidyN*` could become quicker (about 32 or more variables). Likely `wrapr::let()` is paying too much for a map-lookup somewhere and this could be fixed at some point.
+-   `fWrapr*` is fastest, but seems to have worse size dependent growth rate (or slope) than `fTidyN*`. This means that we would expect at some large substitution size `fTidyN*` could become quicker (about 31 or more variables). Likely `wrapr::let()` is paying too much for a map-lookup somewhere and this could be fixed at some point.
 -   `fTidyQ*` is very much slower with a much worse slope. Likely the slope is also some expensive mapping that can also be fixed.
