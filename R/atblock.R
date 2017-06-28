@@ -8,6 +8,9 @@
 #' be a non-standard evaluation situation.  This adaption allows some parametric
 #' or standard-evaluation effects in such circumstances.
 #'
+#' Note: this method uses string substitution and is willing to substitute in arbitrary content,
+#' please prefer using \code{\link{let}} where applicable.
+#'
 #'
 #' Notation idea: Jonathan Carroll \url{https://jcarroll.com.au} \url{https://twitter.com/carroll_jono/status/842142292253196290}
 #' Similar to: \url{https://dev.mysql.com/doc/refman/5.7/en/user-variables.html}.
@@ -77,6 +80,9 @@ ateval <- function(.) {
 #' This allows variables to carry the names of other variables into what would
 #' be a non-standard evaluation situation.  This adaption allows some parametric
 #' or standard-evaluation effects in such circumstances.
+#'
+#' Note: this method uses string substitution and is willing to substitute in arbitrary content,
+#' please prefer using \code{\link{let}} where applicable.
 #'
 #' Notation idea: \url{https://github.com/hadley/dplyr/commit/8f03f835185370626a566e95d268623b20189e07}.
 #' Note: "\code{!!}" is not a no-op, but is a sufficiently uncommon expression I thought we could use it.
@@ -150,6 +156,9 @@ beval <- function(...) {
 
 
 #' Execute expr with general substitutions specified in alias.
+#'
+#' Note: this method uses string substitution and is willing to substitute in arbitrary content,
+#' please prefer using \code{\link{let}} where applicable.
 #'
 #' @seealso \code{\link{let}}, \code{\link{ateval}}, \code{\link{beval}}
 #'

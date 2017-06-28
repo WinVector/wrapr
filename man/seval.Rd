@@ -21,7 +21,8 @@ seval(alias, expr, ..., eval = TRUE, debugPrint = FALSE)
 result of expr executed in calling environment (or expression if eval==FALSE)
 }
 \description{
-Execute expr with general substitutions specified in alias.
+Note: this method uses string substitution and is willing to substitute in arbitrary content,
+please prefer using \code{\link{let}} where applicable.
 }
 \examples{
 

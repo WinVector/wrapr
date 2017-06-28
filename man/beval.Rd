@@ -18,6 +18,9 @@ be a non-standard evaluation situation.  This adaption allows some parametric
 or standard-evaluation effects in such circumstances.
 }
 \details{
+Note: this method uses string substitution and is willing to substitute in arbitrary content,
+please prefer using \code{\link{let}} where applicable.
+
 Notation idea: \url{https://github.com/hadley/dplyr/commit/8f03f835185370626a566e95d268623b20189e07}.
 Note: "\code{!!}" is not a no-op, but is a sufficiently uncommon expression I thought we could use it.
 }

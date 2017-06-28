@@ -17,6 +17,9 @@ be a non-standard evaluation situation.  This adaption allows some parametric
 or standard-evaluation effects in such circumstances.
 }
 \details{
+Note: this method uses string substitution and is willing to substitute in arbitrary content,
+please prefer using \code{\link{let}} where applicable.
+
 Notation idea: Jonathan Carroll \url{https://jcarroll.com.au} \url{https://twitter.com/carroll_jono/status/842142292253196290}
 Similar to: \url{https://dev.mysql.com/doc/refman/5.7/en/user-variables.html}.
 }
