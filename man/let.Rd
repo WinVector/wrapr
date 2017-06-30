@@ -21,7 +21,7 @@ let(alias, expr, ..., subsMethod = "langsubs", eval = TRUE,
 \item{debugPrint}{logical if TRUE print debugging information when in stringsubs mode.}
 }
 \value{
-result of expr executed in calling environment (or expression if eval==FALSE)
+result of expr executed in calling environment (or expression if eval==FALSE).
 }
 \description{
 \code{let} implements a mapping from desired names (names used directly in the expr code) to names used in the data.
@@ -66,49 +66,24 @@ d <- data.frame(Sepal_Length=c(5.8,5.7),
 RANKCOLUMN <- NULL # optional, make sure macro target does not look like unbound variable.
 GROUPCOLUMN <- NULL # optional, make sure macro target does not look like unbound variable.
 mapping = c(RANKCOLUMN= 'rank', GROUPCOLUMN= 'Species')
-let(alias=mapping,
-    expr={
+let(alias = mapping,
+    expr = {
        # Notice code here can be written in terms of known or concrete
        # names "RANKCOLUMN" and "GROUPCOLUMN", but executes as if we
        # had written mapping specified columns "rank" and "Species".
 
        # restart ranks at zero.
        dres <- d
-       dres$RANKCOLUMN <- dres$RANKCOLUMN - 1 # notice using $ not [[]]
+       dres$RANKCOLUMN <- dres$RANKCOLUMN - 1 # notice, using $ not [[]]
 
        # confirm set of groups.
        groups <- unique(d$GROUPCOLUMN)
-    })
+    },
+    debugPrint = TRUE
+    )
 print(groups)
 print(length(groups))
 print(dres)
 
-# The following 3 examples show the different consequences of the different substitutions methods:
-y <- 7
-
-# In langsubs mode let replaces left/right sides, but not strings:
-let(c('X'='y'), list(X=X, str='X'),
-    subsMethod = 'langsubs', debugPrint = TRUE)
-# list(y=7, str="X")
-let(c('X'='y'), X <- list(X=X, str='X'),
-    eval=FALSE, subsMethod= 'langsubs')
-# y <- list(y = y, str = "X")
-
-# In string substitution mode let can replace string contents and left/right sides:
-let(c('X'='y'), list(X=X, str='X'),
-    subsMethod = 'stringsubs', debugPrint = TRUE)
-# list(y=7, str="y")
-let(c('X'='y'), X <- list(X=X, str='X'),
-    eval=FALSE, subsMethod= 'stringsubs')
-# expression(y <- list(y = y, str = "y"))
-
-# In subsubs mode strings and left-hand-side of function arguments are not
-#  re-mapped (though left hand side of assignment is):
-let(c('X'='y'), list(X=X, str='X'),
-    subsMethod= 'subsubs', debugPrint = TRUE)
-# list(X=7, str='X')
-let(c('X'='y'), X <- list(X=X, str='X'),
-    eval=FALSE, subsMethod= 'subsubs')
-# y <- list(X = y, str = "X")
 
 }
