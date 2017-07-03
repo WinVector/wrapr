@@ -35,7 +35,7 @@ let(
  #  [1] 14
 ```
 
-This is useful it re-adapting non-standard evaluation interfaces (NSE interfaces) so one can script or program over them.
+This is useful in re-adapting non-standard evaluation interfaces (NSE interfaces) so one can script or program over them.
 
 We are trying to make `wrapr::let()` self teaching and self documenting (to the extent that makes sense). For example try the arguments "`eval=FALSE`" prevent execution and see what *would* have been executed, or `debug=TRUE` to have the replaced code printed in addition to being executed:
 
