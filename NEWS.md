@@ -1,5 +1,5 @@
 
-`wrapr` 0.2.0 2017-06-18
+`wrapr` 0.2.0 2017-07-05
 
  * Switch to abstract syntax tree substitution.
  * Allow variable swaps.
