@@ -1,0 +1,80 @@
+---
+title: "Starting with wrapr::let()"
+author: "John Mount"
+date: "`r Sys.Date()`"
+output:
+  md_document:
+    variant: markdown_github
+---
+
+
+#  `wrapr::let()` for beginners
+
+`wrapr::let()` is not interesting if you have no idea why you would need it or how to use it.
+
+`wrapr::let()` is designed to solve a single problem when programming in `R`: when in writing code you don't yet know the name of a variable or a `data.frame` column you are going to use. That is: the name of the column will only be available later when your code is run.
+
+For example suppose we have a `data.frame` "`d`" defined as follows:
+
+```{r data}
+d <- data.frame(x = c(15, 30, 40))
+print( d )
+```
+
+If we know the name of the column we can access it as follows:
+
+```{r std} 
+print( d$x )
+```
+
+If we don't know the name of the column (such as would be the case when writing a function) we write code like the following:
+
+```{r param}
+getColumn <- function(df, columnName) {
+  df[[columnName]]
+}
+
+print( getColumn(d, 'x') )
+```
+
+This works because `R` takes a lot of trouble to supply parametric interfaces for most use cases.
+
+We only run into trouble if code we are trying to work with strongly prefers non-parametric (also called non-standard-evaluation or NSE) interfaces. 
+
+A popular package that heavily emphasizes NSE interfaces is `dplyr`.  It is the case that `dplyr` supplies its own methods to work around NSE issues ("underbar methods" and `lazyeval` for `dplyr` `0.5.0`, and `rlang`/`tidyeval` for `dplyr` `0.7.0`).  However, we will only discuss `wrapr::let()` methodology here.
+
+The issue is: it is common to write statements such as the following in `dplyr`:
+
+```{r dplyr1}
+suppressPackageStartupMessages(library("dplyr"))
+
+d %>% mutate( v2 = x + 1 )
+```
+
+If we were writing the above in a function it would plausible that we would not know the name of the desired result column or the name of the column to add one to.  `wrapr::let()` lets us write such code easily:
+
+```{r let1}
+library("wrapr")
+
+addOneToColumn <- function(df, 
+                           result_column_name, 
+                           input_column_name) {
+  let(
+    c(RESULT_COL = result_column_name,
+      INPUT_COL = input_column_name),
+    
+    df %>% mutate( RESULT_COL = INPUT_COL + 1 )
+    
+  )
+}
+
+d %>% addOneToColumn('v2', 'x')
+```
+
+Again, writing the function `addOneToColumn()` was the goal.  The issue was that in such a function we don't know what column names the user is going to end up supplying.  We work around this difficulty with `wrapr::let()`  
+
+All the user needs to keep in mind is: `wrapr::let()` takes two primary arguments:
+
+ * The aliases mapping concrete stand-in names (here shown in `ALL_CAPS` style) to the variables holding the actual variable names.
+ * The block of code to re-write and execute (which can be a single statement, or a larger block with braces).
+
