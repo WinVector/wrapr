@@ -80,5 +80,4 @@ Notice `base::substitute()` doesn't re-write left-hand-sides of argument binding
 
 ## Conclusion
 
-`wrapr::let()` when used prudently is already a safe and powerful tool.  That being said it will be improved by switching to abstract syntax tree based substitution.  I'd love to do that in the next release, so it would helpful to collect more experience using the current development version prior to that. 
-
+`wrapr::let()` when used prudently is a safe and powerful tool.
