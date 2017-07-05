@@ -98,11 +98,6 @@ prepareAlias <- function(alias) {
     if (!isValidAndUnreservedName(vi)) {
         stop(paste('wrapr:let alias value not a valid name: "', vi, '"'))
     }
-    if(vi!=ni) {
-      if(vi %in% names(alias)) {
-        stop("wrapr::prepareAlias except for identity assignments keys and destinations must be disjoint")
-      }
-    }
   }
   alias <- lapply(alias, as.character)
   alias
@@ -113,35 +108,45 @@ prepareAlias <- function(alias) {
 #' @param alias mapping named list/vector to strings/names or general
 #' @param strexpr character vector source text to be re-written
 #' @param ... force later arguments to be bound by name.
-#' @param debugPrint logical if TRUE print debugging information
 #' @return parsed R expression with substitutions
 #'
 #'
 #'
 letprep_str <- function(alias, strexpr,
-                    ...,
-                    debugPrint= FALSE) {
+                    ...) {
   if(length(list(...))>0) {
     stop("wrapr::letprep_str unexpected arguments.")
   }
-  alias <- prepareAlias(alias)
   if(!is.character(strexpr)) {
     stop("wrapr::letprep_str strexpr must be a character array")
   }
-  # re-write the parse tree and prepare for execution
   body <- strexpr
-  for (ni in names(alias)) {
-    value <- alias[[ni]]
-    if(!is.null(value)) {
-      value <- as.character(value)
-      if(ni!=value) {
-        pattern <- paste0("\\b", ni, "\\b")
-        body <- gsub(pattern, value, body)
+  if(length(alias)>0) {
+    # find a token not in alias or block
+    testText <- paste(paste(c(names(alias), as.character(alias)), collapse = ' '),
+                      strexpr)
+    tok <- "WRAPR_TOK"
+    while(length(grep(tok,testText))>0) {
+      tok <- paste0("WRAPR_TOK_",paste(sample(LETTERS, 15, replace = TRUE),
+                                       collapse = ''))
+    }
+    # re-write the parse tree and prepare for execution in 2 stages to allows swaps
+    alias1 <- paste(tok, seq_len(length(alias)), sep= '_')
+    names(alias1) <- names(alias)
+    alias2 <- as.character(alias)
+    names(alias2) <- as.character(alias1)
+    for(aliasi in list(alias1, alias2)) {
+      for (ni in names(aliasi)) {
+        value <- aliasi[[ni]]
+        if(!is.null(value)) {
+          value <- as.character(value)
+          if(ni!=value) {
+            pattern <- paste0("\\b", ni, "\\b")
+            body <- gsub(pattern, value, body)
+          }
+        }
       }
     }
-  }
-  if(debugPrint) {
-    print(body)
   }
   parse(text = body)
 }
@@ -261,7 +266,7 @@ letprep_lang <- function(alias, lexpr) {
 #' we can use a \code{let} helper.   \code{dplyr::mutate} is
 #' parameterized (in the sense it can work over user supplied columns and expressions), but column names are captured through non-standard evaluation
 #' (and it rapidly becomes unwieldy to use complex formulas with the standard evaluation equivalent \code{dplyr::mutate_}).
-#' \code{alias} can not include the symbol "\code{.}". Except for identity assignments keys and destinations must be disjoint.
+#' \code{alias} can not include the symbol "\code{.}".
 #'
 #'
 #' The intent from is from the user perspective to have (if
@@ -334,29 +339,27 @@ let <- function(alias, expr,
     stop(paste("wrapr::let subsMethod must be one of:",
                paste(allowedMethods, collapse = ', ')))
   }
-  exprS <- NULL
-  if(subsMethod=='langsubs') {
-    # recursive language implementation.
-    # only replace matching symbols.
-    exprS <- letprep_lang(prepareAlias(alias),
-                          exprQ)
-    if(debugPrint) {
-      print(exprS)
+  alias <- prepareAlias(alias)
+  exprS <- exprQ
+  if(length(alias)>0) {
+    if(subsMethod=='langsubs') {
+      # recursive language implementation.
+      # only replace matching symbols.
+      exprS <- letprep_lang(alias, exprQ)
+    } else if(subsMethod=='subsubs') {
+      # substitute based solution, does not bind left-hand sides
+      aliasN <- lapply(alias, as.name)
+      exprS <- do.call(substitute, list(exprQ, aliasN))
+    } else if(subsMethod=='stringsubs') {
+      # string substitution based implementation.
+      # Similar to \code{gtools::strmacro} by Gregory R. Warnes.
+      exprS <- letprep_str(alias, deparse(exprQ))
+    } else {
+      stop(paste("wrapr::let unexpected subsMethod '", subsMethod, "'"))
     }
-  } else if(subsMethod=='subsubs') {
-    # substitute based solution, does not bind left-hand sides
-    aliasN <- lapply(prepareAlias(alias), as.name)
-    exprS <- do.call(substitute, list(exprQ, aliasN))
-    if(debugPrint) {
-      print(exprS)
-    }
-  } else if(subsMethod=='stringsubs') {
-    # string substitution based implementation.
-    # Similar to \code{gtools::strmacro} by Gregory R. Warnes.
-    exprS <- letprep_str(alias, deparse(exprQ),
-                     debugPrint=debugPrint)
-  } else {
-    stop(paste("wrapr::let unexpected subsMethod '", subsMethod, "'"))
+  }
+  if(debugPrint) {
+    print(exprS)
   }
   if(!eval) {
     return(exprS)

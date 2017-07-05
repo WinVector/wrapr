@@ -1,0 +1,82 @@
+---
+title: "Corner Cases"
+author: "John Mount"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Corner Cases}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+`wrapr::let()` is designed to get several important corner cases correct:
+including substitutins that are disjoint from the expression and symbol swaps.
+
+```{r exdisj}
+library("wrapr")
+
+X <- 1
+Y <- 2
+
+let(
+ c(),
+  debugPrint = TRUE,
+  X + Y
+)
+
+let(
+ c(),
+  debugPrint = TRUE,
+  subsMethod = 'langsubs',
+  X + Y
+)
+
+let(
+ c(),
+  debugPrint = TRUE,
+  subsMethod = 'stringsubs',
+  X + Y
+)
+
+let(
+ c(),
+  debugPrint = TRUE,
+  subsMethod = 'subsubs',
+  X + Y
+)
+```
+
+```{r exswap}
+library("wrapr")
+
+X <- 1
+Y <- 2
+
+let(
+  c(X='Y', Y='X'),
+  debugPrint = TRUE,
+  X + Y
+)
+
+let(
+  c(X='Y', Y='X'),
+  debugPrint = TRUE,
+  subsMethod = 'langsubs',
+  X + Y
+)
+
+let(
+  c(X='Y', Y='X'),
+  debugPrint = TRUE,
+  subsMethod = 'stringsubs',
+  X + Y
+)
+
+let(
+  c(X='Y', Y='X'),
+  debugPrint = TRUE,
+  subsMethod = 'subsubs',
+  X + Y
+)
+```
+
