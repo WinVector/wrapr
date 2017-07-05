@@ -10,7 +10,7 @@ vignette: >
 ---
 
 `wrapr::let()` is designed to get several important corner cases correct:
-including substitutins that are disjoint from the expression and symbol swaps.
+including substitutions that are disjoint from the expression and symbol swaps.
 
 ```{r exdisj}
 library("wrapr")
