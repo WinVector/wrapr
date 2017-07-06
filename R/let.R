@@ -110,7 +110,7 @@ prepareAlias <- function(alias) {
 #' @param ... force later arguments to be bound by name.
 #' @return parsed R expression with substitutions
 #'
-#'
+#' @noRd
 #'
 letprep_str <- function(alias, strexpr,
                     ...) {
@@ -159,7 +159,7 @@ letprep_str <- function(alias, strexpr,
 #' @param ... force later arguments to be bound by name.
 #' @return R language element with substitutions
 #'
-#'
+#' @noRd
 #'
 letprep_lang <- function(alias, lexpr) {
   nexpr <- lexpr
