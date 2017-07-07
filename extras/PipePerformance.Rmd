@@ -62,6 +62,18 @@ suppressPackageStartupMessages(library("dplyr"))
 
 # load generated examples
 source("pGenFns.R")
+
+print(BizarroPipe_5)
+
+print(BlockPipe_5)
+
+print(magrittr_5)
+
+BizarroPipe_10()
+
+BlockPipe_10()
+
+magrittr_10()
 ```
 
 ```{r timings}
