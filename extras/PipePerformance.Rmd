@@ -159,5 +159,5 @@ print(ratio)
 
 Overall:
 
-BlockPipe is about `r format(ratio, digits=1)` times slower than magrittr on large pipelines.
+BlockPipe is about `r format(ratio, digits=2)` times slower than magrittr on large pipelines, though this cost will be unnoticeable with in any significant workload.
 
