@@ -1,0 +1,156 @@
+---
+title: "Piple Performance"
+author: "John Mount"
+date: "6/27/2017"
+output:
+  md_document:
+    variant: markdown_github
+---
+
+Some timings for [`%.>%`](http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/).
+
+Keep in mind for any *serious* application the calculation time on data will far dominate any piping overhead, but it is fun to look.
+
+So we will compare:
+
+ * `magrittr*` `magrittr::%>%` substitution (`"langsubs"` mode).
+ * `BlockPipe*` `wrapr::%.>%` substitution.
+ * `BizarroPipe*` `%->%` substitution.
+ 
+```{r generator, include=FALSE, echo=FALSE}
+# build source code for fns of size k
+# build source code for fns of size k
+buildFnsK <- function(k) {
+  fs <- c("5", rep("sin(.)", k))
+  fMap <- list('magrittr' = '%>%' , 
+               'BlockPipe' = '%.>%', 
+               'BizarroPipe' = '->.;')
+  fns  <- lapply(names(fMap),
+                 function(fn) {
+                   op <- fMap[[fn]]
+                   paste0(fn, '_', k, ' <- function() {\n ',
+                          paste(fs, collapse = paste0(' ', op, '\n   ')),
+                          '\n}\n\n')
+                   
+                 })
+  paste(fns, collapse= '\n\n')
+}
+
+
+ftext <- paste(
+  buildFnsK(1),
+  buildFnsK(2),
+  buildFnsK(5),
+  buildFnsK(10),
+  buildFnsK(15),
+  buildFnsK(20),
+  buildFnsK(25),
+  buildFnsK(50),
+  collapse = "\n\n")
+
+fileConn<-file("pGenFns.R")
+writeLines(ftext, fileConn)
+close(fileConn)
+```
+
+```{r defs}
+library("microbenchmark")
+library("wrapr")
+library("rlang")
+suppressPackageStartupMessages(library("ggplot2"))
+suppressPackageStartupMessages(library("dplyr"))
+
+# load generated examples
+source("pGenFns.R")
+```
+
+```{r timings}
+bm <- microbenchmark(
+  magrittr_1(),
+  BlockPipe_1(),
+  BizarroPipe_1(),
+  magrittr_2(),
+  BlockPipe_2(),
+  BizarroPipe_2(),
+  magrittr_5(),
+  BlockPipe_5(),
+  BizarroPipe_5(),
+  magrittr_10(),
+  BlockPipe_10(),
+  BizarroPipe_10(),
+  magrittr_15(),
+  BlockPipe_15(),
+  BizarroPipe_15(),
+  magrittr_20(),
+  BlockPipe_20(),
+  BizarroPipe_20(),
+  magrittr_25(),
+  BlockPipe_25(),
+  BizarroPipe_25(), 
+  magrittr_50(),
+  BlockPipe_50(),
+  BizarroPipe_50(), 
+  times=1000L
+)
+print(bm)
+autoplot(bm)
+```
+
+```{r replot}
+d <- as.data.frame(bm)
+d$size <- as.numeric(gsub("[^0-9]+", "", d$expr))
+d$fn <- gsub("[_0-9].*$", "", d$expr)
+
+mkPlot <- function(d, title) {
+  d$size <- as.factor(d$size)
+  highCut <- as.numeric(quantile(d$time, probs = 0.99))
+  dcut <- d[d$time<=highCut, , drop=FALSE]
+  
+  ggplot(data=dcut, aes(x=time, group=expr, color=size)) +
+    geom_density(adjust=0.3) +
+    facet_wrap(~fn, ncol=1, scales = 'free_y') +
+    xlab('time (NS)') + ggtitle(title)
+}
+
+mkPlot(d, 'all timings')
+mkPlot(d[d$fn %in% c('magrittr', 'BlockPipe'), , drop=FALSE], 
+       'magrittr v.s. BlockPipe')
+```
+
+```{r calculate}
+# fit a linear function for runtime as a function of size
+# per group.
+fits <- d %>%
+  split(., .$fn) %>%
+  lapply(., 
+         function(di) { 
+           lm(time ~ size, data=di) 
+         }) %>%
+  lapply(., coefficients) %>%
+  lapply(., 
+         function(ri) {
+           data.frame(Intercept= ri[["(Intercept)"]],
+                      size= ri[['size']])
+         }) 
+dfits <- bind_rows(fits)
+dfits$fn <- names(fits)
+
+# "Intercept" is roughly start-up cost 
+# "size" is slope or growth rate
+print(dfits)
+
+# solve for size where two lines interesect.
+# Note: this is a naive estimate, and not stable
+# in the face of estimated slopes and intercepts.
+solve <- function(dfits, f1, f2) {
+  idx1 <- which(dfits$fn==f1)
+  idx2 <- which(dfits$fn==f2)
+  size <- (dfits$Intercept[[idx1]] - dfits$Intercept[[idx2]]) /
+    (dfits$size[[idx2]] - dfits$size[[idx1]])
+  size
+}
+
+crossingPoint <- solve(dfits, 'BlockPipe', 'magrittr')
+print(crossingPoint)
+```
+
