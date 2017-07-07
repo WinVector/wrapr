@@ -12,7 +12,7 @@ a \%.>\% b
 \item{b}{right argument (presumably including .)}
 }
 \description{
-Defined as: a %.>% b  ~roughly~  { . <- a; b } (though, we try to stop .-side effects).
+Defined as: a %.>% b  ~roughly~  { . <- a; b }; (though, we try to stop .-side effects).
 (please see \url{http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/}).
 }
 \examples{

@@ -2,7 +2,7 @@
 
 #' Pipe-like operator ("dot block pipe").
 #'
-#' Defined as: a %.>% b  ~roughly~  { . <- a; b } (though, we try to stop .-side effects).
+#' Defined as: a %.>% b  ~roughly~  { . <- a; b }; (though, we try to stop .-side effects).
 #' (please see \url{http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/}).
 #'
 #' @param a left argument (substituted into .)
