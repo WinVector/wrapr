@@ -2,11 +2,12 @@
 
 #' Pipe-like operator ("dot block pipe").
 #'
-#' Defined as: a %.>% b  ~roughly~  { . <- a; b }; (though, we try to stop .-side effects).
-#' (please see \url{http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/}).
+#' Defined as: \code{a \%.>\% b} roughly ~ \code{\{ . <- a; b \};} (though, we try to stop .-side effects).
+#' Please see \url{http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/}.
 #'
 #' @param a left argument (substituted into .)
 #' @param b right argument (presumably including .)
+#' @return  \{ . <- a; b \}; (with .-side effects removed)
 #'
 #' @examples
 #'

@@ -11,9 +11,12 @@ a \%.>\% b
 
 \item{b}{right argument (presumably including .)}
 }
+\value{
+\{ . <- a; b \}; (with .-side effects removed)
+}
 \description{
-Defined as: a %.>% b  ~roughly~  { . <- a; b }; (though, we try to stop .-side effects).
-(please see \url{http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/}).
+Defined as: \code{a \%.>\% b} roughly ~ \code{\{ . <- a; b \};} (though, we try to stop .-side effects).
+Please see \url{http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/}.
 }
 \examples{
 
