@@ -1,7 +1,7 @@
 ---
 title: "Piple Performance"
 author: "John Mount"
-date: "6/27/2017"
+date: "7/7/2017"
 output:
   md_document:
     variant: markdown_github
@@ -13,7 +13,7 @@ Keep in mind for any *serious* application the calculation time on data will far
 
 So we will compare:
 
- * `magrittr*` `magrittr::%>%` substitution (`"langsubs"` mode).
+ * `magrittr*` `magrittr::%>%` substitution.
  * `BlockPipe*` `wrapr::%.>%` substitution.
  * `BizarroPipe*` `%->%` substitution.
  
@@ -152,5 +152,12 @@ solve <- function(dfits, f1, f2) {
 
 crossingPoint <- solve(dfits, 'BlockPipe', 'magrittr')
 print(crossingPoint)
+
+ratio <- dfits$size[dfits$fn=='BlockPipe'] / dfits$size[dfits$fn=='magrittr']
+print(ratio)
 ```
+
+Overall:
+
+BlockPipe is about `r format(ratio, digits=1)` times slower than magrittr on large pipelines.
 
