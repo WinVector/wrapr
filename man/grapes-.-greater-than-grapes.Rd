@@ -4,22 +4,24 @@
 \alias{\%.>\%}
 \title{Pipe-like operator ("dot arrow").}
 \usage{
-a \%.>\% b
+pipe_left_arg \%.>\% pipe_right_arg
 }
 \arguments{
-\item{a}{left argument (substituted into .)}
+\item{pipe_left_arg}{left argument expression (substituted into .)}
 
-\item{b}{right argument (presumably including .)}
+\item{pipe_right_arg}{right argument expession (presumably including .)}
 }
 \value{
-\{ . <- a; b \}; (with .-side effects removed)
+eval(\{ . <- pipe_left_arg; pipe_right_arg \};) (with .-side effects removed)
 }
 \description{
-Defined as: \code{a \%.>\% b} roughly ~ \code{\{ . <- a; b \};} (though, we try to stop .-side effects).
+Defined as: \code{a \%.>\% b} roughly ~ \code{\{ . <- a; b \};}
+(though, we try to stop .-side effects).
 Please see \url{http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/}.
 }
 \examples{
 
+# both should be equal:
 cos(exp(sin(4)))
 4 \%.>\% sin(.) \%.>\% exp(.) \%.>\% cos(.)
 
