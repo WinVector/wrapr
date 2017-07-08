@@ -84,7 +84,7 @@ Please see `vignette('let', package='wrapr')` for more examples.
 `wrapr::%.>%` dot arrow pipe is a strict pipe with intended semantics:
 
 
->  "a %.&gt;% b" is to be treated:
+>  "a %.&gt;% b" is to be treated
 >  as if the user had written "{ . &lt;- a; b };"
 >  with "%.&gt;%" being treated as left-associative,
 >  and .-side effects removed.
