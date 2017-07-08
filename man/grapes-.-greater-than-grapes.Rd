@@ -2,7 +2,7 @@
 % Please edit documentation in R/bpipe.R
 \name{\%.>\%}
 \alias{\%.>\%}
-\title{Pipe-like operator ("dot block pipe").}
+\title{Pipe-like operator ("dot arrow").}
 \usage{
 a \%.>\% b
 }

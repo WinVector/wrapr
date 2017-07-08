@@ -1,6 +1,6 @@
 
 
-#' Pipe-like operator ("dot block pipe").
+#' Pipe-like operator ("dot arrow").
 #'
 #' Defined as: \code{a \%.>\% b} roughly ~ \code{\{ . <- a; b \};} (though, we try to stop .-side effects).
 #' Please see \url{http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/}.
