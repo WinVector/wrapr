@@ -5,7 +5,7 @@ magrittr_1 <- function() {
 
 
 
-DotBlockPipe_1 <- function() {
+DotArrow_1 <- function() {
  5 %.>%
    sin(.)
 }
@@ -25,7 +25,7 @@ BizarroPipe_1 <- function() {
 
 
 
-DotBlockPipe_2 <- function() {
+DotArrow_2 <- function() {
  5 %.>%
    sin(.) %.>%
    sin(.)
@@ -50,7 +50,7 @@ BizarroPipe_2 <- function() {
 
 
 
-DotBlockPipe_5 <- function() {
+DotArrow_5 <- function() {
  5 %.>%
    sin(.) %.>%
    sin(.) %.>%
@@ -86,7 +86,7 @@ BizarroPipe_5 <- function() {
 
 
 
-DotBlockPipe_10 <- function() {
+DotArrow_10 <- function() {
  5 %.>%
    sin(.) %.>%
    sin(.) %.>%
@@ -137,7 +137,7 @@ BizarroPipe_10 <- function() {
 
 
 
-DotBlockPipe_15 <- function() {
+DotArrow_15 <- function() {
  5 %.>%
    sin(.) %.>%
    sin(.) %.>%
@@ -203,7 +203,7 @@ BizarroPipe_15 <- function() {
 
 
 
-DotBlockPipe_20 <- function() {
+DotArrow_20 <- function() {
  5 %.>%
    sin(.) %.>%
    sin(.) %.>%
@@ -284,7 +284,7 @@ BizarroPipe_20 <- function() {
 
 
 
-DotBlockPipe_25 <- function() {
+DotArrow_25 <- function() {
  5 %.>%
    sin(.) %.>%
    sin(.) %.>%
@@ -400,7 +400,7 @@ BizarroPipe_25 <- function() {
 
 
 
-DotBlockPipe_50 <- function() {
+DotArrow_50 <- function() {
  5 %.>%
    sin(.) %.>%
    sin(.) %.>%

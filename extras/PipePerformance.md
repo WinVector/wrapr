@@ -1,11 +1,11 @@
-Some timings for [`%.>%`](http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/).
+Some timings for [`%.>%`](http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/) ("dot arrow").
 
 Keep in mind for any *serious* application the calculation time on data will far dominate any piping overhead, but it is fun to look.
 
 So we will compare:
 
 -   `magrittr*` `magrittr::%>%` substitution.
--   `DotBlockPipe*` `wrapr::%.>%` substitution.
+-   `DotArrow*` `wrapr::%.>%` substitution.
 -   `BizarroPipe*` `->.;` substitution.
 
 ``` r
@@ -32,7 +32,7 @@ print(BizarroPipe_5)
     ## }
 
 ``` r
-print(DotBlockPipe_5)
+print(DotArrow_5)
 ```
 
     ## function () 
@@ -56,7 +56,7 @@ BizarroPipe_10()
     ## [1] -0.4774053
 
 ``` r
-DotBlockPipe_10()
+DotArrow_10()
 ```
 
     ## [1] -0.4774053
@@ -70,28 +70,28 @@ magrittr_10()
 ``` r
 bm <- microbenchmark(
   magrittr_1(),
-  DotBlockPipe_1(),
+  DotArrow_1(),
   BizarroPipe_1(),
   magrittr_2(),
-  DotBlockPipe_2(),
+  DotArrow_2(),
   BizarroPipe_2(),
   magrittr_5(),
-  DotBlockPipe_5(),
+  DotArrow_5(),
   BizarroPipe_5(),
   magrittr_10(),
-  DotBlockPipe_10(),
+  DotArrow_10(),
   BizarroPipe_10(),
   magrittr_15(),
-  DotBlockPipe_15(),
+  DotArrow_15(),
   BizarroPipe_15(),
   magrittr_20(),
-  DotBlockPipe_20(),
+  DotArrow_20(),
   BizarroPipe_20(),
   magrittr_25(),
-  DotBlockPipe_25(),
+  DotArrow_25(),
   BizarroPipe_25(), 
   magrittr_50(),
-  DotBlockPipe_50(),
+  DotArrow_50(),
   BizarroPipe_50(), 
   times=1000L
 )
@@ -99,56 +99,56 @@ print(bm)
 ```
 
     ## Unit: nanoseconds
-    ##               expr     min        lq        mean    median        uq
-    ##       magrittr_1()   49785   56912.5   69493.461   61248.0   68033.5
-    ##   DotBlockPipe_1()   35843   40754.5   49773.803   45063.0   51652.5
-    ##    BizarroPipe_1()     235    1007.0    2574.675    1483.5    1738.0
-    ##       magrittr_2()   72442   81543.5   94173.487   86616.0   93575.0
-    ##   DotBlockPipe_2()   71109   79621.0   97903.294   87159.5   95066.5
-    ##    BizarroPipe_2()     283    1224.5    3460.313    1596.5    1815.5
-    ##       magrittr_5()  134732  150432.0  169389.760  156668.5  166102.0
-    ##   DotBlockPipe_5()  178816  195179.0  224559.392  204326.5  217448.0
-    ##    BizarroPipe_5()     395    1409.5    4951.969    1859.0    2124.5
-    ##      magrittr_10()  236226  259765.5  295810.353  271615.5  284856.5
-    ##  DotBlockPipe_10()  359045  387702.0  430698.131  400453.5  417779.0
-    ##   BizarroPipe_10()     569    1690.5    7909.038    2161.0    2454.5
-    ##      magrittr_15()  336208  370699.5  423379.597  386789.0  403934.0
-    ##  DotBlockPipe_15()  541747  581219.5  639857.959  596953.5  616747.5
-    ##   BizarroPipe_15()     725    1643.5    9429.208    2185.0    2486.5
-    ##      magrittr_20()  438164  484500.0  547503.970  506089.5  526963.0
-    ##  DotBlockPipe_20()  726609  773966.5  869269.764  794647.5  824726.5
-    ##   BizarroPipe_20()     890    2054.5   12136.100    2523.0    2842.5
-    ##      magrittr_25()  539184  595130.5  677442.105  623097.5  648832.5
-    ##  DotBlockPipe_25()  908188  972307.5 1068904.649  998401.0 1033680.0
-    ##   BizarroPipe_25()    1055    2129.5   15094.721    2493.5    2799.0
-    ##      magrittr_50() 1060972 1146916.0 1362917.546 1205028.0 1251479.5
-    ##  DotBlockPipe_50() 1880236 1993322.0 2194177.990 2045266.5 2139704.0
-    ##   BizarroPipe_50()    1883    2945.5   27738.108    3542.5    3899.5
+    ##              expr     min        lq        mean    median        uq
+    ##      magrittr_1()   48278   57410.0   74216.642   62335.5   70707.0
+    ##      DotArrow_1()   37588   41809.0   52815.890   47109.0   52947.0
+    ##   BizarroPipe_1()     252    1049.0    3847.904    1467.5    1687.0
+    ##      magrittr_2()   73407   82568.5   97809.177   88267.0   97404.5
+    ##      DotArrow_2()   73481   81419.5  100928.773   88392.0   97672.0
+    ##   BizarroPipe_2()     340    1217.5    3509.339    1563.0    1780.0
+    ##      magrittr_5()  135607  152573.5  179806.616  159279.0  171085.0
+    ##      DotArrow_5()  182917  199828.0  229331.954  209792.0  221823.0
+    ##   BizarroPipe_5()     450    1383.0    5444.047    1892.0    2130.5
+    ##     magrittr_10()  239538  266117.0  310490.505  276787.5  289833.5
+    ##     DotArrow_10()  367405  399093.5  449396.838  410993.5  427876.5
+    ##  BizarroPipe_10()     664    1761.5   10335.687    2209.0    2495.0
+    ##     magrittr_15()  338597  379769.0  448122.763  396393.5  414006.0
+    ##     DotArrow_15()  552261  596873.5  667747.475  611742.0  637799.0
+    ##  BizarroPipe_15()     851    2006.5   11397.370    2554.0    2911.0
+    ##     magrittr_20()  446938  497076.5  631725.125  519712.5  541603.5
+    ##     DotArrow_20()  743556  796240.5  889188.471  812292.5  845972.0
+    ##  BizarroPipe_20()    1011    2059.5   16645.098    2594.0    2918.0
+    ##     magrittr_25()  544492  605358.0  698787.796  636039.0  659676.0
+    ##     DotArrow_25()  946591  997046.0 1113292.066 1020783.0 1061814.0
+    ##  BizarroPipe_25()    1203    2181.5   16147.803    2754.5    3039.5
+    ##     magrittr_50() 1068858 1171986.5 1356338.414 1233707.5 1288004.5
+    ##     DotArrow_50() 1945913 2049705.5 2288900.429 2096860.0 2200436.5
+    ##  BizarroPipe_50()    2186    3198.0   32573.278    3723.0    4040.5
     ##       max neval
-    ##   1438948  1000
-    ##   1412537  1000
-    ##   1197516  1000
-    ##   2014716  1000
-    ##   2201503  1000
-    ##   1945315  1000
-    ##   3936573  1000
-    ##   3907841  1000
-    ##   3211876  1000
-    ##   7841107  1000
-    ##   9174931  1000
-    ##   5822802  1000
-    ##  10457276  1000
-    ##  12526355  1000
-    ##   7360532  1000
-    ##  15202177  1000
-    ##  14699481  1000
-    ##   9688122  1000
-    ##  17094708  1000
-    ##  20796798  1000
-    ##  12602971  1000
-    ##  54939886  1000
-    ##  35825099  1000
-    ##  24298838  1000
+    ##   1818601  1000
+    ##   1597759  1000
+    ##   2455099  1000
+    ##   2699588  1000
+    ##   2772309  1000
+    ##   2007713  1000
+    ##   4983930  1000
+    ##   5385437  1000
+    ##   3645719  1000
+    ##  11889289  1000
+    ##   9278748  1000
+    ##   8218859  1000
+    ##  24017032  1000
+    ##  22673827  1000
+    ##   8927563  1000
+    ##  52668432  1000
+    ##  18866664  1000
+    ##  14137162  1000
+    ##  23786422  1000
+    ##  22128966  1000
+    ##  13471037  1000
+    ##  50099265  1000
+    ##  42803779  1000
+    ##  28930449  1000
 
 ``` r
 autoplot(bm)
@@ -178,8 +178,8 @@ mkPlot(d, 'all timings')
 ![](PipePerformance_files/figure-markdown_github/replot-1.png)
 
 ``` r
-mkPlot(d[d$fn %in% c('magrittr', 'DotBlockPipe'), , drop=FALSE], 
-       'magrittr v.s. DotBlockPipe')
+mkPlot(d[d$fn %in% c('magrittr', 'DotArrow'), , drop=FALSE], 
+       'magrittr v.s. DotArrow')
 ```
 
 ![](PipePerformance_files/figure-markdown_github/replot-2.png)
@@ -207,10 +207,10 @@ dfits$fn <- names(fits)
 print(dfits)
 ```
 
-    ##    Intercept       size           fn
-    ## 1  2297.5922   507.1359  BizarroPipe
-    ## 2  -817.0898 43606.8883 DotBlockPipe
-    ## 3 34019.6226 26312.1351     magrittr
+    ##   Intercept       size          fn
+    ## 1  3061.743   589.1139 BizarroPipe
+    ## 2 -3621.605 45473.2401    DotArrow
+    ## 3 54050.950 26288.1987    magrittr
 
 ``` r
 # solve for size where two lines interesect.
@@ -224,19 +224,19 @@ solve <- function(dfits, f1, f2) {
   size
 }
 
-crossingPoint <- solve(dfits, 'DotBlockPipe', 'magrittr')
+crossingPoint <- solve(dfits, 'DotArrow', 'magrittr')
 print(crossingPoint)
 ```
 
-    ## [1] 2.014294
+    ## [1] 3.006121
 
 ``` r
-ratio <- dfits$size[dfits$fn=='DotBlockPipe'] / dfits$size[dfits$fn=='magrittr']
+ratio <- dfits$size[dfits$fn=='DotArrow'] / dfits$size[dfits$fn=='magrittr']
 print(ratio)
 ```
 
-    ## [1] 1.657292
+    ## [1] 1.729797
 
 Overall:
 
-DotBlockPipe is about 1.7 times slower than magrittr on large pipelines, though this cost will be unnoticeable with in any significant workload.
+DotArrow is about 1.7 times slower than magrittr on large pipelines, though this cost will be unnoticeable with in any significant workload.
