@@ -15,7 +15,7 @@ So we will compare:
 
  * `magrittr*` `magrittr::%>%` substitution.
  * `DotBlockPipe*` `wrapr::%.>%` substitution.
- * `BizarroPipe*` `%->%` substitution.
+ * `BizarroPipe*` `->.;` substitution.
  
 ```{r generator, include=FALSE, echo=FALSE}
 # build source code for fns of size k
@@ -132,13 +132,13 @@ mkPlot(d[d$fn %in% c('magrittr', 'DotBlockPipe'), , drop=FALSE],
 ```{r calculate}
 # fit a linear function for runtime as a function of size
 # per group.
-fits <- d %>%
-  split(., .$fn) %>%
+fits <- d %.>%
+  split(., .$fn) %.>%
   lapply(., 
          function(di) { 
            lm(time ~ size, data=di) 
-         }) %>%
-  lapply(., coefficients) %>%
+         }) %.>%
+  lapply(., coefficients) %.>%
   lapply(., 
          function(ri) {
            data.frame(Intercept= ri[["(Intercept)"]],
