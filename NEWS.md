@@ -1,4 +1,8 @@
 
+`wrapr` 0.3.0 2017-07-08
+
+ * Introduce dot block pipe `%.>%`
+
 `wrapr` 0.2.0 2017-07-05
 
  * Switch to abstract syntax tree substitution.
