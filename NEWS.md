@@ -1,7 +1,7 @@
 
 `wrapr` 0.3.0 2017-07-08
 
- * Introduce dot block pipe `%.>%`
+ * Introduce "dot arrow" pipe `%.>%`
 
 `wrapr` 0.2.0 2017-07-05
 
