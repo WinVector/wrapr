@@ -14,7 +14,7 @@ Keep in mind for any *serious* application the calculation time on data will far
 So we will compare:
 
  * `magrittr*` `magrittr::%>%` substitution.
- * `BlockPipe*` `wrapr::%.>%` substitution.
+ * `DotBlockPipe*` `wrapr::%.>%` substitution.
  * `BizarroPipe*` `%->%` substitution.
  
 ```{r generator, include=FALSE, echo=FALSE}
@@ -23,7 +23,7 @@ So we will compare:
 buildFnsK <- function(k) {
   fs <- c("5", rep("sin(.)", k))
   fMap <- list('magrittr' = '%>%' , 
-               'BlockPipe' = '%.>%', 
+               'DotBlockPipe' = '%.>%', 
                'BizarroPipe' = '->.;')
   fns  <- lapply(names(fMap),
                  function(fn) {
@@ -65,13 +65,13 @@ source("pGenFns.R")
 
 print(BizarroPipe_5)
 
-print(BlockPipe_5)
+print(DotBlockPipe_5)
 
 print(magrittr_5)
 
 BizarroPipe_10()
 
-BlockPipe_10()
+DotBlockPipe_10()
 
 magrittr_10()
 ```
@@ -79,28 +79,28 @@ magrittr_10()
 ```{r timings}
 bm <- microbenchmark(
   magrittr_1(),
-  BlockPipe_1(),
+  DotBlockPipe_1(),
   BizarroPipe_1(),
   magrittr_2(),
-  BlockPipe_2(),
+  DotBlockPipe_2(),
   BizarroPipe_2(),
   magrittr_5(),
-  BlockPipe_5(),
+  DotBlockPipe_5(),
   BizarroPipe_5(),
   magrittr_10(),
-  BlockPipe_10(),
+  DotBlockPipe_10(),
   BizarroPipe_10(),
   magrittr_15(),
-  BlockPipe_15(),
+  DotBlockPipe_15(),
   BizarroPipe_15(),
   magrittr_20(),
-  BlockPipe_20(),
+  DotBlockPipe_20(),
   BizarroPipe_20(),
   magrittr_25(),
-  BlockPipe_25(),
+  DotBlockPipe_25(),
   BizarroPipe_25(), 
   magrittr_50(),
-  BlockPipe_50(),
+  DotBlockPipe_50(),
   BizarroPipe_50(), 
   times=1000L
 )
@@ -125,8 +125,8 @@ mkPlot <- function(d, title) {
 }
 
 mkPlot(d, 'all timings')
-mkPlot(d[d$fn %in% c('magrittr', 'BlockPipe'), , drop=FALSE], 
-       'magrittr v.s. BlockPipe')
+mkPlot(d[d$fn %in% c('magrittr', 'DotBlockPipe'), , drop=FALSE], 
+       'magrittr v.s. DotBlockPipe')
 ```
 
 ```{r calculate}
@@ -162,14 +162,14 @@ solve <- function(dfits, f1, f2) {
   size
 }
 
-crossingPoint <- solve(dfits, 'BlockPipe', 'magrittr')
+crossingPoint <- solve(dfits, 'DotBlockPipe', 'magrittr')
 print(crossingPoint)
 
-ratio <- dfits$size[dfits$fn=='BlockPipe'] / dfits$size[dfits$fn=='magrittr']
+ratio <- dfits$size[dfits$fn=='DotBlockPipe'] / dfits$size[dfits$fn=='magrittr']
 print(ratio)
 ```
 
 Overall:
 
-BlockPipe is about `r format(ratio, digits=2)` times slower than magrittr on large pipelines, though this cost will be unnoticeable with in any significant workload.
+DotBlockPipe is about `r format(ratio, digits=2)` times slower than magrittr on large pipelines, though this cost will be unnoticeable with in any significant workload.
 

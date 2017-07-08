@@ -5,7 +5,7 @@ Keep in mind for any *serious* application the calculation time on data will far
 So we will compare:
 
 -   `magrittr*` `magrittr::%>%` substitution.
--   `BlockPipe*` `wrapr::%.>%` substitution.
+-   `DotBlockPipe*` `wrapr::%.>%` substitution.
 -   `BizarroPipe*` `%->%` substitution.
 
 ``` r
@@ -32,7 +32,7 @@ print(BizarroPipe_5)
     ## }
 
 ``` r
-print(BlockPipe_5)
+print(DotBlockPipe_5)
 ```
 
     ## function () 
@@ -56,7 +56,7 @@ BizarroPipe_10()
     ## [1] -0.4774053
 
 ``` r
-BlockPipe_10()
+DotBlockPipe_10()
 ```
 
     ## [1] -0.4774053
@@ -70,28 +70,28 @@ magrittr_10()
 ``` r
 bm <- microbenchmark(
   magrittr_1(),
-  BlockPipe_1(),
+  DotBlockPipe_1(),
   BizarroPipe_1(),
   magrittr_2(),
-  BlockPipe_2(),
+  DotBlockPipe_2(),
   BizarroPipe_2(),
   magrittr_5(),
-  BlockPipe_5(),
+  DotBlockPipe_5(),
   BizarroPipe_5(),
   magrittr_10(),
-  BlockPipe_10(),
+  DotBlockPipe_10(),
   BizarroPipe_10(),
   magrittr_15(),
-  BlockPipe_15(),
+  DotBlockPipe_15(),
   BizarroPipe_15(),
   magrittr_20(),
-  BlockPipe_20(),
+  DotBlockPipe_20(),
   BizarroPipe_20(),
   magrittr_25(),
-  BlockPipe_25(),
+  DotBlockPipe_25(),
   BizarroPipe_25(), 
   magrittr_50(),
-  BlockPipe_50(),
+  DotBlockPipe_50(),
   BizarroPipe_50(), 
   times=1000L
 )
@@ -99,56 +99,56 @@ print(bm)
 ```
 
     ## Unit: nanoseconds
-    ##              expr     min        lq        mean    median        uq
-    ##      magrittr_1()   49164   57684.5   70483.980   62535.0   70139.5
-    ##     BlockPipe_1()   36478   41537.0   54304.177   46783.5   53209.5
-    ##   BizarroPipe_1()     223    1046.0    2612.819    1422.5    1658.0
-    ##      magrittr_2()   72094   82268.5  102902.873   87810.5   96616.0
-    ##     BlockPipe_2()   71646   80874.0  101847.273   88985.0   97709.0
-    ##   BizarroPipe_2()     292    1266.0    3249.247    1683.5    1956.5
-    ##      magrittr_5()  133961  151405.0  177993.592  158536.0  170876.0
-    ##     BlockPipe_5()  181052  197846.5  228548.214  207307.5  220056.0
-    ##   BizarroPipe_5()     393    1436.5    4618.697    1792.5    2067.0
-    ##     magrittr_10()  238320  263148.5  309381.547  273451.0  289787.5
-    ##    BlockPipe_10()  368290  392761.0  448329.108  405507.0  425232.5
-    ##  BizarroPipe_10()     561    1510.0    8517.747    1962.0    2319.5
-    ##     magrittr_15()  335872  372382.5  435325.250  389409.0  412498.0
-    ##    BlockPipe_15()  555207  588860.5  654151.810  604649.0  634009.0
-    ##  BizarroPipe_15()     744    1919.0    9616.341    2374.0    2708.0
-    ##     magrittr_20()  440762  485630.0  565786.662  510395.5  537440.5
-    ##    BlockPipe_20()  736150  784075.5  875202.437  805391.5  843710.5
-    ##  BizarroPipe_20()     890    2065.0   16507.985    2583.5    2948.0
-    ##     magrittr_25()  546613  597405.5  690871.427  627941.5  655559.0
-    ##    BlockPipe_25()  926342  983366.5 1151436.130 1009431.5 1053063.0
-    ##  BizarroPipe_25()    1059    2371.5   14271.914    2747.5    3121.5
-    ##     magrittr_50() 1053170 1144025.5 1318010.482 1206935.0 1257865.5
-    ##    BlockPipe_50() 1902404 2023424.0 2248940.628 2078659.5 2199532.0
-    ##  BizarroPipe_50()    1909    3055.0   25826.159    3548.0    3896.5
+    ##               expr     min        lq        mean    median        uq
+    ##       magrittr_1()   47910   58908.0   71817.553   64412.0   71990.0
+    ##   DotBlockPipe_1()   36828   42499.0   55758.271   48490.5   54572.0
+    ##    BizarroPipe_1()     218    1281.5    2612.513    1535.0    1729.0
+    ##       magrittr_2()   72195   84175.5  102198.356   90608.0   99014.5
+    ##   DotBlockPipe_2()   74504   83037.0  102210.099   90956.5   99263.5
+    ##    BizarroPipe_2()     293    1491.0    4547.017    1736.5    1973.0
+    ##       magrittr_5()  135445  152112.0  183399.108  160059.0  171509.5
+    ##   DotBlockPipe_5()  182178  201129.0  232582.597  211000.5  226030.5
+    ##    BizarroPipe_5()     396    1660.0    4833.152    1962.0    2238.0
+    ##      magrittr_10()  237164  261523.5  309981.789  271636.0  287165.5
+    ##  DotBlockPipe_10()  367742  400036.5  476205.566  414518.5  440082.0
+    ##   BizarroPipe_10()     568    2005.5    7402.956    2312.0    2645.5
+    ##      magrittr_15()  333154  370912.0  431708.445  383412.5  407987.0
+    ##  DotBlockPipe_15()  550780  599005.0  674982.800  616721.0  643054.5
+    ##   BizarroPipe_15()     736    2257.0   10479.704    2639.5    2993.5
+    ##      magrittr_20()  439156  483494.0  562019.036  499247.5  530138.5
+    ##  DotBlockPipe_20()  743924  801646.0  891919.623  824291.5  875714.5
+    ##   BizarroPipe_20()     896    2338.0   13805.195    2657.0    3002.5
+    ##      magrittr_25()  542354  594943.0  675267.448  612798.0  648748.0
+    ##  DotBlockPipe_25()  932516 1006112.0 1127922.400 1035132.0 1106644.5
+    ##   BizarroPipe_25()    1053    2510.5   16928.549    2829.0    3236.5
+    ##      magrittr_50() 1052330 1148805.5 1317047.834 1182381.0 1257919.0
+    ##  DotBlockPipe_50() 1923771 2066405.0 2344830.673 2122579.0 2306038.5
+    ##   BizarroPipe_50()    1944    3469.5   31100.647    3776.0    4194.5
     ##       max neval
-    ##   1354707  1000
-    ##   1349448  1000
-    ##   1224916  1000
-    ##   2013864  1000
-    ##   2195319  1000
-    ##   1658811  1000
-    ##   3845414  1000
-    ##   3933321  1000
-    ##   2849996  1000
-    ##   6643774  1000
-    ##   7234028  1000
-    ##   6564714  1000
-    ##   9767481  1000
-    ##  10524485  1000
-    ##   7325720  1000
-    ##  14611038  1000
-    ##  13889120  1000
-    ##  14015480  1000
-    ##  16547674  1000
-    ##  52959131  1000
-    ##  11555148  1000
-    ##  33335624  1000
-    ##  39928831  1000
-    ##  22317535  1000
+    ##   1311071  1000
+    ##   1697744  1000
+    ##   1123363  1000
+    ##   1946498  1000
+    ##   2034688  1000
+    ##   1571328  1000
+    ##   3991477  1000
+    ##   4010409  1000
+    ##   2874873  1000
+    ##   7025186  1000
+    ##   7001563  1000
+    ##   5095912  1000
+    ##   9985808  1000
+    ##  11010132  1000
+    ##   7903346  1000
+    ##  13554159  1000
+    ##  16133461  1000
+    ##  11143236  1000
+    ##  16373739  1000
+    ##  18006142  1000
+    ##  14098287  1000
+    ##  35398057  1000
+    ##  57430530  1000
+    ##  27278576  1000
 
 ``` r
 autoplot(bm)
@@ -178,8 +178,8 @@ mkPlot(d, 'all timings')
 ![](PipePerformance_files/figure-markdown_github/replot-1.png)
 
 ``` r
-mkPlot(d[d$fn %in% c('magrittr', 'BlockPipe'), , drop=FALSE], 
-       'magrittr v.s. BlockPipe')
+mkPlot(d[d$fn %in% c('magrittr', 'DotBlockPipe'), , drop=FALSE], 
+       'magrittr v.s. DotBlockPipe')
 ```
 
 ![](PipePerformance_files/figure-markdown_github/replot-2.png)
@@ -207,10 +207,10 @@ dfits$fn <- names(fits)
 print(dfits)
 ```
 
-    ##   Intercept       size          fn
-    ## 1  2998.829   478.3615 BizarroPipe
-    ## 2  2186.588 44884.8990   BlockPipe
-    ## 3 52330.049 25407.1517    magrittr
+    ##   Intercept       size           fn
+    ## 1  2257.676   575.3776  BizarroPipe
+    ## 2 -4801.403 46443.9316 DotBlockPipe
+    ## 3 52417.240 25266.4192     magrittr
 
 ``` r
 # solve for size where two lines interesect.
@@ -224,19 +224,19 @@ solve <- function(dfits, f1, f2) {
   size
 }
 
-crossingPoint <- solve(dfits, 'BlockPipe', 'magrittr')
+crossingPoint <- solve(dfits, 'DotBlockPipe', 'magrittr')
 print(crossingPoint)
 ```
 
-    ## [1] 2.574397
+    ## [1] 2.701859
 
 ``` r
-ratio <- dfits$size[dfits$fn=='BlockPipe'] / dfits$size[dfits$fn=='magrittr']
+ratio <- dfits$size[dfits$fn=='DotBlockPipe'] / dfits$size[dfits$fn=='magrittr']
 print(ratio)
 ```
 
-    ## [1] 1.766625
+    ## [1] 1.838168
 
 Overall:
 
-BlockPipe is about 1.8 times slower than magrittr on large pipelines, though this cost will be unnoticeable with in any significant workload.
+DotBlockPipe is about 1.8 times slower than magrittr on large pipelines, though this cost will be unnoticeable with in any significant workload.
