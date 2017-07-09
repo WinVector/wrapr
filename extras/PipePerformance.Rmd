@@ -15,6 +15,7 @@ So we will compare:
 
  * `magrittr*` `magrittr::%>%` substitution.
  * `DotArrow*` `wrapr::%.>%` substitution.
+ * `HappyArrow*` `wrapr::%:>%` substitution.
  * `BizarroPipe*` `->.;` substitution.
  
 ```{r generator, include=FALSE, echo=FALSE}
@@ -24,6 +25,7 @@ buildFnsK <- function(k) {
   fs <- c("5", rep("sin(.)", k))
   fMap <- list('magrittr' = '%>%' , 
                'DotArrow' = '%.>%', 
+               'HappyArrow' = '%:>%', 
                'BizarroPipe' = '->.;')
   fns  <- lapply(names(fMap),
                  function(fn) {
@@ -61,11 +63,15 @@ suppressPackageStartupMessages(library("ggplot2"))
 suppressPackageStartupMessages(library("dplyr"))
 
 # load generated examples
+prevNames <- ls()
 source("pGenFns.R")
+genFns <- setdiff(ls(), c(prevNames, 'prevNames', 'genFns'))
 
 print(BizarroPipe_5)
 
 print(DotArrow_5)
+
+print(HappyArrow_5)
 
 print(magrittr_5)
 
@@ -73,37 +79,23 @@ BizarroPipe_10()
 
 DotArrow_10()
 
+HappyArrow_10()
+
 magrittr_10()
 ```
 
 ```{r timings}
-bm <- microbenchmark(
-  magrittr_1(),
-  DotArrow_1(),
-  BizarroPipe_1(),
-  magrittr_2(),
-  DotArrow_2(),
-  BizarroPipe_2(),
-  magrittr_5(),
-  DotArrow_5(),
-  BizarroPipe_5(),
-  magrittr_10(),
-  DotArrow_10(),
-  BizarroPipe_10(),
-  magrittr_15(),
-  DotArrow_15(),
-  BizarroPipe_15(),
-  magrittr_20(),
-  DotArrow_20(),
-  BizarroPipe_20(),
-  magrittr_25(),
-  DotArrow_25(),
-  BizarroPipe_25(), 
-  magrittr_50(),
-  DotArrow_50(),
-  BizarroPipe_50(), 
+cmd <- parse(text=paste0(
+  "microbenchmark(\n ",
+  paste(paste0(genFns,'()'), collapse=',\n '),
+  ", 
   times=1000L
-)
+  )\n"
+))
+
+print(cmd)
+
+bm <- eval(cmd)
 print(bm)
 autoplot(bm)
 ```
@@ -113,26 +105,31 @@ d <- as.data.frame(bm)
 d$size <- as.numeric(gsub("[^0-9]+", "", d$expr))
 d$fn <- gsub("[_0-9].*$", "", d$expr)
 
-mkPlot <- function(d, title) {
-  d$size <- as.factor(d$size)
-  highCut <- as.numeric(quantile(d$time, probs = 0.99))
-  dcut <- d[d$time<=highCut, , drop=FALSE]
-  
-  ggplot(data=dcut, aes(x=time, group=expr, color=size)) +
-    geom_density(adjust=0.3) +
-    facet_wrap(~fn, ncol=1, scales = 'free_y') +
-    xlab('time (NS)') + ggtitle(title)
-}
-
-mkPlot(d, 'all timings')
-mkPlot(d[d$fn %in% c('magrittr', 'DotArrow'), , drop=FALSE], 
-       'magrittr v.s. DotArrow')
+d$fn <- reorder(d$fn, d$time)
+ggplot(d, aes(x=fn, y=time, color=fn)) + 
+  geom_violin() + 
+  scale_y_log10() + 
+  facet_wrap(~size, labeller="label_both") + 
+  coord_flip() + 
+  xlab("method") +
+  ylab("time NS") +
+  theme(legend.position = 'none') +
+  scale_color_brewer(palette = 'Dark2') +
+  ggtitle("distribution of runtime as function of method and problem size",
+          subtitle = "log scale")
 ```
 
 ```{r calculate}
+# new verb that records listnames in a column
+bind_rows_named <- function(dlist, destinationColumn) {
+  res <- bind_rows(dlist)
+  res[[destinationColumn]] <- names(dlist)
+  res
+}
+
 # fit a linear function for runtime as a function of size
 # per group.
-fits <- d %.>%
+dfits <- d %.>%
   split(., .$fn) %.>%
   lapply(., 
          function(di) { 
@@ -143,33 +140,20 @@ fits <- d %.>%
          function(ri) {
            data.frame(Intercept= ri[["(Intercept)"]],
                       size= ri[['size']])
-         }) 
-dfits <- bind_rows(fits)
-dfits$fn <- names(fits)
+         }) %.>%
+  bind_rows_named(., 'fn')
+
 
 # "Intercept" is roughly start-up cost 
 # "size" is slope or growth rate
 print(dfits)
 
-# solve for size where two lines interesect.
-# Note: this is a naive estimate, and not stable
-# in the face of estimated slopes and intercepts.
-solve <- function(dfits, f1, f2) {
-  idx1 <- which(dfits$fn==f1)
-  idx2 <- which(dfits$fn==f2)
-  size <- (dfits$Intercept[[idx1]] - dfits$Intercept[[idx2]]) /
-    (dfits$size[[idx2]] - dfits$size[[idx1]])
-  size
-}
 
-crossingPoint <- solve(dfits, 'DotArrow', 'magrittr')
-print(crossingPoint)
-
-ratio <- dfits$size[dfits$fn=='DotArrow'] / dfits$size[dfits$fn=='magrittr']
+ratio <- dfits$size[dfits$fn=='magrittr'] / dfits$size[dfits$fn=='DotArrow']
 print(ratio)
 ```
 
 Overall:
 
-DotArrow is about `r format(ratio, digits=2)` times slower than magrittr on large pipelines, though this cost will be unnoticeable with in any significant workload.
+DotArrow is about `r format(ratio, digits=2)` times faster than magrittr on large pipelines, though this cost will be unnoticeable with in any significant workload.
 

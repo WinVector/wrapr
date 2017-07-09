@@ -6,6 +6,7 @@ So we will compare:
 
 -   `magrittr*` `magrittr::%>%` substitution.
 -   `DotArrow*` `wrapr::%.>%` substitution.
+-   `HappyArrow*` `wrapr::%:>%` substitution.
 -   `BizarroPipe*` `->.;` substitution.
 
 ``` r
@@ -16,7 +17,9 @@ suppressPackageStartupMessages(library("ggplot2"))
 suppressPackageStartupMessages(library("dplyr"))
 
 # load generated examples
+prevNames <- ls()
 source("pGenFns.R")
+genFns <- setdiff(ls(), c(prevNames, 'prevNames', 'genFns'))
 
 print(BizarroPipe_5)
 ```
@@ -41,6 +44,15 @@ print(DotArrow_5)
     ## }
 
 ``` r
+print(HappyArrow_5)
+```
+
+    ## function () 
+    ## {
+    ##     5 %:>% sin(.) %:>% sin(.) %:>% sin(.) %:>% sin(.) %:>% sin(.)
+    ## }
+
+``` r
 print(magrittr_5)
 ```
 
@@ -62,93 +74,111 @@ DotArrow_10()
     ## [1] -0.4774053
 
 ``` r
+HappyArrow_10()
+```
+
+    ## [1] -0.4774053
+
+``` r
 magrittr_10()
 ```
 
     ## [1] -0.4774053
 
 ``` r
-bm <- microbenchmark(
-  magrittr_1(),
-  DotArrow_1(),
-  BizarroPipe_1(),
-  magrittr_2(),
-  DotArrow_2(),
-  BizarroPipe_2(),
-  magrittr_5(),
-  DotArrow_5(),
-  BizarroPipe_5(),
-  magrittr_10(),
-  DotArrow_10(),
-  BizarroPipe_10(),
-  magrittr_15(),
-  DotArrow_15(),
-  BizarroPipe_15(),
-  magrittr_20(),
-  DotArrow_20(),
-  BizarroPipe_20(),
-  magrittr_25(),
-  DotArrow_25(),
-  BizarroPipe_25(), 
-  magrittr_50(),
-  DotArrow_50(),
-  BizarroPipe_50(), 
+cmd <- parse(text=paste0(
+  "microbenchmark(\n ",
+  paste(paste0(genFns,'()'), collapse=',\n '),
+  ", 
   times=1000L
-)
+  )\n"
+))
+
+print(cmd)
+```
+
+    ## expression(microbenchmark(BizarroPipe_1(), BizarroPipe_10(), 
+    ##     BizarroPipe_15(), BizarroPipe_2(), BizarroPipe_20(), BizarroPipe_25(), 
+    ##     BizarroPipe_5(), BizarroPipe_50(), DotArrow_1(), DotArrow_10(), 
+    ##     DotArrow_15(), DotArrow_2(), DotArrow_20(), DotArrow_25(), 
+    ##     DotArrow_5(), DotArrow_50(), HappyArrow_1(), HappyArrow_10(), 
+    ##     HappyArrow_15(), HappyArrow_2(), HappyArrow_20(), HappyArrow_25(), 
+    ##     HappyArrow_5(), HappyArrow_50(), magrittr_1(), magrittr_10(), 
+    ##     magrittr_15(), magrittr_2(), magrittr_20(), magrittr_25(), 
+    ##     magrittr_5(), magrittr_50(), times = 1000L))
+
+``` r
+bm <- eval(cmd)
 print(bm)
 ```
 
     ## Unit: nanoseconds
     ##              expr     min        lq        mean    median        uq
-    ##      magrittr_1()   48278   57410.0   74216.642   62335.5   70707.0
-    ##      DotArrow_1()   37588   41809.0   52815.890   47109.0   52947.0
-    ##   BizarroPipe_1()     252    1049.0    3847.904    1467.5    1687.0
-    ##      magrittr_2()   73407   82568.5   97809.177   88267.0   97404.5
-    ##      DotArrow_2()   73481   81419.5  100928.773   88392.0   97672.0
-    ##   BizarroPipe_2()     340    1217.5    3509.339    1563.0    1780.0
-    ##      magrittr_5()  135607  152573.5  179806.616  159279.0  171085.0
-    ##      DotArrow_5()  182917  199828.0  229331.954  209792.0  221823.0
-    ##   BizarroPipe_5()     450    1383.0    5444.047    1892.0    2130.5
-    ##     magrittr_10()  239538  266117.0  310490.505  276787.5  289833.5
-    ##     DotArrow_10()  367405  399093.5  449396.838  410993.5  427876.5
-    ##  BizarroPipe_10()     664    1761.5   10335.687    2209.0    2495.0
-    ##     magrittr_15()  338597  379769.0  448122.763  396393.5  414006.0
-    ##     DotArrow_15()  552261  596873.5  667747.475  611742.0  637799.0
-    ##  BizarroPipe_15()     851    2006.5   11397.370    2554.0    2911.0
-    ##     magrittr_20()  446938  497076.5  631725.125  519712.5  541603.5
-    ##     DotArrow_20()  743556  796240.5  889188.471  812292.5  845972.0
-    ##  BizarroPipe_20()    1011    2059.5   16645.098    2594.0    2918.0
-    ##     magrittr_25()  544492  605358.0  698787.796  636039.0  659676.0
-    ##     DotArrow_25()  946591  997046.0 1113292.066 1020783.0 1061814.0
-    ##  BizarroPipe_25()    1203    2181.5   16147.803    2754.5    3039.5
-    ##     magrittr_50() 1068858 1171986.5 1356338.414 1233707.5 1288004.5
-    ##     DotArrow_50() 1945913 2049705.5 2288900.429 2096860.0 2200436.5
-    ##  BizarroPipe_50()    2186    3198.0   32573.278    3723.0    4040.5
+    ##   BizarroPipe_1()     219     854.5    2396.738    1335.5    1558.0
+    ##  BizarroPipe_10()     599    1375.5    6951.303    1969.5    2264.5
+    ##  BizarroPipe_15()     770    1530.5    9547.461    2220.0    2533.0
+    ##   BizarroPipe_2()     291    1085.0    3036.516    1589.5    1850.5
+    ##  BizarroPipe_20()     928    1749.0   12081.935    2579.5    2925.0
+    ##  BizarroPipe_25()    1118    2033.5   14115.822    2589.0    2883.0
+    ##   BizarroPipe_5()     431    1189.0    4454.888    1813.0    2062.0
+    ##  BizarroPipe_50()    1971    2718.5   26603.282    3613.0    4009.5
+    ##      DotArrow_1()   14792   18965.0   26966.131   21843.5   25352.5
+    ##     DotArrow_10()  158036  174492.0  200826.744  180208.5  187416.5
+    ##     DotArrow_15()  236686  261108.0  296303.374  269306.5  277725.0
+    ##      DotArrow_2()   30547   36321.5   43756.767   39519.5   43542.5
+    ##     DotArrow_20()  321208  348896.0  412709.884  359119.5  370147.5
+    ##     DotArrow_25()  407753  439881.5  507356.389  451640.5  464712.0
+    ##      DotArrow_5()   78075   88324.5  106562.644   92206.5   97044.0
+    ##     DotArrow_50()  855251  918948.5 1039469.992  937088.0  970670.5
+    ##    HappyArrow_1()    3415    5470.5   10004.580    6348.5    7308.0
+    ##   HappyArrow_10()   33961   41622.0   54434.667   44163.0   47009.5
+    ##   HappyArrow_15()   49603   60881.0   76837.876   64746.5   68717.0
+    ##    HappyArrow_2()    6654    9691.5   13235.418   10761.0   12003.0
+    ##   HappyArrow_20()   67085   80126.5  104575.937   84594.0   89921.0
+    ##   HappyArrow_25()   85468   98571.0  127915.475  103951.5  110563.0
+    ##    HappyArrow_5()   16986   21961.5   27871.488   23526.5   25252.5
+    ##   HappyArrow_50()  170499  191100.0  252426.560  201439.5  213754.0
+    ##      magrittr_1()   50701   57643.0   66204.683   60550.5   65874.0
+    ##     magrittr_10()  268552  292432.0  328218.060  305347.0  317063.0
+    ##     magrittr_15()  387991  423912.0  530886.359  442963.5  456914.5
+    ##      magrittr_2()   76781   85749.0   99405.758   88965.0   94852.5
+    ##     magrittr_20()  507701  554038.5  622958.592  580926.0  601569.0
+    ##     magrittr_25()  627518  680036.0  777407.011  715958.5  746620.5
+    ##      magrittr_5()  148554  164811.5  191186.342  170308.0  178021.5
+    ##     magrittr_50() 1229156 1356252.5 1512116.535 1426014.5 1484046.0
     ##       max neval
-    ##   1818601  1000
-    ##   1597759  1000
-    ##   2455099  1000
-    ##   2699588  1000
-    ##   2772309  1000
-    ##   2007713  1000
-    ##   4983930  1000
-    ##   5385437  1000
-    ##   3645719  1000
-    ##  11889289  1000
-    ##   9278748  1000
-    ##   8218859  1000
-    ##  24017032  1000
-    ##  22673827  1000
-    ##   8927563  1000
-    ##  52668432  1000
-    ##  18866664  1000
-    ##  14137162  1000
-    ##  23786422  1000
-    ##  22128966  1000
-    ##  13471037  1000
-    ##  50099265  1000
-    ##  42803779  1000
-    ##  28930449  1000
+    ##   1135425  1000
+    ##   5037144  1000
+    ##   7449517  1000
+    ##   1557817  1000
+    ##   9628148  1000
+    ##  11614868  1000
+    ##   2778736  1000
+    ##  23112814  1000
+    ##   1334617  1000
+    ##   6781564  1000
+    ##  10414838  1000
+    ##   1848686  1000
+    ##  13426443  1000
+    ##  18032134  1000
+    ##   3662404  1000
+    ##  33431304  1000
+    ##   1798378  1000
+    ##   6537602  1000
+    ##   9956760  1000
+    ##   1859639  1000
+    ##  14609411  1000
+    ##  19281942  1000
+    ##   3696006  1000
+    ##  37381755  1000
+    ##   1453093  1000
+    ##   7047150  1000
+    ##  54377855  1000
+    ##   2041006  1000
+    ##  13171163  1000
+    ##  17046114  1000
+    ##   3766932  1000
+    ##  33031920  1000
 
 ``` r
 autoplot(bm)
@@ -161,33 +191,33 @@ d <- as.data.frame(bm)
 d$size <- as.numeric(gsub("[^0-9]+", "", d$expr))
 d$fn <- gsub("[_0-9].*$", "", d$expr)
 
-mkPlot <- function(d, title) {
-  d$size <- as.factor(d$size)
-  highCut <- as.numeric(quantile(d$time, probs = 0.99))
-  dcut <- d[d$time<=highCut, , drop=FALSE]
-  
-  ggplot(data=dcut, aes(x=time, group=expr, color=size)) +
-    geom_density(adjust=0.3) +
-    facet_wrap(~fn, ncol=1, scales = 'free_y') +
-    xlab('time (NS)') + ggtitle(title)
-}
-
-mkPlot(d, 'all timings')
+d$fn <- reorder(d$fn, d$time)
+ggplot(d, aes(x=fn, y=time, color=fn)) + 
+  geom_violin() + 
+  scale_y_log10() + 
+  facet_wrap(~size, labeller="label_both") + 
+  coord_flip() + 
+  xlab("method") +
+  ylab("time NS") +
+  theme(legend.position = 'none') +
+  scale_color_brewer(palette = 'Dark2') +
+  ggtitle("distribution of runtime as function of method and problem size",
+          subtitle = "log scale")
 ```
 
 ![](PipePerformance_files/figure-markdown_github/replot-1.png)
 
 ``` r
-mkPlot(d[d$fn %in% c('magrittr', 'DotArrow'), , drop=FALSE], 
-       'magrittr v.s. DotArrow')
-```
+# new verb that records listnames in a column
+bind_rows_named <- function(dlist, destinationColumn) {
+  res <- bind_rows(dlist)
+  res[[destinationColumn]] <- names(dlist)
+  res
+}
 
-![](PipePerformance_files/figure-markdown_github/replot-2.png)
-
-``` r
 # fit a linear function for runtime as a function of size
 # per group.
-fits <- d %.>%
+dfits <- d %.>%
   split(., .$fn) %.>%
   lapply(., 
          function(di) { 
@@ -198,9 +228,9 @@ fits <- d %.>%
          function(ri) {
            data.frame(Intercept= ri[["(Intercept)"]],
                       size= ri[['size']])
-         }) 
-dfits <- bind_rows(fits)
-dfits$fn <- names(fits)
+         }) %.>%
+  bind_rows_named(., 'fn')
+
 
 # "Intercept" is roughly start-up cost 
 # "size" is slope or growth rate
@@ -208,35 +238,18 @@ print(dfits)
 ```
 
     ##   Intercept       size          fn
-    ## 1  3061.743   589.1139 BizarroPipe
-    ## 2 -3621.605 45473.2401    DotArrow
-    ## 3 54050.950 26288.1987    magrittr
+    ## 1  2028.097   491.8998 BizarroPipe
+    ## 2  3878.695  4970.8784  HappyArrow
+    ## 3 -1485.155 20670.5716    DotArrow
+    ## 4 45196.701 29428.2010    magrittr
 
 ``` r
-# solve for size where two lines interesect.
-# Note: this is a naive estimate, and not stable
-# in the face of estimated slopes and intercepts.
-solve <- function(dfits, f1, f2) {
-  idx1 <- which(dfits$fn==f1)
-  idx2 <- which(dfits$fn==f2)
-  size <- (dfits$Intercept[[idx1]] - dfits$Intercept[[idx2]]) /
-    (dfits$size[[idx2]] - dfits$size[[idx1]])
-  size
-}
-
-crossingPoint <- solve(dfits, 'DotArrow', 'magrittr')
-print(crossingPoint)
-```
-
-    ## [1] 3.006121
-
-``` r
-ratio <- dfits$size[dfits$fn=='DotArrow'] / dfits$size[dfits$fn=='magrittr']
+ratio <- dfits$size[dfits$fn=='magrittr'] / dfits$size[dfits$fn=='DotArrow']
 print(ratio)
 ```
 
-    ## [1] 1.729797
+    ## [1] 1.423676
 
 Overall:
 
-DotArrow is about 1.7 times slower than magrittr on large pipelines, though this cost will be unnoticeable with in any significant workload.
+DotArrow is about 1.4 times faster than magrittr on large pipelines, though this cost will be unnoticeable with in any significant workload.

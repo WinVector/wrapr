@@ -12,6 +12,13 @@ DotArrow_1 <- function() {
 
 
 
+HappyArrow_1 <- function() {
+ 5 %:>%
+   sin(.)
+}
+
+
+
 BizarroPipe_1 <- function() {
  5 ->.;
    sin(.)
@@ -28,6 +35,14 @@ BizarroPipe_1 <- function() {
 DotArrow_2 <- function() {
  5 %.>%
    sin(.) %.>%
+   sin(.)
+}
+
+
+
+HappyArrow_2 <- function() {
+ 5 %:>%
+   sin(.) %:>%
    sin(.)
 }
 
@@ -56,6 +71,17 @@ DotArrow_5 <- function() {
    sin(.) %.>%
    sin(.) %.>%
    sin(.) %.>%
+   sin(.)
+}
+
+
+
+HappyArrow_5 <- function() {
+ 5 %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
    sin(.)
 }
 
@@ -97,6 +123,22 @@ DotArrow_10 <- function() {
    sin(.) %.>%
    sin(.) %.>%
    sin(.) %.>%
+   sin(.)
+}
+
+
+
+HappyArrow_10 <- function() {
+ 5 %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
    sin(.)
 }
 
@@ -153,6 +195,27 @@ DotArrow_15 <- function() {
    sin(.) %.>%
    sin(.) %.>%
    sin(.) %.>%
+   sin(.)
+}
+
+
+
+HappyArrow_15 <- function() {
+ 5 %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
    sin(.)
 }
 
@@ -224,6 +287,32 @@ DotArrow_20 <- function() {
    sin(.) %.>%
    sin(.) %.>%
    sin(.) %.>%
+   sin(.)
+}
+
+
+
+HappyArrow_20 <- function() {
+ 5 %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
    sin(.)
 }
 
@@ -310,6 +399,37 @@ DotArrow_25 <- function() {
    sin(.) %.>%
    sin(.) %.>%
    sin(.) %.>%
+   sin(.)
+}
+
+
+
+HappyArrow_25 <- function() {
+ 5 %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
    sin(.)
 }
 
@@ -451,6 +571,62 @@ DotArrow_50 <- function() {
    sin(.) %.>%
    sin(.) %.>%
    sin(.) %.>%
+   sin(.)
+}
+
+
+
+HappyArrow_50 <- function() {
+ 5 %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
+   sin(.) %:>%
    sin(.)
 }
 
