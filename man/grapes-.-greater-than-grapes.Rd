@@ -12,11 +12,11 @@ pipe_left_arg \%.>\% pipe_right_arg
 \item{pipe_right_arg}{right argument expession (presumably including .)}
 }
 \value{
-eval(\{ . <- pipe_left_arg; pipe_right_arg \};) (with .-side effects removed)
+eval(\{ . <- pipe_left_arg; pipe_right_arg \};)
 }
 \description{
 Defined as: \code{a \%.>\% b} roughly ~ \code{\{ . <- a; b \};}
-(though, we try to stop .-side effects).
+(with visible .-side effects).
 Please see \url{http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/}.
 }
 \examples{

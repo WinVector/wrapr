@@ -15,7 +15,6 @@ So we will compare:
 
  * `magrittr*` `magrittr::%>%` substitution.
  * `DotArrow*` `wrapr::%.>%` substitution.
- * `HappyArrow*` `wrapr::%:>%` substitution.
  * `BizarroPipe*` `->.;` substitution.
  
 ```{r generator, include=FALSE, echo=FALSE}
@@ -25,7 +24,6 @@ buildFnsK <- function(k) {
   fs <- c("5", rep("sin(.)", k))
   fMap <- list('magrittr' = '%>%' , 
                'DotArrow' = '%.>%', 
-               'HappyArrow' = '%:>%', 
                'BizarroPipe' = '->.;')
   fns  <- lapply(names(fMap),
                  function(fn) {
@@ -40,14 +38,8 @@ buildFnsK <- function(k) {
 
 
 ftext <- paste(
-  buildFnsK(1),
-  buildFnsK(2),
-  buildFnsK(5),
-  buildFnsK(10),
-  buildFnsK(15),
-  buildFnsK(20),
-  buildFnsK(25),
-  buildFnsK(50),
+  vapply(c(1, 2, 5, 10, 15, 20, 25, 50, 100, 200, 500, 1000),
+         buildFnsK, character(1)),
   collapse = "\n\n")
 
 fileConn<-file("pGenFns.R")
@@ -59,6 +51,7 @@ close(fileConn)
 library("microbenchmark")
 library("wrapr")
 library("rlang")
+library("cdata")
 suppressPackageStartupMessages(library("ggplot2"))
 suppressPackageStartupMessages(library("dplyr"))
 
@@ -67,27 +60,29 @@ prevNames <- ls()
 source("pGenFns.R")
 genFns <- setdiff(ls(), c(prevNames, 'prevNames', 'genFns'))
 
+# parser translates BizarroPipe to different code!
+cat(buildFnsK(5), sep = '\n')
+
 print(BizarroPipe_5)
-
-print(DotArrow_5)
-
-print(HappyArrow_5)
-
-print(magrittr_5)
 
 BizarroPipe_10()
 
 DotArrow_10()
 
-HappyArrow_10()
-
 magrittr_10()
 ```
 
 ```{r timings}
+# get expressions into a nice presentation order
+fList <- data.frame(expr= genFns, 
+                    stringsAsFactors = FALSE)
+fList$size <- as.numeric(gsub("[^0-9]+", "", fList$expr))
+fList$fn <- gsub("[_0-9].*$", "", fList$expr)
+fList <- fList[order(fList$size, fList$fn), , drop=FALSE]
+
 cmd <- parse(text=paste0(
   "microbenchmark(\n ",
-  paste(paste0(genFns,'()'), collapse=',\n '),
+  paste(paste0(fList$expr,'()'), collapse=',\n '),
   ", 
   times=1000L
   )\n"
@@ -116,14 +111,28 @@ ggplot(d, aes(x=fn, y=time, color=fn)) +
   theme(legend.position = 'none') +
   scale_color_brewer(palette = 'Dark2') +
   ggtitle("distribution of runtime as function of method and problem size",
-          subtitle = "log scale")
+          subtitle = "log-time scale")
+
+# ggplot 2 legend in reverse order, so re-order to get that
+d$fn <- reorder(d$fn, -d$time)
+ggplot(d, aes(x=size, y=time, color=fn)) +
+  geom_smooth() +
+  scale_y_log10() +
+  scale_x_log10() +
+  scale_color_brewer(palette = 'Dark2') +
+  ggtitle("complexity of runtime as function of method and problem size",
+          subtitle = "log/log scale")
 ```
 
 ```{r calculate}
-# new verb that records listnames in a column
-bind_rows_named <- function(dlist, destinationColumn) {
-  res <- bind_rows(dlist)
-  res[[destinationColumn]] <- names(dlist)
+# new that adds a name column to a list of dataframes
+add_name_column <- function(dlist, destinationColumn) {
+  res <- dlist
+  for(ni in names(dlist)) {
+    vi <- dlist[[ni]]
+    vi[[destinationColumn]] <- ni
+    res[[ni]] <- vi
+  }
   res
 }
 
@@ -135,25 +144,32 @@ dfits <- d %.>%
          function(di) { 
            lm(time ~ size, data=di) 
          }) %.>%
-  lapply(., coefficients) %.>%
-  lapply(., 
-         function(ri) {
-           data.frame(Intercept= ri[["(Intercept)"]],
-                      size= ri[['size']])
-         }) %.>%
-  bind_rows_named(., 'fn')
-
+  lapply(., function(fi) {
+    ctab <- as.data.frame(summary(fi)$coefficients)
+    ctab$coef <- rownames(ctab)
+    ctab <- moveValuesToRows(ctab, 
+                             nameForNewKeyColumn = 'meas', 
+                             nameForNewValueColumn = 'value', 
+                             columnsToTakeFrom = c('Estimate',  
+                                                   'Std. Error',   
+                                                   't value',  
+                                                   'Pr(>|t|)'))
+    ctab
+  }) %.>%
+  add_name_column(., 'method') %.>%
+  bind_rows(.) %.>%
+  moveValuesToColumns(., 
+                      columnToTakeKeysFrom = 'meas', 
+                      columnToTakeValuesFrom = 'value',
+                      rowKeyColumns = c('method', 'coef')) %.>%
+  arrange(., method, coef) %.>%
+  select(.,  method, coef, Estimate, `Std. Error`,  `t value`, `Pr(>|t|)`)
 
 # "Intercept" is roughly start-up cost 
-# "size" is slope or growth rate
+# "coef_size" is slope or growth rate, 
+# "coef_sizesq" is square term in growth.
 print(dfits)
 
-
-ratio <- dfits$size[dfits$fn=='magrittr'] / dfits$size[dfits$fn=='DotArrow']
-print(ratio)
 ```
 
-Overall:
-
-DotArrow is about `r format(ratio, digits=2)` times faster than magrittr on large pipelines, though this cost will be unnoticeable with in any significant workload.
 
