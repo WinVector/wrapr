@@ -1,5 +1,5 @@
 ---
-title: "Piple Performance"
+title: "Pipe Performance"
 author: "John Mount"
 date: "7/7/2017"
 output:
@@ -13,9 +13,9 @@ Keep in mind for any *serious* application the calculation time on data will far
 
 So we will compare:
 
- * `magrittr*` `magrittr::%>%` substitution.
- * `DotArrow*` `wrapr::%.>%` substitution.
- * `BizarroPipe*` `->.;` substitution.
+ * `magrittr*` `magrittr::%>%` piping.
+ * `DotArrow*` `wrapr::%.>%` piping.
+ * `BizarroPipe*` `->.;` piping.
  
 ```{r generator, include=FALSE, echo=FALSE}
 # build source code for fns of size k
