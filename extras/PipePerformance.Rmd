@@ -109,7 +109,9 @@ ggplot(d, aes(x=fn, y=time, color=fn)) +
   xlab("method") +
   ylab("time NS") +
   theme(legend.position = 'none') +
-  scale_color_brewer(palette = 'Dark2') +
+  scale_color_manual(values = c(magrittr='#7570b3',
+                                DotArrow='#d95f02',
+                                BizarroPipe='#1b9e77')) +
   ggtitle("distribution of runtime as function of method and problem size",
           subtitle = "log-time scale")
 
@@ -117,9 +119,13 @@ ggplot(d, aes(x=fn, y=time, color=fn)) +
 d$fn <- reorder(d$fn, -d$time)
 ggplot(d, aes(x=size, y=time, color=fn)) +
   geom_smooth() +
-  scale_y_log10() +
-  scale_x_log10() +
-  scale_color_brewer(palette = 'Dark2') +
+  scale_y_log10('time (NS)') +
+  scale_x_log10('size (number of pipe stages)') +
+  scale_color_manual(values = c(magrittr='#7570b3',
+                                DotArrow='#d95f02',
+                                BizarroPipe='#1b9e77')) +
+  xlab("method") +
+  ylab("time NS") +
   ggtitle("complexity of runtime as function of method and problem size",
           subtitle = "log/log scale")
 ```
@@ -166,8 +172,8 @@ dfits <- d %.>%
   select(.,  method, coef, Estimate, `Std. Error`,  `t value`, `Pr(>|t|)`)
 
 # "Intercept" is roughly start-up cost 
-# "coef_size" is slope or growth rate, 
-# "coef_sizesq" is square term in growth.
+# "size" is roughly the slope or growth rate of execution time
+# as a function of number of pipe stages.
 print(dfits)
 
 ```
