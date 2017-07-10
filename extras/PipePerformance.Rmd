@@ -50,7 +50,6 @@ close(fileConn)
 ```{r defs}
 library("microbenchmark")
 library("wrapr")
-library("rlang")
 suppressPackageStartupMessages(library("ggplot2"))
 suppressPackageStartupMessages(library("dplyr"))
 
@@ -130,7 +129,7 @@ ggplot(d, aes(x=size, y=time, color=fn)) +
 ```
 
 ```{r calculate}
-# new that adds a name column to a list of dataframes
+# verb that adds a name column to a list of dataframes
 add_name_column <- function(dlist, destinationColumn) {
   res <- dlist
   for(ni in names(dlist)) {
@@ -147,23 +146,20 @@ dfits <- d %.>%
   split(., .$fn) %.>%
   lapply(., 
          function(di) { 
-           lm(time ~ size, data=di) 
+           mi <- lm(time ~ size, data=di) 
+           ctab <- as.data.frame(summary(mi)$coefficients)
+           ctab$coef <- rownames(ctab)
+           ctab
          }) %.>%
-  lapply(., function(fi) {
-    ctab <- as.data.frame(summary(fi)$coefficients)
-    ctab$coef <- rownames(ctab)
-    ctab
-  }) %.>%
   add_name_column(., 'method') %.>%
   bind_rows(.) %.>%
   arrange(., method, coef) %.>%
-  select(.,  method, coef, Estimate, `Std. Error`,  `t value`, `Pr(>|t|)`)
+  select(.,  method, coef, Estimate, `Std. Error`, `Pr(>|t|)`)
 
 # "Intercept" is roughly start-up cost 
 # "size" is roughly the slope or growth rate of execution time
 # as a function of number of pipe stages.
 print(dfits)
-
 ```
 
 
