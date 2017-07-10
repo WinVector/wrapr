@@ -7,12 +7,14 @@ So we will compare:
 -   `magrittr*` `magrittr::%>%` piping.
 -   `DotArrow*` `wrapr::%.>%` piping.
 -   `BizarroPipe*` `->.;` piping.
+-   `TidyPipe*` `%>%` [piping based on `rlang`/`tidyeval`](https://gist.github.com/lionel-/10cd649b31f11512e4aea3b7a98fe381) (renamed to "`%t>%`" in this run to avoid name collisions).
 
 ``` r
 library("microbenchmark")
 library("wrapr")
 suppressPackageStartupMessages(library("ggplot2"))
 suppressPackageStartupMessages(library("dplyr"))
+source('rlangPipe.R')
 
 # load generated examples
 prevNames <- ls()
@@ -51,6 +53,17 @@ cat(buildFnsK(5), sep = '\n')
     ##    sin(.) ->.;
     ##    sin(.) ->.;
     ##    sin(.) ->.;
+    ##    sin(.)
+    ## }
+    ## 
+    ## 
+    ## 
+    ## TidyPipe_5 <- function() {
+    ##  5 %t>%
+    ##    sin(.) %t>%
+    ##    sin(.) %t>%
+    ##    sin(.) %t>%
+    ##    sin(.) %t>%
     ##    sin(.)
     ## }
 
@@ -106,15 +119,18 @@ print(cmd)
 ```
 
     ## expression(microbenchmark(BizarroPipe_1(), DotArrow_1(), magrittr_1(), 
-    ##     BizarroPipe_2(), DotArrow_2(), magrittr_2(), BizarroPipe_5(), 
-    ##     DotArrow_5(), magrittr_5(), BizarroPipe_10(), DotArrow_10(), 
-    ##     magrittr_10(), BizarroPipe_15(), DotArrow_15(), magrittr_15(), 
-    ##     BizarroPipe_20(), DotArrow_20(), magrittr_20(), BizarroPipe_25(), 
-    ##     DotArrow_25(), magrittr_25(), BizarroPipe_50(), DotArrow_50(), 
-    ##     magrittr_50(), BizarroPipe_100(), DotArrow_100(), magrittr_100(), 
-    ##     BizarroPipe_200(), DotArrow_200(), magrittr_200(), BizarroPipe_500(), 
-    ##     DotArrow_500(), magrittr_500(), BizarroPipe_1000(), DotArrow_1000(), 
-    ##     magrittr_1000(), times = 1000L))
+    ##     TidyPipe_1(), BizarroPipe_2(), DotArrow_2(), magrittr_2(), 
+    ##     TidyPipe_2(), BizarroPipe_5(), DotArrow_5(), magrittr_5(), 
+    ##     TidyPipe_5(), BizarroPipe_10(), DotArrow_10(), magrittr_10(), 
+    ##     TidyPipe_10(), BizarroPipe_15(), DotArrow_15(), magrittr_15(), 
+    ##     TidyPipe_15(), BizarroPipe_20(), DotArrow_20(), magrittr_20(), 
+    ##     TidyPipe_20(), BizarroPipe_25(), DotArrow_25(), magrittr_25(), 
+    ##     TidyPipe_25(), BizarroPipe_50(), DotArrow_50(), magrittr_50(), 
+    ##     TidyPipe_50(), BizarroPipe_100(), DotArrow_100(), magrittr_100(), 
+    ##     TidyPipe_100(), BizarroPipe_200(), DotArrow_200(), magrittr_200(), 
+    ##     TidyPipe_200(), BizarroPipe_500(), DotArrow_500(), magrittr_500(), 
+    ##     TidyPipe_500(), BizarroPipe_1000(), DotArrow_1000(), magrittr_1000(), 
+    ##     TidyPipe_1000(), times = 1000L))
 
 ``` r
 bm <- eval(cmd)
@@ -122,80 +138,104 @@ print(bm)
 ```
 
     ## Unit: nanoseconds
-    ##                expr      min         lq         mean     median         uq
-    ##     BizarroPipe_1()      218     1487.0     3139.755     1695.5     2001.0
-    ##        DotArrow_1()     3433     6163.5    12999.901     7784.5    11858.0
-    ##        magrittr_1()    49829    62822.0    95200.413    78610.5   114451.0
-    ##     BizarroPipe_2()      280     1467.0     4301.379     1727.5     2031.0
-    ##        DotArrow_2()     7113    10602.5    17390.713    12787.0    17695.5
-    ##        magrittr_2()    73743    86724.5   127466.063   106197.5   147280.0
-    ##     BizarroPipe_5()      407     1807.0    14244.722     2092.5     2472.5
-    ##        DotArrow_5()    17296    23383.5    34216.489    26419.5    32318.5
-    ##        magrittr_5()   135956   157452.0   211875.183   181659.5   229692.5
-    ##    BizarroPipe_10()      581     1866.5    10304.842     2222.0     2635.5
-    ##       DotArrow_10()    33662    44322.0    63515.168    49484.0    57845.5
-    ##       magrittr_10()   238419   271837.5   357692.266   309189.0   370709.5
-    ##    BizarroPipe_15()      748     2250.5    12670.308     2541.5     2945.5
-    ##       DotArrow_15()    49363    66508.0   102125.599    73261.5    83083.0
-    ##       magrittr_15()   339390   389158.5   480230.140   428515.0   502061.5
-    ##    BizarroPipe_20()      951     2313.0    16949.975     2679.0     3125.5
-    ##       DotArrow_20()    70845    85476.5   130378.549    93767.0   107204.0
-    ##       magrittr_20()   442793   506885.0   628354.029   553673.0   648457.0
-    ##    BizarroPipe_25()     1124     2532.0    15153.660     2850.5     3257.0
-    ##       DotArrow_25()    88798   106773.5   144098.398   116323.0   131956.5
-    ##       magrittr_25()   562559   622933.5   778756.911   670203.0   777214.0
-    ##    BizarroPipe_50()     1974     3660.5    45936.433     4010.0     4435.5
-    ##       DotArrow_50()   176262   206930.0   315354.165   225220.0   261132.0
-    ##       magrittr_50()  1088647  1203396.0  1470626.672  1281050.5  1525488.5
-    ##   BizarroPipe_100()     3726     5302.0    69946.426     5741.5     6368.0
-    ##      DotArrow_100()   344709   422063.5   607110.504   456855.5   534813.5
-    ##      magrittr_100()  2103665  2357188.0  2874376.488  2490454.0  2994347.0
-    ##   BizarroPipe_200()     7222     8990.5   110747.350     9605.0    10236.0
-    ##      DotArrow_200()   707313   859382.5  1226806.945   916473.0  1102727.0
-    ##      magrittr_200()  4210584  4692415.5  5851795.199  4932842.5  6133636.5
-    ##   BizarroPipe_500()    17720    20401.5   260509.678    21064.5    21861.0
-    ##      DotArrow_500()  2137651  2397499.0  2884622.506  2530492.5  3248841.5
-    ##      magrittr_500() 10476379 11885952.5 13912516.990 13098358.5 14854595.0
-    ##  BizarroPipe_1000()    35125    39785.0   543036.769    40619.5    41972.0
-    ##     DotArrow_1000()  4608568  5032309.5  6016676.741  5290646.5  6851192.5
-    ##     magrittr_1000() 22409747 25208182.0 27492732.563 26932330.0 28467091.0
-    ##        max neval
-    ##    1449992  1000
-    ##    2511012  1000
-    ##    1481279  1000
-    ##    2559523  1000
-    ##    2943457  1000
-    ##    2101715  1000
-    ##   12154266  1000
-    ##    5026276  1000
-    ##   10253470  1000
-    ##    8056899  1000
-    ##    6714027  1000
-    ##    6959494  1000
-    ##   10085243  1000
-    ##   17638852  1000
-    ##   10249257  1000
-    ##   14258632  1000
-    ##   22047819  1000
-    ##   13552797  1000
-    ##   12207524  1000
-    ##   16096811  1000
-    ##   26037982  1000
-    ##   41905593  1000
-    ##   33789457  1000
-    ##   38700690  1000
-    ##   64057370  1000
-    ##   81102424  1000
-    ##   89230660  1000
-    ##  100994956  1000
-    ##  163409513  1000
-    ##  136706251  1000
-    ##  238808124  1000
-    ##   10864113  1000
-    ##   72084879  1000
-    ##  501085619  1000
-    ##   20900840  1000
-    ##   82613695  1000
+    ##                expr       min          lq         mean      median
+    ##     BizarroPipe_1()       222      1582.0 3.452462e+03      1891.0
+    ##        DotArrow_1()      4235      8492.0 1.407039e+04     12240.5
+    ##        magrittr_1()     56548     86874.5 1.279572e+05    117928.5
+    ##        TidyPipe_1()     76276     98633.5 1.675330e+05    132375.5
+    ##     BizarroPipe_2()       280      1654.5 3.956418e+03      1998.5
+    ##        DotArrow_2()      7636     14224.0 2.357294e+04     18157.5
+    ##        magrittr_2()     82207    125945.5 1.858265e+05    156135.0
+    ##        TidyPipe_2()    152758    191140.5 2.946715e+05    258549.5
+    ##     BizarroPipe_5()       427      2044.5 6.957985e+03      2424.0
+    ##        DotArrow_5()     18651     28462.0 4.666124e+04     33913.0
+    ##        magrittr_5()    153189    209923.0 2.875921e+05    247030.5
+    ##        TidyPipe_5()    376903    452410.0 6.847440e+05    567618.0
+    ##    BizarroPipe_10()       656      2268.5 1.219271e+04      2660.0
+    ##       DotArrow_10()     37175     52872.5 8.188275e+04     61072.0
+    ##       magrittr_10()    256265    337953.0 4.759854e+05    391870.0
+    ##       TidyPipe_10()    731178    902174.0 1.278493e+06   1114632.0
+    ##    BizarroPipe_15()       816      2577.5 1.380794e+04      3054.5
+    ##       DotArrow_15()     55744     75206.0 1.214259e+05     86447.5
+    ##       magrittr_15()    368810    474488.0 6.591939e+05    560907.5
+    ##       TidyPipe_15()   1103447   1348655.0 1.844298e+06   1610747.0
+    ##    BizarroPipe_20()       984      2617.0 1.723997e+04      3080.0
+    ##       DotArrow_20()     78110     97314.0 1.591300e+05    111272.0
+    ##       magrittr_20()    493245    603417.0 8.424960e+05    707362.0
+    ##       TidyPipe_20()   1476766   1804012.0 2.502478e+06   2212604.0
+    ##    BizarroPipe_25()      1148      2748.0 1.710645e+04      3219.0
+    ##       DotArrow_25()     97539    120199.0 3.451899e+05    139810.0
+    ##       magrittr_25()    612587    729494.0 1.018048e+06    849042.0
+    ##       TidyPipe_25()   1860104   2245898.5 3.128991e+06   2691102.0
+    ##    BizarroPipe_50()      2088      3864.0 3.247329e+04      4347.5
+    ##       DotArrow_50()    185787    228443.5 3.833299e+05    269846.0
+    ##       magrittr_50()   1163140   1391384.5 1.979434e+06   1743553.5
+    ##       TidyPipe_50()   3834891   4496058.5 6.145512e+06   5551208.5
+    ##   BizarroPipe_100()      3894      5720.5 5.512375e+04      6289.0
+    ##      DotArrow_100()    368637    464721.5 7.647731e+05    545108.5
+    ##      magrittr_100()   2278879   2716829.5 3.830687e+06   3432310.0
+    ##      TidyPipe_100()   7955880   9568530.0 1.246797e+07  11335954.5
+    ##   BizarroPipe_200()      7228      9556.0 1.518077e+05     10172.5
+    ##      DotArrow_200()    799396    971421.5 1.666996e+06   1219153.0
+    ##      magrittr_200()   4514391   5386501.5 7.505771e+06   6731385.5
+    ##      TidyPipe_200()  17018582  20802727.0 2.604228e+07  23803872.5
+    ##   BizarroPipe_500()     17972     21193.0 2.695247e+05     21877.0
+    ##      DotArrow_500()   2246279   2642707.5 3.930794e+06   3393110.5
+    ##      magrittr_500()  11255617  14287600.0 1.878876e+07  17276868.5
+    ##      TidyPipe_500()  53018221  62306566.5 7.456054e+07  68059408.0
+    ##  BizarroPipe_1000()     35239     40296.0 6.376164e+05     41190.5
+    ##     DotArrow_1000()   4759151   5573930.5 7.693530e+06   7097855.5
+    ##     magrittr_1000()  22968508  30391914.0 3.654468e+07  34176933.5
+    ##     TidyPipe_1000() 136980863 159031345.0 1.872716e+08 170789519.0
+    ##           uq       max neval
+    ##       2286.5   1335223  1000
+    ##      14385.5   1483981  1000
+    ##     142626.5   1601727  1000
+    ##     198904.5   3120480  1000
+    ##       2518.0   1746211  1000
+    ##      21189.5   4114697  1000
+    ##     192439.0   4319166  1000
+    ##     337986.0   3627811  1000
+    ##       2862.0   4375198  1000
+    ##      41358.0   7056578  1000
+    ##     302484.5   5217226  1000
+    ##     709918.5  15174794  1000
+    ##       3125.5   9313475  1000
+    ##      78833.0  10292974  1000
+    ##     502077.5   7785130  1000
+    ##    1330135.0  21690383  1000
+    ##       3548.0  10558228  1000
+    ##     121341.0  12071787  1000
+    ##     704158.0  15340941  1000
+    ##    2001477.5  16865493  1000
+    ##       3620.5  13891002  1000
+    ##     160222.5  18337023  1000
+    ##     892130.0  16085216  1000
+    ##    2721419.5  22493574  1000
+    ##       3721.0  13632091  1000
+    ##     198674.0  66959653  1000
+    ##    1105683.0  25587557  1000
+    ##    3379793.5  38394790  1000
+    ##       4887.5  27723503  1000
+    ##     408221.5  39499899  1000
+    ##    2145652.5  36355000  1000
+    ##    6682996.5 113465897  1000
+    ##       6992.5  48416926  1000
+    ##     794134.5  68960836  1000
+    ##    4171484.5  80601790  1000
+    ##   13348474.0  95914483  1000
+    ##      11302.5 140506945  1000
+    ##    1728131.5 168082935  1000
+    ##    8227618.5 158384845  1000
+    ##   27896518.5 194058884  1000
+    ##      23802.0 245494557  1000
+    ##    4477422.5  72862524  1000
+    ##   20451439.0  84597931  1000
+    ##   80624399.5 275116564  1000
+    ##      45777.0 591202114  1000
+    ##    8997457.0  24598222  1000
+    ##   39256910.5 116671289  1000
+    ##  201818703.0 754698628  1000
 
 ``` r
 autoplot(bm)
@@ -217,9 +257,7 @@ ggplot(d, aes(x=fn, y=time, color=fn)) +
   xlab("method") +
   ylab("time NS") +
   theme(legend.position = 'none') +
-  scale_color_manual(values = c(magrittr='#7570b3',
-                                DotArrow='#d95f02',
-                                BizarroPipe='#1b9e77')) +
+  scale_color_manual(values = colorAssignment) +
   ggtitle("distribution of runtime as function of method and problem size",
           subtitle = "log-time scale")
 ```
@@ -233,9 +271,7 @@ ggplot(d, aes(x=size, y=time, color=fn)) +
   geom_smooth() +
   scale_y_log10() +
   scale_x_log10() +
-  scale_color_manual(values = c(magrittr='#7570b3',
-                                DotArrow='#d95f02',
-                                BizarroPipe='#1b9e77')) +
+  scale_color_manual(values = colorAssignment) +
   xlab('size (number of pipe stages)') +
   ylab("time NS") +
   ggtitle("complexity of runtime as function of method and problem size",
@@ -264,7 +300,7 @@ dfits <- d %.>%
   split(., .$fn) %.>%
   lapply(., 
          function(di) { 
-           mi <- lm(time ~ size, data=di) 
+           mi <- lm(time ~ size + I(size*size), data=di) 
            ctab <- as.data.frame(summary(mi)$coefficients)
            ctab$coef <- rownames(ctab)
            ctab
@@ -277,13 +313,25 @@ dfits <- d %.>%
 # "Intercept" is roughly start-up cost 
 # "size" is roughly the slope or growth rate of execution time
 # as a function of number of pipe stages.
+# "I(size * size)" is where we try to detect super-linear cost,
+# check that it is both statistically significant and that 
+# it has a size that would affect predictions (is it times
+# the typical variation in size*size large?).
 print(dfits)
 ```
 
-    ##        method        coef    Estimate  Std. Error     Pr(>|t|)
-    ## 1 BizarroPipe (Intercept)   6914.4621 54367.99799 8.988009e-01
-    ## 2 BizarroPipe        size    531.1036   164.93588 1.285046e-03
-    ## 3    DotArrow (Intercept)   4083.1405 18734.25030 8.274713e-01
-    ## 4    DotArrow        size   5967.9969    56.83399 0.000000e+00
-    ## 5    magrittr (Intercept) 110768.5593 28244.04012 8.836521e-05
-    ## 6    magrittr        size  27464.9379    85.68378 0.000000e+00
+    ##         method           coef      Estimate   Std. Error      Pr(>|t|)
+    ## 1  BizarroPipe    (Intercept)   7089.177277 7.002188e+04  9.193598e-01
+    ## 2  BizarroPipe I(size * size)      0.114784 7.598874e-01  8.799357e-01
+    ## 3  BizarroPipe           size    511.683161 7.320178e+02  4.845632e-01
+    ## 4     DotArrow    (Intercept)  16424.650474 2.619331e+04  5.306350e-01
+    ## 5     DotArrow I(size * size)     -0.382053 2.842535e-01  1.789553e-01
+    ## 6     DotArrow           size   8056.229955 2.738283e+02 9.135169e-184
+    ## 7     magrittr    (Intercept)  79298.841997 4.877012e+04  1.039819e-01
+    ## 8     magrittr I(size * size)     -1.535420 5.292602e-01  3.725684e-03
+    ## 9     magrittr           size  38017.042084 5.098491e+02  0.000000e+00
+    ## 10    TidyPipe    (Intercept) 228370.531506 1.821491e+05  2.099551e-01
+    ## 11    TidyPipe I(size * size)     75.015638 1.976708e+00 1.015945e-297
+    ## 12    TidyPipe           size 111948.800704 1.904210e+03  0.000000e+00
+
+A note on the rare very slow events with `Bizarro Pipe`. My *guess* is given `Bizarro Pipe` is the only pipe that gets translated into a multi-line/multi-statement/many-visible-assigments function (i.e., more than one expression) that possibly gives it more changes to win the "garbage collection lottery" and pay for everybody's object clean-up. I don't actually know `R`'s `gc()` trigger strategy, so this is just speculation on my part.

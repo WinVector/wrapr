@@ -16,15 +16,30 @@ So we will compare:
  * `magrittr*` `magrittr::%>%` piping.
  * `DotArrow*` `wrapr::%.>%` piping.
  * `BizarroPipe*` `->.;` piping.
+ * `TidyPipe*` `%>%` [piping based on `rlang`/`tidyeval`](https://gist.github.com/lionel-/10cd649b31f11512e4aea3b7a98fe381) (renamed to "`%t>%`" in this run to avoid name collisions).
  
 ```{r generator, include=FALSE, echo=FALSE}
-# build source code for fns of size k
+
+# colors from http://colorbrewer2.org/#type=qualitative&scheme=Dark2&n=4
+defs <- tibble::tribble(
+  ~name, ~operator, ~color,
+  'magrittr', '%>%' , '#1b9e77',
+  'DotArrow', '%.>%', '#d95f02',
+  'BizarroPipe', '->.;', '#7570b3',
+  'TidyPipe', '%t>%', '#e7298a'
+)
+
+sizes <- c(1, 2, 5, 10, 15, 20, 25, 50, 100, 200, 500, 1000)
+
+colorAssignment <- defs$color
+names(colorAssignment) <- defs$name
+fMap <- defs$operator
+names(fMap) <- defs$name
+
+
 # build source code for fns of size k
 buildFnsK <- function(k) {
   fs <- c("5", rep("sin(.)", k))
-  fMap <- list('magrittr' = '%>%' , 
-               'DotArrow' = '%.>%', 
-               'BizarroPipe' = '->.;')
   fns  <- lapply(names(fMap),
                  function(fn) {
                    op <- fMap[[fn]]
@@ -38,7 +53,7 @@ buildFnsK <- function(k) {
 
 
 ftext <- paste(
-  vapply(c(1, 2, 5, 10, 15, 20, 25, 50, 100, 200, 500, 1000),
+  vapply(sizes,
          buildFnsK, character(1)),
   collapse = "\n\n")
 
@@ -52,6 +67,7 @@ library("microbenchmark")
 library("wrapr")
 suppressPackageStartupMessages(library("ggplot2"))
 suppressPackageStartupMessages(library("dplyr"))
+source('rlangPipe.R')
 
 # load generated examples
 prevNames <- ls()
@@ -107,9 +123,7 @@ ggplot(d, aes(x=fn, y=time, color=fn)) +
   xlab("method") +
   ylab("time NS") +
   theme(legend.position = 'none') +
-  scale_color_manual(values = c(magrittr='#7570b3',
-                                DotArrow='#d95f02',
-                                BizarroPipe='#1b9e77')) +
+  scale_color_manual(values = colorAssignment) +
   ggtitle("distribution of runtime as function of method and problem size",
           subtitle = "log-time scale")
 
@@ -119,9 +133,7 @@ ggplot(d, aes(x=size, y=time, color=fn)) +
   geom_smooth() +
   scale_y_log10() +
   scale_x_log10() +
-  scale_color_manual(values = c(magrittr='#7570b3',
-                                DotArrow='#d95f02',
-                                BizarroPipe='#1b9e77')) +
+  scale_color_manual(values = colorAssignment) +
   xlab('size (number of pipe stages)') +
   ylab("time NS") +
   ggtitle("complexity of runtime as function of method and problem size",
@@ -146,7 +158,7 @@ dfits <- d %.>%
   split(., .$fn) %.>%
   lapply(., 
          function(di) { 
-           mi <- lm(time ~ size, data=di) 
+           mi <- lm(time ~ size + I(size*size), data=di) 
            ctab <- as.data.frame(summary(mi)$coefficients)
            ctab$coef <- rownames(ctab)
            ctab
@@ -159,7 +171,14 @@ dfits <- d %.>%
 # "Intercept" is roughly start-up cost 
 # "size" is roughly the slope or growth rate of execution time
 # as a function of number of pipe stages.
+# "I(size * size)" is where we try to detect super-linear cost,
+# check that it is both statistically significant and that 
+# it has a size that would affect predictions (is it times
+# the typical variation in size*size large?).
 print(dfits)
 ```
+
+A note on the rare very slow events with `Bizarro Pipe`.  My *guess* is given `Bizarro Pipe` is the only pipe that gets translated into a multi-line/multi-statement/many-visible-assigments function (i.e., more than one expression) that possibly gives it more changes to win the "garbage collection lottery" and pay for everybody's object clean-up.  I don't actually know `R`'s `gc()` trigger strategy, so this is just speculation on my part.
+
 
 
