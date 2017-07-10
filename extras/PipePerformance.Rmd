@@ -51,7 +51,6 @@ close(fileConn)
 library("microbenchmark")
 library("wrapr")
 library("rlang")
-library("cdata")
 suppressPackageStartupMessages(library("ggplot2"))
 suppressPackageStartupMessages(library("dplyr"))
 
@@ -153,21 +152,10 @@ dfits <- d %.>%
   lapply(., function(fi) {
     ctab <- as.data.frame(summary(fi)$coefficients)
     ctab$coef <- rownames(ctab)
-    ctab <- moveValuesToRows(ctab, 
-                             nameForNewKeyColumn = 'meas', 
-                             nameForNewValueColumn = 'value', 
-                             columnsToTakeFrom = c('Estimate',  
-                                                   'Std. Error',   
-                                                   't value',  
-                                                   'Pr(>|t|)'))
     ctab
   }) %.>%
   add_name_column(., 'method') %.>%
   bind_rows(.) %.>%
-  moveValuesToColumns(., 
-                      columnToTakeKeysFrom = 'meas', 
-                      columnToTakeValuesFrom = 'value',
-                      rowKeyColumns = c('method', 'coef')) %.>%
   arrange(., method, coef) %.>%
   select(.,  method, coef, Estimate, `Std. Error`,  `t value`, `Pr(>|t|)`)
 
