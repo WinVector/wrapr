@@ -119,12 +119,12 @@ ggplot(d, aes(x=fn, y=time, color=fn)) +
 d$fn <- reorder(d$fn, -d$time)
 ggplot(d, aes(x=size, y=time, color=fn)) +
   geom_smooth() +
-  scale_y_log10('time (NS)') +
-  scale_x_log10('size (number of pipe stages)') +
+  scale_y_log10() +
+  scale_x_log10() +
   scale_color_manual(values = c(magrittr='#7570b3',
                                 DotArrow='#d95f02',
                                 BizarroPipe='#1b9e77')) +
-  xlab("method") +
+  xlab('size (number of pipe stages)') +
   ylab("time NS") +
   ggtitle("complexity of runtime as function of method and problem size",
           subtitle = "log/log scale")
