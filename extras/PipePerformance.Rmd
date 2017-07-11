@@ -67,6 +67,7 @@ library("microbenchmark")
 library("wrapr")
 suppressPackageStartupMessages(library("ggplot2"))
 suppressPackageStartupMessages(library("dplyr"))
+library("glmnet")
 source('rlangPipe.R')
 
 # load generated examples
@@ -141,17 +142,6 @@ ggplot(d, aes(x=size, y=time, color=fn)) +
 ```
 
 ```{r calculate}
-# verb that adds a name column to a list of dataframes
-add_name_column <- function(dlist, destinationColumn) {
-  res <- dlist
-  for(ni in names(dlist)) {
-    vi <- dlist[[ni]]
-    vi[[destinationColumn]] <- ni
-    res[[ni]] <- vi
-  }
-  res
-}
-
 # fit a linear function for runtime as a function of size
 # per group.
 dfits <- d %.>%
@@ -176,6 +166,32 @@ dfits <- d %.>%
 # it has a size that would affect predictions (is it times
 # the typical variation in size*size large?).
 print(dfits)
+
+# re-run with non-negative least squares
+
+dfitsnn <- d %.>%
+  split(., .$fn) %.>%
+  lapply(., 
+         function(di) { 
+           di$sizesq <- (di$size)^2
+           mi <- glmnet(as.matrix(di[, c('size', 'sizesq')]), 
+                        di$time, 
+                        lower.limits = 0, 
+                        alpha=0.1, 
+                        lambda=1.e-5,
+                        intercept = TRUE, 
+                        family = 'gaussian')
+           ctab <- as.data.frame(as.matrix(coefficients(mi)))
+           names(ctab) <- "Estimate"
+           ctab$coef <- rownames(ctab)
+           ctab
+         }) %.>%
+  add_name_column(., 'method') %.>%
+  bind_rows(.) %.>%
+  arrange(., method, coef) %.>%
+  select(.,  method, coef, Estimate)
+
+print(dfitsnn)
 ```
 
 A note on the rare very slow events with `Bizarro Pipe`.  My *guess* is given `Bizarro Pipe` is the only pipe that gets translated into a multi-line/multi-statement/many-visible-assigments function (i.e., more than one expression) that possibly gives it more changes to win the "garbage collection lottery" and pay for everybody's object clean-up.  I don't actually know `R`'s `gc()` trigger strategy, so this is just speculation on my part.
