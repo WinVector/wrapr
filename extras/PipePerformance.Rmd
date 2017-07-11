@@ -105,7 +105,17 @@ cmd <- parse(text=paste0(
 
 print(cmd)
 
-bm <- eval(cmd)
+gc()
+datFile <- 'timings.RDS'
+if(!file.exists(datFile)) {
+  print("running")
+  bm <- eval(cmd)
+  saveRDS(bm, file=datFile)
+} else {
+  print("using cached results")
+  bm <- readRDS(file=datFile)
+}
+
 print(bm)
 autoplot(bm)
 ```
@@ -177,8 +187,8 @@ dfitsnn <- d %.>%
            mi <- glmnet(as.matrix(di[, c('size', 'sizesq')]), 
                         di$time, 
                         lower.limits = 0, 
-                        alpha=0.1, 
-                        lambda=1.e-5,
+                        alpha=0.0, 
+                        lambda=0.0,
                         intercept = TRUE, 
                         family = 'gaussian')
            ctab <- as.data.frame(as.matrix(coefficients(mi)))
@@ -192,24 +202,4 @@ dfitsnn <- d %.>%
   select(.,  method, coef, Estimate)
 
 print(dfitsnn)
-```
-
-A note on the rare very slow events with `Bizarro Pipe`.  My *guess* is given `Bizarro Pipe` is the only pipe that gets translated into a multi-line/multi-statement/many-visible-assigments function (i.e., more than one expression) that possibly gives it more changes to win the "garbage collection lottery" and pay for everybody's object clean-up.  I don't actually know `R`'s `gc()` trigger strategy, so this is just speculation on my part.
-
-We can try to confirm this be re-running the performance measurement on just `Bizarro Pipe` alone and seeing if the large events disappear.
-
-```{r bpalone}
-cmdb <- parse(text=paste0(
-  "microbenchmark(\n ",
-  paste(paste0(fList$expr[fList$fn=='BizarroPipe'],'()'), collapse=',\n '),
-  ", 
-  times=1000L
-  )\n"
-))
-
-print(cmdb)
-
-bmb <- eval(cmdb)
-print(bmb)
-autoplot(bmb)
 ```
