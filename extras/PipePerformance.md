@@ -147,8 +147,8 @@ gc()
 ```
 
     ##           used (Mb) gc trigger  (Mb) max used (Mb)
-    ## Ncells 1328831   71    2164898 115.7  1770749 94.6
-    ## Vcells 1440654   11    2552219  19.5  2332274 17.8
+    ## Ncells 1328828   71    2164898 115.7  1770749 94.6
+    ## Vcells 1440666   11    2552219  19.5  2332288 17.8
 
 ``` r
 datFile <- 'timings.RDS'
@@ -363,7 +363,7 @@ dfitsnn <- d %.>%
          function(di) { 
            di$sizesq <- (di$size)^2
            # always call glmnet with a non-trivial lambda series
-           # some notes: 
+           # some notes: https://github.com/WinVector/wrapr/blob/master/extras/glmnetNotes.md
            mi <- glmnet(as.matrix(di[, c('size', 'sizesq')]), 
                         di$time, 
                         lower.limits = 0, 

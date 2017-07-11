@@ -185,7 +185,7 @@ dfitsnn <- d %.>%
          function(di) { 
            di$sizesq <- (di$size)^2
            # always call glmnet with a non-trivial lambda series
-           # some notes: 
+           # some notes: https://github.com/WinVector/wrapr/blob/master/extras/glmnetNotes.md
            mi <- glmnet(as.matrix(di[, c('size', 'sizesq')]), 
                         di$time, 
                         lower.limits = 0, 
