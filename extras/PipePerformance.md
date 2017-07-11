@@ -147,8 +147,8 @@ gc()
 ```
 
     ##           used (Mb) gc trigger  (Mb) max used (Mb)
-    ## Ncells 1328821   71    2164898 115.7  1770749 94.6
-    ## Vcells 1440519   11    2552219  19.5  2332144 17.8
+    ## Ncells 1328831   71    2164898 115.7  1770749 94.6
+    ## Vcells 1440654   11    2552219  19.5  2332274 17.8
 
 ``` r
 datFile <- 'timings.RDS'
@@ -362,14 +362,29 @@ dfitsnn <- d %.>%
   lapply(., 
          function(di) { 
            di$sizesq <- (di$size)^2
+           # always call glmnet with a non-trivial lambda series
+           # some notes: 
            mi <- glmnet(as.matrix(di[, c('size', 'sizesq')]), 
                         di$time, 
                         lower.limits = 0, 
                         alpha=0.0, 
-                        lambda=0.0,
+                        lambda=c(0, 1.0e-5, 1.0e-3, 0.1, 1, 10),
                         intercept = TRUE, 
                         family = 'gaussian')
-           ctab <- as.data.frame(as.matrix(coefficients(mi)))
+           ctab <- as.data.frame(as.matrix(coef(mi, s=0)))
+           # lower.limites does not apply to intercept,
+           # but intercept is always reported even if
+           # turned off.
+           if(ctab['(Intercept)',1]<0) {
+             mi <- glmnet(as.matrix(di[, c('size', 'sizesq')]), 
+                        di$time, 
+                        lower.limits = 0, 
+                        alpha=0.0, 
+                        lambda=c(0, 1.0e-5, 1.0e-3, 0.1, 1, 10),
+                        intercept = FALSE, 
+                        family = 'gaussian')
+             ctab <- as.data.frame(as.matrix(coef(mi, s=0)))
+           }
            names(ctab) <- "Estimate"
            ctab$coef <- rownames(ctab)
            ctab
@@ -383,15 +398,15 @@ print(dfitsnn)
 ```
 
     ##         method        coef     Estimate
-    ## 1  BizarroPipe (Intercept) 2.435260e+03
-    ## 2  BizarroPipe        size 5.561360e+02
-    ## 3  BizarroPipe      sizesq 3.521744e-03
-    ## 4     DotArrow (Intercept) 1.550500e+04
-    ## 5     DotArrow        size 5.870311e+03
-    ## 6     DotArrow      sizesq 6.599509e-01
-    ## 7     magrittr (Intercept) 1.210914e+05
-    ## 8     magrittr        size 2.911924e+04
-    ## 9     magrittr      sizesq 2.793826e-01
-    ## 10    TidyPipe (Intercept) 1.516251e+05
-    ## 11    TidyPipe        size 8.945066e+04
-    ## 12    TidyPipe      sizesq 6.298670e+01
+    ## 1  BizarroPipe (Intercept) 2.826857e+03
+    ## 2  BizarroPipe        size 5.485702e+02
+    ## 3  BizarroPipe      sizesq 1.110500e-02
+    ## 4     DotArrow (Intercept) 1.653898e+04
+    ## 5     DotArrow        size 5.850334e+03
+    ## 6     DotArrow      sizesq 6.799738e-01
+    ## 7     magrittr (Intercept) 1.242702e+05
+    ## 8     magrittr        size 2.905782e+04
+    ## 9     magrittr      sizesq 3.409400e-01
+    ## 10    TidyPipe (Intercept) 1.667088e+05
+    ## 11    TidyPipe        size 8.915924e+04
+    ## 12    TidyPipe      sizesq 6.327880e+01

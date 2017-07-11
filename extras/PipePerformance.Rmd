@@ -184,14 +184,29 @@ dfitsnn <- d %.>%
   lapply(., 
          function(di) { 
            di$sizesq <- (di$size)^2
+           # always call glmnet with a non-trivial lambda series
+           # some notes: 
            mi <- glmnet(as.matrix(di[, c('size', 'sizesq')]), 
                         di$time, 
                         lower.limits = 0, 
                         alpha=0.0, 
-                        lambda=0.0,
+                        lambda=c(0, 1.0e-5, 1.0e-3, 0.1, 1, 10),
                         intercept = TRUE, 
                         family = 'gaussian')
-           ctab <- as.data.frame(as.matrix(coefficients(mi)))
+           ctab <- as.data.frame(as.matrix(coef(mi, s=0)))
+           # lower.limites does not apply to intercept,
+           # but intercept is always reported even if
+           # turned off.
+           if(ctab['(Intercept)',1]<0) {
+             mi <- glmnet(as.matrix(di[, c('size', 'sizesq')]), 
+                        di$time, 
+                        lower.limits = 0, 
+                        alpha=0.0, 
+                        lambda=c(0, 1.0e-5, 1.0e-3, 0.1, 1, 10),
+                        intercept = FALSE, 
+                        family = 'gaussian')
+             ctab <- as.data.frame(as.matrix(coef(mi, s=0)))
+           }
            names(ctab) <- "Estimate"
            ctab$coef <- rownames(ctab)
            ctab
