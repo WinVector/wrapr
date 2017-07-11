@@ -14,7 +14,7 @@
     d1 <- data.frame(y= c(-10,-100,-1000), 
                      x=c(1,2,3), 
                      x2=c(0,1,5))
-    m1 <- glmnet(as.matrix(d1[, c('x', 'x2')]), 
+    m1 <- glmnet(as.matrix(d1[, c('x', 'x2'), drop = FALSE]), 
                  d1$y, 
                  lower.limits = 0, 
                  alpha=0.0, 
@@ -49,7 +49,7 @@
     ## 1 2 3 
     ## 1 2 3
 
-    m2 <- glmnet(as.matrix(d2[, c('c', 'x', 'x2')]), 
+    m2 <- glmnet(as.matrix(d2[, c('c', 'x', 'x2'), drop = FALSE]), 
                  d2$y, 
                  alpha=0.0, 
                  lambda=c(0, 1.0e-5, 1.0e-3, 0.1, 1, 10),
@@ -78,14 +78,31 @@
     # Observation 3: glmnet does not always match lm()
     # I think it is some implicit regularization in non-intercept
     # terms (or convergence), and intercept is special.
+    # also likely important to center/scale variables for glmnet
+    # (which we did not do).
     d3 <- readRDS(file='d3.RDS')
     l3 <- lm(y ~ x + x2, data = d3)
-    coefficients(l3)
+    summary(l3)
 
-    ##  (Intercept)            x           x2 
-    ## 3.212098e+03 5.411272e+02 1.856518e-02
+    ## 
+    ## Call:
+    ## lm(formula = y ~ x + x2, data = d3)
+    ## 
+    ## Residuals:
+    ##       Min        1Q    Median        3Q       Max 
+    ##   -527594    -53645    -12512     -4933 520561169 
+    ## 
+    ## Coefficients:
+    ##              Estimate Std. Error t value Pr(>|t|)
+    ## (Intercept) 3.212e+03  6.296e+04   0.051    0.959
+    ## x           5.411e+02  6.582e+02   0.822    0.411
+    ## x2          1.857e-02  6.833e-01   0.027    0.978
+    ## 
+    ## Residual standard error: 5401000 on 11997 degrees of freedom
+    ## Multiple R-squared:  0.0008851,  Adjusted R-squared:  0.0007186 
+    ## F-statistic: 5.314 on 2 and 11997 DF,  p-value: 0.004933
 
-    m3 <- glmnet(as.matrix(d3[, c('x', 'x2')]), 
+    m3 <- glmnet(as.matrix(d3[, c('x', 'x2'), drop = FALSE]), 
                  d3$y, 
                  lower.limits = 0, 
                  alpha=0.0, 
@@ -100,7 +117,7 @@
     ## x            548.570231
     ## x2             0.011105
 
-    m3b <- glmnet(as.matrix(d3[, c('x', 'x2')]), 
+    m3b <- glmnet(as.matrix(d3[, c('x', 'x2'), drop = FALSE]), 
                  d3$y, 
                  alpha=0.0, 
                  lambda=c(0, 1.0e-5, 1.0e-3, 0.1, 1, 10),
