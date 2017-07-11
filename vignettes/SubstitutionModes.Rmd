@@ -15,7 +15,7 @@ vignette: >
 
  * Language substitution (`subsMethod='langsubs'` the new default).  In this mode user code is captured as an abstract syntax tree (or parse tree) and substitution is performed only on nodes known to be symbols or behaving in a symbol-role (`"X"` in `d$"X"` is one such example).
  * String substitution (`subsMethod='stringsubs'`, the previous default).  In this mode user code is captured as text and then string replacement on word-boundaries is used to substitute in variable re-mappings.
-  * Substitute substitution  (`subsMethod='subsubs'`, new to the development version).  In this mode substitution is performed by `R`'s own `base::substitute()`.
+  * Substitute substitution  (`subsMethod='subsubs'`).  In this mode substitution is performed by `R`'s own `base::substitute()`.
 
 The semantics of the three methods can be illustrated by showing the effects of substituting the variable name "`y`" for "`X`" and the function "`sin`" for "`F`" in the somewhat complicated block of statements:
 
@@ -74,7 +74,7 @@ let(c(X = 'y', F = 'sin'),
     eval = FALSE, subsMethod = 'subsubs')
 ```
 
-Notice `base::substitute()` doesn't re-write left-hand-sides of argument bindings.  This is why I originally didn't consider using this implementation. Re-writing left-hand-sides of assignments is critical in expressions such as `dplyr::mutate( RESULTCOL = INPUTCOL + 1)`.   Also `base::substitute()` doesn't special case the `d$"X"` situation (which really isn't that important).
+Notice `base::substitute()` doesn't re-write left-hand-sides of argument bindings.  This is why I originally didn't consider using this implementation. Re-writing left-hand-sides of assignments is critical in expressions such as `dplyr::mutate( RESULTCOL = INPUTCOL + 1)`.   Also `base::substitute()` doesn't special case the `d$"X"` situation (but that really isn't very important).
 
 
 
