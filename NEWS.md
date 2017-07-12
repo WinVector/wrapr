@@ -1,4 +1,9 @@
 
+`wrapr` 0.4.0 2017-07-12
+
+ * Allow non-strict names.
+ * Insist let-mapping be invertible.
+ 
 `wrapr` 0.3.0 2017-07-08
 
  * Introduce "dot arrow" pipe `%.>%`

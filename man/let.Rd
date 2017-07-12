@@ -4,17 +4,19 @@
 \alias{let}
 \title{Execute expr with name substitutions specified in alias.}
 \usage{
-let(alias, expr, ..., subsMethod = "langsubs", eval = TRUE,
+let(alias, expr, ..., subsMethod = "langsubs", strict = TRUE, eval = TRUE,
   debugPrint = FALSE)
 }
 \arguments{
-\item{alias}{mapping from free names in expr to target names to use.}
+\item{alias}{mapping from free names in expr to target names to use (mapping have both unique names and unique values).}
 
 \item{expr}{block to prepare for execution.}
 
 \item{...}{force later arguments to be bound by name.}
 
 \item{subsMethod}{character substitution method, one of  c('langsubs', 'stringsubs', 'subsubs').}
+
+\item{strict}{logical if TRUE names must be valid un-quoted names.}
 
 \item{eval}{logical if TRUE execute the re-mapped expression (else return it).}
 

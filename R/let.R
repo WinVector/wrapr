@@ -48,16 +48,19 @@ restrictToNameAssignments <- function(alias, restrictToAllCaps= FALSE) {
   alias[usableEntries]
 }
 
-prepareAlias <- function(alias) {
+prepareAlias <- function(alias, strict) {
   # make sure alias is a list (not a named vector)
   alias <- as.list(alias)
   # skip any NULL slots
   nulls <- vapply(names(alias), is.null, logical(1)) |
     vapply(alias, is.null, logical(1))
   alias <- alias[!nulls]
-  # confirm alias is mapping strings to strings
+  # confirm alias is an invertable mapping strings to strings
   if (length(unique(names(alias))) != length(names(alias))) {
     stop('wrapr::prepareAlias alias keys must be unique')
+  }
+  if (length(unique(as.character(alias))) != length(alias)) {
+    stop('wrapr::prepareAlias alias values must be unique')
   }
   if ('.' %in% c(names(alias),as.character(alias))) {
     stop("wrapr::prepareAlias can not map to/from '.'")
@@ -75,7 +78,7 @@ prepareAlias <- function(alias) {
     if (nchar(ni) <= 0) {
       stop('wrapr:let alias keys must be non-empty string')
     }
-    if (!isValidAndUnreservedName(ni)) {
+    if (strict && (!isValidAndUnreservedName(ni))) {
       stop(paste('wrapr:let alias key not a valid name: "', ni, '"'))
     }
     vi <- alias[[ni]]
@@ -95,7 +98,7 @@ prepareAlias <- function(alias) {
     if (nchar(vi) <= 0) {
       stop('wrapr:let alias values must not be empty string')
     }
-    if (!isValidAndUnreservedName(vi)) {
+    if (strict && (!isValidAndUnreservedName(vi))) {
         stop(paste('wrapr:let alias value not a valid name: "', vi, '"'))
     }
   }
@@ -284,10 +287,11 @@ letprep_lang <- function(alias, lexpr) {
 #' \code{ALL_CAPS} style to make them stand out.
 #'
 #'
-#' @param alias mapping from free names in expr to target names to use.
+#' @param alias mapping from free names in expr to target names to use (mapping have both unique names and unique values).
 #' @param expr block to prepare for execution.
 #' @param ... force later arguments to be bound by name.
 #' @param subsMethod character substitution method, one of  c('langsubs', 'stringsubs', 'subsubs').
+#' @param strict logical if TRUE names must be valid un-quoted names.
 #' @param eval logical if TRUE execute the re-mapped expression (else return it).
 #' @param debugPrint logical if TRUE print debugging information when in stringsubs mode.
 #' @return result of expr executed in calling environment (or expression if eval==FALSE).
@@ -326,6 +330,7 @@ letprep_lang <- function(alias, lexpr) {
 let <- function(alias, expr,
                 ...,
                 subsMethod= 'langsubs',
+                strict= TRUE,
                 eval= TRUE,
                 debugPrint= FALSE) {
   exprQ <- substitute(expr)  # do this early before things enter local environment
@@ -339,7 +344,7 @@ let <- function(alias, expr,
     stop(paste("wrapr::let subsMethod must be one of:",
                paste(allowedMethods, collapse = ', ')))
   }
-  alias <- prepareAlias(alias)
+  alias <- prepareAlias(alias, strict=strict)
   exprS <- exprQ
   if(length(alias)>0) {
     if(subsMethod=='langsubs') {
