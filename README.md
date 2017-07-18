@@ -65,7 +65,7 @@ let(
  #  [1] 14
 ```
 
-Please see `vignette('let', package='wrapr')` for more examples.
+Please see `vignette('let', package='wrapr')` for more examples. For working with `dplyr` 0.7.\* we also suggest taking a look at an alternate approach called [`seplyr`](https://github.com/WinVector/seplyr/blob/master/README.md).
 
 `wrapr::%.>%` (dot arrow pipe)
 ------------------------------
