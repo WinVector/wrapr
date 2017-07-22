@@ -1,5 +1,5 @@
 
-`wrapr` 0.4.0 2017-07-12
+`wrapr` 0.4.0 2017-07-22
 
  * Allow non-strict names.
  * Insist let-mapping be invertible.
