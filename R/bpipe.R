@@ -1,6 +1,6 @@
 
 
-#' Pipe-like operator ("dot arrow").
+#' Pipe operator ("dot arrow").
 #'
 #' Defined as: \code{a \%.>\% b} roughly ~ \code{\{ . <- a; b \};}
 #' (with visible .-side effects).
