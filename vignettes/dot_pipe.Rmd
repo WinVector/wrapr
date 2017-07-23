@@ -15,7 +15,7 @@ The "dot pipe" is an operator with a very simple definition:
 
 This is deliberately more regular than and  has considerably fewer corner cases than the `magrittr` pipe used by `dplyr`.
 
-For example, the following all evalute to the same (which is not the case for `magrittr::%>%`):
+For example, the following all evaluate to the same (which is not the case for `magrittr::%>%`):
 
 ```{r pipe}
 library("wrapr")
