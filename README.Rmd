@@ -1,8 +1,7 @@
 ---
-output:
-  md_document:
-    variant: markdown_github
+output: github_document
 ---
+
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -26,7 +25,7 @@ Note: `wrapr` is meant only for "tame names" that is variables and column names 
 `wrapr` wraps `R` functions debugging and better standard evaluation.
 
 
-![](tools/wraprs.png)
+![](https://github.com/WinVector/wrapr/raw/master/tools/wraprs.png)
 
 
 Primary `wrapr` services include:

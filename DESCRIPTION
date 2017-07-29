@@ -3,7 +3,12 @@ Type: Package
 Title: Wrap R Functions for Debugging and Parametric Programming
 Version: 0.4.1
 Date: 2017-07-29
-Author: John Mount, Nina Zumel
+Authors@R: c(
+    person("John", "Mount", email = "jmount@win-vector.com", role = c("aut", "cre")),
+    person("Nina", "Zumel", email = "nzumel@win-vector.com", role = c("aut")),
+    person(family = "Win-Vector LLC", role = c("cph"))
+    )
+URL: http://winvector.github.io/wrapr/
 Maintainer: John Mount <jmount@win-vector.com>
 URL: https://github.com/WinVector/wrapr
 BugReports: https://github.com/WinVector/wrapr/issues
