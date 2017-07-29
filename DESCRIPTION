@@ -1,8 +1,8 @@
 Package: wrapr
 Type: Package
 Title: Wrap R Functions for Debugging and Parametric Programming
-Version: 0.4.0
-Date: 2017-07-22
+Version: 0.4.1
+Date: 2017-07-29
 Author: John Mount, Nina Zumel
 Maintainer: John Mount <jmount@win-vector.com>
 URL: https://github.com/WinVector/wrapr

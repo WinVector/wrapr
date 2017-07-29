@@ -59,12 +59,6 @@ prepareAlias <- function(alias, strict) {
     stop('wrapr::prepareAlias alias keys must be unique')
   }
   if(strict) {
-    # confirm alias is an invertable mapping strings to strings
-    if (length(unique(as.character(alias))) != length(alias)) {
-      stop('wrapr::prepareAlias alias values must be unique')
-    }
-  }
-  if(strict) {
     if ('.' %in% c(names(alias),as.character(alias))) {
       stop("wrapr::prepareAlias can not map to/from '.'")
     }
@@ -295,7 +289,7 @@ letprep_lang <- function(alias, lexpr) {
 #' @param expr block to prepare for execution.
 #' @param ... force later arguments to be bound by name.
 #' @param subsMethod character substitution method, one of  c('langsubs', 'stringsubs', 'subsubs').
-#' @param strict logical if TRUE names and values must be valid un-quoted names, not dot, and unique values.
+#' @param strict logical if TRUE names and values must be valid un-quoted names, and not dot.
 #' @param eval logical if TRUE execute the re-mapped expression (else return it).
 #' @param debugPrint logical if TRUE print debugging information when in stringsubs mode.
 #' @return result of expr executed in calling environment (or expression if eval==FALSE).

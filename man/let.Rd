@@ -16,7 +16,7 @@ let(alias, expr, ..., subsMethod = "langsubs", strict = TRUE, eval = TRUE,
 
 \item{subsMethod}{character substitution method, one of  c('langsubs', 'stringsubs', 'subsubs').}
 
-\item{strict}{logical if TRUE names and values must be valid un-quoted names, not dot, and unique values.}
+\item{strict}{logical if TRUE names and values must be valid un-quoted names, and not dot.}
 
 \item{eval}{logical if TRUE execute the re-mapped expression (else return it).}
 
