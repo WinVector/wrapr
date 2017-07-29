@@ -10,7 +10,6 @@ Authors@R: c(
     )
 URL: http://winvector.github.io/wrapr/
 Maintainer: John Mount <jmount@win-vector.com>
-URL: https://github.com/WinVector/wrapr
 BugReports: https://github.com/WinVector/wrapr/issues
 Description: Provides 'DebugFnW()' to capture function context on error for
     debugging, and 'let()' which converts non-standard evaluation interfaces to
