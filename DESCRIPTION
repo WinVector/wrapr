@@ -8,7 +8,7 @@ Authors@R: c(
     person("Nina", "Zumel", email = "nzumel@win-vector.com", role = c("aut")),
     person(family = "Win-Vector LLC", role = c("cph"))
     )
-URL: http://winvector.github.io/wrapr/
+URL: https://github.com/WinVector/wrapr, http://winvector.github.io/wrapr/
 Maintainer: John Mount <jmount@win-vector.com>
 BugReports: https://github.com/WinVector/wrapr/issues
 Description: Provides 'DebugFnW()' to capture function context on error for
