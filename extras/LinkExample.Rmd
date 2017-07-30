@@ -1,0 +1,174 @@
+---
+title: "Link Score Example"
+output: html_document
+---
+
+## The example: normalizing the predictions of a logistic regression from the underlying links.
+
+
+http://jamanetwork.com/journals/jamainternalmedicine/fullarticle/410326
+
+
+```{r ex1}
+d <- data.frame(
+  subjectID =      c( 1,                     1,   
+                      2,                     2),
+  surveyCategory = c('withdrawal behavior', 'positive reframing', 
+                     'withdrawal behavior', 'positive reframing'),
+  surveyTotal =   c(  5,                     2,  
+                      3,                     4),
+  stringsAsFactors = FALSE
+)
+
+print(d)
+```
+
+## When we know the names of the columns when writing the code
+
+```{r known}
+suppressPackageStartupMessages(library("dplyr"))
+
+d %>%
+  group_by(subjectID) %>%
+  mutate(probability =
+           exp(surveyTotal)/sum(exp(surveyTotal))) %>%
+  ungroup() %>%
+  arrange(subjectID, surveyCategory)
+```
+
+```{r known2}
+d %>%
+  group_by(subjectID) %>%
+  mutate(probability =
+           exp(surveyTotal)/sum(exp(surveyTotal))) %>%
+  arrange(desc(probability), 
+          desc(surveyCategory)) %>%
+  mutate(rank = row_number()) %>%
+  filter(rank == 1) %>%
+  ungroup() %>%
+  select(subjectID, surveyCategory, probability) %>%
+  rename(diagnosis = surveyCategory) %>%
+  arrange(subjectID)
+```
+
+## When we will not know the names of the columns until after we write the code
+
+```{r names}
+idCol        <- "subjectID"
+categoryCol  <- "surveyCategory"
+linkScoreCol <- "surveyTotal"
+rankCol      <- "rank"
+probScoreCol <- "probability"
+outcomeCol   <- "diagnosis"
+```
+
+### wrapr::let solution
+
+```{r let}
+library("wrapr")
+
+let(
+  c(
+    IDCOL = idCol,
+    CATEGORYCOL = categoryCol,
+    LINKSCORECOL = linkScoreCol,
+    RANKCOL = rankCol,
+    PROBSCORECOL = probScoreCol,
+    OUTCOMECOL = outcomeCol
+  ),
+  
+  d %>%
+    group_by(IDCOL) %>%
+    mutate(PROBSCORECOL =
+             exp(LINKSCORECOL)/sum(exp(LINKSCORECOL))) %>%
+    arrange(desc(PROBSCORECOL), 
+            desc(CATEGORYCOL)) %>%
+    mutate(RANKCOL = row_number()) %>%
+    filter(RANKCOL == 1) %>%
+    ungroup() %>%
+    select(IDCOL, CATEGORYCOL, PROBSCORECOL) %>%
+    rename(OUTCOMECOL = CATEGORYCOL) %>%
+    arrange(IDCOL)
+)
+```
+
+### rlang/tidyeval solution
+
+```{r tidyeval}
+IDSYM <- rlang::sym(idCol)
+CATEGORYSYM <- rlang::sym(categoryCol)
+LINKSCORESYM <- rlang::sym(linkScoreCol)
+RANKSYM <- rlang::sym(rankCol)
+PROBSCORESYM <- rlang::sym(probScoreCol)
+OUTCOMESYM <- rlang::sym(outcomeCol)
+
+d %>%
+  group_by(!!IDSYM) %>%
+  mutate(!!PROBSCORESYM :=
+           exp(!!LINKSCORESYM)/sum(exp(!!LINKSCORESYM))) %>%
+  arrange(desc(!!PROBSCORESYM), 
+          desc(!!CATEGORYSYM)) %>%
+  mutate(!!RANKSYM := row_number()) %>%
+  filter((!!RANKSYM) == 1) %>%
+  ungroup() %>%
+  select(!!IDSYM, !!CATEGORYSYM, !!PROBSCORESYM) %>%
+  rename(!!OUTCOMESYM := !!CATEGORYSYM) %>%
+  arrange(!!IDSYM)
+```
+
+
+
+### seplyr solution
+
+
+```{r seplyr}
+library("seplyr")
+suppressPackageStartupMessages(library("glue"))
+
+d %>%
+  group_by_se(idCol) %>%
+  mutate_se(probScoreCol :=
+           glue('exp({linkScoreCol})/sum(exp({linkScoreCol}))')) %>%
+  arrange_se(c(glue('desc({probScoreCol})'), 
+               glue('desc({categoryCol})'))) %>% 
+  mutate_se(rankCol := 'row_number()') %>%
+  filter_se(glue('{rankCol} == 1')) %>%
+  ungroup() %>%
+  select_se(c(idCol, categoryCol, probScoreCol)) %>%
+  rename_se(outcomeCol := categoryCol) %>%
+  arrange_se(idCol)
+```
+
+### replyr::replyr_apply_f_mapped solution
+
+```{r replyrf}
+# requires the development version of replyr 
+# devtools::install_github('WinVector/replyr')
+library("replyr")
+
+d %>%
+  replyr_apply_f_mapped(
+    nmap = c(
+      IDCOL = idCol,
+      CATEGORYCOL = categoryCol,
+      LINKSCORECOL = linkScoreCol,
+      RANKCOL = rankCol,
+      PROBSCORECOL = probScoreCol,
+      OUTCOMECOL = outcomeCol
+    ),
+    
+    f = . %>%
+      group_by(IDCOL) %>%
+      mutate(PROBSCORECOL =
+               exp(LINKSCORECOL)/sum(exp(LINKSCORECOL))) %>%
+      arrange(desc(PROBSCORECOL),
+              desc(CATEGORYCOL)) %>%
+      mutate(RANKCOL = row_number()) %>%
+      filter(RANKCOL == 1) %>%
+      ungroup() %>%
+      select(IDCOL, CATEGORYCOL, PROBSCORECOL) %>%
+      rename(OUTCOMECOL = CATEGORYCOL) %>%
+      arrange(IDCOL)
+  )
+```
+
