@@ -1,7 +1,10 @@
 ---
-title: "A substantial worked R substitution example"
-output: html_document
+output: github_document
 ---
+
+
+# A Substantial Worked R Substitution Example
+
 
 ## Background
 
@@ -15,6 +18,8 @@ Roughly I suggested two possible methods for making the task easier:
 
  * Renaming [views](https://en.wikipedia.org/wiki/View_(SQL)) for `data.frame`s.  These would be view-adapters where the `data.frame` behaved as if it had a chosen set of column names.  I thought of these as a view-stack that would live on the `data.frame`, but have now implemented the idea as a call-stack concept as `replyr::replyr_apply_f_mapped()`.
  * Symbol re-binding by a `let()`-block ([a common functional notation](https://en.wikipedia.org/wiki/Lisp_(programming_language)#Self-evaluating_forms_and_quoting)). I released this solution to `CRAN` on [December 8 2016](http://www.win-vector.com/blog/2016/12/using-replyrlet-to-parameterize-dplyr-expressions/#comment-66361).
+ 
+Even prior to introducing usable tools, giving a name to the problem makes it easier to indentify it as a seperable step and simplfy larger workflows.
  
 Things change.  Since that time:
 
