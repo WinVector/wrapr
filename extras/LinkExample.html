@@ -140,14 +140,14 @@ $(document).ready(function () {
 <li><code>dplyr</code> excised direct use of <code>lazyeval</code>.</li>
 <li>The <code>dplyr</code> “underscore verbs” (or methods) were all deprecated.</li>
 </ul>
-<p>The <code>rlang</code>/<code>tidyeval</code> strategy is to take over expression capture and evaluation (it is <a href="http://www.michaelnielsen.org/ddi/lisp-as-the-maxwells-equations-of-software/">lore</a> that a functional programming language is essentially defined by the semantics of <code>eval</code> and <code>apply</code>, so something that overrides both of these is a whole new functional language that is not the original <code>R</code> language we were working with).</p>
+<p>The <code>rlang</code>/<code>tidyeval</code> strategy is to take over expression capture and evaluation (it is <a href="http://www.michaelnielsen.org/ddi/lisp-as-the-maxwells-equations-of-software/">lore</a> that a functional programming language is essentially defined by the semantics of <code>eval</code> and <code>apply</code>, so something that overrides both of these is a whole new functional language that is not the original <code>R</code> language we were working with). But let’s not spend time on describing implementation, which assuming a package works correctly, is exactly the bit the end user is trying to avoid worry about.</p>
 <p>I mention dates to point out that this is something I have been inviting public comment on before an <code>rlang</code>/<code>tidyeval</code> adapted <code>dplyr</code> was publicly testable. Now that <code>rlang</code>/<code>tidyeval</code>/<code>dplyr</code> integration is available we can evaluate it. Public <a href="https://en.wikipedia.org/wiki/Request_for_Comments">Request For Comments</a> style development and feedback often greatly improve software. I want to continue the discussion from the point of view of a single (somewhat involved) potential use case.</p>
 <p>Some points I think that have been very under-represented in discussion include:</p>
 <ul>
 <li>Not all <code>R</code> users consider themselves to be programmers (many are analysts and statisticians).</li>
 <li><code>R</code> is often used in collaborative projects where there are varying levels of programming expertise.</li>
 </ul>
-<p>The second point I think is particularly interesting: it means that it might be legitimate for an <code>R</code> user who does not consider themselves a programmer to be maintaining a script or procedure that they understand, but could not be expected to create from scratch. This is the point we will emphasize in our new example.</p>
+<p>The second point I think is particularly interesting: it means that it is legitimate for an <code>R</code> user who does not consider themselves a programmer to be maintaining a script or procedure that they understand, but could not be expected to create from scratch. This is the point we will emphasize in our new example.</p>
 </div>
 <div id="the-example" class="section level2">
 <h2>The example</h2>
@@ -183,10 +183,11 @@ print(d)</code></pre>
 ## 3         2 withdrawal behavior               3
 ## 4         2 positive re-framing               4</code></pre>
 <pre class="r"><code># or in &quot;wide form&quot;:
-cdata::moveValuesToColumns(d, 
-                           columnToTakeKeysFrom = 'surveyCategory',
-                           columnToTakeValuesFrom = 'assessmentTotal',
-                           rowKeyColumns = 'subjectID')</code></pre>
+library(&quot;cdata&quot;)
+moveValuesToColumns(d, 
+                    columnToTakeKeysFrom = 'surveyCategory',
+                    columnToTakeValuesFrom = 'assessmentTotal',
+                    rowKeyColumns = 'subjectID')</code></pre>
 <pre><code>##   subjectID positive re-framing withdrawal behavior
 ## 1         1                   2                   5
 ## 2         2                   4                   3</code></pre>
@@ -197,7 +198,8 @@ cdata::moveValuesToColumns(d,
 d %&gt;%
   group_by(subjectID) %&gt;%
   mutate(probability =
-           exp(assessmentTotal)/sum(exp(assessmentTotal)))</code></pre>
+           exp(assessmentTotal)/
+           sum(exp(assessmentTotal)))</code></pre>
 <pre><code>## # A tibble: 4 x 4
 ## # Groups:   subjectID [2]
 ##   subjectID      surveyCategory assessmentTotal probability
@@ -215,7 +217,8 @@ d %&gt;%
 <pre class="r"><code>d %&gt;%
   group_by(subjectID) %&gt;%
   mutate(probability =
-           exp(assessmentTotal)/sum(exp(assessmentTotal))) %&gt;%
+           exp(assessmentTotal)/
+           sum(exp(assessmentTotal))) %&gt;%
   arrange(desc(probability), 
           desc(surveyCategory)) %&gt;%
   mutate(rank = row_number()) %&gt;%
@@ -257,18 +260,19 @@ outcomeCol   &lt;- &quot;diagnosis&quot;</code></pre>
 
 let(
   c(
-    IDCOL = idCol,
-    CATEGORYCOL = categoryCol,
+    IDCOL        = idCol,
+    CATEGORYCOL  = categoryCol,
     LINKSCORECOL = linkScoreCol,
-    RANKCOL = rankCol,
+    RANKCOL      = rankCol,
     PROBSCORECOL = probScoreCol,
-    OUTCOMECOL = outcomeCol
+    OUTCOMECOL   = outcomeCol
   ),
   
   d %&gt;%
     group_by(IDCOL) %&gt;%
     mutate(PROBSCORECOL =
-             exp(LINKSCORECOL)/sum(exp(LINKSCORECOL))) %&gt;%
+             exp(LINKSCORECOL)/
+             sum(exp(LINKSCORECOL))) %&gt;%
     arrange(desc(PROBSCORECOL), 
             desc(CATEGORYCOL)) %&gt;%
     mutate(RANKCOL = row_number()) %&gt;%
@@ -296,18 +300,19 @@ library(&quot;replyr&quot;)
 d %&gt;%
   replyr_apply_f_mapped(
     nmap = c(
-      IDCOL = idCol,
-      CATEGORYCOL = categoryCol,
+      IDCOL        = idCol,
+      CATEGORYCOL  = categoryCol,
       LINKSCORECOL = linkScoreCol,
-      RANKCOL = rankCol,
+      RANKCOL      = rankCol,
       PROBSCORECOL = probScoreCol,
-      OUTCOMECOL = outcomeCol
+      OUTCOMECOL   = outcomeCol
     ),
     
     f = . %&gt;%
       group_by(IDCOL) %&gt;%
       mutate(PROBSCORECOL =
-               exp(LINKSCORECOL)/sum(exp(LINKSCORECOL))) %&gt;%
+               exp(LINKSCORECOL)/
+               sum(exp(LINKSCORECOL))) %&gt;%
       arrange(desc(PROBSCORECOL),
               desc(CATEGORYCOL)) %&gt;%
       mutate(RANKCOL = row_number()) %&gt;%
@@ -333,17 +338,18 @@ d %&gt;%
 <div id="rlangtidyeval-solution" class="section level3">
 <h3><a href="http://rlang.tidyverse.org"><code>rlang/tidyeval</code></a> solution</h3>
 <p>For the <code>rlang</code>/<code>tidyeval</code> solution the expert writes the following code:</p>
-<pre class="r"><code>IDSYM &lt;- rlang::sym(idCol)
-CATEGORYSYM &lt;- rlang::sym(categoryCol)
+<pre class="r"><code>IDSYM        &lt;- rlang::sym(idCol)
+CATEGORYSYM  &lt;- rlang::sym(categoryCol)
 LINKSCORESYM &lt;- rlang::sym(linkScoreCol)
-RANKSYM &lt;- rlang::sym(rankCol)
+RANKSYM      &lt;- rlang::sym(rankCol)
 PROBSCORESYM &lt;- rlang::sym(probScoreCol)
-OUTCOMESYM &lt;- rlang::sym(outcomeCol)
+OUTCOMESYM   &lt;- rlang::sym(outcomeCol)
 
 d %&gt;%
   group_by(!!IDSYM) %&gt;%
   mutate(!!PROBSCORESYM :=
-           exp(!!LINKSCORESYM)/sum(exp(!!LINKSCORESYM))) %&gt;%
+           exp(!!LINKSCORESYM)/
+           sum(exp(!!LINKSCORESYM))) %&gt;%
   arrange(desc(!!PROBSCORESYM), 
           desc(!!CATEGORYSYM)) %&gt;%
   mutate(!!RANKSYM := row_number()) %&gt;%
@@ -374,7 +380,8 @@ suppressPackageStartupMessages(library(&quot;glue&quot;))
 d %&gt;%
   group_by_se(idCol) %&gt;%
   mutate_se(probScoreCol :=
-           glue('exp({linkScoreCol})/sum(exp({linkScoreCol}))')) %&gt;%
+           glue('exp({linkScoreCol})/
+                 sum(exp({linkScoreCol}))')) %&gt;%
   arrange_se(c(glue('desc({probScoreCol})'), 
                glue('desc({categoryCol})'))) %&gt;% 
   mutate_se(rankCol := 'row_number()') %&gt;%
@@ -390,8 +397,8 @@ d %&gt;%
 ## 2         2 positive re-framing   0.7310586</code></pre>
 <p><code>seplyr</code> has its own issues:</p>
 <ul>
-<li>It also needs a “<code>:=</code>” operator for assignment.</li>
-<li>It insists on lists coming in as lists, and not as repeated arguments (hence the use of “`c()” throughout).</li>
+<li>It also needs a “<a href="https://winvector.github.io/seplyr/reference/named_map_builder.html"><code>:=</code></a>” operator for assignment.</li>
+<li>It insists on multiple arguments coming in as vectors (hence the use of “<code>c()</code>” throughout).</li>
 <li>It runs into a bit of trouble with verbs that take expressions (<code>mutate_se()</code> being the most complicated) in that it needs a helper to substitute in the name of the variable holding the column name, which is later substituted out for the actual column name by <code>seplyr</code>. In this example we used <code>glue::glue()</code> to perform the substitution, but we could also try <code>paste0()</code> or <code>gsub()</code>.</li>
 </ul>
 <p>However look how for many verbs (<code>group_by_se()</code>, <code>arrange_se()</code>, <code>rename_se()</code>, and <code>select_se()</code>) the notation is in fact quite natural. In these cases if our column names are in varaibles these verbs are very concise and really in no sense inferior to the <code>dplyr()</code> originals.</p>
@@ -401,7 +408,7 @@ d %&gt;%
 <h2>Conclusion</h2>
 <p>An occasional <code>R</code> user will not have the time to quickly compare all of the available substitution systems. In fact such a user will only come to needing a substitution system when they have a problem. So by definition they are in in the middle of some other task. So it is up to expert partners to evaluate explain alternatives.</p>
 <p>There is a temptation that if you are going to only teach one system it might as well be <code>rlang</code>/<code>tidyeval</code> as “that is what comes with <code>dplyr</code>”. I feel this is a false savings as while <code>rlang</code>/<code>tidyeval</code> “is already in <code>dplyr</code>” the <code>rlang</code>/<code>tidyeval</code> concepts are not “already in the user” (and in fact ecmopass a fairl number of irregular needing to be memorized details).</p>
-<p>Our preference is “<code>wrapr::let()</code>” it delivers a lot of power for a modest amount of cognitive load. Each of the above systems invovles different trade-offs and compromises, and we feel one must really try a few in practice before giving best advice.</p>
+<p>Our preference is “<code>wrapr::let()</code>”. “<code>wrapr::let()</code>” delivers a lot of power for a modest amount of cognitive load. Each of the above systems invovles different trade-offs and compromises, and we feel one must really try a few in production before being an expert.</p>
 </div>
 
 
