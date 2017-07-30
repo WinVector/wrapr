@@ -1,29 +1,90 @@
 ---
-title: "Link Score Example"
+title: "A substantial worked R substitution example"
 output: html_document
 ---
 
-## The example: normalizing the predictions of a logistic regression from the underlying links.
+## Background
+
+When I started writing about methods for better ["parametric programming" interfaces for `dplyr`](http://www.win-vector.com/blog/2016/12/parametric-variable-names-and-dplyr/) for [`R`](https://www.r-project.org) programmers in 2016 there were three competing primary reactions:
+
+ * Constructive engagement.
+ * Denial there was any such need ("we always know the column names").
+ * Claims the then-current "underscore" and [`lazyeval`](https://cran.r-project.org/web/packages/lazyeval/index.html) system were sufficient for the task.
+ 
+Roughly I suggested two possible methods for making the task easier:
+
+ * Renaming [views](https://en.wikipedia.org/wiki/View_(SQL)) for `data.frame`s.  These would be view-adapters where the `data.frame` behaved as if it had a chosen set of column names.  I thought of these as a view-stack that would live on the `data.frame`, but have now implemented the idea as a call-stack concept as `replyr::replyr_apply_f_mapped()`.
+ * Symbol re-binding by a `let()`-block ([a common functional notation](https://en.wikipedia.org/wiki/Lisp_(programming_language)#Self-evaluating_forms_and_quoting)). I released this solution to `CRAN` on [December 8 2016](http://www.win-vector.com/blog/2016/12/using-replyrlet-to-parameterize-dplyr-expressions/#comment-66361).
+ 
+Things change.  Since that time:
+
+ * `dplyr` added `rlang`/`tidyeval` ([probably around February 14th 2017](https://github.com/tidyverse/dplyr/commit/7d34aea17cb6806992acb2b1cc59a5484148aa03)).
+ * `rlang`/`tidyeval` was [released to CRAN on May 2017](https://cran.r-project.org/src/contrib/Archive/rlang/).  Obviously `rlang`/`tidyeval` had been under development for some time, but I don't the parametric aspect of it was publicly discussed much before [February 16, 2017](https://github.com/tidyverse/dplyr/issues/1600#issuecomment-280453923).
+ * `dplyr` excised direct use of `lazyeval`.
+ * The `dplyr` "underscore verbs" (or methods) were all deprecated.
+ 
+The `rlang`/`tidyeval` strategy is to take over expression capture and evaluation (it is [lore](http://www.michaelnielsen.org/ddi/lisp-as-the-maxwells-equations-of-software/) that a functional programming language is essentially defined by the semantics of `eval` and `apply`, so something that overrides both of these is a whole new functional language that is not the original `R` language we were working with).
+
+I mention dates to point out that this is something I have been inviting public comment on before an `rlang`/`tidyeval` adapted `dplyr` was publicly testable.  Now that `rlang`/`tidyeval`/`dplyr` integration is available we can evaluate it.  Public [Request For Comments](https://en.wikipedia.org/wiki/Request_for_Comments) style development and feedback often greatly improve software.  I want to continue the discussion from the point of view of a single (somewhat involved) potential use case.
+
+Some points I think that have been very under-represented in discussion include:
+
+ * Not all `R` users consider themselves to be programmers (many are analysts and statisticians).
+ * `R` is often used in collaborative projects where there are varying levels of programming expertise.
+ 
+The second point I think is particularly interesting: it means that it might be legitimate for an `R` user who does not consider themselves a programmer to be maintaining a script or procedure that they understand, but could not be expected to create from scratch.  This is the point we will emphasize in our new example.
 
 
-http://jamanetwork.com/journals/jamainternalmedicine/fullarticle/410326
+
+## The example
+
+Let's do some medical science (instead of programming).
+
+Suppose an analyst, psychologist, medical doctor, or scientist is building an assessment for some aspects behavior and anxiety.
+
+Often such assessments involve selecting moving through a multiple-choice questionnaire and collecting a number of points that depend on answers selected. One such assessment is the [Generalized Anxiety Disorder 7 questionnaire](https://en.wikipedia.org/wiki/Generalized_Anxiety_Disorder_7) (or GAD-7).  It is a very simple system as can be seen below.
+
+[<img src="GAD708.19.08Cartwright.png" width="600">](https://www.integration.samhsa.gov/clinical-practice/GAD708.19.08Cartwright.pdf)
+
+One can treat such a test score as a classifier and [asses it](http://jamanetwork.com/journals/jamainternalmedicine/fullarticle/410326) in terms of sensitivity, specificity, and [different correspondence measures](http://www.win-vector.com/blog/2016/07/a-budget-of-classifier-evaluation-measures/).
+
+An obvious extension of such tests is to give a different number of points in different categories for each multiple-choice answer. For example we could imagine such a test where each answer gave a varying number of points in one of two categories called "withdrawal behavior" and "positive re-framing" (both in the sense of [coping behaviors](https://en.wikipedia.org/wiki/Coping_(psychology).)
+
+For example our scientist might record the results of two subjects taking a test as follows:
 
 
 ```{r ex1}
 d <- data.frame(
-  subjectID =      c( 1,                     1,   
-                      2,                     2),
-  surveyCategory = c('withdrawal behavior', 'positive reframing', 
-                     'withdrawal behavior', 'positive reframing'),
-  surveyTotal =   c(  5,                     2,  
-                      3,                     4),
+  subjectID = c(1,                   
+                1,
+                2,                   
+                2),
+  surveyCategory = c(
+    'withdrawal behavior',
+    'positive re-framing',
+    'withdrawal behavior',
+    'positive re-framing'
+  ),
+  assessmentTotal = c(5,                 
+                      2,
+                      3,                  
+                      4),
   stringsAsFactors = FALSE
 )
-
+  
 print(d)
+
+
+# or in "wide form":
+cdata::moveValuesToColumns(d, 
+                           columnToTakeKeysFrom = 'surveyCategory',
+                           columnToTakeValuesFrom = 'assessmentTotal',
+                           rowKeyColumns = 'subjectID')
 ```
 
-## When we know the names of the columns when writing the code
+A natural question is: how does one assign weights to each answer?  One way would be to administer the test to a number of people the experimenter has classified as having either of the above mentioned behaviors and then performing a [logistic regression](http://www.win-vector.com/blog/2011/09/the-simpler-derivation-of-logistic-regression/) to map assessment answers to the probability of a given diagnosis for this population.  By re-scaling the weights and rounding them to small integers we could have a test point system that is very close to performing a logistic regression classification.  Meaning we may be able to use the same easement questions in a much more decisive manner than assigning all questions the same number of points.
+
+This sort of idea is what one would expect from a mixed and collaborating team that includes medical experts, statistics experts, and programmers.  After some work our team might work out that scoring the assessment can be done by the simple `R` `dplyr` pipeline:
 
 ```{r known}
 suppressPackageStartupMessages(library("dplyr"))
@@ -31,16 +92,21 @@ suppressPackageStartupMessages(library("dplyr"))
 d %>%
   group_by(subjectID) %>%
   mutate(probability =
-           exp(surveyTotal)/sum(exp(surveyTotal))) %>%
-  ungroup() %>%
-  arrange(subjectID, surveyCategory)
+           exp(assessmentTotal)/sum(exp(assessmentTotal)))
 ```
+
+Each step of the above pipeline is learn-able:
+
+ * The `group_by()` is arranging all rows associated with the same subject to work together in later calculations.
+ * the `exp(assessmentTotal)/sum(exp(assessmentTotal))` is the classic "sigmoid link" from logistic regression.  It is the standard way (once you know it) of turning a free-score into a probability estimate.
+
+Suppose this assessment is tested and works well. It is then plausible that the team might ask their `R` expert to help them construct a much more complicated `dplyr` pipeline that better formats the results.  Under the Harlan Mills' "Surgical Team" proposal (made famous in Frank Brook's [*The Mythical Man Month*](https://en.wikipedia.org/wiki/The_Mythical_Man-Month)) we expect effective data science teams to have a diversity of deep expertise (not everybody know everything, but a lot is known by the total team) we can expect many experts.  We expect a well staffed research team to include the statistician who worked out the sigmoid transform above, and a programmer who works out the pipeline we give below.
 
 ```{r known2}
 d %>%
   group_by(subjectID) %>%
   mutate(probability =
-           exp(surveyTotal)/sum(exp(surveyTotal))) %>%
+           exp(assessmentTotal)/sum(exp(assessmentTotal))) %>%
   arrange(desc(probability), 
           desc(surveyCategory)) %>%
   mutate(rank = row_number()) %>%
@@ -51,18 +117,39 @@ d %>%
   arrange(subjectID)
 ```
 
-## When we will not know the names of the columns until after we write the code
+This is indeed a long (and expert-level) pipeline.  But the principle is:
+
+ * It does useful work (concentrates down to the rows we want and ensures good presentation column names and sorting).
+ * While an occasional `R` user would not be expected to come up with it, they could (with cooperation from the pipeline author) understand all the steps and safely use the pipeline in their project.
+ * The application (which we spent some time describing) is what the team cares about, the pipeline is a ends to a means (so even though it is long, it isn't often the central subject of interest).
+ * The longer pipeline is paying the bills, and helping patients.  So some pain and cost are to be tolerated.
+ 
+Let's take this deliberately long (so as to be a strong test) example and see how hard it is to adapt using different methodologies.
+
+
+## Re-use
+
+An issue that comes up is: can the team re-use the pipeline on another project?  Suppose in their next project the ID column isn't "`subjectID`" but it is "`patientID`" (and so on).  Obviously they can copy and paste the original pipeline and change the names (which is not a bad practice for the first few re-uses). 
+
+But once this procedure is going to be used many times it is a good idea to wrap it up or genericize it so it can be safely re-adapted (so the users can't accidentally forget to change one name one place).
+
+I will now walk through a number of approaches to this in terms of how hard they are on the researcher.  We are assuming their `R` expert does the wrapping for them, but then must explain the concepts to the occasional `R` user so they truly understand and can maintain the tools they are using.
+
+For our example we assume all the column names are coming from variables set somewhere else (in another `R` script, or coming from a spreadsheet that is read into `R`, or some other source).  The nature of the columns is constant from analysis to analysis, but the exact names used may vary. For our example the column names are:
 
 ```{r names}
 idCol        <- "subjectID"
 categoryCol  <- "surveyCategory"
-linkScoreCol <- "surveyTotal"
+linkScoreCol <- "assessmentTotal"
 rankCol      <- "rank"
 probScoreCol <- "probability"
 outcomeCol   <- "diagnosis"
 ```
 
-### wrapr::let solution
+
+### [`wrapr`](https://winvector.github.io/wrapr/index.html) solution
+
+The easiest solution (in terms of cognitive load) is [`wrapr::let()`](https://winvector.github.io/wrapr/reference/let.html).  The `R` expert would share the following code:
 
 ```{r let}
 library("wrapr")
@@ -92,54 +179,13 @@ let(
 )
 ```
 
-### rlang/tidyeval solution
+The then explain to the occasional `R` user that "`let` works as if you had written the code with the names substitute as shown in the `c()` block."  And there is [ample](https://winvector.github.io/wrapr/) documentation showing how this is used.  Notice creating this code is completely mechanical (replace concrete names with the all-caps place holders) and the execution has an easy mental model (the place-holders are replaced with names stored in the variables).
 
-```{r tidyeval}
-IDSYM <- rlang::sym(idCol)
-CATEGORYSYM <- rlang::sym(categoryCol)
-LINKSCORESYM <- rlang::sym(linkScoreCol)
-RANKSYM <- rlang::sym(rankCol)
-PROBSCORESYM <- rlang::sym(probScoreCol)
-OUTCOMESYM <- rlang::sym(outcomeCol)
+### [`replyr`](https://winvector.github.io/replyr/index.html) solution
 
-d %>%
-  group_by(!!IDSYM) %>%
-  mutate(!!PROBSCORESYM :=
-           exp(!!LINKSCORESYM)/sum(exp(!!LINKSCORESYM))) %>%
-  arrange(desc(!!PROBSCORESYM), 
-          desc(!!CATEGORYSYM)) %>%
-  mutate(!!RANKSYM := row_number()) %>%
-  filter((!!RANKSYM) == 1) %>%
-  ungroup() %>%
-  select(!!IDSYM, !!CATEGORYSYM, !!PROBSCORESYM) %>%
-  rename(!!OUTCOMESYM := !!CATEGORYSYM) %>%
-  arrange(!!IDSYM)
-```
+The next easiest method *in concept* is [`replyr_apply_f_mapped()`](https://winvector.github.io/replyr/reference/replyr_apply_f_mapped.html).  However `replyr_apply_f_mapped()` is new code so we haven't been promoting it as much yet.
 
-
-
-### seplyr solution
-
-
-```{r seplyr}
-library("seplyr")
-suppressPackageStartupMessages(library("glue"))
-
-d %>%
-  group_by_se(idCol) %>%
-  mutate_se(probScoreCol :=
-           glue('exp({linkScoreCol})/sum(exp({linkScoreCol}))')) %>%
-  arrange_se(c(glue('desc({probScoreCol})'), 
-               glue('desc({categoryCol})'))) %>% 
-  mutate_se(rankCol := 'row_number()') %>%
-  filter_se(glue('{rankCol} == 1')) %>%
-  ungroup() %>%
-  select_se(c(idCol, categoryCol, probScoreCol)) %>%
-  rename_se(outcomeCol := categoryCol) %>%
-  arrange_se(idCol)
-```
-
-### replyr::replyr_apply_f_mapped solution
+The `R` expert would write the following, and the occasional `R` user (with some coaching) can maintain it.
 
 ```{r replyrf}
 # requires the development version of replyr 
@@ -172,3 +218,86 @@ d %>%
   )
 ```
 
+What the code does is exactly this:
+
+ * It renames all of the columns in the `data.frame` to have the chosen names (in this case the all-caps names).
+ * It then applies the user-supplied function `f()` to this `data.frame`.
+ * Finally the name mapping is reversed and columns are put back to their original names.
+ 
+This is teachable and something the occasional `R` user can correctly extend and maintain.  Though the user may possibly need to learn about wrapping a pipeline as an anonymous function (the "`. %>%`" notation).
+
+
+### [`rlang/tidyeval`](http://rlang.tidyverse.org) solution
+
+For the `rlang`/`tidyeval` solution the expert writes the following code:
+
+```{r tidyeval}
+IDSYM <- rlang::sym(idCol)
+CATEGORYSYM <- rlang::sym(categoryCol)
+LINKSCORESYM <- rlang::sym(linkScoreCol)
+RANKSYM <- rlang::sym(rankCol)
+PROBSCORESYM <- rlang::sym(probScoreCol)
+OUTCOMESYM <- rlang::sym(outcomeCol)
+
+d %>%
+  group_by(!!IDSYM) %>%
+  mutate(!!PROBSCORESYM :=
+           exp(!!LINKSCORESYM)/sum(exp(!!LINKSCORESYM))) %>%
+  arrange(desc(!!PROBSCORESYM), 
+          desc(!!CATEGORYSYM)) %>%
+  mutate(!!RANKSYM := row_number()) %>%
+  filter((!!RANKSYM) == 1) %>%
+  ungroup() %>%
+  select(!!IDSYM, !!CATEGORYSYM, !!PROBSCORESYM) %>%
+  rename(!!OUTCOMESYM := !!CATEGORYSYM) %>%
+  arrange(!!IDSYM)
+```
+
+Several points have to be taught to the occasional `R` user if this code is to be maintained:
+
+ * The "`!!`" symbol does not have the same [operator precedence](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Syntax.html) as an assignment symbols such as "`=`" or "`:=`", so you must often place "`!!`"-expressions in extra parenthesis.  This is why we had to write "`filter((!!RANKSYM) == 1)`" and could not write "`filter(!!RANKSYM == 1)`".
+ * In any assignment we must use "`:=`" for assignment if we using "`!!`" on the left-hand side of the assignment. I.e., one must write "`mutate(!!RANKSYM := row_number())`", not "`mutate(!!RANKSYM = row_number())`", "`mutate((!!RANKSYM) = row_number())`", or "`mutate((!!RANKSYM) := row_number())`".
+
+The above are just the edge-cases, we haven't even gone into teaching the theory of quasi-quotation (let alone explaining `rlang::sym()` and the "`!!`" notation).  Remember: the occasional `R` user may be a scientist who is more interested in spending their extra time learning more about logistic regression (and the sigmoid transform) than in learning about the history of functinal langauges.  I.e., we may not have the luxery of a coding concept being the only novel idea on the table at critical moment.
+
+
+### [`seplyr`](https://winvector.github.io/seplyr/) solution
+
+[`seplyr`](https://winvector.github.io/seplyr/index.html) is an experiment to see what a referentially transparent (or completely value oriented) interface to `dplyr` would look like.  Please don't think of `seplyr` as an adapter (though it is, it sends all work to `dplyr`), but as an illustration of what a completely value-oriented `dplyr` might look like (i.e., one that did not capture un-evaluated user code throug non-standard evaluation).
+
+Most of the `seplyr` methods are named `*_se()` and are designed to be very similar to their `dplyr` equivilents (and some are nearly idential to `dplyr::*_at()` methods, [`rename_se()`](https://winvector.github.io/seplyr/reference/rename_se.html) being a notable exception).
+
+
+```{r seplyr}
+library("seplyr")
+suppressPackageStartupMessages(library("glue"))
+
+d %>%
+  group_by_se(idCol) %>%
+  mutate_se(probScoreCol :=
+           glue('exp({linkScoreCol})/sum(exp({linkScoreCol}))')) %>%
+  arrange_se(c(glue('desc({probScoreCol})'), 
+               glue('desc({categoryCol})'))) %>% 
+  mutate_se(rankCol := 'row_number()') %>%
+  filter_se(glue('{rankCol} == 1')) %>%
+  ungroup() %>%
+  select_se(c(idCol, categoryCol, probScoreCol)) %>%
+  rename_se(outcomeCol := categoryCol) %>%
+  arrange_se(idCol)
+```
+
+`seplyr` has its own issues:
+
+ * It also needs a "`:=`" operator for assignment.
+ * It insists on lists coming in as lists, and not as repeated arguments (hence the use of "`c()" throughout).
+ * It runs into a bit of trouble with verbs that take expressions (`mutate_se()` being the most complicated) in that it needs a helper to substitute in the name of the variable holding the column name, which is later substituted out for the actual column name by `seplyr`.  In this example we used `glue::glue()` to perform the substitution, but we could also try `paste0()` or `gsub()`.
+ 
+However look how for many verbs (`group_by_se()`, `arrange_se()`, `rename_se()`, and `select_se()`) the notation is in fact quite natural.  In these cases if our column names are in varaibles these verbs are very concise and really in no sense inferior to the `dplyr()` originals.
+
+## Conclusion
+
+An occasional `R` user will not have the time to quickly compare all of the available substitution systems.  In fact such a user will only come to needing a substitution system when they have a problem.  So by definition they are in in the middle of some other task.  So it is up to expert partners to evaluate explain alternatives.
+
+There is a temptation that if you are going to only teach one system it might as well be `rlang`/`tidyeval` as "that is what comes with `dplyr`".  I feel this is a false savings as while `rlang`/`tidyeval` "is already in `dplyr`" the `rlang`/`tidyeval` concepts are not "already in the user" (and in fact ecmopass a fairl number of irregular needing to be memorized details).
+
+Our preference is "`wrapr::let()`" it delivers a lot of power for a modest amount of cognitive load.  Each of the above systems invovles different trade-offs and compromises, and we feel one must really try a few in practice before giving best advice.
