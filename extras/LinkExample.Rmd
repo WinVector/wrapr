@@ -319,6 +319,8 @@ Most of the `seplyr` methods are named `*_se()` and are designed to be very simi
 
 
 ```{r seplyr}
+# Currently needs dev-version of seplyr
+# devtools::install_github("WinVector/seplyr")
 library("seplyr")
 suppressPackageStartupMessages(library("glue"))
 

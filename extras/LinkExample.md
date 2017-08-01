@@ -363,6 +363,8 @@ The above are just the edge-cases, we haven't even gone into teaching the theory
 Most of the `seplyr` methods are named `*_se()` and are designed to be very similar to their `dplyr` equivalents (and some are nearly identical to `dplyr::*_at()` methods, [`rename_se()`](https://winvector.github.io/seplyr/reference/rename_se.html) being a notable exception).
 
 ``` r
+# Currently needs dev-version of seplyr
+# devtools::install_github("WinVector/seplyr")
 library("seplyr")
 suppressPackageStartupMessages(library("glue"))
 
