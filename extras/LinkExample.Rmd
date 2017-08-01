@@ -8,7 +8,7 @@ output: github_document
 
 ## Background
 
-When I started writing about methods for better ["parametric programming" interfaces for `dplyr`](http://www.win-vector.com/blog/2016/12/parametric-variable-names-and-dplyr/) for [`R`](https://www.r-project.org) programmers in 2016 there were three competing primary reactions:
+When I started writing about methods for better ["parametric programming" interfaces for `dplyr`](http://www.win-vector.com/blog/2016/12/parametric-variable-names-and-dplyr/) for [`R`](https://www.r-project.org) programmers in December of 2016 there were three competing primary reactions:
 
  * Constructive engagement.
  * Denial there was any such need ("we always know the column names").
@@ -16,10 +16,10 @@ When I started writing about methods for better ["parametric programming" interf
  
 Roughly I suggested two possible methods for making the task easier:
 
- * Renaming [views](https://en.wikipedia.org/wiki/View_(SQL)) for `data.frame`s.  These would be view-adapters where the `data.frame` behaved as if it had a chosen set of column names.  I thought of these as a view-stack that would live on the `data.frame`, but have now implemented the idea as a call-stack concept as `replyr::replyr_apply_f_mapped()`.
+ * Renaming [views](https://en.wikipedia.org/wiki/View_(SQL)) for `data.frame`s.  These would be view-adapters where the `data.frame` behaved as if it had a chosen set of column names.  I thought of these as a view-stack that would live on the `data.frame`, but have now implemented the idea as a call-stack concept in `replyr::replyr_apply_f_mapped()`.
  * Symbol re-binding by a `let()`-block ([a common functional notation](https://en.wikipedia.org/wiki/Lisp_(programming_language)#Self-evaluating_forms_and_quoting)). I released this solution to `CRAN` on [December 8 2016](http://www.win-vector.com/blog/2016/12/using-replyrlet-to-parameterize-dplyr-expressions/#comment-66361).
  
-Even prior to introducing usable tools, giving a name to the problem makes it easier to indentify it as a seperable step and simplfy larger workflows.
+Even prior to introducing usable tools, giving a name to the problem makes it easier to intensify it as a separable step and simplify larger work-flows.
  
 Things change.  Since that time:
 
@@ -43,7 +43,7 @@ The second point I think is particularly interesting: it means that it is legiti
 
 ## The example
 
-Let's do some medical science (instead of programming).
+Let's do some medical science (instead of programming).  Both the design and discussion of substitution solutions should be driven from concrete realistic use cases.  This will give us a taste of what working with each solution is like in practice.
 
 Suppose an analyst, psychologist, medical doctor, or scientist is building an assessment for some aspects behavior and anxiety.
 
@@ -194,11 +194,9 @@ The then explain to the occasional `R` user that "`let` works as if you had writ
 
 The next easiest method *in concept* is [`replyr_apply_f_mapped()`](https://winvector.github.io/replyr/reference/replyr_apply_f_mapped.html).  However `replyr_apply_f_mapped()` is new code so we haven't been promoting it as much yet.
 
-The `R` expert would write the following, and the occasional `R` user (with some coaching) can maintain it.
+The `R` expert would write the following, and the occasional `R` user (with some coaching) could maintain it.
 
 ```{r replyrf}
-# requires the development version of replyr 
-# devtools::install_github('WinVector/replyr')
 library("replyr")
 
 d %>%
@@ -233,6 +231,30 @@ What the code does is exactly this:
  * It renames all of the columns in the `data.frame` to have the chosen names (in this case the all-caps names).
  * It then applies the user-supplied function `f()` to this `data.frame`.
  * Finally the name mapping is reversed and columns are put back to their original names.
+ 
+Below is an illustrative example showing the column names seen inside and outside the user supplied function.
+
+```{r rmape}
+d %>%
+  replyr_apply_f_mapped(
+    nmap = c(
+      IDCOL        = idCol,
+      CATEGORYCOL  = categoryCol,
+      LINKSCORECOL = linkScoreCol,
+      RANKCOL      = rankCol,
+      PROBSCORECOL = probScoreCol,
+      OUTCOMECOL   = outcomeCol
+    ),
+    
+    f = function(df) {
+      df$PROBSCORECOL <- 1
+      print(colnames(df))
+      return(df)
+    }
+  ) %>%
+  colnames()
+```
+
  
 This is teachable and something the occasional `R` user can correctly extend and maintain.  Though the user may possibly need to learn about wrapping a pipeline as an anonymous function (the "`. %>%`" notation).
 
@@ -269,14 +291,14 @@ Several points have to be taught to the occasional `R` user if this code is to b
  * The "`!!`" symbol does not have the same [operator precedence](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Syntax.html) as an assignment symbols such as "`=`" or "`:=`", so you must often place "`!!`"-expressions in extra parenthesis.  This is why we had to write "`filter((!!RANKSYM) == 1)`" and could not write "`filter(!!RANKSYM == 1)`".
  * In any assignment we must use "`:=`" for assignment if we using "`!!`" on the left-hand side of the assignment. I.e., one must write "`mutate(!!RANKSYM := row_number())`", not "`mutate(!!RANKSYM = row_number())`", "`mutate((!!RANKSYM) = row_number())`", or "`mutate((!!RANKSYM) := row_number())`".
 
-The above are just the edge-cases, we haven't even gone into teaching the theory of quasi-quotation (let alone explaining `rlang::sym()` and the "`!!`" notation).  Remember: the occasional `R` user may be a scientist who is more interested in spending their extra time learning more about logistic regression (and the sigmoid transform) than in learning about the history of functinal langauges.  I.e., we may not have the luxery of a coding concept being the only novel idea on the table at critical moment.
+The above are just the edge-cases, we haven't even gone into teaching the theory of quasi-quotation (let alone explaining `rlang::sym()` and the "`!!`" notation).  Remember: the occasional `R` user may be a scientist who is more interested in spending their extra time learning more about logistic regression (and the sigmoid transform) than in learning about the history of functional languages.  I.e., we may not have the luxury of a coding concept being the only novel idea on the table at critical moment.
 
 
 ### [`seplyr`](https://winvector.github.io/seplyr/) solution
 
-[`seplyr`](https://winvector.github.io/seplyr/index.html) is an experiment to see what a referentially transparent (or completely value oriented) interface to `dplyr` would look like.  Please don't think of `seplyr` as an adapter (though it is, it sends all work to `dplyr`), but as an illustration of what a completely value-oriented `dplyr` might look like (i.e., one that did not capture un-evaluated user code throug non-standard evaluation).
+[`seplyr`](https://winvector.github.io/seplyr/index.html) is an experiment to see what a referentially transparent (or completely value oriented) interface to `dplyr` would look like.  Please don't think of `seplyr` as an adapter (though it is, it sends all work to `dplyr`), but as an illustration of what a completely value-oriented `dplyr` might look like (i.e., one that did not capture un-evaluated user code through non-standard evaluation).
 
-Most of the `seplyr` methods are named `*_se()` and are designed to be very similar to their `dplyr` equivilents (and some are nearly idential to `dplyr::*_at()` methods, [`rename_se()`](https://winvector.github.io/seplyr/reference/rename_se.html) being a notable exception).
+Most of the `seplyr` methods are named `*_se()` and are designed to be very similar to their `dplyr` equivalents (and some are nearly identical to `dplyr::*_at()` methods, [`rename_se()`](https://winvector.github.io/seplyr/reference/rename_se.html) being a notable exception).
 
 
 ```{r seplyr}
@@ -304,12 +326,12 @@ d %>%
  * It insists on multiple arguments coming in as vectors (hence the use of "`c()`" throughout).
  * It runs into a bit of trouble with verbs that take expressions (`mutate_se()` being the most complicated) in that it needs a helper to substitute in the name of the variable holding the column name, which is later substituted out for the actual column name by `seplyr`.  In this example we used `glue::glue()` to perform the substitution, but we could also try `paste0()` or `gsub()`.
  
-However look how for many verbs (`group_by_se()`, `arrange_se()`, `rename_se()`, and `select_se()`) the notation is in fact quite natural.  In these cases if our column names are in varaibles these verbs are very concise and really in no sense inferior to the `dplyr()` originals.
+However look how for many verbs (`group_by_se()`, `arrange_se()`, `rename_se()`, and `select_se()`) the notation is in fact quite natural.  In these cases if our column names are in variables these verbs are very concise and really in no sense inferior to the `dplyr()` originals.
 
 ## Conclusion
 
 An occasional `R` user will not have the time to quickly compare all of the available substitution systems.  In fact such a user will only come to needing a substitution system when they have a problem.  So by definition they are in in the middle of some other task.  So it is up to expert partners to evaluate explain alternatives.
 
-There is a temptation that if you are going to only teach one system it might as well be `rlang`/`tidyeval` as "that is what comes with `dplyr`".  I feel this is a false savings as while `rlang`/`tidyeval` "is already in `dplyr`" the `rlang`/`tidyeval` concepts are not "already in the user" (and in fact ecmopass a fairl number of irregular needing to be memorized details).
+There is a temptation that if you are going to only teach one system it might as well be `rlang`/`tidyeval` as "that is what comes with `dplyr`".  I feel this is a false savings as while `rlang`/`tidyeval` "is already in `dplyr`" the `rlang`/`tidyeval` concepts are not "already in the user" (and in fact encompass a fairly number of irregular needing to be memorized details).
 
-Our preference is "`wrapr::let()`".  "`wrapr::let()`" delivers a lot of power for a modest amount of cognitive load.  Each of the above systems invovles different trade-offs and compromises, and we feel one must really try a few in production before being an expert.
+Our preference is "`wrapr::let()`".  "`wrapr::let()`" delivers a lot of power for a modest amount of cognitive load.  Each of the above systems involves different trade-offs and compromises, and we feel one must really try a few in production before being an expert.
