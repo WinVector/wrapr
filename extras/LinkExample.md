@@ -225,7 +225,7 @@ let(
 
 The concept is:
 
-> "`let()` works as if you had written the code with the names substitute as shown in the `c()` block."
+> "`let()` works as if you had written the code with the names substituted as shown in the `c()` block."
 
 And there is [ample](https://winvector.github.io/wrapr/) documentation showing how this can be used. Notice creating this code is completely mechanical (replace concrete names with the all-caps place holders) and the execution has an easy mental model (the place-holders are replaced with names stored in the variables).
 
@@ -354,7 +354,7 @@ Several points have to be taught to the part-time `R` user if this code is to be
 -   The "`!!`" symbol does not have the same [operator precedence](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Syntax.html) as an assignment symbols such as "`=`" or "`:=`", so you must often place "`!!`"-expressions in extra parentheses.
 -   In any assignment we must use "`:=`" for assignment if we using "`!!`" on the left-hand side of the assignment.
 
-The above are just the edge-cases, we haven't even gone into teaching the theory of quasi-quotation (let alone explaining `rlang::sym()` and the "`!!`" notation).
+The above are just some syntax edge-cases, we haven't even gone into teaching `rlang::sym()`, "`!!`", and the theory and semantics of quasi-quotation.
 
 ### [`seplyr`](https://winvector.github.io/seplyr/) solution
 
@@ -363,8 +363,6 @@ The above are just the edge-cases, we haven't even gone into teaching the theory
 Most of the `seplyr` methods are named `*_se()` and are designed to be very similar to their `dplyr` equivalents (and some are nearly identical to `dplyr::*_at()` methods, [`rename_se()`](https://winvector.github.io/seplyr/reference/rename_se.html) being a notable exception).
 
 ``` r
-# Currently needs dev-version of seplyr
-# devtools::install_github("WinVector/seplyr")
 library("seplyr")
 suppressPackageStartupMessages(library("glue"))
 
@@ -400,13 +398,13 @@ The concept is:
 -   It insists on multiple arguments coming in as vectors (hence the use of "`c()`" throughout).
 -   It runs into a bit of trouble with verbs that take expressions (`mutate_se()` being the most complicated) in that it needs a helper to substitute in the name of the variable holding the column name, which is later substituted out for the actual column name by `seplyr`. In this example we used `glue::glue()` to perform the substitution, but we could also try `paste0()` or `gsub()`.
 
-However look how for many verbs (`group_by_se()`, `arrange_se()`, `rename_se()`, and `select_se()`) the notation is in fact quite natural. In these cases if our column names are in variables these verbs are very concise and really in no sense inferior to the `dplyr()` originals.
+However, for many verbs (`group_by_se()`, `arrange_se()`, `rename_se()`, and `select_se()`) the value oriented notation is in fact quite natural. In these cases if our column names are in variables these verbs are very concise and really in no sense inferior to the `dplyr()` originals.
 
 Conclusion
 ----------
 
 A part-time `R` user will not have the background to quickly compare all of the available substitution systems. In fact such a user will only come to needing a substitution system when they have a problem. So by definition they are in in the middle of some other task. So it is up to expert partners to evaluate explain alternatives.
 
-There is a temptation that if you are going to only teach one system it might as well be `rlang`/`tidyeval` as "that is what comes with `dplyr`". I feel this is a false savings as while `rlang`/`tidyeval` "is already in `dplyr`" the `rlang`/`tidyeval` concepts are not "already in the user" (and in fact include a fairly number of irregular details, needing to be taught and memorized).
+There is a temptation that if you are going to only teach one system it might as well be `rlang`/`tidyeval` as "that is what now comes with `dplyr`". I feel this is a false savings as while `rlang`/`tidyeval` "is already in `dplyr`" the `rlang`/`tidyeval` concepts are not "already in the user" (and in fact include a fairly number of irregular details, needing to be taught and memorized).
 
 Our preference is: `wrapr::let()`. `wrapr::let()` delivers a lot of (safe) power for a modest amount of cognitive load. Each of the above systems involves different trade-offs and compromises, and we feel one must really try a few in production before being an expert.
