@@ -340,6 +340,8 @@ The concept is:
 
 > "Only `mutate` *needs* [non-standard evaluation](http://adv-r.had.co.nz/Computing-on-the-language.html)."
 
+`seplyr` accepts general expressions many more places, but with proper organization and using a few temp-columns you really only *need* the full generality in `mutate()`.
+
 `seplyr` has its own issues:
 
  * It also needs a "[`:=`](https://winvector.github.io/seplyr/reference/named_map_builder.html)" operator for assignment.
