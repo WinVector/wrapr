@@ -103,11 +103,13 @@ This sort of idea is what one would expect from a mixed and collaborating team t
 ```{r known}
 suppressPackageStartupMessages(library("dplyr"))
 
+scale <- 0.237
+  
 d %>%
   group_by(subjectID) %>%
   mutate(probability =
-           exp(assessmentTotal)/
-           sum(exp(assessmentTotal)))
+           exp(assessmentTotal * scale)/
+           sum(exp(assessmentTotal * scale)))
 ```
 
 For each subject we take the row with maximal probability as the diagnosis.  The diagnosis was already obvious from the original scores, the main addition is the diagnosis confidence is now available as a probability estimate.
@@ -115,7 +117,7 @@ For each subject we take the row with maximal probability as the diagnosis.  The
 Each step of the above pipeline is learn-able:
 
  * The `group_by()` is arranging all rows associated with the same subject to work together in later calculations.
- * the `exp(assessmentTotal)/sum(exp(assessmentTotal))` is the classic "sigmoid link" from logistic regression.  It is the standard way (once you know it) of turning a free-score into a probability estimate.
+ * the `exp(assessmentTotal * scale)/sum(exp(assessmentTotal * scale))` is the classic "sigmoid link" from logistic regression.  It is the standard way (once you know it) of turning a free-score into a probability estimate.
 
 Suppose this assessment is tested and works well. It is then plausible that the team might ask their `R` expert to help them construct a much more complicated `dplyr` pipeline that better formats the results.  Under the Harlan Mills' "Surgical Team" proposal (made famous in Frank Brook's [*The Mythical Man Month*](https://en.wikipedia.org/wiki/The_Mythical_Man-Month)) we expect effective data science teams to have a diversity of deep expertise (not everybody know everything, but a lot is known by the total team).  We expect a well staffed research team to include the statistician who worked out the sigmoid transform above, and a programmer who works out the pipeline we give below.
 
@@ -123,8 +125,8 @@ Suppose this assessment is tested and works well. It is then plausible that the 
 d %>%
   group_by(subjectID) %>%
   mutate(probability =
-           exp(assessmentTotal)/
-           sum(exp(assessmentTotal))) %>%
+           exp(assessmentTotal * scale)/
+           sum(exp(assessmentTotal * scale))) %>%
   arrange(probability, surveyCategory) %>%
   mutate(isdiagnosis = row_number() == n()) %>%
   filter(isdiagnosis) %>%
@@ -183,8 +185,8 @@ let(
   d %>%
     group_by(IDCOL) %>%
     mutate(PROBSCORECOL =
-             exp(LINKSCORECOL)/
-             sum(exp(LINKSCORECOL))) %>%
+             exp(LINKSCORECOL * scale)/
+             sum(exp(LINKSCORECOL * scale))) %>%
     arrange(PROBSCORECOL, CATEGORYCOL) %>%
     mutate(INDICATORCOL = row_number() == n()) %>%
     filter(INDICATORCOL) %>%
@@ -226,8 +228,8 @@ d %>%
     f = . %>%
       group_by(IDCOL) %>%
       mutate(PROBSCORECOL =
-               exp(LINKSCORECOL)/
-               sum(exp(LINKSCORECOL))) %>%
+               exp(LINKSCORECOL * scale)/
+               sum(exp(LINKSCORECOL * scale))) %>%
       arrange(PROBSCORECOL, CATEGORYCOL) %>%
       mutate(INDICATORCOL = row_number() == n()) %>%
       filter(INDICATORCOL) %>%
@@ -291,8 +293,8 @@ OUTCOMESYM   <- rlang::sym(outcomeCol)
 d %>%
   group_by(!!IDSYM) %>%
   mutate(!!PROBSCORESYM :=
-           exp(!!LINKSCORESYM)/
-           sum(exp(!!LINKSCORESYM))) %>%
+           exp((!!LINKSCORESYM) * scale)/
+           sum(exp((!!LINKSCORESYM) * scale))) %>%
   arrange(!!PROBSCORESYM, !!CATEGORYSYM) %>%
   mutate(!!INDICATORSYM := row_number() == n()) %>%
   filter(!!INDICATORSYM) %>%
@@ -323,8 +325,8 @@ suppressPackageStartupMessages(library("glue"))
 d %>%
   group_by_se(idCol) %>%
   mutate_se(probScoreCol :=
-           glue('exp({linkScoreCol})/
-                  sum(exp({linkScoreCol}))')) %>%
+           glue('exp({linkScoreCol} * scale)/
+                  sum(exp({linkScoreCol} * scale))')) %>%
   arrange_se(c(probScoreCol, categoryCol)) %>% 
   mutate_se(indicatorCol := "row_number() == n()") %>%
   filter_se(indicatorCol) %>%
