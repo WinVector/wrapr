@@ -21,8 +21,8 @@ I mention dates to point out that this is something I have been inviting public 
 Things change. Since the above time:
 
 -   The development version of `dplyr` incorporated a new [`rlang`/`tidyeval`](https://github.com/tidyverse/rlang) package ([probably around February 14th 2017](https://github.com/tidyverse/dplyr/commit/7d34aea17cb6806992acb2b1cc59a5484148aa03)).
--   `rlang`/`tidyeval` was [released to CRAN on May 2017](https://cran.r-project.org/src/contrib/Archive/rlang/). Obviously `rlang`/`tidyeval` had been under development for some time, but I don't the parametric aspect of it was publicly discussed much before [February 16, 2017](https://github.com/tidyverse/dplyr/issues/1600#issuecomment-280453923) (notice in this issue-note a formula centric interface is still being contemplated).
--   `dplyr` `0.7.0` was relesed, based on `rlang`/`tidyeval` (June 9th, 2017).
+-   `rlang`/`tidyeval` was [released to CRAN on May 2017](https://cran.r-project.org/src/contrib/Archive/rlang/). Obviously `rlang`/`tidyeval` had been under development for some time, but I don't think the parametric aspect of it was publicly discussed much before [February 16, 2017](https://github.com/tidyverse/dplyr/issues/1600#issuecomment-280453923) (notice that a formula centric interface was still being contemplated).
+-   `dplyr` `0.7.0` was released, based on `rlang`/`tidyeval` (June 9th, 2017).
 -   `dplyr` excised direct use of `lazyeval`.
 -   The `dplyr` "underscore verbs" (or methods) were all deprecated (i.e., no longer advised).
 
@@ -48,13 +48,13 @@ The example
 
 The design and discussion of substitution solutions should be driven from concrete realistic use cases. Working from larger examples gives us a taste of what working with each solution is like in practice. So, let's pretend to discuss social science (instead of programming).
 
-Suppose an analyst, psychologist, medical doctor, or scientist is building an assessment for some aspects behavior and anxiety.
+Suppose an analyst, psychologist, medical doctor, or scientist is building an assessment for some aspects of behavior and anxiety.
 
 Often such assessments involve selecting moving through a multiple-choice questionnaire and collecting a number of points that depend on answers selected. One such assessment is the [Generalized Anxiety Disorder 7 questionnaire](https://en.wikipedia.org/wiki/Generalized_Anxiety_Disorder_7) (or GAD-7). It is a very simple system as can be seen below.
 
 [<img src="GAD708.19.08Cartwright.png" width="600">](https://www.integration.samhsa.gov/clinical-practice/GAD708.19.08Cartwright.pdf)
 
-One can treat such a test score as a classifier and [asses it](http://jamanetwork.com/journals/jamainternalmedicine/fullarticle/410326) in terms of sensitivity, specificity, and [different correspondence measures](http://www.win-vector.com/blog/2016/07/a-budget-of-classifier-evaluation-measures/).
+One can treat such a test score as a classifier and [assess it](http://jamanetwork.com/journals/jamainternalmedicine/fullarticle/410326) in terms of sensitivity, specificity, and [different correspondence measures](http://www.win-vector.com/blog/2016/07/a-budget-of-classifier-evaluation-measures/).
 
 An obvious extension of such tests is to give a different number of points in different categories for each multiple-choice answer. For example we could imagine such a test where each answer gave a varying number of points in one of two categories called "withdrawal behavior" and "positive re-framing" (both in the sense of [coping behaviors](https://en.wikipedia.org/wiki/Coping_(psychology))).
 
@@ -101,7 +101,7 @@ moveValuesToColumns(d,
     ## 1         1                   2                   5
     ## 2         2                   4                   3
 
-A natural question is: how does one assign weights to each answer? One way would be to administer the test to a number of people the experimenter has classified as having either of the above mentioned behaviors and then performing a [logistic regression](http://www.win-vector.com/blog/2011/09/the-simpler-derivation-of-logistic-regression/) to map assessment answers to the probability of a given diagnosis for this population. By re-scaling the weights and rounding them to small integers we could have a test point system that is very close to performing a logistic regression classification. We may be able to use the same assesment questions in a much more decisive manner than assigning all questions the same number of points.
+A natural question is: how does one assign weights to each answer? One way would be to administer the test to a number of people the experimenter has classified as having either of the above mentioned behaviors and then performing a [logistic regression](http://www.win-vector.com/blog/2011/09/the-simpler-derivation-of-logistic-regression/) to map assessment answers to the probability of a given diagnosis for this population. By re-scaling the weights and rounding them to small integers we could have a test point system that is very close to performing a logistic regression classification. We may be able to use the same assessment questions in a much more decisive manner than assigning all questions the same number of points.
 
 This sort of idea is what one would expect from a mixed and collaborating team that includes medical experts, statistics experts, and programmers. After some work our team might work out that scoring the assessment can be done by the simple `R` `dplyr` pipeline:
 
@@ -142,8 +142,8 @@ d %>%
            exp(assessmentTotal * scale)/
            sum(exp(assessmentTotal * scale))) %>%
   arrange(probability, surveyCategory) %>%
-  mutate(isdiagnosis = row_number() == n()) %>%
-  filter(isdiagnosis) %>%
+  mutate(isDiagnosis = row_number() == n()) %>%
+  filter(isDiagnosis) %>%
   ungroup() %>%
   select(subjectID, surveyCategory, probability) %>%
   rename(diagnosis = surveyCategory) %>%
@@ -180,7 +180,7 @@ For our example we assume all the column names are coming from variables set som
 idCol        <- "subjectID"
 categoryCol  <- "surveyCategory"
 linkScoreCol <- "assessmentTotal"
-indicatorCol <- "rank"
+indicatorCol <- "isDiagnosis"
 probScoreCol <- "probability"
 outcomeCol   <- "diagnosis"
 ```
@@ -352,7 +352,7 @@ d %>%
 Several points have to be taught to the part-time `R` user if this code is to be maintained:
 
 -   The "`!!`" symbol does not have the same [operator precedence](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Syntax.html) as an assignment symbols such as "`=`" or "`:=`", so you must often place "`!!`"-expressions in extra parentheses.
--   In any assignment we must use "`:=`" for assignment if we using "`!!`" on the left-hand side of the assignment.
+-   In any assignment we must use "`:=`" for assignment when using "`!!`" on the left-hand side of the assignment.
 
 The above are just some syntax edge-cases, we haven't even gone into teaching `rlang::sym()`, "`!!`", and the theory and semantics of quasi-quotation.
 
@@ -403,7 +403,7 @@ However, for many verbs (`group_by_se()`, `arrange_se()`, `rename_se()`, and `se
 Conclusion
 ----------
 
-A part-time `R` user will not have the background to quickly compare all of the available substitution systems. In fact such a user will only come to needing a substitution system when they have a problem. So by definition they are in in the middle of some other task. So it is up to expert partners to evaluate explain alternatives.
+A part-time `R` user will not have the background to quickly compare all of the available substitution systems. In fact such a user will only come to need a substitution system when they have a problem. So by definition they are in in the middle of some other task. So it is up to expert partners to evaluate and explain alternatives.
 
 There is a temptation that if you are going to only teach one system it might as well be `rlang`/`tidyeval` as "that is what now comes with `dplyr`". I feel this is a false savings as while `rlang`/`tidyeval` "is already in `dplyr`" the `rlang`/`tidyeval` concepts are not "already in the user" (and in fact include a fairly number of irregular details, needing to be taught and memorized).
 
