@@ -398,13 +398,15 @@ The concept is:
 -   It insists on multiple arguments coming in as vectors (hence the use of "`c()`" throughout).
 -   It runs into a bit of trouble with verbs that take expressions (`mutate_se()` being the most complicated) in that it needs a helper to substitute in the name of the variable holding the column name, which is later substituted out for the actual column name by `seplyr`. In this example we used `glue::glue()` to perform the substitution, but we could also try `paste0()` or `gsub()`.
 
-However, for many verbs (`group_by_se()`, `arrange_se()`, `rename_se()`, and `select_se()`) the value oriented notation is in fact quite natural. In these cases if our column names are in variables these verbs are very concise and really in no sense inferior to the `dplyr()` originals.
+The lesson from `seplyr` is the `mutate()` verb does indeed need some kind of expression manipulation tooling (direct string manipulation feeling too crude). However, for the rest of the verbs the value oriented notation is in fact quite natural, and really in no sense inferior to the `dplyr` originals.
 
 Conclusion
 ----------
 
-A part-time `R` user will not have the background to quickly compare all of the available substitution systems. In fact such a user will only come to need a substitution system when they have a problem. So by definition they are in in the middle of some other task. So it is up to expert partners to evaluate and explain alternatives.
+Name substitution is a reasonable need that arises when re-using `R` work or when trying to iterate of column names. I have been publicly exploring variations of substitution systems so that `R` users can make an informed *choice* of one or more that most meets their needs and addresses their personal trade-offs between: power, safety, readability, and teachability. These sections are not each independent "yet another way of performing name substitution", but parts of a public conversation that should be had before name substitution is considered settled and fixed in stone.
 
-There is a temptation that if you are going to only teach one system it might as well be `rlang`/`tidyeval` as "that is what now comes with `dplyr`". I feel this is a false savings as while `rlang`/`tidyeval` "is already in `dplyr`" the `rlang`/`tidyeval` concepts are not "already in the user" (and in fact include a fairly number of irregular details, needing to be taught and memorized).
+A part-time `R` user will not have the background to quickly compare all of the available substitution systems. In fact such a user will only come to need a substitution system when they have a problem. So by definition they are in in the middle of some other task. It is up to expert partners to evaluate and explain alternatives.
 
-Our preference is: `wrapr::let()`. `wrapr::let()` delivers a lot of (safe) power for a modest amount of cognitive load. Each of the above systems involves different trade-offs and compromises, and we feel one must really try a few in production before being an expert.
+There is a temptation that if you are going to only teach one system it might as well be `rlang`/`tidyeval` as "that is what now comes with `dplyr`". I feel this is a false savings as while `rlang`/`tidyeval` "is already in `dplyr`" the `rlang`/`tidyeval` concepts and *details* are not "already in the user" (and in fact include a fairly number of irregular exceptions, needing to be taught and memorized).
+
+Our preference is: `wrapr::let()`. `wrapr::let()` delivers a lot of (safe) power for a modest amount of cognitive load. Each of the above systems involves different trade-offs and compromises, and we feel one must really try a few in production before having an expert opinion.
