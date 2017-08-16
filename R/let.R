@@ -67,6 +67,9 @@ prepareAlias <- function(alias, strict) {
     if (is.null(ni)) {
       stop('wrapr:let alias keys must not be null')
     }
+    if (is.na(ni)) {
+      stop('wrapr:let alias keys must not be NA')
+    }
     if (!is.character(ni)) {
       stop('wrapr:let alias keys must all be strings')
     }
@@ -80,6 +83,9 @@ prepareAlias <- function(alias, strict) {
       stop(paste('wrapr:let alias key not a valid name: "', ni, '"'))
     }
     vi <- alias[[ni]]
+    if (is.na(vi)) {
+      stop('wrapr:let alias values must not be NA')
+    }
     if (is.null(vi)) {
       stop('wrapr:let alias values must not be null')
     }
