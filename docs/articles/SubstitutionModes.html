@@ -84,7 +84,7 @@
       <h1>Substitution Modes</h1>
                         <h4 class="author">John Mount</h4>
             
-            <h4 class="date">2017-08-01</h4>
+            <h4 class="date">2017-08-19</h4>
           </div>
 
     
@@ -154,7 +154,7 @@
 ##     d &lt;- data.frame(X = "X", X2 = "XX", d = y * y, .X = X_)
 ##     y &lt;- list(X = d$y, X2 = d$X, v1 = y, v2 = ` X`, sin(1:2))
 ## }</code></pre>
-<p>Notice <code><a href="http://www.rdocumentation.org/packages/base/topics/substitute">base::substitute()</a></code> doesn’t re-write left-hand-sides of argument bindings. This is why I originally didn’t consider using this implementation. Re-writing left-hand-sides of assignments is critical in expressions such as <code><a href="http://dplyr.tidyverse.org/reference/mutate.html">dplyr::mutate( RESULTCOL = INPUTCOL + 1)</a></code>. Also <code><a href="http://www.rdocumentation.org/packages/base/topics/substitute">base::substitute()</a></code> doesn’t special case the <code>d$"X"</code> situation (but that really isn’t very important).</p>
+<p>Notice <code><a href="http://www.rdocumentation.org/packages/base/topics/substitute">base::substitute()</a></code> doesn’t re-write left-hand-sides of argument bindings. This is why I originally didn’t consider using this implementation. Re-writing left-hand-sides of assignments is critical in expressions such as <code><a href="http://www.rdocumentation.org/packages/dplyr/topics/mutate">dplyr::mutate( RESULTCOL = INPUTCOL + 1)</a></code>. Also <code><a href="http://www.rdocumentation.org/packages/base/topics/substitute">base::substitute()</a></code> doesn’t special case the <code>d$"X"</code> situation (but that really isn’t very important).</p>
 </div>
 </div>
 <div id="conclusion" class="section level2">

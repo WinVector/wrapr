@@ -171,6 +171,10 @@ letprep_str <- function(alias, strexpr,
 letprep_lang <- function(alias, lexpr) {
   nexpr <- lexpr
   n <- length(nexpr)
+  # just in case (establishes an invarient of n>=1)
+  if(n<=0) {
+    return(nexpr)
+  }
   # left-hand sides of lists/calls are represented as keys
   nms <- names(nexpr)
   if(length(nms)>0) {
@@ -184,30 +188,6 @@ letprep_lang <- function(alias, lexpr) {
       }
     }
     names(nexpr) <- nms
-  }
-  # try some easy cases first
-  if(is.character(nexpr)) {
-    return(nexpr)
-  }
-  # this is the main re-mapper
-  if(is.symbol(nexpr)) { # same as is.name()
-    # symbol is not subsettable, so length==1
-    #  as.name('x')[[1]]
-    #  # Error in as.name("x")[[1]] : object of type 'symbol' is not subsettable
-    # and can't have names
-    #   names(as.name("x")) <- 'a'
-    #   ## Error in names(as.name("x")) <- "a" :
-    #   ## target of assignment expands to non-language object
-    ki <- as.character(nexpr)
-    ri <- alias[[ki]]
-    if((length(ri)>0)&&(ri!=ki)) {
-      return(as.name(ri))
-    }
-    return(nexpr)
-  }
-  # just in case (establishes an invarient of n>=1)
-  if(n<=0) {
-    return(nexpr)
   }
   # special cases
   if(is.call(nexpr)) {
@@ -230,27 +210,34 @@ letprep_lang <- function(alias, lexpr) {
       }
     }
   }
-  if(is.expression(nexpr) || is.call(nexpr)) {
-    # from help(is.expression):
-    #   "As an object of mode "expression" is a list"
-    # as x[[1]] isn't x for lists  (which is not true for vectors as 1[[1]]  is 1)
-    # we know we can try to recurse without an obvious infinite loop
-    for(i in seq_len(n)) {
-      nexpr[[i]] <- letprep_lang(alias, nexpr[[i]])
-    }
-    return(nexpr)
-  }
-  # should be done as is.language() is supposed to imply one of:
-  #   is.name(), is.call(), or is.expr()
-  # the recurse, assuming language objects are list-like in that
-  #  x[[1]] isn't x (which is not true for vectors as 1[[1]]  is 1).
-  # was recursing on is.language(), now do it on n>1
+  # basic recurse, establish invariant n==1
   if(n>1) {
     for(i in seq_len(n)) {
       nexpr[[i]] <- letprep_lang(alias, nexpr[[i]])
     }
     return(nexpr)
   }
+  # don't re-map quoted strings (except above)
+  if(is.character(nexpr)) {
+    return(nexpr)
+  }
+  # this is the main re-mapper
+  if(is.symbol(nexpr)) { # same as is.name()
+    # symbol is not subsettable, so length==1
+    #  as.name('x')[[1]]
+    #  # Error in as.name("x")[[1]] : object of type 'symbol' is not subsettable
+    # and can't have names
+    #   names(as.name("x")) <- 'a'
+    #   ## Error in names(as.name("x")) <- "a" :
+    #   ## target of assignment expands to non-language object
+    ki <- as.character(nexpr)
+    ri <- alias[[ki]]
+    if((length(ri)>0)&&(ri!=ki)) {
+      return(as.name(ri))
+    }
+    return(nexpr)
+  }
+  # fall-back
   return(nexpr)
 }
 
