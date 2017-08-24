@@ -1,7 +1,8 @@
 
-# wrapr 0.4.1 2017-07-29
+# wrapr 0.4.1 2017-08-24
 
  * Do not insist let-mapping be invertible.
+ * Migrate named map builder and lambda from seplyr.de
  
 # wrapr 0.4.0 2017-07-22
 

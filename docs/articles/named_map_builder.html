@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dot Pipe • wrapr</title>
+<title>Named Map Builder • wrapr</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
@@ -84,7 +84,7 @@
       </header><div class="row">
   <div class="col-md-9">
     <div class="page-header toc-ignore">
-      <h1>Dot Pipe</h1>
+      <h1>Named Map Builder</h1>
                         <h4 class="author">John Mount</h4>
             
             <h4 class="date">2017-08-24</h4>
@@ -93,19 +93,27 @@
     
     
 <div class="contents">
-<p>The “dot pipe” is an operator with a very simple definition:</p>
-<blockquote>
-<p>“a %.&gt;% b” is to be treated as if the user had written “{ . &lt;- a; b };” with “%.&gt;%” being treated as left-associative. (there are “.” associated side-effects).</p>
-</blockquote>
-<p>This is deliberately more regular than and has considerably fewer corner cases than the <code>magrittr</code> pipe used by <code>dplyr</code>.</p>
-<p>For example, the following all evaluate to the same (which is not the case for <code>magrittr::%&gt;%</code>):</p>
+<p>“named map builder” is an operator written as “<code>:=</code>”. Named map builder is a <em>very</em> simple bit of code that performs a very simple task: it adds names to vectors or lists (making them work more like maps).</p>
+<p>Here are some examples:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"wrapr"</span>)
 
-<span class="dv">1</span> %.&gt;%<span class="st"> </span><span class="kw">c</span>(<span class="kw">c</span>(.))</code></pre></div>
-<pre><code>## [1] 1</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span> %.&gt;%<span class="st"> </span>{ <span class="kw">c</span>(<span class="kw">c</span>(.)) }</code></pre></div>
-<pre><code>## [1] 1</code></pre>
-<p>For more discussion please see <a href="http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/">here</a>.</p>
+<span class="st">'a'</span> :<span class="er">=</span><span class="st"> </span><span class="dv">5</span></code></pre></div>
+<pre><code>## a 
+## 5</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="st">'a'</span> :<span class="er">=</span><span class="st"> </span><span class="dv">5</span>, <span class="st">'b'</span> :<span class="er">=</span><span class="st"> </span><span class="dv">6</span>)</code></pre></div>
+<pre><code>## a b 
+## 5 6</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="st">'a'</span>, <span class="st">'b'</span>) :<span class="er">=</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">6</span>)</code></pre></div>
+<pre><code>## a b 
+## 5 6</code></pre>
+<p>The left-side argument of the <code>:=</code> operator is called “the names”, and the right-side argument is called “the values”. The <code>:=</code> operators returns the values with the names set to names.</p>
+<p>A key use of the named map builder is the following:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">key =<span class="st"> 'keycode'</span>
+key :<span class="er">=</span><span class="st"> 'value'</span></code></pre></div>
+<pre><code>## keycode 
+## "value"</code></pre>
+<p>Notice the value inside the variable <code>key</code> was used as the array name, this differs from what is easily done with <code>R</code>’s native <code>c(key = 'value')</code> style notation.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">help</span>(<span class="st">`</span><span class="dt">:=</span><span class="st">`</span>, <span class="dt">package =</span> <span class="st">'wrapr'</span>)</code></pre></div>
 </div>
   </div>
 
