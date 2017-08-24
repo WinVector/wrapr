@@ -90,7 +90,7 @@
 <div class="contents">
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <p>This document describes <code>wrapr</code>, an <a href="https://cran.r-project.org">R</a> package available from <a href="https://github.com/WinVector/wrapr">Github</a> (via <code><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">devtools::install_github("WinVector/wrapr")</a></code>) and <a href="https://CRAN.R-project.org/">CRAN</a> (via <code>install.packages("wrapr")</code>).</p>
-<p>Note: <code>wrapr</code> is meant only for “tame names” that is variables and column names that are also valid <em>simple</em> (without quotes) <code>R</code> variables names.</p>
+<p>Note: <code>wrapr</code> is meant only for “tame names”, that is: variables and column names that are also valid <em>simple</em> (without quotes) <code>R</code> variables names.</p>
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
@@ -100,17 +100,21 @@
 </div>
 <p>Primary <code>wrapr</code> services include:</p>
 <ul>
-<li><code><a href="http://www.rdocumentation.org/packages/wrapr/topics/let">wrapr::let()</a></code></li>
+<li><code><a href="reference/let.html">let()</a></code></li>
 <li>
-<code>wrapr::%.&gt;%</code> (dot arrow pipe)</li>
-<li><code><a href="http://www.rdocumentation.org/packages/wrapr/topics/DebugFnW">wrapr::DebugFnW()</a></code></li>
+<code>%.&gt;%</code> (dot arrow pipe)</li>
+<li>
+<code>:=</code> (named map builder)</li>
+<li>
+<code>λ()</code> (anonymous function builder)</li>
+<li><code><a href="reference/DebugFnW.html">DebugFnW()</a></code></li>
 </ul>
 </div>
-<div id="wraprlet" class="section level2">
+<div id="let" class="section level2">
 <h2 class="hasAnchor">
-<a href="#wraprlet" class="anchor"></a><code><a href="http://www.rdocumentation.org/packages/wrapr/topics/let">wrapr::let()</a></code>
+<a href="#let" class="anchor"></a><code><a href="reference/let.html">let()</a></code>
 </h2>
-<p><code><a href="http://www.rdocumentation.org/packages/wrapr/topics/let">wrapr::let()</a></code> allows execution of arbitrary code with substituted variable names (note this is subtly different than binding values for names as with <code><a href="http://www.rdocumentation.org/packages/base/topics/substitute">base::substitute()</a></code> or <code><a href="http://www.rdocumentation.org/packages/base/topics/with">base::with()</a></code>).</p>
+<p><code><a href="reference/let.html">let()</a></code> allows execution of arbitrary code with substituted variable names (note this is subtly different than binding values for names as with <code><a href="http://www.rdocumentation.org/packages/base/topics/substitute">base::substitute()</a></code> or <code><a href="http://www.rdocumentation.org/packages/base/topics/with">base::with()</a></code>).</p>
 <p>The function is simple and powerful. It treats strings as variable names and re-writes expressions as if you had used the denoted variables. For example the following block of code is equivalent to having written “<code>a + a</code>”.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"wrapr"</span>)
 
@@ -123,7 +127,7 @@ a &lt;-<span class="st"> </span><span class="dv">7</span>
 )
  <span class="co">#  [1] 14</span></code></pre></div>
 <p>This is useful in re-adapting non-standard evaluation interfaces (NSE interfaces) so one can script or program over them.</p>
-<p>We are trying to make <code><a href="http://www.rdocumentation.org/packages/wrapr/topics/let">wrapr::let()</a></code> self teaching and self documenting (to the extent that makes sense). For example try the arguments “<code>eval=FALSE</code>” prevent execution and see what <em>would</em> have been executed, or <code>debug=TRUE</code> to have the replaced code printed in addition to being executed:</p>
+<p>We are trying to make <code><a href="reference/let.html">let()</a></code> self teaching and self documenting (to the extent that makes sense). For example try the arguments “<code>eval=FALSE</code>” prevent execution and see what <em>would</em> have been executed, or <code>debug=TRUE</code> to have the replaced code printed in addition to being executed:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/let.html">let</a></span>(
   <span class="kw">c</span>(<span class="dt">VAR =</span> <span class="st">'a'</span>),
   <span class="dt">eval =</span> <span class="ot">FALSE</span>,
@@ -148,14 +152,14 @@ a &lt;-<span class="st"> </span><span class="dv">7</span>
  <span class="co">#  [1] 14</span></code></pre></div>
 <p>Please see <code><a href="https://cran.rstudio.com/web/packages/wrapr/vignettes/let.html">vignette('let', package='wrapr')</a></code> for more examples. For working with <code>dplyr</code> 0.7.* we also suggest taking a look at an alternate approach called <a href="https://github.com/WinVector/seplyr/blob/master/README.md"><code>seplyr</code></a>.</p>
 </div>
-<div id="wrapr--dot-arrow-pipe" class="section level2">
+<div id="dot-arrow-pipe" class="section level2">
 <h2 class="hasAnchor">
-<a href="#wrapr--dot-arrow-pipe" class="anchor"></a><code>wrapr::%.&gt;%</code> (dot arrow pipe)</h2>
-<p><code>wrapr::%.&gt;%</code> dot arrow pipe is a strict pipe with intended semantics:</p>
+<a href="#dot-arrow-pipe" class="anchor"></a><code>%.&gt;%</code> (dot arrow pipe)</h2>
+<p><code>%.&gt;%</code> dot arrow pipe is a strict pipe with intended semantics:</p>
 <blockquote>
 <p>“<code>a %.&gt;% b</code>” is to be treated as if the user had written “<code>{ . &amp;lt;- a; b };</code>” with “<code>%.&gt;%</code>” being treated as left-associative, and <code>.</code>-side effects removed.</p>
 </blockquote>
-<p>That is: <code>%.&gt;%</code> does not alter any function arguments that are not explicitly named. It is not defined as <code>a %.% b ~ b(a)</code> (roughly <code>dplyr</code>’s original pipe) or as the large set of differing cases constituting <code>magrittr::%&gt;%</code>. <code>wrapr::%.&gt;%</code> is designed to be explicit and simple.</p>
+<p>That is: <code>%.&gt;%</code> does not alter any function arguments that are not explicitly named. It is not defined as <code>a %.% b ~ b(a)</code> (roughly <code>dplyr</code>’s original pipe) or as the large set of differing cases constituting <code>magrittr::%&gt;%</code>. <code>%.&gt;%</code> is designed to be explicit and simple.</p>
 <p>The effect looks is show below.</p>
 <p>The following two expressions should be equivalent:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cos</span>(<span class="kw">exp</span>(<span class="kw">sin</span>(<span class="dv">4</span>)))
@@ -165,11 +169,37 @@ a &lt;-<span class="st"> </span><span class="dv">7</span>
  <span class="co">#  [1] 0.8919465</span></code></pre></div>
 <p>Please see <a href="http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/">“In Praise of Syntactic Sugar”</a> for more details.</p>
 </div>
-<div id="wraprdebugfnw" class="section level2">
+<div id="section" class="section level2">
 <h2 class="hasAnchor">
-<a href="#wraprdebugfnw" class="anchor"></a><code><a href="http://www.rdocumentation.org/packages/wrapr/topics/DebugFnW">wrapr::DebugFnW()</a></code>
+<a href="#section" class="anchor"></a><code>:=</code>
 </h2>
-<p><code><a href="http://www.rdocumentation.org/packages/wrapr/topics/DebugFnW">wrapr::DebugFnW()</a></code> wraps a function for debugging. If the function throws an exception the execution context (function arguments, function name, and more) is captured and stored for the user. The function call can then be reconstituted, inspected and even re-run with a step-debugger. Please see <code><a href="https://cran.rstudio.com/web/packages/wrapr/vignettes/DebugFnW.html">vignette('DebugFnW', package='wrapr')</a></code> for examples.</p>
+<p><code>:=</code> is the “named map builder”. It allows code such as the following.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="st">'a'</span>, <span class="st">'b'</span>) :<span class="er">=</span><span class="st"> </span><span class="kw">c</span>(<span class="st">'x'</span>, <span class="st">'y'</span>)
+ <span class="co">#    a   b </span>
+ <span class="co">#  "x" "y"</span>
+
+<span class="kw">c</span>(<span class="st">'a'</span> :<span class="er">=</span><span class="st"> 'x'</span>, <span class="st">'b'</span> :<span class="er">=</span><span class="st"> 'y'</span>)
+ <span class="co">#    a   b </span>
+ <span class="co">#  "x" "y"</span></code></pre></div>
+<p>The important property of named map builder is it accepts values on the left-hand side allowing the following:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">name &lt;-<span class="st"> 'variableNameFromElseWhere'</span>
+name :<span class="er">=</span><span class="st"> 'newBinding'</span>
+ <span class="co">#  variableNameFromElseWhere </span>
+ <span class="co">#               "newBinding"</span></code></pre></div>
+</div>
+<div class="section level2">
+<h2><code>λ()</code></h2>
+<p><code>λ()</code> is a concise abstract function creator. It is a placeholder that allows the use of the λ-character for very concise function abstraction.</p>
+<p>Example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># square numbers 1 through 4</span>
+<span class="kw">sapply</span>(<span class="dv">1</span>:<span class="dv">4</span>, λ(x, x^<span class="dv">2</span>))
+ <span class="co">#  [1]  1  4  9 16</span></code></pre></div>
+</div>
+<div id="debugfnw" class="section level2">
+<h2 class="hasAnchor">
+<a href="#debugfnw" class="anchor"></a><code><a href="reference/DebugFnW.html">DebugFnW()</a></code>
+</h2>
+<p><code><a href="reference/DebugFnW.html">DebugFnW()</a></code> wraps a function for debugging. If the function throws an exception the execution context (function arguments, function name, and more) is captured and stored for the user. The function call can then be reconstituted, inspected and even re-run with a step-debugger. Please see <code><a href="https://cran.rstudio.com/web/packages/wrapr/vignettes/DebugFnW.html">vignette('DebugFnW', package='wrapr')</a></code> for examples.</p>
 </div>
 </div>
   </div>

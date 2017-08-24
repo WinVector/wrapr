@@ -11,9 +11,9 @@ Authors@R: c(
 URL: https://github.com/WinVector/wrapr, http://winvector.github.io/wrapr/
 Maintainer: John Mount <jmount@win-vector.com>
 BugReports: https://github.com/WinVector/wrapr/issues
-Description: Provides 'DebugFnW()' to capture function context on error for
-    debugging, and 'let()' which converts non-standard evaluation interfaces to
-    parametric standard evaluation interfaces.
+Description: Useful advanced R notations. Provides: 'let()' which converts non-standard evaluation interfaces to
+    parametric standard evaluation interface, 'DebugFnW()' to capture function context on error for
+    debugging, and ':=' named map builder, and lambda-abstraction.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
