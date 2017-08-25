@@ -66,11 +66,11 @@ makeFunction_se <- function(params, body, env = parent.frame()) {
 #' @export
 #'
 lambda <- function(..., env = parent.frame()) {
-  args <- substitute(list(...))
+  args <- base::substitute(list(...))
   body <- args[[length(args)]]
   args <- args[-length(args)]
-  params <- lapply(args[-1], as.name)
-  makeFunction_se(params, body, env)
+  params <- base::lapply(args[-1], base::as.name)
+  wrapr::makeFunction_se(params, body, env)
 }
 
 #' @export
