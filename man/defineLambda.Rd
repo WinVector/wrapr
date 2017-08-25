@@ -10,7 +10,8 @@ defineLambda(envir = parent.frame())
 \item{envir}{environment to work in}
 }
 \description{
-Use this if you cleared lambda-def out of your environment.
+Use this to place a copy of the lambda-symbol
+function builder in your workspace.
 }
 \examples{
 

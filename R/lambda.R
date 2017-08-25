@@ -85,7 +85,8 @@ lambda <- function(..., env = parent.frame()) {
 
 #' Define lambda function building function.
 #'
-#' Use this if you cleared lambda-def out of your environment.
+#' Use this to place a copy of the lambda-symbol
+#' function builder in your workspace.
 #'
 #' @param envir environment to work in
 #'

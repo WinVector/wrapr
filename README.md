@@ -125,6 +125,9 @@ name := 'newBinding'
 Example:
 
 ``` r
+# Make sure lambda function builder is in our enironment.
+defineLambda()
+
 # square numbers 1 through 4
 sapply(1:4, λ(x, x^2))
  #  [1]  1  4  9 16
