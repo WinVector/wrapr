@@ -97,5 +97,5 @@ lambda <- function(..., env = parent.frame()) {
 #' @export
 #'
 defineLambda <- function(envir = parent.frame()) {
-  assign(intToUtf8(0x03BB), lambda, envir = envir)
+  assign(intToUtf8(0x03BB), wrapr::lambda, envir = envir)
 }
