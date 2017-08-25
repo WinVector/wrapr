@@ -1,4 +1,8 @@
 
+# wrapr 0.4.2 2017-08-25
+
+ * Work on location of lambda-definition.
+ 
 # wrapr 0.4.1 2017-08-24
 
  * Do not insist let-mapping be invertible.

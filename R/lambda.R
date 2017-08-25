@@ -81,3 +81,21 @@ lambda <- function(..., env = parent.frame()) {
   body <- substitute(values)
   makeFunction_se(params, body, env)
 }
+
+
+#' Define lambda function building function.
+#'
+#' Use this if you cleared lambda-def out of your environment.
+#'
+#' @param envir environment to work in
+#'
+#' @examples
+#'
+#' defineLambda()
+#' ls()
+#'
+#' @export
+#'
+defineLambda <- function(envir = parent.frame()) {
+  assign(intToUtf8(0x03BB), lambda, envir = envir)
+}

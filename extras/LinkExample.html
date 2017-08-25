@@ -1,0 +1,319 @@
+<h1 id="comparing-r-substitution-solutions">Comparing <code>R</code> Substitution Solutions</h1>
+<h2 id="background">Background</h2>
+<p>When I started writing about methods for better <a href="http://www.win-vector.com/blog/2016/12/parametric-variable-names-and-dplyr/">&quot;parametric programming&quot; interfaces for <code>dplyr</code></a> for <a href="https://www.r-project.org"><code>R</code></a> <a href="http://dplyr.tidyverse.org"><code>dplyr</code></a> users in December of 2016 I encountered three divisions in the audience:</p>
+<ul class="incremental">
+<li><code>dplyr</code> users who had such a need, and wanted such extensions.</li>
+<li><code>dplyr</code> users who did not have such a need (&quot;we always know the column names&quot;).</li>
+<li><code>dplyr</code> users who found the then-current &quot;underscore&quot; and <a href="https://cran.r-project.org/web/packages/lazyeval/index.html"><code>lazyeval</code></a> system sufficient for the task.</li>
+</ul>
+<p>Roughly I suggested two possible methods for making the task easier:</p>
+<ul class="incremental">
+<li>Renaming <a href="https://en.wikipedia.org/wiki/View_(SQL)">views</a> for <code>data.frame</code>s. I have now implemented the idea as a call-scoped concept in <code>replyr::replyr_apply_f_mapped()</code> (&quot;call-scoped&quot;, meaning the re-mapping lasts for the duration of a function call).</li>
+<li>Symbol re-binding by a block-scoped command called <a href="https://winvector.github.io/wrapr/reference/let.html"><code>let()</code></a> (<a href="https://en.wikipedia.org/wiki/Lisp_(programming_language)#Self-evaluating_forms_and_quoting">a common functional notation</a>; and &quot;block-scoped&quot; meaning the re-mapping lasts for the span of a code-block). I released this solution to <code>CRAN</code> and publicly announced it on <a href="http://www.win-vector.com/blog/2016/12/using-replyrlet-to-parameterize-dplyr-expressions/#comment-66361">December 8 2016</a>.</li>
+</ul>
+<p>I mention dates to point out that this is something I have been inviting public comment on for some time.</p>
+<p>Things change. Since the above time:</p>
+<ul class="incremental">
+<li>The development version of <code>dplyr</code> incorporated a new <a href="https://github.com/tidyverse/rlang"><code>rlang</code>/<code>tidyeval</code></a> package (<a href="https://github.com/tidyverse/dplyr/commit/7d34aea17cb6806992acb2b1cc59a5484148aa03">probably around February 14th 2017</a>).</li>
+<li><code>rlang</code>/<code>tidyeval</code> was <a href="https://cran.r-project.org/src/contrib/Archive/rlang/">released to CRAN on May 2017</a>. Obviously <code>rlang</code>/<code>tidyeval</code> had been under development for some time, but I don't think the parametric aspect of it was publicly discussed much before <a href="https://github.com/tidyverse/dplyr/issues/1600#issuecomment-280453923">February 16, 2017</a> (notice that a formula centric interface was still being contemplated).</li>
+<li><code>dplyr</code> <code>0.7.0</code> was released, based on <code>rlang</code>/<code>tidyeval</code> (June 9th, 2017).</li>
+<li><code>dplyr</code> excised direct use of <code>lazyeval</code>.</li>
+<li>The <code>dplyr</code> &quot;underscore verbs&quot; (or methods) were all deprecated (i.e., no longer advised).</li>
+</ul>
+<p>The <code>rlang</code>/<code>tidyeval</code> strategy is to capture un-evaluated user expressions (as a new object called a &quot;<a href="http://rlang.tidyverse.org/reference/quosure.html"><code>quosure</code></a>&quot;) and <a href="http://rlang.tidyverse.org/reference/eval_tidy_.html">evaluate them with new language rules</a> (with new bindings and something called an &quot;<code>overscope</code>&quot;). Also note the <code>rlang</code>/<code>tidyeval</code> strategy is full integration or re-writing of packages in terms of <code>rlang</code>/<code>tidyeval</code>; this isn't something you mix-in or turn on or off.</p>
+<p>Some points I think that have been under-represented in previous discussions include:</p>
+<ul class="incremental">
+<li>Not all <code>R</code> users consider themselves to be expert programmers (many are happy calling themselves analysts or statisticians).</li>
+<li><code>R</code> is often used in collaborative projects where there are varying levels of programming expertise.</li>
+</ul>
+<p>The second point I think is particularly interesting. It means:</p>
+<blockquote>
+<p>An <code>R</code> user who does not consider themselves an expert programmer could be maintaining code that they understand, but could not be expected to create from scratch.</p>
+</blockquote>
+<p>Or:</p>
+<blockquote>
+<p>Let's have some sympathy for the part-time <code>R</code> user.</p>
+</blockquote>
+<p>This is the point we will emphasize in our new example.</p>
+<h2 id="the-example">The example</h2>
+<p>The design and discussion of substitution solutions should be driven from concrete realistic use cases. Working from larger examples gives us a taste of what working with each solution is like in practice. So, let's pretend to discuss social science (instead of programming).</p>
+<p>Suppose an analyst, psychologist, medical doctor, or scientist is building an assessment for some aspects of behavior and anxiety.</p>
+<p>Often such assessments involve selecting moving through a multiple-choice questionnaire and collecting a number of points that depend on answers selected. One such assessment is the <a href="https://en.wikipedia.org/wiki/Generalized_Anxiety_Disorder_7">Generalized Anxiety Disorder 7 questionnaire</a> (or GAD-7). It is a very simple system as can be seen below.</p>
+<p><a href="https://www.integration.samhsa.gov/clinical-practice/GAD708.19.08Cartwright.pdf"><img src="GAD708.19.08Cartwright.png" width="600"></a></p>
+<p>One can treat such a test score as a classifier and <a href="http://jamanetwork.com/journals/jamainternalmedicine/fullarticle/410326">assess it</a> in terms of sensitivity, specificity, and <a href="http://www.win-vector.com/blog/2016/07/a-budget-of-classifier-evaluation-measures/">different correspondence measures</a>.</p>
+<p>An obvious extension of such tests is to give a different number of points in different categories for each multiple-choice answer. For example we could imagine such a test where each answer gave a varying number of points in one of two categories called &quot;withdrawal behavior&quot; and &quot;positive re-framing&quot; (both in the sense of <a href="https://en.wikipedia.org/wiki/Coping_(psychology)">coping behaviors</a>).</p>
+<p>For example, our scientist might record the results of two subjects taking a test as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+  <span class="dt">subjectID =</span> <span class="kw">c</span>(<span class="dv">1</span>,                   
+                <span class="dv">1</span>,
+                <span class="dv">2</span>,                   
+                <span class="dv">2</span>),
+  <span class="dt">surveyCategory =</span> <span class="kw">c</span>(
+    <span class="st">&#39;withdrawal behavior&#39;</span>,
+    <span class="st">&#39;positive re-framing&#39;</span>,
+    <span class="st">&#39;withdrawal behavior&#39;</span>,
+    <span class="st">&#39;positive re-framing&#39;</span>
+  ),
+  <span class="dt">assessmentTotal =</span> <span class="kw">c</span>(<span class="dv">5</span>,                 
+                      <span class="dv">2</span>,
+                      <span class="dv">3</span>,                  
+                      <span class="dv">4</span>),
+  <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>
+)
+  
+<span class="kw">print</span>(d)</code></pre></div>
+<pre><code>##   subjectID      surveyCategory assessmentTotal
+## 1         1 withdrawal behavior               5
+## 2         1 positive re-framing               2
+## 3         2 withdrawal behavior               3
+## 4         2 positive re-framing               4</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># or in &quot;wide form&quot;:</span>
+<span class="kw">library</span>(<span class="st">&quot;cdata&quot;</span>)
+<span class="kw">moveValuesToColumns</span>(d, 
+                    <span class="dt">columnToTakeKeysFrom =</span> <span class="st">&#39;surveyCategory&#39;</span>,
+                    <span class="dt">columnToTakeValuesFrom =</span> <span class="st">&#39;assessmentTotal&#39;</span>,
+                    <span class="dt">rowKeyColumns =</span> <span class="st">&#39;subjectID&#39;</span>)</code></pre></div>
+<pre><code>##   subjectID positive re-framing withdrawal behavior
+## 1         1                   2                   5
+## 2         2                   4                   3</code></pre>
+<p>A natural question is: how does one assign weights to each answer? One way would be to administer the test to a number of people the experimenter has classified as having either of the above mentioned behaviors and then performing a <a href="http://www.win-vector.com/blog/2011/09/the-simpler-derivation-of-logistic-regression/">logistic regression</a> to map assessment answers to the probability of a given diagnosis for this population. By re-scaling the weights and rounding them to small integers we could have a test point system that is very close to performing a logistic regression classification. We may be able to use the same assessment questions in a much more decisive manner than assigning all questions the same number of points.</p>
+<p>This sort of idea is what one would expect from a mixed and collaborating team that includes medical experts, statistics experts, and programmers. After some work our team might work out that scoring the assessment can be done by the simple <code>R</code> <code>dplyr</code> pipeline:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">suppressPackageStartupMessages</span>(<span class="kw">library</span>(<span class="st">&quot;dplyr&quot;</span>))
+
+scale &lt;-<span class="st"> </span><span class="fl">0.237</span>
+  
+d %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(subjectID) %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">probability =</span>
+           <span class="kw">exp</span>(assessmentTotal *<span class="st"> </span>scale)/
+<span class="st">           </span><span class="kw">sum</span>(<span class="kw">exp</span>(assessmentTotal *<span class="st"> </span>scale)))</code></pre></div>
+<pre><code>## # A tibble: 4 x 4
+## # Groups:   subjectID [2]
+##   subjectID      surveyCategory assessmentTotal probability
+##       &lt;dbl&gt;               &lt;chr&gt;           &lt;dbl&gt;       &lt;dbl&gt;
+## 1         1 withdrawal behavior               5   0.6706221
+## 2         1 positive re-framing               2   0.3293779
+## 3         2 withdrawal behavior               3   0.4410258
+## 4         2 positive re-framing               4   0.5589742</code></pre>
+<p>For each subject we take the row with maximal probability as the diagnosis. The diagnosis was already obvious from the original scores, the main addition is the diagnosis confidence is now available as a probability estimate.</p>
+<p>Each step of the above pipeline is learn-able:</p>
+<ul class="incremental">
+<li>The <code>group_by()</code> is arranging all rows associated with the same subject to work together in later calculations.</li>
+<li>the <code>exp(assessmentTotal * scale)/sum(exp(assessmentTotal * scale))</code> is the classic &quot;sigmoid link&quot; from logistic regression. It is the standard way (once you know it) of turning a free-score into a probability estimate.</li>
+</ul>
+<p>Suppose this assessment is tested and works well. It is then plausible that the team might ask their <code>R</code> expert to help them construct a much more complicated <code>dplyr</code> pipeline that better formats the results. Under the Harlan Mills' &quot;Surgical Team&quot; proposal (made famous in Frank Brook's <a href="https://en.wikipedia.org/wiki/The_Mythical_Man-Month"><em>The Mythical Man Month</em></a>) we expect effective data science teams to have a diversity of deep expertise (not everybody know everything, but a lot is known by the total team). We expect a well staffed research team to include the statistician who worked out the sigmoid transform above, and a programmer who works out the pipeline we give below.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(subjectID) %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">probability =</span>
+           <span class="kw">exp</span>(assessmentTotal *<span class="st"> </span>scale)/
+<span class="st">           </span><span class="kw">sum</span>(<span class="kw">exp</span>(assessmentTotal *<span class="st"> </span>scale))) %&gt;%
+<span class="st">  </span><span class="kw">arrange</span>(probability, surveyCategory) %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">isDiagnosis =</span> <span class="kw">row_number</span>() ==<span class="st"> </span><span class="kw">n</span>()) %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(isDiagnosis) %&gt;%
+<span class="st">  </span><span class="kw">ungroup</span>() %&gt;%
+<span class="st">  </span><span class="kw">select</span>(subjectID, surveyCategory, probability) %&gt;%
+<span class="st">  </span><span class="kw">rename</span>(<span class="dt">diagnosis =</span> surveyCategory) %&gt;%
+<span class="st">  </span><span class="kw">arrange</span>(subjectID)</code></pre></div>
+<pre><code>## # A tibble: 2 x 3
+##   subjectID           diagnosis probability
+##       &lt;dbl&gt;               &lt;chr&gt;       &lt;dbl&gt;
+## 1         1 withdrawal behavior   0.6706221
+## 2         2 positive re-framing   0.5589742</code></pre>
+<p>This is indeed a long (and expert-level) pipeline. But the principle is:</p>
+<ul class="incremental">
+<li>It does useful work (concentrates down to the rows we want and ensures good presentation column names and sorting).</li>
+<li>While a part-time <code>R</code> user would not be expected to come up with it, they could (with cooperation from the pipeline author) understand all the steps and safely use the pipeline in their project.</li>
+<li>The application (which we spent some time describing) is what the team cares about, the pipeline is a ends to a means (so even though it is long, it isn't often the central subject of interest).</li>
+<li>The longer pipeline is paying the bills, and helping patients. So some pain and cost are to be tolerated.</li>
+</ul>
+<p>Let's take this deliberately long (so as to be a strong test) example and see how hard the pipeline is to re-use under different methodologies.</p>
+<h2 id="re-use">Re-use</h2>
+<p>An issue that comes up is: can the team re-use the pipeline on another project? Suppose in their next project the ID column isn't &quot;<code>subjectID</code>&quot; but it is &quot;<code>patientID</code>&quot; (and so on). Obviously they can copy and paste the original pipeline and change the names (which is not a bad practice for the first few re-uses).</p>
+<p>But once this procedure is going to be used many times it is a good idea to wrap it up or genericize it so it can be safely re-adapted (so the users can't accidentally forget to change one name one place).</p>
+<p>I will now walk through a number of approaches to this in terms of how hard they are on the researcher. We are assuming their <code>R</code> expert does the wrapping for them, but then must explain the concepts to the part-time <code>R</code> user so they truly understand and can maintain the tools they are using.</p>
+<p>For our example we assume all the column names are coming from variables set somewhere else (in another <code>R</code> script, or coming from a spreadsheet that is read into <code>R</code>, or some other source). The nature of the columns is constant from analysis to analysis, but the exact names used may vary. For our example the column names are:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">idCol        &lt;-<span class="st"> &quot;subjectID&quot;</span>
+categoryCol  &lt;-<span class="st"> &quot;surveyCategory&quot;</span>
+linkScoreCol &lt;-<span class="st"> &quot;assessmentTotal&quot;</span>
+indicatorCol &lt;-<span class="st"> &quot;isDiagnosis&quot;</span>
+probScoreCol &lt;-<span class="st"> &quot;probability&quot;</span>
+outcomeCol   &lt;-<span class="st"> &quot;diagnosis&quot;</span></code></pre></div>
+<h3 id="wrapr-solution"><a href="https://winvector.github.io/wrapr/index.html"><code>wrapr</code></a> solution</h3>
+<p>In my opinion the easiest solution (in terms of cognitive load) is <a href="https://winvector.github.io/wrapr/reference/let.html"><code>wrapr::let()</code></a>. The <code>R</code> expert would share the following code:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;wrapr&quot;</span>)
+
+<span class="kw">let</span>(
+  <span class="kw">c</span>(
+    <span class="dt">IDCOL        =</span> idCol,
+    <span class="dt">CATEGORYCOL  =</span> categoryCol,
+    <span class="dt">LINKSCORECOL =</span> linkScoreCol,
+    <span class="dt">INDICATORCOL =</span> indicatorCol,
+    <span class="dt">PROBSCORECOL =</span> probScoreCol,
+    <span class="dt">OUTCOMECOL   =</span> outcomeCol
+  ),
+  
+  d %&gt;%
+<span class="st">    </span><span class="kw">group_by</span>(IDCOL) %&gt;%
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">PROBSCORECOL =</span>
+             <span class="kw">exp</span>(LINKSCORECOL *<span class="st"> </span>scale)/
+<span class="st">             </span><span class="kw">sum</span>(<span class="kw">exp</span>(LINKSCORECOL *<span class="st"> </span>scale))) %&gt;%
+<span class="st">    </span><span class="kw">arrange</span>(PROBSCORECOL, CATEGORYCOL) %&gt;%
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">INDICATORCOL =</span> <span class="kw">row_number</span>() ==<span class="st"> </span><span class="kw">n</span>()) %&gt;%
+<span class="st">    </span><span class="kw">filter</span>(INDICATORCOL) %&gt;%
+<span class="st">    </span><span class="kw">ungroup</span>() %&gt;%
+<span class="st">    </span><span class="kw">select</span>(IDCOL, CATEGORYCOL, PROBSCORECOL) %&gt;%
+<span class="st">    </span><span class="kw">rename</span>(<span class="dt">OUTCOMECOL =</span> CATEGORYCOL) %&gt;%
+<span class="st">    </span><span class="kw">arrange</span>(IDCOL)
+)</code></pre></div>
+<pre><code>## # A tibble: 2 x 3
+##   subjectID           diagnosis probability
+##       &lt;dbl&gt;               &lt;chr&gt;       &lt;dbl&gt;
+## 1         1 withdrawal behavior   0.6706221
+## 2         2 positive re-framing   0.5589742</code></pre>
+<p>The concept is:</p>
+<blockquote>
+<p>&quot;<code>let()</code> works as if you had written the code with the names substituted as shown in the <code>c()</code> block.&quot;</p>
+</blockquote>
+<p>And there is <a href="https://winvector.github.io/wrapr/">ample</a> documentation showing how this can be used. Notice creating this code is completely mechanical (replace concrete names with the all-caps place holders) and the execution has an easy mental model (the place-holders are replaced with names stored in the variables).</p>
+<p>In this solution the adapted code looks like the original code.</p>
+<h3 id="replyr-solution"><a href="https://winvector.github.io/replyr/index.html"><code>replyr</code></a> solution</h3>
+<p>The next easiest method <em>in concept</em> is <a href="https://winvector.github.io/replyr/reference/replyr_apply_f_mapped.html"><code>replyr_apply_f_mapped()</code></a>.</p>
+<p>The <code>R</code> expert would write the following, and the part-time <code>R</code> user (with some coaching) could maintain it.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;replyr&quot;</span>)
+
+d %&gt;%
+<span class="st">  </span><span class="kw">replyr_apply_f_mapped</span>(
+    <span class="dt">nmap =</span> <span class="kw">c</span>(
+      <span class="dt">IDCOL        =</span> idCol,
+      <span class="dt">CATEGORYCOL  =</span> categoryCol,
+      <span class="dt">LINKSCORECOL =</span> linkScoreCol,
+      <span class="dt">INDICATORCOL =</span> indicatorCol,
+      <span class="dt">PROBSCORECOL =</span> probScoreCol,
+      <span class="dt">OUTCOMECOL   =</span> outcomeCol
+    ),
+    
+    <span class="dt">f =</span> . %&gt;%
+<span class="st">      </span><span class="kw">group_by</span>(IDCOL) %&gt;%
+<span class="st">      </span><span class="kw">mutate</span>(<span class="dt">PROBSCORECOL =</span>
+               <span class="kw">exp</span>(LINKSCORECOL *<span class="st"> </span>scale)/
+<span class="st">               </span><span class="kw">sum</span>(<span class="kw">exp</span>(LINKSCORECOL *<span class="st"> </span>scale))) %&gt;%
+<span class="st">      </span><span class="kw">arrange</span>(PROBSCORECOL, CATEGORYCOL) %&gt;%
+<span class="st">      </span><span class="kw">mutate</span>(<span class="dt">INDICATORCOL =</span> <span class="kw">row_number</span>() ==<span class="st"> </span><span class="kw">n</span>()) %&gt;%
+<span class="st">      </span><span class="kw">filter</span>(INDICATORCOL) %&gt;%
+<span class="st">      </span><span class="kw">ungroup</span>() %&gt;%
+<span class="st">      </span><span class="kw">select</span>(IDCOL, CATEGORYCOL, PROBSCORECOL) %&gt;%
+<span class="st">      </span><span class="kw">rename</span>(<span class="dt">OUTCOMECOL =</span> CATEGORYCOL) %&gt;%
+<span class="st">      </span><span class="kw">arrange</span>(IDCOL)
+  )</code></pre></div>
+<pre><code>## # A tibble: 2 x 3
+##   subjectID           diagnosis probability
+##       &lt;dbl&gt;               &lt;chr&gt;       &lt;dbl&gt;
+## 1         1 withdrawal behavior   0.6706221
+## 2         2 positive re-framing   0.5589742</code></pre>
+<p>What the code does is exactly this:</p>
+<ul class="incremental">
+<li>It renames all of the columns in the <code>data.frame</code> to have the chosen names (in this case the all-caps names).</li>
+<li>It then applies the user-supplied function <code>f()</code> to this <code>data.frame</code>.</li>
+<li>The reverse of the name-mapping is applied to the result of <code>f()</code>, moving columns back to their original names.</li>
+</ul>
+<p>The concept is:</p>
+<blockquote>
+<p><code>replyr_apply_f_mapped()</code> renames columns and back.</p>
+</blockquote>
+<p>Below is an illustrative example showing the column names seen inside and outside the user supplied function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">colnames</span>(d))</code></pre></div>
+<pre><code>## [1] &quot;subjectID&quot;       &quot;surveyCategory&quot;  &quot;assessmentTotal&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d %&gt;%
+<span class="st">  </span><span class="kw">replyr_apply_f_mapped</span>(
+    <span class="dt">nmap =</span> <span class="kw">c</span>(
+      <span class="dt">IDCOL        =</span> idCol,
+      <span class="dt">CATEGORYCOL  =</span> categoryCol,
+      <span class="dt">LINKSCORECOL =</span> linkScoreCol,
+      <span class="dt">INDICATORCOL =</span> indicatorCol,
+      <span class="dt">PROBSCORECOL =</span> probScoreCol,
+      <span class="dt">OUTCOMECOL   =</span> outcomeCol
+    ),
+    
+    <span class="dt">f =</span> function(df) {
+      df$PROBSCORECOL &lt;-<span class="st"> </span><span class="dv">1</span>
+      <span class="kw">print</span>(<span class="kw">colnames</span>(df))
+      <span class="kw">return</span>(df)
+    }
+  ) %&gt;%
+<span class="st">  </span><span class="kw">colnames</span>()</code></pre></div>
+<pre><code>## [1] &quot;IDCOL&quot;        &quot;CATEGORYCOL&quot;  &quot;LINKSCORECOL&quot; &quot;PROBSCORECOL&quot;
+
+## [1] &quot;subjectID&quot;       &quot;surveyCategory&quot;  &quot;assessmentTotal&quot; &quot;probability&quot;</code></pre>
+<p>This is teachable and something the part-time <code>R</code> user can correctly extend and maintain. Though the user may possibly need to learn about wrapping a pipeline as an anonymous function (the &quot;<code>. %&gt;%</code>&quot; notation).</p>
+<h3 id="rlangtidyeval-solution"><a href="http://rlang.tidyverse.org"><code>rlang/tidyeval</code></a> solution</h3>
+<p>For the <code>rlang</code>/<code>tidyeval</code> solution the expert writes the following code:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">IDSYM        &lt;-<span class="st"> </span>rlang::<span class="kw">sym</span>(idCol)
+CATEGORYSYM  &lt;-<span class="st"> </span>rlang::<span class="kw">sym</span>(categoryCol)
+LINKSCORESYM &lt;-<span class="st"> </span>rlang::<span class="kw">sym</span>(linkScoreCol)
+INDICATORSYM &lt;-<span class="st"> </span>rlang::<span class="kw">sym</span>(indicatorCol)
+PROBSCORESYM &lt;-<span class="st"> </span>rlang::<span class="kw">sym</span>(probScoreCol)
+OUTCOMESYM   &lt;-<span class="st"> </span>rlang::<span class="kw">sym</span>(outcomeCol)
+
+d %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(!!IDSYM) %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(!!PROBSCORESYM :<span class="er">=</span>
+<span class="st">           </span><span class="kw">exp</span>((!!LINKSCORESYM) *<span class="st"> </span>scale)/
+<span class="st">           </span><span class="kw">sum</span>(<span class="kw">exp</span>((!!LINKSCORESYM) *<span class="st"> </span>scale))) %&gt;%
+<span class="st">  </span><span class="kw">arrange</span>(!!PROBSCORESYM, !!CATEGORYSYM) %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(!!INDICATORSYM :<span class="er">=</span><span class="st"> </span><span class="kw">row_number</span>() ==<span class="st"> </span><span class="kw">n</span>()) %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(!!INDICATORSYM) %&gt;%
+<span class="st">  </span><span class="kw">ungroup</span>() %&gt;%
+<span class="st">  </span><span class="kw">select</span>(!!IDSYM, !!CATEGORYSYM, !!PROBSCORESYM) %&gt;%
+<span class="st">  </span><span class="kw">rename</span>(!!OUTCOMESYM :<span class="er">=</span><span class="st"> </span>!!CATEGORYSYM) %&gt;%
+<span class="st">  </span><span class="kw">arrange</span>(!!IDSYM)</code></pre></div>
+<pre><code>## # A tibble: 2 x 3
+##   subjectID           diagnosis probability
+##       &lt;dbl&gt;               &lt;chr&gt;       &lt;dbl&gt;
+## 1         1 withdrawal behavior   0.6706221
+## 2         2 positive re-framing   0.5589742</code></pre>
+<p>Several points have to be taught to the part-time <code>R</code> user if this code is to be maintained:</p>
+<ul class="incremental">
+<li>The &quot;<code>!!</code>&quot; symbol does not have the same <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Syntax.html">operator precedence</a> as an assignment symbols such as &quot;<code>=</code>&quot; or &quot;<code>:=</code>&quot;, so you must often place &quot;<code>!!</code>&quot;-expressions in extra parentheses.</li>
+<li>In any assignment we must use &quot;<code>:=</code>&quot; for assignment when using &quot;<code>!!</code>&quot; on the left-hand side of the assignment.</li>
+</ul>
+<p>The above are just some syntax edge-cases, we haven't even gone into teaching <code>rlang::sym()</code>, &quot;<code>!!</code>&quot;, and the theory and semantics of quasi-quotation.</p>
+<h3 id="seplyr-solution"><a href="https://winvector.github.io/seplyr/"><code>seplyr</code></a> solution</h3>
+<p><a href="https://winvector.github.io/seplyr/index.html"><code>seplyr</code></a> is an experiment to see what a referentially transparent (or completely value oriented) interface to <code>dplyr</code> would look like. Please don't think of <code>seplyr</code> as an adapter (though it is, it sends all work to <code>dplyr</code>), but as an illustration of what a completely value-oriented <code>dplyr</code> might look like (i.e., one that did not capture un-evaluated user code through non-standard evaluation). Roughly <code>seplyr</code> is an experiment of the form: &quot;what if one tried harder with something like the new <code>dplyr::*_at()</code> verbs.&quot;</p>
+<p>Most of the <code>seplyr</code> methods are named <code>*_se()</code> and are designed to be very similar to their <code>dplyr</code> equivalents (and some are nearly identical to <code>dplyr::*_at()</code> methods, <a href="https://winvector.github.io/seplyr/reference/rename_se.html"><code>rename_se()</code></a> being a notable exception).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;seplyr&quot;</span>)
+<span class="kw">suppressPackageStartupMessages</span>(<span class="kw">library</span>(<span class="st">&quot;glue&quot;</span>))
+
+d %&gt;%
+<span class="st">  </span><span class="kw">group_by_se</span>(idCol) %&gt;%
+<span class="st">  </span><span class="kw">mutate_se</span>(probScoreCol :<span class="er">=</span>
+<span class="st">           </span><span class="kw">glue</span>(<span class="st">&#39;exp({linkScoreCol} * scale)/</span>
+<span class="st">                  sum(exp({linkScoreCol} * scale))&#39;</span>)) %&gt;%
+<span class="st">  </span><span class="kw">arrange_se</span>(<span class="kw">c</span>(probScoreCol, categoryCol)) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate_se</span>(indicatorCol :<span class="er">=</span><span class="st"> &quot;row_number() == n()&quot;</span>) %&gt;%
+<span class="st">  </span><span class="kw">filter_se</span>(indicatorCol) %&gt;%
+<span class="st">  </span><span class="kw">ungroup</span>() %&gt;%
+<span class="st">  </span><span class="kw">select_se</span>(<span class="kw">c</span>(idCol, categoryCol, probScoreCol)) %&gt;%
+<span class="st">  </span><span class="kw">rename_se</span>(outcomeCol :<span class="er">=</span><span class="st"> </span>categoryCol) %&gt;%
+<span class="st">  </span><span class="kw">arrange_se</span>(idCol)</code></pre></div>
+<pre><code>## # A tibble: 2 x 3
+##   subjectID           diagnosis probability
+##       &lt;dbl&gt;               &lt;chr&gt;       &lt;dbl&gt;
+## 1         1 withdrawal behavior   0.6706221
+## 2         2 positive re-framing   0.5589742</code></pre>
+<p>The concept is:</p>
+<blockquote>
+<p>&quot;Only <code>mutate</code> <em>needs</em> <a href="http://adv-r.had.co.nz/Computing-on-the-language.html">non-standard evaluation</a>.&quot;</p>
+</blockquote>
+<p><code>seplyr</code> accepts general expressions many more places, but with proper organization and using a few temp-columns you really only <em>need</em> the full generality in <code>mutate()</code>.</p>
+<p><code>seplyr</code> has its own issues:</p>
+<ul class="incremental">
+<li>It also needs a &quot;<a href="https://winvector.github.io/seplyr/reference/named_map_builder.html"><code>:=</code></a>&quot; operator for assignment.</li>
+<li>It insists on multiple arguments coming in as vectors (hence the use of &quot;<code>c()</code>&quot; throughout).</li>
+<li>It runs into a bit of trouble with verbs that take expressions (<code>mutate_se()</code> being the most complicated) in that it needs a helper to substitute in the name of the variable holding the column name, which is later substituted out for the actual column name by <code>seplyr</code>. In this example we used <code>glue::glue()</code> to perform the substitution, but we could also try <code>paste0()</code> or <code>gsub()</code>.</li>
+</ul>
+<p>The lesson from <code>seplyr</code> is the <code>mutate()</code> verb does indeed need some kind of expression manipulation tooling (direct string manipulation feeling too crude). However, for the rest of the verbs the value oriented notation is in fact quite natural, and really in no sense inferior to the <code>dplyr</code> originals.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Name substitution is a reasonable need that arises when re-using <code>R</code> work or when trying to iterate of column names. I have been publicly exploring variations of substitution systems so that <code>R</code> users can make an informed <em>choice</em> of one or more that most meets their needs and addresses their personal trade-offs between: power, safety, readability, and teachability. These sections are not each independent &quot;yet another way of performing name substitution&quot;, but parts of a public conversation that should be had before name substitution is considered settled and fixed in stone.</p>
+<p>A part-time <code>R</code> user will not have the background to quickly compare all of the available substitution systems. In fact such a user will only come to need a substitution system when they have a problem. So by definition they are in in the middle of some other task. It is up to expert partners to evaluate and explain alternatives.</p>
+<p>There is a temptation that if you are going to only teach one system it might as well be <code>rlang</code>/<code>tidyeval</code> as &quot;that is what now comes with <code>dplyr</code>&quot;. I feel this is a false savings as while <code>rlang</code>/<code>tidyeval</code> &quot;is already in <code>dplyr</code>&quot; the <code>rlang</code>/<code>tidyeval</code> concepts and <em>details</em> are not &quot;already in the user&quot; (and in fact include a fairly number of irregular exceptions, needing to be taught and memorized).</p>
+<p>Our preference is: <code>wrapr::let()</code>. <code>wrapr::let()</code> delivers a lot of (safe) power for a modest amount of cognitive load. Each of the above systems involves different trade-offs and compromises, and we feel one must really try a few in production before having an expert opinion.</p>
