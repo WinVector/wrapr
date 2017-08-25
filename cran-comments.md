@@ -6,7 +6,7 @@
  * using R version 3.4.1 (2017-06-30)
  * win-builder (devel and release) 
 
-## R CMD check --as-cran wrapr_0.4.1.tar.gz
+## R CMD check --as-cran wrapr_0.4.2.tar.gz
 
 * using R version 3.4.1 (2017-06-30)
 * using platform: x86_64-apple-darwin15.6.0 (64-bit)
