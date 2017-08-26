@@ -158,7 +158,7 @@ a &lt;-<span class="st"> </span><span class="dv">7</span>
 <a href="#dot-arrow-pipe" class="anchor"></a><code>%.&gt;%</code> (dot arrow pipe)</h2>
 <p><code>%.&gt;%</code> dot arrow pipe is a strict pipe with intended semantics:</p>
 <blockquote>
-<p>“<code>a %.&gt;% b</code>” is to be treated as if the user had written “<code>{ . &lt;- a; b };</code>” with “<code>%.&gt;%</code>” being treated as left-associative, and <code>.</code>-side effects removed.</p>
+<p>“<code>a %.&gt;% b</code>” is to be treated as if the user had written “<code>{ . &lt;- a; b };</code>” with “<code>%.&gt;%</code>” being treated as left-associative.</p>
 </blockquote>
 <p>That is: <code>%.&gt;%</code> does not alter any function arguments that are not explicitly named. It is not defined as <code>a %.% b ~ b(a)</code> (roughly <code>dplyr</code>’s original pipe) or as the large set of differing cases constituting <code>magrittr::%&gt;%</code>. <code>%.&gt;%</code> is designed to be explicit and simple.</p>
 <p>The effect looks is show below.</p>
