@@ -68,7 +68,7 @@ let(
  #  [1] 14
 ```
 
-Please see `vignette('let', package='wrapr')` for more examples. For working with `dplyr` 0.7.\* we also suggest taking a look at an alternate approach called [`seplyr`](https://github.com/WinVector/seplyr/blob/master/README.md).
+Please see `vignette('let', package='wrapr')` for more examples. For working with `dplyr` 0.7.\* we suggest also taking a look at an alternate approach called [`seplyr`](https://github.com/WinVector/seplyr/blob/master/README.md).
 
 `%.>%` (dot arrow pipe)
 -----------------------
@@ -91,21 +91,34 @@ cos(exp(sin(4)))
  #  [1] 0.8919465
 ```
 
-Please see ["In Praise of Syntactic Sugar"](http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/) for more details.
+The notation is quite powerful as it treats pipe stages as expression parameterized over the variable "`.`". This means you do not need to introduce functions to express stages. The following is a valid dot-pipe:
+
+``` r
+1:4 %.>% .^2 
+ #  [1]  1  4  9 16
+```
+
+The notation is also very regular in that expressions have the same iterpretation be then surrounded by parenthesis, braces, or as-is:
+
+``` r
+1:4 %.>% { .^2 } 
+ #  [1]  1  4  9 16
+
+1:4 %.>% ( .^2 )
+ #  [1]  1  4  9 16
+```
+
+Regularity can be a *big* advantage in teaching and comprehension. Please see ["In Praise of Syntactic Sugar"](http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/) for more details.
 
 `:=`
 ----
 
-`:=` is the "named map builder". It allows code such as the following.
+`:=` is the "named map builder". It allows code such as the following:
 
 ``` r
-c('a', 'b') := c('x', 'y')
- #    a   b 
- #  "x" "y"
-
-c('a' := 'x', 'b' := 'y')
- #    a   b 
- #  "x" "y"
+'a' := 'x'
+ #    a 
+ #  "x"
 ```
 
 The important property of named map builder is it accepts values on the left-hand side allowing the following:
@@ -117,6 +130,18 @@ name := 'newBinding'
  #               "newBinding"
 ```
 
+A nice property is `:=` commutes (in the sense of algebra or category theory) with `R`'s concatenation function `c()`. That is the following two statements are equivalent:
+
+``` r
+c('a', 'b') := c('x', 'y')
+ #    a   b 
+ #  "x" "y"
+
+c('a' := 'x', 'b' := 'y')
+ #    a   b 
+ #  "x" "y"
+```
+
 `λ()`
 -----
 
@@ -126,7 +151,15 @@ Example:
 
 ``` r
 # Make sure lambda function builder is in our enironment.
-defineLambda()
+if(exists('defineLambda', 
+          envir=as.environment('package:wrapr'), 
+          mode='function')) {
+  # Note: prior to version 0.4.2 wrapr
+  # loaded a lambda-definition during
+  # package load.  The following explicit 
+  # wrapr::defineLambda() is more polite.
+  wrapr::defineLambda() 
+}
 
 # square numbers 1 through 4
 sapply(1:4, λ(x, x^2))
@@ -136,4 +169,4 @@ sapply(1:4, λ(x, x^2))
 `DebugFnW()`
 ------------
 
-`DebugFnW()` wraps a function for debugging. If the function throws an exception the execution context (function arguments, function name, and more) is captured and stored for the user. The function call can then be reconstituted, inspected and even re-run with a step-debugger. Please see `vignette('DebugFnW', package='wrapr')` for examples.
+`DebugFnW()` wraps a function for debugging. If the function throws an exception the execution context (function arguments, function name, and more) is captured and stored for the user. The function call can then be reconstituted, inspected and even re-run with a step-debugger. Please see our [free debugging video series](https://youtu.be/-P9UzQuJSH8?list=PLAKBwakacHbQT51nPHex1on3YNCCmggZA) and `vignette('DebugFnW', package='wrapr')` for examples.

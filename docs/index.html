@@ -54,6 +54,9 @@
       <a href="articles/dot_pipe.html">Dot Pipe</a>
     </li>
     <li>
+      <a href="articles/lambda.html">lambda Function Builder</a>
+    </li>
+    <li>
       <a href="articles/let.html">Let</a>
     </li>
     <li>
@@ -150,7 +153,7 @@ a &lt;-<span class="st"> </span><span class="dv">7</span>
  <span class="co">#      a + a</span>
  <span class="co">#  }</span>
  <span class="co">#  [1] 14</span></code></pre></div>
-<p>Please see <code>vignette('let', package='wrapr')</code> for more examples. For working with <code>dplyr</code> 0.7.* we also suggest taking a look at an alternate approach called <a href="https://github.com/WinVector/seplyr/blob/master/README.md"><code>seplyr</code></a>.</p>
+<p>Please see <code><a href="https://cran.rstudio.com/web/packages/wrapr/vignettes/let.html">vignette('let', package='wrapr')</a></code> for more examples. For working with <code>dplyr</code> 0.7.* we suggest also taking a look at an alternate approach called <a href="https://github.com/WinVector/seplyr/blob/master/README.md"><code>seplyr</code></a>.</p>
 </div>
 <div id="dot-arrow-pipe" class="section level2">
 <h2 class="hasAnchor">
@@ -167,13 +170,31 @@ a &lt;-<span class="st"> </span><span class="dv">7</span>
 
 <span class="dv">4</span> %.&gt;%<span class="st"> </span><span class="kw">sin</span>(.) %.&gt;%<span class="st"> </span><span class="kw">exp</span>(.) %.&gt;%<span class="st"> </span><span class="kw">cos</span>(.)
  <span class="co">#  [1] 0.8919465</span></code></pre></div>
-<p>Please see <a href="http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/">“In Praise of Syntactic Sugar”</a> for more details.</p>
+<p>The notation is quite powerful as it treats pipe stages as expression parameterized over the variable “<code>.</code>”. This means you do not need to introduce functions to express stages. The following is a valid dot-pipe:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span>:<span class="dv">4</span> %.&gt;%<span class="st"> </span>.^<span class="dv">2</span> 
+ <span class="co">#  [1]  1  4  9 16</span></code></pre></div>
+<p>The notation is also very regular in that expressions have the same iterpretation be then surrounded by parenthesis, braces, or as-is:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span>:<span class="dv">4</span> %.&gt;%<span class="st"> </span>{ .^<span class="dv">2</span> } 
+ <span class="co">#  [1]  1  4  9 16</span>
+
+<span class="dv">1</span>:<span class="dv">4</span> %.&gt;%<span class="st"> </span>( .^<span class="dv">2</span> )
+ <span class="co">#  [1]  1  4  9 16</span></code></pre></div>
+<p>Regularity can be a <em>big</em> advantage in teaching and comprehension. Please see <a href="http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/">“In Praise of Syntactic Sugar”</a> for more details.</p>
 </div>
 <div id="section" class="section level2">
 <h2 class="hasAnchor">
 <a href="#section" class="anchor"></a><code>:=</code>
 </h2>
-<p><code>:=</code> is the “named map builder”. It allows code such as the following.</p>
+<p><code>:=</code> is the “named map builder”. It allows code such as the following:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="st">'a'</span> :<span class="er">=</span><span class="st"> 'x'</span>
+ <span class="co">#    a </span>
+ <span class="co">#  "x"</span></code></pre></div>
+<p>The important property of named map builder is it accepts values on the left-hand side allowing the following:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">name &lt;-<span class="st"> 'variableNameFromElseWhere'</span>
+name :<span class="er">=</span><span class="st"> 'newBinding'</span>
+ <span class="co">#  variableNameFromElseWhere </span>
+ <span class="co">#               "newBinding"</span></code></pre></div>
+<p>A nice property is <code>:=</code> commutes (in the sense of algebra or category theory) with <code>R</code>’s concatenation function <code>c()</code>. That is the following two statements are equivalent:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="st">'a'</span>, <span class="st">'b'</span>) :<span class="er">=</span><span class="st"> </span><span class="kw">c</span>(<span class="st">'x'</span>, <span class="st">'y'</span>)
  <span class="co">#    a   b </span>
  <span class="co">#  "x" "y"</span>
@@ -181,18 +202,21 @@ a &lt;-<span class="st"> </span><span class="dv">7</span>
 <span class="kw">c</span>(<span class="st">'a'</span> :<span class="er">=</span><span class="st"> 'x'</span>, <span class="st">'b'</span> :<span class="er">=</span><span class="st"> 'y'</span>)
  <span class="co">#    a   b </span>
  <span class="co">#  "x" "y"</span></code></pre></div>
-<p>The important property of named map builder is it accepts values on the left-hand side allowing the following:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">name &lt;-<span class="st"> 'variableNameFromElseWhere'</span>
-name :<span class="er">=</span><span class="st"> 'newBinding'</span>
- <span class="co">#  variableNameFromElseWhere </span>
- <span class="co">#               "newBinding"</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2><code>λ()</code></h2>
 <p><code>λ()</code> is a concise abstract function creator. It is a placeholder that allows the use of the λ-character for very concise function abstraction.</p>
 <p>Example:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Make sure lambda function builder is in our enironment.</span>
-<span class="kw"><a href="reference/defineLambda.html">defineLambda</a></span>()
+if(<span class="kw">exists</span>(<span class="st">'defineLambda'</span>, 
+          <span class="dt">envir=</span><span class="kw">as.environment</span>(<span class="st">'package:wrapr'</span>), 
+          <span class="dt">mode=</span><span class="st">'function'</span>)) {
+  <span class="co"># Note: prior to version 0.4.2 wrapr</span>
+  <span class="co"># loaded a lambda-definition during</span>
+  <span class="co"># package load.  The following explicit </span>
+  <span class="co"># wrapr::defineLambda() is more polite.</span>
+  wrapr::<span class="kw"><a href="reference/defineLambda.html">defineLambda</a></span>() 
+}
 
 <span class="co"># square numbers 1 through 4</span>
 <span class="kw">sapply</span>(<span class="dv">1</span>:<span class="dv">4</span>, λ(x, x^<span class="dv">2</span>))
@@ -202,7 +226,7 @@ name :<span class="er">=</span><span class="st"> 'newBinding'</span>
 <h2 class="hasAnchor">
 <a href="#debugfnw" class="anchor"></a><code><a href="reference/DebugFnW.html">DebugFnW()</a></code>
 </h2>
-<p><code><a href="reference/DebugFnW.html">DebugFnW()</a></code> wraps a function for debugging. If the function throws an exception the execution context (function arguments, function name, and more) is captured and stored for the user. The function call can then be reconstituted, inspected and even re-run with a step-debugger. Please see <code>vignette('DebugFnW', package='wrapr')</code> for examples.</p>
+<p><code><a href="reference/DebugFnW.html">DebugFnW()</a></code> wraps a function for debugging. If the function throws an exception the execution context (function arguments, function name, and more) is captured and stored for the user. The function call can then be reconstituted, inspected and even re-run with a step-debugger. Please see our <a href="https://youtu.be/-P9UzQuJSH8?list=PLAKBwakacHbQT51nPHex1on3YNCCmggZA">free debugging video series</a> and <code><a href="https://cran.rstudio.com/web/packages/wrapr/vignettes/DebugFnW.html">vignette('DebugFnW', package='wrapr')</a></code> for examples.</p>
 </div>
 </div>
   </div>
