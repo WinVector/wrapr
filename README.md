@@ -1,15 +1,11 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-This document describes `wrapr`, an [R](https://cran.r-project.org) package available from [Github](https://github.com/WinVector/wrapr) (via `devtools::install_github("WinVector/wrapr")`) and [CRAN](https://CRAN.R-project.org/) (via `install.packages("wrapr")`).
+`wrapr`, is an [`R`](https://cran.r-project.org) package that supplies powerful tools for writing and debugging `R` code.
 
-Note: `wrapr` is meant only for "tame names", that is: variables and column names that are also valid *simple* (without quotes) `R` variables names.
+![](https://github.com/WinVector/wrapr/raw/master/tools/wraprs.png)
 
 Introduction
 ------------
-
-`wrapr` wraps `R` functions debugging and better standard evaluation.
-
-![](https://github.com/WinVector/wrapr/raw/master/tools/wraprs.png)
 
 Primary `wrapr` services include:
 
@@ -170,3 +166,24 @@ sapply(1:4, λ(x, x^2))
 ------------
 
 `DebugFnW()` wraps a function for debugging. If the function throws an exception the execution context (function arguments, function name, and more) is captured and stored for the user. The function call can then be reconstituted, inspected and even re-run with a step-debugger. Please see our [free debugging video series](https://youtu.be/-P9UzQuJSH8?list=PLAKBwakacHbQT51nPHex1on3YNCCmggZA) and `vignette('DebugFnW', package='wrapr')` for examples.
+
+Installing
+----------
+
+Install with either:
+
+``` r
+install.packages("wrapr")
+```
+
+or
+
+``` r
+# install.packages("devtools")
+devtools::install_github("WinVector/wrapr")
+```
+
+Note
+----
+
+Note: `wrapr` is meant only for "tame names", that is: variables and column names that are also valid *simple* (without quotes) `R` variables names.

@@ -92,15 +92,13 @@
     
 <div class="contents">
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-<p>This document describes <code>wrapr</code>, an <a href="https://cran.r-project.org">R</a> package available from <a href="https://github.com/WinVector/wrapr">Github</a> (via <code><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">devtools::install_github("WinVector/wrapr")</a></code>) and <a href="https://CRAN.R-project.org/">CRAN</a> (via <code>install.packages("wrapr")</code>).</p>
-<p>Note: <code>wrapr</code> is meant only for “tame names”, that is: variables and column names that are also valid <em>simple</em> (without quotes) <code>R</code> variables names.</p>
-<div id="introduction" class="section level2">
-<h2 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h2>
-<p><code>wrapr</code> wraps <code>R</code> functions debugging and better standard evaluation.</p>
+<p><code>wrapr</code>, is an <a href="https://cran.r-project.org"><code>R</code></a> package that supplies powerful tools for writing and debugging <code>R</code> code.</p>
 <div class="figure">
 <img src="https://github.com/WinVector/wrapr/raw/master/tools/wraprs.png">
 </div>
+<div id="introduction" class="section level2">
+<h2 class="hasAnchor">
+<a href="#introduction" class="anchor"></a>Introduction</h2>
 <p>Primary <code>wrapr</code> services include:</p>
 <ul>
 <li><code><a href="reference/let.html">let()</a></code></li>
@@ -153,7 +151,7 @@ a &lt;-<span class="st"> </span><span class="dv">7</span>
  <span class="co">#      a + a</span>
  <span class="co">#  }</span>
  <span class="co">#  [1] 14</span></code></pre></div>
-<p>Please see <code><a href="https://cran.rstudio.com/web/packages/wrapr/vignettes/let.html">vignette('let', package='wrapr')</a></code> for more examples. For working with <code>dplyr</code> 0.7.* we suggest also taking a look at an alternate approach called <a href="https://github.com/WinVector/seplyr/blob/master/README.md"><code>seplyr</code></a>.</p>
+<p>Please see <code>vignette('let', package='wrapr')</code> for more examples. For working with <code>dplyr</code> 0.7.* we suggest also taking a look at an alternate approach called <a href="https://github.com/WinVector/seplyr/blob/master/README.md"><code>seplyr</code></a>.</p>
 </div>
 <div id="dot-arrow-pipe" class="section level2">
 <h2 class="hasAnchor">
@@ -226,7 +224,21 @@ if(<span class="kw">exists</span>(<span class="st">'defineLambda'</span>,
 <h2 class="hasAnchor">
 <a href="#debugfnw" class="anchor"></a><code><a href="reference/DebugFnW.html">DebugFnW()</a></code>
 </h2>
-<p><code><a href="reference/DebugFnW.html">DebugFnW()</a></code> wraps a function for debugging. If the function throws an exception the execution context (function arguments, function name, and more) is captured and stored for the user. The function call can then be reconstituted, inspected and even re-run with a step-debugger. Please see our <a href="https://youtu.be/-P9UzQuJSH8?list=PLAKBwakacHbQT51nPHex1on3YNCCmggZA">free debugging video series</a> and <code><a href="https://cran.rstudio.com/web/packages/wrapr/vignettes/DebugFnW.html">vignette('DebugFnW', package='wrapr')</a></code> for examples.</p>
+<p><code><a href="reference/DebugFnW.html">DebugFnW()</a></code> wraps a function for debugging. If the function throws an exception the execution context (function arguments, function name, and more) is captured and stored for the user. The function call can then be reconstituted, inspected and even re-run with a step-debugger. Please see our <a href="https://youtu.be/-P9UzQuJSH8?list=PLAKBwakacHbQT51nPHex1on3YNCCmggZA">free debugging video series</a> and <code>vignette('DebugFnW', package='wrapr')</code> for examples.</p>
+</div>
+<div id="installing" class="section level2">
+<h2 class="hasAnchor">
+<a href="#installing" class="anchor"></a>Installing</h2>
+<p>Install with either:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"wrapr"</span>)</code></pre></div>
+<p>or</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages("devtools")</span>
+devtools::<span class="kw">install_github</span>(<span class="st">"WinVector/wrapr"</span>)</code></pre></div>
+</div>
+<div id="note" class="section level2">
+<h2 class="hasAnchor">
+<a href="#note" class="anchor"></a>Note</h2>
+<p>Note: <code>wrapr</code> is meant only for “tame names”, that is: variables and column names that are also valid <em>simple</em> (without quotes) <code>R</code> variables names.</p>
 </div>
 </div>
   </div>
