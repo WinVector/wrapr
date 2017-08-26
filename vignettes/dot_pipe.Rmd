@@ -9,19 +9,42 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-The "dot pipe" is an operator with a very simple definition:
+`%.>%` dot arrow pipe is a strict pipe with intended semantics:
 
-> &quot;a %.&gt;% b&quot; is to be treated as if the user had written &quot;{ . &lt;- a; b };&quot; with &quot;%.&gt;%&quot; being treated as left-associative. (there are &quot;.&quot; associated side-effects).
 
-This is deliberately more regular than and  has considerably fewer corner cases than the `magrittr` pipe used by `dplyr`.
+>  "`a %.>% b`" is to be treated
+>  as if the user had written "`{ . <- a; b };`"
+>  with "`%.>%`" being treated as left-associative.
 
-For example, the following all evaluate to the same (which is not the case for `magrittr::%>%`):
+That is: `%.>%` does not alter any function arguments that are not explicitly named.  `%.>%` is designed to be explicit and simple.
 
-```{r pipe}
+The effect looks is show below.
+
+The following two expressions should be equivalent:
+
+```{r pipe1s}
 library("wrapr")
 
-1 %.>% c(c(.))
-1 %.>% { c(c(.)) }
+cos(exp(sin(4)))
+
+4 %.>% sin(.) %.>% exp(.) %.>% cos(.)
 ```
 
-For more discussion please see [here](http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/).
+The notation is quite powerful as it treats pipe stages as expression parameterized over the variable 
+"`.`".  This means you do not need to introduce functions to express stages.  The following is 
+a valid dot-pipe:
+
+```{r pipe1}
+1:4 %.>% .^2 
+```
+
+The notation is also very regular in that expressions have the same iterpretation be then surrounded by 
+parenthesis, braces, or as-is:
+
+```{r pipe2}
+1:4 %.>% { .^2 } 
+
+1:4 %.>% ( .^2 )
+```
+
+Regularity can be a *big* advantage in teaching and comprehension. Please see ["In Praise of Syntactic Sugar"](http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/) for more details.

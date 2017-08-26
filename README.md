@@ -73,7 +73,7 @@ Please see `vignette('let', package='wrapr')` for more examples. For working wit
 
 > "`a %.>% b`" is to be treated as if the user had written "`{ . <- a; b };`" with "`%.>%`" being treated as left-associative.
 
-That is: `%.>%` does not alter any function arguments that are not explicitly named. It is not defined as `a %.% b ~ b(a)` (roughly `dplyr`'s original pipe) or as the large set of differing cases constituting `magrittr::%>%`. `%.>%` is designed to be explicit and simple.
+That is: `%.>%` does not alter any function arguments that are not explicitly named. `%.>%` is designed to be explicit and simple.
 
 The effect looks is show below.
 

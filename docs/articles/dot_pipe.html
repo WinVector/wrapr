@@ -90,25 +90,34 @@
       <h1>Dot Pipe</h1>
                         <h4 class="author">John Mount</h4>
             
-            <h4 class="date">2017-08-25</h4>
+            <h4 class="date">2017-08-26</h4>
           </div>
 
     
     
 <div class="contents">
-<p>The “dot pipe” is an operator with a very simple definition:</p>
+<p><code>%.&gt;%</code> dot arrow pipe is a strict pipe with intended semantics:</p>
 <blockquote>
-<p>“a %.&gt;% b” is to be treated as if the user had written “{ . &lt;- a; b };” with “%.&gt;%” being treated as left-associative. (there are “.” associated side-effects).</p>
+<p>“<code>a %.&gt;% b</code>” is to be treated as if the user had written “<code>{ . &lt;- a; b };</code>” with “<code>%.&gt;%</code>” being treated as left-associative.</p>
 </blockquote>
-<p>This is deliberately more regular than and has considerably fewer corner cases than the <code>magrittr</code> pipe used by <code>dplyr</code>.</p>
-<p>For example, the following all evaluate to the same (which is not the case for <code>magrittr::%&gt;%</code>):</p>
+<p>That is: <code>%.&gt;%</code> does not alter any function arguments that are not explicitly named. <code>%.&gt;%</code> is designed to be explicit and simple.</p>
+<p>The effect looks is show below.</p>
+<p>The following two expressions should be equivalent:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"wrapr"</span>)
 
-<span class="dv">1</span> %.&gt;%<span class="st"> </span><span class="kw">c</span>(<span class="kw">c</span>(.))</code></pre></div>
-<pre><code>## [1] 1</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span> %.&gt;%<span class="st"> </span>{ <span class="kw">c</span>(<span class="kw">c</span>(.)) }</code></pre></div>
-<pre><code>## [1] 1</code></pre>
-<p>For more discussion please see <a href="http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/">here</a>.</p>
+<span class="kw">cos</span>(<span class="kw">exp</span>(<span class="kw">sin</span>(<span class="dv">4</span>)))</code></pre></div>
+<pre><code>## [1] 0.8919465</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">4</span> %.&gt;%<span class="st"> </span><span class="kw">sin</span>(.) %.&gt;%<span class="st"> </span><span class="kw">exp</span>(.) %.&gt;%<span class="st"> </span><span class="kw">cos</span>(.)</code></pre></div>
+<pre><code>## [1] 0.8919465</code></pre>
+<p>The notation is quite powerful as it treats pipe stages as expression parameterized over the variable “<code>.</code>”. This means you do not need to introduce functions to express stages. The following is a valid dot-pipe:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span>:<span class="dv">4</span> %.&gt;%<span class="st"> </span>.^<span class="dv">2</span> </code></pre></div>
+<pre><code>## [1]  1  4  9 16</code></pre>
+<p>The notation is also very regular in that expressions have the same iterpretation be then surrounded by parenthesis, braces, or as-is:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span>:<span class="dv">4</span> %.&gt;%<span class="st"> </span>{ .^<span class="dv">2</span> } </code></pre></div>
+<pre><code>## [1]  1  4  9 16</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span>:<span class="dv">4</span> %.&gt;%<span class="st"> </span>( .^<span class="dv">2</span> )</code></pre></div>
+<pre><code>## [1]  1  4  9 16</code></pre>
+<p>Regularity can be a <em>big</em> advantage in teaching and comprehension. Please see <a href="http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/">“In Praise of Syntactic Sugar”</a> for more details.</p>
 </div>
   </div>
 
