@@ -45,7 +45,14 @@ Dot-pipe style notation does not need the `λ()` factory as it treats pipe stage
 as expressions parameterized over the variable "`.`":
 
 ```{r fsqp}
-1:4 %.>% {.^2}
+1:4 %.>% { .^2 }
+```
+
+If you do want an operator notation for function construction you can also use
+on of the variations of the named map builder:
+
+```{r fnm}
+(1:4) %.>% (x := { x^2 })(.)
 ```
 
 And we can build functions that take more than one argument as follows:

@@ -118,7 +118,10 @@ if(<span class="kw">exists</span>(<span class="st">'defineLambda'</span>,
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sapply</span>(<span class="dv">1</span>:<span class="dv">4</span>, λ(x, x^<span class="dv">2</span>))</code></pre></div>
 <pre><code>## [1]  1  4  9 16</code></pre>
 <p>Dot-pipe style notation does not need the <code>λ()</code> factory as it treats pipe stages as expressions parameterized over the variable “<code>.</code>”:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span>:<span class="dv">4</span> %.&gt;%<span class="st"> </span>{.^<span class="dv">2</span>}</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span>:<span class="dv">4</span> %.&gt;%<span class="st"> </span>{ .^<span class="dv">2</span> }</code></pre></div>
+<pre><code>## [1]  1  4  9 16</code></pre>
+<p>If you do want an operator notation for function construction you can also use on of the variations of the named map builder:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(<span class="dv">1</span>:<span class="dv">4</span>) %.&gt;%<span class="st"> </span>(x :<span class="er">=</span><span class="st"> </span>{ x^<span class="dv">2</span> })(.)</code></pre></div>
 <pre><code>## [1]  1  4  9 16</code></pre>
 <p>And we can build functions that take more than one argument as follows:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">λ(x, y, x +<span class="st"> </span><span class="dv">3</span>*y)</code></pre></div>

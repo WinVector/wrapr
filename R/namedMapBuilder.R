@@ -24,9 +24,15 @@
 #' name := '5'
 #' # equivalent to: c('a' = '5')
 #'
-#' # fn version, see makeFunction_se
-#' g <- c(x,y) := { x + 3*y }
+#' # fn version:
+#' #  applied when right side is {}
+#' #  or when left side is of class formula.
+#'
+#' g <- x~y := { x + 3*y }
 #' g(1,100)
+#'
+#' f <- ~x := x^2
+#' f(7)
 #'
 #' @export
 named_map_builder <- function(names, values) {
@@ -42,31 +48,27 @@ named_map_builder <- function(names, values) {
 #' @rdname named_map_builder
 #' @export
 `:=` <- function(names, values) {
-  # check if this was a lambda assignment
-  # only consider so if LHS is variables and RHS has {}
-  nv <- substitute(names)
+  # check if this was a lambda assignment in disguise
+  # only consider so at this checkif if RHS is {}
+  # else let S3 disptach on formula pick this up
   vl <- substitute(values)
-  isVarArray <- is.call(vl) &&
-    (as.character(vl[[1]])=='{') &&
-    is.language(nv) &&
-    all(vapply(nv, is.name, logical(1))) &&
-    (length(nv<=1) ||
-       ((!any(vapply(nv, is.call, logical(1)))) &&
-          as.character(nv[[1]])=='c'))
-  if(isVarArray) {
-    return(makeFunction_se(all.vars(nv), vl,  parent.frame()))
+  if(is.call(vl)) {
+    vl1c <- as.character(vl[[1]])
+    if(vl1c=='{') {
+      nv <- substitute(names)
+      return(makeFunction_se(all.vars(nv), vl,  parent.frame()))
+    }
   }
   # use standard S3 dispatch
-  rm(list= c('nv', 'vl'))
   UseMethod(":=")
 }
 
-# override as few S3 types as we reasonably need.
-# deliberaterly leave default alone
-# as a "good citizen".
 
-# #' @export
-# `:=.default` <- named_map_builder
+#' @export
+`:=.default` <- function(names, values) {
+  stop(paste(":=.default called with arguments of class:",
+             class(names), class(values)))
+}
 
 #' @export
 `:=.character` <- named_map_builder
@@ -74,7 +76,12 @@ named_map_builder <- function(names, values) {
 #' @export
 `:=.list` <- named_map_builder
 
-#' #' @export
-#' `:=.name` <- named_map_builder
-
+#' @export
+`:=.formula` <- function(names, values) {
+  env = parent.frame()
+  params <- setdiff(as.character(all.vars(substitute(names))),
+                    '~')
+  body <- substitute(values)
+  makeFunction_se(params, body, env)
+}
 

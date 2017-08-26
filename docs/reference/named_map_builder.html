@@ -155,9 +155,14 @@ Called from <code>:=</code> operator.</p>
 <span class='no'>name</span> <span class='kw'>:=</span> <span class='st'>'5'</span></div><div class='output co'>#&gt;   a 
 #&gt; "5" </div><div class='input'><span class='co'># equivalent to: c('a' = '5')</span>
 
-<span class='co'># fn version, see makeFunction_se</span>
-<span class='no'>g</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='no'>x</span>,<span class='no'>y</span>) <span class='kw'>:=</span> { <span class='no'>x</span> + <span class='fl'>3</span>*<span class='no'>y</span> }
+<span class='co'># fn version:</span>
+<span class='co'>#  applied when right side is {}</span>
+<span class='co'>#  or when left side is of class formula.</span>
+
+<span class='no'>g</span> <span class='kw'>&lt;-</span> <span class='no'>x</span>~<span class='no'>y</span> <span class='kw'>:=</span> { <span class='no'>x</span> + <span class='fl'>3</span>*<span class='no'>y</span> }
 <span class='fu'>g</span>(<span class='fl'>1</span>,<span class='fl'>100</span>)</div><div class='output co'>#&gt; [1] 301</div><div class='input'>
+<span class='no'>f</span> <span class='kw'>&lt;-</span> ~<span class='no'>x</span> <span class='kw'>:=</span> <span class='no'>x</span>^<span class='fl'>2</span>
+<span class='fu'>f</span>(<span class='fl'>7</span>)</div><div class='output co'>#&gt; [1] 49</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
