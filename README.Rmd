@@ -81,7 +81,7 @@ Please see `vignette('let', package='wrapr')` for more examples.  For working wi
 
 
 >  "`a %.>% b`" is to be treated
->  as if the user had written "`{ . &lt;- a; b };`"
+>  as if the user had written "`{ . <- a; b };`"
 >  with "`%.>%`" being treated as left-associative,
 >  and `.`-side effects removed.
 

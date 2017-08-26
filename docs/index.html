@@ -151,14 +151,14 @@ a &lt;-<span class="st"> </span><span class="dv">7</span>
  <span class="co">#      a + a</span>
  <span class="co">#  }</span>
  <span class="co">#  [1] 14</span></code></pre></div>
-<p>Please see <code>vignette('let', package='wrapr')</code> for more examples. For working with <code>dplyr</code> 0.7.* we suggest also taking a look at an alternate approach called <a href="https://github.com/WinVector/seplyr/blob/master/README.md"><code>seplyr</code></a>.</p>
+<p>Please see <code><a href="https://cran.rstudio.com/web/packages/wrapr/vignettes/let.html">vignette('let', package='wrapr')</a></code> for more examples. For working with <code>dplyr</code> 0.7.* we suggest also taking a look at an alternate approach called <a href="https://github.com/WinVector/seplyr/blob/master/README.md"><code>seplyr</code></a>.</p>
 </div>
 <div id="dot-arrow-pipe" class="section level2">
 <h2 class="hasAnchor">
 <a href="#dot-arrow-pipe" class="anchor"></a><code>%.&gt;%</code> (dot arrow pipe)</h2>
 <p><code>%.&gt;%</code> dot arrow pipe is a strict pipe with intended semantics:</p>
 <blockquote>
-<p>“<code>a %.&gt;% b</code>” is to be treated as if the user had written “<code>{ . &amp;lt;- a; b };</code>” with “<code>%.&gt;%</code>” being treated as left-associative, and <code>.</code>-side effects removed.</p>
+<p>“<code>a %.&gt;% b</code>” is to be treated as if the user had written “<code>{ . &lt;- a; b };</code>” with “<code>%.&gt;%</code>” being treated as left-associative, and <code>.</code>-side effects removed.</p>
 </blockquote>
 <p>That is: <code>%.&gt;%</code> does not alter any function arguments that are not explicitly named. It is not defined as <code>a %.% b ~ b(a)</code> (roughly <code>dplyr</code>’s original pipe) or as the large set of differing cases constituting <code>magrittr::%&gt;%</code>. <code>%.&gt;%</code> is designed to be explicit and simple.</p>
 <p>The effect looks is show below.</p>
@@ -224,7 +224,7 @@ if(<span class="kw">exists</span>(<span class="st">'defineLambda'</span>,
 <h2 class="hasAnchor">
 <a href="#debugfnw" class="anchor"></a><code><a href="reference/DebugFnW.html">DebugFnW()</a></code>
 </h2>
-<p><code><a href="reference/DebugFnW.html">DebugFnW()</a></code> wraps a function for debugging. If the function throws an exception the execution context (function arguments, function name, and more) is captured and stored for the user. The function call can then be reconstituted, inspected and even re-run with a step-debugger. Please see our <a href="https://youtu.be/-P9UzQuJSH8?list=PLAKBwakacHbQT51nPHex1on3YNCCmggZA">free debugging video series</a> and <code>vignette('DebugFnW', package='wrapr')</code> for examples.</p>
+<p><code><a href="reference/DebugFnW.html">DebugFnW()</a></code> wraps a function for debugging. If the function throws an exception the execution context (function arguments, function name, and more) is captured and stored for the user. The function call can then be reconstituted, inspected and even re-run with a step-debugger. Please see our <a href="https://youtu.be/-P9UzQuJSH8?list=PLAKBwakacHbQT51nPHex1on3YNCCmggZA">free debugging video series</a> and <code><a href="https://cran.rstudio.com/web/packages/wrapr/vignettes/DebugFnW.html">vignette('DebugFnW', package='wrapr')</a></code> for examples.</p>
 </div>
 <div id="installing" class="section level2">
 <h2 class="hasAnchor">
