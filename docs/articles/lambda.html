@@ -96,35 +96,28 @@
     
     
 <div class="contents">
-<p>The <a href="https://cran.r-project.org"><code>CRAN</code></a> version of the <a href="https://www.r-project.org"><code>R</code></a> package <a href="https://CRAN.R-project.org/package=wrapr"><code>wrapr</code></a> package now includes a concise anonymous function constructor: <code>λ()</code>.</p>
-<p>To use it please do the following: attach <code>wrapr</code> and ask it to place a definition for <code>λ()</code> in your environment:</p>
+<p>The <a href="https://cran.r-project.org"><code>CRAN</code></a> version of the <a href="https://www.r-project.org"><code>R</code></a> package <a href="https://CRAN.R-project.org/package=wrapr"><code>wrapr</code></a> package now includes a concise anonymous function constructor: <code>l()</code>.</p>
+<p>To use it please do the following: attach <code>wrapr</code> and ask it to place a definition for <code>l()</code> in your environment:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"wrapr"</span>)
-if(<span class="kw">exists</span>(<span class="st">'defineLambda'</span>, 
-          <span class="dt">envir=</span><span class="kw">as.environment</span>(<span class="st">'package:wrapr'</span>), 
-          <span class="dt">mode=</span><span class="st">'function'</span>)) {
-  <span class="co"># Note: prior to version 0.4.2 wrapr</span>
-  <span class="co"># loaded a lambda-definition during</span>
-  <span class="co"># package load.  The following explicit </span>
-  <span class="co"># wrapr::defineLambda() is more polite.</span>
-  wrapr::<span class="kw"><a href="../reference/defineLambda.html">defineLambda</a></span>() 
-}
+wrapr::<span class="kw"><a href="../reference/defineLambda.html">defineLambda</a></span>(<span class="dt">name =</span> <span class="st">"l"</span>)
 <span class="kw">ls</span>()</code></pre></div>
-<pre><code>## [1] "λ"</code></pre>
-<p>You can use <code>λ()</code> to define functions. The syntax is: <code>λ(arg [, arg]*, body [, env=env])</code>. That is we write a <code>λ()</code>-call (which you can do by cutting and pasting) and list the desired function arguments and then the function body. For example the function that squares numbers is:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">λ(x, x^<span class="dv">2</span>)</code></pre></div>
+<pre><code>## [1] "l"</code></pre>
+<p>Note: throughout this document we are using the letter “<code>l</code>” as a stand-in for the Greek letter lambda, as this non-ASCII character can cause formatting problems in some situations.</p>
+<p>You can use <code>l()</code> to define functions. The syntax is: <code>l(arg [, arg]*, body [, env=env])</code>. That is we write a <code>l()</code>-call (which you can do by cutting and pasting) and list the desired function arguments and then the function body. For example the function that squares numbers is:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">l</span>(x, x^<span class="dv">2</span>)</code></pre></div>
 <pre><code>## function (x) 
 ## x^2</code></pre>
 <p>We can use such a function to square the first four positive integers as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sapply</span>(<span class="dv">1</span>:<span class="dv">4</span>, λ(x, x^<span class="dv">2</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sapply</span>(<span class="dv">1</span>:<span class="dv">4</span>, <span class="kw">l</span>(x, x^<span class="dv">2</span>))</code></pre></div>
 <pre><code>## [1]  1  4  9 16</code></pre>
-<p>Dot-pipe style notation does not need the <code>λ()</code> factory as it treats pipe stages as expressions parameterized over the variable “<code>.</code>”:</p>
+<p>Dot-pipe style notation does not need the <code>l()</code> factory as it treats pipe stages as expressions parameterized over the variable “<code>.</code>”:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span>:<span class="dv">4</span> %.&gt;%<span class="st"> </span>{ .^<span class="dv">2</span> }</code></pre></div>
 <pre><code>## [1]  1  4  9 16</code></pre>
 <p>If you do want an operator notation for function construction you can also use on of the variations of the named map builder:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(<span class="dv">1</span>:<span class="dv">4</span>) %.&gt;%<span class="st"> </span>(x :<span class="er">=</span><span class="st"> </span>{ x^<span class="dv">2</span> })(.)</code></pre></div>
 <pre><code>## [1]  1  4  9 16</code></pre>
 <p>And we can build functions that take more than one argument as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">λ(x, y, x +<span class="st"> </span><span class="dv">3</span>*y)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">l</span>(x, y, x +<span class="st"> </span><span class="dv">3</span>*y)</code></pre></div>
 <pre><code>## function (x, y) 
 ## x + 3 * y</code></pre>
 </div>

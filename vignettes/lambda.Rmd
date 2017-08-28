@@ -9,39 +9,32 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-The [`CRAN`](https://cran.r-project.org) version of the [`R`](https://www.r-project.org) package [`wrapr`](https://CRAN.R-project.org/package=wrapr) package now includes a concise anonymous function constructor: `λ()`.
+The [`CRAN`](https://cran.r-project.org) version of the [`R`](https://www.r-project.org) package [`wrapr`](https://CRAN.R-project.org/package=wrapr) package now includes a concise anonymous function constructor: `l()`.
 
-To use it please do the following: attach `wrapr` and ask it to place a definition for `λ()`
-in your environment:
+To use it please do the following: attach `wrapr` and ask it to place a definition for `l()` in your environment:
 
 ```{r wrapri}
 library("wrapr")
-if(exists('defineLambda', 
-          envir=as.environment('package:wrapr'), 
-          mode='function')) {
-  # Note: prior to version 0.4.2 wrapr
-  # loaded a lambda-definition during
-  # package load.  The following explicit 
-  # wrapr::defineLambda() is more polite.
-  wrapr::defineLambda() 
-}
+wrapr::defineLambda(name = "l")
 ls()
 ```
 
-You can use  `λ()` to define functions.  The syntax is: `λ(arg [, arg]*, body [, env=env])`.  That
-is we write a  `λ()`-call (which you can do by cutting and pasting) and list the desired function arguments and then the function body.  For example the function that squares numbers is:
+Note: throughout this document we are using the letter "`l`" as a stand-in for the Greek letter lambda, as this non-ASCII character can cause formatting problems in some situations.
+
+You can use  `l()` to define functions.  The syntax is: `l(arg [, arg]*, body [, env=env])`.  That
+is we write a  `l()`-call (which you can do by cutting and pasting) and list the desired function arguments and then the function body.  For example the function that squares numbers is:
 
 ```{r fsq1}
-λ(x, x^2)
+l(x, x^2)
 ```
 
 We can use such a function to square the first four positive integers as follows:
 
 ```{r fsq2}
-sapply(1:4, λ(x, x^2))
+sapply(1:4, l(x, x^2))
 ```
 
-Dot-pipe style notation does not need the `λ()` factory as it treats pipe stages
+Dot-pipe style notation does not need the `l()` factory as it treats pipe stages
 as expressions parameterized over the variable "`.`":
 
 ```{r fsqp}
@@ -58,7 +51,7 @@ on of the variations of the named map builder:
 And we can build functions that take more than one argument as follows:
 
 ```{r ft}
-λ(x, y, x + 3*y)
+l(x, y, x + 3*y)
 ```
 
 

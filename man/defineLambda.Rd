@@ -18,6 +18,6 @@ function builder in your workspace.
 \examples{
 
 defineLambda()
-ls()
+# ls()
 
 }

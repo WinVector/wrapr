@@ -86,7 +86,7 @@ lambda <- function(..., env = parent.frame()) {
 #' @examples
 #'
 #' defineLambda()
-#' ls()
+#' # ls()
 #'
 #' @export
 #'
