@@ -4,10 +4,12 @@
 \alias{defineLambda}
 \title{Define lambda function building function.}
 \usage{
-defineLambda(envir = parent.frame())
+defineLambda(envir = parent.frame(), name = NULL)
 }
 \arguments{
-\item{envir}{environment to work in}
+\item{envir}{environment to work in.}
+
+\item{name}{character, name to assign to (defaults to Greek lambda).}
 }
 \description{
 Use this to place a copy of the lambda-symbol

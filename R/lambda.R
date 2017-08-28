@@ -80,7 +80,8 @@ lambda <- function(..., env = parent.frame()) {
 #' Use this to place a copy of the lambda-symbol
 #' function builder in your workspace.
 #'
-#' @param envir environment to work in
+#' @param envir environment to work in.
+#' @param name character, name to assign to (defaults to Greek lambda).
 #'
 #' @examples
 #'
@@ -89,6 +90,9 @@ lambda <- function(..., env = parent.frame()) {
 #'
 #' @export
 #'
-defineLambda <- function(envir = parent.frame()) {
-  assign(intToUtf8(0x03BB), wrapr::lambda, envir = envir)
+defineLambda <- function(envir = parent.frame(), name = NULL) {
+  if(is.null(name)) {
+    name <- intToUtf8(0x03BB)
+  }
+  assign(name, wrapr::lambda, envir = envir)
 }
