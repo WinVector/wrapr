@@ -90,7 +90,7 @@
       <h1>Let</h1>
                         <h4 class="author">Nina Zumel, John Mount</h4>
             
-            <h4 class="date">2017-08-28</h4>
+            <h4 class="date">2017-08-29</h4>
           </div>
 
     
@@ -156,8 +156,6 @@ yvariable =<span class="st"> "yvar"</span>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">a &lt;-<span class="st"> </span><span class="dv">1</span>
 b &lt;-<span class="st"> </span><span class="dv">2</span>
 <span class="kw"><a href="../reference/let.html">let</a></span>(<span class="kw">c</span>(<span class="dt">z=</span><span class="kw">quote</span>(a)), z+b)</code></pre></div>
-<pre><code>## Warning in is.na(vi): is.na() applied to non-(list or vector) of type
-## 'symbol'</code></pre>
 <pre><code>## [1] 3</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">eval</span>(<span class="kw">substitute</span>(z+b, <span class="kw">c</span>(<span class="dt">z=</span><span class="kw">quote</span>(a))))</code></pre></div>
 <pre><code>## [1] 3</code></pre>

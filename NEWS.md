@@ -1,7 +1,8 @@
 
-# wrapr 0.4.2 2017-08-28
+# wrapr 0.4.2 2017-08-29
 
  * Work on location of lambda-definition (do not write into environment until asked).
+ * Minor check fixes.
  
 # wrapr 0.4.1 2017-08-24
 

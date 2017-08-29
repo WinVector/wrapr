@@ -83,14 +83,14 @@ prepareAlias <- function(alias, strict) {
       stop(paste('wrapr:let alias key not a valid name: "', ni, '"'))
     }
     vi <- alias[[ni]]
-    if (is.na(vi)) {
-      stop('wrapr:let alias values must not be NA')
-    }
     if (is.null(vi)) {
       stop('wrapr:let alias values must not be null')
     }
     if (is.name(vi)) {
       vi <- as.character(vi)
+    }
+    if (is.na(vi)) {
+      stop('wrapr:let alias values must not be NA')
     }
     if (!is.character(vi)) {
       stop(paste('wrapr:let alias values must all be strings or names (',
@@ -180,7 +180,7 @@ letprep_lang <- function(alias, lexpr) {
   if(length(nms)>0) {
     for(i in seq_len(length(nms))) {
       ki <- as.character(nms[[i]])
-      if(length(ki)>0) {
+      if((length(ki)>0)&&(nchar(ki)>0)) {
         ri <- alias[[ki]]
         if((length(ri)>0)&&(ri!=ki)) {
           nms[[i]] <- ri
