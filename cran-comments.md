@@ -27,10 +27,9 @@ Status: OK
 
 Checked all downstream dependnecies.
 
-  devtools::revdep('wrapr')
-  [1] "cdata"   "replyr"  "WVPlots"
+    Checking 4 packages: cdata, replyr, seplyr, WVPlots
+    Checked cdata  : 0 errors | 0 warnings | 0 notes
+    Checked replyr : 0 errors | 0 warnings | 0 notes
+    Checked seplyr : 0 errors | 0 warnings | 0 notes
+    Checked WVPlots: 0 errors | 0 warnings | 0 notes
   
-  devtools::revdep_check()
-  Checked cdata  : 0 errors | 0 warnings | 0 notes
-  Checked replyr : 0 errors | 0 warnings | 0 notes
-  Checked WVPlots: 0 errors | 0 warnings | 0 notes
