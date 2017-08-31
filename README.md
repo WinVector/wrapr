@@ -149,15 +149,7 @@ Example:
 
 ``` r
 # Make sure lambda function builder is in our enironment.
-if(exists('defineLambda', 
-          envir=as.environment('package:wrapr'), 
-          mode='function')) {
-  # Note: prior to version 0.4.2 wrapr
-  # loaded a lambda-definition during
-  # package load.  The following explicit 
-  # wrapr::defineLambda() is more polite.
-  wrapr::defineLambda() 
-}
+wrapr::defineLambda()
 
 # square numbers 1 through 4
 sapply(1:4, λ(x, x^2))

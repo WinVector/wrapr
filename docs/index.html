@@ -210,15 +210,7 @@ name :<span class="er">=</span><span class="st"> 'newBinding'</span>
 <p><code>λ()</code> is a concise abstract function creator or “<a href="https://en.wikipedia.org/wiki/Lambda_calculus">lambda abstraction</a>”. It is a placeholder that allows the use of the λ-character for very concise function abstraction.</p>
 <p>Example:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Make sure lambda function builder is in our enironment.</span>
-if(<span class="kw">exists</span>(<span class="st">'defineLambda'</span>, 
-          <span class="dt">envir=</span><span class="kw">as.environment</span>(<span class="st">'package:wrapr'</span>), 
-          <span class="dt">mode=</span><span class="st">'function'</span>)) {
-  <span class="co"># Note: prior to version 0.4.2 wrapr</span>
-  <span class="co"># loaded a lambda-definition during</span>
-  <span class="co"># package load.  The following explicit </span>
-  <span class="co"># wrapr::defineLambda() is more polite.</span>
-  wrapr::<span class="kw"><a href="reference/defineLambda.html">defineLambda</a></span>() 
-}
+wrapr::<span class="kw"><a href="reference/defineLambda.html">defineLambda</a></span>()
 
 <span class="co"># square numbers 1 through 4</span>
 <span class="kw">sapply</span>(<span class="dv">1</span>:<span class="dv">4</span>, λ(x, x^<span class="dv">2</span>))
