@@ -1,4 +1,8 @@
 
+# wrapr 0.4.3 2017-09-29
+
+ * Add mapvars() function.
+ 
 # wrapr 0.4.2 2017-08-31
 
  * Work on location of lambda-definition (do NOT write into environment until asked).
