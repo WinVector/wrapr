@@ -1,7 +1,7 @@
 
 # wrapr 0.4.3 2017-09-30
 
- * Add mapvars() function.
+ * Add mapsyms() function.
  
 # wrapr 0.4.2 2017-08-31
 
