@@ -4,8 +4,8 @@
 \alias{let}
 \title{Execute expr with name substitutions specified in alias.}
 \usage{
-let(alias, expr, ..., subsMethod = "langsubs", strict = TRUE, eval = TRUE,
-  debugPrint = FALSE)
+let(alias, expr, ..., envir = parent.frame(), subsMethod = "langsubs",
+  strict = TRUE, eval = TRUE, debugPrint = FALSE)
 }
 \arguments{
 \item{alias}{mapping from free names in expr to target names to use (mapping have both unique names and unique values).}
@@ -13,6 +13,8 @@ let(alias, expr, ..., subsMethod = "langsubs", strict = TRUE, eval = TRUE,
 \item{expr}{block to prepare for execution.}
 
 \item{...}{force later arguments to be bound by name.}
+
+\item{envir}{environment to work in.}
 
 \item{subsMethod}{character substitution method, one of  c('langsubs', 'stringsubs', 'subsubs').}
 

@@ -281,6 +281,7 @@ letprep_lang <- function(alias, lexpr) {
 #' @param alias mapping from free names in expr to target names to use (mapping have both unique names and unique values).
 #' @param expr block to prepare for execution.
 #' @param ... force later arguments to be bound by name.
+#' @param envir environment to work in.
 #' @param subsMethod character substitution method, one of  c('langsubs', 'stringsubs', 'subsubs').
 #' @param strict logical if TRUE names and values must be valid un-quoted names, and not dot.
 #' @param eval logical if TRUE execute the re-mapped expression (else return it).
@@ -320,6 +321,7 @@ letprep_lang <- function(alias, lexpr) {
 #' @export
 let <- function(alias, expr,
                 ...,
+                envir= parent.frame(),
                 subsMethod= 'langsubs',
                 strict= TRUE,
                 eval= TRUE,
@@ -361,10 +363,10 @@ let <- function(alias, expr,
     return(exprS)
   }
   # try to execute expression in parent environment
-  rm(list=setdiff(ls(),'exprS'))
+  rm(list=setdiff(ls(), c('exprS', 'envir')))
   eval(exprS,
-       envir=parent.frame(),
-       enclos=parent.frame())
+       envir=envir,
+       enclos=envir)
 }
 
 

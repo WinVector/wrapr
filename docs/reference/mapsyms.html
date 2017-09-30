@@ -137,8 +137,13 @@
     <pre class="examples"><div class='input'>
 <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='st'>'a'</span>
 <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='st'>'b'</span>
-<span class='fu'>print</span>(<span class='fu'>mapsyms</span>(<span class='no'>x</span>, <span class='no'>y</span>))</div><div class='output co'>#&gt; <span class='error'>Error in mapsyms(x, y): wrapr::mapsyms columns not mapping to string scalars:  x</span></div><div class='input'><span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>2</span>)
-<span class='fu'><a href='let.html'>let</a></span>(<span class='fu'>mapsyms</span>(<span class='no'>x</span>, <span class='no'>y</span>), <span class='no'>d</span>$<span class='no'>x</span> + <span class='no'>d</span>$<span class='no'>y</span>)</div><div class='output co'>#&gt; <span class='error'>Error in mapsyms(x, y): wrapr::mapsyms columns not mapping to string scalars:  x</span></div><div class='input'>
+<span class='fu'>print</span>(<span class='fu'>mapsyms</span>(<span class='no'>x</span>, <span class='no'>y</span>))</div><div class='output co'>#&gt; $x
+#&gt; [1] "a"
+#&gt; 
+#&gt; $y
+#&gt; [1] "b"
+#&gt; </div><div class='input'><span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>2</span>)
+<span class='fu'><a href='let.html'>let</a></span>(<span class='fu'>mapsyms</span>(<span class='no'>x</span>, <span class='no'>y</span>), <span class='no'>d</span>$<span class='no'>x</span> + <span class='no'>d</span>$<span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 3</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

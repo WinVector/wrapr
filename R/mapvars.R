@@ -15,15 +15,18 @@
 #' @export
 #'
 mapsyms <- function(...) {
+  mapsyms_envir = parent.frame()
   mapsyms_names <- vapply(substitute(list(...))[-1],
                           as.character,
                           character(1))
-  mapsyms_dests <- lapply(mapsyms_names, get)
+  mapsyms_dests <- lapply(mapsyms_names,
+                          function(ni) { get(ni, envir=mapsyms_envir)})
   names(mapsyms_dests) <- mapsyms_names
   mapsyms_bads <- vapply(mapsyms_names,
                          function(mavars_key_i) {
                            mapsyms_val_i <- mapsyms_dests[[mavars_key_i]]
-                           (length(mapsyms_val_i)!=1) || (!is.character(mapsyms_val_i))
+                           (length(mapsyms_val_i)!=1) ||
+                             (!is.character(mapsyms_val_i))
                          },
                          logical(1))
   if(any(mapsyms_bads)) {
