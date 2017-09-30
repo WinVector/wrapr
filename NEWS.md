@@ -1,5 +1,5 @@
 
-# wrapr 0.4.3 2017-09-29
+# wrapr 0.4.3 2017-09-30
 
  * Add mapvars() function.
  
