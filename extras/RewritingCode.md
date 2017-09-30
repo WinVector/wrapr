@@ -199,4 +199,4 @@ let(
     ## 1     1 withdrawal behavior 0.6706221
     ## 2     2 positive re-framing 0.5589742
 
-[`mapsyms()`](https://winvector.github.io/wrapr/reference/mapsyms.html) is a stand-alone helper function (just as [`:=`](https://winvector.github.io/wrapr/reference/named_map_builder.html) is). It works *not because* it is some exceptional case hard-wired into other functions, but because `mapsyms()`'s reasonable semantics happen to synergize with `let`'s reasonable semantics.
+[`mapsyms()`](https://winvector.github.io/wrapr/reference/mapsyms.html) is a stand-alone helper function (just as [`:=`](https://winvector.github.io/wrapr/reference/named_map_builder.html) is). It works *not because* it is some exceptional case hard-wired into other functions, but because `mapsyms()`'s reasonable semantics happen to synergize with `let`'s reasonable semantics. `mapsyms()` behaves as a replacement target controller (without needing any quoting or un-quoting notation!).
