@@ -1,5 +1,5 @@
 
-# wrapr 0.4.3 2017-09-30
+# wrapr 1.0.0 2017-10-04
 
  * Add mapsyms() function.
  
