@@ -5,7 +5,7 @@
 ^LICENSE$
 ^wrapper.jpg$
 ^wraprs.png$
-^extras/*$
-
+^extras$
 ^docs$
 ^_pkgdown\.yml$
+^revdep$
