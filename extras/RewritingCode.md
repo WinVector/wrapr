@@ -1,7 +1,7 @@
 Rewriting Code
 ================
 John Mount, Win-Vector LLC
-2017-09-30
+2017-10-04
 
 Our article ["Let’s Have Some Sympathy For The Part-time R User"](http://www.win-vector.com/blog/2017/08/lets-have-some-sympathy-for-the-part-time-r-user/) is trying to make two points:
 
@@ -9,7 +9,7 @@ Our article ["Let’s Have Some Sympathy For The Part-time R User"](http://www.w
 -   The methods for doing this should be easy and legible.
 
 The first point is a fairly abstract need, until you find yourself wanting to re-use code on new projects.
-As for the second point: I feel the [`wrapr`](https://winvector.github.io/wrapr/) package is the easiest and most legible way to achieve maintainable code re-use for [`R`](https://cran.r-project.org).
+As for the second point: I feel the [`wrapr`](https://winvector.github.io/wrapr/) package is the easiest and most legible way to achieve maintainable code re-use in [`R`](https://cran.r-project.org).
 
 There are *very* important reasons to choose a package that makes things easier. One is debugging:
 
@@ -65,6 +65,8 @@ d %>%
     ## 1         1 withdrawal behavior   0.6706221
     ## 2         2 positive re-framing   0.5589742
 
+The idea is the above pipeline is considered reasonable `dplyr`, and our goal is to re-use it.
+
 We are making the huge simplifying assumption that you have studied the article and the above example is now familiar.
 
 The question is: what to do when one wants to process the same type of data with different column names? For example:
@@ -97,11 +99,7 @@ print(d)
     ## 3   2 withdrawal behavior  3
     ## 4   2 positive re-framing  4
 
-Now we could "reduced to a previously solved problem" by renaming the columns to names we know, doing the work, and then renaming back (which is actually a service that [`replyr::replyr_apply_f_mapped()`](https://winvector.github.io/replyr/reference/replyr_apply_f_mapped.html) supplies).
-
-In ["Let’s Have Some Sympathy For The Part-time R User"](http://www.win-vector.com/blog/2017/08/lets-have-some-sympathy-for-the-part-time-r-user/) I advised editing the pipeline to have obvious stand-in names (perhaps in all-capitals) and then using [`wrapr::let()`](https://winvector.github.io/wrapr/reference/let.html) to preform symbol substitution on the pipeline.
-
-Dr. Nina Zumel has sense pointed out to me: if you truly trust the substitution method you can use the original column names and adapt the original calculation pipeline as is (without alteration). Let's try that:
+The new table has the following new column definitions:
 
 ``` r
 subjectID       <- "PID"
@@ -110,7 +108,15 @@ assessmentTotal <- "AT"
 isDiagnosis     <- "isD"
 probability     <- "prob"
 diagnosis       <- "label"
+```
 
+We could "reduced to a previously solved problem" by renaming the columns to names we know, doing the work, and then renaming back (which is actually a service that [`replyr::replyr_apply_f_mapped()`](https://winvector.github.io/replyr/reference/replyr_apply_f_mapped.html) supplies).
+
+In ["Let’s Have Some Sympathy For The Part-time R User"](http://www.win-vector.com/blog/2017/08/lets-have-some-sympathy-for-the-part-time-r-user/) I advised editing the pipeline to have obvious stand-in names (perhaps in all-capitals) and then using [`wrapr::let()`](https://winvector.github.io/wrapr/reference/let.html) to preform symbol substitution on the pipeline.
+
+[Dr. Nina Zumel](https://ninazumel.com) has since pointed out to me: if you truly trust the substitution method you can use the original column names and adapt the original calculation pipeline as is (without alteration). Let's try that:
+
+``` r
 let(
   c(subjectID = subjectID,
     surveyCategory = surveyCategory, 
@@ -190,7 +196,8 @@ let(
     ungroup() %>%
     select(subjectID, surveyCategory, probability) %>%
     rename(diagnosis = surveyCategory) %>%
-    arrange(subjectID))
+    arrange(subjectID)
+  )
 ```
 
     ## # A tibble: 2 x 3
