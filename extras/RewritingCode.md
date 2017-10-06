@@ -118,9 +118,9 @@ probability     <- "prob"
 diagnosis       <- "label"
 ```
 
-We could "reduced to a previously solved problem" by renaming the columns to names we know, doing the work, and then renaming back (which is actually a service that [`replyr::replyr_apply_f_mapped()`](https://winvector.github.io/replyr/reference/replyr_apply_f_mapped.html) supplies).
+We could "reduce to a previously solved problem" by renaming the columns to names we know, doing the work, and then renaming back (which is actually a service that [`replyr::replyr_apply_f_mapped()`](https://winvector.github.io/replyr/reference/replyr_apply_f_mapped.html) supplies).
 
-In ["Let’s Have Some Sympathy For The Part-time R User"](http://www.win-vector.com/blog/2017/08/lets-have-some-sympathy-for-the-part-time-r-user/) I advised editing the pipeline to have obvious stand-in names (perhaps in all-capitals) and then using [`wrapr::let()`](https://winvector.github.io/wrapr/reference/let.html) to preform symbol substitution on the pipeline.
+In ["Let’s Have Some Sympathy For The Part-time R User"](http://www.win-vector.com/blog/2017/08/lets-have-some-sympathy-for-the-part-time-r-user/) I advised editing the pipeline to have obvious stand-in names (perhaps in all-capitals) and then using [`wrapr::let()`](https://winvector.github.io/wrapr/reference/let.html) to perform symbol substitution on the pipeline.
 
 [Dr. Nina Zumel](https://ninazumel.com) has since pointed out to me: if you truly trust the substitution method you can use the original column names and adapt the original calculation pipeline as is (without alteration). Let's try that:
 
@@ -158,7 +158,7 @@ That works! It is a bit harder for the user to find which symbols are being repl
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/r4_qdFyVnv8?start=31" frameborder="0" allowfullscreen>
 </iframe>
-`mapsyms()` is a simple function that captures variable names and builds a mapping from them to the names they refer to. For example we can use it to quickly build the assignment map for the let block as follows:
+`mapsyms()` is a simple function that captures variable names and builds a mapping from them to the names they refer to in the current environment. For example we can use it to quickly build the assignment map for the let block, because the earlier assigments such as "`subjectID <- "PID"`" allow `mapsyms()` to find the intended re-mappings. This would also be true for other cases, such as re-mapping function arguments to values. Our example becomes:
 
 ``` r
 print(mapsyms(subjectID,

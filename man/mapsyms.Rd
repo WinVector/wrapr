@@ -10,7 +10,7 @@ mapsyms(...)
 \item{...}{symbol names mapping to string scalars}
 }
 \value{
-map from original symbol names to new names
+map from original symbol names to new names (names found in the current environment)
 }
 \description{
 Map symbol names to referenced values if those values are string scalars (else throw).

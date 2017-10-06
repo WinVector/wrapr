@@ -2,7 +2,7 @@
 #' Map symbol names to referenced values if those values are string scalars (else throw).
 #'
 #' @param ... symbol names mapping to string scalars
-#' @return map from original symbol names to new names
+#' @return map from original symbol names to new names (names found in the current environment)
 #'
 #' @examples
 #'
