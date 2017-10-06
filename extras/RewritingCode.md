@@ -1,4 +1,4 @@
-Automating x=x
+Let x=x in R
 ================
 John Mount, Win-Vector LLC
 2017-10-06
