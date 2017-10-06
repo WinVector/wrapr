@@ -8,7 +8,9 @@ Our article ["Let’s Have Some Sympathy For The Part-time R User"](http://www.w
 -   Sometimes you have to write parameterized or re-usable code.
 -   The methods for doing this should be easy and legible.
 
-The first point feels abstract, until you find yourself wanting to re-use code on new projects. As for the second point: I feel the [`wrapr`](https://winvector.github.io/wrapr/) package is the easiest and most legible way to achieve maintainable code re-use in [`R`](https://cran.r-project.org).
+The first point feels abstract, until you find yourself wanting to re-use code on new projects. As for the second point: I feel the [`wrapr`](https://winvector.github.io/wrapr/) package is the easiest, safest, and most legible way to achieve maintainable code re-use in [`R`](https://cran.r-project.org).
+
+In this article we will show how `wrapr` makes code-rewriting even easier with its new `let x=x` automation.
 
 ![Let X=X](411gJqs4qlL.jpg)
 
@@ -71,7 +73,7 @@ d %>%
     ## 1         1 withdrawal behavior   0.6706221
     ## 2         2 positive re-framing   0.5589742
 
-The above pipeline is considered reasonable (but long, complicated, and valuable) `dplyr`, and our goal is to re-use it on new data that may not have the same column names as our original data.
+The presumption is that the above pipeline is considered reasonable (but long, complicated, and valuable) `dplyr`, and our goal is to re-use it on new data that may not have the same column names as our original data.
 
 We are making the huge simplifying assumption that you have studied the article and the above example is now familiar.
 
