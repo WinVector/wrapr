@@ -1,15 +1,14 @@
 Rewriting Code
 ================
 John Mount, Win-Vector LLC
-2017-10-04
+2017-10-06
 
-Our article ["Let’s Have Some Sympathy For The Part-time R User"](http://www.win-vector.com/blog/2017/08/lets-have-some-sympathy-for-the-part-time-r-user/) is trying to make two points:
+Our article ["Let’s Have Some Sympathy For The Part-time R User"](http://www.win-vector.com/blog/2017/08/lets-have-some-sympathy-for-the-part-time-r-user/) includes two points:
 
 -   Sometimes you have to write parameterized or re-usable code.
 -   The methods for doing this should be easy and legible.
 
-The first point is a fairly abstract need, until you find yourself wanting to re-use code on new projects.
-As for the second point: I feel the [`wrapr`](https://winvector.github.io/wrapr/) package is the easiest and most legible way to achieve maintainable code re-use in [`R`](https://cran.r-project.org).
+The first point feels abstract, until you find yourself wanting to re-use code on new projects. As for the second point: I feel the [`wrapr`](https://winvector.github.io/wrapr/) package is the easiest and most legible way to achieve maintainable code re-use in [`R`](https://cran.r-project.org).
 
 There are *very* important reasons to choose a package that makes things easier. One is debugging:
 
@@ -19,10 +18,15 @@ There are *very* important reasons to choose a package that makes things easier.
 
 Let's take the monster example from ["Let’s Have Some Sympathy For The Part-time R User"](http://www.win-vector.com/blog/2017/08/lets-have-some-sympathy-for-the-part-time-r-user/).
 
-The idea was that perhaps one and worked out a complicated (but useful and important) by-hand survey scoring method that looked a lot like logistic regression's link function:
+The idea was that perhaps one had worked out a complicated (but useful and important) by-hand survey scoring method:
 
 ``` r
 suppressPackageStartupMessages(library("dplyr"))
+```
+
+    ## Warning: package 'dplyr' was built under R version 3.4.2
+
+``` r
 library("wrapr")
 
 d <- data.frame(
@@ -65,7 +69,7 @@ d %>%
     ## 1         1 withdrawal behavior   0.6706221
     ## 2         2 positive re-framing   0.5589742
 
-The idea is the above pipeline is considered reasonable `dplyr`, and our goal is to re-use it.
+The above pipeline is considered reasonable (but long, complicated, and valuable) `dplyr`, and our goal is to re-use it on new data that may not have the same column names as our original data.
 
 We are making the huge simplifying assumption that you have studied the article and the above example is now familiar.
 
@@ -146,7 +150,11 @@ let(
 
 That works! It is a bit harder for the user to find which symbols are being replaced, but in some sense they don't really need to know (it is `R`'s job to perform the replacements).
 
-In this direction we are introducing in `wrapr` version `0.4.2` a new helper function [`mapsyms()`](https://winvector.github.io/wrapr/reference/mapsyms.html). It is a simple function that captures variable names and builds a mapping from them to the names they refer to. For example we can use it to quickly build the assignment map for the let block as follows:
+`wrapr` has a new helper function [`mapsyms()`](https://winvector.github.io/wrapr/reference/mapsyms.html) that automates all of the "`let x = x`" steps from the above example.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/r4_qdFyVnv8?start=31" frameborder="0" allowfullscreen>
+</iframe>
+`mapsyms()` is a simple function that captures variable names and builds a mapping from them to the names they refer to. For example we can use it to quickly build the assignment map for the let block as follows:
 
 ``` r
 print(mapsyms(subjectID,
