@@ -1,4 +1,4 @@
-Rewriting Code
+Automating x=x
 ================
 John Mount, Win-Vector LLC
 2017-10-06
@@ -9,6 +9,8 @@ Our article ["Let’s Have Some Sympathy For The Part-time R User"](http://www.w
 -   The methods for doing this should be easy and legible.
 
 The first point feels abstract, until you find yourself wanting to re-use code on new projects. As for the second point: I feel the [`wrapr`](https://winvector.github.io/wrapr/) package is the easiest and most legible way to achieve maintainable code re-use in [`R`](https://cran.r-project.org).
+
+![Let X=X](411gJqs4qlL.jpg)
 
 There are *very* important reasons to choose a package that makes things easier. One is debugging:
 
