@@ -1,4 +1,4 @@
-Let x=x in R
+Let X=X in R
 ================
 John Mount, Win-Vector LLC
 2017-11-03
