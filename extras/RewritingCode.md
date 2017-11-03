@@ -1,7 +1,7 @@
 Let x=x in R
 ================
 John Mount, Win-Vector LLC
-2017-10-06
+2017-11-03
 
 Our article ["Let’s Have Some Sympathy For The Part-time R User"](http://www.win-vector.com/blog/2017/08/lets-have-some-sympathy-for-the-part-time-r-user/) includes two points:
 
@@ -26,11 +26,6 @@ The idea was that perhaps one had worked out a complicated (but useful and impor
 
 ``` r
 suppressPackageStartupMessages(library("dplyr"))
-```
-
-    ## Warning: package 'dplyr' was built under R version 3.4.2
-
-``` r
 library("wrapr")
 
 d <- data.frame(
@@ -152,13 +147,15 @@ let(
     ## 1     1 withdrawal behavior 0.6706221
     ## 2     2 positive re-framing 0.5589742
 
-That works! It is a bit harder for the user to find which symbols are being replaced, but in some sense they don't really need to know (it is `R`'s job to perform the replacements).
+That works! All we did was: paste the original code into the block and the adapter did all of the work, with no user edits of the code.
+
+It is a bit harder for the user to find which symbols are being replaced, but in some sense they don't really need to know (it is `R`'s job to perform the replacements).
 
 `wrapr` has a new helper function [`mapsyms()`](https://winvector.github.io/wrapr/reference/mapsyms.html) that automates all of the "`let x = x`" steps from the above example.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/r4_qdFyVnv8?start=31" frameborder="0" allowfullscreen>
 </iframe>
-`mapsyms()` is a simple function that captures variable names and builds a mapping from them to the names they refer to in the current environment. For example we can use it to quickly build the assignment map for the let block, because the earlier assigments such as "`subjectID <- "PID"`" allow `mapsyms()` to find the intended re-mappings. This would also be true for other cases, such as re-mapping function arguments to values. Our example becomes:
+`mapsyms()` is a simple function that captures variable names and builds a mapping from them to the names they refer to in the current environment. For example we can use it to quickly build the assignment map for the let block, because the earlier assignments such as "`subjectID <- "PID"`" allow `mapsyms()` to find the intended re-mappings. This would also be true for other cases, such as re-mapping function arguments to values. Our example becomes:
 
 ``` r
 print(mapsyms(subjectID,
@@ -187,29 +184,45 @@ print(mapsyms(subjectID,
     ## $diagnosis
     ## [1] "label"
 
-This allows the solution to be re-written in a very legible form with very little effort:
+This allows the solution to be re-written and even wrapped into a function in a very legible form with very little effort:
 
 ``` r
-let(
-  mapsyms(subjectID,
-          surveyCategory, 
-          assessmentTotal,
-          isDiagnosis,
-          probability,
-          diagnosis),
-  d %>%
-    group_by(subjectID) %>%
-    mutate(probability =
-             exp(assessmentTotal * scale)/
-             sum(exp(assessmentTotal * scale))) %>%
-    arrange(probability, surveyCategory) %>%
-    mutate(isDiagnosis = row_number() == n()) %>%
-    filter(isDiagnosis) %>%
-    ungroup() %>%
-    select(subjectID, surveyCategory, probability) %>%
-    rename(diagnosis = surveyCategory) %>%
-    arrange(subjectID)
+computeRes <- function(d,
+                       subjectID,
+                       surveyCategory, 
+                       assessmentTotal,
+                       isDiagnosis,
+                       probability,
+                       diagnosis) {
+  let(
+    mapsyms(subjectID,
+            surveyCategory, 
+            assessmentTotal,
+            isDiagnosis,
+            probability,
+            diagnosis),
+    d %>%
+      group_by(subjectID) %>%
+      mutate(probability =
+               exp(assessmentTotal * scale)/
+               sum(exp(assessmentTotal * scale))) %>%
+      arrange(probability, surveyCategory) %>%
+      mutate(isDiagnosis = row_number() == n()) %>%
+      filter(isDiagnosis) %>%
+      ungroup() %>%
+      select(subjectID, surveyCategory, probability) %>%
+      rename(diagnosis = surveyCategory) %>%
+      arrange(subjectID)
   )
+}
+
+computeRes(d,
+           subjectID       = "PID",
+           surveyCategory  = "DIAG",
+           assessmentTotal = "AT",
+           isDiagnosis     = "isD",
+           probability     = "prob",
+           diagnosis       = "label")
 ```
 
     ## # A tibble: 2 x 3
@@ -218,4 +231,6 @@ let(
     ## 1     1 withdrawal behavior 0.6706221
     ## 2     2 positive re-framing 0.5589742
 
-[`mapsyms()`](https://winvector.github.io/wrapr/reference/mapsyms.html) is a stand-alone helper function (just as "[`:=`](https://winvector.github.io/wrapr/reference/named_map_builder.html)" is). It works *not because* it is some exceptional corner-case hard-wired into other functions, but because `mapsyms()`'s reasonable semantics happen to synergize with `let`'s reasonable semantics. `mapsyms()` behaves as a replacement target controller (without needing any cumbersome direct quoting or un-quoting notation!).
+The idea is: instead of having to mark what instances of symbols are to be replaced (by quoting or de-quoting indicators), we instead declare what symbols are to be replaced using the `mapsyms()` helper.
+
+[`mapsyms()`](https://winvector.github.io/wrapr/reference/mapsyms.html) is a stand-alone helper function (just as "[`:=`](https://winvector.github.io/wrapr/reference/named_map_builder.html)" is). It works *not because* it is some exceptional corner-case hard-wired into other functions, but because `mapsyms()`'s reasonable semantics happen to synergize with `let()`'s reasonable semantics. `mapsyms()` behaves as a replacement target controller (without needing any cumbersome direct quoting or un-quoting notation!).
