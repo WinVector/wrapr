@@ -1,4 +1,9 @@
 
+
+# wrapr 1.0.1 2017-11-08
+
+ * Better error msgs.
+
 # wrapr 1.0.0 2017-10-04
 
  * Add mapsyms() function.

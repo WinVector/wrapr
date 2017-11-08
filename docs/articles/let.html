@@ -90,7 +90,7 @@
       <h1>Let</h1>
                         <h4 class="author">Nina Zumel, John Mount</h4>
             
-            <h4 class="date">2017-10-06</h4>
+            <h4 class="date">2017-11-08</h4>
           </div>
 
     
@@ -99,21 +99,21 @@
 <p>The vignette demonstrates the use of <code>let</code> to standardize calls to functions that use non-standard evaluation.</p>
 <p>For the purposes of this discussion, <em>standard evaluation</em> of variables preserves referential transparency: that is, values and references to values behave the same.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x =<span class="st"> </span><span class="dv">5</span>
-<span class="kw">print</span>(<span class="dv">5</span> +<span class="st"> </span><span class="dv">1</span>)</code></pre></div>
+<span class="kw">print</span>(<span class="dv">5</span> <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</code></pre></div>
 <pre><code>## [1] 6</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(x +<span class="st"> </span><span class="dv">1</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(x <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</code></pre></div>
 <pre><code>## [1] 6</code></pre>
 <p>Some functions in R use <em>non-standard evaluation</em> (NSE) of variables, in order to snoop variable names (for example, <code>plot</code>), or to delay or even avoid argument evaluation (for example <code>library(foobar)</code> versus <code>library("foobar")</code>).</p>
 <p>In the case of <code>plot</code>, NSE lets <code>plot</code> use the variable names as the axis labels.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1234</span>)
-xvar =<span class="st"> </span><span class="kw">runif</span>(<span class="dv">100</span>) -<span class="st"> </span><span class="fl">0.5</span>
+xvar =<span class="st"> </span><span class="kw">runif</span>(<span class="dv">100</span>) <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span>
 yvar =<span class="st"> </span><span class="kw">dnorm</span>(xvar)
 
 <span class="kw">plot</span>(xvar, yvar) </code></pre></div>
 <p><img src="let_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
 <p>In the case of <code>library</code>, non-standard evaluation saves typing a couple of quotes. The dollar sign notation for accessing data frame columns also uses non standard evaluation.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="ot">NA</span>))
-d$x</code></pre></div>
+d<span class="op">$</span>x</code></pre></div>
 <pre><code>## [1]  1 NA</code></pre>
 <p>Issues arise when you want to use functions that use non-standard evaluation – for brevity, I’ll call these <em>NSE expressions</em> – but you don’t know the name of the variable, as might happen when you are calling these expression from within another function. Generally in these situations, you are taking the name of the desired variable from a string. But how do you pass it to the NSE expression?</p>
 <pre>
@@ -155,9 +155,9 @@ yvariable =<span class="st"> "yvar"</span>
 <p>Roughly <code><a href="http://www.rdocumentation.org/packages/wrapr/topics/let">wrapr::let(A, B)</a></code> behaves like a syntatic sugar for <code>eval(substitute(B, A))</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">a &lt;-<span class="st"> </span><span class="dv">1</span>
 b &lt;-<span class="st"> </span><span class="dv">2</span>
-<span class="kw"><a href="../reference/let.html">let</a></span>(<span class="kw">c</span>(<span class="dt">z=</span><span class="kw">quote</span>(a)), z+b)</code></pre></div>
+<span class="kw"><a href="../reference/let.html">let</a></span>(<span class="kw">c</span>(<span class="dt">z=</span><span class="kw">quote</span>(a)), z<span class="op">+</span>b)</code></pre></div>
 <pre><code>## [1] 3</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">eval</span>(<span class="kw">substitute</span>(z+b, <span class="kw">c</span>(<span class="dt">z=</span><span class="kw">quote</span>(a))))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">eval</span>(<span class="kw">substitute</span>(z<span class="op">+</span>b, <span class="kw">c</span>(<span class="dt">z=</span><span class="kw">quote</span>(a))))</code></pre></div>
 <pre><code>## [1] 3</code></pre>
 <p>However, <code><a href="http://www.rdocumentation.org/packages/wrapr/topics/let">wrapr::let()</a></code> is actually implemented in terms of a de-parse and string substitution (to get around some issues of when and in what environment things are executed).</p>
 </div>

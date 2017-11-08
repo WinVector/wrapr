@@ -90,7 +90,7 @@
       <h1>Named Map Builder</h1>
                         <h4 class="author">John Mount</h4>
             
-            <h4 class="date">2017-10-06</h4>
+            <h4 class="date">2017-11-08</h4>
           </div>
 
     
@@ -100,19 +100,19 @@
 <p>Here are some examples:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"wrapr"</span>)
 
-<span class="st">'a'</span> :<span class="er">=</span><span class="st"> </span><span class="dv">5</span></code></pre></div>
+<span class="st">'a'</span> <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="dv">5</span></code></pre></div>
 <pre><code>## a 
 ## 5</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="st">'a'</span> :<span class="er">=</span><span class="st"> </span><span class="dv">5</span>, <span class="st">'b'</span> :<span class="er">=</span><span class="st"> </span><span class="dv">6</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="st">'a'</span> <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="dv">5</span>, <span class="st">'b'</span> <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="dv">6</span>)</code></pre></div>
 <pre><code>## a b 
 ## 5 6</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="st">'a'</span>, <span class="st">'b'</span>) :<span class="er">=</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">6</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="st">'a'</span>, <span class="st">'b'</span>) <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">6</span>)</code></pre></div>
 <pre><code>## a b 
 ## 5 6</code></pre>
 <p>The left-side argument of the <code>:=</code> operator is called “the names”, and the right-side argument is called “the values”. The <code>:=</code> operators returns the values with the names set to names.</p>
 <p>A key use of the named map builder is the following:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">key =<span class="st"> 'keycode'</span>
-key :<span class="er">=</span><span class="st"> 'value'</span></code></pre></div>
+key <span class="op">:</span><span class="er">=</span><span class="st"> 'value'</span></code></pre></div>
 <pre><code>## keycode 
 ## "value"</code></pre>
 <p>Notice the value inside the variable <code>key</code> was used as the array name, this differs from what is easily done with <code>R</code>’s native <code>c(key = 'value')</code> style notation.</p>

@@ -90,7 +90,7 @@
       <h1>Debug Vignette</h1>
                         <h4 class="author">John Mount, Nina Zumel</h4>
             
-            <h4 class="date">2017-10-06</h4>
+            <h4 class="date">2017-11-08</h4>
           </div>
 
     
@@ -101,15 +101,15 @@
 <span class="kw">library</span>(<span class="st">"wrapr"</span>)
 
 <span class="co"># user function</span>
-f &lt;-<span class="st"> </span>function(i) { (<span class="dv">1</span>:<span class="dv">10</span>)[[i]] }</code></pre></div>
+f &lt;-<span class="st"> </span><span class="cf">function</span>(i) { (<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>)[[i]] }</code></pre></div>
 <p>Let’s imagine that we are calling this function deep within another process; perhaps we are calling it repeatedly, on a long sequence of (possibly unknown to us) inputs.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">inputs =<span class="st"> </span><span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">9</span>,<span class="dv">0</span>,<span class="dv">8</span>)
 
 <span class="kw">tryCatch</span>(
-  for(x in inputs) {
+  <span class="cf">for</span>(x <span class="cf">in</span> inputs) {
      <span class="kw">f</span>(x)
   },
-  <span class="dt">error =</span> function(e) { <span class="kw">print</span>(e) })</code></pre></div>
+  <span class="dt">error =</span> <span class="cf">function</span>(e) { <span class="kw">print</span>(e) })</code></pre></div>
 <pre><code>## &lt;simpleError in (1:10)[[i]]: attempt to select less than one element in get1index &lt;real&gt;&gt;</code></pre>
 <p>Oops! We’ve crashed, and if this loop were deep in another process, we wouldn’t know why, or where. If we suspect that the function <code>f</code> is the cause, then we can wrap <code>f</code> using <code>wrapr:DebugFn</code>.</p>
 <p><code><a href="../reference/DebugFnW.html">DebugFnW(saveDest, fn)</a></code> wraps its function argument <code>fn</code>, captures any arguments that cause it to fail, and saved those arguments and other state to a specified destination <code>saveDest</code>.</p>
@@ -126,10 +126,10 @@ df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/DebugFnW
 <p>Now we run the same loop as above, with the wrapped function <code>df</code> (note that the <code>tryCatch</code> is not strictly needed, this is just for running this example in a vignette).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># capture error (Note: tryCatch not needed for user code!)</span>
 <span class="kw">tryCatch</span>(
-  for(x in inputs) {
+  <span class="cf">for</span>(x <span class="cf">in</span> inputs) {
      <span class="kw">df</span>(x)
   },
-  <span class="dt">error =</span> function(e) { <span class="kw">print</span>(e) })</code></pre></div>
+  <span class="dt">error =</span> <span class="cf">function</span>(e) { <span class="kw">print</span>(e) })</code></pre></div>
 <pre><code>## &lt;simpleError in value[[3L]](cond): wrapr::DebugFnW: wrote error to globalenv() variable 'lastError'
 ##  You can reproduce the error with:
 ##  'do.call(p$fn, p$args)' (replace 'p' with actual variable name)&gt;</code></pre>
@@ -139,19 +139,19 @@ df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/DebugFnW
 <pre><code>## List of 4
 ##  $ fn       :function (i)  
 ##   ..- attr(*, "srcref")=Class 'srcref'  atomic [1:8] 5 6 5 32 6 32 5 5
-##   .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x7fa6a69d2188&gt; 
+##   .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x7ff71bf52158&gt; 
 ##  $ args     :List of 1
 ##   ..$ : num 0
 ##  $ namedargs: language df(x)
 ##  $ fn_name  : chr "f"</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lastError$args</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lastError<span class="op">$</span>args</code></pre></div>
 <pre><code>## [[1]]
 ## [1] 0</code></pre>
 <p>In many situations, just knowing the arguments is enough information (“Oops, we tried to index the vector from zero!”). In more complicated cases, we can set a debug point on the offending function, and then call it again with the failing arguments in order to track down the bug.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># redo call, perhaps debugging</span>
 <span class="kw">tryCatch</span>(
-  <span class="kw">do.call</span>(lastError$fn_name, lastError$args),
-  <span class="dt">error =</span> function(e) { <span class="kw">print</span>(e) })</code></pre></div>
+  <span class="kw">do.call</span>(lastError<span class="op">$</span>fn_name, lastError<span class="op">$</span>args),
+  <span class="dt">error =</span> <span class="cf">function</span>(e) { <span class="kw">print</span>(e) })</code></pre></div>
 <pre><code>## &lt;simpleError in (1:10)[[i]]: attempt to select less than one element in get1index &lt;real&gt;&gt;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># clean up</span>
 <span class="kw">rm</span>(<span class="dt">list=</span><span class="st">'lastError'</span>)</code></pre></div>
@@ -161,10 +161,10 @@ df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/DebugFnW
 df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/DebugFnW.html">DebugFnW</a></span>(saveDest,f)
 <span class="co"># capture error (Note: tryCatch not needed for user code!)</span>
 <span class="kw">tryCatch</span>(
-  for(x in inputs) {
+  <span class="cf">for</span>(x <span class="cf">in</span> inputs) {
     <span class="kw">df</span>(x)
   },
-  <span class="dt">error =</span> function(e) { <span class="kw">print</span>(e) })</code></pre></div>
+  <span class="dt">error =</span> <span class="cf">function</span>(e) { <span class="kw">print</span>(e) })</code></pre></div>
 <p>We can later read that file back into R, for debugging.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load data</span>
 lastError &lt;-<span class="st"> </span><span class="kw">readRDS</span>(saveDest)
@@ -172,8 +172,8 @@ lastError &lt;-<span class="st"> </span><span class="kw">readRDS</span>(saveDest
 <span class="kw">str</span>(lastError)
 <span class="co"># redo call, perhaps debugging</span>
 <span class="kw">tryCatch</span>(
-  <span class="kw">do.call</span>(lastError$fn_name, lastError$args),
-  <span class="dt">error =</span> function(e) { <span class="kw">print</span>(e) })
+  <span class="kw">do.call</span>(lastError<span class="op">$</span>fn_name, lastError<span class="op">$</span>args),
+  <span class="dt">error =</span> <span class="cf">function</span>(e) { <span class="kw">print</span>(e) })
 <span class="co"># clean up</span>
 <span class="kw">file.remove</span>(saveDest)</code></pre></div>
 <p>For more practice, please view <a href="https://youtu.be/zFEC9-1XSN8?list=PLAKBwakacHbQT51nPHex1on3YNCCmggZA">our video on wrapper debugging</a>.</p>
