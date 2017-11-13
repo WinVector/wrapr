@@ -357,6 +357,7 @@ let <- function(alias, expr,
     }
   }
   if(debugPrint) {
+    print(alias)
     print(exprS)
   }
   if(!eval) {
