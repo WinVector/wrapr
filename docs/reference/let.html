@@ -214,7 +214,13 @@ back-ticks) are forbidden.  It is suggested that substitution targets be written
        <span class='no'>groups</span> <span class='kw'>&lt;-</span> <span class='fu'>unique</span>(<span class='no'>d</span>$<span class='no'>GROUPCOLUMN</span>)
     },
     <span class='kw'>debugPrint</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-    )</div><div class='output co'>#&gt; {
+    )</div><div class='output co'>#&gt; $RANKCOLUMN
+#&gt; [1] "rank"
+#&gt; 
+#&gt; $GROUPCOLUMN
+#&gt; [1] "Species"
+#&gt; 
+#&gt; {
 #&gt;     dres &lt;- d
 #&gt;     dres$rank &lt;- dres$rank - 1
 #&gt;     groups &lt;- unique(d$Species)
