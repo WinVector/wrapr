@@ -36,4 +36,8 @@ devtools::revdep_check()
      Checked seplyr : 0 errors | 1 warning  | 0 notes
      Checked WVPlots: 0 errors | 0 warnings | 0 notes
 
-Warning in seplyr is a `dplyr` bug crashing and `seplyr` vingette.
+The warning in `seplyr` is a `seplyr` vignette failing due to
+[`dplyr` issue 2860](https://github.com/tidyverse/dplyr/issues/2860),
+and not due to a change in `wrapr`.  I believe this is fixed in 
+development-`dplyr` and in addition a confirmed work around for this issue is
+in `seplyr` 0.1.6 (also being submitted to CRAN).
