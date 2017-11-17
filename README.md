@@ -9,11 +9,11 @@ Introduction
 
 Primary `wrapr` services include:
 
--   `let()`
+-   `let()` (let block)
 -   `%.>%` (dot arrow pipe)
 -   `:=` (named map builder)
 -   `λ()` (anonymous function builder)
--   `DebugFnW()`
+-   `DebugFnW()` (function debug wrappers)
 
 [`let()`](https://winvector.github.io/wrapr/articles/let.html)
 --------------------------------------------------------------
