@@ -3,6 +3,7 @@
 # wrapr 1.0.1 2017-11-17
 
  * Better error msgs.
+ * Bit more debugging info.
  * Add grepdf() and qc().
 
 # wrapr 1.0.0 2017-10-04
