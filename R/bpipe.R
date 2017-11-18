@@ -21,6 +21,7 @@ pipe_impl <- function(pipe_left_arg, pipe_right_arg, pipe_environment) {
 #' Defined as: \code{a \%.>\% b} roughly ~ \code{\{ . <- a; b \};}
 #' (with visible .-side effects).
 #' Please see \url{http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/}.
+#' \code{\%>.\%} and \code{\%.>\%} are synonyms.
 #'
 #' @param pipe_left_arg left argument expression (substituted into .)
 #' @param pipe_right_arg right argument expession (presumably including .)
@@ -40,3 +41,27 @@ pipe_impl <- function(pipe_left_arg, pipe_right_arg, pipe_environment) {
   pipe_impl(pipe_left_arg, pipe_right_arg, pipe_environment)
 }
 
+#' Pipe operator ("to dot").
+#'
+#' Defined as: \code{a \%>.\% b} roughly ~ \code{\{ . <- a; b \};}
+#' (with visible .-side effects).
+#' Please see \url{http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/}.
+#' \code{\%>.\%} and \code{\%.>\%} are synonyms.
+#'
+#' @param pipe_left_arg left argument expression (substituted into .)
+#' @param pipe_right_arg right argument expession (presumably including .)
+#' @return eval(\{ . <- pipe_left_arg; pipe_right_arg \};)
+#'
+#' @examples
+#'
+#' # both should be equal:
+#' cos(exp(sin(4)))
+#' 4 %>.% sin(.) %>.% exp(.) %>.% cos(.)
+#'
+#' @export
+`%>.%` <- function(pipe_left_arg, pipe_right_arg) {
+  pipe_left_arg <- substitute(pipe_left_arg)
+  pipe_right_arg <- substitute(pipe_right_arg)
+  pipe_environment <- parent.frame()
+  pipe_impl(pipe_left_arg, pipe_right_arg, pipe_environment)
+}
