@@ -66,6 +66,9 @@ named_map_builder <- function(names, values) {
 
 #' @export
 `:=.default` <- function(names, values) {
+  if(length(names)<=0) {
+    return(values)
+  }
   stop(paste(":=.default called with arguments of class:",
              class(names), class(values)))
 }

@@ -18,5 +18,7 @@ Quoting version of c() array concatinator.
 \examples{
 
 qc(a, qc(b, c))
+qc(x=a, qc(y=b, z=c))
+qc('x'='a', qc('y'='b', 'z'='c'))
 
 }

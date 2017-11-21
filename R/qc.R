@@ -8,29 +8,50 @@
 #' @examples
 #'
 #' qc(a, qc(b, c))
+#' qc(x=a, qc(y=b, z=c))
+#' qc('x'='a', qc('y'='b', 'z'='c'))
 #'
 #' @export
 #'
 qc <- function(...) {
-  res <- lapply(substitute(list(...)),
-                function(ei) {
+  args <- substitute(list(...))
+  names <- names(args)
+  res <- lapply(seq_len(length(args)),
+                function(i) {
+                  ei <- args[[i]]
+                  ni <- NULL
+                  if(i<=length(names)) {
+                    ni <- as.character(names[[i]])
+                  }
                   if(is.name(ei) | is.character(ei)) {
-                    return(as.character(ei))
+                    if(is.null(ni)) {
+                      return(as.character(ei))
+                    } else {
+                      return(ni := as.character(ei))
+                    }
                   }
                   ln = length(ei)
                   if(ln<=0) {
                     return(NULL)
                   }
                   if(ln<=1) {
-                    return(as.character(ei))
+                    if(is.null(ni)) {
+                      return(as.character(ei))
+                    } else {
+                      return(ni := as.character(ei))
+                    }
                   }
-                  return(as.character(ei[2:ln]))
+                  # complex structure, like a list
+                  if(is.language(ei)) {
+                    return(eval(ei))
+                  }
+                  return(ei[2:ln])
                 })
   res <- Filter(function(ei) { !is.null(ei) }, res)
   if(length(res)<=1) {
     return(c())
   }
   res <- res[2:length(res)]
-  as.character(unlist(res))
+  unlist(res)
 }
 
