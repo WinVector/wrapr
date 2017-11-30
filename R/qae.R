@@ -26,7 +26,7 @@ qae <- function(...) {
   # convert char vector into spliceable vector
   # from: https://github.com/tidyverse/rlang/issues/116
   mutateTerms <- substitute(list(...))
-  if(!all(names(mutateTerms) %in% "")) {
+  if(length(setdiff(names(mutateTerms), ""))>0) {
     stop("seplyr::exprs() all assignments must be of the form a := b, not a = b")
   }
   # mutateTerms is a list of k+1 items, first is "list" the rest are captured expressions
