@@ -2,10 +2,9 @@
 #' Quote assignment expressions.
 #'
 #' Accepts arbitrary un-parsed expressions as
-#' assignments to allow forms such as "Sepal.Length >= 2 * Sepal.Width".
+#' assignments to allow forms such as "Sepal_Long := Sepal.Length >= 2 * Sepal.Width".
 #' (without the quotes).
-#' Terms are vectors or lists of the form "lhs := rhs".
-#'
+#' Terms are expressions of the form "lhs := rhs".
 #'
 #' @param ... assignment expressions.
 #' @return array of quoted assignment expressions.
