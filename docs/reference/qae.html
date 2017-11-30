@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add list name as a column to a list of data.frames. — add_name_column • wrapr</title>
+<title>Quote assignment expressions. — qae • wrapr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -110,44 +110,46 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Add list name as a column to a list of data.frames.</h1>
+    <h1>Quote assignment expressions.</h1>
     </div>
 
     
-    <p>Add list name as a column to a list of data.frames.</p>
+    <p>Accepts arbitrary un-parsed expressions as
+assignments to allow forms such as "Sepal.Length &gt;= 2 * Sepal.Width".
+(without the quotes).
+Terms are vectors or lists of the form "lhs := rhs".</p>
     
 
-    <pre class="usage"><span class='fu'>add_name_column</span>(<span class='no'>dlist</span>, <span class='no'>destinationColumn</span>)</pre>
+    <pre class="usage"><span class='fu'>qae</span>(<span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dlist</th>
-      <td><p>named list of data.frames</p></td>
-    </tr>
-    <tr>
-      <th>destinationColumn</th>
-      <td><p>character, name of new column to add</p></td>
+      <th>...</th>
+      <td><p>assignment expressions.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>list of data frames, each of which as the new destinationColumn.</p>
+    <p>array of quoted assignment expressions.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>dlist</span> <span class='kw'>&lt;-</span> <span class='fu'>list</span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fu'>data.frame</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>), <span class='kw'>b</span> <span class='kw'>=</span> <span class='fu'>data.frame</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>2</span>))
-<span class='fu'>add_name_column</span>(<span class='no'>dlist</span>, <span class='st'>'name'</span>)</div><div class='output co'>#&gt; $a
-#&gt;   x name
-#&gt; 1 1    a
+<span class='no'>exprs</span> <span class='kw'>&lt;-</span> <span class='fu'>qae</span>(<span class='no'>Sepal_Long</span> <span class='kw'>:=</span> <span class='no'>Sepal.Length</span> <span class='kw'>&gt;=</span> <span class='no'>ratio</span> * <span class='no'>Sepal.Width</span>,
+             <span class='no'>Petal_Short</span> <span class='kw'>:=</span> <span class='no'>Petal.Length</span> <span class='kw'>&lt;=</span> <span class='fl'>3.5</span>)
+<span class='fu'>print</span>(<span class='no'>exprs</span>)</div><div class='output co'>#&gt; $Sepal_Long
+#&gt; [1] "Sepal.Length &gt;= ratio * Sepal.Width"
 #&gt; 
-#&gt; $b
-#&gt;   x name
-#&gt; 1 2    b
-#&gt; </div><div class='input'>
+#&gt; $Petal_Short
+#&gt; [1] "Petal.Length &lt;= 3.5"
+#&gt; </div><div class='input'>#ratio <- 2
+#datasets::iris %.>%
+#  seplyr::mutate_se(., exprs) %.>%
+#  summary(.)
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

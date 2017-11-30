@@ -1,9 +1,10 @@
 
-# wrapr 1.0.2 2017-11-21
+# wrapr 1.0.2 2017-11-30
 
  * add "to dot" pipe.
  * harden := a bit.
  * let qc() have names.
+ * add qad().
 
 # wrapr 1.0.1 2017-11-17
 
