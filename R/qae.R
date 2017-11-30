@@ -26,7 +26,7 @@ qae <- function(...) {
   # from: https://github.com/tidyverse/rlang/issues/116
   mutateTerms <- substitute(list(...))
   if(length(setdiff(names(mutateTerms), ""))>0) {
-    stop("seplyr::exprs() all assignments must be of the form a := b, not a = b")
+    stop("wrapr::exprs() all assignments must be of the form a := b, not a = b")
   }
   # mutateTerms is a list of k+1 items, first is "list" the rest are captured expressions
   len <- length(mutateTerms) # first slot is "list"
@@ -38,7 +38,7 @@ qae <- function(...) {
   for(i in (2:len)) {
     ei <- mutateTerms[[i]]
     if((length(ei)!=3)||(as.character(ei[[1]])!=':=')) {
-      stop("seplyr::exprs() terms must be of the form: sym := expr")
+      stop("wrapr::exprs() terms must be of the form: sym := expr")
     }
     lhs[[i-1]] <- as.character(ei[[2]])
     rhs[[i-1]] <- as.character(deparse(ei[[3]]))
