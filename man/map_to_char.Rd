@@ -4,10 +4,12 @@
 \alias{map_to_char}
 \title{format a map.}
 \usage{
-map_to_char(mp)
+map_to_char(mp, sep = "\\n  ")
 }
 \arguments{
 \item{mp}{named vector or list}
+
+\item{sep}{separator}
 }
 \value{
 character formatted representation
