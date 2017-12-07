@@ -155,14 +155,14 @@ Please see: <code><a href='https://cran.rstudio.com/web/packages/wrapr/vignettes
 <span class='co'># capture error on incorrect run</span>
 <span class='fu'>tryCatch</span>(
    <span class='fu'>DebugFn</span>(<span class='no'>saveDest</span>, <span class='no'>f</span>, <span class='fl'>12</span>),
-   <span class='kw'>error</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>e</span>) { <span class='fu'>print</span>(<span class='no'>e</span>) })</div><div class='output co'>#&gt; &lt;simpleError in value[[3L]](cond): wrapr::DebugFn: wrote '/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//RtmplFzrzl/debug14c0d2164763d.RDS' on catching 'Error in (1:10)[[i]]: subscript out of bounds'
+   <span class='kw'>error</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>e</span>) { <span class='fu'>print</span>(<span class='no'>e</span>) })</div><div class='output co'>#&gt; &lt;simpleError in value[[3L]](cond): wrapr::DebugFn: wrote '/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//Rtmp3SoyFv/debugcad733d4485a.RDS' on catching 'Error in (1:10)[[i]]: subscript out of bounds'
 #&gt;  You can reproduce the error with:
-#&gt; 'p &lt;- readRDS('/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//RtmplFzrzl/debug14c0d2164763d.RDS'); do.call(p$fn, p$args)'&gt;</div><div class='input'><span class='co'># examine details</span>
+#&gt; 'p &lt;- readRDS('/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//Rtmp3SoyFv/debugcad733d4485a.RDS'); do.call(p$fn, p$args)'&gt;</div><div class='input'><span class='co'># examine details</span>
 <span class='no'>situation</span> <span class='kw'>&lt;-</span> <span class='fu'>readRDS</span>(<span class='no'>saveDest</span>)
 <span class='fu'>str</span>(<span class='no'>situation</span>)</div><div class='output co'>#&gt; List of 3
 #&gt;  $ fn     :function (i)  
 #&gt;   ..- attr(*, "srcref")=Class 'srcref'  atomic [1:8] 3 6 3 32 6 32 3 3
-#&gt;   .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x10b3cfad8&gt; 
+#&gt;   .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x10d46f638&gt; 
 #&gt;  $ args   :List of 1
 #&gt;   ..$ : num 12
 #&gt;  $ fn_name: chr "f"</div><div class='input'><span class='co'># fix and re-run</span>
