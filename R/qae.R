@@ -17,8 +17,6 @@
 #' @export
 #'
 qe <- function(...) {
-  # convert char vector into spliceable vector
-  # from: https://github.com/tidyverse/rlang/issues/116
   mutateTerms <- substitute(list(...))
   if(length(setdiff(names(mutateTerms), ""))>0) {
     stop("wrapr::qe() unexpected names/arguments")
