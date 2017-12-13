@@ -1,5 +1,5 @@
 
-# wrapr 1.0.2 2017-12-08
+# wrapr 1.0.2 2017-12-13
 
  * add "to dot" pipe.
  * harden := a bit.

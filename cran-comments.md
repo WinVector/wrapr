@@ -26,7 +26,7 @@ Checked all downstream dependnecies.
 devtools::revdep_check()
 
     Checking 4 packages: cdata, replyr, seplyr, WVPlots
-     Checked cdata  : 0 errors | 0 warnings | 0 notes
-     Checked replyr : 0 errors | 0 warnings | 0 notes
-     Checked seplyr : 0 errors | 0 warnings | 0 notes
-     Checked WVPlots: 0 errors | 0 warnings | 0 notes
+    Checked cdata  : 0 errors | 0 warnings | 0 notes
+    Checked replyr : 0 errors | 0 warnings | 0 notes
+    Checked seplyr : 0 errors | 0 warnings | 0 notes
+    Checked WVPlots: 0 errors | 0 warnings | 0 notes
