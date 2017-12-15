@@ -24,3 +24,6 @@ d <- data.frame(a = 1, b = 2)
 let(mapsyms(x, y), d$x + d$y)
 
 }
+\seealso{
+\code{\link{let}}
+}

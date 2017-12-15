@@ -5,6 +5,8 @@
 #' @param ... items to place into an array
 #' @return quoted array of character items
 #'
+#' @seealso \code{\link{qe}}, \code{\link{qae}}
+#'
 #' @examples
 #'
 #' qc(a, qc(b, c))

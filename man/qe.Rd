@@ -24,3 +24,6 @@ exprs <- qe(Sepal.Length >= ratio * Sepal.Width,
 print(exprs)
 
 }
+\seealso{
+\code{\link{qc}}, \code{\link{qae}}
+}

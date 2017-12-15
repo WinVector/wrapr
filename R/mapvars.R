@@ -4,6 +4,8 @@
 #' @param ... symbol names mapping to string scalars
 #' @return map from original symbol names to new names (names found in the current environment)
 #'
+#' @seealso \code{\link{let}}
+#'
 #' @examples
 #'
 #' x <- 'a'

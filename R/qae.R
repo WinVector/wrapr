@@ -8,6 +8,8 @@
 #' @param ... assignment expressions.
 #' @return array of quoted assignment expressions.
 #'
+#' @seealso \code{\link{qc}}, \code{\link{qae}}
+#'
 #' @examples
 #'
 #' exprs <- qe(Sepal.Length >= ratio * Sepal.Width,
@@ -44,6 +46,8 @@ qe <- function(...) {
 #'
 #' @param ... assignment expressions.
 #' @return array of quoted assignment expressions.
+#'
+#' @seealso \code{\link{qc}}, \code{\link{qe}}
 #'
 #' @examples
 #'

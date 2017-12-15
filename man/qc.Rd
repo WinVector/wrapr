@@ -22,3 +22,6 @@ qc(x=a, qc(y=b, z=c))
 qc('x'='a', qc('y'='b', 'z'='c'))
 
 }
+\seealso{
+\code{\link{qe}}, \code{\link{qae}}
+}

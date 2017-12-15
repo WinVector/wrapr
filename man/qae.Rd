@@ -29,3 +29,6 @@ print(exprs)
 #  summary(.)
 
 }
+\seealso{
+\code{\link{qc}}, \code{\link{qe}}
+}

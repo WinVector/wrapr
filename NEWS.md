@@ -1,4 +1,8 @@
 
+# wrapr 1.0.3 2017-12-13
+
+ * minor doc improvements.
+
 # wrapr 1.0.2 2017-12-13
 
  * add "to dot" pipe.
