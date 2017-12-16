@@ -7,7 +7,7 @@ How to make a UTF arrow operator using [`wrapr`](https://winvector.github.io/wra
 
 ``` r
 library("addinexamplesWV")
-op <- paste0('%', intToUtf8(8226), intToUtf8(9654), '%')
+op <- paste0('%', intToUtf8(8226), intToUtf8(10132), '%')
 assign(op, wrapr::`%.>%`)
 options("addinexamplesWV.usrFn1" =
           function() {
@@ -15,7 +15,7 @@ options("addinexamplesWV.usrFn1" =
           })
 
 
-7 %•▶% sqrt(.)
+7 %•➔% sqrt(.)
 ```
 
     ## [1] 2.645751
