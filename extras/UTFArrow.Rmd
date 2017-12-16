@@ -19,3 +19,5 @@ options("addinexamplesWV.usrFn1" =
 
 7 %•➔% sqrt(.)
 ```
+
+Note: UTF8 is not recommended in R source code.

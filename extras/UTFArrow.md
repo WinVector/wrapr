@@ -19,3 +19,5 @@ options("addinexamplesWV.usrFn1" =
 ```
 
     ## [1] 2.645751
+
+Note: UTF8 is not recommended in R source code.
