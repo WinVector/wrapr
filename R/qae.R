@@ -31,7 +31,7 @@ qe <- function(...) {
   rhs <- vector(len-1, mode='list')
   for(i in (2:len)) {
     ei <- mutateTerms[[i]]
-    rhs[[i-1]] <- as.character(deparse(ei))
+    rhs[[i-1]] <- paste(as.character(deparse(ei)), collapse = " ")
   }
   rhs
 }
@@ -81,7 +81,7 @@ qae <- function(...) {
       stop("wrapr::qae() terms must be of the form: sym := expr")
     }
     lhs[[i-1]] <- as.character(ei[[2]])
-    rhs[[i-1]] <- as.character(deparse(ei[[3]]))
+    rhs[[i-1]] <- paste(as.character(deparse(ei[[3]])), collapse = " ")
   }
   lhs := rhs
 }
