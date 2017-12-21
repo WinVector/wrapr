@@ -2,7 +2,7 @@
 % Please edit documentation in R/atblock.R
 \name{ateval}
 \alias{ateval}
-\title{Evaluate an expression with \code{@name} substitution.}
+\title{Evaluate an expression with \code{@name} substitution (deprecated).}
 \usage{
 ateval(.)
 }
@@ -23,25 +23,6 @@ please prefer using \code{\link{let}} where applicable.
 Notation idea: Jonathan Carroll \url{https://jcarroll.com.au} \url{https://twitter.com/carroll_jono/status/842142292253196290}
 Similar to: \url{https://dev.mysql.com/doc/refman/5.7/en/user-variables.html}.
 }
-\examples{
-
-
-c1 <- 1:5
-c2 <- 3:7
-col1 <- 'c1'
-col2 <- 'c2'
-new_col_name <- 'res'
-ateval(
-  '@new_col_name <- @col1 + @col2'
-)
-print(res)
-
-# larger example
-c3 <- 4:8
-terms <- paste(c('c1', 'c2', 'c3'), collapse = ' + ')
-print(ateval('@terms'))
-
-}
 \seealso{
-\code{\link{let}}, \code{\link{beval}},  \code{\link{seval}}
+\code{\link{let}}
 }

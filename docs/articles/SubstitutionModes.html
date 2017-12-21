@@ -102,8 +102,8 @@
 <p><code><a href="http://www.rdocumentation.org/packages/wrapr/topics/let">wrapr::let()</a></code> now has three substitution implementations:</p>
 <ul>
 <li>Language substitution (<code>subsMethod='langsubs'</code> the new default). In this mode user code is captured as an abstract syntax tree (or parse tree) and substitution is performed only on nodes known to be symbols or behaving in a symbol-role (<code>"X"</code> in <code>d$"X"</code> is one such example).</li>
-<li>String substitution (<code>subsMethod='stringsubs'</code>, the previous default). In this mode user code is captured as text and then string replacement on word-boundaries is used to substitute in variable re-mappings.</li>
 <li>Substitute substitution (<code>subsMethod='subsubs'</code>). In this mode substitution is performed by <code>R</code>’s own <code><a href="http://www.rdocumentation.org/packages/base/topics/substitute">base::substitute()</a></code>.</li>
+<li>String substitution (<code>subsMethod='stringsubs'</code>, the previous default now deprecated). In this mode user code is captured as text and then string replacement on word-boundaries is used to substitute in variable re-mappings.</li>
 </ul>
 <p>The semantics of the three methods can be illustrated by showing the effects of substituting the variable name “<code>y</code>” for “<code>X</code>” and the function “<code>sin</code>” for “<code>F</code>” in the somewhat complicated block of statements:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  {

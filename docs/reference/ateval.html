@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Evaluate an expression with <code>@name</code> substitution. — ateval • wrapr</title>
+<title>Evaluate an expression with <code>@name</code> substitution (deprecated). — ateval • wrapr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -110,7 +110,7 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Evaluate an expression with <code>@name</code> substitution.</h1>
+    <h1>Evaluate an expression with <code>@name</code> substitution (deprecated).</h1>
     </div>
 
     
@@ -141,26 +141,9 @@ Similar to: <a href='https://dev.mysql.com/doc/refman/5.7/en/user-variables.html
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><code><a href='let.html'>let</a></code>, <code><a href='beval.html'>beval</a></code>,  <code><a href='seval.html'>seval</a></code></p>
+    <p><code><a href='let.html'>let</a></code></p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-
-<span class='no'>c1</span> <span class='kw'>&lt;-</span> <span class='fl'>1</span>:<span class='fl'>5</span>
-<span class='no'>c2</span> <span class='kw'>&lt;-</span> <span class='fl'>3</span>:<span class='fl'>7</span>
-<span class='no'>col1</span> <span class='kw'>&lt;-</span> <span class='st'>'c1'</span>
-<span class='no'>col2</span> <span class='kw'>&lt;-</span> <span class='st'>'c2'</span>
-<span class='no'>new_col_name</span> <span class='kw'>&lt;-</span> <span class='st'>'res'</span>
-<span class='fu'>ateval</span>(
-  <span class='st'>'@new_col_name &lt;- @col1 + @col2'</span>
-)
-<span class='fu'>print</span>(<span class='no'>res</span>)</div><div class='output co'>#&gt; [1]  4  6  8 10 12</div><div class='input'>
-<span class='co'># larger example</span>
-<span class='no'>c3</span> <span class='kw'>&lt;-</span> <span class='fl'>4</span>:<span class='fl'>8</span>
-<span class='no'>terms</span> <span class='kw'>&lt;-</span> <span class='fu'>paste</span>(<span class='fu'>c</span>(<span class='st'>'c1'</span>, <span class='st'>'c2'</span>, <span class='st'>'c3'</span>), <span class='kw'>collapse</span> <span class='kw'>=</span> <span class='st'>' + '</span>)
-<span class='fu'>print</span>(<span class='fu'>ateval</span>(<span class='st'>'@terms'</span>))</div><div class='output co'>#&gt; [1]  8 11 14 17 20</div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -170,9 +153,7 @@ Similar to: <a href='https://dev.mysql.com/doc/refman/5.7/en/user-variables.html
       <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
 
   </div>
 </div>

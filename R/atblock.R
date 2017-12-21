@@ -1,5 +1,5 @@
 
-#' Evaluate an expression with \code{@name} substitution.
+#' Evaluate an expression with \code{@name} substitution (deprecated).
 #'
 #'
 #' The expression represented by the text of the \code{.}-argument is evaluated in
@@ -15,31 +15,14 @@
 #' Notation idea: Jonathan Carroll \url{https://jcarroll.com.au} \url{https://twitter.com/carroll_jono/status/842142292253196290}
 #' Similar to: \url{https://dev.mysql.com/doc/refman/5.7/en/user-variables.html}.
 #'
-#' @seealso \code{\link{let}}, \code{\link{beval}},  \code{\link{seval}}
+#' @seealso \code{\link{let}}
 #'
 #' @param . character text of expression or block to evaluate
-#'
-#' @examples
-#'
-#'
-#' c1 <- 1:5
-#' c2 <- 3:7
-#' col1 <- 'c1'
-#' col2 <- 'c2'
-#' new_col_name <- 'res'
-#' ateval(
-#'   '@new_col_name <- @col1 + @col2'
-#' )
-#' print(res)
-#'
-#' # larger example
-#' c3 <- 4:8
-#' terms <- paste(c('c1', 'c2', 'c3'), collapse = ' + ')
-#' print(ateval('@terms'))
 #'
 #' @export
 #'
 ateval <- function(.) {
+  .Deprecated(new = "let", old = "ateval")
   exprtext <- paste0(' ', ., ' ')
   # find @symbols
   pattern <- '[^\\w._]@[[:alpha:]._][\\w._]*\\b'
@@ -71,46 +54,19 @@ ateval <- function(.) {
        enclos=pf)
 }
 
-#' Evaluate an expression with \code{(!!name)} and \code{:=} to \code{=} substitution.
-#'
-#'
-#' The expression represented by the text of the \code{.}-argument is evaluated in
-#' the current environment will all "\code{(!!name)}" forms replaced by the value of name.
-#' Note: this substitution can only be performed on the right hand side of assignments.
-#' This allows variables to carry the names of other variables into what would
-#' be a non-standard evaluation situation.  This adaption allows some parametric
-#' or standard-evaluation effects in such circumstances.
-#'
-#' Note: this method uses string substitution and is willing to substitute in arbitrary content,
-#' please prefer using \code{\link{let}} where applicable.
+#' Evaluate an expression with \code{(!!name)} and \code{:=} to \code{=} substitution (deprecated).
 #'
 #' Notation idea: \url{https://github.com/hadley/dplyr/commit/8f03f835185370626a566e95d268623b20189e07}.
-#' Note: "\code{!!}" is not a no-op, but is a sufficiently uncommon expression I thought we could use it.
+#' Note: "\code{!!}" is not a no-op, but is a sufficiently uncommon expression one can use it.
 #'
-#' @seealso \code{\link{let}}, \code{\link{ateval}}, \code{\link{seval}}
+#' @seealso \code{\link{let}}
 #'
 #' @param ... expression or block to evaluate
-#'
-#' @examples
-#'
-#'
-#' c1 <- 1:5
-#' c2 <- 3:7
-#' col1 <- 'c1'
-#' col2 <- 'c2'
-#' beval(
-#'   res <- (!!col1) + (!!col2)
-#' )
-#' print(res)
-#'
-#' # larger example
-#' c3 <- 4:8
-#' terms <- paste(c('c1', 'c2', 'c3'), collapse = ' + ')
-#' print(beval((!!terms)))
 #'
 #' @export
 #'
 beval <- function(...) {
+  .Deprecated(new = "let", old = "beval")
   exprtext0 <- deparse(substitute(alist(...)))
   exprtext <- gsub("^alist\\(","", exprtext0)
   exprtext <- gsub("\\)$","", exprtext)
@@ -155,12 +111,12 @@ beval <- function(...) {
 }
 
 
-#' Execute expr with general substitutions specified in alias.
+#' Execute expr with general substitutions specified in alias (deprecated).
 #'
 #' Note: this method uses string substitution and is willing to substitute in arbitrary content,
 #' please prefer using \code{\link{let}} where applicable.
 #'
-#' @seealso \code{\link{let}}, \code{\link{ateval}}, \code{\link{beval}}
+#' @seealso \code{\link{let}}
 #'
 #'
 #' @param alias mapping from free names in expr to target names to use.
@@ -170,16 +126,12 @@ beval <- function(...) {
 #' @param debugPrint logical if TRUE print debugging information when in stringsubs mode.
 #' @return result of expr executed in calling environment (or expression if eval==FALSE)
 #'
-#' @examples
-#'
-#' seval(c(COLS= "c('Sepal.Width', 'Petal.Length')"),
-#'       head(iris[, COLS, drop=FALSE]) )
-#'
 #' @export
 seval <- function(alias, expr,
                   ...,
                   eval= TRUE,
                   debugPrint= FALSE) {
+  .Deprecated(new = "let", old = "seval")
   exprQ <- deparse(substitute(expr))  # do this early before things enter local environment
   if(length(list(...))>0) {
     stop("wrapr::seval unexpected arguments")
