@@ -7,15 +7,19 @@
  * using platform: x86_64-w64-mingw32 (64-bit)
  
  * OSX 
- * using R version 3.4.2 (2017-09-28)
+ * using R version 3.4.3 (2017-11-30)
  * using platform: x86_64-apple-darwin15.6.0 (64-bit)
 
-## R CMD check --as-cran wrapr_1.0.2.tar.gz 
+## R CMD check --as-cran wrapr_1.0.3.tar.gz 
 
- * this is package ‘wrapr’ version ‘1.0.2’
+ * this is package ‘wrapr’ version ‘1.0.3’
 
  * checking CRAN incoming feasibility ... Note_to_CRAN_maintainers
   Maintainer: ‘John Mount <jmount@win-vector.com>’
+  
+  Number of updates in past 6 months: 7
+
+  (no other notes, errors, or warnings)
 
 Status: OK
 
