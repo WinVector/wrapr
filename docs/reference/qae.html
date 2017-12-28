@@ -143,8 +143,8 @@ Terms are expressions of the form "lhs := rhs".</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='no'>exprs</span> <span class='kw'>&lt;-</span> <span class='fu'>qae</span>(<span class='no'>Sepal_Long</span> <span class='kw'>:=</span> <span class='no'>Sepal.Length</span> <span class='kw'>&gt;=</span> <span class='no'>ratio</span> * <span class='no'>Sepal.Width</span>,
-             <span class='no'>Petal_Short</span> <span class='kw'>:=</span> <span class='no'>Petal.Length</span> <span class='kw'>&lt;=</span> <span class='fl'>3.5</span>)</div><div class='output co'>#&gt; [1] "Sepal.Length &gt;= ratio * Sepal.Width"
-#&gt; [1] "Petal.Length &lt;= 3.5"</div><div class='input'><span class='fu'>print</span>(<span class='no'>exprs</span>)</div><div class='output co'>#&gt; $Sepal_Long
+             <span class='no'>Petal_Short</span> <span class='kw'>:=</span> <span class='no'>Petal.Length</span> <span class='kw'>&lt;=</span> <span class='fl'>3.5</span>)
+<span class='fu'>print</span>(<span class='no'>exprs</span>)</div><div class='output co'>#&gt; $Sepal_Long
 #&gt; [1] "Sepal.Length &gt;= ratio * Sepal.Width"
 #&gt; 
 #&gt; $Petal_Short

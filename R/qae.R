@@ -82,7 +82,6 @@ qae <- function(...) {
     }
     lhs[[i-1]] <- as.character(ei[[2]])
     rhs[[i-1]] <- paste(as.character(deparse(ei[[3]])), collapse = "\n")
-    print(rhs[[i-1]])
   }
   lhs := rhs
 }
