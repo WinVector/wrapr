@@ -86,3 +86,18 @@ qae <- function(...) {
   lhs := rhs
 }
 
+
+#' Quote a string.
+#'
+#' @param s expression to be quoted as a string.
+#' @return character
+#'
+#' @examples
+#'
+#' qs(a == "x")
+#'
+#' @export
+#'
+qs <- function(s) {
+  as.character(paste(deparse(substitute(s)), collapse = '\n'))
+}
