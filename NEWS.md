@@ -1,9 +1,10 @@
 
-# wrapr 1.0.3 2017-12-22
+# wrapr 1.1.0 2017-12-30
 
  * minor doc improvements.
  * fix deparse in qae() and qe().
  * Deprecate ateval(), seval(), beval(), and "stringsubs".
+ * add qs().
 
 # wrapr 1.0.2 2017-12-13
 
