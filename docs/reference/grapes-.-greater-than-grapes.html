@@ -114,10 +114,8 @@
     </div>
 
     
-    <p>Defined as: <code>a %.&gt;% b</code> roughly ~ <code>{ . &lt;- a; b };</code>
-(with visible .-side effects).
-Please see <a href='http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/'>http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/</a>.
-<code>%&gt;.%</code> and <code>%.&gt;%</code> are synonyms.</p>
+    <p>Defined as roughly : <code>a %&gt;.% b</code> roughly ~ <code>{ . &lt;- a; b };</code>
+(with visible .-side effects).</p>
     
 
     <pre class="usage"><span class='no'>pipe_left_arg</span> <span class='kw'>%.&gt;%</span> <span class='no'>pipe_right_arg</span></pre>
@@ -139,6 +137,13 @@ Please see <a href='http://www.win-vector.com/blog/2017/07/in-praise-of-syntacti
 
     <p>eval({ . &lt;- pipe_left_arg; pipe_right_arg };)</p>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The pipe operator has a couple of special cases. First: if the right hand side is a name,
+then we try to de-reference it.  Second: if the right-hand side includes the class decleration
+"wrapr_applicable" and has a field named "wrapr_applicable" that is a function, then
+we apply this function to the first and second arguments of the pipe.</p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -152,6 +157,8 @@ Please see <a href='http://www.win-vector.com/blog/2017/07/in-praise-of-syntacti
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

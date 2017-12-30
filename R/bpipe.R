@@ -11,17 +11,40 @@ pipe_impl <- function(pipe_left_arg, pipe_right_arg, pipe_environment) {
   assign(".", pipe_left_arg,
          envir= pipe_environment,
          inherits= FALSE)
+  # special case: dereference names
+  if(is.name(pipe_right_arg)) {
+    v <- base::mget(as.character(pipe_right_arg),
+                    envir = pipe_environment,
+                    ifnotfound = list(NULL),
+                    inherits = TRUE)[[1]]
+    if(!is.null(v)) {
+      pipe_right_arg <- v
+    }
+  }
+  # special case: look for wrapr_applicable objects
+  if((!is.atomic(pipe_right_arg)) &&
+     ("wrapr_applicable" %in% class(pipe_right_arg))) {
+    f <- pipe_right_arg$wrapr_function
+    if((!is.null(f)) && (is.function(f))) {
+      return(do.call(f,
+                     list(pipe_left_arg, pipe_right_arg),
+                     envir = pipe_environment))
+    }
+  }
   eval(pipe_right_arg,
-       envir=pipe_environment,
-       enclos=pipe_environment)
+       envir = pipe_environment,
+       enclos = pipe_environment)
 }
 
 #' Pipe operator ("dot arrow").
 #'
-#' Defined as: \code{a \%.>\% b} roughly ~ \code{\{ . <- a; b \};}
+#' Defined as roughly : \code{a \%>.\% b} roughly ~ \code{\{ . <- a; b \};}
 #' (with visible .-side effects).
-#' Please see \url{http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/}.
-#' \code{\%>.\%} and \code{\%.>\%} are synonyms.
+#'
+#' The pipe operator has a couple of special cases. First: if the right hand side is a name,
+#' then we try to de-reference it.  Second: if the right-hand side includes the class decleration
+#' "wrapr_applicable" and has a field named "wrapr_applicable" that is a function, then
+#' we apply this function to the first and second arguments of the pipe.
 #'
 #' @param pipe_left_arg left argument expression (substituted into .)
 #' @param pipe_right_arg right argument expession (presumably including .)
@@ -43,9 +66,15 @@ pipe_impl <- function(pipe_left_arg, pipe_right_arg, pipe_environment) {
 
 #' Pipe operator ("to dot").
 #'
-#' Defined as: \code{a \%>.\% b} roughly ~ \code{\{ . <- a; b \};}
+#' Defined as roughly : \code{a \%>.\% b} roughly ~ \code{\{ . <- a; b \};}
 #' (with visible .-side effects).
-#' Please see \url{http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/}.
+#'
+#' The pipe operator has a couple of special cases. First: if the right hand side is a name,
+#' then we try to de-reference it.  Second: if the right-hand side includes the class decleration
+#' "wrapr_applicable" and has a field named "wrapr_applicable" that is a function, then
+#' we apply this function to the first and second arguments of the pipe.
+#'
+#' For some discussion, please see \url{http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/}.
 #' \code{\%>.\%} and \code{\%.>\%} are synonyms.
 #'
 #' @param pipe_left_arg left argument expression (substituted into .)
