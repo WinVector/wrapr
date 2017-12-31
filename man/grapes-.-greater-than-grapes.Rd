@@ -15,7 +15,7 @@ pipe_left_arg \%.>\% pipe_right_arg
 eval(\{ . <- pipe_left_arg; pipe_right_arg \};)
 }
 \description{
-Defined as roughly : \code{a \%>.\% b} roughly ~ \code{\{ . <- a; b \};}
+Defined as roughly : \code{a \%>.\% b} ~ \code{\{ . <- a; b \};}
 (with visible .-side effects).
 }
 \details{

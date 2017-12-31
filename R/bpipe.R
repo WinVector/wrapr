@@ -21,6 +21,12 @@ pipe_impl <- function(pipe_left_arg, pipe_right_arg, pipe_environment) {
       pipe_right_arg <- v
     }
   }
+  # special case: functions
+  if(is.function(pipe_right_arg)) {
+    return(do.call(pipe_right_arg,
+                   list(pipe_left_arg),
+                   envir = pipe_environment))
+  }
   # special case: look for wrapr_applicable objects
   if((!is.atomic(pipe_right_arg)) &&
      ("wrapr_applicable" %in% class(pipe_right_arg))) {
@@ -40,7 +46,7 @@ pipe_impl <- function(pipe_left_arg, pipe_right_arg, pipe_environment) {
 
 #' Pipe operator ("dot arrow").
 #'
-#' Defined as roughly : \code{a \%>.\% b} roughly ~ \code{\{ . <- a; b \};}
+#' Defined as roughly : \code{a \%>.\% b} ~ \code{\{ . <- a; b \};}
 #' (with visible .-side effects).
 #'
 #' The pipe operator has a couple of special cases. First: if the right hand side is a name,
@@ -68,7 +74,7 @@ pipe_impl <- function(pipe_left_arg, pipe_right_arg, pipe_environment) {
 
 #' Pipe operator ("to dot").
 #'
-#' Defined as roughly : \code{a \%>.\% b} roughly ~ \code{\{ . <- a; b \};}
+#' Defined as roughly : \code{a \%>.\% b} ~ \code{\{ . <- a; b \};}
 #' (with visible .-side effects).
 #'
 #' The pipe operator has a couple of special cases. First: if the right hand side is a name,

@@ -1,0 +1,85 @@
+---
+title: "wrapr_applicable"
+author: "John Mount, Win-Vector LLC"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{wrapr_applicable}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+`wrapr` `1.1.0` includes de-referencing, function evaluation, and a new concept called `"wrapr_applicable"`.
+
+## Basic `wrapr`
+
+The `wrapr` pipe operators (`%.>%` and `%>.%`) are roughly defined as: `a %>.% b ~ { . <- a; b \};`.  This works under the assumption that `b` is an expression with free-instances of "`.`".  A typical use is:
+
+```{r use1}
+library("wrapr")
+
+5 %.>% sin(.)
+```
+
+## Dereferencing and function evaluation
+
+`wrapr` works primarily over expressions and "`.`".  As of version `1.1.0` `wrapr` does try to de-reference names found in the right-hand side of pipe stages, and also dispatches functions.  That is: one can now write the following.
+
+```{r nofn}
+5 %.>% sin
+```
+
+## `"wrapr_applicable"`
+
+Arbitrary objects ask `wrapr` to treat them as special expressions by:
+
+  1. Adding the string `"wrapr_applicable"` to their class declarations.
+  2. Populating an list entry named `"wrapr_function"` with a function of signature `(pipe_left_arg, pipe_right_arg, pipe_environment)`.
+  
+If these two conditions are met then `wrapr` instead of evaluating the object calls the function `wrapr_function`.
+
+For example:
+
+```{r sinfn}
+function_reference <- list(f = sin)
+class(function_reference) <- "wrapr_applicable"
+function_reference$wrapr_function <- function(pipe_left_arg, 
+                                              pipe_right_arg, 
+                                              pipe_environment) {
+  pipe_right_arg$f(pipe_left_arg)
+}
+
+function_reference
+
+5 %.>% function_reference
+
+function_reference$f <- sqrt
+5 %.>% function_reference
+```
+
+The signature arguments work as follows:
+
+  * `pipe_left_arg`: The value moving down the pipeline.
+  * `pipe_right_arg`: The right pipeline operator (essentially "`self`" or "`this`" in object oriented terms).
+  * `pipe_environment`: The environment the pipeline is working in (not usually needed).
+
+This functionality allows arbitrary objects to directly specify their intended pipeline behavior.
+
+## Application
+
+[`rquery`](https://github.com/WinVector/rquery) is a first application of this new `"wrapr_applicable"` feature.  This [allows `rquery` pipelines to be applied to directly to `data.frame`s](https://winvector.github.io/rquery/reference/rquery_apply_to_data_frame.html) (even though `rquery` is primarily intended for databases).
+
+
+## Conclusion
+
+`wrapr` values (left-hand sides of pipe expressions) are completely general.
+`wrapr` operators (right-hand sides of pipe expressions) are primarily intended to be expressions that have "`.`" as a free-reference.  `wrapr` can also be used with right-hand sides that are function references or with arbitrary annotated objects.
+
+
