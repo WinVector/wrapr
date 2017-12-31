@@ -27,7 +27,9 @@ pipe_impl <- function(pipe_left_arg, pipe_right_arg, pipe_environment) {
     f <- pipe_right_arg$wrapr_function
     if((!is.null(f)) && (is.function(f))) {
       return(do.call(f,
-                     list(pipe_left_arg, pipe_right_arg),
+                     list(pipe_left_arg = pipe_left_arg,
+                          pipe_right_arg = pipe_right_arg,
+                          pipe_environment = pipe_environment),
                      envir = pipe_environment))
     }
   }
