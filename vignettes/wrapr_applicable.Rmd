@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 
 ## Basic `wrapr`
 
-The `wrapr` pipe operators (`%.>%` and `%>.%`) are roughly defined as: `a %>.% b ~ { . <- a; b \};`.  This works under the assumption that `b` is an expression with free-instances of "`.`".  A typical use is:
+The `wrapr` pipe operators (`%.>%` and `%>.%`) are roughly defined as: `a %>.% b ~ { . <- a; b };`.  This works under the assumption that `b` is an expression with free-instances of "`.`".  A typical use is:
 
 ```{r use1}
 library("wrapr")

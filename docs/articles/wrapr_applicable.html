@@ -104,7 +104,7 @@
 <h2 class="hasAnchor">
 <a href="#basic-wrapr" class="anchor"></a>Basic <code>wrapr</code>
 </h2>
-<p>The <code>wrapr</code> pipe operators (<code>%.&gt;%</code> and <code>%&gt;.%</code>) are roughly defined as: <code>a %&gt;.% b ~ { . &lt;- a; b \};</code>. This works under the assumption that <code>b</code> is an expression with free-instances of “<code>.</code>”. A typical use is:</p>
+<p>The <code>wrapr</code> pipe operators (<code>%.&gt;%</code> and <code>%&gt;.%</code>) are roughly defined as: <code>a %&gt;.% b ~ { . &lt;- a; b };</code>. This works under the assumption that <code>b</code> is an expression with free-instances of “<code>.</code>”. A typical use is:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"wrapr"</span>)
 
 <span class="dv">5</span> <span class="op">%.&gt;%</span><span class="st"> </span><span class="kw">sin</span>(.)
