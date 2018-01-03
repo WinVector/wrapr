@@ -1,5 +1,5 @@
 
-# wrapr 1.1.0 2017-12-30
+# wrapr 1.1.0 2018-01-03
 
  * minor doc improvements.
  * fix deparse in qae() and qe().

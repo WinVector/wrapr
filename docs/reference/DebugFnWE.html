@@ -160,19 +160,19 @@ Please see: <code><a href='https://cran.rstudio.com/web/packages/wrapr/vignettes
 <span class='co'># capture error on incorrect run</span>
 <span class='fu'>tryCatch</span>(
    <span class='fu'>df</span>(<span class='fl'>12</span>),
-   <span class='kw'>error</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>e</span>) { <span class='fu'>print</span>(<span class='no'>e</span>) })</div><div class='output co'>#&gt; &lt;simpleError in value[[3L]](cond): wrapr::DebugFnWE: wrote '/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//RtmpXR8zEZ/debug5f7260f2bb66.RDS' on catching 'Error in (1:10)[[i]]: subscript out of bounds'
+   <span class='kw'>error</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>e</span>) { <span class='fu'>print</span>(<span class='no'>e</span>) })</div><div class='output co'>#&gt; &lt;simpleError in value[[3L]](cond): wrapr::DebugFnWE: wrote '/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//Rtmplbs91n/debugdf078322f2a.RDS' on catching 'Error in (1:10)[[i]]: subscript out of bounds'
 #&gt;  You can reproduce the error with:
-#&gt; 'p &lt;- readRDS('/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//RtmpXR8zEZ/debug5f7260f2bb66.RDS'); do.call(p$fn, p$args, envir= p$env)'&gt;</div><div class='input'><span class='co'># examine details</span>
+#&gt; 'p &lt;- readRDS('/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//Rtmplbs91n/debugdf078322f2a.RDS'); do.call(p$fn, p$args, envir= p$env)'&gt;</div><div class='input'><span class='co'># examine details</span>
 <span class='no'>situation</span> <span class='kw'>&lt;-</span> <span class='fu'>readRDS</span>(<span class='no'>saveDest</span>)
 <span class='fu'>str</span>(<span class='no'>situation</span>)</div><div class='output co'>#&gt; List of 5
 #&gt;  $ fn       :function (i)  
 #&gt;   ..- attr(*, "srcref")=Class 'srcref'  atomic [1:8] 3 6 3 32 6 32 3 3
-#&gt;   .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x1103cba00&gt; 
+#&gt;   .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x10e65bd08&gt; 
 #&gt;  $ args     :List of 1
 #&gt;   ..$ : num 12
 #&gt;  $ namedargs: language df(12)
 #&gt;  $ fn_name  : chr "f"
-#&gt;  $ env      :&lt;environment: 0x1103cc628&gt; </div><div class='input'><span class='co'># fix and re-run</span>
+#&gt;  $ env      :&lt;environment: 0x10e65b0e0&gt; </div><div class='input'><span class='co'># fix and re-run</span>
 <span class='no'>situation</span>$<span class='no'>args</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='kw'>&lt;-</span> <span class='fl'>6</span>
 <span class='fu'>do.call</span>(<span class='no'>situation</span>$<span class='no'>fn</span>, <span class='no'>situation</span>$<span class='no'>args</span>, <span class='kw'>envir</span><span class='kw'>=</span><span class='no'>situation</span>$<span class='no'>env</span>)</div><div class='output co'>#&gt; [1] 6</div><div class='input'><span class='co'># clean up</span>
 <span class='fu'>file.remove</span>(<span class='no'>saveDest</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
