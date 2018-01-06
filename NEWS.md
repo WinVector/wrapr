@@ -1,4 +1,8 @@
 
+# wrapr 1.1.1 2018-01-06
+
+ * Minor documentation improvements.
+ 
 # wrapr 1.1.0 2018-01-03
 
  * minor doc improvements.

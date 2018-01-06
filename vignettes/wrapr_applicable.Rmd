@@ -74,7 +74,7 @@ This functionality allows arbitrary objects to directly specify their intended p
 
 ## Application
 
-[`rquery`](https://github.com/WinVector/rquery) is a first application of this new `"wrapr_applicable"` feature.  This [allows `rquery` pipelines to be applied to directly to `data.frame`s](https://winvector.github.io/rquery/reference/rquery_apply_to_data_frame.html) (even though `rquery` is primarily intended for databases).
+[`rquery`](https://github.com/WinVector/rquery) is a first application of this new `"wrapr_applicable"` feature.  This [allows `rquery` pipelines to be applied to directly to `data.frame`s](https://winvector.github.io/rquery/reference/rquery_apply_to_data_frame.html) (even though `rquery` is primarily intended for databases).  A discussion of the methodology can be found [here](https://winvector.github.io/rquery/articles/AdHocQueries.html#stored-ad-hoc-pipeline-mode).
 
 
 ## Conclusion
