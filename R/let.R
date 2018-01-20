@@ -213,7 +213,16 @@ letprep_lang <- function(alias, lexpr) {
   # basic recurse, establish invariant n==1
   if(n>1) {
     for(i in seq_len(n)) {
-      nexpr[[i]] <- letprep_lang(alias, nexpr[[i]])
+      # empty symbol (used to denote blank arguments like d[,1]) imitates missing on self call
+      # also assigning null shortens expressions
+      blankSym <- is.null(nexpr[[i]]) ||
+        (is.symbol(nexpr[[i]]) && (nchar(as.character(nexpr[[i]]))<=0))
+      if(!blankSym) {
+        subi <- letprep_lang(alias, nexpr[[i]])
+        if(!is.null(subi)) {
+          nexpr[[i]] <- subi
+        }
+      }
     }
     return(nexpr)
   }
