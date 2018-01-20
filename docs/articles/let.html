@@ -119,21 +119,7 @@ yvar =<span class="st"> </span><span class="kw">dnorm</span>(xvar)
 d<span class="op">$</span>x</code></pre></div>
 <pre><code>## [1]  1 NA</code></pre>
 <p>Issues arise when you want to use functions that use non-standard evaluation – for brevity, I’ll call these <em>NSE expressions</em> – but you don’t know the name of the variable, as might happen when you are calling these expression from within another function. Generally in these situations, you are taking the name of the desired variable from a string. But how do you pass it to the NSE expression?</p>
-<pre>
-# this fails if you forget to set character.only=TRUE
-libname = "ggplot2"
-tryCatch(
-  library(libname),
-  error = function(e) { print(e) })
-
-# this fails referential transparency
-xvariable = "xvar"
-yvariable = "yvar"
-tryCatch(
-  plot(xvariable, yvariable),
-  error = function(e) { print(e) })
-</pre>
-<p>Clearly, these examples are trivial, and one can find a workaround. There are other situations that are much more complex, for example trying to write parameterized <code>dplyr</code> transformations. See <a href="http://www.win-vector.com/blog/2016/12/using-replyrlet-to-parameterize-dplyr-expressions/">this blog post</a> for an example of using <code>let</code> to parameterize <code>dplyr</code> expressions, and <a href="http://www.win-vector.com/blog/2016/12/comparative-examples-using-replyrlet/">this post</a> for a discussion of alternative solutions (as of this writing and version 0.5.0 of <code>dplyr</code>).</p>
+<p>You need mapping power when, for example, trying to write parameterized <code>dplyr</code> transformations (or wrap <code>dplyr</code> pipelines in functions). See <a href="http://www.win-vector.com/blog/2016/12/using-replyrlet-to-parameterize-dplyr-expressions/">this blog post</a> for an example of using <code>let</code> to parameterize <code>dplyr</code> expressions, and <a href="http://www.win-vector.com/blog/2016/12/comparative-examples-using-replyrlet/">this post</a> for a discussion of alternative solutions (as of this writing and version 0.5.0 of <code>dplyr</code>).</p>
 <p>For this discussion, we will demonstrate <code>let</code> to standardize calling <code>plot</code> with unknown variables. <code>let</code> takes two arguments:</p>
 <ul>
 <li>A list of assignments <em>symname=varname</em>, where <em>symname</em> is the name used in the NSE expression, and <em>varname</em> is the name (as a string) of the desired variable.</li>
@@ -155,7 +141,7 @@ yvariable =<span class="st"> "yvar"</span>
 <div id="implementation-details" class="section level2">
 <h2 class="hasAnchor">
 <a href="#implementation-details" class="anchor"></a>Implementation details</h2>
-<p>Roughly <code><a href="http://www.rdocumentation.org/packages/wrapr/topics/let">wrapr::let(A, B)</a></code> behaves like a syntatic sugar for <code>eval(substitute(B, A))</code>.</p>
+<p>Roughly <code><a href="http://www.rdocumentation.org/packages/wrapr/topics/let">wrapr::let(A, B)</a></code> behaves like a syntactic sugar for <code>eval(substitute(B, A))</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">a &lt;-<span class="st"> </span><span class="dv">1</span>
 b &lt;-<span class="st"> </span><span class="dv">2</span>
 <span class="kw"><a href="../reference/let.html">let</a></span>(<span class="kw">c</span>(<span class="dt">z=</span><span class="kw">quote</span>(a)), z<span class="op">+</span>b)</code></pre></div>

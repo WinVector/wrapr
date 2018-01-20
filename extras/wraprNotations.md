@@ -11,8 +11,19 @@ The named name builder adds names to vectors and lists by nice "names on the lef
 For example to assign the names "`a`" and "`b`" to the vector `c(1, 2)` we would write the following code.
 
 ``` r
+library("data.table")
+suppressPackageStartupMessages(library("dplyr"))
 library("wrapr")
+```
 
+    ## 
+    ## Attaching package: 'wrapr'
+
+    ## The following object is masked from 'package:data.table':
+    ## 
+    ##     :=
+
+``` r
 c("a" := 1, "b" := 2)
 ```
 
@@ -56,8 +67,6 @@ let("VARNAME" := "x",
 `let()` is useful in writing re-usable (or parametric) functions (often a challenge in `R`).
 
 ``` r
-suppressPackageStartupMessages(library("dplyr"))
-
 d <- data.frame(x = c(1, 2))
 
 incrementColumn <- function(data, COLUMNNAME) {
@@ -177,41 +186,25 @@ d %>%
 |        1| withdrawal behavior |    0.6706221|
 |        2| positive re-framing |    0.5589742|
 
-`data.table` function example (notice we do have to build some string constants to for `wrapr` to keep out of its own way during substitution in the presence of mixed standard and non-standard notation; this is a `wrapr` limitation, not at `data.table` issue).
-
-``` r
-library("data.table")
-```
-
-    ## 
-    ## Attaching package: 'data.table'
-
-    ## The following objects are masked from 'package:dplyr':
-    ## 
-    ##     between, first, last
-
-    ## The following object is masked from 'package:wrapr':
-    ## 
-    ##     :=
+Hers is a `data.table` function example.
 
 ``` r
 logistic_score <- function(data, scale, 
                            subjectID = "subjectID",
                            surveyCategory = "surveyCategory",
                            assessmentTotal = "assessmentTotal") {
-  sc <- surveyCategory
-  at <- assessmentTotal
-  let(mapsyms(subjectID, surveyCategory, assessmentTotal),
+  let(qc(SUBJECTID, SURVEYCATEGORY, ASSESSMENTTOTAL) :=
+        c(subjectID, surveyCategory, assessmentTotal),
       { 
         dDT <- data.table::data.table(data)
-        setnames(dDT, sc, "diagnosis")
-        dDT[,expaTs:=exp(assessmentTotal*scale)]
+        setnames(dDT, surveyCategory, "diagnosis")
+        dDT[,expaTs:=exp(ASSESSMENTTOTAL*scale)]
         # precalculate -> this uses gsum internally
-        dDT[,sum_expaTs:=sum(expaTs),subjectID] 
+        dDT[,sum_expaTs:=sum(expaTs),SUBJECTID] 
         dDT[,probability := expaTs / sum_expaTs]
-        dDT[,c(at,"expaTs","sum_expaTs"):=NULL]
-        setorder(dDT, subjectID, -probability, diagnosis)
-        dDT[,.SD[1],subjectID]
+        dDT[,c(assessmentTotal,"expaTs","sum_expaTs"):=NULL]
+        setorder(dDT, SUBJECTID, -probability, diagnosis)
+        dDT[,.SD[1],SUBJECTID]
       })
 }
 
@@ -227,3 +220,14 @@ d %>%
 |--------:|:--------------------|------------:|
 |        1| withdrawal behavior |    0.6706221|
 |        2| positive re-framing |    0.5589742|
+
+Notice in the above we did not user `mapsyms()`. This is because the `data.table` code ([from here](http://www.win-vector.com/blog/2018/01/base-r-can-be-fast/#comment-66751)) used a mixture of standard (column names as string values) and non-standard (column names captured from free-symbol names) notations. In this case we suggest using the convention we used here:
+
+-   Build a name map using the `qc(...) := c(..)` notation. Reserve uppercase symbols for symbols to be replaced and lower case symbols for variable holding names of columns.
+-   Given the above use the uppercase version of each symbol in non-standard contexts, and lower-case in standard contexts.
+
+The above convention is *very* powerful.
+
+Note for `:=` to work we must have `wrapr`'s definition active, which we achieved by loading the `wrapr` package after loading the `data.table` package. `data.table`'s use of `:=` should continue to be correct as that is always performed by `data.table` itself, where `wrapr`'s definition can not interfere.
+
+And that is our lesson on some of the `wrapr` notations. I hope you can incorporate `wrapr` into your work, and please do check out some of our additional training materials.
