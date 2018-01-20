@@ -11,6 +11,15 @@ The named name builder adds names to vectors and lists by nice "names on the lef
 For example to assign the names "`a`" and "`b`" to the vector `c(1, 2)` we would write the following code.
 
 ``` r
+c("a" = 1, "b" = 2)
+```
+
+    ## a b 
+    ## 1 2
+
+Using `wrapr` we can write the same thing using `:=`.
+
+``` r
 library("data.table")
 suppressPackageStartupMessages(library("dplyr"))
 library("wrapr")
@@ -32,7 +41,7 @@ c("a" := 1, "b" := 2)
 
 This is read as "`a` is 1 and `b` is 2".
 
-We can perform this as a sequence (as above), or even vectorized (as shown below):
+So for no gain. However, `:=` also works vectorized (as shown below).
 
 ``` r
 c("a", "b") := c(1, 2)
