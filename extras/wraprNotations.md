@@ -1,4 +1,4 @@
-Some wrapr Notations
+Basic wrapr Notations
 ================
 Win-Vector LLC
 1/21/2018
@@ -8,7 +8,7 @@ I would like to demonstrate some helpful [`wrapr`](https://CRAN.R-project.org/pa
 Named Map Builder
 -----------------
 
-First we demonstrate `wrapr`'s ["named map builder": `:=`](https://winvector.github.io/wrapr/reference/named_map_builder.html).
+First I demonstrate `wrapr`'s ["named map builder": `:=`](https://winvector.github.io/wrapr/reference/named_map_builder.html).
 The named name builder adds names to vectors and lists by nice "names on the left and values on the right" notation.
 
 For example to build a named vector mapping names `c("a", "b")` to values `c(1, 2)` we could write the following `R` code.
@@ -124,7 +124,18 @@ let(c("COLUMNNAME" = COLUMNNAME), eval = FALSE,
 
     ## mutate(d, x = x + 1)
 
-### `mapsyms()` (the `let(X=X)`, replace with value, convention)
+The commonly suggested method of performing these substitutions in `dplyr` without `wrapr` (I strongly prefer using `wrapr`) is:
+
+``` r
+COLUMNSYM = rlang::sym("x")
+mutate(d, !!COLUMNSYM := (!!COLUMNSYM) + 1)
+```
+
+    ##   x
+    ## 1 2
+    ## 2 3
+
+### `mapsyms()` (the `let(X=X)`, replace with value convention)
 
 [`wrapr::mapsyms()`](https://winvector.github.io/wrapr/reference/mapsyms.html) is a helper function makes function creation even more convenient. A `mapsyms` expression of the form `mapsyms(COLUMNNAME)` is equivalent to the code `c("COLUMNNAME" = COLUMNNAME)`. In our example that means it builds the name to name mapping: c('COLUMNNAME' := 'x') (here we used [`wrapr::map_to_char()`](https://winvector.github.io/wrapr/reference/map_to_char.html) to present the result). With `mapsyms()` we can write the earlier function as:
 
@@ -142,7 +153,7 @@ incrementColumn(d, "x")
     ## 1 2
     ## 2 3
 
-We have more `mapsyms()` examples in our article ["Let X=X in R"](http://www.win-vector.com/blog/2017/11/let-xx-in-r/).
+I have more `mapsyms()` examples in our article ["Let X=X in R"](http://www.win-vector.com/blog/2017/11/let-xx-in-r/).
 
 The `let()` method of building functions works well with [`dplyr`](https://CRAN.R-project.org/package=dplyr) and [`data.table`](https://CRAN.R-project.org/package=data.table). For each of these let's show code for the "by hand logistic scoring" example from ["Let’s Have Some Sympathy For The Part-time R User"](http://www.win-vector.com/blog/2017/08/lets-have-some-sympathy-for-the-part-time-r-user/).
 
@@ -199,9 +210,11 @@ d %>%
 |        1| withdrawal behavior |    0.6706221|
 |        2| positive re-framing |    0.5589742|
 
+The replace with values convention is particularly handy for converting one-off (or ad-hoc) analyses into re-usable functions by pasting code into a `let`-block() *without* additional alteration (when you can get away with that, as above). For harder tasks (converting code that isn't suitable for the replace with values convention), we suggest the mixed case convention (which will now define).
+
 ### The let(X=x) (mixed case) convention
 
-For cases where the original code already has a mixture of parametric specifications (column names taken from variables) and non-parametric specifications (column names captured from un-evaluated code) we suggest using the "mixed case" convention. In mixed case convention all upper case symbols are used for replacement and lower case are taken as values. This is just a convention (the code does not implement the above as a rule) and we specify it by forming let alias maps of the form `qc(X=x)` which means in the `let`-block any instances of `X` are replaced with the name stored in `x` and (naturally) any instances of `x` are left alone.
+For cases where the original code already has a mixture of parametric specifications (column names taken from variables) and non-parametric specifications (column names captured from un-evaluated code) I suggest using the "mixed case" convention. In mixed case convention all upper case symbols are used for replacement and lower case are taken as values. This is just a convention (the code does not implement the above as a rule) and we specify it by forming let alias maps of the form `qc(X=x)` which means in the `let`-block any instances of `X` are replaced with the name stored in `x` and (naturally) any instances of `x` are left alone.
 
 Hers is a `data.table` function example ([from here](http://www.win-vector.com/blog/2018/01/base-r-can-be-fast/#comment-66751)) using the mixed case convention.
 
@@ -238,14 +251,44 @@ d %>%
 |        1| withdrawal behavior |    0.6706221|
 |        2| positive re-framing |    0.5589742|
 
-To use the mixed case convention:
+The commonly suggested way to use symbolic column names with `data.table` (without `wrapr`) is to use `quote()/as.symbol()` and `eval()`:
+
+``` r
+COLUMNNAME = as.symbol("x")
+dt <- data.table::data.table(x = c(2, 3))
+dt[, eval(COLUMNNAME) := eval(COLUMNNAME) + 1]
+print(dt)
+```
+
+    ##    x
+    ## 1: 3
+    ## 2: 4
+
+The `wrapr` equivalent is:
+
+``` r
+COLUMNNAME = "x"
+dt <- data.table::data.table(x = c(2, 3))
+let("COLUMNNAME" := COLUMNNAME,
+  dt[, COLUMNNAME := COLUMNNAME + 1]
+)
+print(dt)
+```
+
+    ##    x
+    ## 1: 3
+    ## 2: 4
+
+Obviously once you are dealing with both names and values (no matter what system you are using) you must take care in tracking which symbols refer to names and which symbols refer to values.
+
+To use the `wrapr` mixed case convention:
 
 -   Build a name map using the `qc(...) := c(..)` notation. Reserve uppercase symbols for symbols to be replaced and lower case symbols for variable holding names of columns.
--   Given the above use the uppercase version of each symbol in non-standard contexts, and lower-case in standard contexts.
+-   Use the uppercase version of each symbol in non-standard contexts, and lower-case in standard contexts.
 
 The mixed case convention is *very* powerful.
 
-The `1.1.2` version of `wrapr` adds a new function `map_upper()` which allows writing the `qc(SUBJECTID, SURVEYCATEGORY, ASSESSMENTTOTAL) := c(subjectID, surveyCategory, assessmentTotal)` simply as `map_upper(subjectID, surveyCategory, assessmentTotal)`:
+The `1.1.2` (currently development) version of `wrapr` adds a new function `map_upper()` which allows writing the `qc(SUBJECTID, SURVEYCATEGORY, ASSESSMENTTOTAL) := c(subjectID, surveyCategory, assessmentTotal)` simply as `map_upper(subjectID, surveyCategory, assessmentTotal)`:
 
 ``` r
 subjectID = "student"
@@ -264,6 +307,8 @@ map_upper(subjectID, surveyCategory, assessmentTotal)
     ## $ASSESSMENTTOTAL
     ## [1] "points"
 
+And we use the uppercase/lowercase convention to mark what portions of code we wish to be substituted/re-written.
+
 I would like to call out that all of these `wrapr` features (`:=`, `qc()`, `mapsyms()` `map_upper()`, `let()`) are concrete functions that can be used separately or used together. That is: `:=` isn't a symbol that has a new interpretation only in `let()` blocks, it is a inline function that actually builds named vectors, and these named vectors in turn happen to be able to specify the mappings `let()` needs. This allows you to learn and test these functions separately (and allows you to find new uses for them in your own code). For example: if you find a new way to use `let()` blocks that needs a new mapping function, you can build that function (as the current functions are not wired into `let()`, so are not magic or privileged).
 
 For multi-expression `let()`-blocks we must add `{}`. For `:=` to work we must have `wrapr`'s definition active, which we achieved by loading the `wrapr` package after loading the `data.table` package. `data.table`'s use of `:=` should continue to be correct as that is always performed by `data.table` itself, where `wrapr`'s definition can not interfere.
@@ -271,4 +316,4 @@ For multi-expression `let()`-blocks we must add `{}`. For `:=` to work we must h
 Take Away
 =========
 
-`wrapr` supplies some powerful and convenient `R` notations. I hope you can incorporate `wrapr` into your work, and please do check out some of our additional training materials.
+`wrapr` supplies some powerful and convenient `R` notations. In particular the "mixed case convention" `wrapr::let()` mappings should be very much worth incorporating into your coding practice. I hope you can incorporate `wrapr` into your work, and please do check out some of our additional training materials.
