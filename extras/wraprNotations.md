@@ -9,7 +9,7 @@ Named Map Builder
 -----------------
 
 First I demonstrate `wrapr`'s ["named map builder": `:=`](https://winvector.github.io/wrapr/reference/named_map_builder.html).
-The named name builder adds names to vectors and lists by nice "names on the left and values on the right" notation.
+The named map builder adds names to vectors and lists by nice "names on the left and values on the right" notation.
 
 For example to build a named vector mapping names `c("a", "b")` to values `c(1, 2)` we could write the following `R` code.
 
