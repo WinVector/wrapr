@@ -1,4 +1,8 @@
 
+# wrapr 1.1.1 2018-01-21
+ 
+ * Add map_upper.
+
 # wrapr 1.1.1 2018-01-20
  
  * Fix some null/blank substitution issues.
