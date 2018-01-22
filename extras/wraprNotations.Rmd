@@ -31,13 +31,13 @@ c("a" := 1, "b" := 2)
 
 This is read as "`a` is 1 and `b` is 2".
 
-So far, no gain. However (unlike `<-`), `:=` also works vectorized (as shown below).
+So far, no gain. However (unlike `=` and `<-`), `:=` also works vectorized (as shown below).
 
 ```{r nmb2}
 c("a", "b") := c(1, 2)
 ```
 
-One can think of this as an operator version of `setNames(nm = c("a", "b"), c(1,2))` (from `stats`).  This notation is very handy once you look for places to use it and for tools to further speed it up.
+One can think of this as an operator version of `setNames(nm = c("a", "b"), c(1,2))` (from `stats`).  This notation is very handy once you look for places to use it and for tools to further neaten it up.  I recommend using binding the `:=` glyph to the key chord "`Alt-=`" in RStudio using the [`addinexamplesWV`](https://github.com/WinVector/addinexamplesWV) package.
 
 ### Quoting Combine
 
