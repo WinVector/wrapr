@@ -76,20 +76,23 @@ qae <- function(...) {
   for(i in (2:len)) {
     ei <- ae_terms[[i]]
     ni <- nms[[i]]
+    li <- length(ei)
     vi <- ""
     if((!is.null(ni)) && (!is.na(ni)) &&
        (is.character(ni)) && (nchar(ni)>0)) {
       vi <- paste(deparse(ei), collapse = "\n")
     } else {
-      if((as.character(ei[[1]])!=':=') || (length(ei)<2)) {
+      if((as.character(ei[[1]])!=':=') || (li<2)) {
         stop("wrapr::qae() terms must be of the form: sym := expr or sym = expr")
       }
       ni <- as.character(ei[[2]])[[1]]
-      vi <- lapply(2:length(ei),
-                   function(j) {
-                     paste(as.character(deparse(ei[[j]])), collapse = "\n")
-                   })
-      vi <- paste(vi, collapse = "\n")
+      if(li>2) {
+        vi <- lapply(3:li,
+                     function(j) {
+                       paste(as.character(deparse(ei[[j]])), collapse = "\n")
+                     })
+        vi <- paste(vi, collapse = "\n")
+      }
     }
     if(is.null(ni)) {
       stop("seplyr::quote_mutate terms must all have names (either from = or :=)")
