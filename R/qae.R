@@ -19,30 +19,30 @@
 #' @export
 #'
 qe <- function(...) {
-  mutateTerms <- substitute(list(...))
-  if(length(setdiff(names(mutateTerms), ""))>0) {
+  e_terms <- substitute(list(...))
+  if(length(setdiff(names(e_terms), ""))>0) {
     stop("wrapr::qe() unexpected names/arguments")
   }
-  # mutateTerms is a list of k+1 items, first is "list" the rest are captured expressions
-  len <- length(mutateTerms) # first slot is "list"
+  # e_terms is a list of k+1 items, first is "list" the rest are captured expressions
+  len <- length(e_terms) # first slot is "list"
   if(len<=1) {
     return(c())
   }
   rhs <- vector(len-1, mode='list')
   for(i in (2:len)) {
-    ei <- mutateTerms[[i]]
+    ei <- e_terms[[i]]
     rhs[[i-1]] <- paste(as.character(deparse(ei)), collapse = "\n")
   }
   rhs
 }
 
 
-#' Quote assignment expressions.
+#' Quote assignment expressions (name = expr, and name := expr).
 #'
 #' Accepts arbitrary un-parsed expressions as
 #' assignments to allow forms such as "Sepal_Long := Sepal.Length >= 2 * Sepal.Width".
 #' (without the quotes).
-#' Terms are expressions of the form "lhs := rhs".
+#' Terms are expressions of the form "lhs := rhs" or "lhs = rhs".
 #'
 #' @param ... assignment expressions.
 #' @return array of quoted assignment expressions.
@@ -52,7 +52,7 @@ qe <- function(...) {
 #' @examples
 #'
 #' exprs <- qae(Sepal_Long := Sepal.Length >= ratio * Sepal.Width,
-#'              Petal_Short := Petal.Length <= 3.5)
+#'              Petal_Short = Petal.Length <= 3.5)
 #' print(exprs)
 #' #ratio <- 2
 #' #datasets::iris %.>%
@@ -64,24 +64,38 @@ qe <- function(...) {
 qae <- function(...) {
   # convert char vector into spliceable vector
   # from: https://github.com/tidyverse/rlang/issues/116
-  mutateTerms <- substitute(list(...))
-  if(length(setdiff(names(mutateTerms), ""))>0) {
-    stop("wrapr::qae() all assignments must be of the form a := b, not a = b")
-  }
-  # mutateTerms is a list of k+1 items, first is "list" the rest are captured expressions
-  len <- length(mutateTerms) # first slot is "list"
+  ae_terms <- substitute(list(...))
+  # ae_terms is a list of k+1 items, first is "list" the rest are captured expressions
+  len <- length(ae_terms) # first slot is "list"
   if(len<=1) {
     return(c())
   }
+  nms <- names(ae_terms)
   lhs <- vector(len-1, mode='list')
   rhs <- vector(len-1, mode='list')
   for(i in (2:len)) {
-    ei <- mutateTerms[[i]]
-    if((length(ei)!=3)||(as.character(ei[[1]])!=':=')) {
-      stop("wrapr::qae() terms must be of the form: sym := expr")
+    ei <- ae_terms[[i]]
+    ni <- nms[[i]]
+    vi <- ""
+    if((!is.null(ni)) && (!is.na(ni)) &&
+       (is.character(ni)) && (nchar(ni)>0)) {
+      vi <- paste(deparse(ei), collapse = "\n")
+    } else {
+      if((as.character(ei[[1]])!=':=') || (length(ei)<2)) {
+        stop("wrapr::qae() terms must be of the form: sym := expr or sym = expr")
+      }
+      ni <- as.character(ei[[2]])[[1]]
+      vi <- lapply(2:length(ei),
+                   function(j) {
+                     paste(as.character(deparse(ei[[j]])), collapse = "\n")
+                   })
+      vi <- paste(vi, collapse = "\n")
     }
-    lhs[[i-1]] <- as.character(ei[[2]])
-    rhs[[i-1]] <- paste(as.character(deparse(ei[[3]])), collapse = "\n")
+    if(is.null(ni)) {
+      stop("seplyr::quote_mutate terms must all have names (either from = or :=)")
+    }
+    lhs[[i-1]] <- ni
+    rhs[[i-1]] <- vi
   }
   lhs := rhs
 }
