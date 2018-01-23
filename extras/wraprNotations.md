@@ -1,14 +1,14 @@
 Basic wrapr Notations
 ================
 Win-Vector LLC
-1/21/2018
+1/23/2018
 
 I would like to demonstrate some helpful [`wrapr`](https://CRAN.R-project.org/package=wrapr) [`R`](https://www.r-project.org) notation tools that really neaten up your `R` code.
 
 Named Map Builder
 -----------------
 
-First I demonstrate `wrapr`'s ["named map builder": `:=`](https://winvector.github.io/wrapr/reference/named_map_builder.html).
+First I will demonstrate `wrapr`'s ["named map builder": `:=`](https://winvector.github.io/wrapr/reference/named_map_builder.html).
 The named map builder adds names to vectors and lists by nice "names on the left and values on the right" notation.
 
 For example to build a named vector mapping names `c("a", "b")` to values `c(1, 2)` we could write the following `R` code.
@@ -144,7 +144,7 @@ mutate(d, !!COLUMNSYM := (!!COLUMNSYM) + 1)
 
 ### `mapsyms()` (the `let(X=X)`, replace with value convention)
 
-[`wrapr::mapsyms()`](https://winvector.github.io/wrapr/reference/mapsyms.html) is a helper function makes function creation even more convenient. A `mapsyms` expression of the form `mapsyms(COLUMNNAME)` is equivalent to the code `c("COLUMNNAME" = COLUMNNAME)`. In our example that means it builds the name to name mapping: c('COLUMNNAME' := 'x') (here we used [`wrapr::map_to_char()`](https://winvector.github.io/wrapr/reference/map_to_char.html) to present the result). With `mapsyms()` we can write the earlier function as:
+[`wrapr::mapsyms()`](https://winvector.github.io/wrapr/reference/mapsyms.html) is a helper function makes function creation even more convenient. A `mapsyms` expression of the form `mapsyms(COLUMNNAME)` is equivalent to the code `c("COLUMNNAME" = COLUMNNAME)`. In our example that means it builds the name to name mapping: c('COLUMNNAME' = 'x') (here we used [`wrapr::map_to_char()`](https://winvector.github.io/wrapr/reference/map_to_char.html) to present the result). With `mapsyms()` we can write the earlier function as:
 
 ``` r
 incrementColumn <- function(data, COLUMNNAME) {
@@ -319,6 +319,14 @@ And we use the uppercase/lowercase convention to mark what portions of code we w
 I would like to call out that all of these `wrapr` features (`:=`, `qc()`, `mapsyms()` `map_upper()`, `let()`) are concrete functions that can be used separately or used together. That is: `:=` isn't a symbol that has a new interpretation only in `let()` blocks, it is a inline function that actually builds named vectors, and these named vectors in turn happen to be able to specify the mappings `let()` needs. This allows you to learn and test these functions separately (and allows you to find new uses for them in your own code). For example: if you find a new way to use `let()` blocks that needs a new mapping function, you can build that function (as the current functions are not wired into `let()`, so are not magic or privileged).
 
 For multi-expression `let()`-blocks we must add `{}`. For `:=` to work we must have `wrapr`'s definition active, which we achieved by loading the `wrapr` package after loading the `data.table` package. `data.table`'s use of `:=` should continue to be correct as that is always performed by `data.table` itself, where `wrapr`'s definition can not interfere.
+
+Additional `q*()` methods
+=========================
+
+`wrapr` supplies additional `q*()` methods.
+
+-   `qae()` "quote assignment expression" where both sides of assignments is taken as un-evaluated. I.e.: `qae(x = 5+1)` yields c('x' = '5 + 1') regardless if `x` is bound or unbound in the environment. This is a bit of an compliment to `:=` which looks-up bindings/references (i.e.: `x = "z"; x := 5+1` returns c('z' = '6')).
+-   `qe()` "quote expressions" for quoting complex expressions. Similar to `quote()`, except it returns a list of strings (not a language object). The `qe()` method is used in commands that take a non-assignment expression or list of expressions such as [`rquery::select_rows_nse()`](https://winvector.github.io/rquery/reference/select_rows_nse.html).
 
 Take Away
 =========

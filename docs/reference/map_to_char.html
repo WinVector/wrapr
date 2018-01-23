@@ -120,7 +120,7 @@
     <p>format a map.</p>
     
 
-    <pre class="usage"><span class='fu'>map_to_char</span>(<span class='no'>mp</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>"\n  "</span>)</pre>
+    <pre class="usage"><span class='fu'>map_to_char</span>(<span class='no'>mp</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>" "</span>, <span class='kw'>assignment</span> <span class='kw'>=</span> <span class='st'>"="</span>, <span class='kw'>quote_fn</span> <span class='kw'>=</span> <span class='kw pkg'>base</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/base/topics/shQuote'>shQuote</a></span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -131,7 +131,15 @@
     </tr>
     <tr>
       <th>sep</th>
-      <td><p>separator</p></td>
+      <td><p>separator suffix, what to put after commas</p></td>
+    </tr>
+    <tr>
+      <th>assignment</th>
+      <td><p>assignment string</p></td>
+    </tr>
+    <tr>
+      <th>quote_fn</th>
+      <td><p>string quoting function</p></td>
     </tr>
     </table>
     
@@ -142,8 +150,7 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'>cat</span>(<span class='fu'>map_to_char</span>(<span class='fu'>c</span>(<span class='st'>'a'</span><span class='kw'>:=</span><span class='st'>'b'</span>, <span class='st'>'c'</span><span class='kw'>:=</span><span class='st'>'d'</span>)))</div><div class='output co'>#&gt; c('a' := 'b',
-#&gt;   'c' := 'd')</div><div class='input'>
+<span class='fu'>cat</span>(<span class='fu'>map_to_char</span>(<span class='fu'>c</span>(<span class='st'>'a'</span><span class='kw'>:=</span><span class='st'>'b'</span>, <span class='st'>'c'</span><span class='kw'>:=</span><span class='st'>'d'</span>)))</div><div class='output co'>#&gt; c('a' = 'b', 'c' = 'd')</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

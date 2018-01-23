@@ -4,12 +4,16 @@
 \alias{map_to_char}
 \title{format a map.}
 \usage{
-map_to_char(mp, sep = "\\n  ")
+map_to_char(mp, sep = " ", assignment = "=", quote_fn = base::shQuote)
 }
 \arguments{
 \item{mp}{named vector or list}
 
-\item{sep}{separator}
+\item{sep}{separator suffix, what to put after commas}
+
+\item{assignment}{assignment string}
+
+\item{quote_fn}{string quoting function}
 }
 \value{
 character formatted representation
