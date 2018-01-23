@@ -60,7 +60,20 @@ c("a", "b") := c(1, 2)
     ## a b 
     ## 1 2
 
-One can think of this as an operator version of `setNames(nm = c("a", "b"), c(1,2))` (from `stats`). This notation is very handy once you look for places to use it and for tools to further neaten it up. I recommend using binding the `:=` glyph to the key chord "`Alt-=`" in RStudio using the [`addinexamplesWV`](https://github.com/WinVector/addinexamplesWV) package.
+`:=` works the same with variable as it does with values:
+
+``` r
+names <- c("a", "b") 
+values <- c(1, 2)
+names := values
+```
+
+    ## a b 
+    ## 1 2
+
+This above notation is the usual use of `:=`.
+
+One can think of `:=` as an operator version of `setNames(nm = c("a", "b"), c(1,2))` (from `stats`). This notation is very handy once you look for places to use it and for tools to further neaten it up. I recommend using binding the `:=` glyph to the key chord "`Alt-=`" in RStudio using the [`addinexamplesWV`](https://github.com/WinVector/addinexamplesWV) package.
 
 ### Quoting Combine
 
@@ -142,7 +155,7 @@ mutate(d, !!COLUMNSYM := (!!COLUMNSYM) + 1)
     ## 1 2
     ## 2 3
 
-### `mapsyms()` (the `let(X=X)`, replace with value convention)
+### `mapsyms()` (the `let(X=X)`, replace with values convention)
 
 [`wrapr::mapsyms()`](https://winvector.github.io/wrapr/reference/mapsyms.html) is a helper function makes function creation even more convenient. A `mapsyms` expression of the form `mapsyms(COLUMNNAME)` is equivalent to the code `c("COLUMNNAME" = COLUMNNAME)`. In our example that means it builds the name to name mapping: c('COLUMNNAME' = 'x') (here we used [`wrapr::map_to_char()`](https://winvector.github.io/wrapr/reference/map_to_char.html) to present the result). With `mapsyms()` we can write the earlier function as:
 
@@ -325,10 +338,14 @@ Additional `q*()` methods
 
 `wrapr` supplies additional `q*()` methods.
 
--   `qae()` "quote assignment expression" where both sides of assignments is taken as un-evaluated. I.e.: `qae(x = 5+1)` yields c('x' = '5 + 1') regardless if `x` is bound or unbound in the environment. This is a bit of an compliment to `:=` which looks-up bindings/references (i.e.: `x = "z"; x := 5+1` returns c('z' = '6')).
+-   `qae()` "quote assignment expression" where both sides of assignments is taken as un-evaluated. I.e.: `qae(x = 5+1)` yields c('x' = '5 + 1') regardless if `x` is bound or unbound in the environment. This is a bit of a complement to `:=` which looks-up bindings/references (i.e.: `x = "z"; x := 5+1` returns c('z' = '6')).
 -   `qe()` "quote expressions" for quoting complex expressions. Similar to `quote()`, except it returns a list of strings (not a language object). The `qe()` method is used in commands that take a non-assignment expression or list of expressions such as [`rquery::select_rows_nse()`](https://winvector.github.io/rquery/reference/select_rows_nse.html).
 
 Take Away
 =========
 
 `wrapr` supplies some powerful and convenient `R` notations. In particular the "mixed case convention" `wrapr::let()` mappings should be very much worth incorporating into your coding practice. I hope you can incorporate `wrapr` into your work, and please do check out some of our additional training materials.
+
+-   `:=` is a powerful convenience function.
+-   `wrapr::qae()` can convert many "value oriented" (or standard evaluation) interfaces into "name capturing" (or non-standard evaluation) interfaces, making them slightly more concise (for example please see [`seplyr::mutate_se()`](https://winvector.github.io/seplyr/reference/mutate_se.html)).
+-   `wrapr::let()` can convert many non-standard evaluation interfaces back into value oriented interfaces, making them easier to program over.
