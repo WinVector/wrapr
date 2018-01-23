@@ -14,6 +14,13 @@ The named map builder adds names to vectors and lists by nice "names on the left
 For example to build a named vector mapping names `c("a", "b")` to values `c(1, 2)` we could write the following `R` code.
 
 ``` r
+c(a = 1, b = 2)
+```
+
+    ## a b 
+    ## 1 2
+
+``` r
 c("a" = 1, "b" = 2)
 ```
 
@@ -42,9 +49,17 @@ c("a" := 1, "b" := 2)
     ## a b 
     ## 1 2
 
+``` r
+# with wrapr 1.2.0 (currently development), or newer.
+c(a := 1, b := 2)
+```
+
+    ## a b 
+    ## 1 2
+
 This is read as "`a` is 1 and `b` is 2".
 
-So far, no gain. However (unlike `=` and `<-`), `:=` also works vectorized (as shown below).
+So far, no gain (in fact it has forced some quotes on us for older versions of wrapr). However (unlike `=` and `<-`), `:=` also works vectorized (as shown below).
 
 ``` r
 c("a", "b") := c(1, 2)
@@ -288,7 +303,7 @@ To use the `wrapr` mixed case convention:
 
 The mixed case convention is *very* powerful.
 
-The `1.1.2` (currently development) version of `wrapr` adds a new function `map_upper()` which allows writing the `qc(SUBJECTID, SURVEYCATEGORY, ASSESSMENTTOTAL) := c(subjectID, surveyCategory, assessmentTotal)` simply as `map_upper(subjectID, surveyCategory, assessmentTotal)`:
+The `1.2.0` (currently development) version of `wrapr` adds a new function `map_upper()` which allows writing the `qc(SUBJECTID, SURVEYCATEGORY, ASSESSMENTTOTAL) := c(subjectID, surveyCategory, assessmentTotal)` simply as `map_upper(subjectID, surveyCategory, assessmentTotal)`:
 
 ``` r
 subjectID = "student"

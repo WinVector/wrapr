@@ -3,6 +3,7 @@
  
  * Add map_upper.
  * Accept x=y in qae().
+ * Strengthen :=.
 
 # wrapr 1.1.1 2018-01-20
  

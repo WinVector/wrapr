@@ -34,13 +34,19 @@
 #' f <- ~x := x^2
 #' f(7)
 #'
+#' f <- x := { sqrt(x) }
+#' f(7)
+#'
 #' @export
 named_map_builder <- function(names, values) {
   # sepcial case 'a' := c('b', 'c') -> a := 'bc'
+  names <- as.character(names)
   if((length(values)>1)&&(length(names)==1)) {
     values <- do.call(paste0, as.list(values))
   }
-  # main case
+  if(length(names)!=length(values)) {
+    stop("wrapr::named_map_builder() names/values length mismatch")
+  }
   names(values) <- as.character(names)
   values
 }
@@ -51,40 +57,50 @@ named_map_builder <- function(names, values) {
   # check if this was a lambda assignment in disguise
   # only consider so at this checkif if RHS is {}
   # else let S3 disptach on formula pick this up
-  vl <- substitute(values)
-  if(is.call(vl)) {
-    vl1c <- as.character(vl[[1]])
-    if(vl1c=='{') {
-      nv <- substitute(names)
-      return(makeFunction_se(all.vars(nv), vl,  parent.frame()))
-    }
+  res <- early_tries(substitute(names), substitute(values), values)
+  if(!is.null(res)) {
+    return(res)
   }
   # use standard S3 dispatch
   UseMethod(":=")
 }
 
-
-#' @export
-`:=.default` <- function(names, values) {
-  if(length(names)<=0) {
-    return(values)
+# pretty much assume vector name assignment, or function definiton
+# need this to grab unevaluated cases
+early_tries <- function(nm, vl, values) {
+  # see if we should force function def mode
+  couldBeFn <-
+    (is.name(nm) && (length(nm)==1)) ||
+    (is.character(nm) && (length(nm)==1)) ||
+    (is.call(nm) && (as.character(nm[[1]]) %in% c("~", "c", "list")))
+  # our stated rule: formula on left or brace on right
+  shouldBeFn <-
+    (is.call(nm) && (as.character(nm[[1]])=="~")) ||
+    (is.call(vl) && (as.character(vl[[1]])=="{"))
+  if(couldBeFn && shouldBeFn) {
+    if(is.call(nm) && (as.character(nm[[1]]) %in% c("c", "list"))) {
+      vars <- as.character(nm[seq_len(length(nm)-1)+1])
+    } else if(is.name(nm) || is.character(nm)) {
+      vars <- as.character(nm)
+    } else {
+      # assume formula
+      vars <- setdiff(as.character(all.vars(nm)), "~")
+    }
+    return(makeFunction_se(vars, vl, parent.frame()))
   }
-  stop(paste(":=.default called with arguments of class:",
-             class(names), class(values)))
+  # see if we should force mapping mode
+  if(is.name(nm)) {
+    return(named_map_builder(as.character(nm), values))
+  }
+  NULL # continue in the normal way
 }
 
 #' @export
 `:=.character` <- named_map_builder
 
 #' @export
-`:=.list` <- named_map_builder
+`:=.name` <- named_map_builder
 
 #' @export
-`:=.formula` <- function(names, values) {
-  env = parent.frame()
-  params <- setdiff(as.character(all.vars(substitute(names))),
-                    '~')
-  body <- substitute(values)
-  makeFunction_se(params, body, env)
-}
+`:=.list` <- named_map_builder
 

@@ -125,8 +125,8 @@ The important property of named map builder is it accepts values on the left-han
 ``` r
 name <- 'variableNameFromElsewhere'
 name := 'newBinding'
- #  variableNameFromElsewhere 
- #               "newBinding"
+ #          name 
+ #  "newBinding"
 ```
 
 A nice property is `:=` commutes (in the sense of algebra or category theory) with `R`'s concatenation function `c()`. That is the following two statements are equivalent:
