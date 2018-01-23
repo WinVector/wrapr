@@ -339,7 +339,7 @@ Additional `q*()` methods
 `wrapr` supplies additional `q*()` methods.
 
 -   `qae()` "quote assignment expression" where both sides of assignments is taken as un-evaluated. I.e.: `qae(x = 5+1)` yields c('x' = '5 + 1') regardless if `x` is bound or unbound in the environment. This is a bit of a complement to `:=` which looks-up bindings/references (i.e.: `x = "z"; x := 5+1` returns c('z' = '6')).
--   `qe()` "quote expressions" for quoting complex expressions. Similar to `quote()`, except it returns a list of strings (not a language object). The `qe()` method is used in commands that take a non-assignment expression or list of expressions such as [`rquery::select_rows_nse()`](https://winvector.github.io/rquery/reference/select_rows_nse.html).
+-   `qe()` "quote expressions" for quoting complex expressions. Similar to `quote()`, except it returns a list of strings (not a language object). The `qe()` method is not as interesting to end-users as the other methods mentioned, it is designed to help in implementation of methods that take a non-assignment expression or list of expressions such as [`rquery::select_rows_nse()`](https://winvector.github.io/rquery/reference/select_rows_nse.html).
 
 Take Away
 =========
