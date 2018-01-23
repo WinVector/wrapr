@@ -20,7 +20,7 @@ c(a = 1, b = 2)
 c("a" = 1, "b" = 2)
 ```
 
-Using  `wrapr` we can write the same thing using `:=`.
+Using  `wrapr` we can write the same thing for quoted names using `:=`.
 
 ```{r nmb1}
 library("data.table") # data.table before wrapr to avoid := contention
@@ -28,14 +28,11 @@ suppressPackageStartupMessages(library("dplyr"))
 library("wrapr")
 
 c("a" := 1, "b" := 2)
-
-# with wrapr 1.2.0 (currently development), or newer.
-c(a := 1, b := 2)
 ```
 
 This is read as "`a` is 1 and `b` is 2".
 
-So far, no gain (in fact it has forced some quotes on us for older versions of wrapr). However (unlike `=` and `<-`), `:=` also works vectorized (as shown below).
+So far, no gain (in fact it has forced some quotes on us). However (unlike `=` and `<-`), `:=` also works vectorized (as shown below).
 
 ```{r nmb2}
 c("a", "b") := c(1, 2)

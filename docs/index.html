@@ -199,8 +199,8 @@ a &lt;-<span class="st"> </span><span class="dv">7</span>
 <p>The important property of named map builder is it accepts values on the left-hand side allowing the following:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">name &lt;-<span class="st"> 'variableNameFromElsewhere'</span>
 name <span class="op">:</span><span class="er">=</span><span class="st"> 'newBinding'</span>
- <span class="co">#          name </span>
- <span class="co">#  "newBinding"</span></code></pre></div>
+ <span class="co">#  variableNameFromElsewhere </span>
+ <span class="co">#               "newBinding"</span></code></pre></div>
 <p>A nice property is <code>:=</code> commutes (in the sense of algebra or category theory) with <code>R</code>’s concatenation function <code>c()</code>. That is the following two statements are equivalent:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="st">'a'</span>, <span class="st">'b'</span>) <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">c</span>(<span class="st">'x'</span>, <span class="st">'y'</span>)
  <span class="co">#    a   b </span>

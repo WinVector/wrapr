@@ -88,18 +88,11 @@ early_tries <- function(nm, vl, values) {
     }
     return(makeFunction_se(vars, vl, parent.frame()))
   }
-  # see if we should force mapping mode
-  if(is.name(nm)) {
-    return(named_map_builder(as.character(nm), values))
-  }
   NULL # continue in the normal way
 }
 
 #' @export
 `:=.character` <- named_map_builder
-
-#' @export
-`:=.name` <- named_map_builder
 
 #' @export
 `:=.list` <- named_map_builder

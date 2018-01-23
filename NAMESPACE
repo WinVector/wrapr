@@ -2,7 +2,6 @@
 
 S3method(":=",character)
 S3method(":=",list)
-S3method(":=",name)
 export("%.>%")
 export("%>.%")
 export(":=")
