@@ -344,8 +344,10 @@ Additional `q*()` methods
 Take Away
 =========
 
-`wrapr` supplies some powerful and convenient `R` notations. In particular the "mixed case convention" `wrapr::let()` mappings should be very much worth incorporating into your coding practice. I hope you can incorporate `wrapr` into your work, and please do check out some of our additional training materials.
+`wrapr` supplies some powerful and convenient `R` notations.
 
 -   `:=` is a powerful convenience function.
 -   `wrapr::qae()` can convert many "value oriented" (or standard evaluation) interfaces into "name capturing" (or non-standard evaluation) interfaces, making them slightly more concise (for example please see [`seplyr::mutate_se()`](https://winvector.github.io/seplyr/reference/mutate_se.html)).
 -   `wrapr::let()` can convert many non-standard evaluation interfaces back into value oriented interfaces, making them easier to program over.
+
+In particular the "mixed case convention" `wrapr::let()` mappings are very much worth incorporating into your coding practice. I hope you can incorporate `wrapr` into your work, and please do check out some of our additional training materials.
