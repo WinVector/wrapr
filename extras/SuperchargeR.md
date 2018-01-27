@@ -1,7 +1,7 @@
-Basic wrapr Notations
+Supercharge your R code with wrapr
 ================
 Win-Vector LLC
-1/23/2018
+1/27/2018
 
 I would like to demonstrate some helpful [`wrapr`](https://CRAN.R-project.org/package=wrapr) [`R`](https://www.r-project.org) notation tools that really neaten up your `R` code.
 
