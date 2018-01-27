@@ -1,6 +1,6 @@
 Supercharge your R code with wrapr
 ================
-Win-Vector LLC
+John Mount, Win-Vector LLC
 1/27/2018
 
 I would like to demonstrate some helpful [`wrapr`](https://CRAN.R-project.org/package=wrapr) [`R`](https://www.r-project.org) notation tools that really neaten up your `R` code.
@@ -19,6 +19,8 @@ c(a = 1, b = 2)
 
     ## a b 
     ## 1 2
+
+Or we can write:
 
 ``` r
 c("a" = 1, "b" = 2)
@@ -284,7 +286,7 @@ print(dt)
     ## 1: 3
     ## 2: 4
 
-The `wrapr` equivalent is:
+Again, the `wrapr` equivalent is:
 
 ``` r
 COLUMNNAME = "x"

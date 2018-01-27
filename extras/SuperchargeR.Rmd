@@ -1,6 +1,6 @@
 ---
 title: "Supercharge your R code with wrapr"
-author: "Win-Vector LLC"
+author: "John Mount, Win-Vector LLC"
 date: "1/27/2018"
 output: github_document
 ---
@@ -16,7 +16,11 @@ For example to build a named vector mapping names `c("a", "b")` to values `c(1, 
 
 ```{r br1}
 c(a = 1, b = 2)
+```
 
+Or we can write:
+
+```{r br1b}
 c("a" = 1, "b" = 2)
 ```
 
@@ -248,7 +252,7 @@ dt[, eval(COLUMNNAME) := eval(COLUMNNAME) + 1]
 print(dt)
 ```
 
-The `wrapr` equivalent is:
+Again, the `wrapr` equivalent is:
 
 ```{r dtqw}
 COLUMNNAME = "x"
