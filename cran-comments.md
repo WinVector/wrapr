@@ -10,9 +10,9 @@
  * using R version 3.4.3 (2017-11-30)
  * using platform: x86_64-apple-darwin15.6.0 (64-bit)
 
-## R CMD check --as-cran wrapr_1.1.1.tar.gz 
+## R CMD check --as-cran wrapr_1.2.0.tar.gz 
 
- * this is package ‘wrapr’ version ‘1.1.1’
+ * this is package ‘wrapr’ version ‘1.2.0’
 
  * checking CRAN incoming feasibility ...
     Note_to_CRAN_maintainers
