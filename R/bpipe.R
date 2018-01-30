@@ -25,7 +25,6 @@ pipe_step <- function(pipe_left_arg, pipe_right_arg,
 #'
 pipe_step.default <- function(pipe_left_arg, pipe_right_arg,
                               pipe_environment) {
-
   eval(pipe_right_arg,
        envir = pipe_environment,
        enclos = pipe_environment)
@@ -84,9 +83,6 @@ pipe_impl <- function(pipe_left_arg, pipe_right_arg, pipe_environment) {
     res <- do.call(pipe_right_arg,
                    list(pipe_left_arg),
                    envir = pipe_environment)
-    assign(".", res,
-           envir = pipe_environment,
-           inherits = FALSE)
     return(res)
   }
   # special case: look for wrapr_applicable objects
@@ -96,16 +92,10 @@ pipe_impl <- function(pipe_left_arg, pipe_right_arg, pipe_environment) {
     res <- wrapr_function(pipe_left_arg,
                           pipe_right_arg,
                           pipe_environment)
-    assign(".", res,
-           envir = pipe_environment,
-           inherits = FALSE)
     return(res)
   }
   # Go for S3 dispatch
   res <- pipe_step(pipe_left_arg, pipe_right_arg, pipe_environment)
-  assign(".", res,
-         envir = pipe_environment,
-         inherits = FALSE)
   res
 }
 
