@@ -93,13 +93,13 @@
       <h1>wrapr_applicable</h1>
                         <h4 class="author">John Mount, Win-Vector LLC</h4>
             
-            <h4 class="date">2018-01-23</h4>
+            <h4 class="date">2018-01-29</h4>
           </div>
 
     
     
 <div class="contents">
-<p><code>wrapr</code> <code>1.1.0</code> includes de-referencing, function evaluation, and a new concept called <code>"wrapr_applicable"</code>.</p>
+<p><code>wrapr</code> <code>1.1.0</code> includes de-referencing, function evaluation, and a new concept called <code>"wrapr_applicable"</code>. <code>"wrapr_applicable"</code> is an early dispatch by type of right hand side argument scheme.</p>
 <div id="basic-wrapr" class="section level2">
 <h2 class="hasAnchor">
 <a href="#basic-wrapr" class="anchor"></a>Basic <code>wrapr</code>
@@ -124,15 +124,26 @@
 <p>Arbitrary objects ask <code>wrapr</code> to treat them as special expressions by:</p>
 <ol style="list-style-type: decimal">
 <li>Adding the string <code>"wrapr_applicable"</code> to their class declarations.</li>
-<li>Populating an list entry named <code>"wrapr_function"</code> with a function of signature <code>(pipe_left_arg, pipe_right_arg, pipe_environment)</code>.</li>
+<li>Implement an <code>S3</code> generic <code>"wrapr_function"</code> with a function of signature <code>(pipe_left_arg, pipe_right_arg, , pipe_environment)</code>. Note <code>S3</code> dispatch is on the right argument.</li>
 </ol>
 <p>If these two conditions are met then <code>wrapr</code> instead of evaluating the object calls the function <code>wrapr_function</code>.</p>
 <p>For example:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">function_reference &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">f =</span> sin)
-<span class="kw">class</span>(function_reference) &lt;-<span class="st"> "wrapr_applicable"</span>
-function_reference<span class="op">$</span>wrapr_function &lt;-<span class="st"> </span><span class="cf">function</span>(pipe_left_arg, 
-                                              pipe_right_arg, 
-                                              pipe_environment) {
+<span class="kw">class</span>(function_reference) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"wrapr_applicable"</span>, <span class="st">"ourclass"</span>)
+
+<span class="co">#' Wrapr function.</span>
+<span class="co">#'</span>
+<span class="co">#' S3 dispatch on tyhpe of pipe_right_argument.</span>
+<span class="co">#'</span>
+<span class="co">#' @param pipe_left_arg left argument</span>
+<span class="co">#' @param pipe_right_arg right argument</span>
+<span class="co">#' @param pipe_environment environment to evaluate in</span>
+<span class="co">#' @return result</span>
+<span class="co">#'</span>
+<span class="co">#' @export</span>
+<span class="co">#'</span>
+wrapr_function.ourclass &lt;-<span class="st"> </span><span class="cf">function</span>(pipe_left_arg, pipe_right_arg,
+                                    pipe_environment) {
   pipe_right_arg<span class="op">$</span><span class="kw">f</span>(pipe_left_arg)
 }
 
@@ -140,14 +151,8 @@ function_reference
 <span class="co">#&gt; $f</span>
 <span class="co">#&gt; function (x)  .Primitive("sin")</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; $wrapr_function</span>
-<span class="co">#&gt; function (pipe_left_arg, pipe_right_arg, pipe_environment) </span>
-<span class="co">#&gt; {</span>
-<span class="co">#&gt;     pipe_right_arg$f(pipe_left_arg)</span>
-<span class="co">#&gt; }</span>
-<span class="co">#&gt; </span>
 <span class="co">#&gt; attr(,"class")</span>
-<span class="co">#&gt; [1] "wrapr_applicable"</span>
+<span class="co">#&gt; [1] "wrapr_applicable" "ourclass"</span>
 
 <span class="dv">5</span> <span class="op">%.&gt;%</span><span class="st"> </span>function_reference
 <span class="co">#&gt; [1] -0.9589243</span>
@@ -160,7 +165,7 @@ function_reference<span class="op">$</span>f &lt;-<span class="st"> </span>sqrt
 <li>
 <code>pipe_left_arg</code>: The value moving down the pipeline.</li>
 <li>
-<code>pipe_right_arg</code>: The right pipeline operator (essentially “<code>self</code>” or “<code>this</code>” in object oriented terms).</li>
+<code>pipe_right_arg</code>: The right pipeline operator (essentially “<code>self</code>” or “<code>this</code>” in object oriented terms, used for <code>S3</code> dispatch).</li>
 <li>
 <code>pipe_environment</code>: The environment the pipeline is working in (not usually needed).</li>
 </ul>

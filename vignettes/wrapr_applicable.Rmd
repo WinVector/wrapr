@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-`wrapr` `1.1.0` includes de-referencing, function evaluation, and a new concept called `"wrapr_applicable"`.
+`wrapr` `1.1.0` includes de-referencing, function evaluation, and a new concept called `"wrapr_applicable"`.  `"wrapr_applicable"` is an early dispatch by type of right hand side argument scheme.
 
 ## Basic `wrapr`
 
@@ -41,7 +41,7 @@ library("wrapr")
 Arbitrary objects ask `wrapr` to treat them as special expressions by:
 
   1. Adding the string `"wrapr_applicable"` to their class declarations.
-  2. Populating an list entry named `"wrapr_function"` with a function of signature `(pipe_left_arg, pipe_right_arg, pipe_environment)`.
+  2. Implement an `S3` generic `"wrapr_function"` with a function of signature `(pipe_left_arg, pipe_right_arg, , pipe_environment)`.  Note `S3` dispatch is on the right argument.
   
 If these two conditions are met then `wrapr` instead of evaluating the object calls the function `wrapr_function`.
 
@@ -49,10 +49,21 @@ For example:
 
 ```{r sinfn}
 function_reference <- list(f = sin)
-class(function_reference) <- "wrapr_applicable"
-function_reference$wrapr_function <- function(pipe_left_arg, 
-                                              pipe_right_arg, 
-                                              pipe_environment) {
+class(function_reference) <- c("wrapr_applicable", "ourclass")
+
+#' Wrapr function.
+#'
+#' S3 dispatch on tyhpe of pipe_right_argument.
+#'
+#' @param pipe_left_arg left argument
+#' @param pipe_right_arg right argument
+#' @param pipe_environment environment to evaluate in
+#' @return result
+#'
+#' @export
+#'
+wrapr_function.ourclass <- function(pipe_left_arg, pipe_right_arg,
+                                    pipe_environment) {
   pipe_right_arg$f(pipe_left_arg)
 }
 
@@ -67,7 +78,7 @@ function_reference$f <- sqrt
 The signature arguments work as follows:
 
   * `pipe_left_arg`: The value moving down the pipeline.
-  * `pipe_right_arg`: The right pipeline operator (essentially "`self`" or "`this`" in object oriented terms).
+  * `pipe_right_arg`: The right pipeline operator (essentially "`self`" or "`this`" in object oriented terms, used for `S3` dispatch).
   * `pipe_environment`: The environment the pipeline is working in (not usually needed).
 
 This functionality allows arbitrary objects to directly specify their intended pipeline behavior.
