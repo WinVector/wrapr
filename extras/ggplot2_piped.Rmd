@@ -8,7 +8,7 @@ output: github_document
 Using [`wrapr`](https://winvector.github.io/wrapr/)'s pipe with `ggplot2` (as in [Why can’t ggplot2 use %.>%?](https://community.rstudio.com/t/why-cant-ggplot2-use/4372)).
 
 ```{r}
-#' Pipe step operator
+#' Pipe step operator (requires wrapr 1.2.0 or newer).
 #'
 #' @param pipe_left_arg pipe_left_arg argument
 #' @param pipe_right_arg substitute(pipe_right_arg) argument
