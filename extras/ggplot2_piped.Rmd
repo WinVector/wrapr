@@ -28,11 +28,13 @@ pipe_step.ggplot <- function(pipe_left_arg, pipe_right_arg,
 
 library("ggplot2")
 library("wrapr")
+suppressPackageStartupMessages(library("dplyr"))
 
 d <- data.frame(x = 1:10,
                 y = cos(1:10))
 
 d %.>%
+  mutate(., y = y*y) %.>%
   ggplot(.,
          aes(x = x,  y = y)) %.>%
   geom_point() %.>%
