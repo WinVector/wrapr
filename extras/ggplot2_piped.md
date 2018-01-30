@@ -3,7 +3,7 @@ ggplot2\_piped.Rmd
 John Mount, Win-Vector LLC
 1/29/2018
 
-Using [`wrapr`](https://winvector.github.io/wrapr/)'s pipe with `ggplot2` (as in [Why can’t ggplot2 use %.&gt;%?](https://community.rstudio.com/t/why-cant-ggplot2-use/4372)).
+Using [`wrapr`](https://winvector.github.io/wrapr/)'s pipe with `ggplot2` (as in [Why can’t ggplot2 use %&gt;%?](https://community.rstudio.com/t/why-cant-ggplot2-use/4372)).
 
 ``` r
 #' Pipe step operator (requires wrapr 1.2.0 or newer).
