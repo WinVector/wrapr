@@ -25,10 +25,7 @@ pipe_step <- function(pipe_left_arg, pipe_right_arg,
 #'
 pipe_step.default <- function(pipe_left_arg, pipe_right_arg,
                               pipe_environment) {
-  # eval by with pipe_left_arg's value in dot (simulates chaining)
-  assign(".", pipe_left_arg,
-         envir = pipe_environment,
-         inherits = FALSE)
+
   eval(pipe_right_arg,
        envir = pipe_environment,
        enclos = pipe_environment)
@@ -68,6 +65,10 @@ pipe_impl <- function(pipe_left_arg, pipe_right_arg, pipe_environment) {
   pipe_left_arg <- eval(pipe_left_arg,
                         envir = pipe_environment,
                         enclos = pipe_environment)
+  # eval by with pipe_left_arg's value in dot (simulates chaining)
+  assign(".", pipe_left_arg,
+         envir = pipe_environment,
+         inherits = FALSE)
   # special case: dereference names
   if(is.name(pipe_right_arg)) {
     v <- base::mget(as.character(pipe_right_arg),
@@ -80,20 +81,32 @@ pipe_impl <- function(pipe_left_arg, pipe_right_arg, pipe_environment) {
   }
   # special case: functions (S3 doesn't do this)
   if(is.function(pipe_right_arg)) {
-    return(do.call(pipe_right_arg,
+    res <- do.call(pipe_right_arg,
                    list(pipe_left_arg),
-                   envir = pipe_environment))
+                   envir = pipe_environment)
+    assign(".", res,
+           envir = pipe_environment,
+           inherits = FALSE)
+    return(res)
   }
   # special case: look for wrapr_applicable objects
   if((!is.atomic(pipe_right_arg)) &&
      ("wrapr_applicable" %in% class(pipe_right_arg))) {
     # S3 dispatch on right argument
-    return(wrapr_function(pipe_left_arg,
+    res <- wrapr_function(pipe_left_arg,
                           pipe_right_arg,
-                          pipe_environment))
+                          pipe_environment)
+    assign(".", res,
+           envir = pipe_environment,
+           inherits = FALSE)
+    return(res)
   }
   # Go for S3 dispatch
-  pipe_step(pipe_left_arg, pipe_right_arg, pipe_environment)
+  res <- pipe_step(pipe_left_arg, pipe_right_arg, pipe_environment)
+  assign(".", res,
+         envir = pipe_environment,
+         inherits = FALSE)
+  res
 }
 
 #' Pipe operator ("dot arrow").
