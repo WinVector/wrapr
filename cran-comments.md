@@ -14,11 +14,13 @@
 
  * this is package ‘wrapr’ version ‘1.2.0’
 
- * checking CRAN incoming feasibility ...
-    Note_to_CRAN_maintainers
-    Maintainer: ‘John Mount <jmount@win-vector.com>’
+ * checking CRAN incoming feasibility ... NOTE
+   Maintainer: ‘John Mount <jmount@win-vector.com>’
 
-Status: OK
+   Number of updates in past 6 months: 7
+
+
+Status: 1 NOTE
 
 ## Downstream dependencies
 
@@ -26,8 +28,9 @@ Checked all downstream dependnecies.
 
 devtools::revdep_check()
 
-    Checking 4 packages: cdata, replyr, seplyr, WVPlots
+    Checking 5 packages: cdata, replyr, rquery, seplyr, WVPlots
     Checked cdata  : 0 errors | 0 warnings | 0 notes
     Checked replyr : 0 errors | 0 warnings | 0 notes
+    Checked rquery : 0 errors | 0 warnings | 0 notes
     Checked seplyr : 0 errors | 0 warnings | 0 notes
     Checked WVPlots: 0 errors | 0 warnings | 0 notes
