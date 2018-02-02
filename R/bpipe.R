@@ -86,10 +86,10 @@ pipe_impl <- function(pipe_left_arg, pipe_right_arg, pipe_environment) {
          inherits = FALSE)
   # special case: dereference names
   if(is.name(pipe_right_arg)) {
-    pipe_right_arg <- base::mget(as.character(pipe_right_arg),
-                                 envir = pipe_environment,
-                                 ifnotfound = list(NULL),
-                                 inherits = TRUE)[[1]]
+    pipe_right_arg <- base::get(as.character(pipe_right_arg),
+                                envir = pipe_environment,
+                                mode = "any",
+                                inherits = TRUE)
     # pipe_right_arg is now a value (as far as we are concerned)
     if(!is.null(pipe_right_arg)) {
       # special case: functions
@@ -109,7 +109,7 @@ pipe_impl <- function(pipe_left_arg, pipe_right_arg, pipe_environment) {
         return(res)
       }
     }
-    return(pipe_right_arg)
+    stop("wrapr::pipe de-referenced name was not a function or wrapr_applicable")
   }
   # Go for standard (first argument) S3 dispatch
   res <- pipe_step(pipe_left_arg,
