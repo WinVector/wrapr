@@ -46,6 +46,22 @@ wrapr_function <- function(pipe_left_arg, pipe_right_arg,
   UseMethod("wrapr_function", pipe_right_arg)
 }
 
+#' Wrapr function.
+#'
+#' S3 dispatch on tyhpe of pipe_right_argument.
+#'
+#' @param pipe_left_arg left argument
+#' @param pipe_right_arg right argument
+#' @param pipe_environment environment to evaluate in
+#' @return result
+#'
+#' @export
+#'
+wrapr_function.default <- function(pipe_left_arg, pipe_right_arg,
+                                   pipe_environment) {
+  pipe_right_arg
+}
+
 
 #' Pipe implementation.
 #'
@@ -70,32 +86,35 @@ pipe_impl <- function(pipe_left_arg, pipe_right_arg, pipe_environment) {
          inherits = FALSE)
   # special case: dereference names
   if(is.name(pipe_right_arg)) {
-    v <- base::mget(as.character(pipe_right_arg),
-                    envir = pipe_environment,
-                    ifnotfound = list(NULL),
-                    inherits = TRUE)[[1]]
-    if(!is.null(v)) {
-      pipe_right_arg <- v
+    pipe_right_arg <- base::mget(as.character(pipe_right_arg),
+                                 envir = pipe_environment,
+                                 ifnotfound = list(NULL),
+                                 inherits = TRUE)[[1]]
+    # pipe_right_arg is now a value (as far as we are concerned)
+    if(!is.null(pipe_right_arg)) {
+      # special case: functions
+      if(is.function(pipe_right_arg)) {
+        res <- do.call(pipe_right_arg,
+                       list(pipe_left_arg),
+                       envir = pipe_environment)
+        return(res)
+      }
+      # special case: look for wrapr_applicable objects
+      if((!is.atomic(pipe_right_arg)) &&
+         ("wrapr_applicable" %in% class(pipe_right_arg))) {
+        # S3 dispatch on right argument
+        res <- wrapr_function(pipe_left_arg,
+                              pipe_right_arg,
+                              pipe_environment)
+        return(res)
+      }
     }
+    return(pipe_right_arg)
   }
-  # special case: functions (S3 doesn't do this)
-  if(is.function(pipe_right_arg)) {
-    res <- do.call(pipe_right_arg,
-                   list(pipe_left_arg),
-                   envir = pipe_environment)
-    return(res)
-  }
-  # special case: look for wrapr_applicable objects
-  if((!is.atomic(pipe_right_arg)) &&
-     ("wrapr_applicable" %in% class(pipe_right_arg))) {
-    # S3 dispatch on right argument
-    res <- wrapr_function(pipe_left_arg,
-                          pipe_right_arg,
-                          pipe_environment)
-    return(res)
-  }
-  # Go for S3 dispatch
-  res <- pipe_step(pipe_left_arg, pipe_right_arg, pipe_environment)
+  # Go for standard (first argument) S3 dispatch
+  res <- pipe_step(pipe_left_arg,
+                   pipe_right_arg,
+                   pipe_environment)
   res
 }
 

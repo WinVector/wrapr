@@ -3,6 +3,7 @@
 S3method(":=",character)
 S3method(":=",list)
 S3method(pipe_step,default)
+S3method(wrapr_function,default)
 export("%.>%")
 export("%>.%")
 export(":=")

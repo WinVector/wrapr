@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Build a custom writeback function that writes state into a user named variable. — buildNameCallback • wrapr</title>
+<title>Wrapr function. — wrapr_function.default • wrapr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -113,55 +113,39 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Build a custom writeback function that writes state into a user named variable.</h1>
+    <h1>Wrapr function.</h1>
     </div>
 
     
-    <p>Build a custom writeback function that writes state into a user named variable.</p>
+    <p>S3 dispatch on tyhpe of pipe_right_argument.</p>
     
 
-    <pre class="usage"><span class='fu'>buildNameCallback</span>(<span class='no'>varName</span>)</pre>
+    <pre class="usage"><span class='co'># S3 method for default</span>
+<span class='fu'><a href='wrapr_function.html'>wrapr_function</a></span>(<span class='no'>pipe_left_arg</span>, <span class='no'>pipe_right_arg</span>,
+  <span class='no'>pipe_environment</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>varName</th>
-      <td><p>character where to write captured state</p></td>
+      <th>pipe_left_arg</th>
+      <td><p>left argument</p></td>
+    </tr>
+    <tr>
+      <th>pipe_right_arg</th>
+      <td><p>right argument</p></td>
+    </tr>
+    <tr>
+      <th>pipe_environment</th>
+      <td><p>environment to evaluate in</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>writeback function for use with functions such as  <code><a href='DebugFnW.html'>DebugFnW</a></code></p>
+    <p>result</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='co'># user function</span>
-<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>i</span>) { (<span class='fl'>1</span>:<span class='fl'>10</span>)<span class='kw'>[[</span><span class='no'>i</span>]] }
-<span class='co'># capture last error in variable called "lastError"</span>
-<span class='no'>writeBack</span> <span class='kw'>&lt;-</span> <span class='fu'>buildNameCallback</span>(<span class='st'>'lastError'</span>)
-<span class='co'># wrap function with writeBack</span>
-<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='DebugFnW.html'>DebugFnW</a></span>(<span class='no'>writeBack</span>,<span class='no'>f</span>)
-<span class='co'># capture error (Note: tryCatch not needed for user code!)</span>
-<span class='fu'>tryCatch</span>(
-  <span class='fu'>df</span>(<span class='fl'>12</span>),
-   <span class='kw'>error</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>e</span>) { <span class='fu'>print</span>(<span class='no'>e</span>) })</div><div class='output co'>#&gt; &lt;simpleError in value[[3L]](cond): wrapr::DebugFnW: wrote error to user function: 'writing to variable: "lastError"' on catching 'Error in (1:10)[[i]]: subscript out of bounds'
-#&gt;  You can reproduce the error with:
-#&gt;  'do.call(p$fn, p$args)' (replace 'p' with actual variable name)&gt;</div><div class='input'><span class='co'># examine error</span>
-<span class='fu'>str</span>(<span class='no'>lastError</span>)</div><div class='output co'>#&gt; List of 4
-#&gt;  $ fn       :function (i)  
-#&gt;   ..- attr(*, "srcref")=Class 'srcref'  atomic [1:8] 3 6 3 32 6 32 3 3
-#&gt;   .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x114962dc0&gt; 
-#&gt;  $ args     :List of 1
-#&gt;   ..$ : num 12
-#&gt;  $ namedargs: language df(12)
-#&gt;  $ fn_name  : chr "f"</div><div class='input'><span class='co'># redo call, perhaps debugging</span>
-<span class='fu'>tryCatch</span>(
- <span class='fu'>do.call</span>(<span class='no'>lastError</span>$<span class='no'>fn_name</span>, <span class='no'>lastError</span>$<span class='no'>args</span>),
-   <span class='kw'>error</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>e</span>) { <span class='fu'>print</span>(<span class='no'>e</span>) })</div><div class='output co'>#&gt; &lt;simpleError in (1:10)[[i]]: subscript out of bounds&gt;</div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -169,9 +153,7 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
 
   </div>
 </div>
