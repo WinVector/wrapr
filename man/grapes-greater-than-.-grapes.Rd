@@ -20,9 +20,7 @@ Defined as roughly : \code{a \%>.\% b} ~ \code{\{ . <- a; b \};}
 }
 \details{
 The pipe operator has a couple of special cases. First: if the right hand side is a name,
-then we try to de-reference it.  Second: if the right-hand side includes the class decleration
-"wrapr_applicable" and has a field named "wrapr_applicable" that is a function, then
-we apply this function to the first and second arguments of the pipe.
+then we try to de-reference it and apply it as a function or surrogate function.
 
 For some discussion, please see \url{http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/}.
 \code{\%>.\%} and \code{\%.>\%} are synonyms.

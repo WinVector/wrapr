@@ -91,25 +91,18 @@ pipe_impl <- function(pipe_left_arg, pipe_right_arg, pipe_environment) {
                                 mode = "any",
                                 inherits = TRUE)
     # pipe_right_arg is now a value (as far as we are concerned)
-    if(!is.null(pipe_right_arg)) {
-      # special case: functions
-      if(is.function(pipe_right_arg)) {
-        res <- do.call(pipe_right_arg,
-                       list(pipe_left_arg),
-                       envir = pipe_environment)
-        return(res)
-      }
-      # special case: look for wrapr_applicable objects
-      if((!is.atomic(pipe_right_arg)) &&
-         ("wrapr_applicable" %in% class(pipe_right_arg))) {
-        # S3 dispatch on right argument
-        res <- wrapr_function(pipe_left_arg,
-                              pipe_right_arg,
-                              pipe_environment)
-        return(res)
-      }
+    # special case: functions
+    if(is.function(pipe_right_arg)) {
+      res <- do.call(pipe_right_arg,
+                     list(pipe_left_arg),
+                     envir = pipe_environment)
+      return(res)
     }
-    stop("wrapr::pipe de-referenced name was not a function or wrapr_applicable")
+    # S3 dispatch on right argument, surrogate function
+    res <- wrapr_function(pipe_left_arg,
+                          pipe_right_arg,
+                          pipe_environment)
+    return(res)
   }
   # Go for standard (first argument) S3 dispatch
   res <- pipe_step(pipe_left_arg,
@@ -124,9 +117,7 @@ pipe_impl <- function(pipe_left_arg, pipe_right_arg, pipe_environment) {
 #' (with visible .-side effects).
 #'
 #' The pipe operator has a couple of special cases. First: if the right hand side is a name,
-#' then we try to de-reference it.  Second: if the right-hand side includes the class decleration
-#' "wrapr_applicable" and has a field named "wrapr_applicable" that is a function, then
-#' we apply this function to the first and second arguments of the pipe.
+#' then we try to de-reference it and apply it as a function or surrogate function.
 #'
 #' @param pipe_left_arg left argument expression (substituted into .)
 #' @param pipe_right_arg right argument expession (presumably including .)
@@ -152,9 +143,7 @@ pipe_impl <- function(pipe_left_arg, pipe_right_arg, pipe_environment) {
 #' (with visible .-side effects).
 #'
 #' The pipe operator has a couple of special cases. First: if the right hand side is a name,
-#' then we try to de-reference it.  Second: if the right-hand side includes the class decleration
-#' "wrapr_applicable" and has a field named "wrapr_applicable" that is a function, then
-#' we apply this function to the first and second arguments of the pipe.
+#' then we try to de-reference it and apply it as a function or surrogate function.
 #'
 #' For some discussion, please see \url{http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/}.
 #' \code{\%>.\%} and \code{\%.>\%} are synonyms.
