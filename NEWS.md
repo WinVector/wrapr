@@ -1,5 +1,5 @@
 
-# wrapr 1.2.0 2018-02-02
+# wrapr 1.2.0 2018-02-09
  
  * Add map_upper.
  * Accept x=y in qae().
@@ -7,6 +7,7 @@
  * Add left S3 dispatch through pipe_step.
  * Move wrapr_applicable to S3 dispatch.
  * Introduce wrapr_post_applicable.
+ * Treat 0-length calls as names.
 
 # wrapr 1.1.1 2018-01-20
  

@@ -84,6 +84,12 @@ pipe_impl <- function(pipe_left_arg, pipe_right_arg, pipe_environment) {
   assign(".", pipe_left_arg,
          envir = pipe_environment,
          inherits = FALSE)
+  # special case: treat 0-argument calls as names
+  if(is.call(pipe_right_arg) &&
+     (length(pipe_right_arg)==1) &&
+     (is.name(pipe_right_arg[[1]]))) {
+    pipe_right_arg <- pipe_right_arg[[1]]
+  }
   # special case: dereference names
   if(is.name(pipe_right_arg)) {
     pipe_right_arg <- base::get(as.character(pipe_right_arg),
