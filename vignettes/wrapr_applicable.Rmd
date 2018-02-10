@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-`wrapr` `1.1.0` includes de-referencing, function evaluation, and a new concept called `"wrapr_applicable"`.  `"wrapr_applicable"` is an early dispatch by type of right hand side argument scheme.
+`wrapr` `1.2.0` includes de-referencing, function evaluation, and a new concept called `"wrapr_applicable"`.  `"wrapr_applicable"` is dispatch by type of right hand side argument scheme.
 
 ## Basic `wrapr`
 
@@ -30,7 +30,7 @@ library("wrapr")
 
 ## Dereferencing and function evaluation
 
-`wrapr` works primarily over expressions and "`.`".  As of version `1.1.0` `wrapr` does try to de-reference names found in the right-hand side of pipe stages, and also dispatches functions.  That is: one can now write the following.
+`wrapr` works primarily over expressions and "`.`".  As of version `1.2.0` `wrapr` does try to de-reference names found in the right-hand side of pipe stages, and also dispatches functions.  That is: one can now write the following.
 
 ```{r nofn}
 5 %.>% sin
@@ -55,15 +55,18 @@ class(function_reference) <- c("wrapr_applicable", "ourclass")
 #'
 #' S3 dispatch on tyhpe of pipe_right_argument.
 #'
-#' @param pipe_left_arg left argument
-#' @param pipe_right_arg right argument
-#' @param pipe_environment environment to evaluate in
+#' @param pipe_left_arg left argument.
+#' @param pipe_right_arg right argument.
+#' @param pipe_environment environment to evaluate in.
+#' @param pipe_name character, name of pipe operator.
 #' @return result
 #'
 #' @export
 #'
-wrapr_function.ourclass <- function(pipe_left_arg, pipe_right_arg,
-                                    pipe_environment) {
+wrapr_function.ourclass <- function(pipe_left_arg, 
+                                    pipe_right_arg,
+                                    pipe_environment,
+                                    pipe_name) {
   pipe_right_arg$f(pipe_left_arg)
 }
 
@@ -80,8 +83,30 @@ The signature arguments work as follows:
   * `pipe_left_arg`: The value moving down the pipeline.
   * `pipe_right_arg`: The right pipeline operator (essentially "`self`" or "`this`" in object oriented terms, used for `S3` dispatch).
   * `pipe_environment`: The environment the pipeline is working in (not usually needed).
+  * `pipe_name\: The name of the pipe operator (not usually needed).
 
 This functionality allows arbitrary objects to directly specify their intended pipeline behavior.
+
+Let's use a debugging function to see the values of all of the arguments.
+
+```{r debug}
+wrapr_function.ourclass <- function(pipe_left_arg, 
+                                    pipe_right_arg,
+                                    pipe_environment,
+                                    pipe_name) {
+  print("pipe_left_arg")
+  print(pipe_left_arg)
+  print("pipe_right_arg")
+  print(pipe_right_arg)
+  print("pipe_environment")
+  print(pipe_environment)
+  print("pipe_name")
+  print(pipe_name)
+  pipe_right_arg$f(pipe_left_arg)
+}
+
+5 %.>% function_reference
+```
 
 ## Application
 

@@ -5,14 +5,16 @@
 \title{Wrapr function.}
 \usage{
 \method{wrapr_function}{default}(pipe_left_arg, pipe_right_arg,
-  pipe_environment)
+  pipe_environment, pipe_name)
 }
 \arguments{
-\item{pipe_left_arg}{left argument}
+\item{pipe_left_arg}{left argument.}
 
-\item{pipe_right_arg}{right argument}
+\item{pipe_right_arg}{right argument.}
 
-\item{pipe_environment}{environment to evaluate in}
+\item{pipe_environment}{environment to evaluate in.}
+
+\item{pipe_name}{character, name of pipe operator.}
 }
 \value{
 result

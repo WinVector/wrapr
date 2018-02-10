@@ -4,14 +4,16 @@
 \alias{pipe_step}
 \title{Pipe step operator}
 \usage{
-pipe_step(pipe_left_arg, pipe_right_arg, pipe_environment)
+pipe_step(pipe_left_arg, pipe_right_arg, pipe_environment, pipe_name)
 }
 \arguments{
-\item{pipe_left_arg}{left argument}
+\item{pipe_left_arg}{left argument.}
 
-\item{pipe_right_arg}{substitute(pipe_right_arg) argument}
+\item{pipe_right_arg}{substitute(pipe_right_arg) argument.}
 
-\item{pipe_environment}{environment to evaluate in}
+\item{pipe_environment}{environment to evaluate in.}
+
+\item{pipe_name}{character, name of pipe operator.}
 }
 \value{
 result

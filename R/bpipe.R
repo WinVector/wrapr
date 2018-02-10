@@ -2,15 +2,18 @@
 
 #' Pipe step operator
 #'
-#' @param pipe_left_arg left argument
-#' @param pipe_right_arg substitute(pipe_right_arg) argument
-#' @param pipe_environment environment to evaluate in
+#' @param pipe_left_arg left argument.
+#' @param pipe_right_arg substitute(pipe_right_arg) argument.
+#' @param pipe_environment environment to evaluate in.
+#' @param pipe_name character, name of pipe operator.
 #' @return result
 #'
 #' @export
 #'
-pipe_step <- function(pipe_left_arg, pipe_right_arg,
-                      pipe_environment) {
+pipe_step <- function(pipe_left_arg,
+                      pipe_right_arg,
+                      pipe_environment,
+                      pipe_name) {
   UseMethod("pipe_step", pipe_left_arg)
 }
 
@@ -19,12 +22,15 @@ pipe_step <- function(pipe_left_arg, pipe_right_arg,
 #' @param pipe_left_arg left argument
 #' @param pipe_right_arg substitute(pipe_right_arg) argument
 #' @param pipe_environment environment to evaluate in
+#' @param pipe_name character, name of pipe operator.
 #' @return result
 #'
 #' @export
 #'
-pipe_step.default <- function(pipe_left_arg, pipe_right_arg,
-                              pipe_environment) {
+pipe_step.default <- function(pipe_left_arg,
+                              pipe_right_arg,
+                              pipe_environment,
+                              pipe_name) {
   eval(pipe_right_arg,
        envir = pipe_environment,
        enclos = pipe_environment)
@@ -34,15 +40,18 @@ pipe_step.default <- function(pipe_left_arg, pipe_right_arg,
 #'
 #' S3 dispatch on tyhpe of pipe_right_argument.
 #'
-#' @param pipe_left_arg left argument
-#' @param pipe_right_arg right argument
-#' @param pipe_environment environment to evaluate in
+#' @param pipe_left_arg left argument.
+#' @param pipe_right_arg right argument.
+#' @param pipe_environment environment to evaluate in.
+#' @param pipe_name character, name of pipe operator.
 #' @return result
 #'
 #' @export
 #'
-wrapr_function <- function(pipe_left_arg, pipe_right_arg,
-                      pipe_environment) {
+wrapr_function <- function(pipe_left_arg,
+                           pipe_right_arg,
+                           pipe_environment,
+                           pipe_name) {
   UseMethod("wrapr_function", pipe_right_arg)
 }
 
@@ -50,33 +59,37 @@ wrapr_function <- function(pipe_left_arg, pipe_right_arg,
 #'
 #' S3 dispatch on tyhpe of pipe_right_argument.
 #'
-#' @param pipe_left_arg left argument
-#' @param pipe_right_arg right argument
-#' @param pipe_environment environment to evaluate in
+#' @param pipe_left_arg left argument.
+#' @param pipe_right_arg right argument.
+#' @param pipe_environment environment to evaluate in.
+#' @param pipe_name character, name of pipe operator.
 #' @return result
 #'
 #' @export
 #'
-wrapr_function.default <- function(pipe_left_arg, pipe_right_arg,
-                                   pipe_environment) {
+wrapr_function.default <- function(pipe_left_arg,
+                                   pipe_right_arg,
+                                   pipe_environment,
+                                   pipe_name) {
   pipe_right_arg
 }
 
 
-#' Pipe implementation.
+#' Pipe dispatch implementation.
 #'
-#' @param pipe_left_arg substitute(pipe_left_arg) argument
-#' @param pipe_right_arg substitute(pipe_right_arg) argument
-#' @param pipe_environment environment to evaluate in
+#' @param pipe_left_arg substitute(pipe_left_arg) argument.
+#' @param pipe_right_arg substitute(pipe_right_arg) argument.
+#' @param pipe_environment environment to evaluate in.
+#' @param pipe_name character, name of pipe operator.
 #' @return result
 #'
 #' @noRd
 #'
-pipe_impl <- function(pipe_left_arg, pipe_right_arg, pipe_environment) {
-  # force pipe_left_arg, by left-associativity "pipe_left_arg" may be a pipe
-  # sequence itself.
-  # We are not bothering to capture that as a list, just letting
-  # R's calling sequence take us to those pieces.
+pipe_impl <- function(pipe_left_arg,
+                      pipe_right_arg,
+                      pipe_environment,
+                      pipe_name) {
+  # force pipe_left_arg
   pipe_left_arg <- eval(pipe_left_arg,
                         envir = pipe_environment,
                         enclos = pipe_environment)
@@ -101,13 +114,15 @@ pipe_impl <- function(pipe_left_arg, pipe_right_arg, pipe_environment) {
     # S3 dispatch on right argument, surrogate function
     res <- wrapr_function(pipe_left_arg,
                           pipe_right_arg,
-                          pipe_environment)
+                          pipe_environment,
+                          pipe_name)
     return(res)
   }
   # Go for standard (first argument) S3 dispatch
   res <- pipe_step(pipe_left_arg,
                    pipe_right_arg,
-                   pipe_environment)
+                   pipe_environment,
+                   pipe_name)
   res
 }
 
@@ -134,7 +149,9 @@ pipe_impl <- function(pipe_left_arg, pipe_right_arg, pipe_environment) {
   pipe_left_arg <- substitute(pipe_left_arg)
   pipe_right_arg <- substitute(pipe_right_arg)
   pipe_environment <- parent.frame()
-  pipe_impl(pipe_left_arg, pipe_right_arg, pipe_environment)
+  pipe_name <- as.character(sys.call()[[1]])
+  pipe_impl(pipe_left_arg, pipe_right_arg,
+            pipe_environment, pipe_name)
 }
 
 #' Pipe operator ("to dot").
@@ -163,5 +180,7 @@ pipe_impl <- function(pipe_left_arg, pipe_right_arg, pipe_environment) {
   pipe_left_arg <- substitute(pipe_left_arg)
   pipe_right_arg <- substitute(pipe_right_arg)
   pipe_environment <- parent.frame()
-  pipe_impl(pipe_left_arg, pipe_right_arg, pipe_environment)
+  pipe_name <- as.character(sys.call()[[1]])
+  pipe_impl(pipe_left_arg, pipe_right_arg,
+            pipe_environment, pipe_name)
 }
