@@ -13,7 +13,7 @@
 pipe_step <- function(pipe_left_arg,
                       pipe_right_arg,
                       pipe_environment,
-                      pipe_name) {
+                      pipe_name = NULL) {
   UseMethod("pipe_step", pipe_left_arg)
 }
 
@@ -30,7 +30,7 @@ pipe_step <- function(pipe_left_arg,
 pipe_step.default <- function(pipe_left_arg,
                               pipe_right_arg,
                               pipe_environment,
-                              pipe_name) {
+                              pipe_name = NULL) {
   eval(pipe_right_arg,
        envir = pipe_environment,
        enclos = pipe_environment)
@@ -51,7 +51,7 @@ pipe_step.default <- function(pipe_left_arg,
 wrapr_function <- function(pipe_left_arg,
                            pipe_right_arg,
                            pipe_environment,
-                           pipe_name) {
+                           pipe_name = NULL) {
   UseMethod("wrapr_function", pipe_right_arg)
 }
 
@@ -70,7 +70,7 @@ wrapr_function <- function(pipe_left_arg,
 wrapr_function.default <- function(pipe_left_arg,
                                    pipe_right_arg,
                                    pipe_environment,
-                                   pipe_name) {
+                                   pipe_name = NULL) {
   pipe_right_arg
 }
 
@@ -88,7 +88,7 @@ wrapr_function.default <- function(pipe_left_arg,
 pipe_impl <- function(pipe_left_arg,
                       pipe_right_arg,
                       pipe_environment,
-                      pipe_name) {
+                      pipe_name = NULL) {
   # force pipe_left_arg
   pipe_left_arg <- eval(pipe_left_arg,
                         envir = pipe_environment,

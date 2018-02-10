@@ -4,7 +4,7 @@
 \alias{pipe_step}
 \title{Pipe step operator}
 \usage{
-pipe_step(pipe_left_arg, pipe_right_arg, pipe_environment, pipe_name)
+pipe_step(pipe_left_arg, pipe_right_arg, pipe_environment, pipe_name = NULL)
 }
 \arguments{
 \item{pipe_left_arg}{left argument.}

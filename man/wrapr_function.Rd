@@ -4,7 +4,8 @@
 \alias{wrapr_function}
 \title{Wrapr function.}
 \usage{
-wrapr_function(pipe_left_arg, pipe_right_arg, pipe_environment, pipe_name)
+wrapr_function(pipe_left_arg, pipe_right_arg, pipe_environment,
+  pipe_name = NULL)
 }
 \arguments{
 \item{pipe_left_arg}{left argument.}
