@@ -291,7 +291,7 @@ letprep_lang <- function(alias, lexpr) {
 #' @param expr block to prepare for execution.
 #' @param ... force later arguments to be bound by name.
 #' @param envir environment to work in.
-#' @param subsMethod character substitution method, one of  'langsubs' (preferred), 'subsubs', or 'stringsubs' (deprecated).
+#' @param subsMethod character substitution method, one of  'langsubs' (preferred), 'subsubs', or 'stringsubs'.
 #' @param strict logical if TRUE names and values must be valid un-quoted names, and not dot.
 #' @param eval logical if TRUE execute the re-mapped expression (else return it).
 #' @param debugPrint logical if TRUE print debugging information when in stringsubs mode.
@@ -360,7 +360,6 @@ let <- function(alias, expr,
     } else if(subsMethod=='stringsubs') {
       # string substitution based implementation.
       # Similar to \code{gtools::strmacro} by Gregory R. Warnes.
-      # warning("subsMethod='stringsubs' is deprecated")
       exprS <- letprep_str(alias, deparse(exprQ))
     } else {
       stop(paste("wrapr::let unexpected subsMethod '", subsMethod, "'"))

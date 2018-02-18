@@ -16,7 +16,7 @@ let(alias, expr, ..., envir = parent.frame(), subsMethod = "langsubs",
 
 \item{envir}{environment to work in.}
 
-\item{subsMethod}{character substitution method, one of  'langsubs' (preferred), 'subsubs', or 'stringsubs' (deprecated).}
+\item{subsMethod}{character substitution method, one of  'langsubs' (preferred), 'subsubs', or 'stringsubs'.}
 
 \item{strict}{logical if TRUE names and values must be valid un-quoted names, and not dot.}
 

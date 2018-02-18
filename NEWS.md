@@ -7,6 +7,7 @@
  * Add left S3 dispatch through pipe_step.
  * Add right S3 dispatch through wrapr_function.
  * Add match_order.
+ * Remove deprecated methods.
 
 # wrapr 1.1.1 2018-01-20
  
