@@ -8,6 +8,7 @@
  * Add right S3 dispatch through wrapr_function.
  * Add match_order.
  * Remove deprecated methods.
+ * Move mk_tmp_name_source to this package.
 
 # wrapr 1.1.1 2018-01-20
  

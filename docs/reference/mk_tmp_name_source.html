@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Build a custom writeback function that writes state into a user named variable. — buildNameCallback • wrapr</title>
+<title>Produce a temp name generator with a given prefix. — mk_tmp_name_source • wrapr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -113,54 +113,54 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Build a custom writeback function that writes state into a user named variable.</h1>
+    <h1>Produce a temp name generator with a given prefix.</h1>
     </div>
 
     
-    <p>Build a custom writeback function that writes state into a user named variable.</p>
+    <p>Returns a function f where: f() returns a new temporary name,
+f(remove=vector) removes names in vector and returns what was removed,
+f(dumpList=TRUE) returns the list of names generated and clears the list,
+f(peek=TRUE) returns the list without altering anything.</p>
     
 
-    <pre class="usage"><span class='fu'>buildNameCallback</span>(<span class='no'>varName</span>)</pre>
+    <pre class="usage"><span class='fu'>mk_tmp_name_source</span>(<span class='kw'>prefix</span> <span class='kw'>=</span> <span class='st'>"tmpnam"</span>, <span class='no'>...</span>, <span class='kw'>alphabet</span> <span class='kw'>=</span> <span class='fu'>as.character</span>(<span class='fl'>0</span>:<span class='fl'>9</span>),
+  <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>"_"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>varName</th>
-      <td><p>character where to write captured state</p></td>
+      <th>prefix</th>
+      <td><p>character, string to prefix temp names with.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>force later argument to be bound by name.</p></td>
+    </tr>
+    <tr>
+      <th>alphabet</th>
+      <td><p>character, characters to choose from in building ids.</p></td>
+    </tr>
+    <tr>
+      <th>size</th>
+      <td><p>character, number of characters to build id portion of names from.</p></td>
+    </tr>
+    <tr>
+      <th>sep</th>
+      <td><p>character, separator between temp name fields.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>writeback function for use with functions such as  <code><a href='DebugFnW.html'>DebugFnW</a></code></p>
+    <p>name generator function.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='co'># user function</span>
-<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>i</span>) { (<span class='fl'>1</span>:<span class='fl'>10</span>)<span class='kw'>[[</span><span class='no'>i</span>]] }
-<span class='co'># capture last error in variable called "lastError"</span>
-<span class='no'>writeBack</span> <span class='kw'>&lt;-</span> <span class='fu'>buildNameCallback</span>(<span class='st'>'lastError'</span>)
-<span class='co'># wrap function with writeBack</span>
-<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='DebugFnW.html'>DebugFnW</a></span>(<span class='no'>writeBack</span>,<span class='no'>f</span>)
-<span class='co'># capture error (Note: tryCatch not needed for user code!)</span>
-<span class='fu'>tryCatch</span>(
-  <span class='fu'>df</span>(<span class='fl'>12</span>),
-   <span class='kw'>error</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>e</span>) { <span class='fu'>print</span>(<span class='no'>e</span>) })</div><div class='output co'>#&gt; &lt;simpleError in value[[3L]](cond): wrapr::DebugFnW: wrote error to user function: 'writing to variable: "lastError"' on catching 'Error in (1:10)[[i]]: subscript out of bounds'
-#&gt;  You can reproduce the error with:
-#&gt;  'do.call(p$fn, p$args)' (replace 'p' with actual variable name)&gt;</div><div class='input'><span class='co'># examine error</span>
-<span class='fu'>str</span>(<span class='no'>lastError</span>)</div><div class='output co'>#&gt; List of 4
-#&gt;  $ fn       :function (i)  
-#&gt;   ..- attr(*, "srcref")=Class 'srcref'  atomic [1:8] 3 6 3 32 6 32 3 3
-#&gt;   .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x10af09118&gt; 
-#&gt;  $ args     :List of 1
-#&gt;   ..$ : num 12
-#&gt;  $ namedargs: language df(12)
-#&gt;  $ fn_name  : chr "f"</div><div class='input'><span class='co'># redo call, perhaps debugging</span>
-<span class='fu'>tryCatch</span>(
- <span class='fu'>do.call</span>(<span class='no'>lastError</span>$<span class='no'>fn_name</span>, <span class='no'>lastError</span>$<span class='no'>args</span>),
-   <span class='kw'>error</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>e</span>) { <span class='fu'>print</span>(<span class='no'>e</span>) })</div><div class='output co'>#&gt; &lt;simpleError in (1:10)[[i]]: subscript out of bounds&gt;</div><div class='input'>
+<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='fu'>mk_tmp_name_source</span>(<span class='st'>'ex'</span>)
+<span class='fu'>print</span>(<span class='fu'>f</span>())</div><div class='output co'>#&gt; [1] "ex_08610442778103414039_0000000000"</div><div class='input'><span class='no'>nm2</span> <span class='kw'>&lt;-</span> <span class='fu'>f</span>()
+<span class='fu'>print</span>(<span class='no'>nm2</span>)</div><div class='output co'>#&gt; [1] "ex_08610442778103414039_0000000001"</div><div class='input'><span class='fu'>f</span>(<span class='kw'>remove</span><span class='kw'>=</span><span class='no'>nm2</span>)</div><div class='output co'>#&gt; [1] "ex_08610442778103414039_0000000001"</div><div class='input'><span class='fu'>print</span>(<span class='fu'>f</span>(<span class='kw'>dumpList</span><span class='kw'>=</span><span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; [1] "ex_08610442778103414039_0000000000"</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
