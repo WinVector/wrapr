@@ -114,16 +114,11 @@ prepareAlias <- function(alias, strict) {
 #'
 #' @param alias mapping named list/vector to strings/names or general
 #' @param strexpr character vector source text to be re-written
-#' @param ... force later arguments to be bound by name.
 #' @return parsed R expression with substitutions
 #'
 #' @noRd
 #'
-letprep_str <- function(alias, strexpr,
-                    ...) {
-  if(length(list(...))>0) {
-    stop("wrapr::letprep_str unexpected arguments.")
-  }
+letprep_str <- function(alias, strexpr) {
   if(!is.character(strexpr)) {
     stop("wrapr::letprep_str strexpr must be a character array")
   }
@@ -163,7 +158,6 @@ letprep_str <- function(alias, strexpr,
 #'
 #' @param alias mapping named list/vector to strings/names or general
 #' @param lexpr language item
-#' @param ... force later arguments to be bound by name.
 #' @return R language element with substitutions
 #'
 #' @noRd
@@ -336,9 +330,7 @@ let <- function(alias, expr,
                 eval= TRUE,
                 debugPrint= FALSE) {
   exprQ <- substitute(expr)  # do this early before things enter local environment
-  if(length(list(...))>0) {
-    stop("wrapr::let unexpected arguments")
-  }
+  stop_if_dot_args(substitute(list(...)), "wrapr::let")
   allowedMethods <- c('langsubs', 'stringsubs', 'subsubs')
   if((!is.character(subsMethod)) ||
      (length(subsMethod)!=1) ||

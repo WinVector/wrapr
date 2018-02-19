@@ -28,9 +28,8 @@ mk_tmp_name_source <- function(prefix = "tmpnam",
                                alphabet = as.character(0:9),
                                size = 20,
                                sep = "_") {
-  if(length(list(...))>0) {
-    stop("wrapr::mk_tmp_name_source: unexpected argument")
-  }
+  stop_if_dot_args(substitute(list(...)),
+                          "wrapr::mk_tmp_name_source")
   force(prefix)
   force(alphabet)
   force(size)
@@ -43,9 +42,8 @@ mk_tmp_name_source <- function(prefix = "tmpnam",
   count <- 0
   nameList <- list()
   function(..., peek=FALSE, dumpList=FALSE, remove=NULL) {
-    if(length(list(...))>0) {
-      stop("wrapr::tmp_name_source: unexpected argument")
-    }
+    stop_if_dot_args(substitute(list(...)),
+                            "wrapr tmp name source")
     if(peek) {
       return(names(nameList))
     }

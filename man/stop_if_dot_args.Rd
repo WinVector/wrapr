@@ -21,7 +21,7 @@ Useful in writing functions that force named arguments.
 \examples{
 
 f <- function(x, ..., inc = 1) {
-   wrapr::stop_if_dot_args(substitute(list(...)), "f")
+   stop_if_dot_args(substitute(list(...)), "f")
    x + inc
 }
 f(7)

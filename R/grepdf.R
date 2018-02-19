@@ -31,9 +31,7 @@ grepdf <- function(pattern, x,
                    ...,
                    ignore.case = FALSE, perl = FALSE, value = FALSE,
                    fixed = FALSE, useBytes = FALSE, invert = FALSE ) {
-  if(length(list(...))>0) {
-    stop("cdata::grepdf unexpected arguments")
-  }
+  stop_if_dot_args(substitute(list(...)), "wrapr::grepdf")
   nms <- colnames(x)
   nms[base::grep(pattern, nms,
                  ignore.case = ignore.case, perl = perl, value = value,
