@@ -1,5 +1,5 @@
 
-# wrapr 1.2.0 2018-02-18
+# wrapr 1.2.0 2018-02-19
  
  * Add map_upper.
  * Accept x=y in qae().
@@ -9,6 +9,7 @@
  * Add match_order.
  * Remove deprecated methods.
  * Move mk_tmp_name_source to this package.
+ * Add stop_if_dot_args.
 
 # wrapr 1.1.1 2018-01-20
  
