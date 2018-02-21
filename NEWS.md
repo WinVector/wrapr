@@ -1,5 +1,5 @@
 
-# wrapr 1.2.0 2018-02-19
+# wrapr 1.2.0 2018-02-21
  
  * Add map_upper.
  * Accept x=y in qae().

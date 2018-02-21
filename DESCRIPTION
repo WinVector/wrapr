@@ -1,8 +1,8 @@
 Package: wrapr
 Type: Package
-Title: Wrap R Functions for Debugging and Parametric Programming
+Title: Wrap R Tools for Debugging and Parametric Programming
 Version: 1.2.0
-Date: 2018-02-19
+Date: 2018-02-21
 Authors@R: c(
     person("John", "Mount", email = "jmount@win-vector.com", role = c("aut", "cre")),
     person("Nina", "Zumel", email = "nzumel@win-vector.com", role = c("aut")),
@@ -11,9 +11,11 @@ Authors@R: c(
 URL: https://github.com/WinVector/wrapr, http://winvector.github.io/wrapr/
 Maintainer: John Mount <jmount@win-vector.com>
 BugReports: https://github.com/WinVector/wrapr/issues
-Description: Powerful tools for writing and debugging R code. Provides: 'let()' which converts non-standard evaluation interfaces to
-    parametric standard evaluation interface, 'DebugFnW()' to capture function context on error for
-    debugging, and ':=' named map builder, and lambda-abstraction.
+Description: Tools for writing and debugging R code. Provides: 'let()' which
+    converts non-standard evaluation interfaces to parametric standard
+    evaluation interface, 'qc()' quoting concatenate, 'DebugFnW()' to
+    capture function context on error for debugging, dot-pipe, ':='
+    named map builder, and lambda-abstraction.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
