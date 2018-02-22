@@ -1,15 +1,5 @@
 
 
-Note to CRAN:
-
-There is one reverse dependency check issue: 'seplyr' issues 1 warning,
-which is due to a vignette failure.  This failure is already occurring
-on CRAN and was triggered by the release of version 0.2.0 of 
-the 'rlang' package (published 2018-02-20).  It is my intent to 
-fix 'seplyr' by removing offending code, but that is much easier
-and safer to do if I can update the dependent package 'wrapr' first 
-(which is what I am attempting to do with this 'wrapr' release).
-
 
 ## Test environments
 
