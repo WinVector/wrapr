@@ -1,0 +1,59 @@
+---
+title: "Named Arguments"
+author: "John Mount, Win-Vector LLC"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Named Arguments}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+R's named function argument binding is a great aid in writing correct programs.  It is a good idea, if practical, to force optional arguments to only be usable by name.  To do this declare the additional arguments after "<code>...</code>" and enforce that none got lost in the "<code>...</code> trap" by using a checker such as <a href="https://winvector.github.io/wrapr/reference/stop_if_dot_args.html">wrapr::stop_if_dot_args()</a>.
+
+Example:
+
+```{r}
+#' Increment x by inc.
+#' 
+#' @param x item to add to
+#' @param ... not used for values, forces later arguments to bind by name
+#' @param inc (optional) value to add
+#' @return x+inc
+#'
+#' @examples
+#'
+#' f(7) # returns 8
+#'
+f <- function(x, ..., inc = 1) {
+   wrapr::stop_if_dot_args(substitute(list(...)), "f")
+   x + inc
+}
+
+f(7)
+
+f(7, inc = 2)
+
+tryCatch(
+  f(7, q = mtcars),
+  error = function(e) { print(e) })
+
+tryCatch(
+  f(7, 2),
+  error = function(e) { print(e) })
+```
+
+By R function evaluation rules: any unexpected/undeclared arguments are captured by the "<code>...</code>" argument. Then "wrapr::stop_if_dot_args()" inspects for such values and reports an error if there are such.  The &quot;f&quot; string is returned as part of the error, I chose the name of the function as in this case.  The "substitute(list(...))" part is R's way of making the contents of "..." available for inspection.
+
+You can also use the technique on required arguments. <a href="https://winvector.github.io/wrapr/reference/stop_if_dot_args.html">wrapr::stop_if_dot_args()</a> is a simple low-dependency helper function intended to make writing code such as the above easier.  This is under the rubric that hidden errors are worse than thrown exceptions. It is best to find and signal problems early, and near the cause.
+
+The idea is that you should not expect a user to remember the positions of more than 1 to 3 arguments, the rest should only be referable by name. Do not make your users count along large sequences of arguments, <a href="https://en.wikipedia.org/wiki/Subitizing">the human brain may have special cases for small sequences</a>.
+
+
+<blockquote>
+  If you have a procedure with 10 parameters, you probably missed some.
+  <p/><a href="http://pu.inf.uni-tuebingen.de/users/klaeren/epigrams.html">Alan Perlis, "Epigrams on Programming", ACM SIGPLAN Notices 17 (9), September 1982, pp. 7–13.</a>
+</blockquote>
+
+Note that the "<code>substitute(list(...))</code>" part is the R idiom for capturing the unevaluated contents of "<code>...</code>", I felt it best to use standard R as much a possible in favor of introducing any <em>additional</em> magic invocations.
