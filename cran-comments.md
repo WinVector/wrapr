@@ -32,5 +32,5 @@ devtools::revdep_check()
     Checked cdata  : 0 errors | 0 warnings | 0 notes
     Checked replyr : 0 errors | 0 warnings | 0 notes
     Checked rquery : 0 errors | 0 warnings | 0 notes
-    Checked seplyr : 0 errors | 1 warning  | 0 notes
+    Checked seplyr : 0 errors | 0 warnings | 0 notes
     Checked WVPlots: 0 errors | 0 warnings | 0 notes
