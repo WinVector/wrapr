@@ -1,0 +1,116 @@
+---
+title: "Frame Tools"
+author: "John Mount, Win-Vector LLC"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Frame Tools}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+[`wrapr`](https://winvector.github.io/wrapr/) supplies a few tools for creating example 
+`data.frame`s.  An important use case is: building the control table for `rowrecs_to_blocks()` and `blocks_to_rowrecs()` (example [here](https://winvector.github.io/cdata/articles/cdata.html)).
+
+Lets see how to create an example data frame.  The idea is similar to that found in [`tibble::tribble()`](http://tibble.tidyverse.org/reference/tribble.html): for small tables a 
+row oriented constructor can be quite legible, and avoids the cognitive load of taking a transpose.
+
+For example we can create a typical `data.frame` as follows:
+
+```{r}
+d <- data.frame(
+  names = c("a", "b", "c", "d"),
+  x =     c(1,   2,   3,   4  ),
+  y =     c(1,   4,   9,   16 ),
+  stringsAsFactors = FALSE)
+
+print(d)
+```
+
+Notice how the table is specified by columns (which is close to how `data.frame`s
+are implemented), but printed by rows.  `utils::str()` and `tibble::glimpse()` both 
+print by columns.
+
+```{r}
+str(d)
+```
+
+`wrapr` supplies the method [`draw_frame`](https://winvector.github.io/wrapr/reference/draw_frame.html) which at first glance appears to be a mere pretty-printer:
+
+```{r}
+library("wrapr")
+```
+
+```{r, comment=''}
+cat(draw_frame(d))
+```
+
+However, the above rendering is actually executable `R` code.  If we run it, we re-create
+the original `data.frame()`.
+
+```{r}
+d2 <- build_frame(
+   "names", "x", "y" |
+   "a"    , 1  ,  1  |
+   "b"    , 2  ,  4  |
+   "c"    , 3  ,  9  |
+   "d"    , 4  , 16  )
+
+print(d2)
+```
+
+The merit is: the above input is how it looks when printed.
+
+The technique is intended for typing small examples (or `cdata` control tables) and only builds `data.frame`s with atomic types (characters, numerics, and logicals; no times, factors or list columns).  The specification rule is the first appearance of an infix 2-argument function call (in this case the infix "or symbol" "<code>|</code>") is taken to mean the earlier arguments are part of the header or column names and later arguments are values.  The other appearances of "<code>/</code>" are ignored.  This means we could also write the frame as follows:
+
+```{r}
+build_frame(
+   "names", "x", "y" |
+   "a"    , 1  ,  1  ,
+   "b"    , 2  ,  4  ,
+   "c"    , 3  ,  9  ,
+   "d"    , 4  , 16  )
+```
+
+This is more limited than `base::dump()`, but also more legible.
+
+```{r, comment=""}
+cat(dump("d", ""))
+```
+
+One can use the combination of `build_frame()` and `draw_frame()` to neaten up by-hand examples for later use (via copy and paste):
+
+```{r, comment=""}
+cat(draw_frame(build_frame(
+ "names", "x", "y" |
+  "a", 1,  1,
+  "b", 2,  4,
+  "c", 3,  9,
+  "d", 4, 16)))
+```
+
+`build_frame()` allows for simple substitutions of values.  In contrast the method `qchar_frame()`
+builds `data.frame`s containing only `character` types and doesn't require quoting (though it does allow it).
+
+```{r}
+qchar_frame(
+  col_1, col_2, col_3 |
+  a    , b    , c     |
+  d    , e    , "f g" )
+```
+
+`build_frame()` is intended to capture typed-in examples, and is only compatible with very limited in-place calculation and substitution, and that _must_ be in parenthesis:
+
+```{r}
+build_frame(
+   "names", "x"     , "y" |
+   "a"    , 1       ,  1  |
+   "b"    , cos(2)  ,  4  |
+   "c"    , (3+2)   ,  9  |
+   "d"    , 4       , 16  )
+```
+
+Expressions not in parenthesis (such as "<code>3 + 2</code>") will confuse the langauge transform `build_frame()` uses to detect cell boundaries.
+
+
+
