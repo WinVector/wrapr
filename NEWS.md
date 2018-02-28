@@ -1,4 +1,9 @@
 
+# wrapr 1.2.1 2018-02-28
+
+ * base_fns.
+ * draw_frame et. al.
+
 # wrapr 1.2.0 2018-02-21
  
  * Add map_upper.
