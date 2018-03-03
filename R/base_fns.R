@@ -86,7 +86,7 @@ subset_rows <- function(x, subset, env = parent.frame()) {
   x[r, , drop = FALSE]
 }
 
-#' Pick a subset of columns.
+#' Pick a sequence of columns.
 #'
 #' Only works on in-memory data.frames.
 #' Part piping with base R series: \url{http://www.win-vector.com/blog/tag/piping-with-base-r/}.
@@ -97,13 +97,16 @@ subset_rows <- function(x, subset, env = parent.frame()) {
 #'
 #' @examples
 #'
-#' head(select_columns(mtcars, c("mpg", "cyl", "disp")))
+#' head(sel_columns(mtcars, c("mpg", "cyl", "disp")))
 #'
 #' @export
 #'
-select_columns <- function(x, columns) {
+sel_columns <- function(x, columns) {
   if(!is.data.frame(x)) {
-    stop("select_columns expected x to be a data.frame")
+    stop("sel_columns expected x to be a data.frame")
+  }
+  if(missing(columns)) {
+    return(x)
   }
   x[ , columns, drop = FALSE]
 }
@@ -120,13 +123,16 @@ select_columns <- function(x, columns) {
 #' @examples
 #'
 #' d <- data.frame(x = c('b', 'a', 'c'))
-#' select_rows(d, d$x)
+#' sel_rows(d, d$x)
 #'
 #' @export
 #'
-select_rows <- function(x, rows) {
+sel_rows <- function(x, rows) {
   if(!is.data.frame(x)) {
-    stop("select_columns expected x to be a data.frame")
+    stop("sel_columns expected x to be a data.frame")
+  }
+  if(missing(rows)) {
+    return(x)
   }
   x[rows, , drop = FALSE]
 }
@@ -160,6 +166,9 @@ transform_columns <- function(transform_columns_data_frame,
   terms <- substitute(list(...))[-1]
   if(!is.data.frame(transform_columns_data_frame)) {
     stop("transform_columns: transform_columns_data_frame must be a data.frame")
+  }
+  if(length(terms)<=0) {
+    stop("transform_columns: expected transforms")
   }
   for(i in seq_len(length(terms))) {
     ni <- names(terms)[[i]]
