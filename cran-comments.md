@@ -1,10 +1,11 @@
 
-
+Maintenance release: minor additional functionality added
+(base functions and data.frame drawing introduced).
 
 ## Test environments
 
   * Windows
-  * using R Under development (unstable) (2018-02-20 r74280)
+  * using R Under development (unstable) (2018-03-09 r74376)
   * using platform: x86_64-w64-mingw32 (64-bit)
 
   * OSX 
@@ -26,13 +27,15 @@ Status: OK
 
 ## Downstream dependencies
 
-Checked all downstream dependnecies.
+Checked all downstream dependencies.
 
 devtools::revdep_check()
 
     Checking 5 packages: cdata, replyr, rquery, seplyr, WVPlots
-    Checked cdata  : 0 errors | 0 warnings | 0 notes
-    Checked replyr : 0 errors | 0 warnings | 0 notes
-    Checked rquery : 0 errors | 0 warnings | 0 notes
-    Checked seplyr : 0 errors | 0 warnings | 0 notes
-    Checked WVPlots: 0 errors | 0 warnings | 0 notes
+     Checked cdata  : 0 errors | 0 warnings | 0 notes
+     Checked replyr : 1 error  | 0 warnings | 0 notes
+     Checked rquery : 0 errors | 0 warnings | 0 notes
+     Checked seplyr : 0 errors | 0 warnings | 0 notes
+     Checked WVPlots: 0 errors | 0 warnings | 0 notes
+
+Need to advance replyr off cdata before next update.
