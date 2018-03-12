@@ -1,5 +1,5 @@
 
-# wrapr 1.3.0 2018-03-11
+# wrapr 1.3.0 2018-03-12
 
  * base_fns- slight stregnthenings of base operators for piping.
  * draw_frame et. al.- functions for building example data.frames.
