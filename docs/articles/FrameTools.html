@@ -105,7 +105,7 @@
     
     
 <div class="contents">
-<p><a href="https://winvector.github.io/wrapr/"><code>wrapr</code></a> supplies a few tools for creating example <code>data.frame</code>s. An important use case is: building the control table for <code>rowrecs_to_blocks()</code> and <code>blocks_to_rowrecs()</code> (example <a href="https://winvector.github.io/cdata/articles/cdata.html">here</a>).</p>
+<p><a href="https://winvector.github.io/wrapr/"><code>wrapr</code></a> supplies a few tools for creating example <code>data.frame</code>s. An important use case is: building the control table for <code><a href="http://www.rdocumentation.org/packages/cdata/topics/rowrecs_to_blocks">cdata::rowrecs_to_blocks()</a></code> and <code><a href="http://www.rdocumentation.org/packages/cdata/topics/blocks_to_rowrecs">cdata::blocks_to_rowrecs()</a></code> (example <a href="https://winvector.github.io/cdata/articles/cdata.html">here</a>).</p>
 <p>Lets see how to create an example data frame. The idea is similar to that found in <a href="http://tibble.tidyverse.org/reference/tribble.html"><code><a href="http://www.rdocumentation.org/packages/tibble/topics/tribble">tibble::tribble()</a></code></a>: for small tables a row oriented constructor can be quite legible, and avoids the cognitive load of taking a transpose.</p>
 <p>For example we can create a typical <code>data.frame</code> as follows:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
@@ -126,7 +126,7 @@
 ##  $ names: chr  "a" "b" "c" "d"
 ##  $ x    : num  1 2 3 4
 ##  $ y    : num  1 4 9 16</code></pre>
-<p><code>wrapr</code> supplies the method <a href="https://winvector.github.io/wrapr/reference/draw_frame.html"><code>draw_frame</code></a> which at first glance appears to be a mere pretty-printer:</p>
+<p><code>wrapr</code> supplies the method <a href="https://winvector.github.io/wrapr/articles/FrameTools.html"><code>draw_frame</code></a> which at first glance appears to be a mere pretty-printer:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"wrapr"</span>)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cat</span>(<span class="kw"><a href="../reference/draw_frame.html">draw_frame</a></span>(d))</code></pre></div>
 <pre><code><a href="../reference/build_frame.html">build_frame(
@@ -150,7 +150,7 @@
 ## 3     c 3  9
 ## 4     d 4 16</code></pre>
 <p>The merit is: the above input is how it looks when printed.</p>
-<p>The technique is intended for typing small examples (or <code>cdata</code> control tables) and only builds <code>data.frame</code>s with atomic types (characters, numerics, and logicals; no times, factors or list columns). The specification rule is the first appearance of an infix 2-argument function call (in this case the infix “or symbol” “<code>|</code>”) is taken to mean the earlier arguments are part of the header or column names and later arguments are values. The other appearances of “<code>/</code>” are ignored. This means we could also write the frame as follows:</p>
+<p>The technique is intended for typing small examples (or <a href="https://github.com/WinVector/cdata"><code>cdata</code></a> control tables) and only builds <code>data.frame</code>s with atomic types (characters, numerics, and logicals; no times, factors or list columns). The specification rule is the first appearance of an infix 2-argument function call (in this case the infix “or symbol” “<code>|</code>”) is taken to mean the earlier arguments are part of the header or column names and later arguments are values. The other appearances of “<code>/</code>” are ignored. This means we could also write the frame as follows:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/build_frame.html">build_frame</a></span>(
    <span class="st">"names"</span>, <span class="st">"x"</span>, <span class="st">"y"</span> <span class="op">|</span>
 <span class="st">   "a"</span>    , <span class="dv">1</span>  ,  <span class="dv">1</span>  ,

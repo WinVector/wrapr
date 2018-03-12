@@ -10,7 +10,7 @@ vignette: >
 ---
 
 [`wrapr`](https://winvector.github.io/wrapr/) supplies a few tools for creating example 
-`data.frame`s.  An important use case is: building the control table for `rowrecs_to_blocks()` and `blocks_to_rowrecs()` (example [here](https://winvector.github.io/cdata/articles/cdata.html)).
+`data.frame`s.  An important use case is: building the control table for `cdata::rowrecs_to_blocks()` and `cdata::blocks_to_rowrecs()` (example [here](https://winvector.github.io/cdata/articles/cdata.html)).
 
 Lets see how to create an example data frame.  The idea is similar to that found in [`tibble::tribble()`](http://tibble.tidyverse.org/reference/tribble.html): for small tables a 
 row oriented constructor can be quite legible, and avoids the cognitive load of taking a transpose.
@@ -35,7 +35,7 @@ print by columns.
 str(d)
 ```
 
-`wrapr` supplies the method [`draw_frame`](https://winvector.github.io/wrapr/reference/draw_frame.html) which at first glance appears to be a mere pretty-printer:
+`wrapr` supplies the method [`draw_frame`](https://winvector.github.io/wrapr/articles/FrameTools.html) which at first glance appears to be a mere pretty-printer:
 
 ```{r}
 library("wrapr")
@@ -61,7 +61,7 @@ print(d2)
 
 The merit is: the above input is how it looks when printed.
 
-The technique is intended for typing small examples (or `cdata` control tables) and only builds `data.frame`s with atomic types (characters, numerics, and logicals; no times, factors or list columns).  The specification rule is the first appearance of an infix 2-argument function call (in this case the infix "or symbol" "<code>|</code>") is taken to mean the earlier arguments are part of the header or column names and later arguments are values.  The other appearances of "<code>/</code>" are ignored.  This means we could also write the frame as follows:
+The technique is intended for typing small examples (or [`cdata`](https://github.com/WinVector/cdata) control tables) and only builds `data.frame`s with atomic types (characters, numerics, and logicals; no times, factors or list columns).  The specification rule is the first appearance of an infix 2-argument function call (in this case the infix "or symbol" "<code>|</code>") is taken to mean the earlier arguments are part of the header or column names and later arguments are values.  The other appearances of "<code>/</code>" are ignored.  This means we could also write the frame as follows:
 
 ```{r}
 build_frame(
