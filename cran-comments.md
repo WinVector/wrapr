@@ -33,7 +33,7 @@ devtools::revdep_check()
 
     Checking 5 packages: cdata, replyr, rquery, seplyr, WVPlots
      Checked cdata  : 0 errors | 0 warnings | 0 notes
-     Checked replyr : 1 error  | 0 warnings | 0 notes
+     Checked replyr : 0 errors | 0 warnings | 0 notes
      Checked rquery : 0 errors | 0 warnings | 0 notes
      Checked seplyr : 0 errors | 0 warnings | 0 notes
      Checked WVPlots: 0 errors | 0 warnings | 0 notes
