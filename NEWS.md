@@ -1,4 +1,8 @@
 
+# wrapr 1.3.1 2018-03-15
+
+ * More tests.
+
 # wrapr 1.3.0 2018-03-12
 
  * base_fns- slight stregnthenings of base operators for piping.
