@@ -22,5 +22,5 @@ test_that("test_let.R", {
         dres <- d
         dres$RankColumn <- dres$RankColumn - 1
       })
-
+  expect_equal(dres$rank, c(0,1))
 })

@@ -98,11 +98,23 @@ pipe_impl <- function(pipe_left_arg,
          envir = pipe_environment,
          inherits = FALSE)
   # special case: dereference names
-  if(is.name(pipe_right_arg)) {
-    pipe_right_arg <- base::get(as.character(pipe_right_arg),
-                                envir = pipe_environment,
-                                mode = "any",
-                                inherits = TRUE)
+  qualified_name <- is.call(pipe_right_arg) &&
+    (length(pipe_right_arg)==3) &&
+    (as.character(pipe_right_arg[[1]])=="::") &&
+    (is.name(pipe_right_arg[[2]])) &&
+    (is.name(pipe_right_arg[[3]]))
+  is_name <- is.name(pipe_right_arg)
+  if(is_name || qualified_name) {
+    if(is_name) {
+      pipe_right_arg <- base::get(as.character(pipe_right_arg),
+                                  envir = pipe_environment,
+                                  mode = "any",
+                                  inherits = TRUE)
+    } else if(qualified_name) {
+      pipe_right_arg <- base::eval(pipe_right_arg,
+                                   envir = pipe_environment,
+                                   enclos = pipe_environment)
+    }
     # pipe_right_arg is now a value (as far as we are concerned)
     # special case: functions
     if(is.function(pipe_right_arg)) {

@@ -1,7 +1,8 @@
 
-# wrapr 1.3.1 2018-03-15
+# wrapr 1.3.1 2018-03-22
 
  * More tests.
+ * Treat package qualified names as names.
 
 # wrapr 1.3.0 2018-03-12
 
