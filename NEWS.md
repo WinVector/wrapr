@@ -1,8 +1,9 @@
 
-# wrapr 1.3.1 2018-03-22
+# wrapr 1.3.1 2018-03-23
 
  * More tests.
  * Treat package qualified names as names.
+ * Move base_fns to https://gist.github.com/JohnMount/1982127318654c8631203e5b5d4946ac
 
 # wrapr 1.3.0 2018-03-12
 
