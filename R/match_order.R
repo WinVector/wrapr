@@ -3,7 +3,8 @@
 #' Invert a permuation.
 #'
 #' For a permutation p build q such that p[q] == q[p] == seq_len(length(p)).
-#' See \url{http://www.win-vector.com/blog/2017/05/on-indexing-operators-and-composition/}.
+#' Please see \url{http://www.win-vector.com/blog/2017/05/on-indexing-operators-and-composition/}
+#' and \url{http://www.win-vector.com/blog/2017/09/permutation-theory-in-action/}.
 #'
 #' @param p vector of lenth n containing each of seq_len(n) exactly once.
 #' @return vector q such that p[q] == q[p] == seq_len(length(p))
