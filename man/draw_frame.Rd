@@ -2,7 +2,7 @@
 % Please edit documentation in R/cf.R
 \name{draw_frame}
 \alias{draw_frame}
-\title{Render a data.frame in draw_frame form.}
+\title{Render a data.frame in build_frame format.}
 \usage{
 draw_frame(x, ..., time_format = "\%Y-\%m-\%d \%H:\%M:\%S",
   formatC_options = list())
@@ -20,7 +20,7 @@ draw_frame(x, ..., time_format = "\%Y-\%m-\%d \%H:\%M:\%S",
 chracter
 }
 \description{
-Render a data.frame in draw_frame form.
+Render a data.frame in build_frame format.
 }
 \examples{
 

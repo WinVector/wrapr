@@ -23,6 +23,7 @@ format a map.
 }
 \examples{
 
-cat(map_to_char(c('a':='b', 'c':='d')))
+cat(map_to_char(c('a' = 'b', 'c' = 'd')))
+cat(map_to_char(c('a' = 'b', 'd', 'e' = 'f')))
 
 }

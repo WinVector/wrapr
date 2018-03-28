@@ -10,7 +10,8 @@
 #'
 #' @examples
 #'
-#' cat(map_to_char(c('a':='b', 'c':='d')))
+#' cat(map_to_char(c('a' = 'b', 'c' = 'd')))
+#' cat(map_to_char(c('a' = 'b', 'd', 'e' = 'f')))
 #'
 #' @export
 #'
@@ -19,9 +20,20 @@ map_to_char <- function(mp,
                         assignment = "=",
                         quote_fn = base::shQuote) {
   nms <- names(mp)
-  nv <- vapply(nms,
-               function(ni) {
-                 paste(quote_fn(ni), assignment, quote_fn(mp[[ni]]))
-               }, character(1))
+  vls <- as.character(mp)
+  n <- length(vls)
+  if(length(nms)<n) {
+    nms <- c(nms, rep("", n - length(nms)))
+  }
+  nv <- character(n)
+  for(i in seq_len(n)) {
+    nmi <- nms[[i]]
+    vli <- vls[[i]]
+    if((!is.na(nmi))&&(nchar(nmi)>0)) {
+      nv[[i]] <- paste(quote_fn(nmi), assignment, quote_fn(vli))
+    } else {
+      nv[[i]] <- quote_fn(vli)
+    }
+  }
   paste0("c(", paste(nv, collapse = paste0(",", sep)), ")")
 }
