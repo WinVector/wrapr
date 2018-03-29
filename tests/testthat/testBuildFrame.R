@@ -1,4 +1,4 @@
-library('cdata')
+library('wrapr')
 
 context("buildFrame")
 
