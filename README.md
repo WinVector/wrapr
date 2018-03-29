@@ -67,7 +67,7 @@ let(
  #  [1] 14
 ```
 
-Please see `vignette('let', package='wrapr')` for more examples. For working with `dplyr` `0.7.*` we suggest also taking a look at an alternate approach called [`seplyr`](https://github.com/WinVector/seplyr/blob/master/README.md).
+Please see `vignette('let', package='wrapr')` for more examples. Some formal documentation can be found [here](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf). For working with `dplyr` `0.7.*` we suggest also taking a look at an alternate approach called [`seplyr`](https://github.com/WinVector/seplyr/blob/master/README.md).
 
 [`%.>%` (dot arrow pipe)](https://winvector.github.io/wrapr/articles/dot_pipe.html)
 -----------------------------------------------------------------------------------
@@ -107,7 +107,7 @@ The notation is also very regular in that expressions have the same iterpretatio
  #  [1]  1  4  9 16
 ```
 
-Regularity can be a *big* advantage in teaching and comprehension. Please see ["In Praise of Syntactic Sugar"](http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/) for more details.
+Regularity can be a *big* advantage in teaching and comprehension. Please see ["In Praise of Syntactic Sugar"](http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/) for more details. Some formal documentation can be found [here](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf).
 
 [`:=` (named map builder)](https://winvector.github.io/seplyr/articles/named_map_builder.html)
 ----------------------------------------------------------------------------------------------

@@ -2,6 +2,9 @@
 
 #' Pipe step operator
 #'
+#' S3 dispatch on class of pipe_left_arg.
+#' For formal documentation please see \url{https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf}.
+#'
 #' @param pipe_left_arg left argument.
 #' @param pipe_right_arg substitute(pipe_right_arg) argument.
 #' @param pipe_environment environment to evaluate in.
@@ -38,7 +41,8 @@ pipe_step.default <- function(pipe_left_arg,
 
 #' Wrapr function.
 #'
-#' S3 dispatch on tyhpe of pipe_right_argument.
+#' S3 dispatch on class of pipe_right_argument.
+#' For formal documentation please see \url{https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf}.
 #'
 #' @param pipe_left_arg left argument.
 #' @param pipe_right_arg right argument.
@@ -175,6 +179,7 @@ pipe_impl <- function(pipe_left_arg,
 #' then we try to de-reference it and apply it as a function or surrogate function.
 #'
 #' For some discussion, please see \url{http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/}.
+#' For formal documentation please see \url{https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf}.
 #' \code{\%>.\%} and \code{\%.>\%} are synonyms.
 #'
 #' @param pipe_left_arg left argument expression (substituted into .)

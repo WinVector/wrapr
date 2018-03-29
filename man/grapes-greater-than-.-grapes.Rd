@@ -23,6 +23,7 @@ The pipe operator has a couple of special cases. First: if the right hand side i
 then we try to de-reference it and apply it as a function or surrogate function.
 
 For some discussion, please see \url{http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/}.
+For formal documentation please see \url{https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf}.
 \code{\%>.\%} and \code{\%.>\%} are synonyms.
 }
 \examples{

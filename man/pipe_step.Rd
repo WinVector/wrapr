@@ -19,5 +19,6 @@ pipe_step(pipe_left_arg, pipe_right_arg, pipe_environment, pipe_name = NULL)
 result
 }
 \description{
-Pipe step operator
+S3 dispatch on class of pipe_left_arg.
+For formal documentation please see \url{https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf}.
 }

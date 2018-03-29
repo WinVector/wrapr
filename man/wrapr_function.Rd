@@ -20,5 +20,6 @@ wrapr_function(pipe_left_arg, pipe_right_arg, pipe_environment,
 result
 }
 \description{
-S3 dispatch on tyhpe of pipe_right_argument.
+S3 dispatch on class of pipe_right_argument.
+For formal documentation please see \url{https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf}.
 }
