@@ -1,11 +1,11 @@
 
-# wrapr 1.3.1 2018-03-28
+# wrapr 1.3.1 2018-03-29
 
  * More tests.
  * Treat package qualified names as names in let (at least at top level).
- * Move base_fns to https://gist.github.com/JohnMount/1982127318654c8631203e5b5d4946ac .
+ * Move base_fns to https://gist.github.com/JohnMount/1982127318654c8631203e5b5d4946ac and seplyr.
  * Minor documentation fixes.
- * Make map_to_char() work without names.
+ * Extend map_to_char() to work without names.
 
 # wrapr 1.3.0 2018-03-12
 
