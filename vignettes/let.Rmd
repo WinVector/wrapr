@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-The vignette demonstrates the use of `let` to standardize calls to functions that use non-standard evaluation.
+The vignette demonstrates the use of `let` to standardize calls to functions that use non-standard evaluation.  For a more formal description please see [here](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf).
 
 For the purposes of this discussion, *standard evaluation* of variables preserves referential transparency: that is, values and references to values behave the same.
 

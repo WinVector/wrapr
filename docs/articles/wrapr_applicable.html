@@ -105,7 +105,7 @@
     
     
 <div class="contents">
-<p><code>wrapr</code> <code>1.2.0</code> includes de-referencing, function evaluation, and a new concept called <code>"wrapr_applicable"</code>. <code>"wrapr_applicable"</code> is dispatch by type of right hand side argument scheme.</p>
+<p><code>wrapr</code> includes de-referencing, function evaluation, and a new concept called <code>"wrapr_applicable"</code>. <code>"wrapr_applicable"</code> is dispatch by type of right hand side argument scheme.</p>
 <div id="basic-wrapr" class="section level2">
 <h2 class="hasAnchor">
 <a href="#basic-wrapr" class="anchor"></a>Basic <code>wrapr</code>
@@ -115,12 +115,15 @@
 
 <span class="dv">5</span> <span class="op">%.&gt;%</span><span class="st"> </span><span class="kw">sin</span>(.)
 <span class="co">#&gt; [1] -0.9589243</span></code></pre></div>
+<p>The above is performed by standard <code>S3</code> dispatch on the left argument of an exported generic function called <code><a href="../reference/pipe_step.html">pipe_step()</a></code>. A formal description of <code>wrapr</code> piping can be found <a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf">here</a>.</p>
 </div>
 <div id="dereferencing-and-function-evaluation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#dereferencing-and-function-evaluation" class="anchor"></a>Dereferencing and function evaluation</h2>
-<p><code>wrapr</code> works primarily over expressions and “<code>.</code>”. As of version <code>1.2.0</code> <code>wrapr</code> does try to de-reference names found in the right-hand side of pipe stages, and also dispatches functions. That is: one can now write the following.</p>
+<p><code>wrapr</code> works primarily over expressions and “<code>.</code>”. <code>wrapr</code> does tries to de-reference names found in the right-hand side of pipe stages, and also dispatches functions. One can also write the following.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">5</span> <span class="op">%.&gt;%</span><span class="st"> </span>sin
+<span class="co">#&gt; [1] -0.9589243</span>
+<span class="dv">5</span> <span class="op">%.&gt;%</span><span class="st"> </span>base<span class="op">::</span>sin <span class="co"># new for wrapr 1.3.1</span>
 <span class="co">#&gt; [1] -0.9589243</span></code></pre></div>
 </div>
 <div id="wrapr_applicable" class="section level2">

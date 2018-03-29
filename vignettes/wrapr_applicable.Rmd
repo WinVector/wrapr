@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-`wrapr` `1.2.0` includes de-referencing, function evaluation, and a new concept called `"wrapr_applicable"`.  `"wrapr_applicable"` is dispatch by type of right hand side argument scheme.
+`wrapr` includes de-referencing, function evaluation, and a new concept called `"wrapr_applicable"`.  `"wrapr_applicable"` is dispatch by type of right hand side argument scheme.
 
 ## Basic `wrapr`
 
@@ -28,12 +28,15 @@ library("wrapr")
 5 %.>% sin(.)
 ```
 
+The above is performed by standard `S3` dispatch on the left argument of an exported generic function called `pipe_step()`.  A formal description of `wrapr` piping can be found [here](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf).
+
 ## Dereferencing and function evaluation
 
-`wrapr` works primarily over expressions and "`.`".  As of version `1.2.0` `wrapr` does try to de-reference names found in the right-hand side of pipe stages, and also dispatches functions.  That is: one can now write the following.
+`wrapr` works primarily over expressions and "`.`".  `wrapr` does tries to de-reference names found in the right-hand side of pipe stages, and also dispatches functions.  One can also write the following.
 
 ```{r nofn}
 5 %.>% sin
+5 %.>% base::sin # new for wrapr 1.3.1
 ```
 
 ## `"wrapr_applicable"`
