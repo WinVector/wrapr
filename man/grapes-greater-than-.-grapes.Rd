@@ -22,6 +22,10 @@ Defined as roughly : \code{a \%>.\% b} ~ \code{\{ . <- a; b \};}
 The pipe operator has a couple of special cases. First: if the right hand side is a name,
 then we try to de-reference it and apply it as a function or surrogate function.
 
+The pipe operator checks for and throws an exception for a number of "pipled into
+nothing cases" such as \code{5 \%.>\% sin()}, many of these checks can be turned
+off by adding parenthesis or braces.
+
 For some discussion, please see \url{http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/}.
 For formal documentation please see \url{https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf}.
 \code{\%>.\%} and \code{\%.>\%} are synonyms.
