@@ -9,6 +9,15 @@ test_that("test_strict.R", {
     5 %.>% sin()
   )
 
+  # not useful, as the function is not applied.
+  # but compatible with "turning checks off documentation
+  gen <- function(...) { sin }
+  expect_error(
+    5 %.>% gen()
+  )
+  5 %.>% (gen())
+  5 %.>% {gen()}
+
   expect_error(
     5 %.>% 5
   )
