@@ -108,11 +108,11 @@ pipe_impl <- function(pipe_left_arg,
   if(length(pipe_right_arg)<=1) {
     if(is.call(pipe_right_arg)) {
       # empty calls (easy to detect no-. case)
-      call_name <- as.character(pipe_right_arg[[1]])
+      call_text <- as.character(pipe_right_arg[[1]])
       stop(paste0("wrapr::pipe does not allow direct piping into a no-argument function call expression (such as \"",
-                  call_name,
+                  call_text,
                   "()\" please use ",
-                  call_name, "(.))."))
+                  call_text, "(.))."))
     }
     # don't index as argument may be a symbol or character already
     if(as.character(pipe_right_arg)==".") {
@@ -133,10 +133,11 @@ pipe_impl <- function(pipe_left_arg,
     }
   }
   if(is.call(pipe_right_arg)) {
-    call_name <- as.character(pipe_right_arg[[1]])
+    call_text <- as.character(pipe_right_arg[[1]])
     # mostly grabbing reserved words that are in the middle
     # of something, or try to alter control flow (like return).
-    if(call_name %in% c("else",
+    if((length(call_text)==1) &&
+      call_text %in% c("else",
                         "function",
                         "return",
                         "in", "next", "break",
@@ -148,7 +149,7 @@ pipe_impl <- function(pipe_left_arg,
                         ".",
                         ";", ",")) {
       stop(paste0("wrapr::pipe does not allow direct piping into reserved word or control structure (such as \"",
-                  call_name,
+                  call_text,
                   "\")."))
     }
   }
