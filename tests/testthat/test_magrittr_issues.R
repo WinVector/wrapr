@@ -32,6 +32,7 @@ test_that("test_known_magrittr_issues.R", {
   # not an issue for magritter with dot notations
   flist <- list(f = sin)
   res <- 5 %.>% flist$f
+  expect_equal(sin(5), res)
   res <- 5 %.>% flist[['f']]
   expect_equal(sin(5), res)
 

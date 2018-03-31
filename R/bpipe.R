@@ -164,6 +164,7 @@ pipe_impl <- function(pipe_left_arg,
   # special case: dereference names
   qualified_name <- is.call(pipe_right_arg) &&
     (length(pipe_right_arg)==3) &&
+    (length(as.character(pipe_right_arg[[1]]))==1) &&
     (as.character(pipe_right_arg[[1]]) %in% c("::", ":::", "$", "[[", "[", "@")) &&
     (is.name(pipe_right_arg[[2]])) &&
     (as.character(pipe_right_arg[[2]])!=".") &&
