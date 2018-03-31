@@ -99,7 +99,7 @@
       <h1>lambda Function Builder</h1>
                         <h4 class="author">John Mount</h4>
             
-            <h4 class="date">2018-03-29</h4>
+            <h4 class="date">2018-03-31</h4>
           </div>
 
     
@@ -124,6 +124,9 @@ wrapr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentati
 <pre><code>## [1]  1  4  9 16</code></pre>
 <p>If you do want an operator notation for function construction you can also use on of the variations of the named map builder:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>) <span class="op">%.&gt;%</span><span class="st"> </span>(x <span class="op">:</span><span class="er">=</span><span class="st"> </span>{ x<span class="op">^</span><span class="dv">2</span> })(.)</code></pre></div>
+<pre><code>## Warning in if (call_name %in% c("else", "function", "return", "in",
+## "next", : the condition has length &gt; 1 and only the first element will be
+## used</code></pre>
 <pre><code>## [1]  1  4  9 16</code></pre>
 <p>And we can build functions that take more than one argument as follows:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">l</span>(x, y, x <span class="op">+</span><span class="st"> </span><span class="dv">3</span><span class="op">*</span>y)</code></pre></div>

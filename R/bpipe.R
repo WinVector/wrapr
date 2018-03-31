@@ -34,6 +34,7 @@ pipe_step.default <- function(pipe_left_arg,
                               pipe_right_arg,
                               pipe_environment,
                               pipe_name = NULL) {
+  force(pipe_left_arg)
   eval(pipe_right_arg,
        envir = pipe_environment,
        enclos = pipe_environment)
@@ -75,7 +76,14 @@ wrapr_function.default <- function(pipe_left_arg,
                                    pipe_right_arg,
                                    pipe_environment,
                                    pipe_name = NULL) {
-  pipe_right_arg
+  # not a example, but follows we are treating
+  # pipe_right_arg as a value (as it is not a function when
+  # we get to here).
+  # Also this default matches the pipe_step() default impl.
+  force(pipe_left_arg)
+  eval(pipe_right_arg,
+       envir = pipe_environment,
+       enclos = pipe_environment)
 }
 
 
@@ -93,6 +101,57 @@ pipe_impl <- function(pipe_left_arg,
                       pipe_right_arg,
                       pipe_environment,
                       pipe_name = NULL) {
+  # remove some exceptional cases
+  if(length(pipe_right_arg)<1) {
+    stop("wrapr::pipe does not allow direct piping into NULL/empty")
+  }
+  if(length(pipe_right_arg)<=1) {
+    if(is.call(pipe_right_arg)) {
+      # empty calls (easy to detect no-. case)
+      call_name <- as.character(pipe_right_arg[[1]])
+      stop(paste0("wrapr::pipe does not allow direct piping into a no-argument function call expression (such as \"",
+                  call_name,
+                  "()\" please use ",
+                  call_name, "(.))."))
+    }
+    # don't index as argument may be a symbol or character already
+    if(as.character(pipe_right_arg)==".") {
+      stop("wrapr::pipe does not allow direct piping into \".\"")
+    }
+    if((!is.language(pipe_right_arg)) &&
+       (!is.call(pipe_right_arg)) &&
+       (!is.symbol(pipe_right_arg)) &&
+       (!is.function(pipe_right_arg)) &&
+       ((length(class(pipe_right_arg))<1) ||
+        (length(class(pipe_right_arg))<2) &&
+        (class(pipe_right_arg) %in% c("numeric", "character",
+                                      "logical", "integer",
+                                      "raw", "complex")))) {
+      stop(paste0("wrapr::pipe does not allow direct piping into simple values such as",
+                  " class:" , class(pipe_right_arg), ", ",
+                  " type:", typeof(pipe_right_arg), "."))
+    }
+  }
+  if(is.call(pipe_right_arg)) {
+    call_name <- as.character(pipe_right_arg[[1]])
+    # mostly grabbing reserved words that are in the middle
+    # of something, or try to alter control flow (like return).
+    if(call_name %in% c("else",
+                        "function",
+                        "return",
+                        "in", "next", "break",
+                        "TRUE", "FALSE", "NULL", "Inf", "NaN",
+                        "NA", "NA_integer_", "NA_real_", "NA_complex_", "NA_character_",
+                        "->", "->>", "<-", "<<-", "=", # precedence should ensure we do not see these
+                        "?",
+                        "...",
+                        ".",
+                        ";", ",")) {
+      stop(paste0("wrapr::pipe does not allow direct piping into reserved word or control structure (such as \"",
+                  call_name,
+                  "\")."))
+    }
+  }
   # force pipe_left_arg
   pipe_left_arg <- eval(pipe_left_arg,
                         envir = pipe_environment,
@@ -104,9 +163,11 @@ pipe_impl <- function(pipe_left_arg,
   # special case: dereference names
   qualified_name <- is.call(pipe_right_arg) &&
     (length(pipe_right_arg)==3) &&
-    (as.character(pipe_right_arg[[1]])=="::") &&
+    (as.character(pipe_right_arg[[1]]) %in% c("::", ":::", "$", "[[", "[", "@")) &&
     (is.name(pipe_right_arg[[2]])) &&
-    (is.name(pipe_right_arg[[3]]))
+    (as.character(pipe_right_arg[[2]])!=".") &&
+    (is.name(pipe_right_arg[[3]]) || is.character(pipe_right_arg[[3]])) &&
+    (as.character(pipe_right_arg[[3]])!=".")
   is_name <- is.name(pipe_right_arg)
   if(is_name || qualified_name) {
     if(is_name) {
