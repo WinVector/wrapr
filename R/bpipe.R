@@ -105,25 +105,28 @@ pipe_impl <- function(pipe_left_arg,
   if(length(pipe_right_arg)<1) {
     stop("wrapr::pipe does not allow direct piping into NULL/empty")
   }
-  if(length(pipe_right_arg)<=1) {
-    if(is.call(pipe_right_arg)) {
-      # empty calls (easy to detect no-. case)
-      call_text <- as.character(pipe_right_arg[[1]])
-      stop(paste0("wrapr::pipe does not allow direct piping into a no-argument function call expression (such as \"",
-                  call_text,
-                  "()\" please use ",
-                  call_text, "(.))."))
-    }
-    # don't index as argument may be a symbol or character already
-    if(as.character(pipe_right_arg)==".") {
-      stop("wrapr::pipe does not allow direct piping into \".\"")
+  if(length(pipe_right_arg)==1) {
+    right_text <- as.character(pipe_right_arg)
+    if(length(right_text)<=1) {
+      if(is.call(pipe_right_arg)) {
+        # empty calls of the form f() (easy to detect no-. case)
+
+        stop(paste0("wrapr::pipe does not allow direct piping into a no-argument function call expression (such as \"",
+                    right_text,
+                    "()\" please use ",
+                    right_text, "(.))."))
+      }
+      # don't index as argument may be a symbol or character already
+      if(right_text==".") {
+        stop("wrapr::pipe does not allow direct piping into \".\"")
+      }
     }
     if((!is.language(pipe_right_arg)) &&
        (!is.call(pipe_right_arg)) &&
        (!is.symbol(pipe_right_arg)) &&
        (!is.function(pipe_right_arg)) &&
        ((length(class(pipe_right_arg))<1) ||
-        (length(class(pipe_right_arg))<2) &&
+        (length(class(pipe_right_arg))==1) &&
         (class(pipe_right_arg) %in% c("numeric", "character",
                                       "logical", "integer",
                                       "raw", "complex")))) {
