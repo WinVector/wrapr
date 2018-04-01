@@ -147,6 +147,7 @@ build_frame <- function(..., cf_eval_environment = parent.frame()) {
                           use.names = FALSE)
     }
   }
+  rownames(fr) <- NULL
   fr
 }
 
@@ -344,6 +345,7 @@ qchar_frame <- function(...) {
                              byrow = TRUE),
                       stringsAsFactors = FALSE)
   colnames(fr) <- vu[seq_len(ncol)]
+  rownames(fr) <- NULL
   fr
 }
 
