@@ -22,3 +22,8 @@ result
 \description{
 Pipe step operator
 }
+\examples{
+
+5 \%.>\% sin(.)
+
+}

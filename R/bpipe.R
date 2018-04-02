@@ -28,6 +28,10 @@ pipe_step <- function(pipe_left_arg,
 #' @param pipe_name character, name of pipe operator.
 #' @return result
 #'
+#' @examples
+#'
+#' 5 %.>% sin(.)
+#'
 #' @export
 #'
 pipe_step.default <- function(pipe_left_arg,
@@ -46,7 +50,7 @@ pipe_step.default <- function(pipe_left_arg,
 #' For formal documentation please see \url{https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf}.
 #'
 #' @param pipe_left_arg left argument.
-#' @param pipe_right_arg right argument.
+#' @param pipe_right_arg right argument (general object, not a function).
 #' @param pipe_environment environment to evaluate in.
 #' @param pipe_name character, name of pipe operator.
 #' @return result
@@ -65,10 +69,15 @@ wrapr_function <- function(pipe_left_arg,
 #' S3 dispatch on tyhpe of pipe_right_argument.
 #'
 #' @param pipe_left_arg left argument.
-#' @param pipe_right_arg right argument.
+#' @param pipe_right_arg right argument (general object, not a function).
 #' @param pipe_environment environment to evaluate in.
 #' @param pipe_name character, name of pipe operator.
 #' @return result
+#'
+#' @examples
+#'
+#' a <- substitute({. + 1})
+#' 5 %.>% a
 #'
 #' @export
 #'
@@ -76,10 +85,6 @@ wrapr_function.default <- function(pipe_left_arg,
                                    pipe_right_arg,
                                    pipe_environment,
                                    pipe_name = NULL) {
-  # not a example, but follows we are treating
-  # pipe_right_arg as a value (as it is not a function when
-  # we get to here).
-  # Also this default matches the pipe_step() default impl.
   force(pipe_left_arg)
   eval(pipe_right_arg,
        envir = pipe_environment,
@@ -119,7 +124,7 @@ pipe_impl <- function(pipe_left_arg,
         # empty calls of the form f() (easy to detect no-. case)
         stop(paste0("wrapr::pipe does not allow direct piping into a no-argument function call expression (such as \"",
                     right_text,
-                    "()\" please use ",
+                    "()\", please use ",
                     right_text, "(.))."))
       }
       # don't index as argument may be a symbol or character already
@@ -157,6 +162,7 @@ pipe_impl <- function(pipe_left_arg,
                         ".",
                         ";", ",",
                        "substitute", "bquote", "quote",
+                       "eval", "evalq", "eval.parent", "local",
                        "force",
                        "try", "tryCatch",
                        "withCallingHandlers", "signalCondition",
@@ -164,7 +170,7 @@ pipe_impl <- function(pipe_left_arg,
                        "withRestarts", "invokeRestart", "invokeRestartInteractively",
                        "suppressMessages", "suppressWarnings",
                        "warning", "stop")) {
-      stop(paste0("wrapr::pipe does not allow direct piping into reserved words or control structures (such as \"",
+      stop(paste0("wrapr::pipe does not allow direct piping into certain reserved words or control structures (such as \"",
                   call_text,
                   "\")."))
     }
@@ -192,6 +198,7 @@ pipe_impl <- function(pipe_left_arg,
   is_function_decl <- is.call(pipe_right_arg) &&
     (length(as.character(pipe_right_arg[[1]]))==1) &&
     (as.character(pipe_right_arg[[1]])=="function")
+  # check for right-apply situations
   if(is.function(pipe_right_arg) ||
      is_name || qualified_name ||
      is_function_decl) {

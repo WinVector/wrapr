@@ -10,7 +10,7 @@ wrapr_function(pipe_left_arg, pipe_right_arg, pipe_environment,
 \arguments{
 \item{pipe_left_arg}{left argument.}
 
-\item{pipe_right_arg}{right argument.}
+\item{pipe_right_arg}{right argument (general object, not a function).}
 
 \item{pipe_environment}{environment to evaluate in.}
 
