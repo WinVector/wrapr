@@ -38,6 +38,18 @@ pipe_step.default <- function(pipe_left_arg,
                               pipe_right_arg,
                               pipe_environment,
                               pipe_name = NULL) {
+  if(length(pipe_right_arg)==1) {
+    right_text <- as.character(pipe_right_arg)
+    if(length(right_text)<=1) {
+      if(is.call(pipe_right_arg)) {
+        # empty calls of the form f() (easy to detect no-. case)
+        stop(paste0("wrapr::pipe_step.default does not allow direct piping into a no-argument function call expression (such as \"",
+                    right_text,
+                    "()\", please use ",
+                    right_text, "(.))."))
+      }
+    }
+  }
   force(pipe_left_arg)
   eval(pipe_right_arg,
        envir = pipe_environment,
@@ -86,9 +98,10 @@ wrapr_function.default <- function(pipe_left_arg,
                                    pipe_environment,
                                    pipe_name = NULL) {
   force(pipe_left_arg)
-  eval(pipe_right_arg,
-       envir = pipe_environment,
-       enclos = pipe_environment)
+  # go to default left S3 dispatch on pipe_step()
+  pipe_step(pipe_left_arg, enquote(pipe_right_arg),
+            pipe_environment = pipe_environment,
+            pipe_name = pipe_name)
 }
 
 
@@ -119,14 +132,7 @@ pipe_impl <- function(pipe_left_arg,
   }
   if(length(pipe_right_arg)==1) {
     right_text <- as.character(pipe_right_arg)
-    if(length(right_text)<=1) {
-      if(is.call(pipe_right_arg)) {
-        # empty calls of the form f() (easy to detect no-. case)
-        stop(paste0("wrapr::pipe does not allow direct piping into a no-argument function call expression (such as \"",
-                    right_text,
-                    "()\", please use ",
-                    right_text, "(.))."))
-      }
+    if(length(right_text)==1) {
       # don't index as argument may be a symbol or character already
       if(right_text==".") {
         stop("wrapr::pipe does not allow direct piping into \".\"")

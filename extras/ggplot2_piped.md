@@ -16,7 +16,7 @@ Using [`wrapr`](https://winvector.github.io/wrapr/)'s pipe with `ggplot2` (as in
 #' @export
 #'
 pipe_step.ggplot <- function(pipe_left_arg, pipe_right_arg,
-                             pipe_environment) {
+                             pipe_environment, pipe_name = NULL) {
   pipe_right_arg <- eval(pipe_right_arg,
                          envir = pipe_environment,
                          enclos = pipe_environment)
@@ -31,13 +31,15 @@ suppressPackageStartupMessages(library("dplyr"))
 d <- data.frame(x = 1:10,
                 y = cos(1:10))
 
+line <- geom_line()
+title <-  ggtitle("piped ggplot2")
+
 d %.>%
-  mutate(., y = y*y) %.>%
-  ggplot(.,
-         aes(x = x,  y = y)) %.>%
+  mutate(., y = cos(3*x)) %.>%
+  ggplot(., aes(x = x,  y = y)) %.>%
   geom_point() %.>%
-  geom_line() %.>%
-  ggtitle("piped ggplot2")
+  line %.>%
+  title
 ```
 
 ![](ggplot2_piped_files/figure-markdown_github/unnamed-chunk-1-1.png)

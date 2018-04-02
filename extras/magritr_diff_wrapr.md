@@ -103,7 +103,7 @@ library("magrittr")
 ```
 
     ## function(x) { sin(x) }
-    ## <environment: 0x7fedcb05dbf8>
+    ## <environment: 0x7fd1a7b169f8>
 
 ``` r
 f <-  function(x) { sin(x) }
@@ -184,7 +184,7 @@ library("wrapr")
 5 %.>% sin()
 ```
 
-    ## Error in pipe_impl(pipe_left_arg, pipe_right_arg, pipe_environment, pipe_name): wrapr::pipe does not allow direct piping into a no-argument function call expression (such as "sin()", please use sin(.)).
+    ## Error in pipe_step.default(pipe_left_arg, pipe_right_arg, pipe_environment, : wrapr::pipe_step.default does not allow direct piping into a no-argument function call expression (such as "sin()", please use sin(.)).
 
 ``` r
 5 %.>% sin(.)
@@ -202,7 +202,7 @@ library("wrapr")
 5 %.>% base::sin()
 ```
 
-    ## Error in pipe_impl(pipe_left_arg, pipe_right_arg, pipe_environment, pipe_name): wrapr::pipe does not allow direct piping into a no-argument function call expression (such as "base::sin()", please use base::sin(.)).
+    ## Error in pipe_step.default(pipe_left_arg, pipe_right_arg, pipe_environment, : wrapr::pipe_step.default does not allow direct piping into a no-argument function call expression (such as "base::sin()", please use base::sin(.)).
 
 ``` r
 5 %.>% base::sin(.)
@@ -220,7 +220,7 @@ library("wrapr")
 5 %.>% ( sin() )
 ```
 
-    ## Error in pipe_impl(pipe_left_arg, pipe_right_arg, pipe_environment, pipe_name): wrapr::pipe does not allow direct piping into a no-argument function call expression (such as "sin()", please use sin(.)).
+    ## Error in pipe_step.default(pipe_left_arg, pipe_right_arg, pipe_environment, : wrapr::pipe_step.default does not allow direct piping into a no-argument function call expression (such as "sin()", please use sin(.)).
 
 ``` r
 5 %.>% ( sin(.) )
