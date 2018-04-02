@@ -155,8 +155,16 @@ pipe_impl <- function(pipe_left_arg,
                         "?",
                         "...",
                         ".",
-                        ";", ",")) {
-      stop(paste0("wrapr::pipe does not allow direct piping into reserved word or control structure (such as \"",
+                        ";", ",",
+                       "substitute", "bquote", "quote",
+                       "force",
+                       "try", "tryCatch",
+                       "withCallingHandlers", "signalCondition",
+                       "simpleCondition", "simpleError", "simpleWarning", "simpleMessage",
+                       "withRestarts", "invokeRestart", "invokeRestartInteractively",
+                       "suppressMessages", "suppressWarnings",
+                       "warning", "stop")) {
+      stop(paste0("wrapr::pipe does not allow direct piping into reserved words or control structures (such as \"",
                   call_text,
                   "\")."))
     }
