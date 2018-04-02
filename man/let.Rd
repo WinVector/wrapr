@@ -34,7 +34,7 @@ Mnemonic: "expr code symbols are on the left, external data and function argumen
 \details{
 Please see the \code{wrapr} \code{vignette} for some discussion of let and crossing function call boundaries: \code{vignette('wrapr','wrapr')}.
 For formal documentation please see \url{https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf}.
-Transformation is performed by substitution, so please be wary of name collisions or aliasing.
+Transformation is performed by substitution, so please be wary of unintended name collisions or aliasing.
 
 Something like \code{let} is only useful to get control of a function that is parameterized
 (in the sense it take column names) but non-standard (in that it takes column names from

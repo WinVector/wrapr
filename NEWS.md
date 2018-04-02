@@ -1,11 +1,11 @@
 
-# wrapr 1.4.0 2018-04-01
+# wrapr 1.4.0 2018-04-02
 
- * More tests.
+ * More tests an checks.
  * Allow lookups at the top level ($, [], [[]], ::, :::, @).
  * Starting enforcing strict piping rules (with usable error messages).
  * Move base_fns to https://gist.github.com/JohnMount/1982127318654c8631203e5b5d4946ac and seplyr.
- * Minor documentation fixes.
+ * Minor documentation fixes/improvements.
  * Extend map_to_char() to work without names.
 
 # wrapr 1.3.0 2018-03-12

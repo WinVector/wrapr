@@ -15,7 +15,9 @@ test_that("test_strict.R", {
   expect_error(
     5 %.>% gen()
   )
-  5 %.>% (gen())
+  expect_error(
+    5 %.>% (gen())
+  )
   5 %.>% {gen()}
 
   expect_error(

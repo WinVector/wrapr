@@ -175,7 +175,7 @@ Mnemonic: "expr code symbols are on the left, external data and function argumen
 
     <p>Please see the <code>wrapr</code> <code>vignette</code> for some discussion of let and crossing function call boundaries: <code>vignette('wrapr','wrapr')</code>.
 For formal documentation please see <a href='https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf'>https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf</a>.
-Transformation is performed by substitution, so please be wary of name collisions or aliasing.</p>
+Transformation is performed by substitution, so please be wary of unintended name collisions or aliasing.</p>
 <p>Something like <code>let</code> is only useful to get control of a function that is parameterized
 (in the sense it take column names) but non-standard (in that it takes column names from
 non-standard evaluation argument name capture, and not as simple variables or parameters).  So  <code>wrapr:let</code> is not

@@ -117,7 +117,7 @@
 <li>
 <code>:=</code> (named map builder)</li>
 <li>
-<code>λ()</code> (anonymous function builder)</li>
+<code>()</code> (anonymous function builder)</li>
 <li>
 <code><a href="reference/DebugFnW.html">DebugFnW()</a></code> (function debug wrappers)</li>
 </ul>
@@ -186,13 +186,50 @@ a &lt;-<span class="st"> </span><span class="dv">7</span>
 <p>The notation is quite powerful as it treats pipe stages as expression parameterized over the variable “<code>.</code>”. This means you do not need to introduce functions to express stages. The following is a valid dot-pipe:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span><span class="op">:</span><span class="dv">4</span> <span class="op">%.&gt;%</span><span class="st"> </span>.<span class="op">^</span><span class="dv">2</span> 
  <span class="co">#  [1]  1  4  9 16</span></code></pre></div>
-<p>The notation is also very regular in that expressions have the same iterpretation be then surrounded by parenthesis, braces, or as-is:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span><span class="op">:</span><span class="dv">4</span> <span class="op">%.&gt;%</span><span class="st"> </span>{ .<span class="op">^</span><span class="dv">2</span> } 
- <span class="co">#  [1]  1  4  9 16</span>
+<p>The notation is also very regular as we show below.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span><span class="op">:</span><span class="dv">4</span> <span class="op">%.&gt;%</span><span class="st"> </span>sin
+ <span class="co">#  [1]  0.8414710  0.9092974  0.1411200 -0.7568025</span>
+<span class="dv">1</span><span class="op">:</span><span class="dv">4</span> <span class="op">%.&gt;%</span><span class="st"> </span><span class="kw">sin</span>(.)
+ <span class="co">#  [1]  0.8414710  0.9092974  0.1411200 -0.7568025</span>
+<span class="dv">1</span><span class="op">:</span><span class="dv">4</span> <span class="op">%.&gt;%</span><span class="st"> </span>base<span class="op">::</span>sin
+ <span class="co">#  [1]  0.8414710  0.9092974  0.1411200 -0.7568025</span>
+<span class="dv">1</span><span class="op">:</span><span class="dv">4</span> <span class="op">%.&gt;%</span><span class="st"> </span>base<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/base/topics/Trig">sin</a></span>(.)
+ <span class="co">#  [1]  0.8414710  0.9092974  0.1411200 -0.7568025</span>
 
+<span class="dv">1</span><span class="op">:</span><span class="dv">4</span> <span class="op">%.&gt;%</span><span class="st"> </span><span class="cf">function</span>(x) { x <span class="op">+</span><span class="st"> </span><span class="dv">1</span> }
+ <span class="co">#  [1] 2 3 4 5</span>
+<span class="dv">1</span><span class="op">:</span><span class="dv">4</span> <span class="op">%.&gt;%</span><span class="st"> </span>(<span class="cf">function</span>(x) { x <span class="op">+</span><span class="st"> </span><span class="dv">1</span> })
+ <span class="co">#  [1] 2 3 4 5</span>
+
+<span class="dv">1</span><span class="op">:</span><span class="dv">4</span> <span class="op">%.&gt;%</span><span class="st"> </span>{ .<span class="op">^</span><span class="dv">2</span> } 
+ <span class="co">#  [1]  1  4  9 16</span>
 <span class="dv">1</span><span class="op">:</span><span class="dv">4</span> <span class="op">%.&gt;%</span><span class="st"> </span>( .<span class="op">^</span><span class="dv">2</span> )
  <span class="co">#  [1]  1  4  9 16</span></code></pre></div>
 <p>Regularity can be a <em>big</em> advantage in teaching and comprehension. Please see <a href="http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/">“In Praise of Syntactic Sugar”</a> for more details. Some formal documentation can be found <a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf">here</a>.</p>
+<p>There are some checks and accommodations to help make things appear regular, and a few exceptions.</p>
+<ul>
+<li>
+Obvious oblivious right-hand sides are rejected. Pipelines are meant to move values through a sequence of transforms, and not just for side-effects. Example: <code>5 %.&gt;% 6</code> deliberately stops as <code>6</code> is a right-hand side that obviously does not use its incoming value. This check is only applied to values, not functions on the right-hand side.
+</li>
+<li>
+Trying to pipe into a an “zero argument function evaluation expression” such as <code>sin()</code> is prohibited as it looks too much like the user declaring <code>sin()</code> takes no arguments. One must pipe into either a function, function name, or an non-trivial expression (such as <code>sin(.)</code>). A useful error message is returned to the user: <code>wrapr::pipe does not allow direct piping into a no-argument function call expression (such as "sin()" please use sin(.))</code>.
+</li>
+<li>
+Certain reserved words can not be piped into. One example is <code>5 %.&gt;% return(.)</code> is prohibited as the obvious pipe implementation would not actually escape from user functions as users may intend.
+</li>
+<li>
+Obvious de-references (such as <code>$</code>, <code>::</code>, <code>@</code>, and a few more) on the right-hand side are treated performed (example: <code>5 %.&gt;% base::sin(.)</code>).
+</li>
+<li>
+Outer parenthesis on the right-hand side are removed (example: <code>5 %.&gt;% (sin(.))</code>).
+</li>
+<li>
+Anonymous functions constructions are evaluated so the function can be applied (example: <code>5 %.&gt;% function(x) {x+1}</code> returns 6, just as <code>5 %.&gt;% (function(x) {x+1})(.)</code> does).
+</li>
+<li>
+Checks and transforms are not performed on items inside braces (example: <code>5 %.&gt;% { function(x) {x+1} }</code> returns <code>function(x) {x+1}</code>, not 6).
+</li>
+</ul>
 </div>
 <div id="named-map-builder" class="section level2">
 <h2 class="hasAnchor">
@@ -221,7 +258,7 @@ name <span class="op">:</span><span class="er">=</span><span class="st"> 'newBin
 <h2 class="hasAnchor">
 <a href="#-anonymous-function-builder" class="anchor"></a><a href="https://winvector.github.io/wrapr/articles/lambda.html"><code>λ()</code> (anonymous function builder)</a>
 </h2>
-<p><code>λ()</code> is a concise abstract function creator or “<a href="https://en.wikipedia.org/wiki/Lambda_calculus">lambda abstraction</a>”. It is a placeholder that allows the use of the λ-character for very concise function abstraction.</p>
+<p><code>λ()</code> is a concise abstract function creator or “<a href="https://en.wikipedia.org/wiki/Lambda_calculus">lambda abstraction</a>”. It is a placeholder that allows the use of the -character for very concise function abstraction.</p>
 <p>Example:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Make sure lambda function builder is in our enironment.</span>
 wrapr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/wrapr/topics/defineLambda">defineLambda</a></span>()
@@ -244,6 +281,19 @@ wrapr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentati
 <p>or</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages("devtools")</span>
 devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"WinVector/wrapr"</span>)</code></pre></div>
+</div>
+<div id="more-information" class="section level2">
+<h2 class="hasAnchor">
+<a href="#more-information" class="anchor"></a>More Information</h2>
+<p>More details on <code>wrapr</code> capabilities can be found in the following two technical articles:</p>
+<ul>
+<li>
+<a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf">let</a>
+</li>
+<li>
+<a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf">Dot-Pipe</a>
+</li>
+</ul>
 </div>
 <div id="note" class="section level2">
 <h2 class="hasAnchor">

@@ -101,6 +101,13 @@ pipe_impl <- function(pipe_left_arg,
                       pipe_right_arg,
                       pipe_environment,
                       pipe_name = NULL) {
+  # special case: parenthesis
+  while(is.call(pipe_right_arg) &&
+        (length(pipe_right_arg)==2) &&
+        (length(as.character(pipe_right_arg[[1]]))==1) &&
+        (as.character(pipe_right_arg[[1]])=="(")) {
+    pipe_right_arg <- pipe_right_arg[[2]]
+  }
   # remove some exceptional cases
   if(length(pipe_right_arg)<1) {
     stop("wrapr::pipe does not allow direct piping into NULL/empty")
@@ -110,7 +117,6 @@ pipe_impl <- function(pipe_left_arg,
     if(length(right_text)<=1) {
       if(is.call(pipe_right_arg)) {
         # empty calls of the form f() (easy to detect no-. case)
-
         stop(paste0("wrapr::pipe does not allow direct piping into a no-argument function call expression (such as \"",
                     right_text,
                     "()\" please use ",
@@ -141,7 +147,6 @@ pipe_impl <- function(pipe_left_arg,
     # of something, or try to alter control flow (like return).
     if((length(call_text)==1) &&
       call_text %in% c("else",
-                        "function",
                         "return",
                         "in", "next", "break",
                         "TRUE", "FALSE", "NULL", "Inf", "NaN",
@@ -164,6 +169,8 @@ pipe_impl <- function(pipe_left_arg,
   assign(".", pipe_left_arg,
          envir = pipe_environment,
          inherits = FALSE)
+  # special case: name
+  is_name <- is.name(pipe_right_arg)
   # special case: dereference names
   qualified_name <- is.call(pipe_right_arg) &&
     (length(pipe_right_arg)==3) &&
@@ -173,8 +180,13 @@ pipe_impl <- function(pipe_left_arg,
     (as.character(pipe_right_arg[[2]])!=".") &&
     (is.name(pipe_right_arg[[3]]) || is.character(pipe_right_arg[[3]])) &&
     (as.character(pipe_right_arg[[3]])!=".")
-  is_name <- is.name(pipe_right_arg)
-  if(is_name || qualified_name) {
+  # special case: anonymous funciton decl
+  is_function_decl <- is.call(pipe_right_arg) &&
+    (length(as.character(pipe_right_arg[[1]]))==1) &&
+    (as.character(pipe_right_arg[[1]])=="function")
+  if(is.function(pipe_right_arg) ||
+     is_name || qualified_name ||
+     is_function_decl) {
     if(is_name) {
       pipe_right_arg <- base::get(as.character(pipe_right_arg),
                                   envir = pipe_environment,
@@ -184,6 +196,10 @@ pipe_impl <- function(pipe_left_arg,
       pipe_right_arg <- base::eval(pipe_right_arg,
                                    envir = pipe_environment,
                                    enclos = pipe_environment)
+    } else if(is_function_decl) {
+      pipe_right_arg <- eval(pipe_right_arg,
+                            envir = pipe_environment,
+                            enclos = pipe_environment)
     }
     # pipe_right_arg is now a value (as far as we are concerned)
     # special case: functions
@@ -218,9 +234,10 @@ pipe_impl <- function(pipe_left_arg,
 #'
 #' The pipe operator checks for and throws an exception for a number of "pipled into
 #' nothing cases" such as \code{5 \%.>\% sin()}, many of these checks can be turned
-#' off by adding parenthesis or braces.
+#' off by adding braces.
 #'
 #' For some discussion, please see \url{http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/}.
+#' For some more examples, please see the package README \url{https://github.com/WinVector/wrapr}.
 #' For formal documentation please see \url{https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf}.
 #' \code{\%>.\%} and \code{\%.>\%} are synonyms.
 #'
@@ -254,9 +271,10 @@ pipe_impl <- function(pipe_left_arg,
 #'
 #' The pipe operator checks for and throws an exception for a number of "pipled into
 #' nothing cases" such as \code{5 \%.>\% sin()}, many of these checks can be turned
-#' off by adding parenthesis or braces.
+#' off by adding braces.
 #'
 #' For some discussion, please see \url{http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/}.
+#' For some more examples, please see the package README \url{https://github.com/WinVector/wrapr}.
 #' For formal documentation please see \url{https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf}.
 #' \code{\%>.\%} and \code{\%.>\%} are synonyms.
 #'

@@ -38,13 +38,15 @@ a valid dot-pipe:
 1:4 %.>% .^2 
 ```
 
-The notation is also very regular in that expressions have the same iterpretation be then surrounded by 
-parenthesis, braces, or as-is:
+The notation is also very regular in that many variations of expression work as expected.  Example:
 
 ```{r pipe2}
-1:4 %.>% { .^2 } 
+5 %.>% sin(.)
 
-1:4 %.>% ( .^2 )
+5 %.>% base::sin(.)
 ```
 
-Regularity can be a *big* advantage in teaching and comprehension. Please see ["In Praise of Syntactic Sugar"](http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/) for more details.
+
+Regularity can be a *big* advantage in teaching and comprehension. Please see ["In Praise of Syntactic Sugar"](http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/) for discussion.
+
+For more of the details on dot pipe please see [the package README](https://github.com/WinVector/wrapr) and the following [technical article](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf).
