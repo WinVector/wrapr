@@ -13,12 +13,13 @@ Using [`wrapr`](https://winvector.github.io/wrapr/)'s pipe with `ggplot2` (as in
 #' @param pipe_left_arg pipe_left_arg argument
 #' @param pipe_right_arg substitute(pipe_right_arg) argument
 #' @param env environment to evaluate in
+#' @param pipe_name charater, name of pipe operator
 #' @return result
 #'
 #' @export
 #'
 pipe_step.ggplot <- function(pipe_left_arg, pipe_right_arg,
-                             pipe_environment, pipe_name = NULL) {
+                             pipe_environment, pipe_name) {
   pipe_right_arg <- eval(pipe_right_arg,
                          envir = pipe_environment,
                          enclos = pipe_environment)
