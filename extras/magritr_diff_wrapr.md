@@ -103,7 +103,7 @@ library("magrittr")
 ```
 
     ## function(x) { sin(x) }
-    ## <environment: 0x7f8d88988bf8>
+    ## <environment: 0x7ffcb83c0870>
 
 ``` r
 f <-  function(x) { sin(x) }

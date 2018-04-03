@@ -1,5 +1,5 @@
 
-# wrapr 1.4.0 2018-04-02
+# wrapr 1.4.0 2018-04-03
 
  * More tests an checks.
  * Allow lookups at the top level ($, [], [[]], ::, :::, @).
