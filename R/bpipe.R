@@ -38,6 +38,61 @@ pipe_step.default <- function(pipe_left_arg,
                               pipe_right_arg,
                               pipe_environment,
                               pipe_name = NULL) {
+  # remove some exceptional cases
+  if(length(pipe_right_arg)<1) {
+    stop("wrapr::pipe does not allow direct piping into NULL/empty")
+  }
+  if(length(pipe_right_arg)==1) {
+    right_text <- as.character(pipe_right_arg)
+    if(length(right_text)==1) {
+      # don't index as argument may be a symbol or character already
+      if(right_text==".") {
+        stop("wrapr::pipe_step.default does not allow direct piping into \".\"")
+      }
+    }
+    if((!is.language(pipe_right_arg)) &&
+       (!is.call(pipe_right_arg)) &&
+       (!is.symbol(pipe_right_arg)) &&
+       (!is.function(pipe_right_arg)) &&
+       ((length(class(pipe_right_arg))<1) ||
+        (length(class(pipe_right_arg))==1) &&
+        (class(pipe_right_arg) %in% c("numeric", "character",
+                                      "logical", "integer",
+                                      "raw", "complex")))) {
+      stop(paste0("wrapr::pipe_step.default does not allow direct piping into simple values such as",
+                  " class:" , class(pipe_right_arg), ", ",
+                  " type:", typeof(pipe_right_arg), "."))
+    }
+  }
+  if(is.call(pipe_right_arg)) {
+    call_text <- as.character(pipe_right_arg[[1]])
+    # mostly grabbing reserved words that are in the middle
+    # of something, or try to alter control flow (like return).
+    if((length(call_text)==1) &&
+       call_text %in% c("else",
+                        "return",
+                        "in", "next", "break",
+                        "TRUE", "FALSE", "NULL", "Inf", "NaN",
+                        "NA", "NA_integer_", "NA_real_", "NA_complex_", "NA_character_",
+                        "->", "->>", "<-", "<<-", "=", # precedence should ensure we do not see these
+                        "?",
+                        "...",
+                        ".",
+                        ";", ",",
+                        "substitute", "bquote", "quote",
+                        "eval", "evalq", "eval.parent", "local",
+                        "force",
+                        "try", "tryCatch",
+                        "withCallingHandlers", "signalCondition",
+                        "simpleCondition", "simpleError", "simpleWarning", "simpleMessage",
+                        "withRestarts", "invokeRestart", "invokeRestartInteractively",
+                        "suppressMessages", "suppressWarnings",
+                        "warning", "stop")) {
+      stop(paste0("wrapr::pipe_step.default does not allow direct piping into certain reserved words or control structures (such as \"",
+                  call_text,
+                  "\")."))
+    }
+  }
   if(length(pipe_right_arg)==1) {
     right_text <- as.character(pipe_right_arg)
     if(length(right_text)<=1) {
@@ -88,8 +143,10 @@ wrapr_function <- function(pipe_left_arg,
 #'
 #' @examples
 #'
-#' a <- substitute({. + 1})
+#' f <- function() { print("execute"); 0}
+#' a <- substitute({. + 1 + f()})
 #' 5 %.>% a
+#'
 #'
 #' @export
 #'
@@ -99,7 +156,7 @@ wrapr_function.default <- function(pipe_left_arg,
                                    pipe_name = NULL) {
   force(pipe_left_arg)
   # go to default left S3 dispatch on pipe_step()
-  pipe_step(pipe_left_arg, enquote(pipe_right_arg),
+  pipe_step(pipe_left_arg, pipe_right_arg,
             pipe_environment = pipe_environment,
             pipe_name = pipe_name)
 }
@@ -125,61 +182,6 @@ pipe_impl <- function(pipe_left_arg,
         (length(as.character(pipe_right_arg[[1]]))==1) &&
         (as.character(pipe_right_arg[[1]])=="(")) {
     pipe_right_arg <- pipe_right_arg[[2]]
-  }
-  # remove some exceptional cases
-  if(length(pipe_right_arg)<1) {
-    stop("wrapr::pipe does not allow direct piping into NULL/empty")
-  }
-  if(length(pipe_right_arg)==1) {
-    right_text <- as.character(pipe_right_arg)
-    if(length(right_text)==1) {
-      # don't index as argument may be a symbol or character already
-      if(right_text==".") {
-        stop("wrapr::pipe does not allow direct piping into \".\"")
-      }
-    }
-    if((!is.language(pipe_right_arg)) &&
-       (!is.call(pipe_right_arg)) &&
-       (!is.symbol(pipe_right_arg)) &&
-       (!is.function(pipe_right_arg)) &&
-       ((length(class(pipe_right_arg))<1) ||
-        (length(class(pipe_right_arg))==1) &&
-        (class(pipe_right_arg) %in% c("numeric", "character",
-                                      "logical", "integer",
-                                      "raw", "complex")))) {
-      stop(paste0("wrapr::pipe does not allow direct piping into simple values such as",
-                  " class:" , class(pipe_right_arg), ", ",
-                  " type:", typeof(pipe_right_arg), "."))
-    }
-  }
-  if(is.call(pipe_right_arg)) {
-    call_text <- as.character(pipe_right_arg[[1]])
-    # mostly grabbing reserved words that are in the middle
-    # of something, or try to alter control flow (like return).
-    if((length(call_text)==1) &&
-      call_text %in% c("else",
-                        "return",
-                        "in", "next", "break",
-                        "TRUE", "FALSE", "NULL", "Inf", "NaN",
-                        "NA", "NA_integer_", "NA_real_", "NA_complex_", "NA_character_",
-                        "->", "->>", "<-", "<<-", "=", # precedence should ensure we do not see these
-                        "?",
-                        "...",
-                        ".",
-                        ";", ",",
-                       "substitute", "bquote", "quote",
-                       "eval", "evalq", "eval.parent", "local",
-                       "force",
-                       "try", "tryCatch",
-                       "withCallingHandlers", "signalCondition",
-                       "simpleCondition", "simpleError", "simpleWarning", "simpleMessage",
-                       "withRestarts", "invokeRestart", "invokeRestartInteractively",
-                       "suppressMessages", "suppressWarnings",
-                       "warning", "stop")) {
-      stop(paste0("wrapr::pipe does not allow direct piping into certain reserved words or control structures (such as \"",
-                  call_text,
-                  "\")."))
-    }
   }
   # force pipe_left_arg
   pipe_left_arg <- eval(pipe_left_arg,

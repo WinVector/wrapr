@@ -103,7 +103,7 @@ library("magrittr")
 ```
 
     ## function(x) { sin(x) }
-    ## <environment: 0x7fd1a7b169f8>
+    ## <environment: 0x7f8d88988bf8>
 
 ``` r
 f <-  function(x) { sin(x) }
@@ -275,13 +275,13 @@ f <-  function(x) { sin(x) }
 5 %.>% ( substitute(f(), list(f = sin)) )
 ```
 
-    ## Error in pipe_impl(pipe_left_arg, pipe_right_arg, pipe_environment, pipe_name): wrapr::pipe does not allow direct piping into certain reserved words or control structures (such as "substitute").
+    ## Error in pipe_step.default(pipe_left_arg, pipe_right_arg, pipe_environment, : wrapr::pipe_step.default does not allow direct piping into certain reserved words or control structures (such as "substitute").
 
 ``` r
 5 %.>% substitute(f(), list(f = sin))
 ```
 
-    ## Error in pipe_impl(pipe_left_arg, pipe_right_arg, pipe_environment, pipe_name): wrapr::pipe does not allow direct piping into certain reserved words or control structures (such as "substitute").
+    ## Error in pipe_step.default(pipe_left_arg, pipe_right_arg, pipe_environment, : wrapr::pipe_step.default does not allow direct piping into certain reserved words or control structures (such as "substitute").
 
 ``` r
 5 %.>% { substitute(f(), list(f = sin)) }
@@ -308,19 +308,19 @@ For some operations that are unlikely to work close to reasonable user intent `w
 5 %.>% 7
 ```
 
-    ## Error in pipe_impl(pipe_left_arg, pipe_right_arg, pipe_environment, pipe_name): wrapr::pipe does not allow direct piping into simple values such as class:numeric,  type:double.
+    ## Error in pipe_step.default(pipe_left_arg, pipe_right_arg, pipe_environment, : wrapr::pipe_step.default does not allow direct piping into simple values such as class:numeric,  type:double.
 
 ``` r
 5 %.>% .
 ```
 
-    ## Error in pipe_impl(pipe_left_arg, pipe_right_arg, pipe_environment, pipe_name): wrapr::pipe does not allow direct piping into "."
+    ## Error in pipe_step.default(pipe_left_arg, pipe_right_arg, pipe_environment = pipe_environment, : wrapr::pipe_step.default does not allow direct piping into simple values such as class:numeric,  type:double.
 
 ``` r
 5 %.>% return(.)
 ```
 
-    ## Error in pipe_impl(pipe_left_arg, pipe_right_arg, pipe_environment, pipe_name): wrapr::pipe does not allow direct piping into certain reserved words or control structures (such as "return").
+    ## Error in pipe_step.default(pipe_left_arg, pipe_right_arg, pipe_environment, : wrapr::pipe_step.default does not allow direct piping into certain reserved words or control structures (such as "return").
 
 Throwing errors in these situations is based on the principle that non-signalling errors (often leading to result corruption) are much worse than signalling errors. The return example is an interesting case in point.
 
@@ -391,7 +391,7 @@ f_wrapr(37)
 f_wrapr(35)
 ```
 
-    ## Error in pipe_impl(pipe_left_arg, pipe_right_arg, pipe_environment, pipe_name): wrapr::pipe does not allow direct piping into certain reserved words or control structures (such as "return").
+    ## Error in pipe_step.default(pipe_left_arg, pipe_right_arg, pipe_environment, : wrapr::pipe_step.default does not allow direct piping into certain reserved words or control structures (such as "return").
 
 `wrapr` also can not handle `return()` correctly, but throwing the exception at least shows us when there was an issue.
 

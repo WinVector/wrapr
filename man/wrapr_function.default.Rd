@@ -24,7 +24,9 @@ S3 dispatch on tyhpe of pipe_right_argument.
 }
 \examples{
 
-a <- substitute({. + 1})
+f <- function() { print("execute"); 0}
+a <- substitute({. + 1 + f()})
 5 \%.>\% a
+
 
 }
