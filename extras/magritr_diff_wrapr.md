@@ -431,6 +431,10 @@ For some operations that are unlikely to work close to reasonable user intent `w
     ## Error in pipe_step.default(pipe_left_arg, pipe_right_arg, pipe_environment = pipe_environment, : wrapr::pipe_step.default does not allow direct piping into simple values such as class:numeric,  type:double.
 
 ``` r
+# note: the above error message is improve to:
+# "wrapr::pipe does not allow direct piping into '.'"
+# in wrapr 1.4.1
+
 5 %.>% return(.)
 ```
 

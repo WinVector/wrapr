@@ -158,6 +158,9 @@ For some operations that are unlikely to work close to reasonable user intent `w
 5 %.>% 7
 
 5 %.>% .
+# note: the above error message is improve to:
+# "wrapr::pipe does not allow direct piping into '.'"
+# in wrapr 1.4.1
 
 5 %.>% return(.)
 ```
