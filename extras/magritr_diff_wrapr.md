@@ -109,425 +109,52 @@ table(wrapr_eq_sin5 = evals$wrapr_good,
     ##         TRUE      3    7
 
 ``` r
-options(knitr.table.format = "html") 
+# # HTML version
+# evals %.>%
+#   mutate_nse(., 
+#              magrittr_expr =  htmltools::htmlEscape(magrittr_expr),
+#              magrittr_res = cell_spec(magrittr_res, "html", color = ifelse(magrittr_good, "blue", "red")),
+#              wrapr_expr =  htmltools::htmlEscape(wrapr_expr),
+#              wrapr_res = cell_spec(wrapr_res, "html", color = ifelse(wrapr_good, "blue", "red"))) %.>%
+#   select_se(., qc(magrittr_expr, magrittr_res,
+#                   wrapr_expr, wrapr_res)) %.>%
+#   knitr::kable(., "html", escape = FALSE) %.>%
+#   kable_styling(., "striped", full_width = FALSE)
+
+# Markdown version
+evals$magrittr_res[!evals$magrittr_good] <- paste("**", evals$magrittr_res[!evals$magrittr_good], "**")
+evals$wrapr_res[!evals$wrapr_good] <- paste("**", evals$wrapr_res[!evals$wrapr_good], "**")
 evals %.>%
   mutate_nse(., 
              magrittr_expr =  htmltools::htmlEscape(magrittr_expr),
-             magrittr_res = cell_spec(magrittr_res, "html", color = ifelse(magrittr_good, "blue", "red")),
-             wrapr_expr =  htmltools::htmlEscape(wrapr_expr),
-             wrapr_res = cell_spec(wrapr_res, "html", color = ifelse(wrapr_good, "blue", "red"))) %.>%
-  select_se(., qc(magrittr_expr, magrittr_res, magrittr_good,
-                  wrapr_expr, wrapr_res, wrapr_good)) %.>%
-  knitr::kable(., "html", escape = FALSE) %.>%
-  kable_styling(., "striped", full_width = FALSE)
+             wrapr_expr =  htmltools::htmlEscape(wrapr_expr)) %.>%
+  select_se(., qc(magrittr_expr, magrittr_res,
+                  wrapr_expr, wrapr_res)) %.>%
+  knitr::kable(., escape = FALSE)
 ```
 
-<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-magrittr\_expr
-</th>
-<th style="text-align:left;">
-magrittr\_res
-</th>
-<th style="text-align:left;">
-magrittr\_good
-</th>
-<th style="text-align:left;">
-wrapr\_expr
-</th>
-<th style="text-align:left;">
-wrapr\_res
-</th>
-<th style="text-align:left;">
-wrapr\_good
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-5 %&gt;% sin
-</td>
-<td style="text-align:left;">
-<span style="     color: blue;">-0.958924274663138</span>
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
-<td style="text-align:left;">
-5 %.&gt;% sin
-</td>
-<td style="text-align:left;">
-<span style="     color: blue;">-0.958924274663138</span>
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5 %&gt;% sin()
-</td>
-<td style="text-align:left;">
-<span style="     color: blue;">-0.958924274663138</span>
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
-<td style="text-align:left;">
-5 %.&gt;% sin()
-</td>
-<td style="text-align:left;">
-<span style="     color: red;">wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as "sin()", please use sin(.)).</span>
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5 %&gt;% sin(.)
-</td>
-<td style="text-align:left;">
-<span style="     color: blue;">-0.958924274663138</span>
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
-<td style="text-align:left;">
-5 %.&gt;% sin(.)
-</td>
-<td style="text-align:left;">
-<span style="     color: blue;">-0.958924274663138</span>
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5 %&gt;% base::sin
-</td>
-<td style="text-align:left;">
-<span style="     color: red;">unused argument (sin)</span>
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-<td style="text-align:left;">
-5 %.&gt;% base::sin
-</td>
-<td style="text-align:left;">
-<span style="     color: blue;">-0.958924274663138</span>
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5 %&gt;% base::sin()
-</td>
-<td style="text-align:left;">
-<span style="     color: blue;">-0.958924274663138</span>
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
-<td style="text-align:left;">
-5 %.&gt;% base::sin()
-</td>
-<td style="text-align:left;">
-<span style="     color: red;">wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as "base::sin()", please use base::sin(.)).</span>
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5 %&gt;% base::sin(.)
-</td>
-<td style="text-align:left;">
-<span style="     color: blue;">-0.958924274663138</span>
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
-<td style="text-align:left;">
-5 %.&gt;% base::sin(.)
-</td>
-<td style="text-align:left;">
-<span style="     color: blue;">-0.958924274663138</span>
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5 %&gt;% ( sin )
-</td>
-<td style="text-align:left;">
-<span style="     color: blue;">-0.958924274663138</span>
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
-<td style="text-align:left;">
-5 %.&gt;% ( sin )
-</td>
-<td style="text-align:left;">
-<span style="     color: blue;">-0.958924274663138</span>
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5 %&gt;% ( sin() )
-</td>
-<td style="text-align:left;">
-<span style="     color: red;">0 arguments passed to 'sin' which requires 1</span>
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-<td style="text-align:left;">
-5 %.&gt;% ( sin() )
-</td>
-<td style="text-align:left;">
-<span style="     color: red;">wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as "sin()", please use sin(.)).</span>
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5 %&gt;% ( sin(.) )
-</td>
-<td style="text-align:left;">
-<span style="     color: red;">object '.' not found</span>
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-<td style="text-align:left;">
-5 %.&gt;% ( sin(.) )
-</td>
-<td style="text-align:left;">
-<span style="     color: blue;">-0.958924274663138</span>
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5 %&gt;% { sin }
-</td>
-<td style="text-align:left;">
-<span style="     color: red;">.Primitive("sin")</span>
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-<td style="text-align:left;">
-5 %.&gt;% { sin }
-</td>
-<td style="text-align:left;">
-<span style="     color: red;">.Primitive("sin")</span>
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5 %&gt;% { sin() }
-</td>
-<td style="text-align:left;">
-<span style="     color: red;">0 arguments passed to 'sin' which requires 1</span>
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-<td style="text-align:left;">
-5 %.&gt;% { sin() }
-</td>
-<td style="text-align:left;">
-<span style="     color: red;">0 arguments passed to 'sin' which requires 1</span>
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5 %&gt;% { sin(.) }
-</td>
-<td style="text-align:left;">
-<span style="     color: blue;">-0.958924274663138</span>
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
-<td style="text-align:left;">
-5 %.&gt;% { sin(.) }
-</td>
-<td style="text-align:left;">
-<span style="     color: blue;">-0.958924274663138</span>
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5 %&gt;% function(x) { sin(x) }
-</td>
-<td style="text-align:left;">
-<span style="     color: red;">Anonymous functions myst be parenthesized</span>
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-<td style="text-align:left;">
-5 %.&gt;% function(x) { sin(x) }
-</td>
-<td style="text-align:left;">
-<span style="     color: blue;">-0.958924274663138</span>
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5 %&gt;% ( function(x) { sin(x) } )
-</td>
-<td style="text-align:left;">
-<span style="     color: blue;">-0.958924274663138</span>
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
-<td style="text-align:left;">
-5 %.&gt;% ( function(x) { sin(x) } )
-</td>
-<td style="text-align:left;">
-<span style="     color: blue;">-0.958924274663138</span>
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5 %&gt;% { function(x) { sin(x) } }
-</td>
-<td style="text-align:left;">
-<span style="     color: red;">function (x) { sin(x) }</span>
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-<td style="text-align:left;">
-5 %.&gt;% { function(x) { sin(x) } }
-</td>
-<td style="text-align:left;">
-<span style="     color: red;">function (x) { sin(x) }</span>
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-f &lt;- function(x) { sin(x) } ; 5 %&gt;% f
-</td>
-<td style="text-align:left;">
-<span style="     color: blue;">-0.958924274663138</span>
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
-<td style="text-align:left;">
-f &lt;- function(x) { sin(x) } ; 5 %.&gt;% f
-</td>
-<td style="text-align:left;">
-<span style="     color: blue;">-0.958924274663138</span>
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5 %&gt;% ( substitute(f(), list(f = sin)) )
-</td>
-<td style="text-align:left;">
-<span style="     color: blue;">-0.958924274663138</span>
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
-<td style="text-align:left;">
-5 %.&gt;% ( substitute(f(), list(f = sin)) )
-</td>
-<td style="text-align:left;">
-<span style="     color: red;">wrapr::pipe\_step.default does not allow direct piping into certain reserved words or control structures (such as "substitute").</span>
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5 %&gt;% substitute(f(), list(f = sin))
-</td>
-<td style="text-align:left;">
-<span style="     color: red;">unused argument (list(f = sin))</span>
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-<td style="text-align:left;">
-5 %.&gt;% substitute(f(), list(f = sin))
-</td>
-<td style="text-align:left;">
-<span style="     color: red;">wrapr::pipe\_step.default does not allow direct piping into certain reserved words or control structures (such as "substitute").</span>
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5 %&gt;% { substitute(f(), list(f = sin)) }
-</td>
-<td style="text-align:left;">
-<span style="     color: red;">.Primitive("sin")()</span>
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-<td style="text-align:left;">
-5 %.&gt;% { substitute(f(), list(f = sin)) }
-</td>
-<td style="text-align:left;">
-<span style="     color: red;">.Primitive("sin")()</span>
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-</tr>
-</tbody>
-</table>
+| magrittr\_expr                              | magrittr\_res                                          | wrapr\_expr                                  | wrapr\_res                                                                                                                                                     |
+|:--------------------------------------------|:-------------------------------------------------------|:---------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 5 %&gt;% sin                                | -0.958924274663138                                     | 5 %.&gt;% sin                                | -0.958924274663138                                                                                                                                             |
+| 5 %&gt;% sin()                              | -0.958924274663138                                     | 5 %.&gt;% sin()                              | \*\* wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as "sin()", please use sin(.)). \*\*             |
+| 5 %&gt;% sin(.)                             | -0.958924274663138                                     | 5 %.&gt;% sin(.)                             | -0.958924274663138                                                                                                                                             |
+| 5 %&gt;% base::sin                          | \*\* unused argument (sin) \*\*                        | 5 %.&gt;% base::sin                          | -0.958924274663138                                                                                                                                             |
+| 5 %&gt;% base::sin()                        | -0.958924274663138                                     | 5 %.&gt;% base::sin()                        | \*\* wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as "base::sin()", please use base::sin(.)). \*\* |
+| 5 %&gt;% base::sin(.)                       | -0.958924274663138                                     | 5 %.&gt;% base::sin(.)                       | -0.958924274663138                                                                                                                                             |
+| 5 %&gt;% ( sin )                            | -0.958924274663138                                     | 5 %.&gt;% ( sin )                            | -0.958924274663138                                                                                                                                             |
+| 5 %&gt;% ( sin() )                          | \*\* 0 arguments passed to 'sin' which requires 1 \*\* | 5 %.&gt;% ( sin() )                          | \*\* wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as "sin()", please use sin(.)). \*\*             |
+| 5 %&gt;% ( sin(.) )                         | \*\* object '.' not found \*\*                         | 5 %.&gt;% ( sin(.) )                         | -0.958924274663138                                                                                                                                             |
+| 5 %&gt;% { sin }                            | \*\* .Primitive("sin") \*\*                            | 5 %.&gt;% { sin }                            | \*\* .Primitive("sin") \*\*                                                                                                                                    |
+| 5 %&gt;% { sin() }                          | \*\* 0 arguments passed to 'sin' which requires 1 \*\* | 5 %.&gt;% { sin() }                          | \*\* 0 arguments passed to 'sin' which requires 1 \*\*                                                                                                         |
+| 5 %&gt;% { sin(.) }                         | -0.958924274663138                                     | 5 %.&gt;% { sin(.) }                         | -0.958924274663138                                                                                                                                             |
+| 5 %&gt;% function(x) { sin(x) }             | \*\* Anonymous functions myst be parenthesized \*\*    | 5 %.&gt;% function(x) { sin(x) }             | -0.958924274663138                                                                                                                                             |
+| 5 %&gt;% ( function(x) { sin(x) } )         | -0.958924274663138                                     | 5 %.&gt;% ( function(x) { sin(x) } )         | -0.958924274663138                                                                                                                                             |
+| 5 %&gt;% { function(x) { sin(x) } }         | \*\* function (x) { sin(x) } \*\*                      | 5 %.&gt;% { function(x) { sin(x) } }         | \*\* function (x) { sin(x) } \*\*                                                                                                                              |
+| f &lt;- function(x) { sin(x) } ; 5 %&gt;% f | -0.958924274663138                                     | f &lt;- function(x) { sin(x) } ; 5 %.&gt;% f | -0.958924274663138                                                                                                                                             |
+| 5 %&gt;% ( substitute(f(), list(f = sin)) ) | -0.958924274663138                                     | 5 %.&gt;% ( substitute(f(), list(f = sin)) ) | \*\* wrapr::pipe\_step.default does not allow direct piping into certain reserved words or control structures (such as "substitute"). \*\*                     |
+| 5 %&gt;% substitute(f(), list(f = sin))     | \*\* unused argument (list(f = sin)) \*\*              | 5 %.&gt;% substitute(f(), list(f = sin))     | \*\* wrapr::pipe\_step.default does not allow direct piping into certain reserved words or control structures (such as "substitute"). \*\*                     |
+| 5 %&gt;% { substitute(f(), list(f = sin)) } | \*\* .Primitive("sin")() \*\*                          | 5 %.&gt;% { substitute(f(), list(f = sin)) } | \*\* .Primitive("sin")() \*\*                                                                                                                                  |
+
 As you see some statements were not roughly equivalent to `sin(5)`.
 
 Analysis
