@@ -112,8 +112,10 @@ table(wrapr_eq_sin5 = evals$wrapr_good,
 options(knitr.table.format = "html") 
 evals %.>%
   mutate_nse(., 
-         magrittr_res = cell_spec(magrittr_res, "html", color = ifelse(magrittr_good, "blue", "red")),
-         wrapr_res = cell_spec(wrapr_res, "html", color = ifelse(wrapr_good, "blue", "red"))) %.>%
+             magrittr_expr =  htmltools::htmlEscape(magrittr_expr),
+             magrittr_res = cell_spec(magrittr_res, "html", color = ifelse(magrittr_good, "blue", "red")),
+             wrapr_expr =  htmltools::htmlEscape(wrapr_expr),
+             wrapr_res = cell_spec(wrapr_res, "html", color = ifelse(wrapr_good, "blue", "red"))) %.>%
   select_se(., qc(magrittr_expr, magrittr_res, wrapr_expr, wrapr_res)) %.>%
   knitr::kable(., "html", escape = FALSE) %.>%
   kable_styling(., "striped", full_width = FALSE)
@@ -349,13 +351,13 @@ wrapr\_res
 </tr>
 <tr>
 <td style="text-align:left;">
-f % f
+f &lt;- function(x) { sin(x) } ; 5 %&gt;% f
 </td>
 <td style="text-align:left;">
 <span style="     color: blue;">-0.958924274663138</span>
 </td>
 <td style="text-align:left;">
-f % f
+f &lt;- function(x) { sin(x) } ; 5 %.&gt;% f
 </td>
 <td style="text-align:left;">
 <span style="     color: blue;">-0.958924274663138</span>
