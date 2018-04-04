@@ -40,31 +40,20 @@ pipe_step.default <- function(pipe_left_arg,
                               pipe_name = NULL) {
   # remove some exceptional cases
   if(length(pipe_right_arg)<1) {
-    stop("wrapr::pipe does not allow direct piping into NULL/empty")
+    stop("wrapr::pipe_step.default does not allow direct piping into NULL/empty")
   }
   if(length(pipe_right_arg)==1) {
-    right_text <- as.character(pipe_right_arg)
-    if(length(right_text)==1) {
-      # don't index as argument may be a symbol or character already
-      if(right_text==".") {
-        stop("wrapr::pipe_step.default does not allow direct piping into \".\"")
-      }
+    if(is.call(pipe_right_arg)) {
+      stop(paste0("wrapr::pipe_step.default does not allow direct piping into a no-argument function call expression (such as \"",
+                  right_text,
+                  "()\", please use ",
+                  right_text, "(.))."))
     }
-    if((!is.language(pipe_right_arg)) &&
-       (!is.call(pipe_right_arg)) &&
-       (!is.symbol(pipe_right_arg)) &&
-       (!is.function(pipe_right_arg)) &&
-       ((length(class(pipe_right_arg))<1) ||
-        (length(class(pipe_right_arg))==1) &&
-        (class(pipe_right_arg) %in% c("numeric", "character",
-                                      "logical", "integer",
-                                      "raw", "complex")))) {
-      stop(paste0("wrapr::pipe_step.default does not allow direct piping into simple values such as",
-                  " class:" , class(pipe_right_arg), ", ",
-                  " type:", typeof(pipe_right_arg), "."))
-    }
+    stop(paste0("wrapr::pipe_step.default does not allow direct piping into scalar values such as",
+                " class:" , class(pipe_right_arg), ", ",
+                " type:", typeof(pipe_right_arg), "."))
   }
-  if(is.call(pipe_right_arg)) {
+  if(is.call(pipe_right_arg) && (is.name(pipe_right_arg[[1]]))) {
     call_text <- as.character(pipe_right_arg[[1]])
     # mostly grabbing reserved words that are in the middle
     # of something, or try to alter control flow (like return).
@@ -93,19 +82,10 @@ pipe_step.default <- function(pipe_left_arg,
                   "\")."))
     }
   }
-  if(length(pipe_right_arg)==1) {
-    right_text <- as.character(pipe_right_arg)
-    if(length(right_text)<=1) {
-      if(is.call(pipe_right_arg)) {
-        # empty calls of the form f() (easy to detect no-. case)
-        stop(paste0("wrapr::pipe_step.default does not allow direct piping into a no-argument function call expression (such as \"",
-                    right_text,
-                    "()\", please use ",
-                    right_text, "(.))."))
-      }
-    }
-  }
-  force(pipe_left_arg)
+  # eval by with pipe_left_arg's value in dot (simulates chaining)
+  assign(".", pipe_left_arg,
+         envir = pipe_environment,
+         inherits = FALSE)
   eval(pipe_right_arg,
        envir = pipe_environment,
        enclos = pipe_environment)
@@ -154,7 +134,6 @@ wrapr_function.default <- function(pipe_left_arg,
                                    pipe_right_arg,
                                    pipe_environment,
                                    pipe_name = NULL) {
-  force(pipe_left_arg)
   # go to default left S3 dispatch on pipe_step()
   pipe_step(pipe_left_arg, pipe_right_arg,
             pipe_environment = pipe_environment,
@@ -187,10 +166,6 @@ pipe_impl <- function(pipe_left_arg,
   pipe_left_arg <- eval(pipe_left_arg,
                         envir = pipe_environment,
                         enclos = pipe_environment)
-  # eval by with pipe_left_arg's value in dot (simulates chaining)
-  assign(".", pipe_left_arg,
-         envir = pipe_environment,
-         inherits = FALSE)
   # special case: name
   is_name <- is.name(pipe_right_arg)
   # special case: dereference names
@@ -211,6 +186,9 @@ pipe_impl <- function(pipe_left_arg,
      is_name || qualified_name ||
      is_function_decl) {
     if(is_name) {
+      if(as.character(pipe_right_arg)==".") {
+        stop("wrapr::pipe does not allow direct piping into '.'")
+      }
       pipe_right_arg <- base::get(as.character(pipe_right_arg),
                                   envir = pipe_environment,
                                   mode = "any",
