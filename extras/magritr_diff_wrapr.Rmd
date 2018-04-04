@@ -105,8 +105,9 @@ evals$wrapr_good <- checcol(evals$wrapr_res)
 
 table(wrapr_eq_sin5 = evals$wrapr_good, 
       magrittr_eq_sin5 = evals$magrittr_good)
+```
 
-
+```{r tab, results='asis', comment=""}
 # # HTML version
 # evals %.>%
 #   mutate_nse(., 
@@ -120,15 +121,27 @@ table(wrapr_eq_sin5 = evals$wrapr_good,
 #   kable_styling(., "striped", full_width = FALSE)
 
 # Markdown version
-evals$magrittr_res[!evals$magrittr_good] <- paste("**", evals$magrittr_res[!evals$magrittr_good], "**")
-evals$wrapr_res[!evals$wrapr_good] <- paste("**", evals$wrapr_res[!evals$wrapr_good], "**")
+# evals$magrittr_res[!evals$magrittr_good] <- paste("**", evals$magrittr_res[!evals$magrittr_good], "**")
+# evals$wrapr_res[!evals$wrapr_good] <- paste("**", evals$wrapr_res[!evals$wrapr_good], "**")
+# evals %.>%
+#   mutate_nse(., 
+#              magrittr_expr =  htmltools::htmlEscape(magrittr_expr),
+#              wrapr_expr =  htmltools::htmlEscape(wrapr_expr)) %.>%
+#   select_se(., qc(magrittr_expr, magrittr_res,
+#                   wrapr_expr, wrapr_res)) %.>%
+#   knitr::kable(., format="markdown", escape = FALSE)
 evals %.>%
-  mutate_nse(., 
+  mutate_nse(.,
              magrittr_expr =  htmltools::htmlEscape(magrittr_expr),
-             wrapr_expr =  htmltools::htmlEscape(wrapr_expr)) %.>%
+             magrittr_res = cell_spec(magrittr_res, "html", color = ifelse(magrittr_good, "blue", "red"),
+                                      bold = magrittr_good),
+             wrapr_expr =  htmltools::htmlEscape(wrapr_expr),
+             wrapr_res = cell_spec(wrapr_res, "html", color = ifelse(wrapr_good, "blue", "red"),
+                                   bold = wrapr_good)) %.>%
   select_se(., qc(magrittr_expr, magrittr_res,
                   wrapr_expr, wrapr_res)) %.>%
-  knitr::kable(., escape = FALSE)
+  knitr::kable(., "markdown", escape = FALSE) %.>%
+  kable_styling(., "striped", full_width = FALSE)
 ```
 
 As you see some statements were not roughly equivalent to `sin(5)`.  
