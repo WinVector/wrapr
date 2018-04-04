@@ -44,6 +44,7 @@ pipe_step.default <- function(pipe_left_arg,
   }
   if(length(pipe_right_arg)==1) {
     if(is.call(pipe_right_arg)) {
+      right_text <- as.character(pipe_right_arg)
       stop(paste0("wrapr::pipe_step.default does not allow direct piping into a no-argument function call expression (such as \"",
                   right_text,
                   "()\", please use ",
