@@ -124,12 +124,13 @@ table(wrapr_eq_sin5 = evals$wrapr_good,
     ##         TRUE      3    7
 
 ``` r
+options(knitr.table.format = "html") 
 evals %.>%
   mutate(., 
          magrittr_res = cell_spec(magrittr_res, "html", color = ifelse(magrittr_good, "blue", "red")),
          wrapr_res = cell_spec(wrapr_res, "html", color = ifelse(wrapr_good, "blue", "red"))) %.>%
   select(., one_of(qc(magrittr_expr, magrittr_res, wrapr_expr, wrapr_res))) %.>%
-  knitr::kable(., "html", escape = F) %>%
+  knitr::kable(., "html", escape = F) %.>%
   kable_styling(., "striped", full_width = F)
 ```
 
