@@ -72,18 +72,17 @@ evals <- data.frame(
   stringsAsFactors = FALSE)
 
 f <- function(expr) {
-  tryCatch( 
-    {
-      r <- eval(parse(text = expr))
-      if((!is.numeric(r)) || (length(r)!=1)) {
-        r <- paste(as.character(r), collapse = " ")
-      }
-      r
-    },
+  r <- tryCatch( 
+    eval(parse(text = expr)),
     error = function(e) { 
-      paste(as.character(e$message), collapse = " ") 
+      e$message
     }
   )
+  if((!is.numeric(r)) || (length(r)!=1)) {
+    r <- paste(format(r), collapse = " ")
+    r <- htmltools::htmlEscape(r)
+  }
+  r
 }
 
 checcol <- function(col) {
@@ -116,7 +115,7 @@ evals %.>%
          magrittr_res = cell_spec(magrittr_res, "html", color = ifelse(magrittr_good, "blue", "red")),
          wrapr_res = cell_spec(wrapr_res, "html", color = ifelse(wrapr_good, "blue", "red"))) %.>%
   select_se(., qc(magrittr_expr, magrittr_res, wrapr_expr, wrapr_res)) %.>%
-  knitr::kable(., "html", escape = TRUE) %.>%
+  knitr::kable(., "html", escape = FALSE) %.>%
   kable_styling(., "striped", full_width = FALSE)
 ```
 
@@ -143,13 +142,13 @@ wrapr\_res
 5 %&gt;% sin
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: blue;" &gt;-0.958924274663138&lt;/span&gt;
+<span style="     color: blue;">-0.958924274663138</span>
 </td>
 <td style="text-align:left;">
 5 %.&gt;% sin
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: blue;" &gt;-0.958924274663138&lt;/span&gt;
+<span style="     color: blue;">-0.958924274663138</span>
 </td>
 </tr>
 <tr>
@@ -157,13 +156,13 @@ wrapr\_res
 5 %&gt;% sin()
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: blue;" &gt;-0.958924274663138&lt;/span&gt;
+<span style="     color: blue;">-0.958924274663138</span>
 </td>
 <td style="text-align:left;">
 5 %.&gt;% sin()
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: red;" &gt;wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as &quot;sin()&quot;, please use sin(.)).&lt;/span&gt;
+<span style="     color: red;">wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as "sin()", please use sin(.)).</span>
 </td>
 </tr>
 <tr>
@@ -171,13 +170,13 @@ wrapr\_res
 5 %&gt;% sin(.)
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: blue;" &gt;-0.958924274663138&lt;/span&gt;
+<span style="     color: blue;">-0.958924274663138</span>
 </td>
 <td style="text-align:left;">
 5 %.&gt;% sin(.)
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: blue;" &gt;-0.958924274663138&lt;/span&gt;
+<span style="     color: blue;">-0.958924274663138</span>
 </td>
 </tr>
 <tr>
@@ -185,13 +184,13 @@ wrapr\_res
 5 %&gt;% base::sin
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: red;" &gt;unused argument (sin)&lt;/span&gt;
+<span style="     color: red;">unused argument (sin)</span>
 </td>
 <td style="text-align:left;">
 5 %.&gt;% base::sin
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: blue;" &gt;-0.958924274663138&lt;/span&gt;
+<span style="     color: blue;">-0.958924274663138</span>
 </td>
 </tr>
 <tr>
@@ -199,13 +198,13 @@ wrapr\_res
 5 %&gt;% base::sin()
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: blue;" &gt;-0.958924274663138&lt;/span&gt;
+<span style="     color: blue;">-0.958924274663138</span>
 </td>
 <td style="text-align:left;">
 5 %.&gt;% base::sin()
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: red;" &gt;wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as &quot;base::sin()&quot;, please use base::sin(.)).&lt;/span&gt;
+<span style="     color: red;">wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as "base::sin()", please use base::sin(.)).</span>
 </td>
 </tr>
 <tr>
@@ -213,13 +212,13 @@ wrapr\_res
 5 %&gt;% base::sin(.)
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: blue;" &gt;-0.958924274663138&lt;/span&gt;
+<span style="     color: blue;">-0.958924274663138</span>
 </td>
 <td style="text-align:left;">
 5 %.&gt;% base::sin(.)
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: blue;" &gt;-0.958924274663138&lt;/span&gt;
+<span style="     color: blue;">-0.958924274663138</span>
 </td>
 </tr>
 <tr>
@@ -227,13 +226,13 @@ wrapr\_res
 5 %&gt;% ( sin )
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: blue;" &gt;-0.958924274663138&lt;/span&gt;
+<span style="     color: blue;">-0.958924274663138</span>
 </td>
 <td style="text-align:left;">
 5 %.&gt;% ( sin )
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: blue;" &gt;-0.958924274663138&lt;/span&gt;
+<span style="     color: blue;">-0.958924274663138</span>
 </td>
 </tr>
 <tr>
@@ -241,13 +240,13 @@ wrapr\_res
 5 %&gt;% ( sin() )
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: red;" &gt;0 arguments passed to 'sin' which requires 1&lt;/span&gt;
+<span style="     color: red;">0 arguments passed to 'sin' which requires 1</span>
 </td>
 <td style="text-align:left;">
 5 %.&gt;% ( sin() )
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: red;" &gt;wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as &quot;sin()&quot;, please use sin(.)).&lt;/span&gt;
+<span style="     color: red;">wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as "sin()", please use sin(.)).</span>
 </td>
 </tr>
 <tr>
@@ -255,13 +254,13 @@ wrapr\_res
 5 %&gt;% ( sin(.) )
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: red;" &gt;object '.' not found&lt;/span&gt;
+<span style="     color: red;">object '.' not found</span>
 </td>
 <td style="text-align:left;">
 5 %.&gt;% ( sin(.) )
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: blue;" &gt;-0.958924274663138&lt;/span&gt;
+<span style="     color: blue;">-0.958924274663138</span>
 </td>
 </tr>
 <tr>
@@ -269,13 +268,13 @@ wrapr\_res
 5 %&gt;% { sin }
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: red;" &gt;cannot coerce type 'builtin' to vector of type 'character'&lt;/span&gt;
+<span style="     color: red;">.Primitive("sin")</span>
 </td>
 <td style="text-align:left;">
 5 %.&gt;% { sin }
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: red;" &gt;cannot coerce type 'builtin' to vector of type 'character'&lt;/span&gt;
+<span style="     color: red;">.Primitive("sin")</span>
 </td>
 </tr>
 <tr>
@@ -283,13 +282,13 @@ wrapr\_res
 5 %&gt;% { sin() }
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: red;" &gt;0 arguments passed to 'sin' which requires 1&lt;/span&gt;
+<span style="     color: red;">0 arguments passed to 'sin' which requires 1</span>
 </td>
 <td style="text-align:left;">
 5 %.&gt;% { sin() }
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: red;" &gt;0 arguments passed to 'sin' which requires 1&lt;/span&gt;
+<span style="     color: red;">0 arguments passed to 'sin' which requires 1</span>
 </td>
 </tr>
 <tr>
@@ -297,13 +296,13 @@ wrapr\_res
 5 %&gt;% { sin(.) }
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: blue;" &gt;-0.958924274663138&lt;/span&gt;
+<span style="     color: blue;">-0.958924274663138</span>
 </td>
 <td style="text-align:left;">
 5 %.&gt;% { sin(.) }
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: blue;" &gt;-0.958924274663138&lt;/span&gt;
+<span style="     color: blue;">-0.958924274663138</span>
 </td>
 </tr>
 <tr>
@@ -311,13 +310,13 @@ wrapr\_res
 5 %&gt;% function(x) { sin(x) }
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: red;" &gt;Anonymous functions myst be parenthesized&lt;/span&gt;
+<span style="     color: red;">Anonymous functions myst be parenthesized</span>
 </td>
 <td style="text-align:left;">
 5 %.&gt;% function(x) { sin(x) }
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: blue;" &gt;-0.958924274663138&lt;/span&gt;
+<span style="     color: blue;">-0.958924274663138</span>
 </td>
 </tr>
 <tr>
@@ -325,13 +324,13 @@ wrapr\_res
 5 %&gt;% ( function(x) { sin(x) } )
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: blue;" &gt;-0.958924274663138&lt;/span&gt;
+<span style="     color: blue;">-0.958924274663138</span>
 </td>
 <td style="text-align:left;">
 5 %.&gt;% ( function(x) { sin(x) } )
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: blue;" &gt;-0.958924274663138&lt;/span&gt;
+<span style="     color: blue;">-0.958924274663138</span>
 </td>
 </tr>
 <tr>
@@ -339,27 +338,27 @@ wrapr\_res
 5 %&gt;% { function(x) { sin(x) } }
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: red;" &gt;cannot coerce type 'closure' to vector of type 'character'&lt;/span&gt;
+<span style="     color: red;">function (x) { sin(x) }</span>
 </td>
 <td style="text-align:left;">
 5 %.&gt;% { function(x) { sin(x) } }
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: red;" &gt;cannot coerce type 'closure' to vector of type 'character'&lt;/span&gt;
+<span style="     color: red;">function (x) { sin(x) }</span>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-f &lt;- function(x) { sin(x) } ; 5 %&gt;% f
+f % f
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: blue;" &gt;-0.958924274663138&lt;/span&gt;
+<span style="     color: blue;">-0.958924274663138</span>
 </td>
 <td style="text-align:left;">
-f &lt;- function(x) { sin(x) } ; 5 %.&gt;% f
+f % f
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: blue;" &gt;-0.958924274663138&lt;/span&gt;
+<span style="     color: blue;">-0.958924274663138</span>
 </td>
 </tr>
 <tr>
@@ -367,13 +366,13 @@ f &lt;- function(x) { sin(x) } ; 5 %.&gt;% f
 5 %&gt;% ( substitute(f(), list(f = sin)) )
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: blue;" &gt;-0.958924274663138&lt;/span&gt;
+<span style="     color: blue;">-0.958924274663138</span>
 </td>
 <td style="text-align:left;">
 5 %.&gt;% ( substitute(f(), list(f = sin)) )
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: red;" &gt;wrapr::pipe\_step.default does not allow direct piping into certain reserved words or control structures (such as &quot;substitute&quot;).&lt;/span&gt;
+<span style="     color: red;">wrapr::pipe\_step.default does not allow direct piping into certain reserved words or control structures (such as "substitute").</span>
 </td>
 </tr>
 <tr>
@@ -381,13 +380,13 @@ f &lt;- function(x) { sin(x) } ; 5 %.&gt;% f
 5 %&gt;% substitute(f(), list(f = sin))
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: red;" &gt;unused argument (list(f = sin))&lt;/span&gt;
+<span style="     color: red;">unused argument (list(f = sin))</span>
 </td>
 <td style="text-align:left;">
 5 %.&gt;% substitute(f(), list(f = sin))
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: red;" &gt;wrapr::pipe\_step.default does not allow direct piping into certain reserved words or control structures (such as &quot;substitute&quot;).&lt;/span&gt;
+<span style="     color: red;">wrapr::pipe\_step.default does not allow direct piping into certain reserved words or control structures (such as "substitute").</span>
 </td>
 </tr>
 <tr>
@@ -395,13 +394,13 @@ f &lt;- function(x) { sin(x) } ; 5 %.&gt;% f
 5 %&gt;% { substitute(f(), list(f = sin)) }
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: red;" &gt;.Primitive(&quot;sin&quot;)&lt;/span&gt;
+<span style="     color: red;">.Primitive("sin")()</span>
 </td>
 <td style="text-align:left;">
 5 %.&gt;% { substitute(f(), list(f = sin)) }
 </td>
 <td style="text-align:left;">
-&lt;span style=" color: red;" &gt;.Primitive(&quot;sin&quot;)&lt;/span&gt;
+<span style="     color: red;">.Primitive("sin")()</span>
 </td>
 </tr>
 </tbody>

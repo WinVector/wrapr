@@ -76,18 +76,17 @@ evals <- data.frame(
   stringsAsFactors = FALSE)
 
 f <- function(expr) {
-  tryCatch( 
-    {
-      r <- eval(parse(text = expr))
-      if((!is.numeric(r)) || (length(r)!=1)) {
-        r <- paste(as.character(r), collapse = " ")
-      }
-      r
-    },
+  r <- tryCatch( 
+    eval(parse(text = expr)),
     error = function(e) { 
-      paste(as.character(e$message), collapse = " ") 
+      e$message
     }
   )
+  if((!is.numeric(r)) || (length(r)!=1)) {
+    r <- paste(format(r), collapse = " ")
+    r <- htmltools::htmlEscape(r)
+  }
+  r
 }
 
 checcol <- function(col) {
@@ -113,7 +112,7 @@ evals %.>%
          magrittr_res = cell_spec(magrittr_res, "html", color = ifelse(magrittr_good, "blue", "red")),
          wrapr_res = cell_spec(wrapr_res, "html", color = ifelse(wrapr_good, "blue", "red"))) %.>%
   select_se(., qc(magrittr_expr, magrittr_res, wrapr_expr, wrapr_res)) %.>%
-  knitr::kable(., "html", escape = TRUE) %.>%
+  knitr::kable(., "html", escape = FALSE) %.>%
   kable_styling(., "striped", full_width = FALSE)
 ```
 
