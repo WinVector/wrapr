@@ -160,7 +160,7 @@ For some operations that are unlikely to work close to reasonable user intent `w
 # "Error in function_list[[k]](value) : attempt to apply non-function"
 
 5 %.>% .
-# note: the above error message is improve to:
+# note: the above error message is improved to:
 # "wrapr::pipe does not allow direct piping into '.'"
 # in wrapr 1.4.1
 
