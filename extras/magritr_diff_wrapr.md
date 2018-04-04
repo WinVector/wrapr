@@ -1,7 +1,7 @@
 Differences between magrittr and wrapr pipes
 ================
 John Mount, Win-Vector LLC
-4/3/2018
+4/4/2018
 
 Let's consider piping in [`R`](https://www.r-project.org) both using the [`magrittr`](https://CRAN.R-project.org/package=magrittr) package and using the [`wrapr`](https://CRAN.R-project.org/package=wrapr) package.
 
@@ -17,7 +17,7 @@ The [`wrapr`](https://CRAN.R-project.org/package=wrapr) package's ["dot pipe" "`
 
 We think `wrapr` piping is very teachable expression oriented pipe with a few rules and additional admonitions:
 
--   Think of `a %.>% b` as *approximately* syntactic sugar for `{. <- a; b }`. Insisting that piping merely be such sugar presents a fairly irregular experience to the `R` user as `R`'s control structures and data structures are already fairly irregular. Notice also we say think in terms of `{. <- a; b }` (value chaining or sequencing), not in terms of `b(a)` (function composition). They are related concepts, but sequencing is closer to what is actually implemented in this pipeline construct. Also note: `{. <- a; b }` is only the default implementation of the `wrapr` `pipe_step()` generic `S3` function. Users can override this function to specify their own composition of objects under their own rules (such as building [pipable `ggplot2` code](https://github.com/WinVector/wrapr/blob/master/extras/ggplot2_piped.md)).
+-   Think of `a %.>% b` as *approximately* syntactic sugar for `{ . <- a; b }`. Insisting that piping merely be such sugar presents a fairly irregular experience to the `R` user as `R`'s control structures and data structures are already fairly irregular. Notice also we say think in terms of `{ . <- a; b }` (value chaining or sequencing), not in terms of `b(a)` (function composition). They are related concepts, but sequencing is closer to what is actually implemented in this pipeline construct. Also note: `{ . <- a; b }` is only the default implementation of the `wrapr` `pipe_step()` generic `S3` function. Users can override this function to specify their own composition of objects under their own rules (such as building [pipable `ggplot2` code](https://github.com/WinVector/wrapr/blob/master/extras/ggplot2_piped.md)).
 -   Use explicit dots, i.e. write `5 %.>% sin(.)` and not `5 %.>% sin()`. It [good to make it obvious to the reader that "`.`" is a free-name in the right-hand side expression](http://www.win-vector.com/blog/2018/03/r-tip-make-arguments-explicit-in-magrittr-dplyr-pipelines/), allowing the easy application of the convention of treating the right-hand side expression as an implicit function of "`.`".
 -   You get some free de-referencing such as in `5 %.>% sin` and function application as in `5 %.>% function(x) { sin(x) }`. This works under the rubric that these expressions are obviously "dot free", so don't make a lot of sense in a pipeline unless we do something additional with them. The additional steps are usually name look-up, function construction/application, or right-argument `S3` dispatch through a function named "`wrapr_function()`" (which asks: which function would you like to stand in for this object). One design principle is while we need exceptions, we try to only apply them where the non-exceptional case does not make sense. For `5 %.>% base::sin` directly is read in `R` would say "apply the `::` look-up function to `sin` after assigning `5` to the variable `.`." As this reading is not useful we trigger a helper rule "de-reference an evaluation of the form `::` before applying pipe rules." In this case `base::sin` returns a function which then can be applied to the value stored in "`.`", simulating `sin(5)`.
 -   Outer parentheses do not change meaning (as is commonly the case outside pipelines, modulo `R`'s visibility controls).
@@ -33,16 +33,14 @@ In [`R`](https://www.r-project.org) a non-expert [`magrittr`](https://CRAN.R-pro
 ``` r
 library("magrittr")
 library("wrapr")
+library("seplyr")
+library("kableExtra")
 packageVersion("wrapr")
 ```
 
     ## [1] '1.4.0'
 
 ``` r
-library("seplyr")
-library("kableExtra")
-
-
 exprs = c(
   "5 PIPE_GLYPH sin",
   "5 PIPE_GLYPH sin()",
@@ -59,18 +57,18 @@ exprs = c(
   "5 PIPE_GLYPH function(x) { sin(x) }",
   "5 PIPE_GLYPH ( function(x) { sin(x) } )",
   "5 PIPE_GLYPH { function(x) { sin(x) } }",
-  "f <- function(x) { sin(x) } ; 5 PIPE_GLYPH f" )
+  "f <- function(x) { sin(x) }; 5 PIPE_GLYPH f")
 
 evals <- data.frame(
   magrittr_expr = gsub("PIPE_GLYPH", 
-                            "%>%", 
-                            exprs, 
-                            fixed = TRUE),
+                       "%>%", 
+                       exprs, 
+                       fixed = TRUE),
   magrittr_res = NA,
   wrapr_expr = gsub("PIPE_GLYPH", 
-                         "%.>%", 
-                         exprs, 
-                         fixed = TRUE),
+                    "%.>%", 
+                    exprs, 
+                    fixed = TRUE),
   wrapr_res = NA,
   stringsAsFactors = FALSE)
 
@@ -99,8 +97,17 @@ checcol <- function(col) {
 
 evals$magrittr_res <- lapply(evals$magrittr_expr, f)
 evals$magrittr_good <- checcol(evals$magrittr_res)
+evals$magrittr_res <- vapply(evals$magrittr_res,
+                             function(vi) {
+                               format(vi, digits = 3)
+                             }, character(1))
+
 evals$wrapr_res <- lapply(evals$wrapr_expr, f)
 evals$wrapr_good <- checcol(evals$wrapr_res)
+evals$wrapr_res <- vapply(evals$wrapr_res,
+                          function(vi) {
+                            format(vi, digits = 3)
+                          }, character(1))
 
 table(wrapr_eq_sin5 = evals$wrapr_good)
 ```
@@ -131,14 +138,23 @@ table(wrapr_eq_sin5 = evals$wrapr_good,
 evals %.>%
   mutate_nse(.,
              magrittr_expr =  htmltools::htmlEscape(magrittr_expr),
-             magrittr_res = cell_spec(magrittr_res, "html", color = ifelse(magrittr_good, "blue", "red"),
+             magrittr_res = cell_spec(magrittr_res, 
+                                      "html", 
+                                      color = ifelse(magrittr_good, 
+                                                     "blue", 
+                                                     "red"),
                                       bold = magrittr_good),
              wrapr_expr =  htmltools::htmlEscape(wrapr_expr),
-             wrapr_res = cell_spec(wrapr_res, "html", color = ifelse(wrapr_good, "blue", "red"),
+             wrapr_res = cell_spec(wrapr_res, 
+                                   "html", 
+                                   color = ifelse(wrapr_good, 
+                                                  "blue", 
+                                                  "red"),
                                    bold = wrapr_good)) %.>%
   select_se(., qc(magrittr_expr, magrittr_res,
                   wrapr_expr, wrapr_res)) %.>%
-  knitr::kable(., "html", escape = FALSE) %.>%
+  knitr::kable(., format = "html", escape = FALSE) %.>%
+  column_spec(., 1:4, width = "1.75in") %.>%
   kable_styling(., "striped", full_width = FALSE)
 ```
 
@@ -161,227 +177,227 @@ wrapr\_res
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 5 %&gt;% sin
 </td>
-<td style="text-align:left;">
-<span style=" font-weight: bold;    color: blue;">-0.958924274663138</span>
+<td style="text-align:left;width: 1.75in; ">
+<span style=" font-weight: bold;    color: blue;">-0.959</span>
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% sin
 </td>
-<td style="text-align:left;">
-<span style=" font-weight: bold;    color: blue;">-0.958924274663138</span>
+<td style="text-align:left;width: 1.75in; ">
+<span style=" font-weight: bold;    color: blue;">-0.959</span>
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 5 %&gt;% sin()
 </td>
-<td style="text-align:left;">
-<span style=" font-weight: bold;    color: blue;">-0.958924274663138</span>
+<td style="text-align:left;width: 1.75in; ">
+<span style=" font-weight: bold;    color: blue;">-0.959</span>
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% sin()
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 <span style="     color: red;">wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as "sin()", please use sin(.)).</span>
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 5 %&gt;% sin(.)
 </td>
-<td style="text-align:left;">
-<span style=" font-weight: bold;    color: blue;">-0.958924274663138</span>
+<td style="text-align:left;width: 1.75in; ">
+<span style=" font-weight: bold;    color: blue;">-0.959</span>
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% sin(.)
 </td>
-<td style="text-align:left;">
-<span style=" font-weight: bold;    color: blue;">-0.958924274663138</span>
+<td style="text-align:left;width: 1.75in; ">
+<span style=" font-weight: bold;    color: blue;">-0.959</span>
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 5 %&gt;% base::sin
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 <span style="     color: red;">unused argument (sin)</span>
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% base::sin
 </td>
-<td style="text-align:left;">
-<span style=" font-weight: bold;    color: blue;">-0.958924274663138</span>
+<td style="text-align:left;width: 1.75in; ">
+<span style=" font-weight: bold;    color: blue;">-0.959</span>
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 5 %&gt;% base::sin()
 </td>
-<td style="text-align:left;">
-<span style=" font-weight: bold;    color: blue;">-0.958924274663138</span>
+<td style="text-align:left;width: 1.75in; ">
+<span style=" font-weight: bold;    color: blue;">-0.959</span>
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% base::sin()
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 <span style="     color: red;">wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as "base::sin()", please use base::sin(.)).</span>
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 5 %&gt;% base::sin(.)
 </td>
-<td style="text-align:left;">
-<span style=" font-weight: bold;    color: blue;">-0.958924274663138</span>
+<td style="text-align:left;width: 1.75in; ">
+<span style=" font-weight: bold;    color: blue;">-0.959</span>
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% base::sin(.)
 </td>
-<td style="text-align:left;">
-<span style=" font-weight: bold;    color: blue;">-0.958924274663138</span>
+<td style="text-align:left;width: 1.75in; ">
+<span style=" font-weight: bold;    color: blue;">-0.959</span>
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 5 %&gt;% ( sin )
 </td>
-<td style="text-align:left;">
-<span style=" font-weight: bold;    color: blue;">-0.958924274663138</span>
+<td style="text-align:left;width: 1.75in; ">
+<span style=" font-weight: bold;    color: blue;">-0.959</span>
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% ( sin )
 </td>
-<td style="text-align:left;">
-<span style=" font-weight: bold;    color: blue;">-0.958924274663138</span>
+<td style="text-align:left;width: 1.75in; ">
+<span style=" font-weight: bold;    color: blue;">-0.959</span>
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 5 %&gt;% ( sin() )
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 <span style="     color: red;">0 arguments passed to 'sin' which requires 1</span>
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% ( sin() )
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 <span style="     color: red;">wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as "sin()", please use sin(.)).</span>
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 5 %&gt;% ( sin(.) )
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 <span style="     color: red;">object '.' not found</span>
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% ( sin(.) )
 </td>
-<td style="text-align:left;">
-<span style=" font-weight: bold;    color: blue;">-0.958924274663138</span>
+<td style="text-align:left;width: 1.75in; ">
+<span style=" font-weight: bold;    color: blue;">-0.959</span>
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 5 %&gt;% { sin }
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 <span style="     color: red;">.Primitive("sin")</span>
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% { sin }
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 <span style="     color: red;">.Primitive("sin")</span>
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 5 %&gt;% { sin() }
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 <span style="     color: red;">0 arguments passed to 'sin' which requires 1</span>
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% { sin() }
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 <span style="     color: red;">0 arguments passed to 'sin' which requires 1</span>
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 5 %&gt;% { sin(.) }
 </td>
-<td style="text-align:left;">
-<span style=" font-weight: bold;    color: blue;">-0.958924274663138</span>
+<td style="text-align:left;width: 1.75in; ">
+<span style=" font-weight: bold;    color: blue;">-0.959</span>
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% { sin(.) }
 </td>
-<td style="text-align:left;">
-<span style=" font-weight: bold;    color: blue;">-0.958924274663138</span>
+<td style="text-align:left;width: 1.75in; ">
+<span style=" font-weight: bold;    color: blue;">-0.959</span>
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 5 %&gt;% function(x) { sin(x) }
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 <span style="     color: red;">Anonymous functions myst be parenthesized</span>
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% function(x) { sin(x) }
 </td>
-<td style="text-align:left;">
-<span style=" font-weight: bold;    color: blue;">-0.958924274663138</span>
+<td style="text-align:left;width: 1.75in; ">
+<span style=" font-weight: bold;    color: blue;">-0.959</span>
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 5 %&gt;% ( function(x) { sin(x) } )
 </td>
-<td style="text-align:left;">
-<span style=" font-weight: bold;    color: blue;">-0.958924274663138</span>
+<td style="text-align:left;width: 1.75in; ">
+<span style=" font-weight: bold;    color: blue;">-0.959</span>
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% ( function(x) { sin(x) } )
 </td>
-<td style="text-align:left;">
-<span style=" font-weight: bold;    color: blue;">-0.958924274663138</span>
+<td style="text-align:left;width: 1.75in; ">
+<span style=" font-weight: bold;    color: blue;">-0.959</span>
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 5 %&gt;% { function(x) { sin(x) } }
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 <span style="     color: red;">function (x) { sin(x) }</span>
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% { function(x) { sin(x) } }
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 <span style="     color: red;">function (x) { sin(x) }</span>
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-f &lt;- function(x) { sin(x) } ; 5 %&gt;% f
+<td style="text-align:left;width: 1.75in; ">
+f &lt;- function(x) { sin(x) }; 5 %&gt;% f
 </td>
-<td style="text-align:left;">
-<span style=" font-weight: bold;    color: blue;">-0.958924274663138</span>
+<td style="text-align:left;width: 1.75in; ">
+<span style=" font-weight: bold;    color: blue;">-0.959</span>
 </td>
-<td style="text-align:left;">
-f &lt;- function(x) { sin(x) } ; 5 %.&gt;% f
+<td style="text-align:left;width: 1.75in; ">
+f &lt;- function(x) { sin(x) }; 5 %.&gt;% f
 </td>
-<td style="text-align:left;">
-<span style=" font-weight: bold;    color: blue;">-0.958924274663138</span>
+<td style="text-align:left;width: 1.75in; ">
+<span style=" font-weight: bold;    color: blue;">-0.959</span>
 </td>
 </tr>
 </tbody>
@@ -411,7 +427,7 @@ The `wrapr` error messages and non-numeric returns are driven by the following:
 
 `wrapr` is hoping to stay close the principle of least surprise.
 
-The hope is that `wrapr` piping is easy, powerful, useful, and not *too* different than `a %.>% b` being treated as almost syntactic sugar for `{. <- a; b }`.
+The hope is that `wrapr` piping is easy, powerful, useful, and not *too* different than `a %.>% b` being treated as almost syntactic sugar for `{ . <- a; b }`.
 
 The Importance of Strictness
 ----------------------------
@@ -445,14 +461,17 @@ For some operations that are unlikely to work close to reasonable user intent `w
 
 Throwing errors in these situations is based on the principle that non-signalling errors (often leading to result corruption) are much worse than signalling errors. The "`return`" example is an interesting case in point.
 
-Let's first take a look at the effect with `magrittr`. Suppose we were writing a simple function to find for a positive integer returns the smallest non-trivial (greater than `1` *and* less than the value in question) positive integer divisor of the value in question (returning `NA` if there is no such). Such a function might work like the following.
+Let's first take a look at the effect with `magrittr`. Suppose we were writing a simple function to find for a positive integer returns the smallest non-trivial (greater than `1` *and* less than the value in question) positive integer divisor of the value in question (returning `NA` if there is none such). Such a function might work like the following.
 
 ``` r
 f_base <- function(x) {
-  for(i in (1L+seq_len(ceiling(sqrt(x))))) {
+  u <- min(ceiling(sqrt(x)), x-1)
+  i <- 2
+  while(i<=u) {
     if((x %% i)==0) {
       return(i)
     }
+    i <- i + 1
   }
   NA_integer_
 }
@@ -472,10 +491,13 @@ Now suppose we try to get fancy and use "`i %>% return`"" instead of "`return(i)
 
 ``` r
 f_magrittr <- function(x) {
-  for(i in (1L+seq_len(ceiling(sqrt(x))))) {
+  u <- min(ceiling(sqrt(x)), x-1)
+  i <- 2
+  while(i<=u) {
     if((x %% i)==0) {
       i %>% return
     }
+    i <- i + 1
   }
   NA_integer_
 }
@@ -495,10 +517,13 @@ Now suppose we tried the same thing with `wrapr` pipe and write `i %>% return(.)
 
 ``` r
 f_wrapr <- function(x) {
-  for(i in (1L+seq_len(ceiling(sqrt(x))))) {
+  u <- min(ceiling(sqrt(x)), x-1)
+  i <- 2
+  while(i<=u) {
     if((x %% i)==0) {
       i %.>% return(.)
     }
+    i <- i + 1
   }
   NA_integer_
 }
@@ -514,7 +539,7 @@ f_wrapr(35)
 
     ## Error in pipe_step.default(pipe_left_arg, pipe_right_arg, pipe_environment, : wrapr::pipe_step.default does not allow direct piping into certain reserved words or control structures (such as "return").
 
-`wrapr` also can not handle `return()` control flow correctly, and throws an exception to indicate the problem.
+`wrapr` also can not handle `return()` control flow correctly, however it throws an exception to indicate the problem.
 
 ### Aesthetics
 
