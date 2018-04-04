@@ -113,12 +113,13 @@ evals %.>%
              magrittr_res = cell_spec(magrittr_res, "html", color = ifelse(magrittr_good, "blue", "red")),
              wrapr_expr =  htmltools::htmlEscape(wrapr_expr),
              wrapr_res = cell_spec(wrapr_res, "html", color = ifelse(wrapr_good, "blue", "red"))) %.>%
-  select_se(., qc(magrittr_expr, magrittr_res, wrapr_expr, wrapr_res)) %.>%
+  select_se(., qc(magrittr_expr, magrittr_res, magrittr_good,
+                  wrapr_expr, wrapr_res, wrapr_good)) %.>%
   knitr::kable(., "html", escape = FALSE) %.>%
   kable_styling(., "striped", full_width = FALSE)
 ```
 
-As you see some statements did were not roughly equivalent to `sin(5)`.  
+As you see some statements were not roughly equivalent to `sin(5)`.  
 
 ## Analysis
 
