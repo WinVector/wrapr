@@ -37,7 +37,7 @@ For comparion will work these examples using both `` magrittr::`%>%` `` and [`` 
 ```{r both}
 library("magrittr")
 library("wrapr")
-library("dplyr")
+library("seplyr")
 library("kableExtra")
 
 
@@ -109,12 +109,12 @@ table(wrapr_eq_sin5 = evals$wrapr_good,
 
 options(knitr.table.format = "html") 
 evals %.>%
-  mutate(., 
+  mutate_nse(., 
          magrittr_res = cell_spec(magrittr_res, "html", color = ifelse(magrittr_good, "blue", "red")),
          wrapr_res = cell_spec(wrapr_res, "html", color = ifelse(wrapr_good, "blue", "red"))) %.>%
-  select(., one_of(qc(magrittr_expr, magrittr_res, wrapr_expr, wrapr_res))) %.>%
-  knitr::kable(., "html", escape = F) %.>%
-  kable_styling(., "striped", full_width = F)
+  select_se(., qc(magrittr_expr, magrittr_res, wrapr_expr, wrapr_res)) %.>%
+  knitr::kable(., "html", escape = TRUE) %.>%
+  kable_styling(., "striped", full_width = FALSE)
 ```
 
 As you see some statements did were not roughly equivalent to `sin(5)`.  
@@ -160,7 +160,7 @@ The `wrapr` error messages and non-numeric returns are driven by the following:
 
 The hope is that `wrapr` piping is easy, powerful, useful, and not *too* different than `a %.>% b` being treated as almost syntactic sugar for `{. <- a; b }`.  
 
-## Strictness
+### Strictness
 
 For some operations that are unlikely to work close to reasonable user intent `wrapr` includes checks to warn-off the user.  The following shows a few more examples of this "defense of grammar."
 
@@ -226,7 +226,7 @@ f_wrapr(35)
 `wrapr` also can not handle `return()` control flow correctly, and throws an exception to indicate the problem.
 
 
-## Aesthetics
+### Aesthetics
 
 An obvious down-side of `wrapr` is the excess dots both in the operator and in the evaluation arguments. We strongly feel the extra dots in the evaluation arguments is actually [a good trade in losing some conciseness in exchange for useful explicitness](http://www.win-vector.com/blog/2018/03/r-tip-make-arguments-explicit-in-magrittr-dplyr-pipelines/). We do not consider the extra dot in the pipe operator to be a problem (especially if you [bind the operator to a keyboard shortcut](http://www.win-vector.com/blog/2017/11/rstudio-keyboard-shortcuts-for-pipes/)). If the extra dot in the pipe operator is such a deal-breaker, consider that it could be gotten rid of by copying the pipe operator to your notation of choice (such as executing `` `%>%` <- wrapr::`%.>%` `` or `` `%.%` <- wrapr::`%.>%` `` at the top of your work).  However such re-mappings are needlessly confusing and it is best to use the operator glyph that `wrapr` directly supplies.
 
