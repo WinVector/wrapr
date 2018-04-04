@@ -27,12 +27,18 @@ We think `wrapr` piping is very teachable expression oriented pipe with a few ru
 Examples
 --------
 
-Let's consider the following 19 attempts of writing piped variations of `sin(5)`.
+Let's consider the following 16 attempts of writing piped variations of `sin(5)`.
 In [`R`](https://www.r-project.org) a non-expert [`magrittr`](https://CRAN.R-project.org/package=magrittr)/[`dplyr`](https://CRAN.R-project.org/package=dplyr) user might expect all the pipe examples we are about to discuss to evaluate to `sin(5)` = -0.9589243. For comparion will work these examples using both `` magrittr::`%>%` `` and [`` wrapr::`%.>%` ``](https://winvector.github.io/wrapr/reference/grapes-.-greater-than-grapes.html).
 
 ``` r
 library("magrittr")
 library("wrapr")
+packageVersion("wrapr")
+```
+
+    ## [1] '1.4.0'
+
+``` r
 library("seplyr")
 library("kableExtra")
 
@@ -53,10 +59,7 @@ exprs = c(
   "5 PIPE_GLYPH function(x) { sin(x) }",
   "5 PIPE_GLYPH ( function(x) { sin(x) } )",
   "5 PIPE_GLYPH { function(x) { sin(x) } }",
-  "f <- function(x) { sin(x) } ; 5 PIPE_GLYPH f",
-  "5 PIPE_GLYPH ( substitute(f(), list(f = sin)) )",
-  "5 PIPE_GLYPH substitute(f(), list(f = sin))",
-  "5 PIPE_GLYPH { substitute(f(), list(f = sin)) }" )
+  "f <- function(x) { sin(x) } ; 5 PIPE_GLYPH f" )
 
 evals <- data.frame(
   magrittr_expr = gsub("PIPE_GLYPH", 
@@ -99,13 +102,29 @@ evals$magrittr_good <- checcol(evals$magrittr_res)
 evals$wrapr_res <- lapply(evals$wrapr_expr, f)
 evals$wrapr_good <- checcol(evals$wrapr_res)
 
+table(wrapr_eq_sin5 = evals$wrapr_good)
+```
+
+    ## wrapr_eq_sin5
+    ## FALSE  TRUE 
+    ##     6    10
+
+``` r
+table(magrittr_eq_sin5 = evals$magrittr_good)
+```
+
+    ## magrittr_eq_sin5
+    ## FALSE  TRUE 
+    ##     7     9
+
+``` r
 table(wrapr_eq_sin5 = evals$wrapr_good, 
       magrittr_eq_sin5 = evals$magrittr_good)
 ```
 
     ##              magrittr_eq_sin5
     ## wrapr_eq_sin5 FALSE TRUE
-    ##         FALSE     6    3
+    ##         FALSE     4    2
     ##         TRUE      3    7
 
 ``` r
@@ -365,48 +384,6 @@ f &lt;- function(x) { sin(x) } ; 5 %.&gt;% f
 <span style=" font-weight: bold;    color: blue;">-0.958924274663138</span>
 </td>
 </tr>
-<tr>
-<td style="text-align:left;">
-5 %&gt;% ( substitute(f(), list(f = sin)) )
-</td>
-<td style="text-align:left;">
-<span style=" font-weight: bold;    color: blue;">-0.958924274663138</span>
-</td>
-<td style="text-align:left;">
-5 %.&gt;% ( substitute(f(), list(f = sin)) )
-</td>
-<td style="text-align:left;">
-<span style="     color: red;">wrapr::pipe\_step.default does not allow direct piping into certain reserved words or control structures (such as "substitute").</span>
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5 %&gt;% substitute(f(), list(f = sin))
-</td>
-<td style="text-align:left;">
-<span style="     color: red;">unused argument (list(f = sin))</span>
-</td>
-<td style="text-align:left;">
-5 %.&gt;% substitute(f(), list(f = sin))
-</td>
-<td style="text-align:left;">
-<span style="     color: red;">wrapr::pipe\_step.default does not allow direct piping into certain reserved words or control structures (such as "substitute").</span>
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5 %&gt;% { substitute(f(), list(f = sin)) }
-</td>
-<td style="text-align:left;">
-<span style="     color: red;">.Primitive("sin")()</span>
-</td>
-<td style="text-align:left;">
-5 %.&gt;% { substitute(f(), list(f = sin)) }
-</td>
-<td style="text-align:left;">
-<span style="     color: red;">.Primitive("sin")()</span>
-</td>
-</tr>
 </tbody>
 </table>
 As you see some statements were not roughly equivalent to `sin(5)`.
@@ -420,29 +397,9 @@ The `magrittr` issues include the following.
 
 -   `::` is a function, as so many things are in `R`. So `base::sin` is not really the package qualified name for `sin()`, it is actually shorthand for `` `::`("base", "sin") `` which is a function evaluation that performs a look-up. So `5 %>% base::sin` expands to an analogue of `` . <- 5; `::`(., "base", "sin") ``, leading to the observed error message.
 -   `()` is `magrittr`'s "evaluate before piping into" notation, so `5 %>% ( sin() )` and `5 %>% ( sin(.) )` both throw an error. However, if there had been a value of "`.`" in our environment then for `5 %>% ( sin(.) )` we would get a different error message or outcome.
--   `{}` is `magrittr`'s "treat the contents as an expression" notation (which is not in fact `magrittr`'s default behavior). Thus `magrittr`'s function evaluation signature alteration transforms are not applied to `5 %>% { sin }` or `5 %>% { sin() }`. And the special convert language object into a function evaluation that powers the `5 %>% ( substitute(f(), list(f = sin)) )` example.
+-   `{}` is `magrittr`'s "treat the contents as an expression" notation (which is not in fact `magrittr`'s default behavior). Thus `magrittr`'s function evaluation signature alteration transforms are not applied to `5 %>% { sin }` or `5 %>% { sin() }`.
 
-The direct language manipulation `5 %>% ( substitute(f(), list(f = sin)) )` (adapted from [here](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html)) is a bit of a strange bird. Notice the following presumably related code does not work.
-
-``` r
-g <- substitute(f(), list(f = sin))
-5 %>% g
-```
-
-    ## Error in g(.): could not find function "g"
-
-But the following does work.
-
-``` r
-g <- substitute(f(), list(f = sin))
-5 %>% ( g )
-```
-
-    ## [1] -0.9589243
-
-The above details of when things are executed are fairly fine.
-
-The above are not `magrittr` bugs, they are just how `magrittr`'s behavior differs from a very regular or naive internalization of `magrittr` rules. However, regularity matters. Regularity is especially important for new users, as you want reasonable variations of what is taught to work so that experimentation is positive and not an exercise in learned helplessness. It is convenient when your tools happen to work the way you might remember.
+Again, the above are not `magrittr` bugs, they are just how `magrittr`'s behavior differs from a very regular or naive internalization of `magrittr` rules. However, regularity matters. Regularity is especially important for new users, as you want reasonable variations of what is taught to work so that experimentation is positive and not an exercise in learned helplessness. It is convenient when your tools happen to work the way you might remember.
 
 `wrapr` Results
 ---------------
@@ -451,13 +408,13 @@ The `wrapr` error messages and non-numeric returns are driven by the following:
 
 -   `5 %.>% sin()` is not an allowed `wrapr` notation. The `wrapr` philosophy is not to alter evaluation signatures. If the user declares arguments `wrapr` takes the arguments as specified. The error message is signalling that the statement is not valid `wrapr` grammar (not well formed in terms of `wrapr` rules). Notice the error message suggests the alternate notation `sin(.)`. Similar rules apply for `base::sin()`. Then intent is that outer parenthesis are non-semantic, they do not change change `wrapr` pipe behavior.
 -   `5 %.>% { sin }` returns just the `sin` function. This is because `{}` triggers `wrapr`'s "leave the contents alone" behavior. Note that `5 %.>% { base::sin }` returns a function as `wrapr`'s transform rules are not active for code surrounded by braces.
--   Notice `wrapr` does not work with any of the `substitute()` examples. `substitue()` is a meta-programming tool, and we think good advice is not to try to meta-program over it. In the first two cases `wrapr` sees the substitute (that it refuses to work with) and in the third `{}` case `wrapr` does look into the right-hand side as the don't look into `{}` contents rule applies.
 
 `wrapr` is hoping to stay close the principle of least surprise.
 
 The hope is that `wrapr` piping is easy, powerful, useful, and not *too* different than `a %.>% b` being treated as almost syntactic sugar for `{. <- a; b }`.
 
-### Strictness
+The Importance of Strictness
+----------------------------
 
 For some operations that are unlikely to work close to reasonable user intent `wrapr` includes checks to warn-off the user. The following shows a few more examples of this "defense of grammar."
 
@@ -465,13 +422,13 @@ For some operations that are unlikely to work close to reasonable user intent `w
 5 %.>% 7
 ```
 
-    ## Error in pipe_step.default(pipe_left_arg, pipe_right_arg, pipe_environment, : wrapr::pipe_step.default does not allow direct piping into scalar values such as class:numeric,  type:double.
+    ## Error in pipe_step.default(pipe_left_arg, pipe_right_arg, pipe_environment, : wrapr::pipe_step.default does not allow direct piping into simple values such as class:numeric,  type:double.
 
 ``` r
 5 %.>% .
 ```
 
-    ## Error in pipe_impl(pipe_left_arg, pipe_right_arg, pipe_environment, pipe_name): wrapr::pipe does not allow direct piping into '.'
+    ## Error in pipe_step.default(pipe_left_arg, pipe_right_arg, pipe_environment = pipe_environment, : wrapr::pipe_step.default does not allow direct piping into simple values such as class:numeric,  type:double.
 
 ``` r
 5 %.>% return(.)
