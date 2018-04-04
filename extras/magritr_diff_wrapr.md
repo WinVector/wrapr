@@ -3,7 +3,7 @@ Differences between magrittr and wrapr pipes
 John Mount, Win-Vector LLC
 4/3/2018
 
-Let's consider piping in [`R`](https://www.r-project.org) both using the [`magrittr`](https://CRAN.R-project.org/package=magrittr) package and using the [`wrapr`](https://CRAN.R-project.org/package=wrapr) packge.
+Let's consider piping in [`R`](https://www.r-project.org) both using the [`magrittr`](https://CRAN.R-project.org/package=magrittr) package and using the [`wrapr`](https://CRAN.R-project.org/package=wrapr) package.
 
 `magrittr`
 ----------
@@ -28,7 +28,7 @@ Examples
 --------
 
 Let's consider the following 16 attempts of writing piped variations of `sin(5)`.
-In [`R`](https://www.r-project.org) a non-expert [`magrittr`](https://CRAN.R-project.org/package=magrittr)/[`dplyr`](https://CRAN.R-project.org/package=dplyr) user might expect all the pipe examples we are about to discuss to evaluate to `sin(5)` = -0.9589243. For comparion will work these examples using both `` magrittr::`%>%` `` and [`` wrapr::`%.>%` ``](https://winvector.github.io/wrapr/reference/grapes-.-greater-than-grapes.html).
+In [`R`](https://www.r-project.org) a non-expert [`magrittr`](https://CRAN.R-project.org/package=magrittr)/[`dplyr`](https://CRAN.R-project.org/package=dplyr) user might expect all the pipe examples we are about to discuss to evaluate to `sin(5)` = -0.9589243. For comparison will work these examples using both `` magrittr::`%>%` `` and [`` wrapr::`%.>%` ``](https://winvector.github.io/wrapr/reference/grapes-.-greater-than-grapes.html).
 
 ``` r
 library("magrittr")
@@ -425,6 +425,9 @@ For some operations that are unlikely to work close to reasonable user intent `w
     ## Error in pipe_step.default(pipe_left_arg, pipe_right_arg, pipe_environment, : wrapr::pipe_step.default does not allow direct piping into simple values such as class:numeric,  type:double.
 
 ``` r
+# magrittr's error message for the above is something of the form:
+# "Error in function_list[[k]](value) : attempt to apply non-function"
+
 5 %.>% .
 ```
 
@@ -520,4 +523,4 @@ An obvious down-side of `wrapr` is the excess dots both in the operator and in t
 Conclusion
 ----------
 
-We feel `wrapr` piping has many upsides including being fairly regular, and having user configurable `S3` dispatch capabilities (detailed in this formal article [here](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf)).
+We feel `wrapr` piping has many upsides including being fairly regular, stricter checking, more user friendly error messages, and having user configurable `S3` dispatch capabilities (detailed in this formal article [here](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf)).
