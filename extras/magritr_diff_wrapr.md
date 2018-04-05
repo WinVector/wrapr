@@ -253,7 +253,7 @@ work_examples <- function(exprs, target) {
 }
 ```
 
-Now we can work our examples, and return the comparison in tabular format (note: the "'\\\['" notations are an artifact of `HTML` quoting/rendering, and not part of the expressions).
+Now we can work our examples, and return the comparison in tabular format (note: the "'\\\['" and other formatting errors are an artifacts of `HTML` quoting/rendering, and not part of the expressions).
 
 ``` r
 work_examples(exprs, sin(5)) %.>%
