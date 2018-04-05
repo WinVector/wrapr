@@ -378,16 +378,11 @@ f_wrapr(35)
 `wrapr` also can not handle `return()` control flow correctly, however it (helpfully) throws an exception to indicate the problem.
 
 
-### Aesthetics
+## Aesthetics
 
 An obvious down-side of `wrapr` piping is the excess dots both in the operator and in the evaluation arguments. We *strongly* feel the extra dots in the evaluation arguments is actually [a good trade in losing some conciseness in exchange for useful explicitness](http://www.win-vector.com/blog/2018/03/r-tip-make-arguments-explicit-in-magrittr-dplyr-pipelines/). We do not consider the extra dot in the pipe operator to be a problem (especially if you [bind the operator to a keyboard shortcut](http://www.win-vector.com/blog/2017/11/rstudio-keyboard-shortcuts-for-pipes/)). If the extra dot in the pipe operator is such a deal-breaker, consider that it could be gotten rid of by copying the pipe operator to your notation of choice (such as executing `` `%>%` <- wrapr::`%.>%` `` or `` `%.%` <- wrapr::`%.>%` `` at the top of your work).  However such re-mappings are needlessly confusing and it is best to use the operator glyph that `wrapr` directly supplies.
 
 
 ## Conclusion
 
-`wrapr` piping has many advantages including being fairly regular, being easy to teach, including some basic error checking, producing user friendly error messages, and having user configurable `S3` dispatch capabilities.  We feel it is a very good "`R`-like" piping operator.
-
-
-
-
-
+`magrittr` and `wrapr` both have to make allowances for the complexity of code environments and statements found in typical `R` code.  I sincerely hope you consider giving the `wrapr` dot-pipe a try and find it useful in your work.
