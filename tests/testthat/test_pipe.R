@@ -27,4 +27,10 @@ test_that("test_pipe.R", {
     aggregate(. ~ cyl, data = ., FUN = . := { mean(.) %.>% round(., 2) })
 
   expect_equal(expect, res)
+
+  lst <- list(h = sin)
+  res <- 5 %.>% lst$h
+  expect_equal(sin(5), res)
+  res <- 5 %.>% lst[['h']]
+  expect_equal(sin(5), res)
 })

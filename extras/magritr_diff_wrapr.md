@@ -1,4 +1,4 @@
-Differences between magrittr and wrapr pipes
+magrittr and wrapr Pipes in R, a Comparison
 ================
 John Mount, Win-Vector LLC
 4/5/2018
@@ -105,19 +105,7 @@ We think `wrapr` piping is very comprehensible (non-magic) expression oriented p
 Examples
 --------
 
-Let's consider the following 16 attempts of writing piped variations of `sin(5)` in both `magritter` and `wrapr` notations.
-
-A non-expert [`magrittr`](https://CRAN.R-project.org/package=magrittr)/[`dplyr`](https://CRAN.R-project.org/package=dplyr) user might expect all the pipe examples we are about to discuss to evaluate to `sin(5)` = -0.9589243. As `R` is routinely used by self-described non-programmers (such as scientists, analysts, and statisticians) the non-expert or [part time <code>R</code> user](http://www.win-vector.com/blog/2017/08/lets-have-some-sympathy-for-the-part-time-r-user/) is a very important class of `R` users (and in fact distinct from beginning `R` users). So how a system meets or misses simplified expectations is quite important in `R`.
-
-``` r
-library("magrittr")
-library("wrapr")
-library("seplyr")
-library("kableExtra")
-packageVersion("wrapr")
-```
-
-    ## [1] '1.4.0'
+Let's consider the following 19 attempts of writing piped variations of `sin(5)` in both `magritter` and `wrapr` notations.
 
 ``` r
 exprs = c(
@@ -133,6 +121,9 @@ exprs = c(
   "5 PIPE_GLYPH { sin }",
   "5 PIPE_GLYPH { sin() }",
   "5 PIPE_GLYPH { sin(.) }",
+  "lst <- list(h = sin); 5 PIPE_GLYPH lst[['h']]",
+  "lst <- list(h = sin); 5 PIPE_GLYPH lst[['h']]()",
+  "lst <- list(h = sin); 5 PIPE_GLYPH lst[['h']](.)",
   "5 PIPE_GLYPH function(x) { sin(x) }",
   "5 PIPE_GLYPH ( function(x) { sin(x) } )",
   "5 PIPE_GLYPH { function(x) { sin(x) } }",
@@ -141,7 +132,21 @@ exprs = c(
 print(length(exprs))
 ```
 
-    ## [1] 16
+    ## [1] 19
+
+A non-expert [`magrittr`](https://CRAN.R-project.org/package=magrittr)/[`dplyr`](https://CRAN.R-project.org/package=dplyr) user might expect all the pipe examples we are about to discuss to evaluate to `sin(5)` = -0.9589243. As `R` is routinely used by self-described non-programmers (such as scientists, analysts, and statisticians) the non-expert or [part time <code>R</code> user](http://www.win-vector.com/blog/2017/08/lets-have-some-sympathy-for-the-part-time-r-user/) is a very important class of `R` users (and in fact distinct from beginning `R` users). So how a system meets or misses simplified expectations is quite important in `R`.
+
+To run our examples we will use a fairly involved function that takes the vector of examples and returns an annotated `data.frame` of evaluation results. For completeness this code is given here, but can be safely skipped when reading this article.
+
+``` r
+library("magrittr")
+library("wrapr")
+library("seplyr")
+library("kableExtra")
+packageVersion("wrapr")
+```
+
+    ## [1] '1.4.0'
 
 ``` r
 work_examples <- function(exprs, target) {
@@ -219,12 +224,12 @@ work_examples <- function(exprs, target) {
                 qc(magrittr_expr, magrittr_res,
                    wrapr_expr, wrapr_res))
 }
-
-evals <- work_examples(exprs, sin(5))
 ```
 
+Now we can work our examples, and return the comparison in tabular format (note: the "'\\\['" notations are an artifact of `HTML` quoting/rendering, and not part of the expressions).
+
 ``` r
-evals %.>%
+work_examples(exprs, sin(5)) %.>%
   knitr::kable(., format = "html", escape = FALSE) %.>%
   column_spec(., 1:4, width = "1.75in") %.>%
   kable_styling(., "striped", full_width = FALSE)
@@ -418,6 +423,48 @@ wrapr res
 </tr>
 <tr>
 <td style="text-align:left;width: 1.75in; ">
+lst &lt;- list(h = sin); 5 %&gt;% lst\[\['h'\]\]
+</td>
+<td style="text-align:left;width: 1.75in; ">
+<span style="     color: red;">incorrect number of subscripts</span>
+</td>
+<td style="text-align:left;width: 1.75in; ">
+lst &lt;- list(h = sin); 5 %.&gt;% lst\[\['h'\]\]
+</td>
+<td style="text-align:left;width: 1.75in; ">
+<span style=" font-weight: bold;    color: blue;">-0.959</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 1.75in; ">
+lst &lt;- list(h = sin); 5 %&gt;% lst[\['h'\]]()
+</td>
+<td style="text-align:left;width: 1.75in; ">
+<span style=" font-weight: bold;    color: blue;">-0.959</span>
+</td>
+<td style="text-align:left;width: 1.75in; ">
+lst &lt;- list(h = sin); 5 %.&gt;% lst[\['h'\]]()
+</td>
+<td style="text-align:left;width: 1.75in; ">
+<span style="     color: red;">wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as "lst[\["h"\]]()", please use lst[\["h"\]](.)).</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 1.75in; ">
+lst &lt;- list(h = sin); 5 %&gt;% lst[\['h'\]](.)
+</td>
+<td style="text-align:left;width: 1.75in; ">
+<span style=" font-weight: bold;    color: blue;">-0.959</span>
+</td>
+<td style="text-align:left;width: 1.75in; ">
+lst &lt;- list(h = sin); 5 %.&gt;% lst[\['h'\]](.)
+</td>
+<td style="text-align:left;width: 1.75in; ">
+<span style=" font-weight: bold;    color: blue;">-0.959</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 1.75in; ">
 5 %&gt;% function(x) { sin(x) }
 </td>
 <td style="text-align:left;width: 1.75in; ">
@@ -474,30 +521,61 @@ f &lt;- function(x) { sin(x) }; 5 %.&gt;% f
 </tr>
 </tbody>
 </table>
-As you saw, some statements were not roughly equivalent to `sin(5)`.
+As can now see, some statements were not roughly equivalent to `sin(5)`.
 
-One more case to consider is the following (which we run by hand as it seems to default `kable` formatting):
-
-``` r
-lst <- list(h = sin)
-
-5 %>% lst$h
-```
-
-    ## Error in .$lst: 3 arguments passed to '$' which requires 2
+One related case to consider is the following (which we run by hand, as it seems to default `knitr` or `kableExtra` `html` styling):
 
 ``` r
-5 %.>% lst$h
+c("lst <- list(h = sin); 5 PIPE_GLYPH lst$h",
+  "lst <- list(h = sin); 5 PIPE_GLYPH lst$h()",
+  "lst <- list(h = sin); 5 PIPE_GLYPH lst$h(.)") %.>%
+  work_examples(., sin(5)) %.>%
+  knitr::kable(., format = "markdown", escape = FALSE) 
 ```
 
-    ## [1] -0.9589243
+<table>
+<colgroup>
+<col width="12%" />
+<col width="22%" />
+<col width="12%" />
+<col width="52%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">magrittr expr</th>
+<th align="left">magrittr res</th>
+<th align="left">wrapr expr</th>
+<th align="left">wrapr res</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">lst &lt;- list(h = sin); 5 %&gt;% lst$h</td>
+<td align="left"><span style="     color: red;">3 arguments passed to '$' which requires 2</span></td>
+<td align="left">lst &lt;- list(h = sin); 5 %.&gt;% lst$h</td>
+<td align="left"><span style=" font-weight: bold;    color: blue;">-0.959</span></td>
+</tr>
+<tr class="even">
+<td align="left">lst &lt;- list(h = sin); 5 %&gt;% lst$h()</td>
+<td align="left"><span style=" font-weight: bold;    color: blue;">-0.959</span></td>
+<td align="left">lst &lt;- list(h = sin); 5 %.&gt;% lst$h()</td>
+<td align="left"><span style="     color: red;">wrapr::pipe_step.default does not allow direct piping into a no-argument function call expression (such as &quot;lst<span class="math inline">$h()&amp;quot;, please use lst$</span>h(.)).</span></td>
+</tr>
+<tr class="odd">
+<td align="left">lst &lt;- list(h = sin); 5 %&gt;% lst$h(.)</td>
+<td align="left"><span style=" font-weight: bold;    color: blue;">-0.959</span></td>
+<td align="left">lst &lt;- list(h = sin); 5 %.&gt;% lst$h(.)</td>
+<td align="left"><span style=" font-weight: bold;    color: blue;">-0.959</span></td>
+</tr>
+</tbody>
+</table>
 
 Analysis
 --------
 
 ### `magrittr` Results
 
-The `magrittr` issues include the following.
+The `magrittr` exceptions include the following.
 
 -   `::` is a function, as so many things are in `R`. So `base::sin` is not really the package qualified name for `sin()`, it is actually shorthand for `` `::`("base", "sin") `` which is a function evaluation that performs the look-up. So `5 %>% base::sin` expands to an analogue of `` . <- 5; `::`(., "base", "sin") ``, leading to the observed error message.
 -   `()` is `magrittr`'s "evaluate before piping into" notation, so `5 %>% ( sin() )` and `5 %>% ( sin(.) )` both throw an error as evaluation is attempted before any alteration of arguments is attempted.
@@ -597,7 +675,7 @@ wrapr res
 </tr>
 </tbody>
 </table>
-Some of what caused issues above is "`5 %ANYTHING% 1 + .`" is parsed (due to `R`'s operator precedence rules) as "`(5 %ANYTHING% 1) + .`". So without extra grouping notations ("()" or "{}") this is not a well-formed pipeline. With `wrapr` it is safe to add in parenthesis, with `magrittr` one must use `{}` (though this can not be used with `5 %>% {sin}`).
+Some of what caused exceptions above is "`5 %ANYTHING% 1 + .`" is parsed (due to `R`'s operator precedence rules) as "`(5 %ANYTHING% 1) + .`". So without extra grouping notations ("()" or "{}") this is not a well-formed pipeline. With `wrapr` it is safe to add in parenthesis, with `magrittr` one must use `{}` (though this can not be used with `5 %>% {sin}`).
 
 The Importance of Strictness
 ----------------------------
@@ -683,7 +761,7 @@ f_magrittr(35)
 
     ## [1] NA
 
-Now suppose we tried the same thing with `wrapr` pipe and write `i %>% return(.)`.
+Now suppose we tried the same thing with `wrapr` pipe and write `i %.>% return(.)`.
 
 ``` r
 f_wrapr <- function(x) {
