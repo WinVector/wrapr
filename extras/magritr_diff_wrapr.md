@@ -28,7 +28,7 @@ Examples
 --------
 
 Let's consider the following 16 attempts of writing piped variations of `sin(5)`.
-In [`R`](https://www.r-project.org) a non-expert [`magrittr`](https://CRAN.R-project.org/package=magrittr)/[`dplyr`](https://CRAN.R-project.org/package=dplyr) user might expect all the pipe examples we are about to discuss to evaluate to `sin(5)` = -0.9589243. For comparison will work these examples using both `` magrittr::`%>%` `` and [`` wrapr::`%.>%` ``](https://winvector.github.io/wrapr/reference/grapes-.-greater-than-grapes.html).
+A non-expert [`magrittr`](https://CRAN.R-project.org/package=magrittr)/[`dplyr`](https://CRAN.R-project.org/package=dplyr) user might expect all the pipe examples we are about to discuss to evaluate to `sin(5)` = -0.9589243. Don't consider the non-expert user as a beginner, they may instead be a [part time <code>R</code> user](http://www.win-vector.com/blog/2017/08/lets-have-some-sympathy-for-the-part-time-r-user/). For comparison we will work these examples using both `` magrittr::`%>%` `` and [`` wrapr::`%.>%` ``](https://winvector.github.io/wrapr/reference/grapes-.-greater-than-grapes.html).
 
 ``` r
 library("magrittr")
@@ -153,6 +153,12 @@ evals %.>%
                                    bold = wrapr_good)) %.>%
   select_se(., qc(magrittr_expr, magrittr_res,
                   wrapr_expr, wrapr_res)) %.>%
+  rename_se(., 
+            gsub("_", " ",
+                 qc(magrittr_expr, magrittr_res,
+                    wrapr_expr, wrapr_res), fixed = TRUE) :=
+              qc(magrittr_expr, magrittr_res,
+                 wrapr_expr, wrapr_res)) %.>%
   knitr::kable(., format = "html", escape = FALSE) %.>%
   column_spec(., 1:4, width = "1.75in") %.>%
   kable_styling(., "striped", full_width = FALSE)
@@ -162,16 +168,16 @@ evals %.>%
 <thead>
 <tr>
 <th style="text-align:left;">
-magrittr\_expr
+magrittr expr
 </th>
 <th style="text-align:left;">
-magrittr\_res
+magrittr res
 </th>
 <th style="text-align:left;">
-wrapr\_expr
+wrapr expr
 </th>
 <th style="text-align:left;">
-wrapr\_res
+wrapr res
 </th>
 </tr>
 </thead>
@@ -402,7 +408,7 @@ f &lt;- function(x) { sin(x) }; 5 %.&gt;% f
 </tr>
 </tbody>
 </table>
-As you see some statements were not roughly equivalent to `sin(5)`.
+As you saw, some statements were not roughly equivalent to `sin(5)`.
 
 Analysis
 --------
@@ -411,19 +417,19 @@ Analysis
 
 The `magrittr` issues include the following.
 
--   `::` is a function, as so many things are in `R`. So `base::sin` is not really the package qualified name for `sin()`, it is actually shorthand for `` `::`("base", "sin") `` which is a function evaluation that performs a look-up. So `5 %>% base::sin` expands to an analogue of `` . <- 5; `::`(., "base", "sin") ``, leading to the observed error message.
--   `()` is `magrittr`'s "evaluate before piping into" notation, so `5 %>% ( sin() )` and `5 %>% ( sin(.) )` both throw an error. However, if there had been a value of "`.`" in our environment then for `5 %>% ( sin(.) )` we would get a different error message or outcome.
+-   `::` is a function, as so many things are in `R`. So `base::sin` is not really the package qualified name for `sin()`, it is actually shorthand for `` `::`("base", "sin") `` which is a function evaluation that performs the look-up. So `5 %>% base::sin` expands to an analogue of `` . <- 5; `::`(., "base", "sin") ``, leading to the observed error message.
+-   `()` is `magrittr`'s "evaluate before piping into" notation, so `5 %>% ( sin() )` and `5 %>% ( sin(.) )` both throw an error as evaluation is attempted before any alteration of arguments is attempted.
 -   `{}` is `magrittr`'s "treat the contents as an expression" notation (which is not in fact `magrittr`'s default behavior). Thus `magrittr`'s function evaluation signature alteration transforms are not applied to `5 %>% { sin }` or `5 %>% { sin() }`.
 
-Again, the above are not `magrittr` bugs, they are just how `magrittr`'s behavior differs from a very regular or naive internalization of `magrittr` rules. However, regularity matters. Regularity is especially important for new users, as you want reasonable variations of what is taught to work so that experimentation is positive and not an exercise in learned helplessness. It is convenient when your tools happen to work the way you might remember.
+Again, the above are not `magrittr` bugs, they are just how `magrittr`'s behavior differs from a very regular or naive internalization of `magrittr` rules. However, regularity matters. Regularity is especially important for [part time users](http://www.win-vector.com/blog/2017/08/lets-have-some-sympathy-for-the-part-time-r-user/), as you want reasonable variations of what is taught to work so that experimentation is positive and not an exercise in learned helplessness. It is convenient when your tools happen to work the way you might remember.
 
 `wrapr` Results
 ---------------
 
 The `wrapr` error messages and non-numeric returns are driven by the following:
 
--   `5 %.>% sin()` is not an allowed `wrapr` notation. The `wrapr` philosophy is not to alter evaluation signatures. If the user declares arguments `wrapr` takes the arguments as specified. The error message is signalling that the statement is not valid `wrapr` grammar (not well formed in terms of `wrapr` rules). Notice the error message suggests the alternate notation `sin(.)`. Similar rules apply for `base::sin()`. Then intent is that outer parenthesis are non-semantic, they do not change change `wrapr` pipe behavior.
--   `5 %.>% { sin }` returns just the `sin` function. This is because `{}` triggers `wrapr`'s "leave the contents alone" behavior. Note that `5 %.>% { base::sin }` returns a function as `wrapr`'s transform rules are not active for code surrounded by braces.
+-   `5 %.>% sin()` is not an allowed `wrapr` notation. The `wrapr` philosophy is not to alter evaluation signatures. The error message is signalling that the statement is not valid `wrapr` grammar (not well formed in terms of `wrapr` rules). Notice the error message suggests the alternate notation `sin(.)`. Similar rules apply for `base::sin()`. Then intent is that outer parenthesis are non-semantic, they do not change change `wrapr` pipe behavior.
+-   `5 %.>% { sin }` returns just the `sin` function. This is because `{}` triggers `wrapr`'s "leave the contents alone" behavior.
 
 `wrapr` is hoping to stay close the principle of least surprise.
 
@@ -487,7 +493,7 @@ f_base(35)
 
     ## [1] 5
 
-Now suppose we try to get fancy and use "`i %>% return`"" instead of "`return(i)`". This produces a function that thinks all integer are prime. The reason is: `magrittr` can call the `return()` function, but in this situation `return()` can't manage the control path of the original function.
+Now suppose we try to get fancy and use "`i %>% return`" instead of "`return(i)`". This produces a function that thinks all integer are prime. The reason is: `magrittr` can call the `return()` function, but in this situation `return()` can't manage the control path of the original function.
 
 ``` r
 f_magrittr <- function(x) {
@@ -543,9 +549,9 @@ f_wrapr(35)
 
 ### Aesthetics
 
-An obvious down-side of `wrapr` is the excess dots both in the operator and in the evaluation arguments. We strongly feel the extra dots in the evaluation arguments is actually [a good trade in losing some conciseness in exchange for useful explicitness](http://www.win-vector.com/blog/2018/03/r-tip-make-arguments-explicit-in-magrittr-dplyr-pipelines/). We do not consider the extra dot in the pipe operator to be a problem (especially if you [bind the operator to a keyboard shortcut](http://www.win-vector.com/blog/2017/11/rstudio-keyboard-shortcuts-for-pipes/)). If the extra dot in the pipe operator is such a deal-breaker, consider that it could be gotten rid of by copying the pipe operator to your notation of choice (such as executing `` `%>%` <- wrapr::`%.>%` `` or `` `%.%` <- wrapr::`%.>%` `` at the top of your work). However such re-mappings are needlessly confusing and it is best to use the operator glyph that `wrapr` directly supplies.
+An obvious down-side of `wrapr` is the excess dots both in the operator and in the evaluation arguments. We *strongly* feel the extra dots in the evaluation arguments is actually [a good trade in losing some conciseness in exchange for useful explicitness](http://www.win-vector.com/blog/2018/03/r-tip-make-arguments-explicit-in-magrittr-dplyr-pipelines/). We do not consider the extra dot in the pipe operator to be a problem (especially if you [bind the operator to a keyboard shortcut](http://www.win-vector.com/blog/2017/11/rstudio-keyboard-shortcuts-for-pipes/)). If the extra dot in the pipe operator is such a deal-breaker, consider that it could be gotten rid of by copying the pipe operator to your notation of choice (such as executing `` `%>%` <- wrapr::`%.>%` `` or `` `%.%` <- wrapr::`%.>%` `` at the top of your work). However such re-mappings are needlessly confusing and it is best to use the operator glyph that `wrapr` directly supplies.
 
 Conclusion
 ----------
 
-We feel `wrapr` piping has many upsides including being fairly regular, stricter checking, more user friendly error messages, and having user configurable `S3` dispatch capabilities (detailed in this formal article [here](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf)).
+`wrapr` piping has many advantages including being fairly regular, being easy to teach, having strict checking, producing user friendly error messages, and having user configurable `S3` dispatch capabilities (detailed in this formal article [here](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf)).
