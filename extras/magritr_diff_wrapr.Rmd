@@ -128,7 +128,7 @@ library("kableExtra")
 packageVersion("wrapr")
 
 escape_text <- function(txt) {
-  vapply(txt, 
+  res <- vapply(txt, 
          function(txti) {
            txti <- paste(format(txti), collapse = " ")
            nc <- nchar(txti)
@@ -144,22 +144,14 @@ escape_text <- function(txt) {
                    "]"="&#93;", "^"="&#94;", "_"="&#95;", "`"="&#96;", "{"="&#123;",
                    "|"="&#124;", "}"="&#125;", "~"="&#126;")
            chars[chars %in% names(mp)] <- mp[chars[chars %in% names(mp)]]
+           names(chars) <- NULL
            paste(chars, collapse = "")
          }, character(1))
+  names(res) <- NULL
+  res
 }
 
 work_examples <- function(exprs, target) {
-  evals <- data.frame(
-    magrittr_expr = gsub("PIPE_GLYPH", 
-                         "%>%", 
-                         exprs, 
-                         fixed = TRUE),
-    wrapr_expr = gsub("PIPE_GLYPH", 
-                      "%.>%", 
-                      exprs, 
-                      fixed = TRUE),
-    stringsAsFactors = FALSE)
-  
   eval_expr <- function(expr) {
     r <- tryCatch( 
       eval(parse(text = expr)),
@@ -183,39 +175,51 @@ work_examples <- function(exprs, target) {
            }, logical(1))
   }
   
-  evals$magrittr_res <- lapply(evals$magrittr_expr, 
+  evals <- data.frame(
+    magrittr_expr = gsub("PIPE_GLYPH", 
+                         "%>%", 
+                         exprs, 
+                         fixed = TRUE),
+    wrapr_expr = gsub("PIPE_GLYPH", 
+                      "%.>%", 
+                      exprs, 
+                      fixed = TRUE),
+    stringsAsFactors = FALSE)
+  
+  # some transform steps
+  . <- evals
+  .$magrittr_res <- lapply(.$magrittr_expr, 
                                eval_expr)
-  evals$magrittr_good <- checcol(evals$magrittr_res)
-  evals$magrittr_res <- vapply(evals$magrittr_res,
+  .$magrittr_good <- checcol(.$magrittr_res)
+  .$magrittr_res <- vapply(.$magrittr_res,
                                function(vi) {
                                  format(vi, digits = 3)
                                }, character(1))
-  
-  evals$wrapr_res <- lapply(evals$wrapr_expr, 
+  .$magrittr_res[.$magrittr_good] <- 
+    cell_spec(.$magrittr_res[.$magrittr_good],
+              "html", 
+              color = "blue", 
+              underline = TRUE,
+              bold = TRUE)
+  .$wrapr_res <- lapply(.$wrapr_expr, 
                             eval_expr)
-  evals$wrapr_good <- checcol(evals$wrapr_res)
-  evals$wrapr_res <- vapply(evals$wrapr_res,
+  .$wrapr_good <- checcol(.$wrapr_res)
+  .$wrapr_res <- vapply(.$wrapr_res,
                             function(vi) {
                               format(vi, digits = 3)
                             }, character(1))
+  .$wrapr_res[.$wrapr_good] <- 
+    cell_spec(.$wrapr_res[.$wrapr_good],
+              "html", 
+              color = "blue", 
+              underline = TRUE,
+              bold = TRUE)
+  evals <- .
+
   evals %.>%
     mutate_nse(.,
                magrittr_expr =  escape_text(magrittr_expr),
-               # magrittr_res = cell_spec(magrittr_res, 
-               #                          "html", 
-               #                          color = ifelse(magrittr_good, 
-               #                                         "blue", 
-               #                                         "red"),
-               #                          bold = magrittr_good),
-               wrapr_expr =  escape_text(wrapr_expr)
-               # ,
-               # wrapr_res = cell_spec(wrapr_res, 
-               #                       "html", 
-               #                       color = ifelse(wrapr_good, 
-               #                                      "blue", 
-               #                                      "red"),
-               #                       bold = wrapr_good)
-               ) %.>%
+               wrapr_expr =  escape_text(wrapr_expr)) %.>%
     select_se(., qc(magrittr_expr, magrittr_res,
                     wrapr_expr, wrapr_res)) %.>%
     rename_se(., 
@@ -245,7 +249,7 @@ c("lst <- list(h = sin); 5 PIPE_GLYPH lst$h",
   "lst <- list(h = sin); 5 PIPE_GLYPH lst$h()",
   "lst <- list(h = sin); 5 PIPE_GLYPH lst$h(.)") %.>%
   work_examples(., sin(5)) %.>%
-  knitr::kable(., format = "html", escape = FALSE)
+  knitr::kable(., format = "html", escape = FALSE) 
 ```
 
 

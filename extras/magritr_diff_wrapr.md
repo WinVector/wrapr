@@ -149,18 +149,31 @@ packageVersion("wrapr")
     ## [1] '1.4.0'
 
 ``` r
+escape_text <- function(txt) {
+  res <- vapply(txt, 
+         function(txti) {
+           txti <- paste(format(txti), collapse = " ")
+           nc <- nchar(txti)
+           chars <- vapply(seq_len(nc), 
+                           function(i) { 
+                             substr(txti, i, i)
+                           }, character(1))
+           mp <- c("!"="&#33;", "\""="&quot;", "#"="&#35;", "$"="&#36;",
+                   "%"="&#37;", "&"="&amp;", "'"="&apos;", "("="&#40;", ")"="&#41;",
+                   "*"="&#42;", "+"="&#43;", ","="&#44;", "-"="&#45;", "."="&#46;",
+                   "/"="&#47;", ":"="&#58;", ";"="&#59;", "<"="&lt;", "="="&#61;",
+                   ">"="&gt;", "?"="&#63;", "@"="&#64;", "["="&#91;", "\\"="&#92;",
+                   "]"="&#93;", "^"="&#94;", "_"="&#95;", "`"="&#96;", "{"="&#123;",
+                   "|"="&#124;", "}"="&#125;", "~"="&#126;")
+           chars[chars %in% names(mp)] <- mp[chars[chars %in% names(mp)]]
+           names(chars) <- NULL
+           paste(chars, collapse = "")
+         }, character(1))
+  names(res) <- NULL
+  res
+}
+
 work_examples <- function(exprs, target) {
-  evals <- data.frame(
-    magrittr_expr = gsub("PIPE_GLYPH", 
-                         "%>%", 
-                         exprs, 
-                         fixed = TRUE),
-    wrapr_expr = gsub("PIPE_GLYPH", 
-                      "%.>%", 
-                      exprs, 
-                      fixed = TRUE),
-    stringsAsFactors = FALSE)
-  
   eval_expr <- function(expr) {
     r <- tryCatch( 
       eval(parse(text = expr)),
@@ -170,7 +183,7 @@ work_examples <- function(exprs, target) {
     )
     if((!is.numeric(r)) || (length(r)!=1)) {
       r <- paste(format(r), collapse = " ")
-      r <- htmltools::htmlEscape(r)
+      r <- escape_text(r)
     }
     r
   }
@@ -184,37 +197,51 @@ work_examples <- function(exprs, target) {
            }, logical(1))
   }
   
-  evals$magrittr_res <- lapply(evals$magrittr_expr, 
+  evals <- data.frame(
+    magrittr_expr = gsub("PIPE_GLYPH", 
+                         "%>%", 
+                         exprs, 
+                         fixed = TRUE),
+    wrapr_expr = gsub("PIPE_GLYPH", 
+                      "%.>%", 
+                      exprs, 
+                      fixed = TRUE),
+    stringsAsFactors = FALSE)
+  
+  # some transform steps
+  . <- evals
+  .$magrittr_res <- lapply(.$magrittr_expr, 
                                eval_expr)
-  evals$magrittr_good <- checcol(evals$magrittr_res)
-  evals$magrittr_res <- vapply(evals$magrittr_res,
+  .$magrittr_good <- checcol(.$magrittr_res)
+  .$magrittr_res <- vapply(.$magrittr_res,
                                function(vi) {
                                  format(vi, digits = 3)
                                }, character(1))
-  
-  evals$wrapr_res <- lapply(evals$wrapr_expr, 
+  .$magrittr_res[.$magrittr_good] <- 
+    cell_spec(.$magrittr_res[.$magrittr_good],
+              "html", 
+              color = "blue", 
+              underline = TRUE,
+              bold = TRUE)
+  .$wrapr_res <- lapply(.$wrapr_expr, 
                             eval_expr)
-  evals$wrapr_good <- checcol(evals$wrapr_res)
-  evals$wrapr_res <- vapply(evals$wrapr_res,
+  .$wrapr_good <- checcol(.$wrapr_res)
+  .$wrapr_res <- vapply(.$wrapr_res,
                             function(vi) {
                               format(vi, digits = 3)
                             }, character(1))
+  .$wrapr_res[.$wrapr_good] <- 
+    cell_spec(.$wrapr_res[.$wrapr_good],
+              "html", 
+              color = "blue", 
+              underline = TRUE,
+              bold = TRUE)
+  evals <- .
+
   evals %.>%
     mutate_nse(.,
-               magrittr_expr =  htmltools::htmlEscape(magrittr_expr),
-               magrittr_res = cell_spec(magrittr_res, 
-                                        "html", 
-                                        color = ifelse(magrittr_good, 
-                                                       "blue", 
-                                                       "red"),
-                                        bold = magrittr_good),
-               wrapr_expr =  htmltools::htmlEscape(wrapr_expr),
-               wrapr_res = cell_spec(wrapr_res, 
-                                     "html", 
-                                     color = ifelse(wrapr_good, 
-                                                    "blue", 
-                                                    "red"),
-                                     bold = wrapr_good)) %.>%
+               magrittr_expr =  escape_text(magrittr_expr),
+               wrapr_expr =  escape_text(wrapr_expr)) %.>%
     select_se(., qc(magrittr_expr, magrittr_res,
                     wrapr_expr, wrapr_res)) %.>%
     rename_se(., 
@@ -258,13 +285,13 @@ wrapr res
 5 %&gt;% sin
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;    color: blue;">-0.959</span>
+<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
 </td>
 <td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% sin
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;    color: blue;">-0.959</span>
+<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
 </td>
 </tr>
 <tr>
@@ -272,13 +299,13 @@ wrapr res
 5 %&gt;% sin()
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;    color: blue;">-0.959</span>
+<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
 </td>
 <td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% sin()
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style="     color: red;">wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as "sin()", please use sin(.)).</span>
+wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as "sin()", please use sin(.)).
 </td>
 </tr>
 <tr>
@@ -286,13 +313,13 @@ wrapr res
 5 %&gt;% sin(.)
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;    color: blue;">-0.959</span>
+<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
 </td>
 <td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% sin(.)
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;    color: blue;">-0.959</span>
+<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
 </td>
 </tr>
 <tr>
@@ -300,13 +327,13 @@ wrapr res
 5 %&gt;% base::sin
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style="     color: red;">unused argument (sin)</span>
+unused argument (sin)
 </td>
 <td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% base::sin
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;    color: blue;">-0.959</span>
+<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
 </td>
 </tr>
 <tr>
@@ -314,13 +341,13 @@ wrapr res
 5 %&gt;% base::sin()
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;    color: blue;">-0.959</span>
+<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
 </td>
 <td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% base::sin()
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style="     color: red;">wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as "base::sin()", please use base::sin(.)).</span>
+wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as "base::sin()", please use base::sin(.)).
 </td>
 </tr>
 <tr>
@@ -328,13 +355,13 @@ wrapr res
 5 %&gt;% base::sin(.)
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;    color: blue;">-0.959</span>
+<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
 </td>
 <td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% base::sin(.)
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;    color: blue;">-0.959</span>
+<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
 </td>
 </tr>
 <tr>
@@ -342,13 +369,13 @@ wrapr res
 5 %&gt;% ( sin )
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;    color: blue;">-0.959</span>
+<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
 </td>
 <td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% ( sin )
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;    color: blue;">-0.959</span>
+<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
 </td>
 </tr>
 <tr>
@@ -356,13 +383,13 @@ wrapr res
 5 %&gt;% ( sin() )
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style="     color: red;">0 arguments passed to 'sin' which requires 1</span>
+0 arguments passed to 'sin' which requires 1
 </td>
 <td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% ( sin() )
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style="     color: red;">wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as "sin()", please use sin(.)).</span>
+wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as "sin()", please use sin(.)).
 </td>
 </tr>
 <tr>
@@ -370,13 +397,13 @@ wrapr res
 5 %&gt;% ( sin(.) )
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style="     color: red;">object '.' not found</span>
+non-numeric variable in data frame: magrittr\_exprwrapr\_expr
 </td>
 <td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% ( sin(.) )
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;    color: blue;">-0.959</span>
+<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
 </td>
 </tr>
 <tr>
@@ -384,13 +411,13 @@ wrapr res
 5 %&gt;% { sin }
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style="     color: red;">.Primitive("sin")</span>
+.Primitive("sin")
 </td>
 <td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% { sin }
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style="     color: red;">.Primitive("sin")</span>
+.Primitive("sin")
 </td>
 </tr>
 <tr>
@@ -398,13 +425,13 @@ wrapr res
 5 %&gt;% { sin() }
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style="     color: red;">0 arguments passed to 'sin' which requires 1</span>
+0 arguments passed to 'sin' which requires 1
 </td>
 <td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% { sin() }
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style="     color: red;">0 arguments passed to 'sin' which requires 1</span>
+0 arguments passed to 'sin' which requires 1
 </td>
 </tr>
 <tr>
@@ -412,13 +439,13 @@ wrapr res
 5 %&gt;% { sin(.) }
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;    color: blue;">-0.959</span>
+<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
 </td>
 <td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% { sin(.) }
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;    color: blue;">-0.959</span>
+<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
 </td>
 </tr>
 <tr>
@@ -426,13 +453,13 @@ wrapr res
 lst &lt;- list(h = sin); 5 %&gt;% lst\[\['h'\]\]
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style="     color: red;">incorrect number of subscripts</span>
+incorrect number of subscripts
 </td>
 <td style="text-align:left;width: 1.75in; ">
 lst &lt;- list(h = sin); 5 %.&gt;% lst\[\['h'\]\]
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;    color: blue;">-0.959</span>
+<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
 </td>
 </tr>
 <tr>
@@ -440,13 +467,13 @@ lst &lt;- list(h = sin); 5 %.&gt;% lst\[\['h'\]\]
 lst &lt;- list(h = sin); 5 %&gt;% lst[\['h'\]]()
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;    color: blue;">-0.959</span>
+<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
 </td>
 <td style="text-align:left;width: 1.75in; ">
 lst &lt;- list(h = sin); 5 %.&gt;% lst[\['h'\]]()
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style="     color: red;">wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as "lst[\["h"\]]()", please use lst[\["h"\]](.)).</span>
+wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as "lst[\["h"\]]()", please use lst[\["h"\]](.)).
 </td>
 </tr>
 <tr>
@@ -454,13 +481,13 @@ lst &lt;- list(h = sin); 5 %.&gt;% lst[\['h'\]]()
 lst &lt;- list(h = sin); 5 %&gt;% lst[\['h'\]](.)
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;    color: blue;">-0.959</span>
+<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
 </td>
 <td style="text-align:left;width: 1.75in; ">
 lst &lt;- list(h = sin); 5 %.&gt;% lst[\['h'\]](.)
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;    color: blue;">-0.959</span>
+<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
 </td>
 </tr>
 <tr>
@@ -468,13 +495,13 @@ lst &lt;- list(h = sin); 5 %.&gt;% lst[\['h'\]](.)
 5 %&gt;% function(x) { sin(x) }
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style="     color: red;">Anonymous functions myst be parenthesized</span>
+Anonymous functions myst be parenthesized
 </td>
 <td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% function(x) { sin(x) }
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;    color: blue;">-0.959</span>
+<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
 </td>
 </tr>
 <tr>
@@ -482,13 +509,13 @@ lst &lt;- list(h = sin); 5 %.&gt;% lst[\['h'\]](.)
 5 %&gt;% ( function(x) { sin(x) } )
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;    color: blue;">-0.959</span>
+<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
 </td>
 <td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% ( function(x) { sin(x) } )
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;    color: blue;">-0.959</span>
+<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
 </td>
 </tr>
 <tr>
@@ -496,13 +523,13 @@ lst &lt;- list(h = sin); 5 %.&gt;% lst[\['h'\]](.)
 5 %&gt;% { function(x) { sin(x) } }
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style="     color: red;">function (x) { sin(x) }</span>
+function (x) { sin(x) }
 </td>
 <td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% { function(x) { sin(x) } }
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style="     color: red;">function (x) { sin(x) }</span>
+function (x) { sin(x) }
 </td>
 </tr>
 <tr>
@@ -510,13 +537,13 @@ lst &lt;- list(h = sin); 5 %.&gt;% lst[\['h'\]](.)
 f &lt;- function(x) { sin(x) }; 5 %&gt;% f
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;    color: blue;">-0.959</span>
+<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
 </td>
 <td style="text-align:left;width: 1.75in; ">
 f &lt;- function(x) { sin(x) }; 5 %.&gt;% f
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;    color: blue;">-0.959</span>
+<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
 </td>
 </tr>
 </tbody>
@@ -530,46 +557,71 @@ c("lst <- list(h = sin); 5 PIPE_GLYPH lst$h",
   "lst <- list(h = sin); 5 PIPE_GLYPH lst$h()",
   "lst <- list(h = sin); 5 PIPE_GLYPH lst$h(.)") %.>%
   work_examples(., sin(5)) %.>%
-  knitr::kable(., format = "markdown", escape = FALSE) 
+  knitr::kable(., format = "html", escape = FALSE) 
 ```
 
 <table>
-<colgroup>
-<col width="12%" />
-<col width="22%" />
-<col width="12%" />
-<col width="52%" />
-</colgroup>
 <thead>
-<tr class="header">
-<th align="left">magrittr expr</th>
-<th align="left">magrittr res</th>
-<th align="left">wrapr expr</th>
-<th align="left">wrapr res</th>
+<tr>
+<th style="text-align:left;">
+magrittr expr
+</th>
+<th style="text-align:left;">
+magrittr res
+</th>
+<th style="text-align:left;">
+wrapr expr
+</th>
+<th style="text-align:left;">
+wrapr res
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left">lst &lt;- list(h = sin); 5 %&gt;% lst$h</td>
-<td align="left"><span style="     color: red;">3 arguments passed to '$' which requires 2</span></td>
-<td align="left">lst &lt;- list(h = sin); 5 %.&gt;% lst$h</td>
-<td align="left"><span style=" font-weight: bold;    color: blue;">-0.959</span></td>
+<tr>
+<td style="text-align:left;">
+lst &lt;- list(h = sin); 5 %&gt;% lst$h
+</td>
+<td style="text-align:left;">
+3 arguments passed to '$' which requires 2
+</td>
+<td style="text-align:left;">
+lst &lt;- list(h = sin); 5 %.&gt;% lst$h
+</td>
+<td style="text-align:left;">
+<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
+</td>
 </tr>
-<tr class="even">
-<td align="left">lst &lt;- list(h = sin); 5 %&gt;% lst$h()</td>
-<td align="left"><span style=" font-weight: bold;    color: blue;">-0.959</span></td>
-<td align="left">lst &lt;- list(h = sin); 5 %.&gt;% lst$h()</td>
-<td align="left"><span style="     color: red;">wrapr::pipe_step.default does not allow direct piping into a no-argument function call expression (such as &quot;lst<span class="math inline">$h()&amp;quot;, please use lst$</span>h(.)).</span></td>
+<tr>
+<td style="text-align:left;">
+lst &lt;- list(h = sin); 5 %&gt;% lst$h()
+</td>
+<td style="text-align:left;">
+<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
+</td>
+<td style="text-align:left;">
+lst &lt;- list(h = sin); 5 %.&gt;% lst$h()
+</td>
+<td style="text-align:left;">
+wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as "lst$h()", please use lst$h(.)).
+</td>
 </tr>
-<tr class="odd">
-<td align="left">lst &lt;- list(h = sin); 5 %&gt;% lst$h(.)</td>
-<td align="left"><span style=" font-weight: bold;    color: blue;">-0.959</span></td>
-<td align="left">lst &lt;- list(h = sin); 5 %.&gt;% lst$h(.)</td>
-<td align="left"><span style=" font-weight: bold;    color: blue;">-0.959</span></td>
+<tr>
+<td style="text-align:left;">
+lst &lt;- list(h = sin); 5 %&gt;% lst$h(.)
+</td>
+<td style="text-align:left;">
+<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
+</td>
+<td style="text-align:left;">
+lst &lt;- list(h = sin); 5 %.&gt;% lst$h(.)
+</td>
+<td style="text-align:left;">
+<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
+</td>
 </tr>
 </tbody>
 </table>
-
 Analysis
 --------
 
@@ -636,13 +688,13 @@ wrapr res
 5 %&gt;% 1 + .
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style="     color: red;">attempt to apply non-function</span>
+attempt to apply non-function
 </td>
 <td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% 1 + .
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style="     color: red;">wrapr::pipe\_step.default does not allow direct piping into simple values such as class:numeric, type:double.</span>
+wrapr::pipe\_step.default does not allow direct piping into simple values such as class:numeric, type:double.
 </td>
 </tr>
 <tr>
@@ -650,13 +702,13 @@ wrapr res
 5 %&gt;% (1 + .)
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style="     color: red;">non-numeric argument to binary operator</span>
+non-numeric argument to binary operator
 </td>
 <td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% (1 + .)
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;    color: blue;">6</span>
+<span style=" font-weight: bold;   text-decoration: underline; color: blue;">6</span>
 </td>
 </tr>
 <tr>
@@ -664,13 +716,13 @@ wrapr res
 5 %&gt;% {1 + .}
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;    color: blue;">6</span>
+<span style=" font-weight: bold;   text-decoration: underline; color: blue;">6</span>
 </td>
 <td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% {1 + .}
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;    color: blue;">6</span>
+<span style=" font-weight: bold;   text-decoration: underline; color: blue;">6</span>
 </td>
 </tr>
 </tbody>
