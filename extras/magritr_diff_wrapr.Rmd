@@ -127,6 +127,27 @@ library("seplyr")
 library("kableExtra")
 packageVersion("wrapr")
 
+escape_text <- function(txt) {
+  vapply(txt, 
+         function(txti) {
+           txti <- paste(format(txti), collapse = " ")
+           nc <- nchar(txti)
+           chars <- vapply(seq_len(nc), 
+                           function(i) { 
+                             substr(txti, i, i)
+                           }, character(1))
+           mp <- c("!"="&#33;", "\""="&quot;", "#"="&#35;", "$"="&#36;",
+                   "%"="&#37;", "&"="&amp;", "'"="&apos;", "("="&#40;", ")"="&#41;",
+                   "*"="&#42;", "+"="&#43;", ","="&#44;", "-"="&#45;", "."="&#46;",
+                   "/"="&#47;", ":"="&#58;", ";"="&#59;", "<"="&lt;", "="="&#61;",
+                   ">"="&gt;", "?"="&#63;", "@"="&#64;", "["="&#91;", "\\"="&#92;",
+                   "]"="&#93;", "^"="&#94;", "_"="&#95;", "`"="&#96;", "{"="&#123;",
+                   "|"="&#124;", "}"="&#125;", "~"="&#126;")
+           chars[chars %in% names(mp)] <- mp[chars[chars %in% names(mp)]]
+           paste(chars, collapse = "")
+         }, character(1))
+}
+
 work_examples <- function(exprs, target) {
   evals <- data.frame(
     magrittr_expr = gsub("PIPE_GLYPH", 
@@ -148,7 +169,7 @@ work_examples <- function(exprs, target) {
     )
     if((!is.numeric(r)) || (length(r)!=1)) {
       r <- paste(format(r), collapse = " ")
-      r <- htmltools::htmlEscape(r)
+      r <- escape_text(r)
     }
     r
   }
@@ -179,20 +200,22 @@ work_examples <- function(exprs, target) {
                             }, character(1))
   evals %.>%
     mutate_nse(.,
-               magrittr_expr =  htmltools::htmlEscape(magrittr_expr),
-               magrittr_res = cell_spec(magrittr_res, 
-                                        "html", 
-                                        color = ifelse(magrittr_good, 
-                                                       "blue", 
-                                                       "red"),
-                                        bold = magrittr_good),
-               wrapr_expr =  htmltools::htmlEscape(wrapr_expr),
-               wrapr_res = cell_spec(wrapr_res, 
-                                     "html", 
-                                     color = ifelse(wrapr_good, 
-                                                    "blue", 
-                                                    "red"),
-                                     bold = wrapr_good)) %.>%
+               magrittr_expr =  escape_text(magrittr_expr),
+               # magrittr_res = cell_spec(magrittr_res, 
+               #                          "html", 
+               #                          color = ifelse(magrittr_good, 
+               #                                         "blue", 
+               #                                         "red"),
+               #                          bold = magrittr_good),
+               wrapr_expr =  escape_text(wrapr_expr)
+               # ,
+               # wrapr_res = cell_spec(wrapr_res, 
+               #                       "html", 
+               #                       color = ifelse(wrapr_good, 
+               #                                      "blue", 
+               #                                      "red"),
+               #                       bold = wrapr_good)
+               ) %.>%
     select_se(., qc(magrittr_expr, magrittr_res,
                     wrapr_expr, wrapr_res)) %.>%
     rename_se(., 
@@ -206,7 +229,7 @@ work_examples <- function(exprs, target) {
 
 Now we can work our examples, and return the comparison in tabular format (note: the "'\\['" notations are an artifact of `HTML` quoting/rendering, and not part of the expressions).
 
-```{r tab}
+```{r tab, results="asis"}
 work_examples(exprs, sin(5)) %.>%
   knitr::kable(., format = "html", escape = FALSE) %.>%
   column_spec(., 1:4, width = "1.75in") %.>%
@@ -217,12 +240,12 @@ As can now see, some statements were not roughly equivalent to `sin(5)`.
 
 One related case to consider is the following (which we run by hand, as it seems to default `knitr` or `kableExtra` `html` styling):
 
-```{r listfn}
+```{r listfn, results="asis"}
 c("lst <- list(h = sin); 5 PIPE_GLYPH lst$h",
   "lst <- list(h = sin); 5 PIPE_GLYPH lst$h()",
   "lst <- list(h = sin); 5 PIPE_GLYPH lst$h(.)") %.>%
   work_examples(., sin(5)) %.>%
-  knitr::kable(., format = "markdown", escape = FALSE) 
+  knitr::kable(., format = "html", escape = FALSE)
 ```
 
 
@@ -258,7 +281,7 @@ The hope is that `wrapr` piping is easy, powerful, useful, and not *too* differe
 We can also try a few simpler expressions, that do not have an explicit 
 function marker such as `sin(.)`.
 
-```{r ex2}
+```{r ex2, results="asis"}
 c("5 PIPE_GLYPH 1 + .",
   "5 PIPE_GLYPH (1 + .)",
   "5 PIPE_GLYPH {1 + .}") %.>%
