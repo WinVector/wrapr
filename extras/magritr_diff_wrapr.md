@@ -1,4 +1,4 @@
-magrittr and wrapr Pipes in R, a Comparison
+magrittr and wrapr Pipes in R, an Examination
 ================
 John Mount, Win-Vector LLC
 4/5/2018
@@ -136,7 +136,7 @@ print(length(exprs))
 
 A non-expert [`magrittr`](https://CRAN.R-project.org/package=magrittr)/[`dplyr`](https://CRAN.R-project.org/package=dplyr) user might expect all the pipe examples we are about to discuss to evaluate to `sin(5)` = -0.9589243. As `R` is routinely used by self-described non-programmers (such as scientists, analysts, and statisticians) the non-expert or [part time <code>R</code> user](http://www.win-vector.com/blog/2017/08/lets-have-some-sympathy-for-the-part-time-r-user/) is a very important class of `R` users (and in fact distinct from beginning `R` users). So how a system meets or misses simplified expectations is quite important in `R`.
 
-To run our examples we will use a fairly involved function that takes the vector of examples and returns an annotated `data.frame` of evaluation results. For completeness this code is given here, but can be safely skipped when reading this article.
+To run our examples we will use a fairly involved function `work_examples()` that takes the vector of examples and returns an annotated `data.frame` of evaluation results. For completeness this code is given here, but can be safely skipped when reading this article.
 
 ``` r
 library("magrittr")
