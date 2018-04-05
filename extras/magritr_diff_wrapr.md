@@ -75,8 +75,6 @@ The pipe works by performing a “lexical transformation”: behind the scenes, 
 </blockquote>
 Roughly they are saying `x %>% f(ARGS)` can be considered shorthand for `{ . <- x; f(., ARGS) }` where the evaluation in question happens in a temporary environment.
 
-These descriptions are useful, but to master the `magrittr` piping symbol one eventually has to work out the difference in how `magrittr` handles expressions versus functions, and the special use of `()` (pre-evaluation) and `{}` (general expression handling) in `magirttr` pipelines.
-
 A Mental Model for Planning Pipelines
 -------------------------------------
 
@@ -100,14 +98,14 @@ We think `wrapr` piping is very comprehensible (non-magic) expression oriented p
 -   Use explicit dots, i.e. write `5 %.>% sin(.)` and not `5 %.>% sin()` or `5 %.>% sin`. It [good to make it obvious to the reader that "`.`" is a free-name in the right-hand side expression](http://www.win-vector.com/blog/2018/03/r-tip-make-arguments-explicit-in-magrittr-dplyr-pipelines/), allowing the easy application of the convention of treating the right-hand side expression as an implicit function of "`.`".
 -   You get some free de-referencing such as in `5 %.>% sin` and function application as in `5 %.>% function(x) { sin(x) }`.
 -   Outer parentheses do not change meaning (as is commonly the case outside pipelines, modulo `R`'s visibility controls).
--   Outer braces turn off convenience transforms and safety checking. This is compatible with the subtle `R` convention that brace-blocks `{}` are considered more opaque and not as eagerly looked into as parenthesized expressions (one such example can be found [here](https://radfordneal.wordpress.com/2010/08/19/speeding-up-parentheses-and-lots-more-in-r/)).
+-   Outer braces treat contents as raw statements, turning off `wrapr` convenience transforms and safety checking. This is compatible with the subtle `R` convention that brace-blocks `{}` are considered more opaque and not as eagerly looked into as parenthesized expressions (one such example can be found [here](https://radfordneal.wordpress.com/2010/08/19/speeding-up-parentheses-and-lots-more-in-r/)).
 -   `wrapr` is grammar in the sense some statements are deliberately not part of the accepted notation. Some of the "errors" in the next set of examples are in fact `wrapr` refusing certain pipelines.
 -   Advanced users can extend `wrapr` by using `R` `S3` methodology to specify their own rules for various classes (such as building [pipable `ggplot2` code](https://github.com/WinVector/wrapr/blob/master/extras/ggplot2_piped.md)). Technical details can be found [here](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf).
 
 Examples
 --------
 
-Let's consider the following 19 attempts of writing piped variations of `sin(5)` in both `magritter` and `wrapr` notations.
+Let's consider the following 16 attempts of writing piped variations of `sin(5)` in both `magritter` and `wrapr` notations.
 
 A non-expert [`magrittr`](https://CRAN.R-project.org/package=magrittr)/[`dplyr`](https://CRAN.R-project.org/package=dplyr) user might expect all the pipe examples we are about to discuss to evaluate to `sin(5)` = -0.9589243. As `R` is routinely used by self-described non-programmers (such as scientists, analysts, and statisticians) the non-expert or [part time <code>R</code> user](http://www.win-vector.com/blog/2017/08/lets-have-some-sympathy-for-the-part-time-r-user/) is a very important class of `R` users (and in fact distinct from beginning `R` users). So how a system meets or misses simplified expectations is quite important in `R`.
 
@@ -135,9 +133,6 @@ exprs = c(
   "5 PIPE_GLYPH { sin }",
   "5 PIPE_GLYPH { sin() }",
   "5 PIPE_GLYPH { sin(.) }",
-  "5 PIPE_GLYPH sin(.) + 0",
-  "5 PIPE_GLYPH ( sin(.) + 0 )",
-  "5 PIPE_GLYPH { sin(.) + 0 }",
   "5 PIPE_GLYPH function(x) { sin(x) }",
   "5 PIPE_GLYPH ( function(x) { sin(x) } )",
   "5 PIPE_GLYPH { function(x) { sin(x) } }",
@@ -146,7 +141,7 @@ exprs = c(
 print(length(exprs))
 ```
 
-    ## [1] 19
+    ## [1] 16
 
 ``` r
 work_examples <- function(exprs, target) {
@@ -423,48 +418,6 @@ wrapr res
 </tr>
 <tr>
 <td style="text-align:left;width: 1.75in; ">
-5 %&gt;% sin(.) + 0
-</td>
-<td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;    color: blue;">-0.959</span>
-</td>
-<td style="text-align:left;width: 1.75in; ">
-5 %.&gt;% sin(.) + 0
-</td>
-<td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;    color: blue;">-0.959</span>
-</td>
-</tr>
-<tr>
-<td style="text-align:left;width: 1.75in; ">
-5 %&gt;% ( sin(.) + 0 )
-</td>
-<td style="text-align:left;width: 1.75in; ">
-<span style="     color: red;">object '.' not found</span>
-</td>
-<td style="text-align:left;width: 1.75in; ">
-5 %.&gt;% ( sin(.) + 0 )
-</td>
-<td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;    color: blue;">-0.959</span>
-</td>
-</tr>
-<tr>
-<td style="text-align:left;width: 1.75in; ">
-5 %&gt;% { sin(.) + 0 }
-</td>
-<td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;    color: blue;">-0.959</span>
-</td>
-<td style="text-align:left;width: 1.75in; ">
-5 %.&gt;% { sin(.) + 0 }
-</td>
-<td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;    color: blue;">-0.959</span>
-</td>
-</tr>
-<tr>
-<td style="text-align:left;width: 1.75in; ">
 5 %&gt;% function(x) { sin(x) }
 </td>
 <td style="text-align:left;width: 1.75in; ">
@@ -523,6 +476,22 @@ f &lt;- function(x) { sin(x) }; 5 %.&gt;% f
 </table>
 As you saw, some statements were not roughly equivalent to `sin(5)`.
 
+One more case to consider is the following (which we run by hand as it seems to default `kable` formatting):
+
+``` r
+lst <- list(h = sin)
+
+5 %>% lst$h
+```
+
+    ## Error in .$lst: 3 arguments passed to '$' which requires 2
+
+``` r
+5 %.>% lst$h
+```
+
+    ## [1] -0.9589243
+
 Analysis
 --------
 
@@ -532,9 +501,11 @@ The `magrittr` issues include the following.
 
 -   `::` is a function, as so many things are in `R`. So `base::sin` is not really the package qualified name for `sin()`, it is actually shorthand for `` `::`("base", "sin") `` which is a function evaluation that performs the look-up. So `5 %>% base::sin` expands to an analogue of `` . <- 5; `::`(., "base", "sin") ``, leading to the observed error message.
 -   `()` is `magrittr`'s "evaluate before piping into" notation, so `5 %>% ( sin() )` and `5 %>% ( sin(.) )` both throw an error as evaluation is attempted before any alteration of arguments is attempted.
--   `{}` is `magrittr`'s "treat the contents as an expression" notation (which is not in fact `magrittr`'s default behavior). Thus `magrittr`'s function evaluation signature alteration transforms are not applied to `5 %>% { sin }` or `5 %>% { sin() }`.
+-   `{}` is `magrittr`'s "treat the contents as raw statements" notation (which is not in fact `magrittr`'s default behavior). Thus `magrittr`'s function evaluation signature alteration transforms are not applied to `5 %>% { sin }` or `5 %>% { sin() }`.
 
-Again, the above are not `magrittr` bugs, they are just how `magrittr`'s behavior differs from a very regular or naive internalization of `magrittr` rules. However, regularity matters. Regularity is especially important for [part time users](http://www.win-vector.com/blog/2017/08/lets-have-some-sympathy-for-the-part-time-r-user/), as you want reasonable variations of what is taught to work so that experimentation is positive and not an exercise in learned helplessness. It is convenient when your tools happen to work the way you might remember.
+Again, the above are not `magrittr` bugs, they are just how `magrittr`'s behavior differs from a very regular or naive internalization of `magrittr` rules. Notice neither of "`()`" nor "`{}`" are neutral notations in `magrittr` (the first adds an extra evaluation, and second switches to an expression mode with fewer substitutions). Also note the above is an argument for preferring "`sin(.)`" to "`sin()`", or "`sin`"; as "`sin(.)`" had the most regular `magrittr` behavior (not changing with the introduction of "`()`", "`{}`", or "`base::`").
+
+Regularity is especially important for [part time users](http://www.win-vector.com/blog/2017/08/lets-have-some-sympathy-for-the-part-time-r-user/), as you want reasonable variations of what is taught to work so that experimentation is positive and not an exercise in learned helplessness. It is convenient when your tools happen to work the way you might remember.
 
 ### `wrapr` Results
 
@@ -543,7 +514,7 @@ The `wrapr` error messages and non-numeric returns are driven by the following:
 -   `5 %.>% sin()` is not an allowed `wrapr` notation. The `wrapr` philosophy is not to alter evaluation signatures. The error message is signalling that the statement is not valid `wrapr` grammar (not well formed in terms of `wrapr` rules). Notice the error message suggests the alternate notation `sin(.)`. Similar rules apply for `base::sin()`. Then intent is that outer parenthesis are non-semantic, they do not change change `wrapr` pipe behavior.
 -   `5 %.>% { sin }` returns just the `sin` function. This is because `{}` triggers `wrapr`'s "leave the contents alone" behavior.
 
-The user only encounters two exceptions in the above variations. The first is "don't write `sin()`", which comes with a clear error message and help ("try `sin(.)`"). The second is "outer `{}` should not be when you want name look-up. With `wrapr` it is always safe to add putter `()`, with `magrittr` neither of `{}` or `()` can always be safely used to surround an expression.
+The user only encounters two exceptions in the above variations. The first is "don't write `sin()`", which comes with a clear error message and help ("try `sin(.)`"). The second is "outer `{}` treats its contents as raw statements, turning off transforms and checking.
 
 `wrapr` is hoping to stay close the principle of least surprise.
 
