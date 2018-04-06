@@ -167,43 +167,51 @@ packageVersion("wrapr")
     ## [1] '1.4.0'
 
 ``` r
-work_examples <- function(exprs, target) {
-  escape_text <- function(txt) {
-    res <- 
-      vapply(txt, 
-             function(txti) {
-               txti <- paste(format(txti), 
-                             collapse = " ")
-               nc <- nchar(txti)
-               chars <- vapply(seq_len(nc), 
-                               function(i) { 
-                                 substr(txti, i, i)
-                               }, character(1))
-               mp <- c("!"="&#33;", "\""="&quot;", 
-                       "#"="&#35;", "$"="&#36;",
-                       "%"="&#37;", "&"="&amp;", 
-                       "'"="&apos;", "("="&#40;", 
-                       ")"="&#41;", "*"="&#42;",
-                       "+"="&#43;", ","="&#44;",
-                       "-"="&#45;", "."="&#46;",
-                       "/"="&#47;", ":"="&#58;", 
-                       ";"="&#59;", "<"="&lt;", 
-                       "="="&#61;",  ">"="&gt;",
-                       "?"="&#63;", "@"="&#64;",
-                       "["="&#91;", "\\"="&#92;",
-                       "]"="&#93;", "^"="&#94;", 
-                       "_"="&#95;", "`"="&#96;", 
-                       "{"="&#123;","|"="&#124;",
-                       "}"="&#125;", "~"="&#126;")
-               tomap <- chars %in% names(mp)
-               chars[tomap] <- mp[chars[tomap]]
-               names(chars) <- NULL
-               paste(chars, collapse = "")
-             }, character(1))
-    names(res) <- NULL
-    res
-  }
+fix <- function(x) {
+  x <- gsub("\\]\\(", "&#93;&#40;", x)
+  x <- gsub("\\$", "&#36;", x)
+  x
+}
+
+mp <- c("!"="&#33;", "\""="&quot;", 
+        "#"="&#35;", "$"="&#36;",
+        "%"="&#37;", "&"="&amp;", 
+        "'"="&apos;", "("="&#40;", 
+        ")"="&#41;", "*"="&#42;",
+        "+"="&#43;", ","="&#44;",
+        "-"="&#45;", "."="&#46;",
+        "/"="&#47;", ":"="&#58;", 
+        ";"="&#59;", "<"="&lt;", 
+        "="="&#61;",  ">"="&gt;",
+        "?"="&#63;", "@"="&#64;",
+        "["="&#91;", "\\"="&#92;",
+        "]"="&#93;", "^"="&#94;", 
+        "_"="&#95;", "`"="&#96;", 
+        "{"="&#123;","|"="&#124;",
+        "}"="&#125;", "~"="&#126;")
+
+escape_text <- function(txt, mp) {
+  res <- 
+    vapply(txt, 
+           function(txti) {
+             txti <- paste(format(txti), 
+                           collapse = " ")
+             nc <- nchar(txti)
+             chars <- vapply(seq_len(nc), 
+                             function(i) { 
+                               substr(txti, i, i)
+                             }, character(1))
+             
+             tomap <- chars %in% names(mp)
+             chars[tomap] <- mp[chars[tomap]]
+             names(chars) <- NULL
+             paste(chars, collapse = "")
+           }, character(1))
+  names(res) <- NULL
+  res
+}
   
+work_examples <- function(exprs, target) {
   eval_expr <- function(exprs) {
     res <- 
       lapply(exprs,
@@ -218,7 +226,7 @@ work_examples <- function(exprs, target) {
                   (length(r)!=1)) {
                  r <- paste(format(r), 
                             collapse = " ")
-                 r <- escape_text(r)
+                 r <- escape_text(r, mp)
                }
                r
              })
@@ -254,7 +262,7 @@ work_examples <- function(exprs, target) {
                                         color = "darkgreen", 
                                         bold = TRUE),
                               res),
-                 expr =  escape_text(expr)) %.>%
+                 expr =  escape_text(expr, mp)) %.>%
       select_se(., qc(expr, res))  %.>%
       rename_se(., 
                 paste(name, qc(expr, res)) :=
@@ -531,10 +539,13 @@ c("lst <- list(h = sin); 5 PIPE_GLYPH lst$h",
   "lst <- list(h = sin); 5 PIPE_GLYPH lst[['h']]()",
   "lst <- list(h = sin); 5 PIPE_GLYPH lst[['h']](.)") %.>%
   work_examples(., sin(5)) %.>%
-  knitr::kable(., format = "html", escape = FALSE)
+  knitr::kable(., format = "html", escape = FALSE) %.>%
+  column_spec(., 1:4, width = "1.75in") %.>%
+  kable_styling(., "striped", full_width = FALSE) %.>%
+  fix(.)
 ```
 
-<table>
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -553,86 +564,86 @@ wrapr res
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 lst &lt;- list(h = sin); 5 %&gt;% lst$h
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 3 arguments passed to '$' which requires 2
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 lst &lt;- list(h = sin); 5 %.&gt;% lst$h
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 <span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 lst &lt;- list(h = sin); 5 %&gt;% lst$h()
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 <span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 lst &lt;- list(h = sin); 5 %.&gt;% lst$h()
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as "lst$h()", please use lst$h(.)).
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 lst &lt;- list(h = sin); 5 %&gt;% lst$h(.)
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 <span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 lst &lt;- list(h = sin); 5 %.&gt;% lst$h(.)
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 <span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 lst &lt;- list(h = sin); 5 %&gt;% lst\[\['h'\]\]
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 incorrect number of subscripts
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 lst &lt;- list(h = sin); 5 %.&gt;% lst\[\['h'\]\]
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 <span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 lst &lt;- list(h = sin); 5 %&gt;% lst\[\['h'\]\]()
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 <span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 lst &lt;- list(h = sin); 5 %.&gt;% lst\[\['h'\]\]()
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as "lst\[\["h"\]\]()", please use lst\[\["h"\]\](.)).
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 lst &lt;- list(h = sin); 5 %&gt;% lst\[\['h'\]\](.)
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 <span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 lst &lt;- list(h = sin); 5 %.&gt;% lst\[\['h'\]\](.)
 </td>
-<td style="text-align:left;">
+<td style="text-align:left;width: 1.75in; ">
 <span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
 </td>
 </tr>
