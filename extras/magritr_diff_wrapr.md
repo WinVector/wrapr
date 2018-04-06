@@ -1,7 +1,7 @@
 magrittr and wrapr Pipes in R, an Examination
 ================
 John Mount, Win-Vector LLC
-4/5/2018
+4/6/2018
 
 Let's consider piping in [`R`](https://www.r-project.org) both using the [`magrittr`](https://CRAN.R-project.org/package=magrittr) package and using the [`wrapr`](https://CRAN.R-project.org/package=wrapr) package.
 
@@ -105,7 +105,7 @@ We think `wrapr` piping is very comprehensible (non-magic) expression oriented p
 Examples
 --------
 
-Let's consider the following 19 attempts of writing piped variations of `sin(5)` in both `magritter` and `wrapr` notations.
+Let's consider the following attempts of writing piped variations of `sin(5)` in both `magritter` and `wrapr` notations.
 
 ``` r
 exprs = c(
@@ -121,18 +121,13 @@ exprs = c(
   "5 PIPE_GLYPH { sin }",
   "5 PIPE_GLYPH { sin() }",
   "5 PIPE_GLYPH { sin(.) }",
-  "lst <- list(h = sin); 5 PIPE_GLYPH lst[['h']]",
-  "lst <- list(h = sin); 5 PIPE_GLYPH lst[['h']]()",
-  "lst <- list(h = sin); 5 PIPE_GLYPH lst[['h']](.)",
   "5 PIPE_GLYPH function(x) { sin(x) }",
   "5 PIPE_GLYPH ( function(x) { sin(x) } )",
   "5 PIPE_GLYPH { function(x) { sin(x) } }",
   "f <- function(x) { sin(x) }; 5 PIPE_GLYPH f")
-
-print(length(exprs))
 ```
 
-    ## [1] 19
+The point is in a room full of students in a lab setting if you show them "`5 %>% sin`" some of them are going to try variations or have variations from their work that are important to them. This possibly includes: package-qualifying the function name, wrapping expressions in parenthesis, altering arguments, building functions, and retrieving functions from data structures. The pipeline (for convenience) tries to lower the distinctions between expressions, functions, and function names. However the pipeline notation does not completely eliminate the differences.
 
 A non-expert [`magrittr`](https://CRAN.R-project.org/package=magrittr)/[`dplyr`](https://CRAN.R-project.org/package=dplyr) user might expect all the pipe examples we are about to discuss to evaluate to `sin(5)` = -0.9589243. As `R` is routinely used by self-described non-programmers (such as scientists, analysts, and statisticians) the non-expert or [part time <code>R</code> user](http://www.win-vector.com/blog/2017/08/lets-have-some-sympathy-for-the-part-time-r-user/) is a very important class of `R` users (and in fact distinct from beginning `R` users). So how a system meets or misses simplified expectations is quite important in `R`.
 
@@ -220,8 +215,7 @@ work_examples <- function(exprs, target) {
   .$magrittr_res[.$magrittr_good] <- 
     cell_spec(.$magrittr_res[.$magrittr_good],
               "html", 
-              color = "blue", 
-              underline = TRUE,
+              color = "darkgreen", 
               bold = TRUE)
   .$wrapr_res <- lapply(.$wrapr_expr, 
                             eval_expr)
@@ -233,8 +227,7 @@ work_examples <- function(exprs, target) {
   .$wrapr_res[.$wrapr_good] <- 
     cell_spec(.$wrapr_res[.$wrapr_good],
               "html", 
-              color = "blue", 
-              underline = TRUE,
+              color = "darkgreen", 
               bold = TRUE)
   evals <- .
 
@@ -253,11 +246,11 @@ work_examples <- function(exprs, target) {
 }
 ```
 
-Now we can work our examples, and return the comparison in tabular format (note: the "'\\\['" and other formatting errors are an artifacts of `HTML` quoting/rendering, and not part of the expressions).
+Now we can work our examples, and return the comparison in tabular format.
 
 ``` r
 work_examples(exprs, sin(5)) %.>%
-  knitr::kable(., format = "html", escape = FALSE) %.>%
+  knitr::kable(., format = "html", escape = FALSE)  %.>%
   column_spec(., 1:4, width = "1.75in") %.>%
   kable_styling(., "striped", full_width = FALSE)
 ```
@@ -285,13 +278,13 @@ wrapr res
 5 %&gt;% sin
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
+<span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
 </td>
 <td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% sin
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
+<span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
 </td>
 </tr>
 <tr>
@@ -299,7 +292,7 @@ wrapr res
 5 %&gt;% sin()
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
+<span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
 </td>
 <td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% sin()
@@ -313,13 +306,13 @@ wrapr::pipe\_step.default does not allow direct piping into a no-argument functi
 5 %&gt;% sin(.)
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
+<span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
 </td>
 <td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% sin(.)
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
+<span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
 </td>
 </tr>
 <tr>
@@ -333,7 +326,7 @@ unused argument (sin)
 5 %.&gt;% base::sin
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
+<span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
 </td>
 </tr>
 <tr>
@@ -341,7 +334,7 @@ unused argument (sin)
 5 %&gt;% base::sin()
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
+<span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
 </td>
 <td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% base::sin()
@@ -355,13 +348,13 @@ wrapr::pipe\_step.default does not allow direct piping into a no-argument functi
 5 %&gt;% base::sin(.)
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
+<span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
 </td>
 <td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% base::sin(.)
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
+<span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
 </td>
 </tr>
 <tr>
@@ -369,13 +362,13 @@ wrapr::pipe\_step.default does not allow direct piping into a no-argument functi
 5 %&gt;% ( sin )
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
+<span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
 </td>
 <td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% ( sin )
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
+<span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
 </td>
 </tr>
 <tr>
@@ -403,7 +396,7 @@ non-numeric variable in data frame: magrittr\_exprwrapr\_expr
 5 %.&gt;% ( sin(.) )
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
+<span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
 </td>
 </tr>
 <tr>
@@ -439,55 +432,13 @@ non-numeric variable in data frame: magrittr\_exprwrapr\_expr
 5 %&gt;% { sin(.) }
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
+<span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
 </td>
 <td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% { sin(.) }
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
-</td>
-</tr>
-<tr>
-<td style="text-align:left;width: 1.75in; ">
-lst &lt;- list(h = sin); 5 %&gt;% lst\[\['h'\]\]
-</td>
-<td style="text-align:left;width: 1.75in; ">
-incorrect number of subscripts
-</td>
-<td style="text-align:left;width: 1.75in; ">
-lst &lt;- list(h = sin); 5 %.&gt;% lst\[\['h'\]\]
-</td>
-<td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
-</td>
-</tr>
-<tr>
-<td style="text-align:left;width: 1.75in; ">
-lst &lt;- list(h = sin); 5 %&gt;% lst[\['h'\]]()
-</td>
-<td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
-</td>
-<td style="text-align:left;width: 1.75in; ">
-lst &lt;- list(h = sin); 5 %.&gt;% lst[\['h'\]]()
-</td>
-<td style="text-align:left;width: 1.75in; ">
-wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as "lst[\["h"\]]()", please use lst[\["h"\]](.)).
-</td>
-</tr>
-<tr>
-<td style="text-align:left;width: 1.75in; ">
-lst &lt;- list(h = sin); 5 %&gt;% lst[\['h'\]](.)
-</td>
-<td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
-</td>
-<td style="text-align:left;width: 1.75in; ">
-lst &lt;- list(h = sin); 5 %.&gt;% lst[\['h'\]](.)
-</td>
-<td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
+<span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
 </td>
 </tr>
 <tr>
@@ -501,7 +452,7 @@ Anonymous functions myst be parenthesized
 5 %.&gt;% function(x) { sin(x) }
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
+<span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
 </td>
 </tr>
 <tr>
@@ -509,13 +460,13 @@ Anonymous functions myst be parenthesized
 5 %&gt;% ( function(x) { sin(x) } )
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
+<span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
 </td>
 <td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% ( function(x) { sin(x) } )
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
+<span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
 </td>
 </tr>
 <tr>
@@ -537,27 +488,30 @@ function (x) { sin(x) }
 f &lt;- function(x) { sin(x) }; 5 %&gt;% f
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
+<span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
 </td>
 <td style="text-align:left;width: 1.75in; ">
 f &lt;- function(x) { sin(x) }; 5 %.&gt;% f
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
+<span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
 </td>
 </tr>
 </tbody>
 </table>
 As can now see, some statements were not roughly equivalent to `sin(5)`.
 
-One related case to consider is the following (which we run by hand, as it seems to default `knitr` or `kableExtra` `html` styling):
+One related case to consider is the following (which we run by hand, as it seems to default `knitr` or `kableExtra` `html` styling, note: the "'\\\['" and other formatting errors are an artifacts of `HTML` quoting/rendering, and not part of the expressions):
 
 ``` r
 c("lst <- list(h = sin); 5 PIPE_GLYPH lst$h",
   "lst <- list(h = sin); 5 PIPE_GLYPH lst$h()",
-  "lst <- list(h = sin); 5 PIPE_GLYPH lst$h(.)") %.>%
+  "lst <- list(h = sin); 5 PIPE_GLYPH lst$h(.)",
+  "lst <- list(h = sin); 5 PIPE_GLYPH lst[['h']]",
+  "lst <- list(h = sin); 5 PIPE_GLYPH lst[['h']]()",
+  "lst <- list(h = sin); 5 PIPE_GLYPH lst[['h']](.)") %.>%
   work_examples(., sin(5)) %.>%
-  knitr::kable(., format = "html", escape = FALSE) 
+  knitr::kable(., format = "html", escape = FALSE)
 ```
 
 <table>
@@ -589,7 +543,7 @@ lst &lt;- list(h = sin); 5 %&gt;% lst$h
 lst &lt;- list(h = sin); 5 %.&gt;% lst$h
 </td>
 <td style="text-align:left;">
-<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
+<span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
 </td>
 </tr>
 <tr>
@@ -597,7 +551,7 @@ lst &lt;- list(h = sin); 5 %.&gt;% lst$h
 lst &lt;- list(h = sin); 5 %&gt;% lst$h()
 </td>
 <td style="text-align:left;">
-<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
+<span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
 </td>
 <td style="text-align:left;">
 lst &lt;- list(h = sin); 5 %.&gt;% lst$h()
@@ -611,13 +565,55 @@ wrapr::pipe\_step.default does not allow direct piping into a no-argument functi
 lst &lt;- list(h = sin); 5 %&gt;% lst$h(.)
 </td>
 <td style="text-align:left;">
-<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
+<span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
 </td>
 <td style="text-align:left;">
 lst &lt;- list(h = sin); 5 %.&gt;% lst$h(.)
 </td>
 <td style="text-align:left;">
-<span style=" font-weight: bold;   text-decoration: underline; color: blue;">-0.959</span>
+<span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+lst &lt;- list(h = sin); 5 %&gt;% lst\[\['h'\]\]
+</td>
+<td style="text-align:left;">
+incorrect number of subscripts
+</td>
+<td style="text-align:left;">
+lst &lt;- list(h = sin); 5 %.&gt;% lst\[\['h'\]\]
+</td>
+<td style="text-align:left;">
+<span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+lst &lt;- list(h = sin); 5 %&gt;% lst\[\['h'\]\]()
+</td>
+<td style="text-align:left;">
+<span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
+</td>
+<td style="text-align:left;">
+lst &lt;- list(h = sin); 5 %.&gt;% lst\[\['h'\]\]()
+</td>
+<td style="text-align:left;">
+wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as "lst\[\["h"\]\]()", please use lst\[\["h"\]\](.)).
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+lst &lt;- list(h = sin); 5 %&gt;% lst\[\['h'\]\](.)
+</td>
+<td style="text-align:left;">
+<span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
+</td>
+<td style="text-align:left;">
+lst &lt;- list(h = sin); 5 %.&gt;% lst\[\['h'\]\](.)
+</td>
+<td style="text-align:left;">
+<span style=" font-weight: bold;    color: darkgreen;">-0.959</span>
 </td>
 </tr>
 </tbody>
@@ -649,6 +645,10 @@ The user only encounters two exceptions in the above variations. The first is "d
 `wrapr` is hoping to stay close the principle of least surprise.
 
 The hope is that `wrapr` piping is easy, powerful, useful, and not *too* different than `a %.>% b` being treated as almost syntactic sugar for `{ . <- a; b }`.
+
+#### Aesthetics
+
+An obvious down-side of `wrapr` piping is the excess dots both in the operator and in the evaluation arguments. We *strongly* feel the extra dots in the evaluation arguments is actually [a good trade in losing some conciseness in exchange for useful explicitness](http://www.win-vector.com/blog/2018/03/r-tip-make-arguments-explicit-in-magrittr-dplyr-pipelines/). We do not consider the extra dot in the pipe operator to be a problem (especially if you [bind the operator to a keyboard shortcut](http://www.win-vector.com/blog/2017/11/rstudio-keyboard-shortcuts-for-pipes/)). If the extra dot in the pipe operator is such a deal-breaker, consider that it could be gotten rid of by copying the pipe operator to your notation of choice (such as executing `` `%>%` <- wrapr::`%.>%` `` or `` `%.%` <- wrapr::`%.>%` `` at the top of your work). However such re-mappings are needlessly confusing and it is best to use the operator glyph that `wrapr` directly supplies.
 
 Non-function examples
 ---------------------
@@ -708,7 +708,7 @@ non-numeric argument to binary operator
 5 %.&gt;% (1 + .)
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;   text-decoration: underline; color: blue;">6</span>
+<span style=" font-weight: bold;    color: darkgreen;">6</span>
 </td>
 </tr>
 <tr>
@@ -716,13 +716,13 @@ non-numeric argument to binary operator
 5 %&gt;% {1 + .}
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;   text-decoration: underline; color: blue;">6</span>
+<span style=" font-weight: bold;    color: darkgreen;">6</span>
 </td>
 <td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% {1 + .}
 </td>
 <td style="text-align:left;width: 1.75in; ">
-<span style=" font-weight: bold;   text-decoration: underline; color: blue;">6</span>
+<span style=" font-weight: bold;    color: darkgreen;">6</span>
 </td>
 </tr>
 </tbody>
@@ -841,12 +841,7 @@ f_wrapr(35)
 
 `wrapr` also can not handle `return()` control flow correctly, however it (helpfully) throws an exception to indicate the problem.
 
-Aesthetics
-----------
-
-An obvious down-side of `wrapr` piping is the excess dots both in the operator and in the evaluation arguments. We *strongly* feel the extra dots in the evaluation arguments is actually [a good trade in losing some conciseness in exchange for useful explicitness](http://www.win-vector.com/blog/2018/03/r-tip-make-arguments-explicit-in-magrittr-dplyr-pipelines/). We do not consider the extra dot in the pipe operator to be a problem (especially if you [bind the operator to a keyboard shortcut](http://www.win-vector.com/blog/2017/11/rstudio-keyboard-shortcuts-for-pipes/)). If the extra dot in the pipe operator is such a deal-breaker, consider that it could be gotten rid of by copying the pipe operator to your notation of choice (such as executing `` `%>%` <- wrapr::`%.>%` `` or `` `%.%` <- wrapr::`%.>%` `` at the top of your work). However such re-mappings are needlessly confusing and it is best to use the operator glyph that `wrapr` directly supplies.
-
 Conclusion
 ----------
 
-`magrittr` and `wrapr` both have to make allowances for the complexity of code environments and statements found in typical `R` code. I sincerely hope you consider giving the `wrapr` dot-pipe a try and find it useful in your work.
+`R` usually has more than one good way to perform tasks. In this case we talk about two methods of building pipelines in `R`. There are more (some of which are listed [here](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf)). We ask that in teaching pipeline methods in `R` to consider including at least a mention of the `wrapr` dot-pipe, as it is a significant alternative.
