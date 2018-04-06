@@ -60,7 +60,7 @@ That is a bit of simplification, but is the taught mental model.
    bop(on = head)
 </pre>
 <p/>
-...
+\[...\]
 <p/>
 The pipe works by performing a “lexical transformation”: behind the scenes, magrittr reassembles the code in the pipe to a form that works by overwriting an intermediate object. When you run a pipe like the one above, magrittr does something like this:
 <p/>
@@ -93,6 +93,28 @@ These may seem like details: but they are the steps required to move from copyin
 
 `wrapr` supplies its own piping glyph: ["dot pipe" `%.>%`](https://winvector.github.io/wrapr/reference/grapes-.-greater-than-grapes.html). `wrapr`'s goal is to supply an operator that is a regular and safe with `a %.>% b` being *approximately* [syntactic sugar](https://en.wikipedia.org/wiki/Syntactic_sugar) for `{ . <- a; b }` (with, visible side-effects, i.e. we can actually see the "`.`" assignment happen).
 
+``` r
+library("wrapr")
+
+# calculate sin(5)
+5 %.>% sin(.)
+```
+
+    ## [1] -0.9589243
+
+``` r
+# 5 left in dot, a visible side-effect
+print(.)
+```
+
+    ## [1] 5
+
+``` r
+# clear dot, so no later failing example 
+# falsely appears to work
+rm(list = ".")
+```
+
 We think `wrapr` piping is very comprehensible (non-magic) expression oriented pipe with a few rules and additional admonitions:
 
 -   Use explicit dots, i.e. write `5 %.>% sin(.)` and not `5 %.>% sin()` or `5 %.>% sin`. It [good to make it obvious to the reader that "`.`" is a free-name in the right-hand side expression](http://www.win-vector.com/blog/2018/03/r-tip-make-arguments-explicit-in-magrittr-dplyr-pipelines/), allowing the easy application of the convention of treating the right-hand side expression as an implicit function of "`.`".
@@ -124,7 +146,8 @@ exprs = c(
   "5 PIPE_GLYPH function(x) { sin(x) }",
   "5 PIPE_GLYPH ( function(x) { sin(x) } )",
   "5 PIPE_GLYPH { function(x) { sin(x) } }",
-  "f <- function(x) { sin(x) }; 5 PIPE_GLYPH f")
+  "f <- function(x) { sin(x) }; 5 PIPE_GLYPH f"
+  )
 ```
 
 The point is in a room full of students in a lab setting if you show them "`5 %>% sin`" some of them are going to try variations or have variations from their work that are important to them. This possibly includes: package-qualifying the function name, wrapping expressions in parenthesis, altering arguments, building functions, and retrieving functions from data structures. The pipeline (for convenience) tries to lower the distinctions between expressions, functions, and function names. However the pipeline notation does not completely eliminate the differences.
@@ -144,105 +167,102 @@ packageVersion("wrapr")
     ## [1] '1.4.0'
 
 ``` r
-escape_text <- function(txt) {
-  res <- vapply(txt, 
-         function(txti) {
-           txti <- paste(format(txti), collapse = " ")
-           nc <- nchar(txti)
-           chars <- vapply(seq_len(nc), 
-                           function(i) { 
-                             substr(txti, i, i)
-                           }, character(1))
-           mp <- c("!"="&#33;", "\""="&quot;", "#"="&#35;", "$"="&#36;",
-                   "%"="&#37;", "&"="&amp;", "'"="&apos;", "("="&#40;", ")"="&#41;",
-                   "*"="&#42;", "+"="&#43;", ","="&#44;", "-"="&#45;", "."="&#46;",
-                   "/"="&#47;", ":"="&#58;", ";"="&#59;", "<"="&lt;", "="="&#61;",
-                   ">"="&gt;", "?"="&#63;", "@"="&#64;", "["="&#91;", "\\"="&#92;",
-                   "]"="&#93;", "^"="&#94;", "_"="&#95;", "`"="&#96;", "{"="&#123;",
-                   "|"="&#124;", "}"="&#125;", "~"="&#126;")
-           chars[chars %in% names(mp)] <- mp[chars[chars %in% names(mp)]]
-           names(chars) <- NULL
-           paste(chars, collapse = "")
-         }, character(1))
-  names(res) <- NULL
-  res
-}
-
 work_examples <- function(exprs, target) {
-  eval_expr <- function(expr) {
-    r <- tryCatch( 
-      eval(parse(text = expr)),
-      error = function(e) { 
-        e$message
-      }
-    )
-    if((!is.numeric(r)) || (length(r)!=1)) {
-      r <- paste(format(r), collapse = " ")
-      r <- escape_text(r)
-    }
-    r
+  escape_text <- function(txt) {
+    res <- 
+      vapply(txt, 
+             function(txti) {
+               txti <- paste(format(txti), 
+                             collapse = " ")
+               nc <- nchar(txti)
+               chars <- vapply(seq_len(nc), 
+                               function(i) { 
+                                 substr(txti, i, i)
+                               }, character(1))
+               mp <- c("!"="&#33;", "\""="&quot;", 
+                       "#"="&#35;", "$"="&#36;",
+                       "%"="&#37;", "&"="&amp;", 
+                       "'"="&apos;", "("="&#40;", 
+                       ")"="&#41;", "*"="&#42;",
+                       "+"="&#43;", ","="&#44;",
+                       "-"="&#45;", "."="&#46;",
+                       "/"="&#47;", ":"="&#58;", 
+                       ";"="&#59;", "<"="&lt;", 
+                       "="="&#61;",  ">"="&gt;",
+                       "?"="&#63;", "@"="&#64;",
+                       "["="&#91;", "\\"="&#92;",
+                       "]"="&#93;", "^"="&#94;", 
+                       "_"="&#95;", "`"="&#96;", 
+                       "{"="&#123;","|"="&#124;",
+                       "}"="&#125;", "~"="&#126;")
+               tomap <- chars %in% names(mp)
+               chars[tomap] <- mp[chars[tomap]]
+               names(chars) <- NULL
+               paste(chars, collapse = "")
+             }, character(1))
+    names(res) <- NULL
+    res
+  }
+  
+  eval_expr <- function(exprs) {
+    res <- 
+      lapply(exprs,
+             function(expr) {
+               r <- tryCatch( 
+                 eval(parse(text = expr)),
+                 error = function(e) { 
+                   e$message
+                 }
+               )
+               if((!is.numeric(r)) || 
+                  (length(r)!=1)) {
+                 r <- paste(format(r), 
+                            collapse = " ")
+                 r <- escape_text(r)
+               }
+               r
+             })
+    names(res) <- NULL
+    res
   }
   
   checcol <- function(col) {
-    vapply(col, 
+    res <- vapply(col, 
            function(vi) {
              is.numeric(vi) && 
                (length(vi)==1) && 
                (abs(vi-target)<1.0e-5)
            }, logical(1))
+    names(res) <- NULL
+    res
   }
   
-  evals <- data.frame(
-    magrittr_expr = gsub("PIPE_GLYPH", 
-                         "%>%", 
-                         exprs, 
-                         fixed = TRUE),
-    wrapr_expr = gsub("PIPE_GLYPH", 
-                      "%.>%", 
-                      exprs, 
-                      fixed = TRUE),
-    stringsAsFactors = FALSE)
+  do_evals <- function(exprs, glyph, name) {
+    evals <- 
+      data.frame(expr = gsub("PIPE_GLYPH", 
+                             glyph, 
+                             exprs, 
+                             fixed = TRUE),
+                 stringsAsFactors = FALSE) %.>%
+      mutate_nse(., 
+                 res = eval_expr(expr),
+                 good = checcol(res),
+                 res = format(res, digits = 3),
+                 res = ifelse(good,
+                              cell_spec(res,
+                                        "html", 
+                                        color = "darkgreen", 
+                                        bold = TRUE),
+                              res),
+                 expr =  escape_text(expr)) %.>%
+      select_se(., qc(expr, res))  %.>%
+      rename_se(., 
+                paste(name, qc(expr, res)) :=
+                  qc(expr, res))
+  }
   
-  # some transform steps
-  . <- evals
-  .$magrittr_res <- lapply(.$magrittr_expr, 
-                               eval_expr)
-  .$magrittr_good <- checcol(.$magrittr_res)
-  .$magrittr_res <- vapply(.$magrittr_res,
-                               function(vi) {
-                                 format(vi, digits = 3)
-                               }, character(1))
-  .$magrittr_res[.$magrittr_good] <- 
-    cell_spec(.$magrittr_res[.$magrittr_good],
-              "html", 
-              color = "darkgreen", 
-              bold = TRUE)
-  .$wrapr_res <- lapply(.$wrapr_expr, 
-                            eval_expr)
-  .$wrapr_good <- checcol(.$wrapr_res)
-  .$wrapr_res <- vapply(.$wrapr_res,
-                            function(vi) {
-                              format(vi, digits = 3)
-                            }, character(1))
-  .$wrapr_res[.$wrapr_good] <- 
-    cell_spec(.$wrapr_res[.$wrapr_good],
-              "html", 
-              color = "darkgreen", 
-              bold = TRUE)
-  evals <- .
-
-  evals %.>%
-    mutate_nse(.,
-               magrittr_expr =  escape_text(magrittr_expr),
-               wrapr_expr =  escape_text(wrapr_expr)) %.>%
-    select_se(., qc(magrittr_expr, magrittr_res,
-                    wrapr_expr, wrapr_res)) %.>%
-    rename_se(., 
-              gsub("_", " ",
-                   qc(magrittr_expr, magrittr_res,
-                      wrapr_expr, wrapr_res), fixed = TRUE) :=
-                qc(magrittr_expr, magrittr_res,
-                   wrapr_expr, wrapr_res))
+  cbind(do_evals(exprs, "%>%", "magrittr"),
+        do_evals(exprs, "%.>%", "wrapr"))
 }
 ```
 
@@ -250,7 +270,7 @@ Now we can work our examples, and return the comparison in tabular format.
 
 ``` r
 work_examples(exprs, sin(5)) %.>%
-  knitr::kable(., format = "html", escape = FALSE)  %.>%
+  knitr::kable(., format = "html", escape = FALSE) %.>%
   column_spec(., 1:4, width = "1.75in") %.>%
   kable_styling(., "striped", full_width = FALSE)
 ```
@@ -390,7 +410,7 @@ wrapr::pipe\_step.default does not allow direct piping into a no-argument functi
 5 %&gt;% ( sin(.) )
 </td>
 <td style="text-align:left;width: 1.75in; ">
-non-numeric variable in data frame: magrittr\_exprwrapr\_expr
+object '.' not found
 </td>
 <td style="text-align:left;width: 1.75in; ">
 5 %.&gt;% ( sin(.) )
@@ -765,13 +785,13 @@ Let's first take a look at the effect with `magrittr`. Suppose we were writing a
 
 ``` r
 f_base <- function(x) {
-  u <- min(ceiling(sqrt(x)), x-1)
-  i <- 2
+  u <- min(ceiling(sqrt(x)), x-1L)
+  i <- 2L
   while(i<=u) {
     if((x %% i)==0) {
       return(i)
     }
-    i <- i + 1
+    i <- i + 1L
   }
   NA_integer_
 }
@@ -791,13 +811,13 @@ Now suppose we try to get fancy and use "`i %>% return`" instead of "`return(i)`
 
 ``` r
 f_magrittr <- function(x) {
-  u <- min(ceiling(sqrt(x)), x-1)
-  i <- 2
+  u <- min(ceiling(sqrt(x)), x-1L)
+  i <- 2L
   while(i<=u) {
     if((x %% i)==0) {
       i %>% return
     }
-    i <- i + 1
+    i <- i + 1L
   }
   NA_integer_
 }
@@ -817,13 +837,13 @@ Now suppose we tried the same thing with `wrapr` pipe and write `i %.>% return(.
 
 ``` r
 f_wrapr <- function(x) {
-  u <- min(ceiling(sqrt(x)), x-1)
-  i <- 2
+  u <- min(ceiling(sqrt(x)), x-1L)
+  i <- 2L
   while(i<=u) {
     if((x %% i)==0) {
       i %.>% return(.)
     }
-    i <- i + 1
+    i <- i + 1L
   }
   NA_integer_
 }
@@ -844,4 +864,4 @@ f_wrapr(35)
 Conclusion
 ----------
 
-`R` usually has more than one good way to perform tasks. In this case we talk about two methods of building pipelines in `R`. There are more (some of which are listed [here](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf)). We ask that in teaching pipeline methods in `R` to consider including at least a mention of the `wrapr` dot-pipe, as it is a significant alternative.
+`R` usually has more than one good way to perform tasks. In this case we talked about two methods of building pipelines in `R`: `magrittr` and `wrapr`. There are more methods (some of which are listed [here](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf)). Our preferred pipe is the `wrapr` dot-pipe, and in the of style academic priority we try to credit alternatives and share fair comparisons (as we have done here). Priority is important to respect (as in: `magrittr` is powerful, popular, came well before, and greatly influences `wrapr` dot-pipe), but it is not monopoly rights (for example: the [public CRAN release/announcement](http://www.win-vector.com/blog/2016/12/using-replyrlet-to-parameterize-dplyr-expressions/#comment-66361) of [`let()`](https://cran.r-project.org/web/packages/wrapr/vignettes/let.html), our popular and still preferred substitution methodology and originally part of `replyr`, predates the public [CRAN release](https://cran.r-project.org/src/contrib/Archive/rlang/)/[announcement](https://blog.rstudio.com/2017/04/13/dplyr-0-6-0-coming-soon/) of `rlang`/`tidyeval` code re-writing methods). In client work we use whatever style is most compatible with the client's work and needs, for example we feel it does not make sense to take a legacy `dplyr` project and attempt to switch the pipe notation late in the game (and one does not want to needlessly mix notations).
