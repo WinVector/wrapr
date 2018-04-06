@@ -124,52 +124,66 @@ library("seplyr")
 library("kableExtra")
 packageVersion("wrapr")
 
-escape_text <- function(txt) {
-  res <- vapply(txt, 
-         function(txti) {
-           txti <- paste(format(txti), collapse = " ")
-           nc <- nchar(txti)
-           chars <- vapply(seq_len(nc), 
-                           function(i) { 
-                             substr(txti, i, i)
-                           }, character(1))
-           mp <- c("!"="&#33;", "\""="&quot;", "#"="&#35;", "$"="&#36;",
-                   "%"="&#37;", "&"="&amp;", "'"="&apos;", "("="&#40;", ")"="&#41;",
-                   "*"="&#42;", "+"="&#43;", ","="&#44;", "-"="&#45;", "."="&#46;",
-                   "/"="&#47;", ":"="&#58;", ";"="&#59;", "<"="&lt;", "="="&#61;",
-                   ">"="&gt;", "?"="&#63;", "@"="&#64;", "["="&#91;", "\\"="&#92;",
-                   "]"="&#93;", "^"="&#94;", "_"="&#95;", "`"="&#96;", "{"="&#123;",
-                   "|"="&#124;", "}"="&#125;", "~"="&#126;")
-           chars[chars %in% names(mp)] <- mp[chars[chars %in% names(mp)]]
-           names(chars) <- NULL
-           paste(chars, collapse = "")
-         }, character(1))
-  names(res) <- NULL
-  res
-}
-
 work_examples <- function(exprs, target) {
-  eval_expr <- function(expr) {
-    r <- tryCatch( 
-      eval(parse(text = expr)),
-      error = function(e) { 
-        e$message
-      }
-    )
-    if((!is.numeric(r)) || (length(r)!=1)) {
-      r <- paste(format(r), collapse = " ")
-      r <- escape_text(r)
-    }
-    r
+  escape_text <- function(txt) {
+    res <- vapply(txt, 
+                  function(txti) {
+                    txti <- paste(format(txti), collapse = " ")
+                    nc <- nchar(txti)
+                    chars <- vapply(seq_len(nc), 
+                                    function(i) { 
+                                      substr(txti, i, i)
+                                    }, character(1))
+                    mp <- c("!"="&#33;", "\""="&quot;", 
+                            "#"="&#35;", "$"="&#36;",
+                            "%"="&#37;", "&"="&amp;", 
+                            "'"="&apos;", "("="&#40;", ")"="&#41;",
+                            "*"="&#42;", "+"="&#43;", 
+                            ","="&#44;", "-"="&#45;", "."="&#46;",
+                            "/"="&#47;", ":"="&#58;", 
+                            ";"="&#59;", "<"="&lt;", "="="&#61;",
+                            ">"="&gt;", "?"="&#63;", 
+                            "@"="&#64;", "["="&#91;", "\\"="&#92;",
+                            "]"="&#93;", "^"="&#94;", 
+                            "_"="&#95;", "`"="&#96;", "{"="&#123;",
+                            "|"="&#124;", "}"="&#125;", "~"="&#126;")
+                    chars[chars %in% names(mp)] <- 
+                      mp[chars[chars %in% names(mp)]]
+                    names(chars) <- NULL
+                    paste(chars, collapse = "")
+                  }, character(1))
+    names(res) <- NULL
+    res
+  }
+  
+  eval_expr <- function(exprs) {
+    res <- lapply(exprs,
+                  function(expr) {
+                    r <- tryCatch( 
+                      eval(parse(text = expr)),
+                      error = function(e) { 
+                        e$message
+                      }
+                    )
+                    if((!is.numeric(r)) || (length(r)!=1)) {
+                      r <- paste(format(r), collapse = " ")
+                      r <- escape_text(r)
+                    }
+                    r
+                  })
+    names(res) <- NULL
+    res
   }
   
   checcol <- function(col) {
-    vapply(col, 
+    res <- vapply(col, 
            function(vi) {
              is.numeric(vi) && 
                (length(vi)==1) && 
                (abs(vi-target)<1.0e-5)
            }, logical(1))
+    names(res) <- NULL
+    res
   }
   
   evals <- data.frame(
@@ -185,8 +199,7 @@ work_examples <- function(exprs, target) {
   
   # some transform steps
   . <- evals
-  .$magrittr_res <- lapply(.$magrittr_expr, 
-                               eval_expr)
+  .$magrittr_res <- eval_expr(.$magrittr_expr)
   .$magrittr_good <- checcol(.$magrittr_res)
   .$magrittr_res <- vapply(.$magrittr_res,
                                function(vi) {
@@ -197,8 +210,7 @@ work_examples <- function(exprs, target) {
               "html", 
               color = "darkgreen", 
               bold = TRUE)
-  .$wrapr_res <- lapply(.$wrapr_expr, 
-                            eval_expr)
+  .$wrapr_res <- eval_expr(.$wrapr_expr)
   .$wrapr_good <- checcol(.$wrapr_res)
   .$wrapr_res <- vapply(.$wrapr_res,
                             function(vi) {
