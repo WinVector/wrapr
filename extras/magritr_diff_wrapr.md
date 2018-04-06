@@ -649,6 +649,8 @@ lst &lt;- list(h = sin); 5 %.&gt;% lst\[\['h'\]\](.)
 </tr>
 </tbody>
 </table>
+.
+
 Analysis
 --------
 

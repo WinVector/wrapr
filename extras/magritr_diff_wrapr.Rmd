@@ -274,6 +274,7 @@ c("lst <- list(h = sin); 5 PIPE_GLYPH lst$h",
   fix(.)
 ```
 
+.
 
 ## Analysis
 
