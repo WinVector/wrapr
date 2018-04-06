@@ -198,33 +198,26 @@ work_examples <- function(exprs, target) {
     stringsAsFactors = FALSE)
   
   # some transform steps
-  . <- evals
-  .$magrittr_res <- eval_expr(.$magrittr_expr)
-  .$magrittr_good <- checcol(.$magrittr_res)
-  .$magrittr_res <- vapply(.$magrittr_res,
-                               function(vi) {
-                                 format(vi, digits = 3)
-                               }, character(1))
-  .$magrittr_res[.$magrittr_good] <- 
-    cell_spec(.$magrittr_res[.$magrittr_good],
-              "html", 
-              color = "darkgreen", 
-              bold = TRUE)
-  .$wrapr_res <- eval_expr(.$wrapr_expr)
-  .$wrapr_good <- checcol(.$wrapr_res)
-  .$wrapr_res <- vapply(.$wrapr_res,
-                            function(vi) {
-                              format(vi, digits = 3)
-                            }, character(1))
-  .$wrapr_res[.$wrapr_good] <- 
-    cell_spec(.$wrapr_res[.$wrapr_good],
-              "html", 
-              color = "darkgreen", 
-              bold = TRUE)
-  evals <- .
-
-  evals %.>%
-    mutate_nse(.,
+  evals <- evals %.>%
+    mutate_nse(., 
+               magrittr_res = eval_expr(magrittr_expr),
+               wrapr_res = eval_expr(wrapr_expr),
+               magrittr_good = checcol(magrittr_res),
+               wrapr_good = checcol(wrapr_res),
+               magrittr_res = format(magrittr_res, digits = 3),
+               wrapr_res = format(wrapr_res, digits = 3),
+               magrittr_res = ifelse(magrittr_good,
+                                     cell_spec(magrittr_res,
+                                               "html", 
+                                               color = "darkgreen", 
+                                               bold = TRUE),
+                                     magrittr_res),
+               wrapr_res = ifelse(wrapr_good,
+                                  cell_spec(wrapr_res,
+                                            "html", 
+                                            color = "darkgreen", 
+                                            bold = TRUE),
+                                  wrapr_res),
                magrittr_expr =  escape_text(magrittr_expr),
                wrapr_expr =  escape_text(wrapr_expr)) %.>%
     select_se(., qc(magrittr_expr, magrittr_res,
