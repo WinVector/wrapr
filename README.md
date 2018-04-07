@@ -12,7 +12,7 @@ Primary `wrapr` services include:
 -   `let()` (let block)
 -   `%.>%` (dot arrow pipe)
 -   `:=` (named map builder)
--   `()` (anonymous function builder)
+-   `λ()` (anonymous function builder)
 -   `DebugFnW()` (function debug wrappers)
 
 [`let()`](https://winvector.github.io/wrapr/articles/let.html)
@@ -67,18 +67,18 @@ let(
  #  [1] 14
 ```
 
-Please see `vignette('let', package='wrapr')` for more examples. Some formal documentation can be found [here](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf). For working with `dplyr` `0.7.*` we suggest also taking a look at an alternate approach called [`seplyr`](https://github.com/WinVector/seplyr/blob/master/README.md).
+Please see `vignette('let', package='wrapr')` for more examples. Some formal documentation can be found [here](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf).
 
-[`%.>%` (dot arrow pipe)](https://winvector.github.io/wrapr/articles/dot_pipe.html)
------------------------------------------------------------------------------------
+For working with `dplyr` `0.7.*` we strongly suggest `wrapr::let()` (or even an alternate approach called [`seplyr`](https://github.com/WinVector/seplyr/blob/master/README.md)).
 
-`%.>%` dot arrow pipe is a strict pipe with intended semantics:
+[`%.>%` (dot pipe or dot arrow)](https://winvector.github.io/wrapr/articles/dot_pipe.html)
+------------------------------------------------------------------------------------------
 
-> "`a %.>% b`" is to be treated as if the user had written "`{ . <- a; b };`" with "`%.>%`" being treated as left-associative.
+`%.>%` dot arrow pipe is a pipe with intended semantics:
 
-That is: `%.>%` does not alter any function arguments that are not explicitly named. `%.>%` is designed to be explicit and simple.
+> "`a %.>% b`" is to be treated *approximately* as if the user had written "`{ . <- a; b };`" with "`%.>%`" being treated as left-associative.
 
-The effect looks is show below.
+Other `R` pipes include [`magrittr`](https://CRAN.R-project.org/package=magrittr) and [`pipeR`](https://CRAN.R-project.org/package=pipeR).
 
 The following two expressions should be equivalent:
 
@@ -122,8 +122,6 @@ The notation is also very regular as we show below.
 
 Regularity can be a *big* advantage in teaching and comprehension. Please see ["In Praise of Syntactic Sugar"](http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/) for more details. Some formal documentation can be found [here](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf).
 
-There are some checks and accommodations to help make things appear regular, and a few exceptions.
-
 <ul>
 <li>
 Obvious oblivious right-hand sides are rejected. Pipelines are meant to move values through a sequence of transforms, and not just for side-effects. Example: `5 %.>% 6` deliberately stops as `6` is a right-hand side that obviously does not use its incoming value. This check is only applied to values, not functions on the right-hand side.
@@ -132,7 +130,7 @@ Obvious oblivious right-hand sides are rejected. Pipelines are meant to move val
 Trying to pipe into a an "zero argument function evaluation expression" such as `sin()` is prohibited as it looks too much like the user declaring `sin()` takes no arguments. One must pipe into either a function, function name, or an non-trivial expression (such as `sin(.)`). A useful error message is returned to the user: `wrapr::pipe does not allow direct piping into a no-argument function call expression (such as "sin()" please use sin(.))`.
 </li>
 <li>
-Certain reserved words can not be piped into. One example is `5 %.>% return(.)` is prohibited as the obvious pipe implementation would not actually escape from user functions as users may intend.
+Some reserved words can not be piped into. One example is `5 %.>% return(.)` is prohibited as the obvious pipe implementation would not actually escape from user functions as users may intend.
 </li>
 <li>
 Obvious de-references (such as `$`, `::`, `@`, and a few more) on the right-hand side are treated performed (example: `5 %.>% base::sin(.)`).
@@ -179,7 +177,7 @@ c('a' := 'x', 'b' := 'y')
  #  "x" "y"
 ```
 
-The named map builder is [used to make `seplyr` notation much more manageable](https://winvector.github.io/seplyr/articles/named_map_builder.html).
+The named map builder is [designed to synergize with `seplyr`](https://winvector.github.io/seplyr/articles/named_map_builder.html).
 
 [`λ()` (anonymous function builder)](https://winvector.github.io/wrapr/articles/lambda.html)
 --------------------------------------------------------------------------------------------

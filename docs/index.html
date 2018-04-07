@@ -117,7 +117,7 @@
 <li>
 <code>:=</code> (named map builder)</li>
 <li>
-<code>()</code> (anonymous function builder)</li>
+<code>λ()</code> (anonymous function builder)</li>
 <li>
 <code><a href="reference/DebugFnW.html">DebugFnW()</a></code> (function debug wrappers)</li>
 </ul>
@@ -165,18 +165,18 @@ a &lt;-<span class="st"> </span><span class="dv">7</span>
  <span class="co">#      a + a</span>
  <span class="co">#  }</span>
  <span class="co">#  [1] 14</span></code></pre></div>
-<p>Please see <code>vignette('let', package='wrapr')</code> for more examples. Some formal documentation can be found <a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf">here</a>. For working with <code>dplyr</code> <code>0.7.*</code> we suggest also taking a look at an alternate approach called <a href="https://github.com/WinVector/seplyr/blob/master/README.md"><code>seplyr</code></a>.</p>
+<p>Please see <code><a href="https://cran.rstudio.com/web/packages/wrapr/vignettes/let.html">vignette('let', package='wrapr')</a></code> for more examples. Some formal documentation can be found <a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf">here</a>.</p>
+<p>For working with <code>dplyr</code> <code>0.7.*</code> we strongly suggest <code><a href="http://www.rdocumentation.org/packages/wrapr/topics/let">wrapr::let()</a></code> (or even an alternate approach called <a href="https://github.com/WinVector/seplyr/blob/master/README.md"><code>seplyr</code></a>).</p>
 </div>
-<div id="dot-arrow-pipe" class="section level2">
+<div id="dot-pipe-or-dot-arrow" class="section level2">
 <h2 class="hasAnchor">
-<a href="#dot-arrow-pipe" class="anchor"></a><a href="https://winvector.github.io/wrapr/articles/dot_pipe.html"><code>%.&gt;%</code> (dot arrow pipe)</a>
+<a href="#dot-pipe-or-dot-arrow" class="anchor"></a><a href="https://winvector.github.io/wrapr/articles/dot_pipe.html"><code>%.&gt;%</code> (dot pipe or dot arrow)</a>
 </h2>
-<p><code>%.&gt;%</code> dot arrow pipe is a strict pipe with intended semantics:</p>
+<p><code>%.&gt;%</code> dot arrow pipe is a pipe with intended semantics:</p>
 <blockquote>
-<p>“<code>a %.&gt;% b</code>” is to be treated as if the user had written “<code>{ . &lt;- a; b };</code>” with “<code>%.&gt;%</code>” being treated as left-associative.</p>
+<p>“<code>a %.&gt;% b</code>” is to be treated <em>approximately</em> as if the user had written “<code>{ . &lt;- a; b };</code>” with “<code>%.&gt;%</code>” being treated as left-associative.</p>
 </blockquote>
-<p>That is: <code>%.&gt;%</code> does not alter any function arguments that are not explicitly named. <code>%.&gt;%</code> is designed to be explicit and simple.</p>
-<p>The effect looks is show below.</p>
+<p>Other <code>R</code> pipes include <a href="https://CRAN.R-project.org/package=magrittr"><code>magrittr</code></a> and <a href="https://CRAN.R-project.org/package=pipeR"><code>pipeR</code></a>.</p>
 <p>The following two expressions should be equivalent:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cos</span>(<span class="kw">exp</span>(<span class="kw">sin</span>(<span class="dv">4</span>)))
  <span class="co">#  [1] 0.8919465</span>
@@ -206,7 +206,6 @@ a &lt;-<span class="st"> </span><span class="dv">7</span>
 <span class="dv">1</span><span class="op">:</span><span class="dv">4</span> <span class="op">%.&gt;%</span><span class="st"> </span>( .<span class="op">^</span><span class="dv">2</span> )
  <span class="co">#  [1]  1  4  9 16</span></code></pre></div>
 <p>Regularity can be a <em>big</em> advantage in teaching and comprehension. Please see <a href="http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/">“In Praise of Syntactic Sugar”</a> for more details. Some formal documentation can be found <a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf">here</a>.</p>
-<p>There are some checks and accommodations to help make things appear regular, and a few exceptions.</p>
 <ul>
 <li>
 Obvious oblivious right-hand sides are rejected. Pipelines are meant to move values through a sequence of transforms, and not just for side-effects. Example: <code>5 %.&gt;% 6</code> deliberately stops as <code>6</code> is a right-hand side that obviously does not use its incoming value. This check is only applied to values, not functions on the right-hand side.
@@ -215,7 +214,7 @@ Obvious oblivious right-hand sides are rejected. Pipelines are meant to move val
 Trying to pipe into a an “zero argument function evaluation expression” such as <code>sin()</code> is prohibited as it looks too much like the user declaring <code>sin()</code> takes no arguments. One must pipe into either a function, function name, or an non-trivial expression (such as <code>sin(.)</code>). A useful error message is returned to the user: <code>wrapr::pipe does not allow direct piping into a no-argument function call expression (such as "sin()" please use sin(.))</code>.
 </li>
 <li>
-Certain reserved words can not be piped into. One example is <code>5 %.&gt;% return(.)</code> is prohibited as the obvious pipe implementation would not actually escape from user functions as users may intend.
+Some reserved words can not be piped into. One example is <code>5 %.&gt;% return(.)</code> is prohibited as the obvious pipe implementation would not actually escape from user functions as users may intend.
 </li>
 <li>
 Obvious de-references (such as <code>$</code>, <code>::</code>, <code>@</code>, and a few more) on the right-hand side are treated performed (example: <code>5 %.&gt;% base::sin(.)</code>).
@@ -252,7 +251,7 @@ name <span class="op">:</span><span class="er">=</span><span class="st"> 'newBin
 <span class="kw">c</span>(<span class="st">'a'</span> <span class="op">:</span><span class="er">=</span><span class="st"> 'x'</span>, <span class="st">'b'</span> <span class="op">:</span><span class="er">=</span><span class="st"> 'y'</span>)
  <span class="co">#    a   b </span>
  <span class="co">#  "x" "y"</span></code></pre></div>
-<p>The named map builder is <a href="https://winvector.github.io/seplyr/articles/named_map_builder.html">used to make <code>seplyr</code> notation much more manageable</a>.</p>
+<p>The named map builder is <a href="https://winvector.github.io/seplyr/articles/named_map_builder.html">designed to synergize with <code>seplyr</code></a>.</p>
 </div>
 <div id="-anonymous-function-builder" class="section level2">
 <h2 class="hasAnchor">
@@ -271,7 +270,7 @@ wrapr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentati
 <h2 class="hasAnchor">
 <a href="#debugfnw" class="anchor"></a><a href="https://winvector.github.io/wrapr/articles/DebugFnW.html"><code><a href="reference/DebugFnW.html">DebugFnW()</a></code></a>
 </h2>
-<p><code><a href="reference/DebugFnW.html">DebugFnW()</a></code> wraps a function for debugging. If the function throws an exception the execution context (function arguments, function name, and more) is captured and stored for the user. The function call can then be reconstituted, inspected and even re-run with a step-debugger. Please see our <a href="https://youtu.be/-P9UzQuJSH8?list=PLAKBwakacHbQT51nPHex1on3YNCCmggZA">free debugging video series</a> and <code>vignette('DebugFnW', package='wrapr')</code> for examples.</p>
+<p><code><a href="reference/DebugFnW.html">DebugFnW()</a></code> wraps a function for debugging. If the function throws an exception the execution context (function arguments, function name, and more) is captured and stored for the user. The function call can then be reconstituted, inspected and even re-run with a step-debugger. Please see our <a href="https://youtu.be/-P9UzQuJSH8?list=PLAKBwakacHbQT51nPHex1on3YNCCmggZA">free debugging video series</a> and <code><a href="https://cran.rstudio.com/web/packages/wrapr/vignettes/DebugFnW.html">vignette('DebugFnW', package='wrapr')</a></code> for examples.</p>
 </div>
 <div id="installing" class="section level2">
 <h2 class="hasAnchor">
