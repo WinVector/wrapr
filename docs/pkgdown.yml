@@ -1,0 +1,15 @@
+pandoc: 1.19.2.1
+pkgdown: 0.1.0.9000
+pkgdown_sha: a7aa75eeb866e0e0c891785d8d7bc0c0d2294c36
+articles:
+  CornerCases: CornerCases.html
+  DebugFnW: DebugFnW.html
+  FrameTools: FrameTools.html
+  Named_Arguments: Named_Arguments.html
+  SubstitutionModes: SubstitutionModes.html
+  dot_pipe: dot_pipe.html
+  lambda: lambda.html
+  let: let.html
+  named_map_builder: named_map_builder.html
+  wrapr_applicable: wrapr_applicable.html
+

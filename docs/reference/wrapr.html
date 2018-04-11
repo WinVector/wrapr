@@ -18,13 +18,27 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+<meta property="og:title" content="<code>wrapr</code>: Wrap R Functions for Debugging and Parametric Programming — wrapr" />
+
+<meta property="og:description" content="Provides DebugFnW() to capture function context on error for
+debugging, and let() which converts non-standard evaluation interfaces to
+parametric standard evaluation interfaces.
+DebugFnW() captures the calling function and arguments prior to the
+call causing the exception, while
+the classic options(error=dump.frames) form captures at the
+moment of the exception
+itself (thus function arguments may not be at their starting values).
+let() rebinds (possibly unbound) names to names." />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -32,6 +46,8 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
 
 
   </head>
@@ -47,8 +63,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">wrapr</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">wrapr</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.4.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -74,10 +94,16 @@
       <a href="../articles/DebugFnW.html">Debug Vignette</a>
     </li>
     <li>
-      <a href="../articles/dot_pipe.html">Dot Pipe</a>
+      <a href="../articles/FrameTools.html">Frame Tools</a>
     </li>
     <li>
-      <a href="../articles/FrameTools.html">Frame Tools</a>
+      <a href="../articles/Named_Arguments.html">Named Arguments</a>
+    </li>
+    <li>
+      <a href="../articles/SubstitutionModes.html">Substitution Modes</a>
+    </li>
+    <li>
+      <a href="../articles/dot_pipe.html">Dot Pipe</a>
     </li>
     <li>
       <a href="../articles/lambda.html">lambda Function Builder</a>
@@ -86,13 +112,7 @@
       <a href="../articles/let.html">Let</a>
     </li>
     <li>
-      <a href="../articles/Named_Arguments.html">Named Arguments</a>
-    </li>
-    <li>
       <a href="../articles/named_map_builder.html">Named Map Builder</a>
-    </li>
-    <li>
-      <a href="../articles/SubstitutionModes.html">Substitution Modes</a>
     </li>
     <li>
       <a href="../articles/wrapr_applicable.html">wrapr_applicable</a>
@@ -100,7 +120,7 @@
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -109,6 +129,7 @@
   <a href="http://www.win-vector.com/">Sponsor: Win-Vector LLC</a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -116,10 +137,12 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1><code>wrapr</code>: Wrap R Functions for Debugging and Parametric Programming</h1>
+    <small>Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/package.R'><code>R/package.R</code></a></small>
+    <div class="hidden name"><code>wrapr.Rd</code></div>
     </div>
 
     
@@ -138,8 +161,8 @@ itself (thus function arguments may not be at their starting values).
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>For more information:</p><ul>
-<li><p><code><a href='https://cran.rstudio.com/web/packages/wrapr/vignettes/DebugFnW.html'>vignette('DebugFnW', package='wrapr')</a></code></p></li>
-<li><p><code><a href='https://cran.rstudio.com/web/packages/wrapr/vignettes/let.html'>vignette('let', package='wrapr')</a></code></p></li>
+<li><p><code><a href='../articles/DebugFnW.html'>vignette('DebugFnW', package='wrapr')</a></code></p></li>
+<li><p><code><a href='../articles/let.html'>vignette('let', package='wrapr')</a></code></p></li>
 <li><p><code>vignette(package='wrapr')</code></p></li>
 <li><p>Website: <a href='https://github.com/WinVector/wrapr'>https://github.com/WinVector/wrapr</a></p></li>
 <li><p><code>let</code> video: <a href='https://youtu.be/iKLGxzzm9Hk?list=PLAKBwakacHbQp_Z66asDnjn-0qttTO-o9'>https://youtu.be/iKLGxzzm9Hk?list=PLAKBwakacHbQp_Z66asDnjn-0qttTO-o9</a></p></li>
@@ -164,11 +187,14 @@ itself (thus function arguments may not be at their starting values).
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

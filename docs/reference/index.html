@@ -18,13 +18,16 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+<meta property="og:title" content="Function reference" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -32,6 +35,8 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
 
 
   </head>
@@ -47,8 +52,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">wrapr</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">wrapr</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.4.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -74,10 +83,16 @@
       <a href="../articles/DebugFnW.html">Debug Vignette</a>
     </li>
     <li>
-      <a href="../articles/dot_pipe.html">Dot Pipe</a>
+      <a href="../articles/FrameTools.html">Frame Tools</a>
     </li>
     <li>
-      <a href="../articles/FrameTools.html">Frame Tools</a>
+      <a href="../articles/Named_Arguments.html">Named Arguments</a>
+    </li>
+    <li>
+      <a href="../articles/SubstitutionModes.html">Substitution Modes</a>
+    </li>
+    <li>
+      <a href="../articles/dot_pipe.html">Dot Pipe</a>
     </li>
     <li>
       <a href="../articles/lambda.html">lambda Function Builder</a>
@@ -86,13 +101,7 @@
       <a href="../articles/let.html">Let</a>
     </li>
     <li>
-      <a href="../articles/Named_Arguments.html">Named Arguments</a>
-    </li>
-    <li>
       <a href="../articles/named_map_builder.html">Named Map Builder</a>
-    </li>
-    <li>
-      <a href="../articles/SubstitutionModes.html">Substitution Modes</a>
     </li>
     <li>
       <a href="../articles/wrapr_applicable.html">wrapr_applicable</a>
@@ -100,7 +109,7 @@
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -109,6 +118,7 @@
   <a href="http://www.win-vector.com/">Sponsor: Win-Vector LLC</a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -116,250 +126,245 @@
       
       </header>
 
-      <div class="row">
-  <div class="col-md-9">
+<div class="row">
+  <div class="contents col-md-9">
     <div class="page-header">
-      <h1>
-        Reference
-        <small>version&nbsp;1.4.1</small>
-      </h1>
+      <h1>Reference</h1>
     </div>
 
-    <div class="contents">
-      <table class="ref-index">
+    <table class="ref-index">
 
-      <colgroup>
-        <col class="alias" />
-        <col class="title" />
-      </colgroup>
+    <colgroup>
+      <col class="alias" />
+      <col class="title" />
+    </colgroup>
 
-      <tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-            <p class="section-desc"></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="add_name_column.html">add_name_column</a></code> </p>
-          </td>
-          <td><p>Add list name as a column to a list of data.frames.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="build_frame.html">build_frame</a></code> </p>
-          </td>
-          <td><p>Build a (non-empty) data.frame.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="buildNameCallback.html">buildNameCallback</a></code> </p>
-          </td>
-          <td><p>Build a custom writeback function that writes state into a user named variable.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="DebugFn.html">DebugFn</a></code> </p>
-          </td>
-          <td><p>Capture arguments of exception throwing function call for later debugging.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="DebugFnE.html">DebugFnE</a></code> </p>
-          </td>
-          <td><p>Capture arguments and environment of exception throwing function call for later debugging.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="DebugFnW.html">DebugFnW</a></code> </p>
-          </td>
-          <td><p>Wrap a function for debugging.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="DebugFnWE.html">DebugFnWE</a></code> </p>
-          </td>
-          <td><p>Wrap function to capture arguments and environment of exception throwing function call for later debugging.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="DebugPrintFn.html">DebugPrintFn</a></code> </p>
-          </td>
-          <td><p>Capture arguments of exception throwing function call for later debugging.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="DebugPrintFnE.html">DebugPrintFnE</a></code> </p>
-          </td>
-          <td><p>Capture arguments and environment of exception throwing function call for later debugging.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="defineLambda.html">defineLambda</a></code> </p>
-          </td>
-          <td><p>Define lambda function building function.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="draw_frame.html">draw_frame</a></code> </p>
-          </td>
-          <td><p>Render a data.frame in build_frame format.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="grapes-.-greater-than-grapes.html">%.&gt;%</a></code> </p>
-          </td>
-          <td><p>Pipe operator ("dot arrow").</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="grapes-greater-than-.-grapes.html">%&gt;.%</a></code> </p>
-          </td>
-          <td><p>Pipe operator ("to dot").</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="grepdf.html">grepdf</a></code> </p>
-          </td>
-          <td><p>Grep for column names from a <code>data.frame</code></p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="invert_perm.html">invert_perm</a></code> </p>
-          </td>
-          <td><p>Invert a permuation.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="lambda.html">lambda</a></code> </p>
-          </td>
-          <td><p>Build an anonymous function.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="let.html">let</a></code> </p>
-          </td>
-          <td><p>Execute expr with name substitutions specified in alias.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="makeFunction_se.html">makeFunction_se</a></code> </p>
-          </td>
-          <td><p>Build an anonymous function.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="map_to_char.html">map_to_char</a></code> </p>
-          </td>
-          <td><p>format a map.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="map_upper.html">map_upper</a></code> </p>
-          </td>
-          <td><p>Map up-cased symbol names to referenced values if those values are string scalars (else throw).</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="mapsyms.html">mapsyms</a></code> </p>
-          </td>
-          <td><p>Map symbol names to referenced values if those values are string scalars (else throw).</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="match_order.html">match_order</a></code> </p>
-          </td>
-          <td><p>Match one order to another.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="mk_tmp_name_source.html">mk_tmp_name_source</a></code> </p>
-          </td>
-          <td><p>Produce a temp name generator with a given prefix.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="named_map_builder.html">named_map_builder</a></code> <code><a href="named_map_builder.html">:=</a></code> </p>
-          </td>
-          <td><p>Named map builder.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="pipe_step.default.html">pipe_step</a></code> </p>
-          </td>
-          <td><p>Pipe step operator</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="pipe_step.html">pipe_step</a></code> </p>
-          </td>
-          <td><p>Pipe step operator</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="qae.html">qae</a></code> </p>
-          </td>
-          <td><p>Quote assignment expressions (name = expr, and name := expr).</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="qc.html">qc</a></code> </p>
-          </td>
-          <td><p>Quoting version of c() array concatinator.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="qchar_frame.html">qchar_frame</a></code> </p>
-          </td>
-          <td><p>Build a (non-empty) quoted data.frame.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="qe.html">qe</a></code> </p>
-          </td>
-          <td><p>Quote expressions.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="qs.html">qs</a></code> </p>
-          </td>
-          <td><p>Quote a string.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="restrictToNameAssignments.html">restrictToNameAssignments</a></code> </p>
-          </td>
-          <td><p>Restrict an alias mapping list to things that look like name assignments</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="stop_if_dot_args.html">stop_if_dot_args</a></code> </p>
-          </td>
-          <td><p>Stop with message if dot_args is a non-trivial list.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapr_function.default.html">wrapr_function</a></code> </p>
-          </td>
-          <td><p>Wrapr function.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapr_function.html">wrapr_function</a></code> </p>
-          </td>
-          <td><p>Wrapr function.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="wrapr.html">wrapr</a></code> </p>
-          </td>
-          <td><p><code>wrapr</code>: Wrap R Functions for Debugging and Parametric Programming</p></td>
-        </tr>
-      </tbody>
-      </table>
-    </div>
+    <tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        <!--  -->
+        <td>
+          <p><code><a href="DebugFn.html">DebugFn()</a></code> </p>
+        </td>
+        <td><p>Capture arguments of exception throwing function call for later debugging.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="DebugFnE.html">DebugFnE()</a></code> </p>
+        </td>
+        <td><p>Capture arguments and environment of exception throwing function call for later debugging.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="DebugFnW.html">DebugFnW()</a></code> </p>
+        </td>
+        <td><p>Wrap a function for debugging.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="DebugFnWE.html">DebugFnWE()</a></code> </p>
+        </td>
+        <td><p>Wrap function to capture arguments and environment of exception throwing function call for later debugging.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="DebugPrintFn.html">DebugPrintFn()</a></code> </p>
+        </td>
+        <td><p>Capture arguments of exception throwing function call for later debugging.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="DebugPrintFnE.html">DebugPrintFnE()</a></code> </p>
+        </td>
+        <td><p>Capture arguments and environment of exception throwing function call for later debugging.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="add_name_column.html">add_name_column()</a></code> </p>
+        </td>
+        <td><p>Add list name as a column to a list of data.frames.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="buildNameCallback.html">buildNameCallback()</a></code> </p>
+        </td>
+        <td><p>Build a custom writeback function that writes state into a user named variable.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="build_frame.html">build_frame()</a></code> </p>
+        </td>
+        <td><p>Build a (non-empty) data.frame.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="defineLambda.html">defineLambda()</a></code> </p>
+        </td>
+        <td><p>Define lambda function building function.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="draw_frame.html">draw_frame()</a></code> </p>
+        </td>
+        <td><p>Render a data.frame in build_frame format.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="grapes-.-greater-than-grapes.html">`%.>%`()</a></code> </p>
+        </td>
+        <td><p>Pipe operator ("dot arrow").</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="grapes-greater-than-.-grapes.html">`%>.%`()</a></code> </p>
+        </td>
+        <td><p>Pipe operator ("to dot").</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="grepdf.html">grepdf()</a></code> </p>
+        </td>
+        <td><p>Grep for column names from a <code>data.frame</code></p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="invert_perm.html">invert_perm()</a></code> </p>
+        </td>
+        <td><p>Invert a permuation.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="lambda.html">lambda()</a></code> </p>
+        </td>
+        <td><p>Build an anonymous function.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="let.html">let()</a></code> </p>
+        </td>
+        <td><p>Execute expr with name substitutions specified in alias.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="makeFunction_se.html">makeFunction_se()</a></code> </p>
+        </td>
+        <td><p>Build an anonymous function.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="map_to_char.html">map_to_char()</a></code> </p>
+        </td>
+        <td><p>format a map.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="map_upper.html">map_upper()</a></code> </p>
+        </td>
+        <td><p>Map up-cased symbol names to referenced values if those values are string scalars (else throw).</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="mapsyms.html">mapsyms()</a></code> </p>
+        </td>
+        <td><p>Map symbol names to referenced values if those values are string scalars (else throw).</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="match_order.html">match_order()</a></code> </p>
+        </td>
+        <td><p>Match one order to another.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="mk_tmp_name_source.html">mk_tmp_name_source()</a></code> </p>
+        </td>
+        <td><p>Produce a temp name generator with a given prefix.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="named_map_builder.html">named_map_builder()</a></code> <code><a href="named_map_builder.html">`:=`()</a></code> </p>
+        </td>
+        <td><p>Named map builder.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="pipe_step.html">pipe_step()</a></code> </p>
+        </td>
+        <td><p>Pipe step operator</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="pipe_step.default.html">pipe_step(<i>&lt;default&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Pipe step operator</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="qae.html">qae()</a></code> </p>
+        </td>
+        <td><p>Quote assignment expressions (name = expr, and name := expr).</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="qc.html">qc()</a></code> </p>
+        </td>
+        <td><p>Quoting version of c() array concatinator.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="qchar_frame.html">qchar_frame()</a></code> </p>
+        </td>
+        <td><p>Build a (non-empty) quoted data.frame.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="qe.html">qe()</a></code> </p>
+        </td>
+        <td><p>Quote expressions.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="qs.html">qs()</a></code> </p>
+        </td>
+        <td><p>Quote a string.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="restrictToNameAssignments.html">restrictToNameAssignments()</a></code> </p>
+        </td>
+        <td><p>Restrict an alias mapping list to things that look like name assignments</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="stop_if_dot_args.html">stop_if_dot_args()</a></code> </p>
+        </td>
+        <td><p>Stop with message if dot_args is a non-trivial list.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapr.html">wrapr</a></code> </p>
+        </td>
+        <td><p><code>wrapr</code>: Wrap R Functions for Debugging and Parametric Programming</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapr_function.html">wrapr_function()</a></code> </p>
+        </td>
+        <td><p>Wrapr function.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="wrapr_function.default.html">wrapr_function(<i>&lt;default&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Wrapr function.</p></td>
+      </tr>
+    </tbody>
+    </table>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -376,11 +381,14 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

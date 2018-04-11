@@ -18,13 +18,20 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+<meta property="og:title" content="Wrap function to capture arguments and environment of exception throwing function call for later debugging. — DebugFnWE" />
+
+<meta property="og:description" content="Wrap fn, so it will save arguments and environment on failure.
+Please see: vignette("DebugFnW", package="wrapr")." />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -32,6 +39,8 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
 
 
   </head>
@@ -47,8 +56,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">wrapr</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">wrapr</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.4.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -74,10 +87,16 @@
       <a href="../articles/DebugFnW.html">Debug Vignette</a>
     </li>
     <li>
-      <a href="../articles/dot_pipe.html">Dot Pipe</a>
+      <a href="../articles/FrameTools.html">Frame Tools</a>
     </li>
     <li>
-      <a href="../articles/FrameTools.html">Frame Tools</a>
+      <a href="../articles/Named_Arguments.html">Named Arguments</a>
+    </li>
+    <li>
+      <a href="../articles/SubstitutionModes.html">Substitution Modes</a>
+    </li>
+    <li>
+      <a href="../articles/dot_pipe.html">Dot Pipe</a>
     </li>
     <li>
       <a href="../articles/lambda.html">lambda Function Builder</a>
@@ -86,13 +105,7 @@
       <a href="../articles/let.html">Let</a>
     </li>
     <li>
-      <a href="../articles/Named_Arguments.html">Named Arguments</a>
-    </li>
-    <li>
       <a href="../articles/named_map_builder.html">Named Map Builder</a>
-    </li>
-    <li>
-      <a href="../articles/SubstitutionModes.html">Substitution Modes</a>
     </li>
     <li>
       <a href="../articles/wrapr_applicable.html">wrapr_applicable</a>
@@ -100,7 +113,7 @@
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -109,6 +122,7 @@
   <a href="http://www.win-vector.com/">Sponsor: Win-Vector LLC</a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -116,20 +130,22 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Wrap function to capture arguments and environment of exception throwing function call for later debugging.</h1>
+    <small>Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/DebugFn.R'><code>R/DebugFn.R</code></a></small>
+    <div class="hidden name"><code>DebugFnWE.Rd</code></div>
     </div>
 
     
     <p>Wrap fn, so it will save arguments and environment on failure.
-Please see: <code><a href='https://cran.rstudio.com/web/packages/wrapr/vignettes/DebugFnW.html'>vignette("DebugFnW", package="wrapr")</a></code>.</p>
+Please see: <code><a href='../articles/DebugFnW.html'>vignette("DebugFnW", package="wrapr")</a></code>.</p>
     
 
     <pre class="usage"><span class='fu'>DebugFnWE</span>(<span class='no'>saveDest</span>, <span class='no'>fn</span>, <span class='no'>...</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -152,8 +168,8 @@ Please see: <code><a href='https://cran.rstudio.com/web/packages/wrapr/vignettes
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><code><a href='http://www.rdocumentation.org/packages/utils/topics/debugger'>dump.frames</a></code>, <code><a href='DebugFn.html'>DebugFn</a></code>, <code><a href='DebugFnW.html'>DebugFnW</a></code>,  <code>DebugFnWE</code>, <code><a href='DebugPrintFn.html'>DebugPrintFn</a></code>, <code><a href='DebugFnE.html'>DebugFnE</a></code>, <code><a href='DebugPrintFnE.html'>DebugPrintFnE</a></code></p>
-<p>Idea from: https://gist.github.com/nassimhaddad/c9c327d10a91dcf9a3370d30dff8ac3d</p>
+    <div class='dont-index'><p><code><a href='http://www.rdocumentation.org/packages/utils/topics/debugger'>dump.frames</a></code>, <code><a href='DebugFn.html'>DebugFn</a></code>, <code><a href='DebugFnW.html'>DebugFnW</a></code>,  <code>DebugFnWE</code>, <code><a href='DebugPrintFn.html'>DebugPrintFn</a></code>, <code><a href='DebugFnE.html'>DebugFnE</a></code>, <code><a href='DebugPrintFnE.html'>DebugPrintFnE</a></code></p>
+<p>Idea from: https://gist.github.com/nassimhaddad/c9c327d10a91dcf9a3370d30dff8ac3d</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -166,19 +182,19 @@ Please see: <code><a href='https://cran.rstudio.com/web/packages/wrapr/vignettes
 <span class='co'># capture error on incorrect run</span>
 <span class='fu'>tryCatch</span>(
    <span class='fu'>df</span>(<span class='fl'>12</span>),
-   <span class='kw'>error</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>e</span>) { <span class='fu'>print</span>(<span class='no'>e</span>) })</div><div class='output co'>#&gt; &lt;simpleError in value[[3L]](cond): wrapr::DebugFnWE: wrote '/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//Rtmp1ayVeD/debugabc819ad6596.RDS' on catching 'Error in (1:10)[[i]]: subscript out of bounds'
+   <span class='kw'>error</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>e</span>) { <span class='fu'>print</span>(<span class='no'>e</span>) })</div><div class='output co'>#&gt; &lt;simpleError in value[[3L]](cond): wrapr::DebugFnWE: wrote '/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//Rtmp3sU9TL/debug108565c314436.RDS' on catching 'Error in (1:10)[[i]]: subscript out of bounds'
 #&gt;  You can reproduce the error with:
-#&gt; 'p &lt;- readRDS('/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//Rtmp1ayVeD/debugabc819ad6596.RDS'); do.call(p$fn, p$args, envir= p$env)'&gt;</div><div class='input'><span class='co'># examine details</span>
+#&gt; 'p &lt;- readRDS('/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//Rtmp3sU9TL/debug108565c314436.RDS'); do.call(p$fn, p$args, envir= p$env)'&gt;</div><div class='input'><span class='co'># examine details</span>
 <span class='no'>situation</span> <span class='kw'>&lt;-</span> <span class='fu'>readRDS</span>(<span class='no'>saveDest</span>)
 <span class='fu'>str</span>(<span class='no'>situation</span>)</div><div class='output co'>#&gt; List of 5
 #&gt;  $ fn       :function (i)  
 #&gt;   ..- attr(*, "srcref")=Class 'srcref'  atomic [1:8] 3 6 3 32 6 32 3 3
-#&gt;   .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x110cb29c8&gt; 
+#&gt;   .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x11111f0b0&gt; 
 #&gt;  $ args     :List of 1
 #&gt;   ..$ : num 12
 #&gt;  $ namedargs: language df(12)
 #&gt;  $ fn_name  : chr "f"
-#&gt;  $ env      :&lt;environment: 0x110cb35f0&gt; </div><div class='input'><span class='co'># fix and re-run</span>
+#&gt;  $ env      :&lt;environment: 0x11111fcd8&gt; </div><div class='input'><span class='co'># fix and re-run</span>
 <span class='no'>situation</span>$<span class='no'>args</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='kw'>&lt;-</span> <span class='fl'>6</span>
 <span class='fu'>do.call</span>(<span class='no'>situation</span>$<span class='no'>fn</span>, <span class='no'>situation</span>$<span class='no'>args</span>, <span class='kw'>envir</span><span class='kw'>=</span><span class='no'>situation</span>$<span class='no'>env</span>)</div><div class='output co'>#&gt; [1] 6</div><div class='input'><span class='co'># clean up</span>
 <span class='fu'>file.remove</span>(<span class='no'>saveDest</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
@@ -205,11 +221,14 @@ Please see: <code><a href='https://cran.rstudio.com/web/packages/wrapr/vignettes
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

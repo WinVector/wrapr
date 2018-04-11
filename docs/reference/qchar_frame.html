@@ -18,13 +18,22 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+<meta property="og:title" content="Build a (non-empty) quoted data.frame. — qchar_frame" />
+
+<meta property="og:description" content="A convenient way to build a character data.frame in legible transposed form.  Position of
+first "|" (or other infix operator) determines number of columns
+(all other infic operators are aliases for ",").
+Names are treated as character types." />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -32,6 +41,8 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
 
 
   </head>
@@ -47,8 +58,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">wrapr</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">wrapr</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.4.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -74,10 +89,16 @@
       <a href="../articles/DebugFnW.html">Debug Vignette</a>
     </li>
     <li>
-      <a href="../articles/dot_pipe.html">Dot Pipe</a>
+      <a href="../articles/FrameTools.html">Frame Tools</a>
     </li>
     <li>
-      <a href="../articles/FrameTools.html">Frame Tools</a>
+      <a href="../articles/Named_Arguments.html">Named Arguments</a>
+    </li>
+    <li>
+      <a href="../articles/SubstitutionModes.html">Substitution Modes</a>
+    </li>
+    <li>
+      <a href="../articles/dot_pipe.html">Dot Pipe</a>
     </li>
     <li>
       <a href="../articles/lambda.html">lambda Function Builder</a>
@@ -86,13 +107,7 @@
       <a href="../articles/let.html">Let</a>
     </li>
     <li>
-      <a href="../articles/Named_Arguments.html">Named Arguments</a>
-    </li>
-    <li>
       <a href="../articles/named_map_builder.html">Named Map Builder</a>
-    </li>
-    <li>
-      <a href="../articles/SubstitutionModes.html">Substitution Modes</a>
     </li>
     <li>
       <a href="../articles/wrapr_applicable.html">wrapr_applicable</a>
@@ -100,7 +115,7 @@
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -109,6 +124,7 @@
   <a href="http://www.win-vector.com/">Sponsor: Win-Vector LLC</a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -116,10 +132,12 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Build a (non-empty) quoted data.frame.</h1>
+    <small>Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/cf.R'><code>R/cf.R</code></a></small>
+    <div class="hidden name"><code>qchar_frame.Rd</code></div>
     </div>
 
     
@@ -131,7 +149,7 @@ Names are treated as character types.</p>
 
     <pre class="usage"><span class='fu'>qchar_frame</span>(<span class='no'>...</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -146,7 +164,7 @@ Names are treated as character types.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><code><a href='draw_frame.html'>draw_frame</a></code>, <code><a href='build_frame.html'>build_frame</a></code></p>
+    <div class='dont-index'><p><code><a href='draw_frame.html'>draw_frame</a></code>, <code><a href='build_frame.html'>build_frame</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -193,11 +211,14 @@ Names are treated as character types.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

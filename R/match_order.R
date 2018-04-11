@@ -43,6 +43,7 @@ invert_perm <- function(p) {
 #' p <- match_order(ids1, ids2)
 #' ids1[p]
 #' all.equal(ids1[p], ids2)
+#' # note base::match(ids2, ids1) also solves this problem
 #'
 #' @export
 #'
