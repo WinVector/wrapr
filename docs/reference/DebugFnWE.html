@@ -25,6 +25,9 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Wrap function to capture arguments and environment of exception throwing function call for later debugging. — DebugFnWE" />
 
 <meta property="og:description" content="Wrap fn, so it will save arguments and environment on failure.
@@ -39,8 +42,6 @@ Please see: vignette("DebugFnW", package="wrapr")." />
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
-
-
 
 
   </head>
@@ -134,14 +135,16 @@ Please see: vignette("DebugFnW", package="wrapr")." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Wrap function to capture arguments and environment of exception throwing function call for later debugging.</h1>
-    <small>Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/DebugFn.R'><code>R/DebugFn.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/DebugFn.R'><code>R/DebugFn.R</code></a></small>
     <div class="hidden name"><code>DebugFnWE.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Wrap fn, so it will save arguments and environment on failure.
 Please see: <code><a href='../articles/DebugFnW.html'>vignette("DebugFnW", package="wrapr")</a></code>.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>DebugFnWE</span>(<span class='no'>saveDest</span>, <span class='no'>fn</span>, <span class='no'>...</span>)</pre>
     
@@ -182,19 +185,19 @@ Please see: <code><a href='../articles/DebugFnW.html'>vignette("DebugFnW", packa
 <span class='co'># capture error on incorrect run</span>
 <span class='fu'>tryCatch</span>(
    <span class='fu'>df</span>(<span class='fl'>12</span>),
-   <span class='kw'>error</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>e</span>) { <span class='fu'>print</span>(<span class='no'>e</span>) })</div><div class='output co'>#&gt; &lt;simpleError in value[[3L]](cond): wrapr::DebugFnWE: wrote '/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//Rtmp4SJCZA/debug17b92f48aba1.RDS' on catching 'Error in (1:10)[[i]]: subscript out of bounds'
+   <span class='kw'>error</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>e</span>) { <span class='fu'>print</span>(<span class='no'>e</span>) })</div><div class='output co'>#&gt; &lt;simpleError in value[[3L]](cond): wrapr::DebugFnWE: wrote '/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//RtmpDE1lNQ/debuga02168b97f76.RDS' on catching 'Error in (1:10)[[i]]: subscript out of bounds'
 #&gt;  You can reproduce the error with:
-#&gt; 'p &lt;- readRDS('/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//Rtmp4SJCZA/debug17b92f48aba1.RDS'); do.call(p$fn, p$args, envir= p$env)'&gt;</div><div class='input'><span class='co'># examine details</span>
+#&gt; 'p &lt;- readRDS('/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//RtmpDE1lNQ/debuga02168b97f76.RDS'); do.call(p$fn, p$args, envir= p$env)'&gt;</div><div class='input'><span class='co'># examine details</span>
 <span class='no'>situation</span> <span class='kw'>&lt;-</span> <span class='fu'>readRDS</span>(<span class='no'>saveDest</span>)
 <span class='fu'>str</span>(<span class='no'>situation</span>)</div><div class='output co'>#&gt; List of 5
 #&gt;  $ fn       :function (i)  
 #&gt;   ..- attr(*, "srcref")=Class 'srcref'  atomic [1:8] 3 6 3 32 6 32 3 3
-#&gt;   .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x10e0e1b88&gt; 
+#&gt;   .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x1059ffb48&gt; 
 #&gt;  $ args     :List of 1
 #&gt;   ..$ : num 12
 #&gt;  $ namedargs: language df(12)
 #&gt;  $ fn_name  : chr "f"
-#&gt;  $ env      :&lt;environment: 0x10e0e1f08&gt; </div><div class='input'><span class='co'># fix and re-run</span>
+#&gt;  $ env      :&lt;environment: 0x1059ff000&gt; </div><div class='input'><span class='co'># fix and re-run</span>
 <span class='no'>situation</span>$<span class='no'>args</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='kw'>&lt;-</span> <span class='fl'>6</span>
 <span class='fu'>do.call</span>(<span class='no'>situation</span>$<span class='no'>fn</span>, <span class='no'>situation</span>$<span class='no'>args</span>, <span class='kw'>envir</span><span class='kw'>=</span><span class='no'>situation</span>$<span class='no'>env</span>)</div><div class='output co'>#&gt; [1] 6</div><div class='input'><span class='co'># clean up</span>
 <span class='fu'>file.remove</span>(<span class='no'>saveDest</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>

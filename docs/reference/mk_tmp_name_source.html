@@ -25,6 +25,9 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Produce a temp name generator with a given prefix. — mk_tmp_name_source" />
 
 <meta property="og:description" content="Returns a function f where: f() returns a new temporary name,
@@ -41,8 +44,6 @@ f(peek=TRUE) returns the list without altering anything." />
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
-
-
 
 
   </head>
@@ -136,16 +137,18 @@ f(peek=TRUE) returns the list without altering anything." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Produce a temp name generator with a given prefix.</h1>
-    <small>Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/tempNameGenerator.R'><code>R/tempNameGenerator.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/tempNameGenerator.R'><code>R/tempNameGenerator.R</code></a></small>
     <div class="hidden name"><code>mk_tmp_name_source.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Returns a function f where: f() returns a new temporary name,
 f(remove=vector) removes names in vector and returns what was removed,
 f(dumpList=TRUE) returns the list of names generated and clears the list,
 f(peek=TRUE) returns the list without altering anything.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>mk_tmp_name_source</span>(<span class='kw'>prefix</span> <span class='kw'>=</span> <span class='st'>"tmpnam"</span>, <span class='no'>...</span>, <span class='kw'>alphabet</span> <span class='kw'>=</span> <span class='fu'>as.character</span>(<span class='fl'>0</span>:<span class='fl'>9</span>),
   <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>"_"</span>)</pre>

@@ -1,5 +1,5 @@
 
-# wrapr 1.4.1 2018-05-02
+# wrapr 1.4.1 2018-05-05
 
  * Move dot assignment into S3 step.
  * Refine error checking.

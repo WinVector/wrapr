@@ -25,6 +25,9 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Wrap a function for debugging. — DebugFnW" />
 
 <meta property="og:description" content="Wrap fn, so it will save arguments on failure." />
@@ -38,8 +41,6 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
-
-
 
 
   </head>
@@ -133,13 +134,15 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Wrap a function for debugging.</h1>
-    <small>Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/DebugFn.R'><code>R/DebugFn.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/DebugFn.R'><code>R/DebugFn.R</code></a></small>
     <div class="hidden name"><code>DebugFnW.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Wrap fn, so it will save arguments on failure.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>DebugFnW</span>(<span class='no'>saveDest</span>, <span class='no'>fn</span>)</pre>
     
@@ -177,14 +180,14 @@ Please see: <code><a href='../articles/DebugFnW.html'>vignette("DebugFnW", packa
 <span class='co'># capture error on incorrect run</span>
 <span class='fu'>tryCatch</span>(
    <span class='fu'>df</span>(<span class='fl'>12</span>),
-   <span class='kw'>error</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>e</span>) { <span class='fu'>print</span>(<span class='no'>e</span>) })</div><div class='output co'>#&gt; &lt;simpleError in value[[3L]](cond): wrapr::DebugFnW: wrote '/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//Rtmp4SJCZA/debug17b96a5fec68.RDS' on catching 'Error in (1:10)[[i]]: subscript out of bounds'
+   <span class='kw'>error</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>e</span>) { <span class='fu'>print</span>(<span class='no'>e</span>) })</div><div class='output co'>#&gt; &lt;simpleError in value[[3L]](cond): wrapr::DebugFnW: wrote '/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//RtmpDE1lNQ/debuga0213eb2a01.RDS' on catching 'Error in (1:10)[[i]]: subscript out of bounds'
 #&gt;  You can reproduce the error with:
-#&gt; 'p &lt;- readRDS('/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//Rtmp4SJCZA/debug17b96a5fec68.RDS'); do.call(p$fn, p$args)'&gt;</div><div class='input'><span class='co'># examine details</span>
+#&gt; 'p &lt;- readRDS('/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//RtmpDE1lNQ/debuga0213eb2a01.RDS'); do.call(p$fn, p$args)'&gt;</div><div class='input'><span class='co'># examine details</span>
 <span class='no'>situation</span> <span class='kw'>&lt;-</span> <span class='fu'>readRDS</span>(<span class='no'>saveDest</span>)
 <span class='fu'>str</span>(<span class='no'>situation</span>)</div><div class='output co'>#&gt; List of 4
 #&gt;  $ fn       :function (i)  
 #&gt;   ..- attr(*, "srcref")=Class 'srcref'  atomic [1:8] 3 6 3 32 6 32 3 3
-#&gt;   .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x10dd006e0&gt; 
+#&gt;   .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x10b9fa540&gt; 
 #&gt;  $ args     :List of 1
 #&gt;   ..$ : num 12
 #&gt;  $ namedargs: language df(12)
@@ -207,7 +210,7 @@ Please see: <code><a href='../articles/DebugFnW.html'>vignette("DebugFnW", packa
 #&gt;  'do.call(p$fn, p$args)' (replace 'p' with actual variable name)&gt;</div><div class='input'><span class='fu'>str</span>(<span class='no'>lastError</span>)</div><div class='output co'>#&gt; List of 4
 #&gt;  $ fn       :function (i)  
 #&gt;   ..- attr(*, "srcref")=Class 'srcref'  atomic [1:8] 22 6 22 32 6 32 22 22
-#&gt;   .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x10fb64468&gt; 
+#&gt;   .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x105afc8e0&gt; 
 #&gt;  $ args     :List of 1
 #&gt;   ..$ : num 12
 #&gt;  $ namedargs: language df(12)
