@@ -206,24 +206,36 @@ pipe_impl <- function(pipe_left_arg,
     # pipe_right_arg is now a value (as far as we are concerned)
     # special case: functions
     if(is.function(pipe_right_arg)) {
-      res <- do.call(pipe_right_arg,
-                     list(pipe_left_arg),
-                     envir = pipe_environment)
-      return(res)
+      res <- withVisible(do.call(pipe_right_arg,
+                                 list(pipe_left_arg),
+                                 envir = pipe_environment))
+      if(res$visible) {
+        return(res$value)
+      } else {
+        return(invisible(res$value))
+      }
     }
     # S3 dispatch on right argument, surrogate function
-    res <- wrapr_function(pipe_left_arg,
-                          pipe_right_arg,
-                          pipe_environment,
-                          pipe_name)
-    return(res)
+    res <- withVisible(wrapr_function(pipe_left_arg,
+                                      pipe_right_arg,
+                                      pipe_environment,
+                                      pipe_name))
+    if(res$visible) {
+      return(res$value)
+    } else {
+      return(invisible(res$value))
+    }
   }
   # Go for standard (first argument) S3 dispatch
-  res <- pipe_step(pipe_left_arg,
-                   pipe_right_arg,
-                   pipe_environment,
-                   pipe_name)
-  res
+  res <- withVisible(pipe_step(pipe_left_arg,
+                               pipe_right_arg,
+                               pipe_environment,
+                               pipe_name))
+  if(res$visible) {
+    res$value
+  } else {
+    invisible(res$value)
+  }
 }
 
 #' Pipe operator ("dot arrow").
