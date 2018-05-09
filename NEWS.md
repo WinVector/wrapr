@@ -1,10 +1,11 @@
 
-# wrapr 1.4.1 2018-05-07
+# wrapr 1.4.1 2018-05-09
 
  * Move dot assignment into S3 step.
  * Refine error checking.
  * Minor documentation fixes.
  * Fix print/visibility treatment.
+ * Remove special 1-key case from := .
  * Add view().
  
 # wrapr 1.4.0 2018-04-03

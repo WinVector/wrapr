@@ -3,7 +3,6 @@
 #' Named map builder.
 #'
 #' Set names of right-argument to be left-argument, and return right argument.
-#' Has a special case for length-1 name sets.
 #' Called from \code{:=} operator.
 #'
 #' @param names names to set.
@@ -39,15 +38,17 @@
 #'
 #' @export
 named_map_builder <- function(names, values) {
-  # sepcial case 'a' := c('b', 'c') -> a := 'bc'
   names <- as.character(names)
-  if((length(values)>1)&&(length(names)==1)) {
-    values <- do.call(paste0, as.list(values))
+  if(any(is.na(names))) {
+    stop("wrapr::named_map_builder() names must not be NA")
+  }
+  if(length(names)!=length(unique(names))) {
+    stop("wrapr::named_map_builder() names must be unique")
   }
   if(length(names)!=length(values)) {
     stop("wrapr::named_map_builder() names/values length mismatch")
   }
-  names(values) <- as.character(names)
+  names(values) <- names
   values
 }
 
@@ -93,6 +94,9 @@ early_tries <- function(nm, vl, values) {
 
 #' @export
 `:=.character` <- named_map_builder
+
+#' @export
+`:=.numeric` <- named_map_builder
 
 #' @export
 `:=.list` <- named_map_builder

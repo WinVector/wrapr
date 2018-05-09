@@ -19,7 +19,6 @@ values with names set.
 }
 \description{
 Set names of right-argument to be left-argument, and return right argument.
-Has a special case for length-1 name sets.
 Called from \code{:=} operator.
 }
 \examples{
