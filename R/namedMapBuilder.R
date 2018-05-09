@@ -39,12 +39,6 @@
 #' @export
 named_map_builder <- function(names, values) {
   names <- as.character(names)
-  if(any(is.na(names))) {
-    stop("wrapr::named_map_builder() names must not be NA")
-  }
-  if(length(names)!=length(unique(names))) {
-    stop("wrapr::named_map_builder() names must be unique")
-  }
   if(length(names)!=length(values)) {
     stop("wrapr::named_map_builder() names/values length mismatch")
   }
