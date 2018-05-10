@@ -236,6 +236,7 @@ draw_frame <- function(x,
     } else {
       xq[[ci]] <- as.character(x[[ci]])
     }
+    xq[[ci]][is.na(x[[ci]])] <- NA
   }
   xm <- as.matrix(xq)
   xm <- matrix(data = as.character(xm),
@@ -246,6 +247,7 @@ draw_frame <- function(x,
               xm)
   # compute padding
   widths <- nchar(xm)
+  widths[is.na(as.numeric(widths))] <- 2
   colmaxes <- matrix(data = apply(widths, 2, max),
                      nrow = nrow+1, ncol = ncol,
                      byrow = TRUE)
