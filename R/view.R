@@ -19,7 +19,7 @@ NULL
 view <- function(
   x,
   ...,
-  title = as.character(substitute(x))[[1]],
+  title = paste(deparse(substitute(x)), collapse = " "),
   n = 200) {
   UseMethod("view", x)
 }
@@ -51,7 +51,7 @@ view.data.frame <- function(
 view.default <- function(
   x,
   ...,
-  title = as.character(substitute(x))[[1]],
+  title = paste(deparse(substitute(x)), collapse = " "),
   n = 200) {
   wrapr::stop_if_dot_args(substitute(list(...)),
                           "view.default")
