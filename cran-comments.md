@@ -1,10 +1,9 @@
 
 
-
 ## Test environments
 
   * Windows
-  * using R version 3.5.0 beta (2018-04-10 r74578)
+  * using R Under development (unstable) (2018-05-15 r74727)
   * using platform: x86_64-w64-mingw32 (64-bit)
 
   * OSX 
@@ -12,21 +11,15 @@
   * using platform: x86_64-apple-darwin15.6.0 (64-bit)
 
 
-
 ## R CMD check --as-cran wrapr_1.4.1.tar.gz 
 
-  * using option ‘--as-cran’
   * checking for file ‘wrapr/DESCRIPTION’ ... OK
   * checking extension type ... Package
   * this is package ‘wrapr’ version ‘1.4.1’
   * package encoding: UTF-8
-  * checking CRAN incoming feasibility ... NOTE
+  * checking CRAN incoming feasibility ... Note_to_CRAN_maintainers
   Maintainer: ‘John Mount <jmount@win-vector.com>’
-
-  Number of updates in past 6 months: 7
-
-  Status: 1 NOTE
-
+  Status: OK
 
 ## Downstream dependencies
 
