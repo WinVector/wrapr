@@ -37,7 +37,7 @@ Primary `wrapr` services include:
 
 `let()` allows execution of arbitrary code with substituted variable names (note this is subtly different than binding values for names as with `base::substitute()` or `base::with()`). 
 
-The function is simple and powerful.  It treats strings as variable names and re-writes expressions as if you had used the denoted variables.  For example the following block of code is equivalent to having written "`a + a`".
+The function is simple and powerful.  It treats strings as variable names and re-writes expressions as if you had used the denoted variables.  For example the following block of code is equivalent to having written "a + a".
 
 ```{r exw}
 library("wrapr")
@@ -124,13 +124,13 @@ Regularity can be a *big* advantage in teaching and comprehension. Please see ["
 Some formal documentation can be found [here](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf).
 
 <ul>
-<li>Obvious oblivious right-hand sides are rejected.  Pipelines are meant to move values through a sequence of transforms, and not just for side-effects. Example: `5 %.>% 6` deliberately stops as `6` is a right-hand side that obviously does not use its incoming value.  This check is only applied to values, not functions on the right-hand side.</li>
+<li>Some obvious "dot-free"" right-hand sides are rejected.  Pipelines are meant to move values through a sequence of transforms, and not just for side-effects. Example: `5 %.>% 6` deliberately stops as `6` is a right-hand side that obviously does not use its incoming value.  This check is only applied to values, not functions on the right-hand side.</li>
 <li>Trying to pipe into a an "zero argument function evaluation expression" such as `sin()` is prohibited as it looks too much like the user declaring `sin()` takes no arguments.  One must pipe into either a function, function name, or an non-trivial expression (such as `sin(.)`).  A useful error message is returned to the user: `wrapr::pipe does not allow direct piping into a no-argument function call expression (such as "sin()" please use sin(.))`.</li>
 <li>Some reserved words can not be piped into.  One example is `5 %.>% return(.)` is prohibited as the obvious pipe implementation would not actually escape from user functions as users may intend.</li>
 <li>Obvious de-references (such as `$`, `::`, `@`, and a few more) on the right-hand side
 are treated performed (example: `5 %.>% base::sin(.)`).</li>
 <li>Outer parenthesis on the right-hand side are removed (example: `5 %.>% (sin(.))`).</li>
-<li>Anonymous functions constructions are evaluated so the function can be applied (example: `5 %.>% function(x) {x+1}` returns 6, just as `5 %.>% (function(x) {x+1})(.)` does).</li>
+<li>Anonymous function constructions are evaluated so the function can be applied (example: `5 %.>% function(x) {x+1}` returns 6, just as `5 %.>% (function(x) {x+1})(.)` does).</li>
 <li>Checks and transforms are not performed on items inside braces (example: `5 %.>% { function(x) {x+1} }` returns `function(x) {x+1}`, not 6).</li>
 </ul>
 
