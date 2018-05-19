@@ -125,11 +125,14 @@
 <li>
 <code>%.&gt;%</code> (dot arrow pipe)</li>
 <li>
+<code><a href="reference/build_frame.html">build_frame()</a></code>/<code><a href="reference/draw_frame.html">draw_frame()</a></code>
+</li>
+<li>
 <code>:=</code> (named map builder)</li>
 <li>
-<code>λ()</code> (anonymous function builder)</li>
-<li>
 <code><a href="reference/DebugFnW.html">DebugFnW()</a></code> (function debug wrappers)</li>
+<li>
+<code>λ()</code> (anonymous function builder)</li>
 </ul>
 </div>
 <div id="let" class="section level2">
@@ -240,6 +243,31 @@ Checks and transforms are not performed on items inside braces (example: <code>5
 </li>
 </ul>
 </div>
+<div id="build_framedraw_frame" class="section level2">
+<h2 class="hasAnchor">
+<a href="#build_framedraw_frame" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/build_frame.html"><code><a href="reference/build_frame.html">build_frame()</a></code></a>/<a href="https://winvector.github.io/wrapr/reference/draw_frame.html"><code><a href="reference/draw_frame.html">draw_frame()</a></code></a>
+</h2>
+<p><code><a href="reference/build_frame.html">build_frame()</a></code> is a convenient way to type in a small example <code>data.frame</code> in natural row order. This can be very legible and saves having to perform a transpose in one’s head. <code><a href="reference/draw_frame.html">draw_frame()</a></code> is the complimentary function that formats a given <code>data.frame</code> (and is a great way to produce neatened examples).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tc_name &lt;-<span class="st"> "training"</span>
+x &lt;-<span class="st"> </span><span class="kw"><a href="reference/build_frame.html">build_frame</a></span>(
+   <span class="st">"measure"</span>                   , <span class="st">"training"</span>, <span class="st">"validation"</span> <span class="op">|</span>
+<span class="st">   "minus binary cross entropy"</span>, <span class="dv">5</span>         , <span class="op">-</span><span class="dv">7</span>           <span class="op">|</span>
+<span class="st">   "accuracy"</span>                  , <span class="fl">0.8</span>       , <span class="fl">0.6</span>          )
+<span class="kw">print</span>(x)
+ <span class="co">#                       measure training validation</span>
+ <span class="co">#  1 minus binary cross entropy      5.0       -7.0</span>
+ <span class="co">#  2                   accuracy      0.8        0.6</span>
+<span class="kw">str</span>(x)
+ <span class="co">#  'data.frame':   2 obs. of  3 variables:</span>
+ <span class="co">#   $ measure   : chr  "minus binary cross entropy" "accuracy"</span>
+ <span class="co">#   $ training  : num  5 0.8</span>
+ <span class="co">#   $ validation: num  -7 0.6</span>
+<span class="kw">cat</span>(<span class="kw"><a href="reference/draw_frame.html">draw_frame</a></span>(x))
+ <span class="co">#  build_frame(</span>
+ <span class="co">#     "measure"                   , "training", "validation" |</span>
+ <span class="co">#     "minus binary cross entropy", 5         , -7           |</span>
+ <span class="co">#     "accuracy"                  , 0.8       , 0.6          )</span></code></pre></div>
+</div>
 <div id="named-map-builder" class="section level2">
 <h2 class="hasAnchor">
 <a href="#named-map-builder" class="anchor"></a><a href="https://winvector.github.io/seplyr/articles/named_map_builder.html"><code>:=</code> (named map builder)</a>
@@ -263,6 +291,12 @@ name <span class="op">:</span><span class="er">=</span><span class="st"> 'newBin
  <span class="co">#  "x" "y"</span></code></pre></div>
 <p>The named map builder is <a href="https://winvector.github.io/seplyr/articles/named_map_builder.html">designed to synergize with <code>seplyr</code></a>.</p>
 </div>
+<div id="debugfnw" class="section level2">
+<h2 class="hasAnchor">
+<a href="#debugfnw" class="anchor"></a><a href="https://winvector.github.io/wrapr/articles/DebugFnW.html"><code><a href="reference/DebugFnW.html">DebugFnW()</a></code></a>
+</h2>
+<p><code><a href="reference/DebugFnW.html">DebugFnW()</a></code> wraps a function for debugging. If the function throws an exception the execution context (function arguments, function name, and more) is captured and stored for the user. The function call can then be reconstituted, inspected and even re-run with a step-debugger. Please see our <a href="https://youtu.be/-P9UzQuJSH8?list=PLAKBwakacHbQT51nPHex1on3YNCCmggZA">free debugging video series</a> and <code><a href="articles/DebugFnW.html">vignette('DebugFnW', package='wrapr')</a></code> for examples.</p>
+</div>
 <div id="-anonymous-function-builder" class="section level2">
 <h2 class="hasAnchor">
 <a href="#-anonymous-function-builder" class="anchor"></a><a href="https://winvector.github.io/wrapr/articles/lambda.html"><code>λ()</code> (anonymous function builder)</a>
@@ -275,12 +309,6 @@ wrapr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentati
 <span class="co"># square numbers 1 through 4</span>
 <span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, λ(x, x<span class="op">^</span><span class="dv">2</span>))
  <span class="co">#  [1]  1  4  9 16</span></code></pre></div>
-</div>
-<div id="debugfnw" class="section level2">
-<h2 class="hasAnchor">
-<a href="#debugfnw" class="anchor"></a><a href="https://winvector.github.io/wrapr/articles/DebugFnW.html"><code><a href="reference/DebugFnW.html">DebugFnW()</a></code></a>
-</h2>
-<p><code><a href="reference/DebugFnW.html">DebugFnW()</a></code> wraps a function for debugging. If the function throws an exception the execution context (function arguments, function name, and more) is captured and stored for the user. The function call can then be reconstituted, inspected and even re-run with a step-debugger. Please see our <a href="https://youtu.be/-P9UzQuJSH8?list=PLAKBwakacHbQT51nPHex1on3YNCCmggZA">free debugging video series</a> and <code><a href="articles/DebugFnW.html">vignette('DebugFnW', package='wrapr')</a></code> for examples.</p>
 </div>
 <div id="installing" class="section level2">
 <h2 class="hasAnchor">

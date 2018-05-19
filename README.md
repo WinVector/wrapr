@@ -11,9 +11,10 @@ Primary `wrapr` services include:
 
 -   `let()` (let block)
 -   `%.>%` (dot arrow pipe)
+-   `build_frame()`/`draw_frame()`
 -   `:=` (named map builder)
--   `λ()` (anonymous function builder)
 -   `DebugFnW()` (function debug wrappers)
+-   `λ()` (anonymous function builder)
 
 [`let()`](https://winvector.github.io/wrapr/articles/let.html)
 --------------------------------------------------------------
@@ -145,6 +146,33 @@ Anonymous function constructions are evaluated so the function can be applied (e
 Checks and transforms are not performed on items inside braces (example: `5 %.>% { function(x) {x+1} }` returns `function(x) {x+1}`, not 6).
 </li>
 </ul>
+[`build_frame()`](https://winvector.github.io/wrapr/reference/build_frame.html)/[`draw_frame()`](https://winvector.github.io/wrapr/reference/draw_frame.html)
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+`build_frame()` is a convenient way to type in a small example `data.frame` in natural row order. This can be very legible and saves having to perform a transpose in one's head. `draw_frame()` is the complimentary function that formats a given `data.frame` (and is a great way to produce neatened examples).
+
+``` r
+tc_name <- "training"
+x <- build_frame(
+   "measure"                   , "training", "validation" |
+   "minus binary cross entropy", 5         , -7           |
+   "accuracy"                  , 0.8       , 0.6          )
+print(x)
+ #                       measure training validation
+ #  1 minus binary cross entropy      5.0       -7.0
+ #  2                   accuracy      0.8        0.6
+str(x)
+ #  'data.frame':   2 obs. of  3 variables:
+ #   $ measure   : chr  "minus binary cross entropy" "accuracy"
+ #   $ training  : num  5 0.8
+ #   $ validation: num  -7 0.6
+cat(draw_frame(x))
+ #  build_frame(
+ #     "measure"                   , "training", "validation" |
+ #     "minus binary cross entropy", 5         , -7           |
+ #     "accuracy"                  , 0.8       , 0.6          )
+```
+
 [`:=` (named map builder)](https://winvector.github.io/seplyr/articles/named_map_builder.html)
 ----------------------------------------------------------------------------------------------
 
@@ -179,6 +207,11 @@ c('a' := 'x', 'b' := 'y')
 
 The named map builder is [designed to synergize with `seplyr`](https://winvector.github.io/seplyr/articles/named_map_builder.html).
 
+[`DebugFnW()`](https://winvector.github.io/wrapr/articles/DebugFnW.html)
+------------------------------------------------------------------------
+
+`DebugFnW()` wraps a function for debugging. If the function throws an exception the execution context (function arguments, function name, and more) is captured and stored for the user. The function call can then be reconstituted, inspected and even re-run with a step-debugger. Please see our [free debugging video series](https://youtu.be/-P9UzQuJSH8?list=PLAKBwakacHbQT51nPHex1on3YNCCmggZA) and `vignette('DebugFnW', package='wrapr')` for examples.
+
 [`λ()` (anonymous function builder)](https://winvector.github.io/wrapr/articles/lambda.html)
 --------------------------------------------------------------------------------------------
 
@@ -194,11 +227,6 @@ wrapr::defineLambda()
 sapply(1:4, λ(x, x^2))
  #  [1]  1  4  9 16
 ```
-
-[`DebugFnW()`](https://winvector.github.io/wrapr/articles/DebugFnW.html)
-------------------------------------------------------------------------
-
-`DebugFnW()` wraps a function for debugging. If the function throws an exception the execution context (function arguments, function name, and more) is captured and stored for the user. The function call can then be reconstituted, inspected and even re-run with a step-debugger. Please see our [free debugging video series](https://youtu.be/-P9UzQuJSH8?list=PLAKBwakacHbQT51nPHex1on3YNCCmggZA) and `vignette('DebugFnW', package='wrapr')` for examples.
 
 Installing
 ----------
