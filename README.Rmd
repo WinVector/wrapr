@@ -143,7 +143,6 @@ in one's head.  `draw_frame()` is the complimentary function that formats a
 given `data.frame` (and is a great way to produce neatened examples).
 
 ```{r drawbuild}
-tc_name <- "training"
 x <- build_frame(
    "measure"                   , "training", "validation" |
    "minus binary cross entropy", 5         , -7           |

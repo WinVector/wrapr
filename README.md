@@ -152,7 +152,6 @@ Checks and transforms are not performed on items inside braces (example: `5 %.>%
 `build_frame()` is a convenient way to type in a small example `data.frame` in natural row order. This can be very legible and saves having to perform a transpose in one's head. `draw_frame()` is the complimentary function that formats a given `data.frame` (and is a great way to produce neatened examples).
 
 ``` r
-tc_name <- "training"
 x <- build_frame(
    "measure"                   , "training", "validation" |
    "minus binary cross entropy", 5         , -7           |

@@ -248,8 +248,7 @@ Checks and transforms are not performed on items inside braces (example: <code>5
 <a href="#build_framedraw_frame" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/build_frame.html"><code><a href="reference/build_frame.html">build_frame()</a></code></a>/<a href="https://winvector.github.io/wrapr/reference/draw_frame.html"><code><a href="reference/draw_frame.html">draw_frame()</a></code></a>
 </h2>
 <p><code><a href="reference/build_frame.html">build_frame()</a></code> is a convenient way to type in a small example <code>data.frame</code> in natural row order. This can be very legible and saves having to perform a transpose in one’s head. <code><a href="reference/draw_frame.html">draw_frame()</a></code> is the complimentary function that formats a given <code>data.frame</code> (and is a great way to produce neatened examples).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tc_name &lt;-<span class="st"> "training"</span>
-x &lt;-<span class="st"> </span><span class="kw"><a href="reference/build_frame.html">build_frame</a></span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw"><a href="reference/build_frame.html">build_frame</a></span>(
    <span class="st">"measure"</span>                   , <span class="st">"training"</span>, <span class="st">"validation"</span> <span class="op">|</span>
 <span class="st">   "minus binary cross entropy"</span>, <span class="dv">5</span>         , <span class="op">-</span><span class="dv">7</span>           <span class="op">|</span>
 <span class="st">   "accuracy"</span>                  , <span class="fl">0.8</span>       , <span class="fl">0.6</span>          )
