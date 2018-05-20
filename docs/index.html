@@ -128,6 +128,8 @@
 <code><a href="reference/build_frame.html">build_frame()</a></code>/<code><a href="reference/draw_frame.html">draw_frame()</a></code>
 </li>
 <li>
+<code><a href="reference/qc.html">qc()</a></code> (quoting concatenate)</li>
+<li>
 <code>:=</code> (named map builder)</li>
 <li>
 <code><a href="reference/DebugFnW.html">DebugFnW()</a></code> (function debug wrappers)</li>
@@ -266,6 +268,18 @@ Checks and transforms are not performed on items inside braces (example: <code>5
  <span class="co">#     "measure"                   , "training", "validation" |</span>
  <span class="co">#     "minus binary cross entropy", 5         , -7           |</span>
  <span class="co">#     "accuracy"                  , 0.8       , 0.6          )</span></code></pre></div>
+</div>
+<div id="qc-quoting-concatenate" class="section level2">
+<h2 class="hasAnchor">
+<a href="#qc-quoting-concatenate" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/qc.html"><code><a href="reference/qc.html">qc()</a></code> (quoting concatenate)</a>
+</h2>
+<p><code><a href="reference/qc.html">qc()</a></code> is a quoting variation on <code>R</code>’s concatenate operator <code>c()</code>. This code such as the following:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/qc.html">qc</a></span>(<span class="dt">a =</span> x, <span class="dt">b =</span> y)
+ <span class="co">#    a   b </span>
+ <span class="co">#  "x" "y"</span>
+
+<span class="kw"><a href="reference/qc.html">qc</a></span>(one, two, three)
+ <span class="co">#  [1] "one"   "two"   "three"</span></code></pre></div>
 </div>
 <div id="named-map-builder" class="section level2">
 <h2 class="hasAnchor">

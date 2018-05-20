@@ -12,6 +12,7 @@ Primary `wrapr` services include:
 -   `let()` (let block)
 -   `%.>%` (dot arrow pipe)
 -   `build_frame()`/`draw_frame()`
+-   `qc()` (quoting concatenate)
 -   `:=` (named map builder)
 -   `DebugFnW()` (function debug wrappers)
 -   `λ()` (anonymous function builder)
@@ -170,6 +171,20 @@ cat(draw_frame(x))
  #     "measure"                   , "training", "validation" |
  #     "minus binary cross entropy", 5         , -7           |
  #     "accuracy"                  , 0.8       , 0.6          )
+```
+
+[`qc()` (quoting concatenate)](https://winvector.github.io/wrapr/reference/qc.html)
+-----------------------------------------------------------------------------------
+
+`qc()` is a quoting variation on `R`'s concatenate operator `c()`. This code such as the following:
+
+``` r
+qc(a = x, b = y)
+ #    a   b 
+ #  "x" "y"
+
+qc(one, two, three)
+ #  [1] "one"   "two"   "three"
 ```
 
 [`:=` (named map builder)](https://winvector.github.io/seplyr/articles/named_map_builder.html)
