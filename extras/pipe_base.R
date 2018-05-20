@@ -118,22 +118,31 @@ sel_columns <- function(x, columns) {
 #' Part piping with base R series: \url{http://www.win-vector.com/blog/tag/piping-with-base-r/}.
 #'
 #' @param x data.frame to work with
-#' @param rows numeric, row indexes.
+#' @param rows numeric, row indexes or logical row predicates.
 #' @return data.frame that is the specified row selection.
 #'
 #' @examples
 #'
 #' d <- data.frame(x = c('b', 'a', 'c'))
-#' sel_rows(d, d$x)
+#' rows_by_index(d, c(2, 3))
 #'
 #' @export
 #'
-sel_rows <- function(x, rows) {
+rows_by_index <- function(x, rows) {
   if(!is.data.frame(x)) {
     stop("sel_columns expected x to be a data.frame")
   }
   if(missing(rows)) {
     return(x)
+  }
+  if(is.logical(rows)) {
+    if(length(rows)!=nrow(x)) {
+      stop("rows_by_index: when rows is logical it must have same length as number of rows of x")
+    }
+  } else {
+    if(!is.numeric(rows)) {
+      stop("rows_by_index: rows must be numeric or logical")
+    }
   }
   x[rows, , drop = FALSE]
 }
