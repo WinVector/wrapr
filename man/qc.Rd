@@ -13,13 +13,27 @@ qc(...)
 quoted array of character items
 }
 \description{
-Quoting version of c() array concatinator.
+The qc() function is intended to help quote user inputs.
+It is a convenience function allowing the user to elide
+excess quotation marks.  It quotes its arguments instead
+of evaluating them, except in the case of a nested
+call to qc() itself.  Please see the examples for
+typical uses both for named and un-named character vectors.
 }
 \examples{
 
-qc(a, qc(b, c))
-qc(x=a, qc(y=b, z=c))
-qc('x'='a', qc('y'='b', 'z'='c'))
+a <- "x"
+qc(a) # returns the string "a" (not "x")
+
+qc("a") # return the string "a" (not "\\"a\\"")
+
+qc(sin(x))  # returns the string "sin(x)"
+
+qc(a, qc(b, c)) # returns c("a", "b", "c")
+
+qc(x=a, qc(y=b, z=c)) # returns c(x="a", y="b", z="c")
+
+qc('x'='a', qc('y'='b', 'z'='c')) # returns c(x="a", y="b", z="c")
 
 }
 \seealso{
