@@ -56,7 +56,9 @@ qc <- function(...) {
         return(.wrapr_priveate_var_ei)
       }
       if(is.language(.wrapr_priveate_var_ei)) {
-        if(isTRUE(as.character(.wrapr_priveate_var_ei[[1]]) == "qc")) {
+        .wrapr_priveate_var_fnname <- deparse(.wrapr_priveate_var_ei[[1]])
+        .wrapr_priveate_var_fnname <- gsub("[[:space:]]+", "", .wrapr_priveate_var_fnname)
+        if(isTRUE(.wrapr_priveate_var_fnname %in% c("qc", "wrapr::qc"))) {
           # this is the recursive case qc('x'='a', qc('y'='b', 'z'='c'))
           .wrapr_priveate_var_ei <- eval(.wrapr_priveate_var_ei,
                                          envir = .wrapr_priveate_var_env,

@@ -1,7 +1,7 @@
 
 # wrapr 1.4.2 2018-05-20
 
- * Fix qc() eval environment.
+ * Fix qc() eval environment and recursion.
 
 # wrapr 1.4.1 2018-05-17
 
