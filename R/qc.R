@@ -2,9 +2,6 @@
 
 #' Quoting version of c() array concatinator.
 #'
-#' Note: evaluation of qc() arguments happens in the qc() environment, not the calling environment.
-#' This means assigments inside a qc() argument may not be visible, also name collisions with
-#' \code{...} or \code{.wrapr_private_var_} prefixed variables are possible.
 #'
 #' @param ... items to place into an array
 #' @return quoted array of character items
@@ -24,6 +21,7 @@ qc <- function(...) {
   if(length(.wrapr_priveate_var_args)<=1) {
     return(c())
   }
+  .wrapr_priveate_var_env <- parent.frame()
   .wrapr_priveate_var_names <- names(.wrapr_priveate_var_args)
   .wrapr_priveate_var_res <- lapply(2:length(.wrapr_priveate_var_args),
                 function(.wrapr_priveate_var_i) {
@@ -52,7 +50,9 @@ qc <- function(...) {
                   }
                   # complex structure, like a list
                   if(is.language(.wrapr_priveate_var_ei)) {
-                    return(eval(.wrapr_priveate_var_ei))
+                    return(eval(.wrapr_priveate_var_ei,
+                                envir = .wrapr_priveate_var_env,
+                                enclos = .wrapr_priveate_var_env))
                   }
                   return(.wrapr_priveate_var_ei[2:.wrapr_priveate_var_ln])
                 })
