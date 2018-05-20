@@ -1,4 +1,8 @@
 
+# wrapr 1.4.2 2018-05-20
+
+ * Fix qc() eval environment.
+
 # wrapr 1.4.1 2018-05-17
 
  * Move dot assignment into S3 step.

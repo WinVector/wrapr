@@ -13,7 +13,9 @@ qc(...)
 quoted array of character items
 }
 \description{
-Quoting version of c() array concatinator.
+Note: evaluation of qc() arguments happens in the qc() environment, not the calling environment.
+This means assigments inside a qc() argument may not be visible, also name collisions with
+\code{...} or \code{.wrapr_private_var_} prefixed variables are possible.
 }
 \examples{
 

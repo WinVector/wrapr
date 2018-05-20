@@ -2,6 +2,10 @@
 
 #' Quoting version of c() array concatinator.
 #'
+#' Note: evaluation of qc() arguments happens in the qc() environment, not the calling environment.
+#' This means assigments inside a qc() argument may not be visible, also name collisions with
+#' \code{...} or \code{.wrapr_private_var_} prefixed variables are possible.
+#'
 #' @param ... items to place into an array
 #' @return quoted array of character items
 #'
@@ -16,44 +20,46 @@
 #' @export
 #'
 qc <- function(...) {
-  args <- substitute(list(...))
-  names <- names(args)
-  res <- lapply(seq_len(length(args)),
-                function(i) {
-                  ei <- args[[i]]
-                  ni <- NULL
-                  if(i<=length(names)) {
-                    ni <- as.character(names[[i]])
+  .wrapr_priveate_var_args <- substitute(list(...))
+  if(length(.wrapr_priveate_var_args)<=1) {
+    return(c())
+  }
+  .wrapr_priveate_var_names <- names(.wrapr_priveate_var_args)
+  .wrapr_priveate_var_res <- lapply(2:length(.wrapr_priveate_var_args),
+                function(.wrapr_priveate_var_i) {
+                  .wrapr_priveate_var_ei <- .wrapr_priveate_var_args[[.wrapr_priveate_var_i]]
+                  .wrapr_priveate_var_ni <- NULL
+                  if(.wrapr_priveate_var_i<=length(.wrapr_priveate_var_names)) {
+                    .wrapr_priveate_var_ni <- as.character(.wrapr_priveate_var_names[[.wrapr_priveate_var_i]])
                   }
-                  if(is.name(ei) | is.character(ei)) {
-                    if(is.null(ni)) {
-                      return(as.character(ei))
+                  if(is.name(.wrapr_priveate_var_ei) | is.character(.wrapr_priveate_var_ei)) {
+                    if(is.null(.wrapr_priveate_var_ni)) {
+                      return(as.character(.wrapr_priveate_var_ei))
                     } else {
-                      return(ni := as.character(ei))
+                      return(.wrapr_priveate_var_ni := as.character(.wrapr_priveate_var_ei))
                     }
                   }
-                  ln = length(ei)
-                  if(ln<=0) {
+                  .wrapr_priveate_var_ln = length(.wrapr_priveate_var_ei)
+                  if(.wrapr_priveate_var_ln<=0) {
                     return(NULL)
                   }
-                  if(ln<=1) {
-                    if(is.null(ni)) {
-                      return(as.character(ei))
+                  if(.wrapr_priveate_var_ln<=1) {
+                    if(is.null(.wrapr_priveate_var_ni)) {
+                      return(as.character(.wrapr_priveate_var_ei))
                     } else {
-                      return(ni := as.character(ei))
+                      return(.wrapr_priveate_var_ni := as.character(.wrapr_priveate_var_ei))
                     }
                   }
                   # complex structure, like a list
-                  if(is.language(ei)) {
-                    return(eval(ei))
+                  if(is.language(.wrapr_priveate_var_ei)) {
+                    return(eval(.wrapr_priveate_var_ei))
                   }
-                  return(ei[2:ln])
+                  return(.wrapr_priveate_var_ei[2:.wrapr_priveate_var_ln])
                 })
-  res <- Filter(function(ei) { !is.null(ei) }, res)
-  if(length(res)<=1) {
+  .wrapr_priveate_var_res <- Filter(function(ei) { !is.null(ei) }, .wrapr_priveate_var_res)
+  if(length(.wrapr_priveate_var_res)<1) {
     return(c())
   }
-  res <- res[2:length(res)]
-  unlist(res)
+  unlist(.wrapr_priveate_var_res)
 }
 

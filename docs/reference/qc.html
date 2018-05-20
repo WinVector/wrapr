@@ -30,7 +30,9 @@
 
 <meta property="og:title" content="Quoting version of c() array concatinator. — qc" />
 
-<meta property="og:description" content="Quoting version of c() array concatinator." />
+<meta property="og:description" content="Note: evaluation of qc() arguments happens in the qc() environment, not the calling environment.
+This means assigments inside a qc() argument may not be visible, also name collisions with
+... or .wrapr_private_var_ prefixed variables are possible." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -58,7 +60,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.4.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.4.2</span>
       </span>
     </div>
 
@@ -140,7 +142,9 @@
 
     <div class="ref-description">
     
-    <p>Quoting version of c() array concatinator.</p>
+    <p>Note: evaluation of qc() arguments happens in the qc() environment, not the calling environment.
+This means assigments inside a qc() argument may not be visible, also name collisions with
+<code>...</code> or <code>.wrapr_private_var_</code> prefixed variables are possible.</p>
     
     </div>
 
