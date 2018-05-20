@@ -33,7 +33,9 @@ makeFunction_se <- function(params, body, env = parent.frame()) {
   vars <- as.character(params)
   formals <- replicate(length(vars), quote(expr = ))
   names(formals) <- vars
-  eval(call('function', as.pairlist(formals), body), env)
+  eval(call('function', as.pairlist(formals), body),
+       envir = env,
+       enclos = env)
 }
 
 
