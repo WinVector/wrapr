@@ -28,7 +28,7 @@
 #'
 #' qc(x=a, qc(y=b, z=c)) # returns c(x="a", y="b", z="c")
 #'
-#' qc('x'='a', qc('y'='b', 'z'='c')) # returns c(x="a", y="b", z="c")
+#' qc('x'='a', wrapr::qc('y'='b', 'z'='c')) # returns c(x="a", y="b", z="c")
 #'
 #' @export
 #'
