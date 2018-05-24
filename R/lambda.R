@@ -13,6 +13,8 @@
 #' @param env environment to work in.
 #' @return user defined function.
 #'
+#' @seealso \code{\link{lambda}}, \code{\link{defineLambda}}, \code{\link{named_map_builder}}
+#'
 #' @examples
 #'
 #' f <- makeFunction_se(as.name('x'), substitute({x*x}))
@@ -48,6 +50,9 @@ makeFunction_se <- function(params, body, env = parent.frame()) {
 #' @param env environment to work in
 #' @return user defined function.
 #'
+#'
+#' @seealso \code{\link{defineLambda}}, \code{\link{makeFunction_se}}, \code{\link{named_map_builder}}
+#'
 #' @examples
 #'
 #' #lambda-syntax: lambda(arg [, arg]*, body [, env=env])
@@ -61,8 +66,12 @@ makeFunction_se <- function(params, body, env = parent.frame()) {
 #' f <- lambda(x, y, x+y)
 #' f(2,4)
 #'
-#' # formula interface syntax: [~arg|arg(~arg)+] := body
-#' f <- x~y := x + 3 * y
+#' # brace interface syntax
+#' f <- x := { x^2 }
+#' f(5)
+#'
+#' # formula interface syntax: [~arg|arg(~arg)+] := { body }
+#' f <- x~y := { x + 3 * y }
 #' f(5, 47)
 #'
 #' @export
@@ -84,6 +93,8 @@ lambda <- function(..., env = parent.frame()) {
 #'
 #' @param envir environment to work in.
 #' @param name character, name to assign to (defaults to Greek lambda).
+#'
+#' @seealso \code{\link{lambda}}, \code{\link{makeFunction_se}}, \code{\link{named_map_builder}}
 #'
 #' @examples
 #'

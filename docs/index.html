@@ -338,6 +338,10 @@ wrapr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentati
 
 <span class="co"># square numbers 1 through 4</span>
 <span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, λ(x, x<span class="op">^</span><span class="dv">2</span>))
+ <span class="co">#  [1]  1  4  9 16</span>
+
+<span class="co"># alternat "colon equals with braces" function builder notation</span>
+<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, x <span class="op">:</span><span class="er">=</span><span class="st"> </span>{ x<span class="op">^</span><span class="dv">2</span> })
  <span class="co">#  [1]  1  4  9 16</span></code></pre></div>
 </div>
 <div id="installing" class="section level2">

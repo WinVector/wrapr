@@ -30,8 +30,15 @@ sapply(1:4, lambda(x, x^2))
 f <- lambda(x, y, x+y)
 f(2,4)
 
-# formula interface syntax: [~arg|arg(~arg)+] := body
-f <- x~y := x + 3 * y
+# brace interface syntax
+f <- x := { x^2 }
+f(5)
+
+# formula interface syntax: [~arg|arg(~arg)+] := { body }
+f <- x~y := { x + 3 * y }
 f(5, 47)
 
+}
+\seealso{
+\code{\link{defineLambda}}, \code{\link{makeFunction_se}}, \code{\link{named_map_builder}}
 }

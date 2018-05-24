@@ -49,3 +49,6 @@ f <- x := { sqrt(x) }
 f(7)
 
 }
+\seealso{
+\code{\link{lambda}}, \code{\link{defineLambda}}, \code{\link{makeFunction_se}}
+}

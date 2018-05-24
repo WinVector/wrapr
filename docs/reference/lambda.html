@@ -163,6 +163,10 @@
 
     <p>user defined function.</p>
     
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='defineLambda.html'>defineLambda</a></code>, <code><a href='makeFunction_se.html'>makeFunction_se</a></code>, <code><a href='named_map_builder.html'>named_map_builder</a></code></p></div>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -175,8 +179,11 @@
 <span class='co'># example more than one argumnet</span>
 <span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='fu'>lambda</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>x</span>+<span class='no'>y</span>)
 <span class='fu'>f</span>(<span class='fl'>2</span>,<span class='fl'>4</span>)</div><div class='output co'>#&gt; [1] 6</div><div class='input'>
-<span class='co'># formula interface syntax: [~arg|arg(~arg)+] := body</span>
-<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='no'>x</span>~<span class='no'>y</span> <span class='kw'>:=</span> <span class='no'>x</span> + <span class='fl'>3</span> * <span class='no'>y</span>
+<span class='co'># brace interface syntax</span>
+<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='no'>x</span> <span class='kw'>:=</span> { <span class='no'>x</span>^<span class='fl'>2</span> }
+<span class='fu'>f</span>(<span class='fl'>5</span>)</div><div class='output co'>#&gt; [1] 25</div><div class='input'>
+<span class='co'># formula interface syntax: [~arg|arg(~arg)+] := { body }</span>
+<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='no'>x</span>~<span class='no'>y</span> <span class='kw'>:=</span> { <span class='no'>x</span> + <span class='fl'>3</span> * <span class='no'>y</span> }
 <span class='fu'>f</span>(<span class='fl'>5</span>, <span class='fl'>47</span>)</div><div class='output co'>#&gt; [1] 146</div><div class='input'>
 </div></pre>
   </div>
@@ -186,6 +193,8 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

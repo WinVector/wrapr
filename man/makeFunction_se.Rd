@@ -38,3 +38,6 @@ g <- c(x,y) := { x + 3*y }
 g(1,100)
 
 }
+\seealso{
+\code{\link{lambda}}, \code{\link{defineLambda}}, \code{\link{named_map_builder}}
+}

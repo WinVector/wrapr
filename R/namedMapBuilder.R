@@ -9,6 +9,8 @@
 #' @param values values to assign names to (and return).
 #' @return values with names set.
 #'
+#' @seealso \code{\link{lambda}}, \code{\link{defineLambda}}, \code{\link{makeFunction_se}}
+#'
 #' @examples
 #'
 #'

@@ -253,6 +253,10 @@ wrapr::defineLambda()
 # square numbers 1 through 4
 sapply(1:4, λ(x, x^2))
  #  [1]  1  4  9 16
+
+# alternat "colon equals with braces" function builder notation
+sapply(1:4, x := { x^2 })
+ #  [1]  1  4  9 16
 ```
 
 Installing

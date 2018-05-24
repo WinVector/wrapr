@@ -21,3 +21,6 @@ defineLambda()
 # ls()
 
 }
+\seealso{
+\code{\link{lambda}}, \code{\link{makeFunction_se}}, \code{\link{named_map_builder}}
+}
