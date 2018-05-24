@@ -132,6 +132,8 @@
 <li>
 <code>:=</code> (named map builder)</li>
 <li>
+<code>%?%</code> (coalesce)</li>
+<li>
 <code><a href="reference/DebugFnW.html">DebugFnW()</a></code> (function debug wrappers)</li>
 <li>
 <code>λ()</code> (anonymous function builder)</li>
@@ -303,6 +305,15 @@ name <span class="op">:</span><span class="er">=</span><span class="st"> 'newBin
  <span class="co">#    a   b </span>
  <span class="co">#  "x" "y"</span></code></pre></div>
 <p>The named map builder is <a href="https://winvector.github.io/seplyr/articles/named_map_builder.html">designed to synergize with <code>seplyr</code></a>.</p>
+</div>
+<div id="coalesce" class="section level2">
+<h2 class="hasAnchor">
+<a href="#coalesce" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/grapes-help-grapes.html"><code>%?%</code> (coalesce)</a>
+</h2>
+<p>The coalesce operator tries to replace elements of its first argument with elements from its second argument. In particular <code>%?%</code> replaces NULL vectors and NULL/NA entries of vectors and lists.</p>
+<p>Example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="dv">1</span>, <span class="ot">NA</span>) <span class="op">%?%</span><span class="st"> </span><span class="kw">c</span>(<span class="ot">NA</span>, <span class="dv">20</span>)
+ <span class="co">#  [1]  1 20</span></code></pre></div>
 </div>
 <div id="debugfnw" class="section level2">
 <h2 class="hasAnchor">
