@@ -222,8 +222,8 @@ c('a' := 'x', 'b' := 'y')
 
 The named map builder is [designed to synergize with `seplyr`](https://winvector.github.io/seplyr/articles/named_map_builder.html).
 
-[`%?%` (coalesce)](https://winvector.github.io/wrapr/reference/grapes-help-grapes.html)
----------------------------------------------------------------------------------------
+[`%?%` (coalesce)](https://winvector.github.io/wrapr/reference/coalesce.html)
+-----------------------------------------------------------------------------
 
 The coalesce operator tries to replace elements of its first argument with elements from its second argument. In particular `%?%` replaces NULL vectors and NULL/NA entries of vectors and lists.
 
