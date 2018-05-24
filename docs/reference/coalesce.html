@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Coalesce values (NULL/NA on left replaced by values on the right). — %?% • wrapr</title>
+<title>Coalesce values (NULL/NA on left replaced by values on the right). — coalesce • wrapr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,7 +28,7 @@
 
 
 
-<meta property="og:title" content="Coalesce values (NULL/NA on left replaced by values on the right). — %?%" />
+<meta property="og:title" content="Coalesce values (NULL/NA on left replaced by values on the right). — coalesce" />
 
 <meta property="og:description" content="This is a simple "try to take values on the left, but fall back
 to the right if they are not available" operator.  It is inspired
@@ -144,7 +144,7 @@ replace with a right argument list." />
     <div class="page-header">
     <h1>Coalesce values (NULL/NA on left replaced by values on the right).</h1>
     <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/coalese_op.R'><code>R/coalese_op.R</code></a></small>
-    <div class="hidden name"><code>grapes-help-grapes.Rd</code></div>
+    <div class="hidden name"><code>coalesce.Rd</code></div>
     </div>
 
     <div class="ref-description">
@@ -162,7 +162,9 @@ replace with a right argument list.</p>
     
     </div>
 
-    <pre class="usage"><span class='no'>coalesce_left_arg</span> <span class='kw'>%?%</span> <span class='no'>coalesce_right_arg</span></pre>
+    <pre class="usage"><span class='fu'>coalesce</span>(<span class='no'>coalesce_left_arg</span>, <span class='no'>coalesce_right_arg</span>)
+
+<span class='no'>coalesce_left_arg</span> <span class='kw'>%?%</span> <span class='no'>coalesce_right_arg</span></pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -187,7 +189,10 @@ replace with a right argument list.</p>
 length zero structures and NULL/NA values and the desire to preserve
 the first argument's structure (vector versus list).  The order of
 operations has been chosen to be safe, convenient, and useful.  Length zero
-lists are not treated as NULL (which is consistent with R in general).</p>
+lists are not treated as NULL (which is consistent with R in general).
+Note for non-vector operations on conditions we recommend looking into
+<code><a href='http://www.rdocumentation.org/packages/base/topics/Logic'>isTRUE</a></code>, which solves some problems even faster
+than coalesce style operators.</p>
 <p>When length(coalesce_left_arg)&lt;=0 then
 return coalesce_right_arg if length(coalesce_right_arg)&gt;0, otherwise
 return coalesce_left_arg.
@@ -197,6 +202,12 @@ is a list or vector that is either the same length as coalesce_left_arg
 or length 1.  In this case replace NA/NULL elements of coalesce_left_arg
 with corresponding elements of coalesce_right_arg (re-cycling coalesce_right_arg
 when it is length 1).</p>
+    
+    <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
+
+    <ul>
+<li><p><code>%?%</code>: coalesce operator</p></li>
+</ul>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -243,6 +254,8 @@ when it is length 1).</p>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#functions">Functions</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

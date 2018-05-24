@@ -265,6 +265,10 @@ pipe_impl <- function(pipe_left_arg,
 #' cos(exp(sin(4)))
 #' 4 %.>% sin(.) %.>% exp(.) %.>% cos(.)
 #'
+#' @name dot_arrow
+NULL
+
+#' @describeIn dot_arrow dot arrow
 #' @export
 `%.>%` <- function(pipe_left_arg, pipe_right_arg) {
   pipe_left_arg <- substitute(pipe_left_arg)
@@ -275,33 +279,7 @@ pipe_impl <- function(pipe_left_arg,
             pipe_environment, pipe_name)
 }
 
-#' Pipe operator ("to dot").
-#'
-#' Defined as roughly : \code{a \%>.\% b} ~ \code{\{ . <- a; b \};}
-#' (with visible .-side effects).
-#'
-#' The pipe operator has a couple of special cases. First: if the right hand side is a name,
-#' then we try to de-reference it and apply it as a function or surrogate function.
-#'
-#' The pipe operator checks for and throws an exception for a number of "pipled into
-#' nothing cases" such as \code{5 \%.>\% sin()}, many of these checks can be turned
-#' off by adding braces.
-#'
-#' For some discussion, please see \url{http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/}.
-#' For some more examples, please see the package README \url{https://github.com/WinVector/wrapr}.
-#' For formal documentation please see \url{https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf}.
-#' \code{\%>.\%} and \code{\%.>\%} are synonyms.
-#'
-#' @param pipe_left_arg left argument expression (substituted into .)
-#' @param pipe_right_arg right argument expession (presumably including .)
-#' @return eval(\{ . <- pipe_left_arg; pipe_right_arg \};)
-#'
-#' @examples
-#'
-#' # both should be equal:
-#' cos(exp(sin(4)))
-#' 4 %>.% sin(.) %>.% exp(.) %>.% cos(.)
-#'
+#' @describeIn dot_arrow alias for dot arrow
 #' @export
 `%>.%` <- function(pipe_left_arg, pipe_right_arg) {
   pipe_left_arg <- substitute(pipe_left_arg)

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Pipe operator ("dot arrow"). — %.&gt;% • wrapr</title>
+<title>Pipe operator ("dot arrow"). — dot_arrow • wrapr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,7 +28,7 @@
 
 
 
-<meta property="og:title" content="Pipe operator ("dot arrow"). — %.&gt;%" />
+<meta property="og:title" content="Pipe operator ("dot arrow"). — dot_arrow" />
 
 <meta property="og:description" content="Defined as roughly : a %&gt;.% b ~ { . &lt;- a; b };
 (with visible .-side effects)." />
@@ -136,7 +136,7 @@
     <div class="page-header">
     <h1>Pipe operator ("dot arrow").</h1>
     <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/bpipe.R'><code>R/bpipe.R</code></a></small>
-    <div class="hidden name"><code>grapes-.-greater-than-grapes.Rd</code></div>
+    <div class="hidden name"><code>dot_arrow.Rd</code></div>
     </div>
 
     <div class="ref-description">
@@ -146,7 +146,9 @@
     
     </div>
 
-    <pre class="usage"><span class='no'>pipe_left_arg</span> <span class='kw'>%.&gt;%</span> <span class='no'>pipe_right_arg</span></pre>
+    <pre class="usage"><span class='no'>pipe_left_arg</span> <span class='kw'>%.&gt;%</span> <span class='no'>pipe_right_arg</span>
+
+<span class='no'>pipe_left_arg</span> <span class='kw'>%&gt;.%</span> <span class='no'>pipe_right_arg</span></pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -177,6 +179,13 @@ For some more examples, please see the package README <a href='https://github.co
 For formal documentation please see <a href='https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf'>https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf</a>.
 <code>%&gt;.%</code> and <code>%.&gt;%</code> are synonyms.</p>
     
+    <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
+
+    <ul>
+<li><p><code>%.&gt;%</code>: dot arrow</p></li>
+<li><p><code>%&gt;.%</code>: alias for dot arrow</p></li>
+</ul>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -192,6 +201,8 @@ For formal documentation please see <a href='https://github.com/WinVector/wrapr/
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#functions">Functions</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
