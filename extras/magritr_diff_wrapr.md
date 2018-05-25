@@ -82,7 +82,7 @@ To safely and confidently use piping one must eventually know what all of the co
 
 -   `5 %>% sin`: the notation demonstrated in the `magrittr` excerpt.
 -   `5 %>% sin()`: possibly the notation one would abstract from the *R for Data Science* excerpt.
--   `5 %>% sin(.)`: the notation [we recomend](http://www.win-vector.com/blog/2018/03/r-tip-make-arguments-explicit-in-magrittr-dplyr-pipelines/) (especially for [the part time `R` user](http://www.win-vector.com/blog/2017/08/more-on-the-part-time-r-user/)).
+-   `5 %>% sin(.)`: the notation [we recommend](http://www.win-vector.com/blog/2018/03/r-tip-make-arguments-explicit-in-magrittr-dplyr-pipelines/) (especially for [the part time `R` user](http://www.win-vector.com/blog/2017/08/more-on-the-part-time-r-user/)).
 
 Also, there are questions of how one pipes into general expressions (instead of names, functions, or partially specified function evaluation signatures).
 
@@ -154,125 +154,7 @@ The point is in a room full of students in a lab setting if you show them "`5 %>
 
 A non-expert [`magrittr`](https://CRAN.R-project.org/package=magrittr)/[`dplyr`](https://CRAN.R-project.org/package=dplyr) user might expect all the pipe examples we are about to discuss to evaluate to `sin(5)` = -0.9589243. As `R` is routinely used by self-described non-programmers (such as scientists, analysts, and statisticians) the non-expert or [part time <code>R</code> user](http://www.win-vector.com/blog/2017/08/lets-have-some-sympathy-for-the-part-time-r-user/) is a very important class of `R` users (and in fact distinct from beginning `R` users). So how a system meets or misses simplified expectations is quite important in `R`.
 
-To run our examples we will use a fairly involved function `work_examples()` that takes the vector of examples and returns an annotated `data.frame` of evaluation results. For completeness this code is given here, but can be safely skipped when reading this article.
-
-``` r
-library("magrittr")
-library("wrapr")
-library("seplyr")
-library("kableExtra")
-packageVersion("wrapr")
-```
-
-    ## [1] '1.4.0'
-
-``` r
-fix <- function(x) {
-  x <- gsub("\\]\\(", "&#93;&#40;", x)
-  x <- gsub("\\$", "&#36;", x)
-  x
-}
-
-mp <- c("!"="&#33;", "\""="&quot;", 
-        "#"="&#35;", "$"="&#36;",
-        "%"="&#37;", "&"="&amp;", 
-        "'"="&apos;", "("="&#40;", 
-        ")"="&#41;", "*"="&#42;",
-        "+"="&#43;", ","="&#44;",
-        "-"="&#45;", "."="&#46;",
-        "/"="&#47;", ":"="&#58;", 
-        ";"="&#59;", "<"="&lt;", 
-        "="="&#61;",  ">"="&gt;",
-        "?"="&#63;", "@"="&#64;",
-        "["="&#91;", "\\"="&#92;",
-        "]"="&#93;", "^"="&#94;", 
-        "_"="&#95;", "`"="&#96;", 
-        "{"="&#123;","|"="&#124;",
-        "}"="&#125;", "~"="&#126;")
-
-escape_text <- function(txt, mp) {
-  res <- 
-    vapply(txt, 
-           function(txti) {
-             txti <- paste(format(txti), 
-                           collapse = " ")
-             nc <- nchar(txti)
-             chars <- vapply(seq_len(nc), 
-                             function(i) { 
-                               substr(txti, i, i)
-                             }, character(1))
-             
-             tomap <- chars %in% names(mp)
-             chars[tomap] <- mp[chars[tomap]]
-             names(chars) <- NULL
-             paste(chars, collapse = "")
-           }, character(1))
-  names(res) <- NULL
-  res
-}
-  
-work_examples <- function(exprs, target) {
-  eval_expr <- function(exprs) {
-    res <- 
-      lapply(exprs,
-             function(expr) {
-               r <- tryCatch( 
-                 eval(parse(text = expr)),
-                 error = function(e) { 
-                   e$message
-                 }
-               )
-               if((!is.numeric(r)) || 
-                  (length(r)!=1)) {
-                 r <- paste(format(r), 
-                            collapse = " ")
-                 r <- escape_text(r, mp)
-               }
-               r
-             })
-    names(res) <- NULL
-    res
-  }
-  
-  checcol <- function(col) {
-    res <- vapply(col, 
-           function(vi) {
-             is.numeric(vi) && 
-               (length(vi)==1) && 
-               (abs(vi-target)<1.0e-5)
-           }, logical(1))
-    names(res) <- NULL
-    res
-  }
-  
-  do_evals <- function(exprs, glyph, name) {
-    evals <- 
-      data.frame(expr = gsub("PIPE_GLYPH", 
-                             glyph, 
-                             exprs, 
-                             fixed = TRUE),
-                 stringsAsFactors = FALSE) %.>%
-      mutate_nse(., 
-                 res = eval_expr(expr),
-                 good = checcol(res),
-                 res = format(res, digits = 3),
-                 res = ifelse(good,
-                              cell_spec(res,
-                                        "html", 
-                                        color = "darkgreen", 
-                                        bold = TRUE),
-                              res),
-                 expr =  escape_text(expr, mp)) %.>%
-      select_se(., qc(expr, res))  %.>%
-      rename_se(., 
-                paste(name, qc(expr, res)) :=
-                  qc(expr, res))
-  }
-  
-  cbind(do_evals(exprs, "%>%", "magrittr"),
-        do_evals(exprs, "%.>%", "wrapr"))
-}
-```
+To run our examples we will use a fairly involved function `work_examples()` that takes the vector of examples and returns an annotated `data.frame` of evaluation results. For completeness this code is given [here](https://github.com/WinVector/wrapr/blob/master/extras/magritr_diff_wrapr.Rmd), but can be safely skipped when reading this article.
 
 Now we can work our examples, and return the comparison in tabular format.
 
@@ -527,7 +409,7 @@ f &lt;- function(x) { sin(x) }; 5 %.&gt;% f
 </tr>
 </tbody>
 </table>
-As can now see, some statements were not roughly equivalent to `sin(5)`.
+As you can see, some statements were not roughly equivalent to `sin(5)`.
 
 One related case to consider is the following (which we run by hand, as it seems to default `knitr` or `kableExtra` `html` styling, note: the "'\\\['" and other formatting errors are an artifacts of `HTML` quoting/rendering, and not part of the expressions):
 
@@ -727,7 +609,7 @@ attempt to apply non-function
 5 %.&gt;% 1 + .
 </td>
 <td style="text-align:left;width: 1.75in; ">
-wrapr::pipe\_step.default does not allow direct piping into simple values such as class:numeric, type:double.
+wrapr::pipe\_step.default does not allow direct piping into scalar values such as class:numeric, type:double.
 </td>
 </tr>
 <tr>
@@ -771,7 +653,7 @@ For some operations that are unlikely to work close to reasonable user intent `w
 5 %.>% 7
 ```
 
-    ## Error in pipe_step.default(pipe_left_arg, pipe_right_arg, pipe_environment, : wrapr::pipe_step.default does not allow direct piping into simple values such as class:numeric,  type:double.
+    ## Error in pipe_step.default(pipe_left_arg, pipe_right_arg, pipe_environment, : wrapr::pipe_step.default does not allow direct piping into scalar values such as class:numeric,  type:double.
 
 ``` r
 # magrittr's error message for the above is something of the form:
@@ -780,7 +662,7 @@ For some operations that are unlikely to work close to reasonable user intent `w
 5 %.>% .
 ```
 
-    ## Error in pipe_step.default(pipe_left_arg, pipe_right_arg, pipe_environment = pipe_environment, : wrapr::pipe_step.default does not allow direct piping into simple values such as class:numeric,  type:double.
+    ## Error in pipe_impl(pipe_left_arg, pipe_right_arg, pipe_environment, pipe_name): wrapr::pipe does not allow direct piping into '.'
 
 ``` r
 # note: the above error message is improved to:
