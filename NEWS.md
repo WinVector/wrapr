@@ -1,8 +1,9 @@
 
-# wrapr 1.4.2 2018-05-24
+# wrapr 1.4.2 2018-05-25
 
  * Fix qc() eval environment and recursion.
  * Add `%?%` coalescing operator.
+ * Add reduceargs operators.
 
 # wrapr 1.4.1 2018-05-17
 

@@ -140,6 +140,8 @@
 <li>
 <code>%?%</code> (coalesce)</li>
 <li>
+<code>%.|%</code> (reduce args)</li>
+<li>
 <code><a href="reference/DebugFnW.html">DebugFnW()</a></code> (function debug wrappers)</li>
 <li>
 <code>λ()</code> (anonymous function builder)</li>
@@ -318,8 +320,16 @@ name <span class="op">:</span><span class="er">=</span><span class="st"> 'newBin
 </h2>
 <p>The coalesce operator tries to replace elements of its first argument with elements from its second argument. In particular <code>%?%</code> replaces NULL vectors and NULL/NA entries of vectors and lists.</p>
 <p>Example:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="dv">1</span>, <span class="ot">NA</span>) <span class="op">%?%</span><span class="st"> </span><span class="kw">c</span>(<span class="ot">NA</span>, <span class="dv">20</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="dv">1</span>, <span class="ot">NA</span>) <span class="op">%?%</span><span class="st"> </span><span class="kw">list</span>(<span class="ot">NA</span>, <span class="dv">20</span>)
  <span class="co">#  [1]  1 20</span></code></pre></div>
+</div>
+<div id="reduce-args" class="section level2">
+<h2 class="hasAnchor">
+<a href="#reduce-args" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/reduceargs.html"><code>%.|%</code> (reduce args)</a>
+</h2>
+<p>The reduce args operator can be used to paste multiple values into a variadic function (a function that takes an arbitrary number of arguments) and can be used in place of partial application or even function Currying. The reduce args operator is only useful in dealing with other functions that do not present a standard value oriented non-variadic interface. An easy example is <code><a href="http://www.rdocumentation.org/packages/base/topics/sum">base::sum()</a></code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span><span class="op">:</span><span class="dv">10</span> <span class="op">%.|%</span><span class="st"> </span>sum
+ <span class="co">#  [1] 55</span></code></pre></div>
 </div>
 <div id="debugfnw" class="section level2">
 <h2 class="hasAnchor">

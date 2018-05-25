@@ -15,6 +15,7 @@ Primary `wrapr` services include:
 -   `qc()` (quoting concatenate)
 -   `:=` (named map builder)
 -   `%?%` (coalesce)
+-   `%.|%` (reduce args)
 -   `DebugFnW()` (function debug wrappers)
 -   `λ()` (anonymous function builder)
 
@@ -230,8 +231,18 @@ The coalesce operator tries to replace elements of its first argument with eleme
 Example:
 
 ``` r
-c(1, NA) %?% c(NA, 20)
+c(1, NA) %?% list(NA, 20)
  #  [1]  1 20
+```
+
+[`%.|%` (reduce args)](https://winvector.github.io/wrapr/reference/reduceargs.html)
+-----------------------------------------------------------------------------------
+
+The reduce args operator can be used to paste multiple values into a variadic function (a function that takes an arbitrary number of arguments) and can be used in place of partial application or even function Currying. The reduce args operator is only useful in dealing with other functions that do not present a standard value oriented non-variadic interface. An easy example is `base::sum()`.
+
+``` r
+1:10 %.|% sum
+ #  [1] 55
 ```
 
 [`DebugFnW()`](https://winvector.github.io/wrapr/articles/DebugFnW.html)
