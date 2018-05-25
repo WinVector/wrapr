@@ -11,11 +11,11 @@ Primary `wrapr` services include:
 
 -   `let()` (let block)
 -   `%.>%` (dot arrow pipe)
--   `build_frame()`/`draw_frame()`
+-   `build_frame()`/`draw_frame()` ( `data.frame` builders and formatters )
 -   `qc()` (quoting concatenate)
 -   `:=` (named map builder)
 -   `%?%` (coalesce)
--   `%.|%` (reduce args)
+-   `%.|%` ( reduce args, `applyf()` )
 -   `DebugFnW()` (function debug wrappers)
 -   `λ()` (anonymous function builder)
 
@@ -235,14 +235,17 @@ c(1, NA) %?% list(NA, 20)
  #  [1]  1 20
 ```
 
-[`%.|%` (reduce args)](https://winvector.github.io/wrapr/reference/reduceargs.html)
------------------------------------------------------------------------------------
+[`%.|%` (reduce args/`applyf()`)](https://winvector.github.io/wrapr/reference/applyf.html)
+------------------------------------------------------------------------------------------
 
-The reduce args operator can be used to paste multiple values into a variadic function (a function that takes an arbitrary number of arguments) and can be used in place of partial application or even function Currying. The reduce args operator is only useful in dealing with other functions that do not present a standard value oriented non-variadic interface. An easy example is `base::sum()`.
+`applyf()` is a thin wrapper for `base::do.call()`. The operator versions `%.|%` and `%|.%` are syntactic sugar. Any of these functions is sufficing to pas values to a variadic function (one that takes on undetermined number of arguments). An easy example is `base::sum()`.
 
 ``` r
 1:10 %.|% sum
  #  [1] 55
+
+5 %.>% applyf(log, c(., base = 2))
+ #  [1] 2.321928
 ```
 
 [`DebugFnW()`](https://winvector.github.io/wrapr/articles/DebugFnW.html)

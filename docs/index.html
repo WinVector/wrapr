@@ -131,8 +131,7 @@
 <li>
 <code>%.&gt;%</code> (dot arrow pipe)</li>
 <li>
-<code><a href="reference/build_frame.html">build_frame()</a></code>/<code><a href="reference/draw_frame.html">draw_frame()</a></code>
-</li>
+<code><a href="reference/build_frame.html">build_frame()</a></code>/<code><a href="reference/draw_frame.html">draw_frame()</a></code> ( <code>data.frame</code> builders and formatters )</li>
 <li>
 <code><a href="reference/qc.html">qc()</a></code> (quoting concatenate)</li>
 <li>
@@ -140,7 +139,7 @@
 <li>
 <code>%?%</code> (coalesce)</li>
 <li>
-<code>%.|%</code> (reduce args)</li>
+<code>%.|%</code> ( reduce args, <code><a href="reference/applyf.html">applyf()</a></code> )</li>
 <li>
 <code><a href="reference/DebugFnW.html">DebugFnW()</a></code> (function debug wrappers)</li>
 <li>
@@ -323,13 +322,16 @@ name <span class="op">:</span><span class="er">=</span><span class="st"> 'newBin
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="dv">1</span>, <span class="ot">NA</span>) <span class="op">%?%</span><span class="st"> </span><span class="kw">list</span>(<span class="ot">NA</span>, <span class="dv">20</span>)
  <span class="co">#  [1]  1 20</span></code></pre></div>
 </div>
-<div id="reduce-args" class="section level2">
+<div id="reduce-argsapplyf" class="section level2">
 <h2 class="hasAnchor">
-<a href="#reduce-args" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/reduceargs.html"><code>%.|%</code> (reduce args)</a>
+<a href="#reduce-argsapplyf" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/applyf.html"><code>%.|%</code> (reduce args/<code><a href="reference/applyf.html">applyf()</a></code>)</a>
 </h2>
-<p>The reduce args operator can be used to paste multiple values into a variadic function (a function that takes an arbitrary number of arguments) and can be used in place of partial application or even function Currying. The reduce args operator is only useful in dealing with other functions that do not present a standard value oriented non-variadic interface. An easy example is <code><a href="http://www.rdocumentation.org/packages/base/topics/sum">base::sum()</a></code>.</p>
+<p><code><a href="reference/applyf.html">applyf()</a></code> is a thin wrapper for <code><a href="http://www.rdocumentation.org/packages/base/topics/do.call">base::do.call()</a></code>. The operator versions <code>%.|%</code> and <code>%|.%</code> are syntactic sugar. Any of these functions is sufficing to pas values to a variadic function (one that takes on undetermined number of arguments). An easy example is <code><a href="http://www.rdocumentation.org/packages/base/topics/sum">base::sum()</a></code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span><span class="op">:</span><span class="dv">10</span> <span class="op">%.|%</span><span class="st"> </span>sum
- <span class="co">#  [1] 55</span></code></pre></div>
+ <span class="co">#  [1] 55</span>
+
+<span class="dv">5</span> <span class="op">%.&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/applyf.html">applyf</a></span>(log, <span class="kw">c</span>(., <span class="dt">base =</span> <span class="dv">2</span>))
+ <span class="co">#  [1] 2.321928</span></code></pre></div>
 </div>
 <div id="debugfnw" class="section level2">
 <h2 class="hasAnchor">

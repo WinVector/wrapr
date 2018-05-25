@@ -1,18 +1,18 @@
 
 #' Use function to reduce or expand arguments.
 #'
-#' Use function \code{f} to reduce arguments \code{ars} (inspired by APL reduce/expand notation).
-#' This is essentially passing multiple values from a list as multiple independent arguments to a
-#' function.  So this can be used to supply a standard evaluation interface for variadic functions.
-#' \code{f \%|.\% args} is roughly equivalent to \code{do.call(f, args)}.
+#' \code{applyf} is a wrapper for \code{\link[base]{do.call}} that also accepts argument vectors.
+#' The operator versions \code{\%.|\%} and \code{\%|.\%} are mere syntactic sugar.
+#' In all cases any these functions are sufficient to pass arguments from a list to a variadic
+#' function (such as \code{\link[base]{sum}}). The operator symbols are meant to invoke non-tilted
+#' versions of APL's reduce and expand operators.
 #'
-#' Note: these two operators are still experimental extensions.  They will
-#' require more training material and use cases before they are fully
-#' advised.
-#'
-#' @param f function
-#' @param args argument list or vector
+#' @param f function.
+#' @param args argument list or vector, entries expanded as function arguments.
+#' @param env environment to execute in.
 #' @return f(args) where args elements become individual arguments of f.
+#'
+#' @seealso \code{\link[base]{do.call}}
 #'
 #' @examples
 #'
@@ -21,19 +21,19 @@
 #' c(1, 2, 3) %.|% base::sum
 #' c(1, 2, 3) %.|% function(...) { sum(...) }
 #'
-#' # partial application of log(5, base=2)
-#' 5 %.>% (c(., base=2) %.|% log)
+#' # simulate partial application of log(5, base=2)
+#' 5 %.>% applyf(log, list(., base = 2))
 #'
-#' # # partial application with dplyr
+#' # # simluate partial application with dplyr
 #' # # can be used with dplyr/rlang as follows
 #' # d <- data.frame(x=1, y=2, z=3)
 #' # syms <- rlang::syms(c("x", "y"))
-#' # d %.>% (c(list(.), syms) %.|% dplyr::select)
+#' # d %.>% applyf(dplyr::select, c(list(.), syms))
 #'
-#' @name reduceargs
-NULL
-
-reduceimpl <- function(f, args, env) {
+#' @export
+#'
+applyf <- function(f, args,
+                   env = parent.frame()) {
   fnam <- deparse(f)
   if(is.name(f) || is.character(f)) {
     # name of function case as in c(1, 2, 3) %.|% sum
@@ -50,7 +50,7 @@ reduceimpl <- function(f, args, env) {
     f <- eval(f, envir = env, enclos = env)
   }
   if(!is.function(f)) {
-    stop(paste("wrapr::reduceimpl f (", fnam, ") must de-refence to a function"))
+    stop(paste("wrapr::applyf function argument f (", fnam, ") must de-refence to a function"))
   }
   if(!is.list(args)) {
     args <- as.list(args)
@@ -58,18 +58,18 @@ reduceimpl <- function(f, args, env) {
   do.call(f, args, envir = env)
 }
 
-#' @describeIn reduceargs f reduce args
+#' @describeIn applyf f reduce args
 #' @export
 `%|.%` <- function(f, args) {
   f <- substitute(f)
   env <- parent.frame()
-  reduceimpl(f, args, env)
+  applyf(f, args, env)
 }
 
-#' @describeIn reduceargs args expand f
+#' @describeIn applyf args expand f
 #' @export
 `%.|%` <- function(args, f) {
   f <- substitute(f)
   env <- parent.frame()
-  reduceimpl(f, args, env)
+  applyf(f, args, env)
 }
