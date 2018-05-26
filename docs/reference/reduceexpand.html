@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Use function to reduce or expand arguments. — applyf • wrapr</title>
+<title>Use function to reduce or expand arguments. — reduceexpand • wrapr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,11 +28,10 @@
 
 
 
-<meta property="og:title" content="Use function to reduce or expand arguments. — applyf" />
+<meta property="og:title" content="Use function to reduce or expand arguments. — reduceexpand" />
 
-<meta property="og:description" content="applyf is a wrapper for do.call that also accepts argument vectors.
-The operator versions %.|% and %|.% are mere syntactic sugar.
-In all cases any these functions are sufficient to pass arguments from a list to a variadic
+<meta property="og:description" content="The operators %.|% and %|.% are wrappers for do.call.
+These functions are used to pass arguments from a list to variadic
 function (such as sum). The operator symbols are meant to invoke non-tilted
 versions of APL's reduce and expand operators." />
 <meta name="twitter:card" content="summary" />
@@ -139,22 +138,19 @@ versions of APL's reduce and expand operators." />
     <div class="page-header">
     <h1>Use function to reduce or expand arguments.</h1>
     <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/Reduce.R'><code>R/Reduce.R</code></a></small>
-    <div class="hidden name"><code>applyf.Rd</code></div>
+    <div class="hidden name"><code>reduceexpand.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p><code>applyf</code> is a wrapper for <code><a href='http://www.rdocumentation.org/packages/base/topics/do.call'>do.call</a></code> that also accepts argument vectors.
-The operator versions <code>%.|%</code> and <code>%|.%</code> are mere syntactic sugar.
-In all cases any these functions are sufficient to pass arguments from a list to a variadic
+    <p>The operators <code>%.|%</code> and <code>%|.%</code> are wrappers for <code><a href='http://www.rdocumentation.org/packages/base/topics/do.call'>do.call</a></code>.
+These functions are used to pass arguments from a list to variadic
 function (such as <code><a href='http://www.rdocumentation.org/packages/base/topics/sum'>sum</a></code>). The operator symbols are meant to invoke non-tilted
 versions of APL's reduce and expand operators.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>applyf</span>(<span class='no'>f</span>, <span class='no'>args</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'>parent.frame</span>())
-
-<span class='no'>f</span> <span class='kw'>%|.%</span> <span class='no'>args</span>
+    <pre class="usage"><span class='no'>f</span> <span class='kw'>%|.%</span> <span class='no'>args</span>
 
 <span class='no'>args</span> <span class='kw'>%.|%</span> <span class='no'>f</span></pre>
     
@@ -168,10 +164,6 @@ versions of APL's reduce and expand operators.</p>
     <tr>
       <th>args</th>
       <td><p>argument list or vector, entries expanded as function arguments.</p></td>
-    </tr>
-    <tr>
-      <th>env</th>
-      <td><p>environment to execute in.</p></td>
     </tr>
     </table>
     
@@ -194,14 +186,14 @@ versions of APL's reduce and expand operators.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># basic examples</span>
-<span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>) <span class='kw'>%.|%</span> <span class='no'>sum</span></div><div class='output co'>#&gt; [1] 6</div><div class='input'><span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>) <span class='kw'>%.|%</span> <span class='kw pkg'>base</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/base/topics/sum'>sum</a></span></div><div class='output co'>#&gt; [1] 6</div><div class='input'><span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>) <span class='kw'>%.|%</span> <span class='kw'>function</span>(<span class='no'>...</span>) { <span class='fu'>sum</span>(<span class='no'>...</span>) }</div><div class='output co'>#&gt; [1] 6</div><div class='input'>
+<span class='fl'>1</span>:<span class='fl'>10</span> <span class='kw'>%.|%</span> <span class='no'>sum</span></div><div class='output co'>#&gt; [1] 55</div><div class='input'><span class='fl'>1</span>:<span class='fl'>10</span> <span class='kw'>%.|%</span> <span class='kw pkg'>base</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/base/topics/sum'>sum</a></span></div><div class='output co'>#&gt; [1] 55</div><div class='input'><span class='fl'>1</span>:<span class='fl'>10</span> <span class='kw'>%.|%</span> <span class='kw'>function</span>(<span class='no'>...</span>) { <span class='fu'>sum</span>(<span class='no'>...</span>) }</div><div class='output co'>#&gt; [1] 55</div><div class='input'>
 <span class='co'># simulate partial application of log(5, base=2)</span>
-<span class='fl'>5</span> <span class='kw'>%.&gt;%</span> <span class='fu'>applyf</span>(<span class='no'>log</span>, <span class='fu'>list</span>(<span class='no'>.</span>, <span class='kw'>base</span> <span class='kw'>=</span> <span class='fl'>2</span>))</div><div class='output co'>#&gt; [1] 2.321928</div><div class='input'>
+<span class='fl'>1</span>:<span class='fl'>4</span> <span class='kw'>%.&gt;%</span> <span class='fu'>do.call</span>(<span class='no'>log</span>, <span class='fu'>list</span>(<span class='no'>.</span>, <span class='kw'>base</span> <span class='kw'>=</span> <span class='fl'>2</span>))</div><div class='output co'>#&gt; [1] 0.000000 1.000000 1.584963 2.000000</div><div class='input'>
 # # simluate partial application with dplyr
 # # can be used with dplyr/rlang as follows
 # d <- data.frame(x=1, y=2, z=3)
 # syms <- rlang::syms(c("x", "y"))
-# d %.>% applyf(dplyr::select, c(list(.), syms))
+# d %.>% do.call(dplyr::select, c(list(.), syms))
 
 </div></pre>
   </div>

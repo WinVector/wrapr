@@ -32,7 +32,7 @@ Primary `wrapr` services include:
  * `qc()` (quoting concatenate)
  * `:=` (named map builder)
  * `%?%` (coalesce)
- * `%.|%` ( reduce args, `applyf()` )
+ * `%.|%` ( reduce/expand args )
  * `DebugFnW()` (function debug wrappers)
  * `λ()` (anonymous function builder)
 
@@ -201,16 +201,17 @@ Example:
 c(1, NA) %?% list(NA, 20)
 ```
 
-## [`%.|%` (reduce args/`applyf()`)](https://winvector.github.io/wrapr/reference/applyf.html)
+## [`%.|%` (reduce/expand args)](https://winvector.github.io/wrapr/reference/reduceexpand.html)
 
-`applyf()` is a thin wrapper for `base::do.call()`.  The operator versions `%.|%` and `%|.%` are syntactic sugar.
-Any of these functions is sufficing to pas values to a variadic function (one that takes on undetermined number
-of arguments).  An easy example is `base::sum()`.
+The operators \code{\%.|\%} and \code{\%|.\%} are wrappers for \code{\link[base]{do.call}}.
+These functions are used to pass arguments from a list to variadic
+function (such as \code{\link[base]{sum}}). The operator symbols are meant to invoke non-tilted
+versions of APL's reduce and expand operators.
 
 ```{r reduceargs}
 1:10 %.|% sum
 
-5 %.>% applyf(log, c(., base = 2))
+1:4 %.>% do.call(log, list(., base = 2))
 ```
 
 
