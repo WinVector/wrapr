@@ -149,6 +149,8 @@ Anonymous function constructions are evaluated so the function can be applied (e
 Checks and transforms are not performed on items inside braces (example: `5 %.>% { function(x) {x+1} }` returns `function(x) {x+1}`, not 6).
 </li>
 </ul>
+The dot pipe is also user configurable through standard S3 methods.
+
 `build_frame()` / `draw_frame()`
 --------------------------------
 
@@ -294,14 +296,9 @@ More Information
 
 More details on `wrapr` capabilities can be found in the following two technical articles:
 
-<ul>
-<li>
-[let](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf)
-</li>
-<li>
-[Dot-Pipe](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf)
-</li>
-</ul>
+-   [let](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf)
+-   [Dot-Pipe](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf)
+
 Note
 ----
 
