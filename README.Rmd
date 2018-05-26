@@ -203,9 +203,9 @@ c(1, NA) %?% list(NA, 20)
 
 ## [`%.|%` (reduce/expand args)](https://winvector.github.io/wrapr/reference/reduceexpand.html)
 
-The operators \code{\%.|\%} and \code{\%|.\%} are wrappers for \code{\link[base]{do.call}}.
+The operators `%.|%` and `%|.%` are wrappers for `do.call()`.
 These functions are used to pass arguments from a list to variadic
-function (such as \code{\link[base]{sum}}). The operator symbols are meant to invoke non-tilted
+function (such as `sum()`). The operator symbols are meant to invoke non-tilted
 versions of APL's reduce and expand operators.
 
 ```{r reduceargs}

@@ -326,7 +326,7 @@ name <span class="op">:</span><span class="er">=</span><span class="st"> 'newBin
 <h2 class="hasAnchor">
 <a href="#reduceexpand-args" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/reduceexpand.html"><code>%.|%</code> (reduce/expand args)</a>
 </h2>
-<p>The operators  and  are wrappers for . These functions are used to pass arguments from a list to variadic function (such as ). The operator symbols are meant to invoke non-tilted versions of APL’s reduce and expand operators.</p>
+<p>The operators <code>%.|%</code> and <code>%|.%</code> are wrappers for <code>do.call()</code>. These functions are used to pass arguments from a list to variadic function (such as <code>sum()</code>). The operator symbols are meant to invoke non-tilted versions of APL’s reduce and expand operators.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span><span class="op">:</span><span class="dv">10</span> <span class="op">%.|%</span><span class="st"> </span>sum
  <span class="co">#  [1] 55</span>
 

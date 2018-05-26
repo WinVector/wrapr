@@ -238,7 +238,7 @@ c(1, NA) %?% list(NA, 20)
 [`%.|%` (reduce/expand args)](https://winvector.github.io/wrapr/reference/reduceexpand.html)
 --------------------------------------------------------------------------------------------
 
-The operators and are wrappers for . These functions are used to pass arguments from a list to variadic function (such as ). The operator symbols are meant to invoke non-tilted versions of APL's reduce and expand operators.
+The operators `%.|%` and `%|.%` are wrappers for `do.call()`. These functions are used to pass arguments from a list to variadic function (such as `sum()`). The operator symbols are meant to invoke non-tilted versions of APL's reduce and expand operators.
 
 ``` r
 1:10 %.|% sum

@@ -4,13 +4,16 @@
 #' The operators \code{\%.|\%} and \code{\%|.\%} are wrappers for \code{\link[base]{do.call}}.
 #' These functions are used to pass arguments from a list to variadic
 #' function (such as \code{\link[base]{sum}}). The operator symbols are meant to invoke non-tilted
-#' versions of APL's reduce and expand operators.
+#' versions of APL's reduce and expand operators. Unevaluated expressions containing
+#' \code{\%.|\%}, \code{\%|.\%}, or \code{\link[base]{do.call}} can be used simulate partial function
+#' application or simulate function Currying.  The take-away is one can delegate all
+#' variadic argument construction to \code{\link[base]{list}}, and manipulation to \code{\link[base]{c}}.
 #'
 #' @param f function.
 #' @param args argument list or vector, entries expanded as function arguments.
 #' @return f(args) where args elements become individual arguments of f.
 #'
-#' @seealso \code{\link[base]{do.call}}
+#' @seealso \code{\link[base]{do.call}}, \code{\link[base]{list}}, \code{\link[base]{c}}
 #'
 #' @examples
 #'
@@ -19,7 +22,7 @@
 #' 1:10 %.|% base::sum
 #' 1:10 %.|% function(...) { sum(...) }
 #'
-#' # simulate partial application of log(5, base=2)
+#' # simulate partial application of log(., base=2)
 #' 1:4 %.>% do.call(log, list(., base = 2))
 #'
 #' # # simluate partial application with dplyr
