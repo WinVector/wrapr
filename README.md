@@ -151,8 +151,8 @@ Checks and transforms are not performed on items inside braces (example: `5 %.>%
 </ul>
 The dot pipe is also user configurable through standard S3 methods.
 
-`build_frame()` / `draw_frame()`
---------------------------------
+[`build_frame()`](https://winvector.github.io/wrapr/reference/build_frame.html) / [`draw_frame()`](https://winvector.github.io/wrapr/reference/draw_frame.html)
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 [`build_frame()`](https://winvector.github.io/wrapr/reference/build_frame.html) is a convenient way to type in a small example `data.frame` in natural row order. This can be very legible and saves having to perform a transpose in one's head. [`draw_frame()`](https://winvector.github.io/wrapr/reference/draw_frame.html) is the complimentary function that formats a given `data.frame` (and is a great way to produce neatened examples).
 
