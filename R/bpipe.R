@@ -163,6 +163,10 @@ pipe_impl <- function(pipe_left_arg,
         (as.character(pipe_right_arg[[1]])=="(")) {
     pipe_right_arg <- pipe_right_arg[[2]]
   }
+  left_arg_name <- NULL
+  if(is.name(pipe_left_arg)) {
+    left_arg_name <- pipe_left_arg
+  }
   # force pipe_left_arg
   pipe_left_arg <- eval(pipe_left_arg,
                         envir = pipe_environment,
@@ -206,9 +210,17 @@ pipe_impl <- function(pipe_left_arg,
     # pipe_right_arg is now a value (as far as we are concerned)
     # special case: functions
     if(is.function(pipe_right_arg)) {
-      res <- withVisible(do.call(pipe_right_arg,
-                                 list(pipe_left_arg),
-                                 envir = pipe_environment))
+      if(!is.null(left_arg_name)) {
+        # try to pass name forward to function
+        # support NSE in functions, but don't encourage it in expressions
+        res <- withVisible(do.call(pipe_right_arg,
+                                   list(left_arg_name),
+                                   envir = pipe_environment))
+      } else {
+        res <- withVisible(do.call(pipe_right_arg,
+                                   list(pipe_left_arg),
+                                   envir = pipe_environment))
+      }
       if(res$visible) {
         return(res$value)
       } else {

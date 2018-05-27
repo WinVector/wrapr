@@ -4,6 +4,7 @@
  * Fix qc() eval environment and recursion.
  * Add `%?%` coalescing operator.
  * Add reduce/expand operators.
+ * dot pipe tries to preserve names in function calls.
 
 # wrapr 1.4.1 2018-05-17
 
