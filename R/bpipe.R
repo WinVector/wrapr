@@ -1,32 +1,58 @@
 
 
-#' Pipe step operator
-#'
 #' S3 dispatch on class of pipe_left_arg.
+#'
 #' For formal documentation please see \url{https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf}.
 #'
 #' @param pipe_left_arg left argument.
 #' @param pipe_right_arg substitute(pipe_right_arg) argument.
 #' @param pipe_environment environment to evaluate in.
-#' @param pipe_name character, name of pipe operator.
+#' @param left_arg_name name, if not NULL name of left argument.
+#' @param pipe_string character, name of pipe operator.
+#' @param right_arg_name name, if not NULL name of right argument.
 #' @return result
+#'
+#' @seealso \code{\link{apply_left.default}}
+#'
+#' @examples
+#'
+#' # collects from left to right
+#' apply_left.character <- function(pipe_left_arg,
+#'                                  pipe_right_arg,
+#'                                  pipe_environment,
+#'                                  left_arg_name,
+#'                                  pipe_string,
+#'                                  right_arg_name) {
+#'   paste(pipe_left_arg, pipe_right_arg)
+#' }
+#'
+#' "a" %.>% 5 %.>% 7
+#'
 #'
 #' @export
 #'
-pipe_step <- function(pipe_left_arg,
-                      pipe_right_arg,
-                      pipe_environment,
-                      pipe_name = NULL) {
-  UseMethod("pipe_step", pipe_left_arg)
+apply_left <- function(pipe_left_arg,
+                       pipe_right_arg,
+                       pipe_environment,
+                       left_arg_name,
+                       pipe_string,
+                       right_arg_name) {
+  UseMethod("apply_left", pipe_left_arg)
 }
 
-#' Pipe step operator
+#' S3 dispatch on class of pipe_left_arg.
+#'
+#' Place evalation of left argument in \code{.} and then evaluate right argument.
 #'
 #' @param pipe_left_arg left argument
 #' @param pipe_right_arg substitute(pipe_right_arg) argument
 #' @param pipe_environment environment to evaluate in
-#' @param pipe_name character, name of pipe operator.
+#' @param left_arg_name name, if not NULL name of left argument.
+#' @param pipe_string character, name of pipe operator.
+#' @param right_arg_name name, if not NULL name of right argument.
 #' @return result
+#'
+#' @seealso \code{\link{apply_left}}
 #'
 #' @examples
 #'
@@ -34,25 +60,15 @@ pipe_step <- function(pipe_left_arg,
 #'
 #' @export
 #'
-pipe_step.default <- function(pipe_left_arg,
-                              pipe_right_arg,
-                              pipe_environment,
-                              pipe_name = NULL) {
+apply_left.default <- function(pipe_left_arg,
+                               pipe_right_arg,
+                               pipe_environment,
+                               left_arg_name,
+                               pipe_string,
+                               right_arg_name) {
   # remove some exceptional cases
   if(length(pipe_right_arg)<1) {
-    stop("wrapr::pipe_step.default does not allow direct piping into NULL/empty")
-  }
-  if(length(pipe_right_arg)==1) {
-    if(is.call(pipe_right_arg)) {
-      right_text <- as.character(pipe_right_arg)
-      stop(paste0("wrapr::pipe_step.default does not allow direct piping into a no-argument function call expression (such as \"",
-                  right_text,
-                  "()\", please use ",
-                  right_text, "(.))."))
-    }
-    stop(paste0("wrapr::pipe_step.default does not allow direct piping into scalar values such as",
-                " class:" , class(pipe_right_arg), ", ",
-                " type:", typeof(pipe_right_arg), "."))
+    stop("wrapr::apply_left.default does not allow direct piping into NULL/empty")
   }
   if(is.call(pipe_right_arg) && (is.name(pipe_right_arg[[1]]))) {
     call_text <- as.character(pipe_right_arg[[1]])
@@ -78,7 +94,7 @@ pipe_step.default <- function(pipe_left_arg,
                         "withRestarts", "invokeRestart", "invokeRestartInteractively",
                         "suppressMessages", "suppressWarnings",
                         "warning", "stop")) {
-      stop(paste0("wrapr::pipe_step.default does not allow direct piping into certain reserved words or control structures (such as \"",
+      stop(paste0("wrapr::apply_left.default does not allow direct piping into certain reserved words or control structures (such as \"",
                   call_text,
                   "\")."))
     }
@@ -92,53 +108,86 @@ pipe_step.default <- function(pipe_left_arg,
        enclos = pipe_environment)
 }
 
-#' Wrapr function.
-#'
 #' S3 dispatch on class of pipe_right_argument.
+#'
+#' Triggered if right hand side was a name that does not resolve to a function.
 #' For formal documentation please see \url{https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf}.
 #'
-#' @param pipe_left_arg left argument.
-#' @param pipe_right_arg right argument (general object, not a function).
-#' @param pipe_environment environment to evaluate in.
-#' @param pipe_name character, name of pipe operator.
+#' @param pipe_left_arg left argument
+#' @param pipe_right_arg substitute(pipe_right_arg) argument
+#' @param pipe_environment environment to evaluate in
+#' @param left_arg_name name, if not NULL name of left argument.
+#' @param pipe_string character, name of pipe operator.
+#' @param right_arg_name name, if not NULL name of right argument.
 #' @return result
 #'
-#' @export
-#'
-wrapr_function <- function(pipe_left_arg,
-                           pipe_right_arg,
-                           pipe_environment,
-                           pipe_name = NULL) {
-  UseMethod("wrapr_function", pipe_right_arg)
-}
-
-#' Wrapr function.
-#'
-#' S3 dispatch on tyhpe of pipe_right_argument.
-#'
-#' @param pipe_left_arg left argument.
-#' @param pipe_right_arg right argument (general object, not a function).
-#' @param pipe_environment environment to evaluate in.
-#' @param pipe_name character, name of pipe operator.
-#' @return result
+#' @seealso \code{\link{apply_right.default}}
 #'
 #' @examples
 #'
-#' f <- function() { print("execute"); 0}
-#' a <- substitute({. + 1 + f()})
-#' 5 %.>% a
+#' # simulate a function pointer
+#' apply_right.list <- function(pipe_left_arg,
+#'                              pipe_right_arg,
+#'                              pipe_environment,
+#'                              left_arg_name,
+#'                              pipe_string,
+#'                              right_arg_name) {
+#'   pipe_right_arg$f(pipe_left_arg)
+#' }
 #'
+#' f <- list(f=sin)
+#' 2 %.>% f
+#' f$f <- cos
+#' 2 %.>% f
 #'
 #' @export
 #'
-wrapr_function.default <- function(pipe_left_arg,
-                                   pipe_right_arg,
-                                   pipe_environment,
-                                   pipe_name = NULL) {
-  # go to default left S3 dispatch on pipe_step()
-  pipe_step(pipe_left_arg, pipe_right_arg,
-            pipe_environment = pipe_environment,
-            pipe_name = pipe_name)
+apply_right <- function(pipe_left_arg,
+                        pipe_right_arg,
+                        pipe_environment,
+                        left_arg_name,
+                        pipe_string,
+                        right_arg_name) {
+  UseMethod("apply_right", pipe_right_arg)
+}
+
+#' S3 dispatch on type of pipe_right_argument.
+#'
+#' Triggered if right hand side was a name that does not resolve to a function.
+#' Default implementation is re-dispatch through \code{\link{apply_left}}.
+#' Currently this is not thought to be a common execution case.
+#'
+#' @param pipe_left_arg left argument
+#' @param pipe_right_arg substitute(pipe_right_arg) argument
+#' @param pipe_environment environment to evaluate in
+#' @param left_arg_name name, if not NULL name of left argument.
+#' @param pipe_string character, name of pipe operator.
+#' @param right_arg_name name, if not NULL name of right argument.
+#' @return result
+#'
+#' @seealso \code{\link{apply_left}}, \code{\link{apply_right}}
+#'
+#' @examples
+#'
+#' v <- list(1, 2)
+#' f <- function(z) { format(z) }
+#' f %.>% v
+#'
+#' @export
+#'
+apply_right.default <- function(pipe_left_arg,
+                                pipe_right_arg,
+                                pipe_environment,
+                                left_arg_name,
+                                pipe_string,
+                                right_arg_name) {
+  # go to default left S3 dispatch on apply_left()
+  apply_left(pipe_left_arg = pipe_left_arg,
+             pipe_right_arg = pipe_right_arg,
+             pipe_environment = pipe_environment,
+             left_arg_name = left_arg_name,
+             pipe_string = pipe_string,
+             right_arg_name = right_arg_name)
 }
 
 
@@ -147,7 +196,7 @@ wrapr_function.default <- function(pipe_left_arg,
 #' @param pipe_left_arg substitute(pipe_left_arg) argument.
 #' @param pipe_right_arg substitute(pipe_right_arg) argument.
 #' @param pipe_environment environment to evaluate in.
-#' @param pipe_name character, name of pipe operator.
+#' @param pipe_string character, name of pipe operator.
 #' @return result
 #'
 #' @noRd
@@ -155,7 +204,7 @@ wrapr_function.default <- function(pipe_left_arg,
 pipe_impl <- function(pipe_left_arg,
                       pipe_right_arg,
                       pipe_environment,
-                      pipe_name = NULL) {
+                      pipe_string = NULL) {
   # special case: parenthesis
   while(is.call(pipe_right_arg) &&
         (length(pipe_right_arg)==2) &&
@@ -163,9 +212,14 @@ pipe_impl <- function(pipe_left_arg,
         (as.character(pipe_right_arg[[1]])=="(")) {
     pipe_right_arg <- pipe_right_arg[[2]]
   }
+  # capture names
   left_arg_name <- NULL
   if(is.name(pipe_left_arg)) {
     left_arg_name <- pipe_left_arg
+  }
+  right_arg_name <- NULL
+  if(is.name(pipe_right_arg)) {
+    right_arg_name <- pipe_right_arg
   }
   # force pipe_left_arg
   pipe_left_arg <- eval(pipe_left_arg,
@@ -228,10 +282,12 @@ pipe_impl <- function(pipe_left_arg,
       }
     }
     # S3 dispatch on right argument, surrogate function
-    res <- withVisible(wrapr_function(pipe_left_arg,
-                                      pipe_right_arg,
-                                      pipe_environment,
-                                      pipe_name))
+    res <- withVisible(apply_right(pipe_left_arg,
+                                   pipe_right_arg,
+                                   pipe_environment,
+                                   left_arg_name,
+                                   pipe_string,
+                                   right_arg_name))
     if(res$visible) {
       return(res$value)
     } else {
@@ -239,10 +295,12 @@ pipe_impl <- function(pipe_left_arg,
     }
   }
   # Go for standard (first argument) S3 dispatch
-  res <- withVisible(pipe_step(pipe_left_arg,
-                               pipe_right_arg,
-                               pipe_environment,
-                               pipe_name))
+  res <- withVisible(apply_left(pipe_left_arg,
+                                pipe_right_arg,
+                                pipe_environment,
+                                left_arg_name,
+                                pipe_string,
+                                right_arg_name))
   if(res$visible) {
     res$value
   } else {
@@ -286,9 +344,9 @@ NULL
   pipe_left_arg <- substitute(pipe_left_arg)
   pipe_right_arg <- substitute(pipe_right_arg)
   pipe_environment <- parent.frame()
-  pipe_name <- as.character(sys.call()[[1]])
+  pipe_string <- as.character(sys.call()[[1]])
   pipe_impl(pipe_left_arg, pipe_right_arg,
-            pipe_environment, pipe_name)
+            pipe_environment, pipe_string)
 }
 
 #' @describeIn dot_arrow alias for dot arrow
@@ -297,7 +355,7 @@ NULL
   pipe_left_arg <- substitute(pipe_left_arg)
   pipe_right_arg <- substitute(pipe_right_arg)
   pipe_environment <- parent.frame()
-  pipe_name <- as.character(sys.call()[[1]])
+  pipe_string <- as.character(sys.call()[[1]])
   pipe_impl(pipe_left_arg, pipe_right_arg,
-            pipe_environment, pipe_name)
+            pipe_environment, pipe_string)
 }

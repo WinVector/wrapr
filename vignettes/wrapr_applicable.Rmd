@@ -28,7 +28,7 @@ library("wrapr")
 5 %.>% sin(.)
 ```
 
-The above is performed by standard `S3` dispatch on the left argument of an exported generic function called `pipe_step()`.  A formal description of `wrapr` piping can be found [here](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf).
+The above is performed by standard `S3` dispatch on the left argument of an exported generic functions called `apply_left()` and `apply_right()`.  A formal description of `wrapr` piping can be found [here](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf).
 
 ## Dereferencing and function evaluation
 
@@ -41,12 +41,7 @@ The above is performed by standard `S3` dispatch on the left argument of an expo
 
 ## `"wrapr_applicable"`
 
-Arbitrary objects ask `wrapr` to treat them as special expressions by:
-
-  1. Adding the string `"wrapr_applicable"` to their class declarations.
-  2. Implement an `S3` generic `"wrapr_function"` with a function of signature `(pipe_left_arg, pipe_right_arg, , pipe_environment)`.  Note `S3` dispatch is on the right argument.
-  
-If these two conditions are met then `wrapr` instead of evaluating the object calls the function `wrapr_function`.
+Arbitrary objects ask `wrapr` to treat them as special expressions by overriding one or more of `apply_left()` and `apply_right()` for the `S3` class they wish managed.
 
 For example:
 
@@ -54,22 +49,12 @@ For example:
 function_reference <- list(f = sin)
 class(function_reference) <- c("wrapr_applicable", "ourclass")
 
-#' Wrapr function.
-#'
-#' S3 dispatch on tyhpe of pipe_right_argument.
-#'
-#' @param pipe_left_arg left argument.
-#' @param pipe_right_arg right argument.
-#' @param pipe_environment environment to evaluate in.
-#' @param pipe_name character, name of pipe operator.
-#' @return result
-#'
-#' @export
-#'
-wrapr_function.ourclass <- function(pipe_left_arg, 
+apply_right.ourclass <- function(pipe_left_arg,
                                     pipe_right_arg,
                                     pipe_environment,
-                                    pipe_name) {
+                                    left_arg_name,
+                                    pipe_string,
+                                    right_arg_name) {
   pipe_right_arg$f(pipe_left_arg)
 }
 
@@ -93,22 +78,32 @@ This functionality allows arbitrary objects to directly specify their intended p
 Let's use a debugging function to see the values of all of the arguments.
 
 ```{r debug}
-wrapr_function.ourclass <- function(pipe_left_arg, 
-                                    pipe_right_arg,
-                                    pipe_environment,
-                                    pipe_name) {
+apply_right.ourclass <- function(pipe_left_arg,
+                                 pipe_right_arg,
+                                 pipe_environment,
+                                 left_arg_name,
+                                 pipe_string,
+                                 right_arg_name) {
   print("pipe_left_arg")
   print(pipe_left_arg)
   print("pipe_right_arg")
   print(pipe_right_arg)
   print("pipe_environment")
   print(pipe_environment)
-  print("pipe_name")
-  print(pipe_name)
+  print("left_arg_name")
+  print(left_arg_name)
+  print("pipe_string")
+  print(pipe_string)
+  print("right_arg_name")
+  print(right_arg_name)
   pipe_right_arg$f(pipe_left_arg)
 }
 
 5 %.>% function_reference
+
+a <- 5
+
+a %.>% function_reference
 ```
 
 

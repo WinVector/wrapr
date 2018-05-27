@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Pipe step operator — pipe_step • wrapr</title>
+<title>S3 dispatch on class of pipe_left_arg. — apply_left • wrapr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,10 +28,9 @@
 
 
 
-<meta property="og:title" content="Pipe step operator — pipe_step" />
+<meta property="og:title" content="S3 dispatch on class of pipe_left_arg. — apply_left" />
 
-<meta property="og:description" content="S3 dispatch on class of pipe_left_arg.
-For formal documentation please see https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf." />
+<meta property="og:description" content="For formal documentation please see https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -59,7 +58,7 @@ For formal documentation please see https://github.com/WinVector/wrapr/blob/mast
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.4.2</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.0</span>
       </span>
     </div>
 
@@ -134,19 +133,19 @@ For formal documentation please see https://github.com/WinVector/wrapr/blob/mast
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Pipe step operator</h1>
+    <h1>S3 dispatch on class of pipe_left_arg.</h1>
     <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/bpipe.R'><code>R/bpipe.R</code></a></small>
-    <div class="hidden name"><code>pipe_step.Rd</code></div>
+    <div class="hidden name"><code>apply_left.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>S3 dispatch on class of pipe_left_arg.
-For formal documentation please see <a href='https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf'>https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf</a>.</p>
+    <p>For formal documentation please see <a href='https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf'>https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf</a>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>pipe_step</span>(<span class='no'>pipe_left_arg</span>, <span class='no'>pipe_right_arg</span>, <span class='no'>pipe_environment</span>, <span class='kw'>pipe_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>apply_left</span>(<span class='no'>pipe_left_arg</span>, <span class='no'>pipe_right_arg</span>, <span class='no'>pipe_environment</span>, <span class='no'>left_arg_name</span>,
+  <span class='no'>pipe_string</span>, <span class='no'>right_arg_name</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -164,8 +163,16 @@ For formal documentation please see <a href='https://github.com/WinVector/wrapr/
       <td><p>environment to evaluate in.</p></td>
     </tr>
     <tr>
-      <th>pipe_name</th>
+      <th>left_arg_name</th>
+      <td><p>name, if not NULL name of left argument.</p></td>
+    </tr>
+    <tr>
+      <th>pipe_string</th>
       <td><p>character, name of pipe operator.</p></td>
+    </tr>
+    <tr>
+      <th>right_arg_name</th>
+      <td><p>name, if not NULL name of right argument.</p></td>
     </tr>
     </table>
     
@@ -173,7 +180,26 @@ For formal documentation please see <a href='https://github.com/WinVector/wrapr/
 
     <p>result</p>
     
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
+    <div class='dont-index'><p><code><a href='apply_left.default.html'>apply_left.default</a></code></p></div>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='co'># collects from left to right</span>
+<span class='no'>apply_left.character</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>pipe_left_arg</span>,
+                                 <span class='no'>pipe_right_arg</span>,
+                                 <span class='no'>pipe_environment</span>,
+                                 <span class='no'>left_arg_name</span>,
+                                 <span class='no'>pipe_string</span>,
+                                 <span class='no'>right_arg_name</span>) {
+  <span class='fu'>paste</span>(<span class='no'>pipe_left_arg</span>, <span class='no'>pipe_right_arg</span>)
+}
+
+<span class='st'>"a"</span> <span class='kw'>%.&gt;%</span> <span class='fl'>5</span> <span class='kw'>%.&gt;%</span> <span class='fl'>7</span></div><div class='output co'>#&gt; [1] 7</div><div class='input'>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -181,7 +207,11 @@ For formal documentation please see <a href='https://github.com/WinVector/wrapr/
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+
+      <li><a href="#see-also">See also</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

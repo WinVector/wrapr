@@ -1,6 +1,7 @@
 
-# wrapr 1.4.2 2018-05-26
+# wrapr 1.5.0 2018-05-27
 
+ * Rationalize and re-name pipe interfaces to apply_right and apply_left.
  * Fix qc() eval environment and recursion.
  * Add `%?%` coalescing operator.
  * Add reduce/expand operators.

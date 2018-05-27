@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Wrapr function. — wrapr_function • wrapr</title>
+<title>S3 dispatch on type of pipe_right_argument. — apply_right.default • wrapr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,10 +28,11 @@
 
 
 
-<meta property="og:title" content="Wrapr function. — wrapr_function" />
+<meta property="og:title" content="S3 dispatch on type of pipe_right_argument. — apply_right.default" />
 
-<meta property="og:description" content="S3 dispatch on class of pipe_right_argument.
-For formal documentation please see https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf." />
+<meta property="og:description" content="Triggered if right hand side was a name that does not resolve to a function.
+Default implementation is re-dispatch through apply_left.
+Currently this is not thought to be a common execution case." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -59,7 +60,7 @@ For formal documentation please see https://github.com/WinVector/wrapr/blob/mast
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.4.2</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.0</span>
       </span>
     </div>
 
@@ -134,39 +135,49 @@ For formal documentation please see https://github.com/WinVector/wrapr/blob/mast
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Wrapr function.</h1>
+    <h1>S3 dispatch on type of pipe_right_argument.</h1>
     <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/bpipe.R'><code>R/bpipe.R</code></a></small>
-    <div class="hidden name"><code>wrapr_function.Rd</code></div>
+    <div class="hidden name"><code>apply_right.default.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>S3 dispatch on class of pipe_right_argument.
-For formal documentation please see <a href='https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf'>https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf</a>.</p>
+    <p>Triggered if right hand side was a name that does not resolve to a function.
+Default implementation is re-dispatch through <code><a href='apply_left.html'>apply_left</a></code>.
+Currently this is not thought to be a common execution case.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>wrapr_function</span>(<span class='no'>pipe_left_arg</span>, <span class='no'>pipe_right_arg</span>, <span class='no'>pipe_environment</span>,
-  <span class='kw'>pipe_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='co'># S3 method for default</span>
+<span class='fu'><a href='apply_right.html'>apply_right</a></span>(<span class='no'>pipe_left_arg</span>, <span class='no'>pipe_right_arg</span>, <span class='no'>pipe_environment</span>,
+  <span class='no'>left_arg_name</span>, <span class='no'>pipe_string</span>, <span class='no'>right_arg_name</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>pipe_left_arg</th>
-      <td><p>left argument.</p></td>
+      <td><p>left argument</p></td>
     </tr>
     <tr>
       <th>pipe_right_arg</th>
-      <td><p>right argument (general object, not a function).</p></td>
+      <td><p>substitute(pipe_right_arg) argument</p></td>
     </tr>
     <tr>
       <th>pipe_environment</th>
-      <td><p>environment to evaluate in.</p></td>
+      <td><p>environment to evaluate in</p></td>
     </tr>
     <tr>
-      <th>pipe_name</th>
+      <th>left_arg_name</th>
+      <td><p>name, if not NULL name of left argument.</p></td>
+    </tr>
+    <tr>
+      <th>pipe_string</th>
       <td><p>character, name of pipe operator.</p></td>
+    </tr>
+    <tr>
+      <th>right_arg_name</th>
+      <td><p>name, if not NULL name of right argument.</p></td>
     </tr>
     </table>
     
@@ -174,7 +185,22 @@ For formal documentation please see <a href='https://github.com/WinVector/wrapr/
 
     <p>result</p>
     
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
+    <div class='dont-index'><p><code><a href='apply_left.html'>apply_left</a></code>, <code><a href='apply_right.html'>apply_right</a></code></p></div>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='no'>v</span> <span class='kw'>&lt;-</span> <span class='fu'>list</span>(<span class='fl'>1</span>, <span class='fl'>2</span>)
+<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>z</span>) { <span class='fu'>format</span>(<span class='no'>z</span>) }
+<span class='no'>f</span> <span class='kw'>%.&gt;%</span> <span class='no'>v</span></div><div class='output co'>#&gt; [[1]]
+#&gt; [1] 1
+#&gt; 
+#&gt; [[2]]
+#&gt; [1] 2
+#&gt; </div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -182,7 +208,11 @@ For formal documentation please see <a href='https://github.com/WinVector/wrapr/
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+
+      <li><a href="#see-also">See also</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

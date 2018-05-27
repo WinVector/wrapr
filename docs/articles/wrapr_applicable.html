@@ -29,7 +29,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.4.2</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.0</span>
       </span>
     </div>
 
@@ -106,7 +106,7 @@
       <h1>wrapr_applicable</h1>
                         <h4 class="author">John Mount, Win-Vector LLC</h4>
             
-            <h4 class="date">2018-05-26</h4>
+            <h4 class="date">2018-05-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/wrapr_applicable.Rmd"><code>vignettes/wrapr_applicable.Rmd</code></a></small>
       <div class="hidden name"><code>wrapr_applicable.Rmd</code></div>
@@ -125,7 +125,7 @@
 
 <span class="dv">5</span> <span class="op">%.&gt;%</span><span class="st"> </span><span class="kw">sin</span>(.)
 <span class="co">#&gt; [1] -0.9589243</span></code></pre></div>
-<p>The above is performed by standard <code>S3</code> dispatch on the left argument of an exported generic function called <code><a href="../reference/pipe_step.html">pipe_step()</a></code>. A formal description of <code>wrapr</code> piping can be found <a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf">here</a>.</p>
+<p>The above is performed by standard <code>S3</code> dispatch on the left argument of an exported generic functions called <code><a href="../reference/apply_left.html">apply_left()</a></code> and <code><a href="../reference/apply_right.html">apply_right()</a></code>. A formal description of <code>wrapr</code> piping can be found <a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf">here</a>.</p>
 </div>
 <div id="dereferencing-and-function-evaluation" class="section level2">
 <h2 class="hasAnchor">
@@ -140,32 +140,17 @@
 <h2 class="hasAnchor">
 <a href="#wrapr_applicable" class="anchor"></a><code>"wrapr_applicable"</code>
 </h2>
-<p>Arbitrary objects ask <code>wrapr</code> to treat them as special expressions by:</p>
-<ol style="list-style-type: decimal">
-<li>Adding the string <code>"wrapr_applicable"</code> to their class declarations.</li>
-<li>Implement an <code>S3</code> generic <code>"wrapr_function"</code> with a function of signature <code>(pipe_left_arg, pipe_right_arg, , pipe_environment)</code>. Note <code>S3</code> dispatch is on the right argument.</li>
-</ol>
-<p>If these two conditions are met then <code>wrapr</code> instead of evaluating the object calls the function <code>wrapr_function</code>.</p>
+<p>Arbitrary objects ask <code>wrapr</code> to treat them as special expressions by overriding one or more of <code><a href="../reference/apply_left.html">apply_left()</a></code> and <code><a href="../reference/apply_right.html">apply_right()</a></code> for the <code>S3</code> class they wish managed.</p>
 <p>For example:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">function_reference &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">f =</span> sin)
 <span class="kw">class</span>(function_reference) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"wrapr_applicable"</span>, <span class="st">"ourclass"</span>)
 
-<span class="co">#' Wrapr function.</span>
-<span class="co">#'</span>
-<span class="co">#' S3 dispatch on tyhpe of pipe_right_argument.</span>
-<span class="co">#'</span>
-<span class="co">#' @param pipe_left_arg left argument.</span>
-<span class="co">#' @param pipe_right_arg right argument.</span>
-<span class="co">#' @param pipe_environment environment to evaluate in.</span>
-<span class="co">#' @param pipe_name character, name of pipe operator.</span>
-<span class="co">#' @return result</span>
-<span class="co">#'</span>
-<span class="co">#' @export</span>
-<span class="co">#'</span>
-wrapr_function.ourclass &lt;-<span class="st"> </span><span class="cf">function</span>(pipe_left_arg, 
+apply_right.ourclass &lt;-<span class="st"> </span><span class="cf">function</span>(pipe_left_arg,
                                     pipe_right_arg,
                                     pipe_environment,
-                                    pipe_name) {
+                                    left_arg_name,
+                                    pipe_string,
+                                    right_arg_name) {
   pipe_right_arg<span class="op">$</span><span class="kw">f</span>(pipe_left_arg)
 }
 
@@ -194,18 +179,24 @@ function_reference<span class="op">$</span>f &lt;-<span class="st"> </span>sqrt
 </ul>
 <p>This functionality allows arbitrary objects to directly specify their intended pipeline behavior.</p>
 <p>Let’s use a debugging function to see the values of all of the arguments.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wrapr_function.ourclass &lt;-<span class="st"> </span><span class="cf">function</span>(pipe_left_arg, 
-                                    pipe_right_arg,
-                                    pipe_environment,
-                                    pipe_name) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">apply_right.ourclass &lt;-<span class="st"> </span><span class="cf">function</span>(pipe_left_arg,
+                                 pipe_right_arg,
+                                 pipe_environment,
+                                 left_arg_name,
+                                 pipe_string,
+                                 right_arg_name) {
   <span class="kw">print</span>(<span class="st">"pipe_left_arg"</span>)
   <span class="kw">print</span>(pipe_left_arg)
   <span class="kw">print</span>(<span class="st">"pipe_right_arg"</span>)
   <span class="kw">print</span>(pipe_right_arg)
   <span class="kw">print</span>(<span class="st">"pipe_environment"</span>)
   <span class="kw">print</span>(pipe_environment)
-  <span class="kw">print</span>(<span class="st">"pipe_name"</span>)
-  <span class="kw">print</span>(pipe_name)
+  <span class="kw">print</span>(<span class="st">"left_arg_name"</span>)
+  <span class="kw">print</span>(left_arg_name)
+  <span class="kw">print</span>(<span class="st">"pipe_string"</span>)
+  <span class="kw">print</span>(pipe_string)
+  <span class="kw">print</span>(<span class="st">"right_arg_name"</span>)
+  <span class="kw">print</span>(right_arg_name)
   pipe_right_arg<span class="op">$</span><span class="kw">f</span>(pipe_left_arg)
 }
 
@@ -220,8 +211,33 @@ function_reference<span class="op">$</span>f &lt;-<span class="st"> </span>sqrt
 <span class="co">#&gt; [1] "wrapr_applicable" "ourclass"        </span>
 <span class="co">#&gt; [1] "pipe_environment"</span>
 <span class="co">#&gt; &lt;environment: R_GlobalEnv&gt;</span>
-<span class="co">#&gt; [1] "pipe_name"</span>
+<span class="co">#&gt; [1] "left_arg_name"</span>
+<span class="co">#&gt; NULL</span>
+<span class="co">#&gt; [1] "pipe_string"</span>
 <span class="co">#&gt; [1] "%.&gt;%"</span>
+<span class="co">#&gt; [1] "right_arg_name"</span>
+<span class="co">#&gt; function_reference</span>
+<span class="co">#&gt; [1] 2.236068</span>
+
+a &lt;-<span class="st"> </span><span class="dv">5</span>
+
+a <span class="op">%.&gt;%</span><span class="st"> </span>function_reference
+<span class="co">#&gt; [1] "pipe_left_arg"</span>
+<span class="co">#&gt; [1] 5</span>
+<span class="co">#&gt; [1] "pipe_right_arg"</span>
+<span class="co">#&gt; $f</span>
+<span class="co">#&gt; function (x)  .Primitive("sqrt")</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; attr(,"class")</span>
+<span class="co">#&gt; [1] "wrapr_applicable" "ourclass"        </span>
+<span class="co">#&gt; [1] "pipe_environment"</span>
+<span class="co">#&gt; &lt;environment: R_GlobalEnv&gt;</span>
+<span class="co">#&gt; [1] "left_arg_name"</span>
+<span class="co">#&gt; a</span>
+<span class="co">#&gt; [1] "pipe_string"</span>
+<span class="co">#&gt; [1] "%.&gt;%"</span>
+<span class="co">#&gt; [1] "right_arg_name"</span>
+<span class="co">#&gt; function_reference</span>
 <span class="co">#&gt; [1] 2.236068</span></code></pre></div>
 </div>
 <div id="conclusion" class="section level2">
