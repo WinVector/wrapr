@@ -40,6 +40,18 @@ apply_left <- function(pipe_left_arg,
   UseMethod("apply_left", pipe_left_arg)
 }
 
+# things we don't want to piple into
+forbidden_pipe_destination_names <- c("else",
+                                      "return",
+                                      "in", "next", "break",
+                                      "TRUE", "FALSE", "NULL", "Inf", "NaN",
+                                      "NA", "NA_integer_", "NA_real_", "NA_complex_", "NA_character_",
+                                      "->", "->>", "<-", "<<-", "=", # precedence should ensure we do not see these
+                                      "?",
+                                      "...",
+                                      ".",
+                                      ";", ",")
+
 #' S3 dispatch on class of pipe_left_arg.
 #'
 #' Place evalation of left argument in \code{.} and then evaluate right argument.
@@ -74,28 +86,9 @@ apply_left.default <- function(pipe_left_arg,
     call_text <- as.character(pipe_right_arg[[1]])
     # mostly grabbing reserved words that are in the middle
     # of something, or try to alter control flow (like return).
-    if((length(call_text)==1) &&
-       call_text %in% c("else",
-                        "return",
-                        "in", "next", "break",
-                        "TRUE", "FALSE", "NULL", "Inf", "NaN",
-                        "NA", "NA_integer_", "NA_real_", "NA_complex_", "NA_character_",
-                        "->", "->>", "<-", "<<-", "=", # precedence should ensure we do not see these
-                        "?",
-                        "...",
-                        ".",
-                        ";", ",",
-                        "substitute", "bquote", "quote",
-                        "eval", "evalq", "eval.parent", "local",
-                        "force",
-                        "try", "tryCatch",
-                        "withCallingHandlers", "signalCondition",
-                        "simpleCondition", "simpleError", "simpleWarning", "simpleMessage",
-                        "withRestarts", "invokeRestart", "invokeRestartInteractively",
-                        "suppressMessages", "suppressWarnings",
-                        "warning", "stop")) {
-      stop(paste0("wrapr::apply_left.default does not allow direct piping into certain reserved words or control structures (such as \"",
-                  call_text,
+    if(isTRUE(call_text %in% forbidden_pipe_destination_names)) {
+      stop(paste0("wrapr::apply_left.default does not allow direct piping into some expressions (such as \"",
+                  deparse(pipe_right_arg),
                   "\")."))
     }
   }
@@ -245,8 +238,9 @@ pipe_impl <- function(pipe_left_arg,
      is_name || qualified_name ||
      is_function_decl) {
     if(is_name) {
-      if(as.character(pipe_right_arg)==".") {
-        stop("wrapr::pipe does not allow direct piping into '.'")
+      if(as.character(pipe_right_arg) %in% forbidden_pipe_destination_names) {
+        stop(paste("to reduce ambiguity wrapr::pipe does not allow direct piping into some names, such as ",
+                   as.character(pipe_right_arg)))
       }
       pipe_right_arg <- base::get(as.character(pipe_right_arg),
                                   envir = pipe_environment,
