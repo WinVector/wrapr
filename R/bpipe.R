@@ -87,7 +87,7 @@ apply_left.default <- function(pipe_left_arg,
     # mostly grabbing reserved words that are in the middle
     # of something, or try to alter control flow (like return).
     if(isTRUE(call_text %in% forbidden_pipe_destination_names)) {
-      stop(paste0("wrapr::apply_left.default does not allow direct piping into some expressions (such as \"",
+      stop(paste0("to reduce surprising execution behavior wrapr::apply_left.default does not allow direct piping into some expressions (such as \"",
                   deparse(pipe_right_arg),
                   "\")."))
     }
@@ -239,7 +239,7 @@ pipe_impl <- function(pipe_left_arg,
      is_function_decl) {
     if(is_name) {
       if(as.character(pipe_right_arg) %in% forbidden_pipe_destination_names) {
-        stop(paste("to reduce ambiguity wrapr::pipe does not allow direct piping into some names, such as ",
+        stop(paste("to reduce surprising behavior wrapr::pipe does not allow direct piping into some names, such as",
                    as.character(pipe_right_arg)))
       }
       pipe_right_arg <- base::get(as.character(pipe_right_arg),
