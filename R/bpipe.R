@@ -214,10 +214,6 @@ pipe_impl <- function(pipe_left_arg,
   if(is.name(pipe_right_arg)) {
     right_arg_name <- pipe_right_arg
   }
-  # force pipe_left_arg
-  pipe_left_arg <- eval(pipe_left_arg,
-                        envir = pipe_environment,
-                        enclos = pipe_environment)
   # special case: name
   is_name <- is.name(pipe_right_arg)
   # special case: dereference names
@@ -265,6 +261,10 @@ pipe_impl <- function(pipe_left_arg,
                                    list(left_arg_name),
                                    envir = pipe_environment))
       } else {
+        # force pipe_left_arg
+        pipe_left_arg <- eval(pipe_left_arg,
+                              envir = pipe_environment,
+                              enclos = pipe_environment)
         res <- withVisible(do.call(pipe_right_arg,
                                    list(pipe_left_arg),
                                    envir = pipe_environment))
@@ -275,6 +275,10 @@ pipe_impl <- function(pipe_left_arg,
         return(invisible(res$value))
       }
     }
+    # force pipe_left_arg
+    pipe_left_arg <- eval(pipe_left_arg,
+                          envir = pipe_environment,
+                          enclos = pipe_environment)
     # S3 dispatch on right argument, surrogate function
     res <- withVisible(apply_right(pipe_left_arg,
                                    pipe_right_arg,
@@ -288,6 +292,10 @@ pipe_impl <- function(pipe_left_arg,
       return(invisible(res$value))
     }
   }
+  # force pipe_left_arg
+  pipe_left_arg <- eval(pipe_left_arg,
+                        envir = pipe_environment,
+                        enclos = pipe_environment)
   # Go for standard (first argument) S3 dispatch
   res <- withVisible(apply_left(pipe_left_arg,
                                 pipe_right_arg,
