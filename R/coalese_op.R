@@ -39,7 +39,7 @@
 #'
 #' @examples
 #'
-#' c(1, NA, NA) %?% 5             # returns c(1, 5, 5)
+#' c(NA, NA, NA) %?% 5            # returns c(5, 5, 5)
 #' c(1, NA, NA) %?% list(5)       # returns c(1, 5, 5)
 #' c(1, NA, NA) %?% list(list(5)) # returns c(1, NA, NA)
 #' c(1, NA, NA) %?% c(NA, 20, NA) # returns c(1, 20, NA)
