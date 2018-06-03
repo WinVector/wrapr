@@ -106,7 +106,7 @@
       <h1>Frame Tools</h1>
                         <h4 class="author">John Mount, Win-Vector LLC</h4>
             
-            <h4 class="date">2018-05-30</h4>
+            <h4 class="date">2018-06-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/FrameTools.Rmd"><code>vignettes/FrameTools.Rmd</code></a></small>
       <div class="hidden name"><code>FrameTools.Rmd</code></div>
@@ -176,8 +176,8 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cat</span>(<span class="kw">dump</span>(<span class="st">"d"</span>, <span class="st">""</span>))</code></pre></div>
 <pre><code>d &lt;-
 structure(list(names = c("a", "b", "c", "d"), x = c(1, 2, 3, 
-4), y = c(1, 4, 9, 16)), .Names = c("names", "x", "y"), row.names = c(NA, 
--4L), class = "data.frame")
+4), y = c(1, 4, 9, 16)), class = "data.frame", row.names = c(NA, 
+-4L))
 d</code></pre>
 <p>One can use the combination of <code><a href="../reference/build_frame.html">build_frame()</a></code> and <code><a href="../reference/draw_frame.html">draw_frame()</a></code> to neaten up by-hand examples for later use (via copy and paste):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cat</span>(<span class="kw"><a href="../reference/draw_frame.html">draw_frame</a></span>(<span class="kw"><a href="../reference/build_frame.html">build_frame</a></span>(
