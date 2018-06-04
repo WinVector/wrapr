@@ -3,11 +3,14 @@
 \name{named_map_builder}
 \alias{named_map_builder}
 \alias{:=}
+\alias{\%:=\%}
 \title{Named map builder.}
 \usage{
 named_map_builder(names, values)
 
 ":="(names, values)
+
+names \%:=\% values
 }
 \arguments{
 \item{names}{names to set.}
