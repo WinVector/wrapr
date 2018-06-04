@@ -37,12 +37,12 @@ qe <- function(...) {
 }
 
 
-#' Quote assignment expressions (name = expr, and name := expr).
+#' Quote assignment expressions (name = expr, name := expr, name \%:=\% expr).
 #'
 #' Accepts arbitrary un-parsed expressions as
 #' assignments to allow forms such as "Sepal_Long := Sepal.Length >= 2 * Sepal.Width".
 #' (without the quotes).
-#' Terms are expressions of the form "lhs := rhs" or "lhs = rhs".
+#' Terms are expressions of the form "lhs := rhs", "lhs = rhs", "lhs \%:=\% rhs".
 #'
 #' @param ... assignment expressions.
 #' @return array of quoted assignment expressions.
@@ -82,8 +82,8 @@ qae <- function(...) {
        (is.character(ni)) && (nchar(ni)>0)) {
       vi <- paste(deparse(ei), collapse = "\n")
     } else {
-      if((as.character(ei[[1]])!=':=') || (li<2)) {
-        stop("wrapr::qae() terms must be of the form: sym := expr or sym = expr")
+      if((!(as.character(ei[[1]]) %in% c(':=', '%:=%'))) || (li<2)) {
+        stop("wrapr::qae() terms must be of the form: sym := exprm, sym = expr, or sym %:=% expr")
       }
       ni <- as.character(ei[[2]])[[1]]
       if(li>2) {
@@ -95,7 +95,7 @@ qae <- function(...) {
       }
     }
     if(is.null(ni)) {
-      stop("seplyr::quote_mutate terms must all have names (either from = or :=)")
+      stop("seplyr::quote_mutate terms must all have names (either from =, :=, or %:=%)")
     }
     lhs[[i-1]] <- ni
     rhs[[i-1]] <- vi

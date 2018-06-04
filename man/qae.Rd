@@ -2,7 +2,7 @@
 % Please edit documentation in R/qae.R
 \name{qae}
 \alias{qae}
-\title{Quote assignment expressions (name = expr, and name := expr).}
+\title{Quote assignment expressions (name = expr, name := expr, name \%:=\% expr).}
 \usage{
 qae(...)
 }
@@ -16,7 +16,7 @@ array of quoted assignment expressions.
 Accepts arbitrary un-parsed expressions as
 assignments to allow forms such as "Sepal_Long := Sepal.Length >= 2 * Sepal.Width".
 (without the quotes).
-Terms are expressions of the form "lhs := rhs" or "lhs = rhs".
+Terms are expressions of the form "lhs := rhs", "lhs = rhs", "lhs \%:=\% rhs".
 }
 \examples{
 
