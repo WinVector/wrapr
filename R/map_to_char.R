@@ -12,6 +12,8 @@
 #'
 #' cat(map_to_char(c('a' = 'b', 'c' = 'd')))
 #' cat(map_to_char(c('a' = 'b', 'd', 'e' = 'f')))
+#' cat(map_to_char(c('a' = 'b', 'd' = NA, 'e' = 'f')))
+#' cat(map_to_char(c(1, NA, 2)))
 #'
 #' @export
 #'
@@ -29,10 +31,14 @@ map_to_char <- function(mp,
   for(i in seq_len(n)) {
     nmi <- nms[[i]]
     vli <- vls[[i]]
+    qvli <- "NA"
+    if(!is.na(vli)) {
+      qvli <- quote_fn(vli)
+    }
     if((!is.na(nmi))&&(nchar(nmi)>0)) {
-      nv[[i]] <- paste(quote_fn(nmi), assignment, quote_fn(vli))
+      nv[[i]] <- paste(quote_fn(nmi), assignment, qvli)
     } else {
-      nv[[i]] <- quote_fn(vli)
+      nv[[i]] <- qvli
     }
   }
   paste0("c(", paste(nv, collapse = paste0(",", sep)), ")")
