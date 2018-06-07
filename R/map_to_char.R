@@ -8,7 +8,7 @@
 #' @param quote_fn string quoting function
 #' @return character formatted representation
 #'
-#' @seealso \code{\link[base]{dput}}
+#' @seealso \code{\link[base]{dput}}, \code{\link[utils]{capture.output}}
 #'
 #' @examples
 #'

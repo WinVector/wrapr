@@ -30,5 +30,5 @@ cat(map_to_char(c(1, NA, 2)))
 
 }
 \seealso{
-\code{\link[base]{dput}}
+\code{\link[base]{dput}}, \code{\link[utils]{capture.output}}
 }
