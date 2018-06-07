@@ -8,6 +8,8 @@
 #' @param quote_fn string quoting function
 #' @return character formatted representation
 #'
+#' @seealso \code{\link[base]{dput}}
+#'
 #' @examples
 #'
 #' cat(map_to_char(c('a' = 'b', 'c' = 'd')))

@@ -25,5 +25,10 @@ format a map.
 
 cat(map_to_char(c('a' = 'b', 'c' = 'd')))
 cat(map_to_char(c('a' = 'b', 'd', 'e' = 'f')))
+cat(map_to_char(c('a' = 'b', 'd' = NA, 'e' = 'f')))
+cat(map_to_char(c(1, NA, 2)))
 
+}
+\seealso{
+\code{\link[base]{dput}}
 }
