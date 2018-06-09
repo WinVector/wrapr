@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>format a map. — map_to_char • wrapr</title>
+<title>Strict version of unique (without ...). — uniques • wrapr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,9 +28,11 @@
 
 
 
-<meta property="og:title" content="format a map. — map_to_char" />
+<meta property="og:title" content="Strict version of unique (without ...). — uniques" />
 
-<meta property="og:description" content="format a map." />
+<meta property="og:description" content="Check that ... is empty and if so call
+base::unique(x, incomparables = incomparables, MARGIN = MARGIN, fromLast = fromLast)
+(else throw an error)" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -133,52 +135,60 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>format a map.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/map_to_char.R'><code>R/map_to_char.R</code></a></small>
-    <div class="hidden name"><code>map_to_char.Rd</code></div>
+    <h1>Strict version of unique (without ...).</h1>
+    <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/uniques.R'><code>R/uniques.R</code></a></small>
+    <div class="hidden name"><code>uniques.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>format a map.</p>
+    <p>Check that <code>...</code> is empty and if so call
+<code><a href='http://www.rdocumentation.org/packages/base/topics/unique'>base::unique(x, incomparables = incomparables, MARGIN = MARGIN, fromLast = fromLast)</a></code>
+(else throw an error)</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>map_to_char</span>(<span class='no'>mp</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>" "</span>, <span class='kw'>assignment</span> <span class='kw'>=</span> <span class='st'>"="</span>, <span class='kw'>quote_fn</span> <span class='kw'>=</span> <span class='kw pkg'>base</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/base/topics/shQuote'>shQuote</a></span>)</pre>
+    <pre class="usage"><span class='fu'>uniques</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>incomparables</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>MARGIN</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>fromLast</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>mp</th>
-      <td><p>named vector or list</p></td>
+      <th>x</th>
+      <td><p>items to be compared.</p></td>
     </tr>
     <tr>
-      <th>sep</th>
-      <td><p>separator suffix, what to put after commas</p></td>
+      <th>...</th>
+      <td><p>not used, checked to be empty to prevent errors.</p></td>
     </tr>
     <tr>
-      <th>assignment</th>
-      <td><p>assignment string</p></td>
+      <th>incomparables</th>
+      <td><p>passed to base::unique.</p></td>
     </tr>
     <tr>
-      <th>quote_fn</th>
-      <td><p>string quoting function</p></td>
+      <th>MARGIN</th>
+      <td><p>passed to base::unique.</p></td>
+    </tr>
+    <tr>
+      <th>fromLast</th>
+      <td><p>passed to base::unique.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>character formatted representation</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='http://www.rdocumentation.org/packages/base/topics/dput'>dput</a></code>, <code><a href='http://www.rdocumentation.org/packages/utils/topics/capture.output'>capture.output</a></code></p></div>
+    <p>base::unique(x, incomparables = incomparables, MARGIN = MARGIN, fromLast = fromLast)</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'>cat</span>(<span class='fu'>map_to_char</span>(<span class='fu'>c</span>(<span class='st'>'a'</span> <span class='kw'>=</span> <span class='st'>'b'</span>, <span class='st'>'c'</span> <span class='kw'>=</span> <span class='st'>'d'</span>)))</div><div class='output co'>#&gt; c('a' = 'b', 'c' = 'd')</div><div class='input'><span class='fu'>cat</span>(<span class='fu'>map_to_char</span>(<span class='fu'>c</span>(<span class='st'>'a'</span> <span class='kw'>=</span> <span class='st'>'b'</span>, <span class='st'>'d'</span>, <span class='st'>'e'</span> <span class='kw'>=</span> <span class='st'>'f'</span>)))</div><div class='output co'>#&gt; c('a' = 'b', 'd', 'e' = 'f')</div><div class='input'><span class='fu'>cat</span>(<span class='fu'>map_to_char</span>(<span class='fu'>c</span>(<span class='st'>'a'</span> <span class='kw'>=</span> <span class='st'>'b'</span>, <span class='st'>'d'</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='st'>'e'</span> <span class='kw'>=</span> <span class='st'>'f'</span>)))</div><div class='output co'>#&gt; c('a' = 'b', 'd' = NA, 'e' = 'f')</div><div class='input'><span class='fu'>cat</span>(<span class='fu'>map_to_char</span>(<span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>NA</span>, <span class='fl'>2</span>)))</div><div class='output co'>#&gt; c('1', NA, '2')</div><div class='input'>
+<span class='no'>x</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>)
+<span class='no'>y</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"b"</span>, <span class='st'>"c"</span>)
+
+<span class='co'># task: get unique items in x plus y</span>
+<span class='fu'>unique</span>(<span class='fu'>c</span>(<span class='no'>x</span>, <span class='no'>y</span>))   <span class='co'># correct answer</span></div><div class='output co'>#&gt; [1] "a" "b" "c"</div><div class='input'><span class='fu'>unique</span>(<span class='no'>x</span>, <span class='no'>y</span>)      <span class='co'># oops forgot to wrap arguments, quitely get wrong answer</span></div><div class='output co'>#&gt; [1] "a" "b"</div><div class='input'><span class='fu'>tryCatch</span>(
+   <span class='fu'>uniques</span>(<span class='no'>x</span>, <span class='no'>y</span>), <span class='co'># uniques catches the error</span>
+   <span class='kw'>error</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>e</span>) { <span class='no'>e</span> })</div><div class='output co'>#&gt; &lt;simpleError: wrapr::uniques unexpected arguments: y&gt;</div><div class='input'><span class='fu'>uniques</span>(<span class='fu'>c</span>(<span class='no'>x</span>, <span class='no'>y</span>))  <span class='co'># uniques works like base::unique in most case</span></div><div class='output co'>#&gt; [1] "a" "b" "c"</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -187,8 +197,6 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
