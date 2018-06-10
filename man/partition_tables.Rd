@@ -2,7 +2,7 @@
 % Please edit documentation in R/partition_tables.R
 \name{partition_tables}
 \alias{partition_tables}
-\title{Partition as set of talbes into a list. (move to wrapr!)}
+\title{Partition as set of talbes into a list.}
 \usage{
 partition_tables(tables_used, partition_column, ..., source_usage = NULL,
   source_limit = NULL, tables = NULL, env = NULL)
@@ -12,23 +12,28 @@ partition_tables(tables_used, partition_column, ..., source_usage = NULL,
 
 \item{partition_column}{character, name of column to partition by.}
 
+\item{...}{force later arguments to bind by name.}
+
+\item{source_usage}{optional named map from tables_used names to sets of columns used.}
+
 \item{source_limit}{optional numeric scalar limit on rows wanted every source.}
 
 \item{tables}{named map from tables_used names to data.frames.}
 
 \item{env}{environment to also look for tables named by tables_used}
-
-\item{sources_usage}{optional named map from tables_used names to sets of columns used.}
 }
 \value{
 list of names maps of data.frames partitioned by partition_column.
 }
 \description{
-Partition as set of talbes into a list. (move to wrapr!)
+Partition a set of tables into a list of sets of tables.  Note: removes rownames.
 }
 \examples{
 
 d <- data.frame(a = 1:5, g = c(1, 1, 2, 2, 2))
 partition_tables("d", "g", tables = list(d = d))
 
+}
+\seealso{
+\code{\link{execute_parallel}}
 }

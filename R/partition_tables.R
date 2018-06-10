@@ -1,13 +1,18 @@
 
-#' Partition as set of talbes into a list. (move to wrapr!)
+#' Partition as set of talbes into a list.
+#'
+#' Partition a set of tables into a list of sets of tables.  Note: removes rownames.
 #'
 #' @param tables_used charater, names of tables to look for.
 #' @param partition_column character, name of column to partition by.
-#' @param sources_usage optional named map from tables_used names to sets of columns used.
+#' @param ... force later arguments to bind by name.
+#' @param source_usage optional named map from tables_used names to sets of columns used.
 #' @param source_limit optional numeric scalar limit on rows wanted every source.
 #' @param tables named map from tables_used names to data.frames.
 #' @param env environment to also look for tables named by tables_used
 #' @return list of names maps of data.frames partitioned by partition_column.
+#'
+#' @seealso \code{\link{execute_parallel}}
 #'
 #' @examples
 #'
@@ -60,11 +65,14 @@ partition_tables <- function(tables_used,
       nsi <- nti
     }
     if(is.null(source_limit) || (nrow(ti)>source_limit)) {
-      ntables[[ni]] <- ti[ , nsi, drop = FALSE]
+      ti <- ti[ , nsi, drop = FALSE]
     } else {
-      ntables[[ni]] <- ti[seq_len(source_limit), nsi, drop = FALSE]
+      ti <- ti[seq_len(source_limit), nsi, drop = FALSE]
     }
+    rownames(ti) <- NULL
+    ntables[[ni]] <- ti
   }
+  ti <- NULL
   env <- NULL
   tables <- NULL
   # get a list of values of the partition column
@@ -87,9 +95,72 @@ partition_tables <- function(tables_used,
                           if(partition_column %in% colnames(ti)) {
                             ti <- ti[as.character(ti[[partition_column]])==li, , drop = FALSE]
                           }
+                          rownames(ti) <- NULL
                           nti[[ni]] <- as.data.frame(ti)
                         }
                         nti
                       })
+  names(tablesets) <- levels
   tablesets
 }
+
+
+#' Execute f in parallel partition ed by partition_column.
+#'
+#' Execute f in parallel partiation by \code{partition_column}, see
+#' \code{\link{partition_tables}} for details.
+#'
+#' @param tables named map of tables to use.
+#' @param partition_column character name of column to partition on
+#' @param f function to apply to each tableset signature is function takes a single argument that is a named list of data.frames.
+#' @param ... force later arguments to bind by name.
+#' @param cl parallel cluster.
+#' @param debug logical if TRUE use lapply instead of parallel::clusterApplyLB.
+#' @param env environment to look for values in.
+#' @return list of f evaluations.
+#'
+#' @seealso \code{\link{partition_tables}}
+#'
+#' @examples
+#'
+#' if(requireNamespace("parallel", quietly = TRUE)) {
+#'   cl <- parallel::makeCluster(2)
+#'
+#'   d <- data.frame(x = 1:5, g = c(1, 1, 2, 2 ,2))
+#'   f <- function(dl) {
+#'     d <- dl$d
+#'     d$s <- sqrt(d$x)
+#'     d
+#'   }
+#'   r <- execute_parallel(list(d = d), f,
+#'                         partition_column = "g",
+#'                         cl = cl) %.>%
+#'     do.call(rbind, .) %.>%
+#'     print(.)
+#'
+#'   parallel::stopCluster(cl)
+#' }
+#'
+#' @export
+#'
+execute_parallel <- function(tables,
+                             f,
+                             partition_column,
+                             ...,
+                             cl = NULL,
+                             debug = FALSE,
+                             env = parent.frame()) {
+  tablesets <- partition_tables(names(tables),
+                                partition_column = partition_column,
+                                tables = tables,
+                                env = env)
+  if(debug || (!requireNamespace("parallel", quietly = TRUE))) {
+    res <- lapply(tablesets, f)
+  } else {
+    # dispatch the operation in parallel
+    res <- parallel::clusterApplyLB(cl, tablesets, f)
+  }
+  names(res) <- names(tablesets)
+  res
+}
+
