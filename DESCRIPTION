@@ -2,7 +2,7 @@ Package: wrapr
 Type: Package
 Title: Wrap R Tools for Debugging and Parametric Programming
 Version: 1.5.0
-Date: 2018-06-09
+Date: 2018-06-10
 Authors@R: c(
     person("John", "Mount", email = "jmount@win-vector.com", role = c("aut", "cre")),
     person("Nina", "Zumel", email = "nzumel@win-vector.com", role = c("aut")),
@@ -29,7 +29,9 @@ RoxygenNote: 6.0.1
 Depends:
   R (>= 3.2.1)
 Imports: utils
-Suggests: testthat,
+Suggests: 
+    parallel,
+    testthat,
     knitr,
     rmarkdown
 VignetteBuilder: knitr
