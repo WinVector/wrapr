@@ -10,7 +10,7 @@ partition_tables(tables_used, partition_column, ..., source_usage = NULL,
 \arguments{
 \item{tables_used}{charater, names of tables to look for.}
 
-\item{partition_column}{character, name of column to partition by.}
+\item{partition_column}{character, name of column to partition by (tables should not have NAs in this column).}
 
 \item{...}{force later arguments to bind by name.}
 

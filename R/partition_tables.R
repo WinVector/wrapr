@@ -4,7 +4,7 @@
 #' Partition a set of tables into a list of sets of tables.  Note: removes rownames.
 #'
 #' @param tables_used charater, names of tables to look for.
-#' @param partition_column character, name of column to partition by.
+#' @param partition_column character, name of column to partition by (tables should not have NAs in this column).
 #' @param ... force later arguments to bind by name.
 #' @param source_usage optional named map from tables_used names to sets of columns used.
 #' @param source_limit optional numeric scalar limit on rows wanted every source.
@@ -80,6 +80,10 @@ partition_tables <- function(tables_used,
   for(ni in names(ntables)) {
     ti <- ntables[[ni]]
     if(partition_column %in% colnames(ti)) {
+      if(any(is.na(ti[[partition_column]]))) {
+        stop(paste("rqdatatable::ex_data_table_parallel NAs in partation_column for table ",
+                   ni))
+      }
       levels <- unique(c(levels, as.character(ti[[partition_column]])))
     }
   }

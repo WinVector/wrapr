@@ -26,15 +26,17 @@ options(width =100)
 
 Primary `wrapr` services include:
 
- * `let()` (let block)
- * `%.>%` (dot arrow pipe)
- * `build_frame()` / `draw_frame()` ( `data.frame` builders and formatters )
- * `qc()` (quoting concatenate)
- * `:=` (named map builder)
- * `%?%` (coalesce)
- * `%.|%` ( reduce/expand args )
- * `DebugFnW()` (function debug wrappers)
- * `λ()` (anonymous function builder)
+ * [`let()`](https://winvector.github.io/wrapr/reference/let.html) (let block)
+ * [`%.>%`](https://winvector.github.io/wrapr/reference/dot_arrow.html) (dot arrow pipe)
+ * [`build_frame()`](https://winvector.github.io/wrapr/reference/build_frame.html) / [`draw_frame()`](https://winvector.github.io/wrapr/reference/draw_frame.html) ( `data.frame` builders and formatters )
+ * [`qc()`](https://winvector.github.io/wrapr/reference/qc.html) (quoting concatenate)
+ * [`:=`](https://winvector.github.io/wrapr/reference/named_map_builder.html) (named map builder)
+ * [`%?%`](https://winvector.github.io/wrapr/reference/coalesce.html) (coalesce)
+ * [`%.|%`](https://winvector.github.io/wrapr/reference/reduceexpand.html) (reduce/expand args)
+ * [`uniques()`](https://winvector.github.io/wrapr/reference/uniques.html) (safe `unique()` replacement)
+ * [`partition_tables()`](https://winvector.github.io/wrapr/reference/partition_tables.html) / [`execute_parallel()`](https://winvector.github.io/wrapr/reference/execute_parallel.html)
+ * [`DebugFnW()`](https://winvector.github.io/wrapr/reference/DebugFnW.html) (function debug wrappers)
+ * [`λ()`](https://winvector.github.io/wrapr/reference/defineLambda.html) (anonymous function builder)
 
  
 ## [`let()`](https://winvector.github.io/wrapr/articles/let.html)
