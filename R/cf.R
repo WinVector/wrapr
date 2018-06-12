@@ -271,7 +271,7 @@ draw_frame <- function(x,
                   }, character(1))
   rlist <- paste0("   ", rlist)
   res <- paste(rlist, collapse = "\n")
-  res <- paste0("build_frame(\n", res, "\n")
+  res <- paste0("wrapr::build_frame(\n", res, "\n")
   res
 }
 

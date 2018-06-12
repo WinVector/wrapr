@@ -1,5 +1,5 @@
 
-# wrapr 1.5.0 2018-06-11
+# wrapr 1.5.0 2018-06-12
 
  * Rationalize and re-name pipe interfaces to apply_right and apply_left.
  * Fix qc() eval environment and recursion.
