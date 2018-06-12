@@ -12,16 +12,15 @@ URL: https://github.com/WinVector/wrapr, http://winvector.github.io/wrapr/
 Maintainer: John Mount <jmount@win-vector.com>
 BugReports: https://github.com/WinVector/wrapr/issues
 Description: Tools for writing and debugging R code. Provides: 
-    'let()' which
-    converts non-standard evaluation interfaces to parametric standard
-    evaluation interface, 
-    '%.>%' dot-pipe an S3 configurable pipe,
-    'build_frame()'/'draw_frame()' 'data.frame' example tools,
-    'qc()' quoting concatenate, 
-    ':=' named map builder,
-    'DebugFnW()' to
-    capture function context on error for debugging,
-    and lambda-abstraction.
+    'let()' 
+    (converts non-standard evaluation interfaces to parametric standard
+    evaluation interfaces), 
+    '%.>%' dot-pipe (an 'S3' configurable pipe),
+    'build_frame()'/'draw_frame()' ('data.frame' example tools),
+    'qc()' (quoting concatenate), 
+    ':=' (named map builder),
+    'DebugFnW()' (capture function context on error for debugging),
+    and more.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
