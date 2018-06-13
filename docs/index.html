@@ -11,16 +11,15 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="jquery.sticky-kit.min.js"></script><script src="pkgdown.js"></script><meta property="og:title" content="Wrap R Tools for Debugging and Parametric Programming">
 <meta property="og:description" content="Tools for writing and debugging R code. Provides: 
-    'let()' which
-    converts non-standard evaluation interfaces to parametric standard
-    evaluation interface, 
-    '%.&gt;%' dot-pipe an S3 configurable pipe,
-    'build_frame()'/'draw_frame()' 'data.frame' example tools,
-    'qc()' quoting concatenate, 
-    ':=' named map builder,
-    'DebugFnW()' to
-    capture function context on error for debugging,
-    and lambda-abstraction.">
+    'let()' 
+    (converts non-standard evaluation interfaces to parametric standard
+    evaluation interfaces), 
+    '%.&gt;%' dot-pipe (an 'S3' configurable pipe),
+    'build_frame()'/'draw_frame()' ('data.frame' example tools),
+    'qc()' (quoting concatenate), 
+    ':=' (named map builder),
+    'DebugFnW()' (capture function context on error for debugging),
+    and more.">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -279,7 +278,7 @@ Checks and transforms are not performed on items inside braces (example: <code>5
  <span class="co">#   $ training  : num  5 0.8</span>
  <span class="co">#   $ validation: num  -7 0.6</span>
 <span class="kw">cat</span>(<span class="kw"><a href="reference/draw_frame.html">draw_frame</a></span>(x))
- <span class="co">#  build_frame(</span>
+ <span class="co">#  wrapr::build_frame(</span>
  <span class="co">#     "measure"                   , "training", "validation" |</span>
  <span class="co">#     "minus binary cross entropy", 5         , -7           |</span>
  <span class="co">#     "accuracy"                  , 0.8       , 0.6          )</span></code></pre></div>
