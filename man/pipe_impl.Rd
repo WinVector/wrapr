@@ -21,3 +21,4 @@ result
 \description{
 This is a helper for implementing additional pipes.
 }
+\keyword{internal}

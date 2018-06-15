@@ -194,6 +194,8 @@ apply_right.default <- function(pipe_left_arg,
 #' @param pipe_string character, name of pipe operator.
 #' @return result
 #'
+#' @keywords internal
+#'
 #' @export
 #'
 pipe_impl <- function(pipe_left_arg,

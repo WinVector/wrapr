@@ -1,7 +1,7 @@
 
 # wrapr 1.5.0 2018-06-13
 
- * make pipe_impl public.
+ * make pipe_impl public (but keyworld internal).
 
 # wrapr 1.5.0 2018-06-13
 
