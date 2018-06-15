@@ -186,13 +186,15 @@ apply_right.default <- function(pipe_left_arg,
 
 #' Pipe dispatch implementation.
 #'
+#' This is a helper for implementing additional pipes.
+#'
 #' @param pipe_left_arg substitute(pipe_left_arg) argument.
 #' @param pipe_right_arg substitute(pipe_right_arg) argument.
 #' @param pipe_environment environment to evaluate in.
 #' @param pipe_string character, name of pipe operator.
 #' @return result
 #'
-#' @noRd
+#' @export
 #'
 pipe_impl <- function(pipe_left_arg,
                       pipe_right_arg,

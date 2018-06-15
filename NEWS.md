@@ -1,6 +1,10 @@
 
 # wrapr 1.5.0 2018-06-13
 
+ * make pipe_impl public.
+
+# wrapr 1.5.0 2018-06-13
+
  * Rationalize and re-name pipe interfaces to apply_right and apply_left.
  * Fix qc() eval environment and recursion.
  * Add `%?%` coalescing operator.
