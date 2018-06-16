@@ -1,7 +1,8 @@
 
-# wrapr 1.5.0 2018-06-13
+# wrapr 1.5.1 2018-06-15
 
  * make pipe_impl public (but keyworld internal).
+ * fix draw_frame quoting.
 
 # wrapr 1.5.0 2018-06-13
 

@@ -206,8 +206,8 @@ draw_frame <- function(x,
   # convert to character matrix
   xq <- x
   qts <- function(v) {
-    # TODO: better function with escaping
-    paste0('"', v, '"')
+    # could also try capturing dput() output
+    shQuote(v)
   }
   for(ci in colnames(x)) {
     if("POSIXt" %in% class(x[[ci]])) {
