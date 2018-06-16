@@ -88,7 +88,7 @@ apply_left.default <- function(pipe_left_arg,
     # of something, or try to alter control flow (like return).
     if(isTRUE(call_text %in% forbidden_pipe_destination_names)) {
       stop(paste0("to reduce surprising execution behavior wrapr::apply_left.default does not allow direct piping into some expressions (such as \"",
-                  deparse(pipe_right_arg),
+                  wrapr_deparse(pipe_right_arg),
                   "\")."))
     }
   }

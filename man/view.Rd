@@ -4,7 +4,7 @@
 \alias{view}
 \title{Invoke a spreadsheet like viewer when appropriate.}
 \usage{
-view(x, ..., title = paste(deparse(substitute(x)), collapse = " "), n = 200)
+view(x, ..., title = wrapr_deparse(substitute(x)), n = 200)
 }
 \arguments{
 \item{x}{R object to view}

@@ -37,7 +37,7 @@ NULL
 
 reduceexpand <- function(f, args,
                    env = parent.frame()) {
-  fnam <- deparse(f)
+  fnam <- wrapr_deparse(f)
   if(is.name(f) || is.character(f)) {
     # name of function case as in c(1, 2, 3) %.|% sum
     f <- get(as.character(f), env)

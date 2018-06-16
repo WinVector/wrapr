@@ -31,7 +31,7 @@ qe <- function(...) {
   rhs <- vector(len-1, mode='list')
   for(i in (2:len)) {
     ei <- e_terms[[i]]
-    rhs[[i-1]] <- paste(as.character(deparse(ei)), collapse = "\n")
+    rhs[[i-1]] <- wrapr_deparse(ei)
   }
   rhs
 }
@@ -80,7 +80,7 @@ qae <- function(...) {
     vi <- ""
     if((!is.null(ni)) && (!is.na(ni)) &&
        (is.character(ni)) && (nchar(ni)>0)) {
-      vi <- paste(deparse(ei), collapse = "\n")
+      vi <- wrapr_deparse(ei)
     } else {
       if((!(as.character(ei[[1]]) %in% c(':=', '%:=%'))) || (li<2)) {
         stop("wrapr::qae() terms must be of the form: sym := exprm, sym = expr, or sym %:=% expr")
@@ -89,7 +89,7 @@ qae <- function(...) {
       if(li>2) {
         vi <- lapply(3:li,
                      function(j) {
-                       paste(as.character(deparse(ei[[j]])), collapse = "\n")
+                       wrapr_deparse(ei[[j]])
                      })
         vi <- paste(vi, collapse = "\n")
       }
@@ -116,5 +116,6 @@ qae <- function(...) {
 #' @export
 #'
 qs <- function(s) {
-  as.character(paste(deparse(substitute(s)), collapse = '\n'))
+  # as.character(paste(deparse(substitute(s)), collapse = '\n'))
+  wrapr_deparse(substitute(s))
 }

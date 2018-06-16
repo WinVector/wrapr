@@ -19,7 +19,7 @@ NULL
 view <- function(
   x,
   ...,
-  title = paste(deparse(substitute(x)), collapse = " "),
+  title = wrapr_deparse(substitute(x)),
   n = 200) {
   UseMethod("view", x)
 }

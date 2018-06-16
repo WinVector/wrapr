@@ -353,7 +353,7 @@ let <- function(alias, expr,
     } else if(subsMethod=='stringsubs') {
       # string substitution based implementation.
       # Similar to \code{gtools::strmacro} by Gregory R. Warnes.
-      exprS <- letprep_str(alias, deparse(exprQ))
+      exprS <- letprep_str(alias, wrapr_deparse(exprQ))
     } else {
       stop(paste("wrapr::let unexpected subsMethod '", subsMethod, "'"))
     }
