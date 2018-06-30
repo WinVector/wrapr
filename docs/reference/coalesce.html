@@ -21,17 +21,19 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
 
 <meta property="og:title" content="Coalesce values (NULL/NA on left replaced by values on the right). — coalesce" />
 
-<meta property="og:description" content="This is a simple "try to take values on the left, but fall back
-to the right if they are not available" operator.  It is inspired
+<meta property="og:description" content="This is a simple &quot;try to take values on the left, but fall back
+to the right if they are not available&quot; operator.  It is inspired
 by SQL coalesce and the notation is designed to
 evoke the idea of testing and the C# ?? null coalescing operator.
 NA and NULL are treated roughly equally: both are
@@ -41,6 +43,7 @@ we preserve the vector type of the left-hand side and do not assign
 any values that vectors can not hold (NULLs and complex structures) and do not
 replace with a right argument list." />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->

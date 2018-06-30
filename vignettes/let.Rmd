@@ -48,7 +48,7 @@ For this discussion, we will demonstrate `let` to standardize calling `plot` wit
  * A list of assignments *symname=varname*, where *symname* is the name used in the NSE expression, and *varname* is the name (as a string) of the desired variable. 
  * The NSE expression. Enclose a block of multiple expressions in brackets.
  
- Here's the `plot` example again.
+Here's the `plot` example again.
 
 ```{r}
 library("wrapr")
@@ -56,13 +56,15 @@ library("wrapr")
 xvariable = "xvar"
 yvariable = "yvar"
 let(
-  list(X=xvariable, Y=yvariable),
+  c(XVARIABLE=xvariable, YVARIABLE=yvariable),
   { # since we have the names as strings, we can create a title
     title = paste(yvariable, "vs", xvariable)
-    plot(X, Y, main=title)
+    plot(XVARIABLE, YVARIABLE, main=title)
   }
 )
 ```
+
+In the above `let()` block we are using the `alias`-convention that we specify substitution target names (in this case `XVARIABLE` and `YVARIABLE`) as upper-case analogues of the substitution name values (in this case `xvariable` and `yvariable`).  This convention is very legible and makes it easy to both use value interfaces (as we did in the title `paste()`) and name-capturing interfaces (`plot()` itself).
 
 ## Implementation details
 
@@ -76,7 +78,7 @@ let(c(z=quote(a)), z+b)
 eval(substitute(z+b, c(z=quote(a))))
 ```
 
-However, `wrapr::let()` is actually implemented in terms of a de-parse and string substitution
+However, `wrapr::let()` is actually implemented in terms of a de-parse and safe language token substitution
 (to get around some issues of when and in what environment things are executed).
 
 ## More

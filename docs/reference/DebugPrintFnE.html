@@ -21,9 +21,11 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
@@ -32,8 +34,9 @@
 
 <meta property="og:description" content="Run fn and print result, save arguments and environment on failure.  Use on systems like ggplot()
 where some calculation is delayed until print().
-Please see: vignette("DebugFnW", package="wrapr")." />
+Please see: vignette(&quot;DebugFnW&quot;, package=&quot;wrapr&quot;)." />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -185,17 +188,17 @@ Please see: <code><a href='../articles/DebugFnW.html'>vignette("DebugFnW", packa
 <span class='co'># capture error on incorrect run</span>
 <span class='fu'>tryCatch</span>(
    <span class='fu'>DebugPrintFnE</span>(<span class='no'>saveDest</span>, <span class='no'>f</span>, <span class='fl'>12</span>),
-   <span class='kw'>error</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>e</span>) { <span class='fu'>print</span>(<span class='no'>e</span>) })</div><div class='output co'>#&gt; &lt;simpleError in value[[3L]](cond): wrapr::DebugPrintFnE: wrote '/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//RtmpRjEZ3a/debug36757e1d9c4f.RDS' on catching 'Error in (1:10)[[i]]: subscript out of bounds'
+   <span class='kw'>error</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>e</span>) { <span class='fu'>print</span>(<span class='no'>e</span>) })</div><div class='output co'>#&gt; &lt;simpleError in value[[3L]](cond): wrapr::DebugPrintFnE: wrote '/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//RtmptsAMm5/debugffa816d01b30.RDS' on catching 'Error in (1:10)[[i]]: subscript out of bounds'
 #&gt;  You can reproduce the error with:
-#&gt; 'p &lt;- readRDS('/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//RtmpRjEZ3a/debug36757e1d9c4f.RDS'); do.call(p$fn, p$args, envir= p$env)'&gt;</div><div class='input'><span class='co'># examine details</span>
+#&gt; 'p &lt;- readRDS('/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//RtmptsAMm5/debugffa816d01b30.RDS'); do.call(p$fn, p$args, envir= p$env)'&gt;</div><div class='input'><span class='co'># examine details</span>
 <span class='no'>situation</span> <span class='kw'>&lt;-</span> <span class='fu'>readRDS</span>(<span class='no'>saveDest</span>)
 <span class='fu'>str</span>(<span class='no'>situation</span>)</div><div class='output co'>#&gt; List of 4
 #&gt;  $ fn     :function (i)  
 #&gt;   ..- attr(*, "srcref")= 'srcref' int [1:8] 3 6 3 32 6 32 3 3
-#&gt;   .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x107f32e60&gt; 
+#&gt;   .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x7fdc3ffd2090&gt; 
 #&gt;  $ args   :List of 1
 #&gt;   ..$ : num 12
-#&gt;  $ env    :&lt;environment: 0x107f33218&gt; 
+#&gt;  $ env    :&lt;environment: 0x7fdc3ffd1d10&gt; 
 #&gt;  $ fn_name: chr "f"</div><div class='input'><span class='co'># fix and re-run</span>
 <span class='no'>situation</span>$<span class='no'>args</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='kw'>&lt;-</span> <span class='fl'>6</span>
 <span class='fu'>do.call</span>(<span class='no'>situation</span>$<span class='no'>fn</span>, <span class='no'>situation</span>$<span class='no'>args</span>, <span class='kw'>envir</span><span class='kw'>=</span><span class='no'>situation</span>$<span class='no'>env</span>)</div><div class='output co'>#&gt; [1] 6</div><div class='input'><span class='co'># clean up</span>
