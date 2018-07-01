@@ -3,9 +3,7 @@ output: github_document
 ---
 
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/wrapr)](https://cran.r-project.org/package=wrapr)
-[![Build Status](https://img.shields.io/travis/WinVector/wrapr/master.svg)](https://travis-ci.org/WinVector/wrapr) [![codecov](https://codecov.io/github/WinVector/wrapr/branch/master/graphs/badge.svg)](https://codecov.io/github/WinVector/wrapr) 
 
-<!-- codcov: https://github.com/codecov/example-r/blob/master/README.md -->
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
