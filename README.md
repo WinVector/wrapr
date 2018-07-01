@@ -1,7 +1,8 @@
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/wrapr)](https://cran.r-project.org/package=wrapr)
+[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/wrapr)](https://cran.r-project.org/package=wrapr) [![Build Status](https://img.shields.io/travis/WinVector/wrapr/master.svg)](https://travis-ci.org/WinVector/wrapr) [![codecov](https://codecov.io/github/WinVector/wrapr/branch/master/graphs/badge.svg)](https://codecov.io/github/WinVector/wrapr)
 
+<!-- codcov: https://github.com/codecov/example-r/blob/master/README.md -->
+<!-- README.md is generated from README.Rmd. Please edit that file -->
 [`wrapr`](https://winvector.github.io/wrapr/), is an [`R`](https://cran.r-project.org) package that supplies powerful tools for writing and debugging `R` code.
 
 ![](https://github.com/WinVector/wrapr/raw/master/tools/wraprs.png)
