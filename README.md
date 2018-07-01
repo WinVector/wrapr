@@ -279,8 +279,8 @@ sapply(1:4, x := { x^2 })
  #  [1]  1  4  9 16
 ```
 
-Installing
-----------
+Installation
+------------
 
 Install with either:
 
