@@ -172,6 +172,7 @@ build_frame <- function(..., cf_eval_environment = parent.frame()) {
 #' print(x)
 #' cat(draw_frame(x))
 #'
+#'
 #' @export
 #'
 draw_frame <- function(x,
@@ -192,22 +193,30 @@ draw_frame <- function(x,
                       preserve.width = "individual",
                       zero.print = NULL,
                       drop0trailing = FALSE)
+  x_s <- substitute(x)
   for(oi in names(formatC_options)) {
     formatC_args[[oi]] <- formatC_options[[oi]]
   }
+  if(!is.data.frame(x)) {
+    stop("draw_frame x needs to be a data.frame")
+  }
   nrow <- nrow(x)
   if(nrow<1) {
-    stop("draw_frame need at least 1 row")
+    stop("draw_frame x needs at least 1 row")
   }
   ncol <- ncol(x)
   if(ncol<1) {
-    stop("draw_frame need at least 1 column")
+    stop("draw_frame x needs at least 1 column")
   }
   # convert to character matrix
   xq <- x
   qts <- function(v) {
-    # could also try capturing dput() output
-    shQuote(v)
+    # wayts to quote: dput(), shQuote(), deparse()
+    vapply(as.character(v),
+           function(vi) {
+             deparse(vi)
+           },
+           character(1))
   }
   for(ci in colnames(x)) {
     if("POSIXt" %in% class(x[[ci]])) {
@@ -272,6 +281,9 @@ draw_frame <- function(x,
   rlist <- paste0("   ", rlist)
   res <- paste(rlist, collapse = "\n")
   res <- paste0("wrapr::build_frame(\n", res, "\n")
+  if(is.name(x_s)) {
+    res <- paste0(as.character(x_s), " <- ", res)
+  }
   res
 }
 
