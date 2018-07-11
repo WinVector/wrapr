@@ -1,4 +1,8 @@
 
+# wrapr 1.5.2 2018-07-11
+
+ * split based partition_tables()
+
 # wrapr 1.5.1 2018-07-07
 
  * make pipe_impl public (but keyworld internal).

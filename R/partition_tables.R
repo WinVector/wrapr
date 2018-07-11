@@ -16,8 +16,10 @@
 #'
 #' @examples
 #'
-#' d <- data.frame(a = 1:5, g = c(1, 1, 2, 2, 2))
-#' partition_tables("d", "g", tables = list(d = d))
+#' d1 <- data.frame(a = 1:5, g = c(1, 1, 2, 2, 2))
+#' d2 <- data.frame(x = 1:3, g = 1:3)
+#' d3 <- data.frame(y = 1)
+#' partition_tables(c("d1", "d2", "d3"), "g", tables = list(d1 = d1, d2 = d2, d3 = d3))
 #'
 #' @export
 #'
@@ -76,7 +78,7 @@ partition_tables <- function(tables_used,
   env <- NULL
   tables <- NULL
   # get a list of values of the partition column
-  levels <- c()
+  levels <- character(0)
   for(ni in names(ntables)) {
     ti <- ntables[[ni]]
     if(partition_column %in% colnames(ti)) {
@@ -90,6 +92,19 @@ partition_tables <- function(tables_used,
   if(length(levels)<=0) {
     stop(paste("rqdatatable::ex_data_table_parallel no values found for partition column", partition_column))
   }
+  split_tabs <- lapply(
+    names(ntables),
+    function(ni) {
+      ti <- ntables[[ni]]
+      if(partition_column %in% colnames(ti)) {
+        split(ti,
+              factor(as.character(ti[[partition_column]]), levels = levels),
+              drop = FALSE)
+      } else {
+        NULL
+      }
+    })
+  names(split_tabs) <- names(ntables)
   # build a list of tablesets
   tablesets <- lapply(levels,
                       function(li) {
@@ -97,10 +112,10 @@ partition_tables <- function(tables_used,
                         for(ni in names(ntables)) {
                           ti <- ntables[[ni]]
                           if(partition_column %in% colnames(ti)) {
-                            ti <- ti[as.character(ti[[partition_column]])==li, , drop = FALSE]
+                            ti <- split_tabs[[ni]][[li]]
                           }
                           rownames(ti) <- NULL
-                          nti[[ni]] <- as.data.frame(ti)
+                          nti[[ni]] <- ti
                         }
                         nti
                       })
