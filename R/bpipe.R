@@ -105,9 +105,12 @@ apply_left.default <- function(pipe_left_arg,
 #'
 #' Triggered if right hand side was a name that does not resolve to a function.
 #' For formal documentation please see \url{https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf}.
+#' Since both items are now values we could like to S4 dispatch at this point, but
+#' this path is only tiggered with the right argument starts name-line so most
+#' uses would violate referential transparency for a small return.
 #'
 #' @param pipe_left_arg left argument
-#' @param pipe_right_arg substitute(pipe_right_arg) argument
+#' @param pipe_right_arg right argument
 #' @param pipe_environment environment to evaluate in
 #' @param left_arg_name name, if not NULL name of left argument.
 #' @param pipe_string character, name of pipe operator.
@@ -143,6 +146,7 @@ apply_right <- function(pipe_left_arg,
                         right_arg_name) {
   UseMethod("apply_right", pipe_right_arg)
 }
+
 
 #' S3 dispatch on type of pipe_right_argument.
 #'

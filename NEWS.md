@@ -1,6 +1,7 @@
 
 # wrapr 1.5.2 2018-07-11
-
+ 
+ * Documentation fixes.
  * split based partition_tables()
 
 # wrapr 1.5.1 2018-07-07

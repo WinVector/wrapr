@@ -27,7 +27,9 @@ LazyData: true
 RoxygenNote: 6.0.1
 Depends:
   R (>= 3.2.1)
-Imports: utils
+Imports: 
+    utils,
+    methods
 Suggests: 
     parallel,
     testthat,
