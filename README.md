@@ -175,10 +175,10 @@ str(x)
  #   $ training  : num  5 0.8
  #   $ validation: num  -7 0.6
 cat(draw_frame(x))
- #  wrapr::build_frame(
- #     'measure'                   , 'training', 'validation' |
- #     'minus binary cross entropy', 5         , -7           |
- #     'accuracy'                  , 0.8       , 0.6          )
+ #  x <- wrapr::build_frame(
+ #     "measure"                   , "training", "validation" |
+ #     "minus binary cross entropy", 5         , -7           |
+ #     "accuracy"                  , 0.8       , 0.6          )
 ```
 
 [`qc()` (quoting concatenate)](https://winvector.github.io/wrapr/reference/qc.html)

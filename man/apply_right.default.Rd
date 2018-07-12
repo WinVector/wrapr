@@ -4,7 +4,7 @@
 \alias{apply_right.default}
 \title{S3 dispatch on type of pipe_right_argument.}
 \usage{
-\method{apply_right}{default}(pipe_left_arg, pipe_right_arg, pipe_environment,
+apply_right.default(pipe_left_arg, pipe_right_arg, pipe_environment,
   left_arg_name, pipe_string, right_arg_name)
 }
 \arguments{

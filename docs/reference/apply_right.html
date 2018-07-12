@@ -33,7 +33,10 @@
 <meta property="og:title" content="S3 dispatch on class of pipe_right_argument. — apply_right" />
 
 <meta property="og:description" content="Triggered if right hand side was a name that does not resolve to a function.
-For formal documentation please see https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf." />
+For formal documentation please see https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf.
+Since both items are now values we might like to S4 dispatch at this point, but
+this path is only tiggered with the right argument starts name-line so most
+uses would violate referential transparency for a small return." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -62,7 +65,7 @@ For formal documentation please see https://github.com/WinVector/wrapr/blob/mast
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.2</span>
       </span>
     </div>
 
@@ -145,7 +148,10 @@ For formal documentation please see https://github.com/WinVector/wrapr/blob/mast
     <div class="ref-description">
     
     <p>Triggered if right hand side was a name that does not resolve to a function.
-For formal documentation please see <a href='https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf'>https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf</a>.</p>
+For formal documentation please see <a href='https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf'>https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf</a>.
+Since both items are now values we might like to S4 dispatch at this point, but
+this path is only tiggered with the right argument starts name-line so most
+uses would violate referential transparency for a small return.</p>
     
     </div>
 
@@ -161,7 +167,7 @@ For formal documentation please see <a href='https://github.com/WinVector/wrapr/
     </tr>
     <tr>
       <th>pipe_right_arg</th>
-      <td><p>substitute(pipe_right_arg) argument</p></td>
+      <td><p>right argument</p></td>
     </tr>
     <tr>
       <th>pipe_environment</th>
