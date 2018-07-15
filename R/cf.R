@@ -28,7 +28,7 @@ is_infix <- function(vi) {
   return(FALSE)
 }
 
-#' Build a (non-empty) data.frame.
+#' Build a data.frame from the user's description.
 #'
 #' A convenient way to build a data.frame in legible transposed form.  Position of
 #' first "|" (or other infix operator) determines number of columns
@@ -64,11 +64,7 @@ build_frame <- function(..., cf_eval_environment = parent.frame()) {
   lv <- length(v)
   # inspect input
   if(lv<1) {
-    stop("wrapr::build_frame expect at least a header, one column, and one row")
-  }
-  cls <- vapply(v, class, character(1))
-  if(sum(cls=="call") < 1) {
-    stop("wrapr::build_frame expected at least 1 infix operator")
+    return(data.frame())
   }
   # unpack
   unpack_val <- function(vi) {
@@ -124,6 +120,9 @@ build_frame <- function(..., cf_eval_environment = parent.frame()) {
   vu <- lapply(v, unpack_val)
   vu <- Reduce(c, lapply(vu, as.list))
   ncol <- length(vu)
+  if(ncol<1) {
+    stop("wrapr::build_frame() zero columns")
+  }
   is_name <- vapply(vu, is.name, logical(1))
   if(any(is_name)) {
     ncol <- which(is_name)[[1]]-1
@@ -133,18 +132,29 @@ build_frame <- function(..., cf_eval_environment = parent.frame()) {
   if(abs(nrow - round(nrow))>0.1) {
     stop("wrapr::build_frame confused as to cell count")
   }
-  seq <- seq_len(nrow)*ncol
-  fr <- data.frame(x = unlist(vu[seq + 1],
-                              recursive = FALSE,
-                              use.names = FALSE),
-                   stringsAsFactors = FALSE)
-  colnames(fr) <- as.character(vu[[1]])
-  if(ncol>1) {
-    for(i in 2:ncol) {
-      ci <- as.character(vu[[i]])
-      fr[[ci]] <-  unlist(vu[seq + i],
-                          recursive = FALSE,
-                          use.names = FALSE)
+  if(nrow<=0) {
+    fr <- data.frame(x = logical(0))
+    colnames(fr) <- as.character(vu[[1]])
+    if(ncol>1) {
+      for(i in 2:ncol) {
+        ci <- as.character(vu[[i]])
+        fr[[ci]] <- logical(0)
+      }
+    }
+  } else {
+    seq <- seq_len(nrow)*ncol
+    fr <- data.frame(x = unlist(vu[seq + 1],
+                                recursive = FALSE,
+                                use.names = FALSE),
+                     stringsAsFactors = FALSE)
+    colnames(fr) <- as.character(vu[[1]])
+    if(ncol>1) {
+      for(i in 2:ncol) {
+        ci <- as.character(vu[[i]])
+        fr[[ci]] <-  unlist(vu[seq + i],
+                            recursive = FALSE,
+                            use.names = FALSE)
+      }
     }
   }
   rownames(fr) <- NULL
@@ -202,7 +212,7 @@ draw_frame <- function(x,
   }
   nrow <- nrow(x)
   if(nrow<1) {
-    stop("draw_frame x needs at least 1 row")
+    stop("draw_frame x needs at least 1 column")
   }
   ncol <- ncol(x)
   if(ncol<1) {
@@ -289,7 +299,7 @@ draw_frame <- function(x,
 
 
 
-#' Build a (non-empty) quoted data.frame.
+#' Build a quoted data.frame.
 #'
 #' A convenient way to build a character data.frame in legible transposed form.  Position of
 #' first "|" (or other infix operator) determines number of columns
@@ -322,16 +332,26 @@ qchar_frame <- function(...) {
   v <- as.list(substitute(list(...))[-1])
   lv <- length(v)
   env <- parent.frame()
-  # inspect input
   if(lv<1) {
-    stop("wrapr::qchar_frame expect at least a header, one column, and one row")
+    return(data.frame())
   }
+  # inspect input
   cls <- vapply(v, class, character(1))
   if(length(setdiff(cls, c("character", "call", "name")))>0) {
     stop("wrapr::qchar_frame expect only strings, names, +, and commas")
   }
   if(sum(cls=="call") < 1) {
-    stop("wrapr::qchar_frame expected at least 1 infix operator")
+    # no rows case
+    fr <- data.frame(x = character(0),
+                     stringsAsFactors = FALSE)
+    colnames(fr) <- as.character(v[[1]])
+    if(lv>1) {
+      for(i in 2:lv) {
+        fr[[as.character(v[[i]])]] <- character(0)
+      }
+    }
+    rownames(fr) <- NULL
+    return(fr)
   }
   ncol <- match("call", cls)
   # unpack

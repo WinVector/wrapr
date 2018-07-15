@@ -2,7 +2,7 @@
 % Please edit documentation in R/cf.R
 \name{build_frame}
 \alias{build_frame}
-\title{Build a (non-empty) data.frame.}
+\title{Build a data.frame from the user's description.}
 \usage{
 build_frame(..., cf_eval_environment = parent.frame())
 }
