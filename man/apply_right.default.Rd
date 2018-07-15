@@ -2,7 +2,7 @@
 % Please edit documentation in R/bpipe.R
 \name{apply_right.default}
 \alias{apply_right.default}
-\title{S3 dispatch on type of pipe_right_argument.}
+\title{Default apply_righ implementation: use apply_left.}
 \usage{
 apply_right.default(pipe_left_arg, pipe_right_arg, pipe_environment,
   left_arg_name, pipe_string, right_arg_name)

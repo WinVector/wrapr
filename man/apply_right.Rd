@@ -27,8 +27,15 @@ result
 Triggered if right hand side of pipe stage was a name that does not resolve to a function.
 For formal documentation please see \url{https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf}.
 Since both items are now values we might like to S4 dispatch at this point, but
-this path is only tiggered with the right argument starts name-line so most
+this path is only triggered with the right argument starts name-line so most
 uses would violate referential transparency for a small return.
+}
+\details{
+Note for package developers: wrapr version 1.5.2 and newer also include a S4 methods::setGeneric() declaration on apply_right.
+This makes S4 dispatch available, but it requires packages using roxygen to generate NAMESPACE entries
+for apply_right to re-build as prior to wrapr version 1.5.2 roxygen would declare "S3method(apply_right,relop)"
+for such packages whereas it appears at wrapr version 1.5.2 and later the correct declaration is "export(apply_right.relop)"
+(possibly more compatible with S4 dispatch).
 }
 \examples{
 
