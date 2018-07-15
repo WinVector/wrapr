@@ -24,7 +24,7 @@ apply_right(pipe_left_arg, pipe_right_arg, pipe_environment, left_arg_name,
 result
 }
 \description{
-Triggered if right hand side was a name that does not resolve to a function.
+Triggered if right hand side of pipe stage was a name that does not resolve to a function.
 For formal documentation please see \url{https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf}.
 Since both items are now values we might like to S4 dispatch at this point, but
 this path is only tiggered with the right argument starts name-line so most

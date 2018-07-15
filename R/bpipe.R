@@ -107,7 +107,7 @@ apply_left.default <- function(pipe_left_arg,
 
 #' S3 dispatch on class of pipe_right_argument.
 #'
-#' Triggered if right hand side was a name that does not resolve to a function.
+#' Triggered if right hand side of pipe stage was a name that does not resolve to a function.
 #' For formal documentation please see \url{https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf}.
 #' Since both items are now values we might like to S4 dispatch at this point, but
 #' this path is only tiggered with the right argument starts name-line so most
@@ -151,11 +151,6 @@ apply_right <- function(pipe_left_arg,
   UseMethod("apply_right", pipe_right_arg)
 }
 
-methods::setGeneric(
-  name = "apply_right",
-  def = apply_right,
-  signature = c("pipe_left_arg", "pipe_right_arg"),
-  simpleInheritanceOnly = FALSE)
 
 #' S3 dispatch on type of pipe_right_argument.
 #'
@@ -195,6 +190,10 @@ apply_right.default <- function(pipe_left_arg,
              pipe_string = pipe_string,
              right_arg_name = right_arg_name)
 }
+
+# lash in S4 dispatch
+methods::setGeneric(
+  name = "apply_right")
 
 
 #' Pipe dispatch implementation.
