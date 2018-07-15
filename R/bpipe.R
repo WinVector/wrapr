@@ -54,7 +54,7 @@ forbidden_pipe_destination_names <- c("else",
 
 #' S3 dispatch on class of pipe_left_arg.
 #'
-#' Place evalation of left argument in \code{.} and then evaluate right argument.
+#' Place evaluation of left argument in \code{.} and then evaluate right argument.
 #'
 #' @param pipe_left_arg left argument
 #' @param pipe_right_arg substitute(pipe_right_arg) argument
@@ -158,7 +158,7 @@ apply_right <- function(pipe_left_arg,
 }
 
 
-#' Default apply_righ implementation: use apply_left.
+#' Default apply_right implementation: use apply_left.
 #'
 #' Triggered if right hand side was a name that does not resolve to a function.
 #' Default implementation is re-dispatch through \code{\link{apply_left}}.
@@ -340,7 +340,7 @@ pipe_impl <- function(pipe_left_arg,
 #' The pipe operator has a couple of special cases. First: if the right hand side is a name,
 #' then we try to de-reference it and apply it as a function or surrogate function.
 #'
-#' The pipe operator checks for and throws an exception for a number of "pipled into
+#' The pipe operator checks for and throws an exception for a number of "piped into
 #' nothing cases" such as \code{5 \%.>\% sin()}, many of these checks can be turned
 #' off by adding braces.
 #'
@@ -350,7 +350,7 @@ pipe_impl <- function(pipe_left_arg,
 #' \code{\%>.\%} and \code{\%.>\%} are synonyms.
 #'
 #' @param pipe_left_arg left argument expression (substituted into .)
-#' @param pipe_right_arg right argument expession (presumably including .)
+#' @param pipe_right_arg right argument expression (presumably including .)
 #' @return eval(\{ . <- pipe_left_arg; pipe_right_arg \};)
 #'
 #' @examples

@@ -106,7 +106,7 @@
       <h1>wrapr_applicable</h1>
                         <h4 class="author">John Mount, Win-Vector LLC</h4>
             
-            <h4 class="date">2018-07-11</h4>
+            <h4 class="date">2018-07-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/wrapr_applicable.Rmd"><code>vignettes/wrapr_applicable.Rmd</code></a></small>
       <div class="hidden name"><code>wrapr_applicable.Rmd</code></div>
@@ -146,11 +146,11 @@
 <span class="kw">class</span>(function_reference) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"wrapr_applicable"</span>, <span class="st">"ourclass"</span>)
 
 apply_right.ourclass &lt;-<span class="st"> </span><span class="cf">function</span>(pipe_left_arg,
-                                    pipe_right_arg,
-                                    pipe_environment,
-                                    left_arg_name,
-                                    pipe_string,
-                                    right_arg_name) {
+                                 pipe_right_arg,
+                                 pipe_environment,
+                                 left_arg_name,
+                                 pipe_string,
+                                 right_arg_name) {
   pipe_right_arg<span class="op">$</span><span class="kw">f</span>(pipe_left_arg)
 }
 
@@ -175,7 +175,12 @@ function_reference<span class="op">$</span>f &lt;-<span class="st"> </span>sqrt
 <code>pipe_right_arg</code>: The right pipeline operator (essentially “<code>self</code>” or “<code>this</code>” in object oriented terms, used for <code>S3</code> dispatch).</li>
 <li>
 <code>pipe_environment</code>: The environment the pipeline is working in (not usually needed).</li>
-<li>`pipe_name: The name of the pipe operator (not usually needed).</li>
+<li>
+<code>left_arg_name</code>: If the left arguement was passed in by name, what that name was.</li>
+<li>
+<code>pipe_string</code>: The name of the pipe operator (not usually needed).</li>
+<li>
+<code>right_arg_name</code>: If the right arguement was passed in by name, what that name was.</li>
 </ul>
 <p>This functionality allows arbitrary objects to directly specify their intended pipeline behavior.</p>
 <p>Let’s use a debugging function to see the values of all of the arguments.</p>

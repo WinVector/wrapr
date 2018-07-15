@@ -24,7 +24,7 @@
 result
 }
 \description{
-Place evalation of left argument in \code{.} and then evaluate right argument.
+Place evaluation of left argument in \code{.} and then evaluate right argument.
 }
 \examples{
 

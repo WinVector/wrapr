@@ -9,7 +9,7 @@
 #' Called from \code{:=} operator.
 #'
 #' @param params formal parameters of function, unbound names.
-#' @param body subsituted body of function to map arguments into (braces required for ":=" notation).
+#' @param body substituted body of function to map arguments into (braces required for ":=" notation).
 #' @param env environment to work in.
 #' @return user defined function.
 #'
@@ -62,7 +62,7 @@ makeFunction_se <- function(params, body, env = parent.frame()) {
 #' # example: square numbers
 #' sapply(1:4, lambda(x, x^2))
 #'
-#' # example more than one argumnet
+#' # example more than one argument
 #' f <- lambda(x, y, x+y)
 #' f(2,4)
 #'

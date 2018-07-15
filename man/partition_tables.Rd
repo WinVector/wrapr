@@ -2,13 +2,13 @@
 % Please edit documentation in R/partition_tables.R
 \name{partition_tables}
 \alias{partition_tables}
-\title{Partition as set of talbes into a list.}
+\title{Partition as set of tables into a list.}
 \usage{
 partition_tables(tables_used, partition_column, ..., source_usage = NULL,
   source_limit = NULL, tables = NULL, env = NULL)
 }
 \arguments{
-\item{tables_used}{charater, names of tables to look for.}
+\item{tables_used}{character, names of tables to look for.}
 
 \item{partition_column}{character, name of column to partition by (tables should not have NAs in this column).}
 

@@ -26,7 +26,7 @@ Mostly just a place-holder so lambda-symbol form has somewhere safe to hang its 
 # example: square numbers
 sapply(1:4, lambda(x, x^2))
 
-# example more than one argumnet
+# example more than one argument
 f <- lambda(x, y, x+y)
 f(2,4)
 

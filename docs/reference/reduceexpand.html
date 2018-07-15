@@ -198,7 +198,7 @@ variadic argument construction to <code><a href='http://www.rdocumentation.org/p
 <span class='fl'>1</span>:<span class='fl'>10</span> <span class='kw'>%.|%</span> <span class='no'>sum</span></div><div class='output co'>#&gt; [1] 55</div><div class='input'><span class='fl'>1</span>:<span class='fl'>10</span> <span class='kw'>%.|%</span> <span class='kw pkg'>base</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/base/topics/sum'>sum</a></span></div><div class='output co'>#&gt; [1] 55</div><div class='input'><span class='fl'>1</span>:<span class='fl'>10</span> <span class='kw'>%.|%</span> <span class='kw'>function</span>(<span class='no'>...</span>) { <span class='fu'>sum</span>(<span class='no'>...</span>) }</div><div class='output co'>#&gt; [1] 55</div><div class='input'>
 <span class='co'># simulate partial application of log(., base=2)</span>
 <span class='fl'>1</span>:<span class='fl'>4</span> <span class='kw'>%.&gt;%</span> <span class='fu'>do.call</span>(<span class='no'>log</span>, <span class='fu'>list</span>(<span class='no'>.</span>, <span class='kw'>base</span> <span class='kw'>=</span> <span class='fl'>2</span>))</div><div class='output co'>#&gt; [1] 0.000000 1.000000 1.584963 2.000000</div><div class='input'>
-# # simluate partial application with dplyr
+# # simulate partial application with dplyr
 # # can be used with dplyr/rlang as follows
 # d <- data.frame(x=1, y=2, z=3)
 # syms <- rlang::syms(c("x", "y"))

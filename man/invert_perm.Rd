@@ -2,12 +2,12 @@
 % Please edit documentation in R/match_order.R
 \name{invert_perm}
 \alias{invert_perm}
-\title{Invert a permuation.}
+\title{Invert a permutation.}
 \usage{
 invert_perm(p)
 }
 \arguments{
-\item{p}{vector of lenth n containing each of seq_len(n) exactly once.}
+\item{p}{vector of length n containing each of seq_len(n) exactly once.}
 }
 \value{
 vector q such that p[q] == q[p] == seq_len(length(p))

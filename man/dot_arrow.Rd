@@ -13,7 +13,7 @@ pipe_left_arg \%>.\% pipe_right_arg
 \arguments{
 \item{pipe_left_arg}{left argument expression (substituted into .)}
 
-\item{pipe_right_arg}{right argument expession (presumably including .)}
+\item{pipe_right_arg}{right argument expression (presumably including .)}
 }
 \value{
 eval(\{ . <- pipe_left_arg; pipe_right_arg \};)
@@ -26,7 +26,7 @@ Defined as roughly : \code{a \%>.\% b} ~ \code{\{ . <- a; b \};}
 The pipe operator has a couple of special cases. First: if the right hand side is a name,
 then we try to de-reference it and apply it as a function or surrogate function.
 
-The pipe operator checks for and throws an exception for a number of "pipled into
+The pipe operator checks for and throws an exception for a number of "piped into
 nothing cases" such as \code{5 \%.>\% sin()}, many of these checks can be turned
 off by adding braces.
 

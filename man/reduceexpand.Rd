@@ -44,7 +44,7 @@ variadic argument construction to \code{\link[base]{list}}, and manipulation to 
 # simulate partial application of log(., base=2)
 1:4 \%.>\% do.call(log, list(., base = 2))
 
-# # simluate partial application with dplyr
+# # simulate partial application with dplyr
 # # can be used with dplyr/rlang as follows
 # d <- data.frame(x=1, y=2, z=3)
 # syms <- rlang::syms(c("x", "y"))

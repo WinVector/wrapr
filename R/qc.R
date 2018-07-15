@@ -1,6 +1,6 @@
 
 
-#' Quoting version of c() array concatinator.
+#' Quoting version of c() array concatenate.
 #'
 #' The qc() function is intended to help quote user inputs.
 #' It is a convenience function allowing the user to elide

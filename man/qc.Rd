@@ -2,7 +2,7 @@
 % Please edit documentation in R/qc.R
 \name{qc}
 \alias{qc}
-\title{Quoting version of c() array concatinator.}
+\title{Quoting version of c() array concatenate.}
 \usage{
 qc(...)
 }

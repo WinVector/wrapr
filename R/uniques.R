@@ -21,7 +21,7 @@
 #'
 #' # task: get unique items in x plus y
 #' unique(c(x, y))   # correct answer
-#' unique(x, y)      # oops forgot to wrap arguments, quitely get wrong answer
+#' unique(x, y)      # oops forgot to wrap arguments, quietly get wrong answer
 #' tryCatch(
 #'    uniques(x, y), # uniques catches the error
 #'    error = function(e) { e })

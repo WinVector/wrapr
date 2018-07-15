@@ -1,9 +1,9 @@
 
-#' Partition as set of talbes into a list.
+#' Partition as set of tables into a list.
 #'
 #' Partition a set of tables into a list of sets of tables.  Note: removes rownames.
 #'
-#' @param tables_used charater, names of tables to look for.
+#' @param tables_used character, names of tables to look for.
 #' @param partition_column character, name of column to partition by (tables should not have NAs in this column).
 #' @param ... force later arguments to bind by name.
 #' @param source_usage optional named map from tables_used names to sets of columns used.
@@ -124,9 +124,9 @@ partition_tables <- function(tables_used,
 }
 
 
-#' Execute f in parallel partition ed by partition_column.
+#' Execute f in parallel partitioned by partition_column.
 #'
-#' Execute f in parallel partiation by \code{partition_column}, see
+#' Execute f in parallel partitioned by \code{partition_column}, see
 #' \code{\link{partition_tables}} for details.
 #'
 #' @param tables named map of tables to use.

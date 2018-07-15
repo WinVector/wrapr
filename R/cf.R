@@ -158,7 +158,7 @@ build_frame <- function(..., cf_eval_environment = parent.frame()) {
 #' @param ... not used for values, forces later arguments to bind by name.
 #' @param time_format character, format for "POSIXt" classes.
 #' @param formatC_options named list, options for formatC()- used on numerics.
-#' @return chracter
+#' @return character
 #'
 #' @seealso \code{\link{build_frame}},  \code{\link{qchar_frame}}
 #'
@@ -293,7 +293,7 @@ draw_frame <- function(x,
 #'
 #' A convenient way to build a character data.frame in legible transposed form.  Position of
 #' first "|" (or other infix operator) determines number of columns
-#' (all other infic operators are aliases for ",").
+#' (all other infix operators are aliases for ",").
 #' Names are treated as character types.
 #'
 #' @param ... cell names, first infix operator denotes end of header row of column names.

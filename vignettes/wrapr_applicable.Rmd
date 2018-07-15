@@ -50,11 +50,11 @@ function_reference <- list(f = sin)
 class(function_reference) <- c("wrapr_applicable", "ourclass")
 
 apply_right.ourclass <- function(pipe_left_arg,
-                                    pipe_right_arg,
-                                    pipe_environment,
-                                    left_arg_name,
-                                    pipe_string,
-                                    right_arg_name) {
+                                 pipe_right_arg,
+                                 pipe_environment,
+                                 left_arg_name,
+                                 pipe_string,
+                                 right_arg_name) {
   pipe_right_arg$f(pipe_left_arg)
 }
 
@@ -71,7 +71,10 @@ The signature arguments work as follows:
   * `pipe_left_arg`: The value moving down the pipeline.
   * `pipe_right_arg`: The right pipeline operator (essentially "`self`" or "`this`" in object oriented terms, used for `S3` dispatch).
   * `pipe_environment`: The environment the pipeline is working in (not usually needed).
-  * `pipe_name\: The name of the pipe operator (not usually needed).
+  * `left_arg_name`: If the left arguement was passed in by name, what that name was.
+  * `pipe_string`: The name of the pipe operator (not usually needed).
+  * `right_arg_name`: If the right arguement was passed in by name, what that name was.
+
 
 This functionality allows arbitrary objects to directly specify their intended pipeline behavior.
 

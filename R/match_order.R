@@ -1,12 +1,12 @@
 
 
-#' Invert a permuation.
+#' Invert a permutation.
 #'
 #' For a permutation p build q such that p[q] == q[p] == seq_len(length(p)).
 #' Please see \url{http://www.win-vector.com/blog/2017/05/on-indexing-operators-and-composition/}
 #' and \url{http://www.win-vector.com/blog/2017/09/permutation-theory-in-action/}.
 #'
-#' @param p vector of lenth n containing each of seq_len(n) exactly once.
+#' @param p vector of length n containing each of seq_len(n) exactly once.
 #' @return vector q such that p[q] == q[p] == seq_len(length(p))
 #'
 #' @examples
@@ -30,7 +30,7 @@ invert_perm <- function(p) {
 
 #' Match one order to another.
 #'
-#' Build a pemutation p such that ids1[p] == ids2.  See \url{http://www.win-vector.com/blog/2017/09/permutation-theory-in-action/}.
+#' Build a permutation p such that ids1[p] == ids2.  See \url{http://www.win-vector.com/blog/2017/09/permutation-theory-in-action/}.
 #'
 #' @param ids1 unique vector of ids.
 #' @param ids2 unique vector of ids with sort(ids1)==sort(ids2).

@@ -17,7 +17,7 @@ draw_frame(x, ..., time_format = "\%Y-\%m-\%d \%H:\%M:\%S",
 \item{formatC_options}{named list, options for formatC()- used on numerics.}
 }
 \value{
-chracter
+character
 }
 \description{
 Render a data.frame in build_frame format.

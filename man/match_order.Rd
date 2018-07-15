@@ -15,7 +15,7 @@ match_order(ids1, ids2)
 p integers such that ids1[p] == ids2
 }
 \description{
-Build a pemutation p such that ids1[p] == ids2.  See \url{http://www.win-vector.com/blog/2017/09/permutation-theory-in-action/}.
+Build a permutation p such that ids1[p] == ids2.  See \url{http://www.win-vector.com/blog/2017/09/permutation-theory-in-action/}.
 }
 \examples{
 

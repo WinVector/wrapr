@@ -9,7 +9,7 @@ makeFunction_se(params, body, env = parent.frame())
 \arguments{
 \item{params}{formal parameters of function, unbound names.}
 
-\item{body}{subsituted body of function to map arguments into (braces required for ":=" notation).}
+\item{body}{substituted body of function to map arguments into (braces required for ":=" notation).}
 
 \item{env}{environment to work in.}
 }

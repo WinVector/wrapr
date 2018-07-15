@@ -2,7 +2,7 @@
 % Please edit documentation in R/partition_tables.R
 \name{execute_parallel}
 \alias{execute_parallel}
-\title{Execute f in parallel partition ed by partition_column.}
+\title{Execute f in parallel partitioned by partition_column.}
 \usage{
 execute_parallel(tables, f, partition_column, ..., cl = NULL, debug = FALSE,
   env = parent.frame())
@@ -26,7 +26,7 @@ execute_parallel(tables, f, partition_column, ..., cl = NULL, debug = FALSE,
 list of f evaluations.
 }
 \description{
-Execute f in parallel partiation by \code{partition_column}, see
+Execute f in parallel partitioned by \code{partition_column}, see
 \code{\link{partition_tables}} for details.
 }
 \examples{

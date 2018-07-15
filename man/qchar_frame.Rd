@@ -15,7 +15,7 @@ character data.frame
 \description{
 A convenient way to build a character data.frame in legible transposed form.  Position of
 first "|" (or other infix operator) determines number of columns
-(all other infic operators are aliases for ",").
+(all other infix operators are aliases for ",").
 Names are treated as character types.
 }
 \examples{

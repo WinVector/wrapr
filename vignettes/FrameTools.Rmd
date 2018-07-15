@@ -110,7 +110,7 @@ build_frame(
    "d"    , 4       , 16  )
 ```
 
-Expressions not in parenthesis (such as "<code>3 + 2</code>") will confuse the langauge transform `build_frame()` uses to detect cell boundaries.
+Expressions not in parenthesis (such as "<code>3 + 2</code>") will confuse the language transform `build_frame()` uses to detect cell boundaries.
 
 
 
