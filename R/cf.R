@@ -162,9 +162,9 @@ build_frame <- function(..., cf_eval_environment = parent.frame()) {
 }
 
 
-#' Render a data.frame in build_frame format.
+#' Render a simple data.frame in build_frame format.
 #'
-#' @param x data.frame (atomic types, with at least 1 row and 1 column).
+#' @param x data.frame (with atomic types).
 #' @param ... not used for values, forces later arguments to bind by name.
 #' @param time_format character, format for "POSIXt" classes.
 #' @param formatC_options named list, options for formatC()- used on numerics.
@@ -210,16 +210,12 @@ draw_frame <- function(x,
   if(!is.data.frame(x)) {
     stop("draw_frame x needs to be a data.frame")
   }
+  res <- "wrapr::build_frame()"
   nrow <- nrow(x)
-  if(nrow<1) {
-    stop("draw_frame x needs at least 1 column")
-  }
   ncol <- ncol(x)
-  if(ncol<1) {
-    stop("draw_frame x needs at least 1 column")
+  if((nrow>=1) && (ncol<1)) {
+    stop("wrapr::draw_frame bad input: no columns, but has rows")
   }
-  # convert to character matrix
-  xq <- x
   qts <- function(v) {
     # wayts to quote: dput(), shQuote(), deparse()
     vapply(as.character(v),
@@ -228,69 +224,79 @@ draw_frame <- function(x,
            },
            character(1))
   }
-  for(ci in colnames(x)) {
-    if("POSIXt" %in% class(x[[ci]])) {
-      xq[[ci]] <- paste0("\"",
-                         format(x[[ci]], time_format),
-                         "\"")
-    } else if(is.character(x[[ci]]) || is.factor(x[[ci]])) {
-      xq[[ci]] <- qts(as.character(x[[ci]]))
-    } else if(is.integer(x[[ci]])) {
-      xq[[ci]] <- paste0(format(x[[ci]], scientific = FALSE), "L")
-    } else if(is.numeric(x[[ci]])) {
-      xq[[ci]] <- formatC(x[[ci]],
-                          digits = formatC_args$digits,
-                          width =  formatC_args$width,
-                          format =  formatC_args$format,
-                          flag =  formatC_args$flag,
-                          mode =  formatC_args$mode,
-                          big.mark =  formatC_args$big.mark,
-                          big.interval =  formatC_args$big.interval,
-                          small.mark =  formatC_args$small.mark,
-                          small.interval =  formatC_args$small.interval,
-                          decimal.mark =  formatC_args$decimal.mark,
-                          preserve.width =  formatC_args$preserve.width,
-                          zero.print =  formatC_args$zero.print,
-                          drop0trailing =  formatC_args$drop0trailing)
-    } else {
-      xq[[ci]] <- as.character(x[[ci]])
+  if((nrow<1) || (ncol<1)) {
+    if(ncol>=1) {
+      res <- paste(qts(colnames(x)), collapse = ", ")
+      res <- paste0("wrapr::build_frame(", res, ")")
     }
-    xq[[ci]][is.na(x[[ci]])] <- NA
+  } else {
+    # convert to character matrix
+    xq <- x
+
+    for(ci in colnames(x)) {
+      if("POSIXt" %in% class(x[[ci]])) {
+        xq[[ci]] <- paste0("\"",
+                           format(x[[ci]], time_format),
+                           "\"")
+      } else if(is.character(x[[ci]]) || is.factor(x[[ci]])) {
+        xq[[ci]] <- qts(as.character(x[[ci]]))
+      } else if(is.integer(x[[ci]])) {
+        xq[[ci]] <- paste0(format(x[[ci]], scientific = FALSE), "L")
+      } else if(is.numeric(x[[ci]])) {
+        xq[[ci]] <- formatC(x[[ci]],
+                            digits = formatC_args$digits,
+                            width =  formatC_args$width,
+                            format =  formatC_args$format,
+                            flag =  formatC_args$flag,
+                            mode =  formatC_args$mode,
+                            big.mark =  formatC_args$big.mark,
+                            big.interval =  formatC_args$big.interval,
+                            small.mark =  formatC_args$small.mark,
+                            small.interval =  formatC_args$small.interval,
+                            decimal.mark =  formatC_args$decimal.mark,
+                            preserve.width =  formatC_args$preserve.width,
+                            zero.print =  formatC_args$zero.print,
+                            drop0trailing =  formatC_args$drop0trailing)
+      } else {
+        xq[[ci]] <- as.character(x[[ci]])
+      }
+      xq[[ci]][is.na(x[[ci]])] <- NA
+    }
+    xm <- as.matrix(xq)
+    xm <- matrix(data = as.character(xm),
+                 nrow = nrow, ncol = ncol)
+    # convert header to values
+    xm <- rbind(matrix(data = qts(colnames(x)),
+                       nrow = 1, ncol = ncol),
+                xm)
+    # compute padding
+    widths <- nchar(xm)
+    widths[is.na(as.numeric(widths))] <- 2
+    colmaxes <- matrix(data = apply(widths, 2, max),
+                       nrow = nrow+1, ncol = ncol,
+                       byrow = TRUE)
+    padlens <- colmaxes - widths
+    pads <- matrix(data = vapply(padlens,
+                                 function(vi) {
+                                   paste(rep(' ', vi), collapse = '')
+                                 }, character(1)),
+                   nrow = nrow+1, ncol = ncol)
+    # get intermediates
+    seps <- matrix(data = ", ",
+                   nrow = nrow+1, ncol = ncol)
+    seps[, ncol] <- " |"
+    seps[nrow+1, ncol] <- " )"
+    # format
+    fmt <- matrix(data = paste0(xm, pads, seps),
+                  nrow = nrow+1, ncol = ncol)
+    rlist <- vapply(seq_len(nrow+1),
+                    function(i) {
+                      paste(fmt[i, , drop=TRUE], collapse = '')
+                    }, character(1))
+    rlist <- paste0("   ", rlist)
+    res <- paste(rlist, collapse = "\n")
+    res <- paste0("wrapr::build_frame(\n", res, "\n")
   }
-  xm <- as.matrix(xq)
-  xm <- matrix(data = as.character(xm),
-               nrow = nrow, ncol = ncol)
-  # convert header to values
-  xm <- rbind(matrix(data = qts(colnames(x)),
-                     nrow = 1, ncol = ncol),
-              xm)
-  # compute padding
-  widths <- nchar(xm)
-  widths[is.na(as.numeric(widths))] <- 2
-  colmaxes <- matrix(data = apply(widths, 2, max),
-                     nrow = nrow+1, ncol = ncol,
-                     byrow = TRUE)
-  padlens <- colmaxes - widths
-  pads <- matrix(data = vapply(padlens,
-                               function(vi) {
-                                 paste(rep(' ', vi), collapse = '')
-                               }, character(1)),
-                 nrow = nrow+1, ncol = ncol)
-  # get intermediates
-  seps <- matrix(data = ", ",
-                 nrow = nrow+1, ncol = ncol)
-  seps[, ncol] <- " |"
-  seps[nrow+1, ncol] <- " )"
-  # format
-  fmt <- matrix(data = paste0(xm, pads, seps),
-                nrow = nrow+1, ncol = ncol)
-  rlist <- vapply(seq_len(nrow+1),
-                  function(i) {
-                    paste(fmt[i, , drop=TRUE], collapse = '')
-                  }, character(1))
-  rlist <- paste0("   ", rlist)
-  res <- paste(rlist, collapse = "\n")
-  res <- paste0("wrapr::build_frame(\n", res, "\n")
   if(is.name(x_s)) {
     res <- paste0(as.character(x_s), " <- ", res)
   }
