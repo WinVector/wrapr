@@ -49,7 +49,6 @@
 #' list(1, NULL, NULL, NA, NA) %?% list(2, NULL, NA, NULL, NA) # returns list(1, NULL, NA, NULL, NA)
 #' c(1, NA, NA) %?% list(1, 2, list(3)) # returns c(1, 2, NA)
 #' c(1, NA) %?% list(1, NULL)           # returns c(1, NA)
-#' # list() %?% list(1, NA, NULL) # throws an error.
 #' c() %?% list(1, NA, NULL)    # returns list(1, NA, NULL)
 #' c() %?% c(1, NA, 2)          # returns c(1, NA, 2)
 #'
@@ -68,9 +67,6 @@ coalesce <- function(coalesce_left_arg, coalesce_right_arg) {
   } else {
     # zero length, prefer self unless coalesce_right_arg is non-trivial.
     if(length(coalesce_right_arg)>0) {
-      if(!is.null(coalesce_left_arg)) {
-        stop("wrapr::`%?%` (coalesce)` attempting to replace values of a NULL argument from values in a non-length zero structure")
-      }
       return(coalesce_right_arg)
     } else {
       return(coalesce_left_arg)
