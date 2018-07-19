@@ -103,7 +103,7 @@ coalesce <- function(coalesce_left_arg, coalesce_right_arg) {
         }
       }
     } else {
-      # logical vector assing of scalar
+      # logical vector with scalar
       v <- coalesce_right_arg[[1]]
       if(is.atomic(v) && length(v)==1) {
         coalesce_left_arg[replace] <- v
