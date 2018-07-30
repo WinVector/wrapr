@@ -1,5 +1,5 @@
 
-# wrapr 1.5.2 2018-07-15
+# wrapr 1.6.0 2018-07-29
  
  * Documentation fixes.
  * S4 dispatch apply_right.

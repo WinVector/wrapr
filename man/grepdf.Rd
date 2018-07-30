@@ -4,8 +4,8 @@
 \alias{grepdf}
 \title{Grep for column names from a \code{data.frame}}
 \usage{
-grepdf(pattern, x, ..., ignore.case = FALSE, perl = FALSE, value = FALSE,
-  fixed = FALSE, useBytes = FALSE, invert = FALSE)
+grepdf(pattern, x, ..., ignore.case = FALSE, perl = FALSE,
+  value = FALSE, fixed = FALSE, useBytes = FALSE, invert = FALSE)
 }
 \arguments{
 \item{pattern}{passed to \code{\link[base]{grep}}}
