@@ -1,10 +1,10 @@
 
-# wrapr 1.6.0 2018-07-29
+# wrapr 1.6.0 2018-07-31
  
- * Documentation fixes.
  * S4 dispatch apply_right.
  * split based partition_tables().
  * Allow drawing of empty data.frames.
+ * Documentation fixes.
 
 # wrapr 1.5.1 2018-07-07
 
