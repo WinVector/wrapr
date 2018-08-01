@@ -109,15 +109,7 @@ apply_left.default <- function(pipe_left_arg,
 #'
 #' Triggered if right hand side of pipe stage was a name that does not resolve to a function.
 #' For formal documentation please see \url{https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf}.
-#' Since both items are now values we might like to S4 dispatch at this point, but
-#' this path is only triggered with the right argument starts name-line so most
-#' uses would violate referential transparency for a small return.
 #'
-#' Note for package developers: wrapr version 1.5.2 and newer also include a S4 methods::setGeneric() declaration on apply_right.
-#' This makes S4 dispatch available, but it requires packages using roxygen to generate NAMESPACE entries
-#' for apply_right to re-build as prior to wrapr version 1.5.2 roxygen would declare "S3method(apply_right,relop)"
-#' for such packages whereas it appears at wrapr version 1.5.2 and later the correct declaration is "export(apply_right.relop)"
-#' (possibly more compatible with S4 dispatch).
 #'
 #' @param pipe_left_arg left argument
 #' @param pipe_right_arg right argument
@@ -127,7 +119,7 @@ apply_left.default <- function(pipe_left_arg,
 #' @param right_arg_name name, if not NULL name of right argument.
 #' @return result
 #'
-#' @seealso \code{\link{apply_right.default}}
+#' @seealso \code{\link{apply_left}}, \code{\link{apply_right_S4}}
 #'
 #' @examples
 #'
@@ -158,11 +150,56 @@ apply_right <- function(pipe_left_arg,
 }
 
 
-#' Default apply_right implementation: use apply_left.
+#' Default apply_right implementation.
 #'
-#' Triggered if right hand side was a name that does not resolve to a function.
-#' Default implementation is re-dispatch through \code{\link{apply_left}}.
-#' Currently this is not thought to be a common execution case.
+#' Default apply_right implementation: S4 dispatch to apply_right_S4.
+#'
+#' @param pipe_left_arg left argument
+#' @param pipe_right_arg substitute(pipe_right_arg) argument
+#' @param pipe_environment environment to evaluate in
+#' @param left_arg_name name, if not NULL name of left argument.
+#' @param pipe_string character, name of pipe operator.
+#' @param right_arg_name name, if not NULL name of right argument.
+#' @return result
+#'
+#' @seealso \code{\link{apply_left}}, \code{\link{apply_right}}, \code{\link{apply_right_S4}}
+#'
+#' @examples
+#'
+#' # simulate a function pointer
+#' apply_right.list <- function(pipe_left_arg,
+#'                              pipe_right_arg,
+#'                              pipe_environment,
+#'                              left_arg_name,
+#'                              pipe_string,
+#'                              right_arg_name) {
+#'   pipe_right_arg$f(pipe_left_arg)
+#' }
+#'
+#' f <- list(f=sin)
+#' 2 %.>% f
+#' f$f <- cos
+#' 2 %.>% f
+#'
+#' @export
+#'
+apply_right.default <- function(pipe_left_arg,
+                                pipe_right_arg,
+                                pipe_environment,
+                                left_arg_name,
+                                pipe_string,
+                                right_arg_name) {
+  apply_right_S4(pipe_left_arg = pipe_left_arg,
+                 pipe_right_arg = pipe_right_arg,
+                 pipe_environment = pipe_environment,
+                 left_arg_name = left_arg_name,
+                 pipe_string = pipe_string,
+                 right_arg_name = right_arg_name)
+}
+
+#' S4 dispatch method for apply_right.
+#'
+#' Intended to be generic on first two arguments.
 #'
 #' @param pipe_left_arg left argument
 #' @param pipe_right_arg substitute(pipe_right_arg) argument
@@ -176,18 +213,34 @@ apply_right <- function(pipe_left_arg,
 #'
 #' @examples
 #'
-#' v <- list(1, 2)
-#' f <- function(z) { format(z) }
-#' f %.>% v
+#' a <- data.frame(x = 1)
+#' b <- data.frame(x = 2)
+#'
+#' # a %.>% b # will equal b
+#'
+#' setMethod(
+#'   "apply_right_S4",
+#'   signature("data.frame", "data.frame"),
+#'   function(pipe_left_arg,
+#'            pipe_right_arg,
+#'            pipe_environment,
+#'            left_arg_name,
+#'            pipe_string,
+#'            right_arg_name) {
+#'     rbind(pipe_left_arg, pipe_right_arg)
+#'   })
+#'
+#'
+#' a %.>% b # should equal data.frame(x = c(1, 2))
 #'
 #' @export
 #'
-apply_right.default <- function(pipe_left_arg,
-                                pipe_right_arg,
-                                pipe_environment,
-                                left_arg_name,
-                                pipe_string,
-                                right_arg_name) {
+apply_right_S4 <- function(pipe_left_arg,
+                           pipe_right_arg,
+                           pipe_environment,
+                           left_arg_name,
+                           pipe_string,
+                           right_arg_name) {
   # go to default left S3 dispatch on apply_left()
   apply_left(pipe_left_arg = pipe_left_arg,
              pipe_right_arg = pipe_right_arg,
@@ -199,7 +252,7 @@ apply_right.default <- function(pipe_left_arg,
 
 # lash in S4 dispatch
 methods::setGeneric(
-  name = "apply_right")
+  name = "apply_right_S4")
 
 
 #' Pipe dispatch implementation.

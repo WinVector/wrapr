@@ -33,10 +33,7 @@
 <meta property="og:title" content="S3 dispatch on class of pipe_right_argument. — apply_right" />
 
 <meta property="og:description" content="Triggered if right hand side of pipe stage was a name that does not resolve to a function.
-For formal documentation please see https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf.
-Since both items are now values we might like to S4 dispatch at this point, but
-this path is only triggered with the right argument starts name-line so most
-uses would violate referential transparency for a small return." />
+For formal documentation please see https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -148,10 +145,7 @@ uses would violate referential transparency for a small return." />
     <div class="ref-description">
     
     <p>Triggered if right hand side of pipe stage was a name that does not resolve to a function.
-For formal documentation please see <a href='https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf'>https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf</a>.
-Since both items are now values we might like to S4 dispatch at this point, but
-this path is only triggered with the right argument starts name-line so most
-uses would violate referential transparency for a small return.</p>
+For formal documentation please see <a href='https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf'>https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf</a>.</p>
     
     </div>
 
@@ -191,17 +185,9 @@ uses would violate referential transparency for a small return.</p>
 
     <p>result</p>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Note for package developers: wrapr version 1.5.2 and newer also include a S4 methods::setGeneric() declaration on apply_right.
-This makes S4 dispatch available, but it requires packages using roxygen to generate NAMESPACE entries
-for apply_right to re-build as prior to wrapr version 1.5.2 roxygen would declare "S3method(apply_right,relop)"
-for such packages whereas it appears at wrapr version 1.5.2 and later the correct declaration is "export(apply_right.relop)"
-(possibly more compatible with S4 dispatch).</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='apply_right.default.html'>apply_right.default</a></code></p></div>
+    <div class='dont-index'><p><code><a href='apply_left.html'>apply_left</a></code>, <code><a href='apply_right_S4.html'>apply_right_S4</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -231,8 +217,6 @@ for such packages whereas it appears at wrapr version 1.5.2 and later the correc
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

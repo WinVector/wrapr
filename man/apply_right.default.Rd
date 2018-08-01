@@ -2,10 +2,10 @@
 % Please edit documentation in R/bpipe.R
 \name{apply_right.default}
 \alias{apply_right.default}
-\title{Default apply_right implementation: use apply_left.}
+\title{Default apply_right implementation.}
 \usage{
-apply_right.default(pipe_left_arg, pipe_right_arg, pipe_environment,
-  left_arg_name, pipe_string, right_arg_name)
+\method{apply_right}{default}(pipe_left_arg, pipe_right_arg,
+  pipe_environment, left_arg_name, pipe_string, right_arg_name)
 }
 \arguments{
 \item{pipe_left_arg}{left argument}
@@ -24,17 +24,26 @@ apply_right.default(pipe_left_arg, pipe_right_arg, pipe_environment,
 result
 }
 \description{
-Triggered if right hand side was a name that does not resolve to a function.
-Default implementation is re-dispatch through \code{\link{apply_left}}.
-Currently this is not thought to be a common execution case.
+Default apply_right implementation: S4 dispatch to apply_right_S4.
 }
 \examples{
 
-v <- list(1, 2)
-f <- function(z) { format(z) }
-f \%.>\% v
+# simulate a function pointer
+apply_right.list <- function(pipe_left_arg,
+                             pipe_right_arg,
+                             pipe_environment,
+                             left_arg_name,
+                             pipe_string,
+                             right_arg_name) {
+  pipe_right_arg$f(pipe_left_arg)
+}
+
+f <- list(f=sin)
+2 \%.>\% f
+f$f <- cos
+2 \%.>\% f
 
 }
 \seealso{
-\code{\link{apply_left}}, \code{\link{apply_right}}
+\code{\link{apply_left}}, \code{\link{apply_right}}, \code{\link{apply_right_S4}}
 }
