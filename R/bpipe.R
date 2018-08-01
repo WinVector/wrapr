@@ -250,6 +250,9 @@ apply_right_S4 <- function(pipe_left_arg,
              right_arg_name = right_arg_name)
 }
 
+#' @importFrom methods setGeneric
+NULL
+
 # lash in S4 dispatch
 methods::setGeneric(
   name = "apply_right_S4")

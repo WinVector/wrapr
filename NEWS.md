@@ -1,4 +1,8 @@
 
+# wrapr 1.6.1 2018-08-01
+
+ * Clear methods note.
+ 
 # wrapr 1.6.0 2018-08-01
  
  * S4 dispatch apply_right_S4.
