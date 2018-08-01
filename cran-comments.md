@@ -3,7 +3,9 @@
 ## Test environments
 
     * Windows
- 
+    * using R Under development (unstable) (2018-07-31 r75040)
+    * using platform: x86_64-w64-mingw32 (64-bit)
+
     * OSX 
     * using R version 3.5.0 (2018-04-23)
     * using platform: x86_64-apple-darwin15.6.0 (64-bit)
