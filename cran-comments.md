@@ -11,7 +11,7 @@
     Conversion of ‘README.md’ failed:
     pandoc: Could not fetch https://www.r-pkg.org/badges/version/wrapr
     TlsException (HandshakeFailed (Error_Protocol ("expecting server hello, got alert : [(AlertLevel_Fatal,HandshakeFailure)]",True,HandshakeFailure)))
-    The above warning is suprious: the link is good.
+    The above warning is suprious: the link is good.  Message does not occur on win-check.
 
 ## R CMD check --as-cran wrapr_1.6.0.tar.gz 
 
@@ -24,11 +24,20 @@
     * checking CRAN incoming feasibility ... Note_to_CRAN_maintainers
     Maintainer: ‘John Mount <jmount@win-vector.com>’
 
-
-
 ## Downstream dependencies
 
     Checked all downstream dependencies.
 
     devtools::revdep_check()
+    Checking 8 packages: cdata, replyr, rqdatatable, rquery, seplyr, sigr, vtreat, WVPlots
+    Checked cdata      : 0 errors | 0 warnings | 0 notes
+    Checked replyr     : 0 errors | 0 warnings | 0 notes
+    Checked rqdatatable: 0 errors | 0 warnings | 0 notes
+    Checked rquery     : 0 errors | 0 warnings | 0 notes
+    Checked seplyr     : 0 errors | 0 warnings | 0 notes
+    Checked sigr       : 0 errors | 0 warnings | 0 notes
+    Checked vtreat     : 0 errors | 0 warnings | 0 notes
+    Checked WVPlots    : 0 errors | 0 warnings | 0 notes
+
+
  
