@@ -82,6 +82,13 @@ apply_left.default <- function(pipe_left_arg,
   if(length(pipe_right_arg)<1) {
     stop("wrapr::apply_left.default does not allow direct piping into NULL/empty")
   }
+  # check for piping into constants such as 4 %.>% 5
+  if(!is.language(pipe_right_arg)) {
+    stop(paste("wrapr::apply_left.default does not allow piping into obvious concrete right-argument (clearly can't depend on left argument):\n",
+               ifelse(is.null(left_arg_name), "", left_arg_name), paste(class(pipe_left_arg), collapse = ", "), "\n",
+               ifelse(is.null(right_arg_name), "", right_arg_name), paste(class(pipe_left_arg), collapse = ", ")),
+         call. = FALSE)
+  }
   if(is.call(pipe_right_arg) && (is.name(pipe_right_arg[[1]]))) {
     call_text <- as.character(pipe_right_arg[[1]])
     # mostly grabbing reserved words that are in the middle
@@ -241,13 +248,18 @@ apply_right_S4 <- function(pipe_left_arg,
                            left_arg_name,
                            pipe_string,
                            right_arg_name) {
-  # go to default left S3 dispatch on apply_left()
-  apply_left(pipe_left_arg = pipe_left_arg,
-             pipe_right_arg = pipe_right_arg,
-             pipe_environment = pipe_environment,
-             left_arg_name = left_arg_name,
-             pipe_string = pipe_string,
-             right_arg_name = right_arg_name)
+  # # go to default left S3 dispatch on apply_left()
+  # apply_left(pipe_left_arg = pipe_left_arg,
+  #            pipe_right_arg = pipe_right_arg,
+  #            pipe_environment = pipe_environment,
+  #            left_arg_name = left_arg_name,
+  #            pipe_string = pipe_string,
+  #            right_arg_name = right_arg_name)
+  stop(paste("wrapr::apply_right_S4 default called with classes:\n",
+             ifelse(is.null(left_arg_name), "", left_arg_name), paste(class(pipe_left_arg), collapse = ", "), "\n",
+             ifelse(is.null(right_arg_name), "", right_arg_name), paste(class(pipe_left_arg), collapse = ", "), "\n",
+             " must have a more specific S4 method defined to dispatch\n"),
+       call. = FALSE)
 }
 
 #' @importFrom methods setGeneric

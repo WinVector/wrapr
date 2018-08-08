@@ -1,6 +1,7 @@
 
-# wrapr 1.6.1 2018-08-01
+# wrapr 1.6.1 2018-08-08
 
+ * More restrictive apply_right_S4.
  * Clear methods note.
  
 # wrapr 1.6.0 2018-08-01

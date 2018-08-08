@@ -203,12 +203,14 @@ For formal documentation please see <a href='https://github.com/WinVector/wrapr/
 }
 
 <span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='fu'>list</span>(<span class='kw'>f</span><span class='kw'>=</span><span class='no'>sin</span>)
-<span class='fl'>2</span> <span class='kw'>%.&gt;%</span> <span class='no'>f</span></div><div class='output co'>#&gt; $f
-#&gt; function (x)  .Primitive("sin")
-#&gt; </div><div class='input'><span class='no'>f</span>$<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='no'>cos</span>
-<span class='fl'>2</span> <span class='kw'>%.&gt;%</span> <span class='no'>f</span></div><div class='output co'>#&gt; $f
-#&gt; function (x)  .Primitive("cos")
-#&gt; </div><div class='input'>
+<span class='fl'>2</span> <span class='kw'>%.&gt;%</span> <span class='no'>f</span></div><div class='output co'>#&gt; <span class='error'>Error: wrapr::apply_right_S4 default called with classes:</span>
+#&gt; <span class='error'>  numeric </span>
+#&gt; <span class='error'> f numeric </span>
+#&gt; <span class='error'>  must have a more specific S4 method defined to dispatch</span></div><div class='input'><span class='no'>f</span>$<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='no'>cos</span>
+<span class='fl'>2</span> <span class='kw'>%.&gt;%</span> <span class='no'>f</span></div><div class='output co'>#&gt; <span class='error'>Error: wrapr::apply_right_S4 default called with classes:</span>
+#&gt; <span class='error'>  numeric </span>
+#&gt; <span class='error'> f numeric </span>
+#&gt; <span class='error'>  must have a more specific S4 method defined to dispatch</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
