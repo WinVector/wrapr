@@ -4,8 +4,14 @@ Correct unused methods messages in CRAN checks.
 ## Test environments
 
     * Windows
-    * using R Under development (unstable) (2018-07-31 r75040)
+    * rhub::check_for_cran(".", show_status = FALSE)
+    * using R Under development (unstable) (2018-07-30 r75016)
     * using platform: x86_64-w64-mingw32 (64-bit)
+    * checking top-level files ... WARNING
+    * Conversion of 'README.md' failed:
+    * pandoc.exe: Could not fetch https://www.r-pkg.org/badges/version/wrapr
+    * Status: 1 WARNING
+    The above warning is suprious: the link is good.  Message does not occur on Linux-check.
 
     * OSX 
     * R CMD check --as-cran wrapr_1.6.1.tar.gz 
@@ -14,8 +20,13 @@ Correct unused methods messages in CRAN checks.
     Status: 1 WARNING
     Conversion of ‘README.md’ failed:
     pandoc: Could not fetch https://www.r-pkg.org/badges/version/wrapr
-    TlsException (HandshakeFailed (Error_Protocol ("expecting server hello, got alert : [(AlertLevel_Fatal,HandshakeFailure)]",True,HandshakeFailure)))
-    The above warning is suprious: the link is good.  Message does not occur on win-check.
+    The above warning is suprious: the link is good.  Message does not occur on Linux-check.
+    
+    * Linux
+    * rhub::check_for_cran(".", show_status = FALSE)
+    * using R version 3.4.4 (2018-03-15)
+    * using platform: x86_64-pc-linux-gnu (64-bit)
+    Status: OK
 
 ## Downstream dependencies
 
