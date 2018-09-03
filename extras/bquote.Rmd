@@ -301,7 +301,7 @@ As with `bquote()` the `:=` notation is required.  Substitution targets are mark
 
 `R` has a number of useful macro facilities.  Not all `R` users know about them.  This is because, due to a number of good `R` design decisions, not all `R` users regularly *need* macro facilities.  If you do need to macros (or to "program over programs", which is always a bit harder than the more desirable programming over data) I suggest reading a few of the references and picking a system that works well for your tasks.
 
-In particular `base::bquote()` is able to easily program over `dplyr 0.7.0` and later versions and is part of the core `R` language (or "base `R`", which *should* be *huge* plus).
+In particular `base::bquote()` is able to easily program over `dplyr 0.7.0` and later versions and is part of the core `R` language (or "base `R`", which *should* be a *huge* plus).
 
 `rlang` is the method being promoted by the `dplyr` package authors, however we do not recommend it for general use.
 
