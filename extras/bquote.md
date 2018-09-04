@@ -42,7 +42,7 @@ So roughly in `R` macros and meta-programming are not urgent user-facing problem
 
 Macros are a bit technical, but when you are painted into a programming corner: you want macros. So let's talk more about macros and metaprogramming.
 
-### Technial defintions
+### Technical defintions
 
 In computer science a macro is "a rule or pattern that specifies how a certain input sequence (often a sequence of characters) should be mapped to a replacement output sequence (also often a sequence of characters) according to a defined procedure" ([source Wikipedia](https://en.wikipedia.org/wiki/Macro_(computer_science))). Macros are most interesting when the input they are working over is program source code (either parsed or not-parsed). Metaprogramming "Metaprogramming is a programming technique in which computer programs have the ability to treat programs as their data" ([source Wikipedia](https://en.wikipedia.org/wiki/Metaprogramming)).
 
@@ -328,7 +328,7 @@ let(c("A" = "x"), eval = FALSE,
 People who try `let()` tend to like it.
 
 <center>
-<img src="http://www.win-vector.com/blog/wp-content/uploads/2017/02/C1v_VNBXUAA8c7M.jpg-large.jpg">
+<img src="http://www.win-vector.com/blog/wp-content/uploads/2017/02/C1v_VNBXUAA8c7M.jpg-large.jpg" />
 </center>
 In our [formal writeup](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf) we take some time to point out other systems (Lumley, `gtools()`, `bquote()`, `lazyeval`, and even `rlang` even though it came *after* `let()`), and our debt to <code>gtools</code>:
 
@@ -402,6 +402,42 @@ UQ <- function(s) {!!s}
 So this change in capabilities in `dplyr 0.7.0` is from the introduction of `:=` (which is already enough to allow `bquote()` to program over `dplyr`), and *not* from `rlang`.
 
 `rlang` also emphasizes the ability to capture environments along with expressions (not demonstrated here). We find users with the discipline to follow John M. Chambers' advice do not typically need this additional facility (some notes [here](http://www.win-vector.com/blog/2018/08/r-tip-put-your-values-in-columns/)) and that collecting unexpected references to environments (as is often the case with `formula`, `closueres`, and now `quosures`) [is a source of reference leaks](http://www.win-vector.com/blog/2014/05/trimming-the-fat-from-glm-models-in-r/).
+
+There may be some fine distinctions as to if `rlang` controlled exectution is be considered metaprograming, macro facilities, or something else (due to the limited visibilty of some `rlang` effects). However in some examples supplied by the `rlang` we see the exact [`bquote()` capture/alter/execute pattern](http://www.win-vector.com/blog/2018/09/r-tip-how-to-pass-a-formula-to-lm/):
+
+``` r
+suppressPackageStartupMessages(library("dplyr"))
+
+data <- mtcars
+f <- disp ~ drat
+
+eval(expr(lm(!!f, data = data)))
+```
+
+    ## 
+    ## Call:
+    ## lm(formula = disp ~ drat, data = data)
+    ## 
+    ## Coefficients:
+    ## (Intercept)         drat  
+    ##       822.8       -164.6
+
+Again the above is nearly idential to how `bquote()` would have dealt with the issue.
+
+``` r
+data <- mtcars
+f <- disp ~ drat
+
+eval(bquote(    lm(.(f), data = data)    ))
+```
+
+    ## 
+    ## Call:
+    ## lm(formula = disp ~ drat, data = data)
+    ## 
+    ## Coefficients:
+    ## (Intercept)         drat  
+    ##       822.8       -164.6
 
 `rlang` documentation tends not to mention or credit earlier `R` work such as `defmacro()` or `let()`. It does sometimes mention `bquote()`, but never seems to actually *try* `bquote()` as an alternate solution in a post-`dplyr 0.5.0` world (i.e., one where "`:=`" is part of `dplyr` and where `bquote()` is a good solution). So new readers can be forgiven for having the (false) impression that `rlang` substitution is a unique and unprecedented capability for `R`.
 
