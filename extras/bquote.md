@@ -1,10 +1,12 @@
 Macro Substitution in R
 ================
+John Mount
+2018-09-04
 
 This note is a *very* cursory overview of some macro-substitution
-facilities available in [`R`](https://www.r-project.org). We are going
-to try to put a few of them in context (there are likely more we are
-missing) and explain why we wrote yet another one
+facilities available in [`R`](https://www.r-project.org). I am going to
+try to put a few of them in context (there are likely more I am missing)
+and explain why I wrote yet another one
 ([`wrapr::let()`](https://cran.r-project.org/web/packages/wrapr/vignettes/let.html)).
 
 The `R` macro (or code control) facilities we will discuss include (in
@@ -26,7 +28,7 @@ time order):
     package.
   - `lazyeval` package ([released
     October 1, 2014](https://cran.r-project.org/src/contrib/Archive/lazyeval/)).
-  - `wrapr::let()` ([announced/released
+  - `rquery::let()`/`wrapr::let()` ([released
     December 8th, 2016](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf)).
   - `rlang::!!` ([released
     May 5th, 2017](https://cran.r-project.org/src/contrib/Archive/rlang/)).
@@ -103,9 +105,9 @@ code.”
 ### `base::do.call()`
 
 Sometimes you don’t need macros or metaprogramming. The function you are
-using may have a powerful enough interface. Or you may be only trying to
-control the execution of a single function, a task for which `R` already
-has an excellent tool: `base::do.call()`.
+using may already have a powerful enough interface. Or you may be only
+trying to control the execution of a single function, a task for which
+`R` already has an excellent tool: `base::do.call()`.
 
 For example if you want to control the call-presentation of a formula
 passed to `lm()` (a problem discussed
@@ -205,7 +207,7 @@ left-hand sides of argument bindings (which is how `dplyr::mutate()`
 specifies assignment).
 
 ``` r
-substitute(list(A = A), list(A = "x"))
+substitute(list(A = A), env = list(A = "x"))
 ```
 
     ## list(A = "x")
@@ -227,7 +229,7 @@ and argument names are much more visible in `R` than in many other
 programming languages, so again one wants to be careful with them).
 
 ``` r
-substitute(sin(x = x), list(x = 7))
+substitute(sin(x = x), env = list(x = 7))
 ```
 
     ## sin(x = 7)
@@ -312,7 +314,8 @@ bquote( list(.(A) = 5) )
     ##                       ^
 
 Note the above isn’t `bquote()`’s fault, the wrapping syntax just isn’t
-legal on the left-side of an “<code>=</code>” in this case.
+legal on the left-side of an “<code>=</code>” in this case. Notice even
+an `R` function that does not use its argument runs into the same issue.
 
 ``` r
 fnull <- function(x) {}
@@ -328,8 +331,8 @@ fnull( list(.(A) = 5) )
 The problem is this sort of notation is used a lot for argument binding,
 and in the popular
 [`dplyr::mutate()`](https://dplyr.tidyverse.org/reference/mutate.html)
-function (though there is a substitute notation “`:=`” available, a
-notation idea that the
+function (though in `dplyr 0.7.0` and beyond there is a substitute
+notation “`:=`” available, a notation idea that the
 [<code>data.table</code>](https://CRAN.R-project.org/package=data.table)
 package has used for quite some time.). One can work around the issue as
 we show below.
@@ -380,6 +383,20 @@ December 27, 2004](https://queue.acm.org/detail.cfm?id=1039523), see
 also [“Lisp as the Maxwell’s equations of software”, Michael Nielson
 April 11, 2012](http://www.michaelnielsen.org/ddi/lisp-as-the-maxwells-equations-of-software/)).
 
+### An aside
+
+At this point notice how generous Thomas Lumley has been to the `R`
+community. He took the time to teach macros, ported a variation of the
+concept into base-`R`, and then added variations of the macro facility
+to a public open-source package. This is the kind of non-empire building
+(for “empire” please see [Bill Venables, “<code>R</code>: *Quo Vadis?*”,
+*UseR\! 2012*, Nashville, Tn,
+USA](http://biostat.mc.vanderbilt.edu/wiki/pub/Main/UseR-2012/VenablesRQuoVadis.pdf))
+and giving back to the larger community that keeps `R` vital (another
+example is [Matt Dowle and Arun Srinivasan doing so much to improve
+sorting in
+base-`R`](http://www.win-vector.com/blog/2018/08/timings-of-a-grouped-rank-filter-task/)).
+
 ### `gtools::strmacro()`
 
 Gregory R. Warnes added `strmacro()` to the `gtools` package to supply
@@ -399,10 +416,8 @@ mul("x", "y")
 
 Notice the macro arguments are can now be passed in as strings *and*
 substitution is performed by matching target names, not by annotations.
-This can be an advantage when the macro is going to be used by other `R`
-code such as a `for`-loop.
 
-`strmacro` can replace left-hand sides of argument bindings.
+`strmacro` can in fact replace left-hand sides of argument bindings.
 
 ``` r
 library("gtools")
@@ -419,20 +434,6 @@ execute the macro and the quoting. However, `strmacro` supplied good
 ideas for the initial implementation of `let()` (which has since evolved
 quite a bit) and we found studying it and the `defmacro()` to be very
 rewarding.
-
-### An aside
-
-At this point notice how generous Thomas Lumley has been to the `R`
-community. He took the time to teach macros, ported a variation of the
-concept into base-`R`, and then added variations of the macro facility
-to a public open-source package. This is the kind of non-empire building
-(for “empire” please see [Bill Venables, “<code>R</code>: *Quo
-Vaidis?*”, *UseR\! 2012*, Nashville, Tn,
-USA](http://biostat.mc.vanderbilt.edu/wiki/pub/Main/UseR-2012/VenablesRQuoVadis.pdf))
-and giving back to the larger community that keeps `R` vital (another
-example is [Matt Dowle and Arun Srinivasan doing so much to improve
-sorting in
-base-`R`](http://www.win-vector.com/blog/2018/08/timings-of-a-grouped-rank-filter-task/)).
 
 ### `lazyeval`
 
@@ -463,7 +464,7 @@ For some code-rewriting tasks we found both `substitute()` and
 inspiration from `gtools::strmacro()`) `wrapr::let()`. `wrapr::let()`
 was designed to have syntax similar to `substitute()` and to classic
 <code>Lisp</code> “<code>let</code>” style value-binding blocks
-(informal example: “<code>(let X be 7 in sin(X)</code>)”).
+(informal example: “<code>(let X be 7 in (sin X))</code>)”).
 
 Our first application of `let()` (at the time in the
 [`replyr`](https://CRAN.R-project.org/package=replyr) package) was to
@@ -498,9 +499,10 @@ suppressPackageStartupMessages(library("dplyr"))
 NEWVAR <- as.name("y")
 OLDVAR <- as.name("x")
 
-let(c(NEWVAR = "y",
-      OLDVAR = "x"),
-    
+let(
+  alias = c(NEWVAR = "y",
+            OLDVAR = "x"),
+  
   data.frame(x = 1) %>%
     mutate(NEWVAR = OLDVAR + 1)
   
@@ -525,10 +527,11 @@ suppressPackageStartupMessages(library("dplyr"))
 NEWVAR <- as.name("y")
 OLDVAR <- as.name("x")
 
-let(c(NEWVAR = "y",
-      OLDVAR = "x"),
-    eval = FALSE,
-    
+let(
+  alias = c(NEWVAR = "y",
+            OLDVAR = "x"),
+  eval = FALSE,
+  
   data.frame(x = 1) %>%
     mutate(NEWVAR = OLDVAR + 1)
   
@@ -545,8 +548,13 @@ demonstrate this.
 ``` r
 library("wrapr")
 
-let(c("A" = "x"), eval = FALSE,
-    list(A = A))
+let(
+  alias = c("A" = "x"),
+  eval = FALSE,
+  
+  list(A = A)
+  
+)
 ```
 
     ## list(x = x)
@@ -559,17 +567,6 @@ it.
 <img src="http://www.win-vector.com/blog/wp-content/uploads/2017/02/C1v_VNBXUAA8c7M.jpg-large.jpg" />
 
 </center>
-
-In our [formal
-writeup](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf)
-we take some time to point out other systems (Lumley, `gtools()`,
-`bquote()`, `lazyeval`, and even `rlang` even though it came *after*
-`let()`), and our debt to <code>gtools</code>:
-
-> <code>strmacro()</code> was the inspiration for the original
-> string-based <code>let()</code> implementation, although
-> <code>let()</code> now uses the more powerful and safer language based
-> method described above.
 
 ### `rlang:!!`
 
@@ -640,10 +637,10 @@ are handled. However, in our opinion, most of the earlier solutions
 already have sound ways of dealing with environments and ambiguity of
 references, which are merely different (not fundamentally inferior).
 
-Unlike `strmacro()` or `wrapr::let()` `rlang` substitution will not work
-on left-sides of argument binding. For example we can not successfully
-write the above block as follows (with <code>=</code> instead of
-<code>:=</code>).
+Unlike `strmacro()` or `wrapr::let()`, `rlang` substitution will not
+work on left-sides of argument binding. For example we can not
+successfully write the above block as follows (with <code>=</code>
+instead of <code>:=</code>).
 
 ``` r
 suppressPackageStartupMessages(library("dplyr"))
@@ -662,9 +659,9 @@ UQ <- function(s) {!!s}
     ## 9:     mutate(UQ(NEWVAR) =
     ##                          ^
 
-So this change in capabilities in `dplyr 0.7.0` is from the introduction
-of `:=` (which is already enough to allow `bquote()` to program over
-`dplyr`), and *not* from `rlang`.
+So the change in macro capabilities in `dplyr 0.7.0` is essentially from
+the introduction of `:=` (which is already enough to allow `bquote()` to
+program over `dplyr`), and *not* from details of `rlang`.
 
 `rlang` also emphasizes the ability to capture environments along with
 expressions (not demonstrated here). We find users with the discipline
@@ -718,13 +715,12 @@ eval(bquote(    lm(.(f), data = data)    ))
     ## (Intercept)         drat  
     ##       822.8       -164.6
 
-`rlang` documentation tends not to mention or credit earlier `R` work
-such as `defmacro()` or `let()`. It does sometimes mention `bquote()`,
-but never seems to actually *try* `bquote()` as an alternate solution in
-a post-`dplyr 0.5.0` world (i.e., one where “`:=`” is part of `dplyr`
-and where `bquote()` is a good solution). So new readers can be forgiven
-for having the (false) impression that `rlang` substitution is a unique
-and unprecedented capability for `R`.
+`rlang` documentation does sometimes mention `bquote()`, but never seems
+to actually *try* `bquote()` as an alternate solution in a
+post-`dplyr 0.5.0` world (i.e., one where “`:=`” is part of `dplyr` and
+where `bquote()` is a good solution). So new readers can be forgiven for
+having the (false) impression that `rlang` substitution is a unique and
+unprecedented capability for `R`.
 
 ## Conclusion
 
@@ -736,7 +732,7 @@ harder than the more desirable programming over data) I suggest reading
 a few of the references and picking a system that works well for your
 tasks.
 
-For fine control of the arguments of a single function call we recommend
+For fine control of the arguments of a single function call I recommend
 `base::do.call()`.
 
 `gtools::defmacro()` is a great tool for building macros, especially
@@ -749,13 +745,13 @@ versions and is part of the core `R` language (or “base `R`”, which
 *should* be a *huge* plus).
 
 `rlang` is the method being promoted by the `dplyr` package authors,
-however we do not recommend it for general use.
+however I do not recommend it for general use.
 
-As for our method (`wrapr::let()`). We feel `wrapr::let()` is
+As for our method (`wrapr::let()`). I feel `wrapr::let()` is
 sufficiently specialized (combining re-writing and execution into one
 function, and being restricted only to name for name substitutions) and
 sufficiently general (working with any package without pre-arrangement)
 that it is a good comprehensible, safe, convenient, and powerful choice
-for interested `R` users. For more on `wrapr::let()` we suggest of
+for interested `R` users. For more on `wrapr::let()` I suggest our
 [formal
 writeup](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf).
