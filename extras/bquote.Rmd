@@ -277,7 +277,7 @@ In our [formal writeup](https://github.com/WinVector/wrapr/blob/master/extras/wr
 
 ### `rlang:!!`
 
-`rlang` was written by Lionel Henry and Hadley Wickham.  `rlang` was incorporated into `dplyr` on June 6, 2017, giving it an incredible leg-up on promotion and acceptance (being born on 3rd base, it doesn't have to compete on merits).  For simple effects such as [our linear modeling example](http://www.win-vector.com/blog/2018/09/r-tip-how-to-pass-a-formula-to-lm/) `rlang` can work with packages that it has not been integrated with. For the next example `rlang` can only be used with packages that have been re-built using `rlang` (such as `dplyr` has been).
+`rlang` was written by Lionel Henry and Hadley Wickham.  `rlang` was incorporated into `dplyr` on June 6, 2017, giving it an incredible leg-up on promotion and acceptance (it doesn't really have to compete on merits).  For simple effects such as [our linear modeling example](http://www.win-vector.com/blog/2018/09/r-tip-how-to-pass-a-formula-to-lm/) `rlang` can work with packages that it has not been integrated with. For the next example `rlang` can only be used with packages that have been re-built using `rlang` (such as `dplyr` has been).
 
 `rlang` can be demonstrated on one of the examples we already exhibited in the `bquote()` section of this note as follows.
 
