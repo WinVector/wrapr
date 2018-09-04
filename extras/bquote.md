@@ -403,7 +403,7 @@ So this change in capabilities in `dplyr 0.7.0` is from the introduction of `:=`
 
 `rlang` also emphasizes the ability to capture environments along with expressions (not demonstrated here). We find users with the discipline to follow John M. Chambers' advice do not typically need this additional facility (some notes [here](http://www.win-vector.com/blog/2018/08/r-tip-put-your-values-in-columns/)) and that collecting unexpected references to environments (as is often the case with `formula`, `closueres`, and now `quosures`) [is a source of reference leaks](http://www.win-vector.com/blog/2014/05/trimming-the-fat-from-glm-models-in-r/).
 
-There may be some fine distinctions as to if `rlang` controlled exectution is be considered metaprograming, macro facilities, or something else (due to the limited visibilty of some `rlang` effects). However in some examples supplied by the `rlang` we see the exact [`bquote()` capture/alter/execute pattern](http://www.win-vector.com/blog/2018/09/r-tip-how-to-pass-a-formula-to-lm/):
+There may be some fine distinctions as to if `rlang` controlled execution is be considered metaprograming, macro facilities, or something else (due to the limited visibility of some `rlang` effects). However in some examples supplied by the `rlang` we see the exact [`bquote()` capture/alter/execute pattern](http://www.win-vector.com/blog/2018/09/r-tip-how-to-pass-a-formula-to-lm/):
 
 ``` r
 suppressPackageStartupMessages(library("dplyr"))
@@ -422,7 +422,7 @@ eval(expr(lm(!!f, data = data)))
     ## (Intercept)         drat  
     ##       822.8       -164.6
 
-Again the above is nearly idential to how `bquote()` would have dealt with the issue.
+Again the above is nearly identical to how `bquote()` would have dealt with the issue.
 
 ``` r
 data <- mtcars
@@ -446,7 +446,9 @@ Conclusion
 
 `R` has a number of useful macro facilities. Not all `R` users know about them. This is because, due to a number of good `R` design decisions, not all `R` users regularly *need* macro facilities. If you do need to macros (or to "program over programs", which is always a bit harder than the more desirable programming over data) I suggest reading a few of the references and picking a system that works well for your tasks.
 
-In particular `base::bquote()` is able to easily program over `dplyr 0.7.0` and later versions and is part of the core `R` language (or "base `R`", which *should* be a *huge* plus).
+`gtools::defmacro()` is a great tool for building macros, especially parameterized code-snippets that are intended to have visible side effects (such as writing back values). `gtools::strmacro()` is a bit more wild, but definitely has uses.
+
+`base::bquote()` is able to easily program over `dplyr 0.7.0` and later versions and is part of the core `R` language (or "base `R`", which *should* be a *huge* plus).
 
 `rlang` is the method being promoted by the `dplyr` package authors, however we do not recommend it for general use.
 
