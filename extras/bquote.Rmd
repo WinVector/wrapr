@@ -367,7 +367,7 @@ In particular `base::bquote()` is able to easily program over `dplyr 0.7.0` and 
 
 `rlang` is the method being promoted by the `dplyr` package authors, however we do not recommend it for general use.
 
-As for our method (`wrapr::let()`). We feel `wrapr::let()` is sufficiently specialized (combining re-writing and execution into one function, and being restricted only to name for name substitutions) and sufficiently general (working with any package without pre-arrangement) that it is a good comprehensible, safe, convenient, and powerful choice for interested `R` users.
+As for our method (`wrapr::let()`). We feel `wrapr::let()` is sufficiently specialized (combining re-writing and execution into one function, and being restricted only to name for name substitutions) and sufficiently general (working with any package without pre-arrangement) that it is a good comprehensible, safe, convenient, and powerful choice for interested `R` users.  For more on `wrapr::let()` we suggest of [formal writeup](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf).
 
 
 
