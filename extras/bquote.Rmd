@@ -7,7 +7,7 @@ This note is a *very* cursory overview of some macro-substitution facilities ava
 
 The `R` macro (or code control) facilities we will discuss include (in time order):
 
- * `base::do.call()`.
+ * `base::do.call()` (part of `R` since at least 1997).
  * `defmacro()` [Lumley T. "Programmer's Niche: Macros in R", R News, 2001, Vol 1, No. 3, pp 11–13](https://www.r-project.org/doc/Rnews/Rnews_2001-3.pdf). 
  * `base::bquote()` ([released in R 1.8.1, November 2003](https://github.com/wch/r-source/blob/5a156a0865362bb8381dcd69ac335f5174a4f60c/doc/NEWS.1)).
  * `gtools::defmacro()` ([gtools 2.0.9, September 2, 2005](https://cran.r-project.org/src/contrib/Archive/gtools/))  from the [`gtools`](https://CRAN.R-project.org/package=gtools) package.
@@ -55,7 +55,7 @@ When applied to programs both concepts converge to "code that writes code."
 
 Sometimes you don't need macros or metaprogramming.  The function you are using may have a powerful enough interface.  Or you may be only trying to control the execution of a single function, a task for which `R` already has an excellent tool: `base::do.call()`.
 
-For example if you want to control the call-presentation of a formula passed to `lm()` (a problem discussed [here](http://www.win-vector.com/blog/2018/09/r-tip-how-to-pass-a-formula-to-lm/)) the following code is sufficeint.
+For example if you want to control the call-presentation of a formula passed to `lm()` (a problem discussed [here](http://www.win-vector.com/blog/2018/09/r-tip-how-to-pass-a-formula-to-lm/)) the following code is sufficient.
 
 ```{r docall}
 # specifications of how to model,
@@ -405,6 +405,8 @@ eval(bquote(    lm(.(f), data = data)    ))
 ## Conclusion
 
 `R` has a number of useful macro facilities.  Not all `R` users know about them.  This is because, due to a number of good `R` design decisions, not all `R` users regularly *need* macro facilities.  If you do need to macros (or to "program over programs", which is always a bit harder than the more desirable programming over data) I suggest reading a few of the references and picking a system that works well for your tasks.
+
+For fine control of the arguments of a single function call we recommend `base::do.call()`.
 
 `gtools::defmacro()` is a great tool for building macros, especially parameterized code-snippets that are intended to have visible side effects (such as writing back values). `gtools::strmacro()` is a bit more wild, but definitely has uses.
 

@@ -10,7 +10,7 @@ missing) and explain why we wrote yet another one
 The `R` macro (or code control) facilities we will discuss include (in
 time order):
 
-  - `base::do.call()`.
+  - `base::do.call()` (part of `R` since at least 1997).
   - `defmacro()` [Lumley T. “Programmer’s Niche: Macros in R”, R
     News, 2001, Vol 1, No. 3,
     pp 11–13](https://www.r-project.org/doc/Rnews/Rnews_2001-3.pdf).
@@ -110,7 +110,7 @@ has an excellent tool: `base::do.call()`.
 For example if you want to control the call-presentation of a formula
 passed to `lm()` (a problem discussed
 [here](http://www.win-vector.com/blog/2018/09/r-tip-how-to-pass-a-formula-to-lm/))
-the following code is sufficeint.
+the following code is sufficient.
 
 ``` r
 # specifications of how to model,
@@ -735,6 +735,9 @@ do need to macros (or to “program over programs”, which is always a bit
 harder than the more desirable programming over data) I suggest reading
 a few of the references and picking a system that works well for your
 tasks.
+
+For fine control of the arguments of a single function call we recommend
+`base::do.call()`.
 
 `gtools::defmacro()` is a great tool for building macros, especially
 parameterized code-snippets that are intended to have visible side
