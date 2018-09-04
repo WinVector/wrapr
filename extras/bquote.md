@@ -46,7 +46,7 @@ Macros are a bit technical, but when you are painted into a programming corner: 
 
 In computer science a macro is "a rule or pattern that specifies how a certain input sequence (often a sequence of characters) should be mapped to a replacement output sequence (also often a sequence of characters) according to a defined procedure" ([source Wikipedia](https://en.wikipedia.org/wiki/Macro_(computer_science))). Macros are most interesting when the input they are working over is program source code (either parsed or not-parsed). Metaprogramming "Metaprogramming is a programming technique in which computer programs have the ability to treat programs as their data" ([source Wikipedia](https://en.wikipedia.org/wiki/Metaprogramming)).
 
-The two concepts are related. Each has variations. For example <code>C</code>-macros are very strict text substitutions performed by a pre-processor in some of the code compilation stages. Whereas <code>Lisp</code> macros are a more powerful beast operating on <code>Lisp</code> data structures and language objects.
+The two concepts are related. Each has variations. For example <code>C</code>-macros are very strict text substitutions performed by a pre-processor in some of the code compilation stages. Whereas <code>Lisp</code> macros operate on <code>Lisp</code> data structures and language objects.
 
 When applied to programs both concepts converge to "code that writes code."
 
@@ -81,7 +81,7 @@ I strongly suggest reading [the original article](https://www.r-project.org/doc/
 
 > While defmacro() has many (ok, one or two) practical uses, its main purpose is to show off the powers of substitute(). Manipulating expressions directly with substitute() can often let you avoid messing around with pasting and parsing strings, assigning into strange places with &lt;&lt;- or using other functions too evil to mention.
 
-We couldn't use `defmacro()` for our particular application (programming over `dplyr 0.5.0`) as the `substitute` will not substitute the left-hand sides of argument bindings (which is how `dplyr::mutate()` specifies assignment).
+We couldn't use `defmacro()` for our particular application (programming over `dplyr 0.5.0`) as the `substitute` function will not substitute the left-hand sides of argument bindings (which is how `dplyr::mutate()` specifies assignment).
 
 ``` r
 substitute(list(A = A), list(A = "x"))
@@ -163,7 +163,20 @@ bquote( list(.(A) = 5) )
     ## 1: bquote( list(.(A) =
     ##                       ^
 
-`bquote` is given access to the un-evaluated expression, but only after it is parsed. And in this case the parse did not complete as the term "`.(A)`" was not considered an acceptable left-hand side for the "`=`". The problem is this sort of notation is used a lot for argument binding, and in the popular [`dplyr::mutate()`](https://dplyr.tidyverse.org/reference/mutate.html) function (though there is a substitute notation "`:=`" available, a notation idea that the [<code>data.table</code>](https://CRAN.R-project.org/package=data.table) package has used for quite some time.). One can work around the issue as we show below.
+Note the above isn't `bquote()`'s fault, the wrapping syntax just isn't legal on the left-side of an "<code>=</code>" in this case.
+
+``` r
+fnull <- function(x) {}
+
+fnull( list(.(A) = 5) )
+```
+
+    ## Error: <text>:3:18: unexpected '='
+    ## 2: 
+    ## 3: fnull( list(.(A) =
+    ##                     ^
+
+The problem is this sort of notation is used a lot for argument binding, and in the popular [`dplyr::mutate()`](https://dplyr.tidyverse.org/reference/mutate.html) function (though there is a substitute notation "`:=`" available, a notation idea that the [<code>data.table</code>](https://CRAN.R-project.org/package=data.table) package has used for quite some time.). One can work around the issue as we show below.
 
 ``` r
 suppressPackageStartupMessages(library("dplyr"))
@@ -201,6 +214,8 @@ However, the rules for "`=`" as argument binding don't seem so easy to circumven
 Gregory R. Warnes added `strmacro()` to the `gtools` package to supply an additional macro facility. The stated purpose of `strmacro()` is to accept argument names as quoted text. Let's demonstrate it below.
 
 ``` r
+library("gtools")
+
 mul <- strmacro(A, B, expr={A*B})
 x <- 7
 y <- 2
@@ -209,11 +224,13 @@ mul("x", "y")
 
     ## [1] 14
 
-Notice the macro arguments are can now be passed in as strings. This can be an advantage when the macro is going to be used by other `R` code such as a `for`-loop.
+Notice the macro arguments are can now be passed in as strings *and* substitution is performed by matching target names, not by annotations. This can be an advantage when the macro is going to be used by other `R` code such as a `for`-loop.
 
-`strmacro` is can replace left-hand sides of argument bindings.
+`strmacro` can replace left-hand sides of argument bindings.
 
 ``` r
+library("gtools")
+
 strmacro(A, expr = list(A = A))('"x"')
 ```
 
@@ -297,6 +314,17 @@ let(c(NEWVAR = "y",
 
     ## data.frame(x = 1) %>% mutate(y = x + 1)
 
+This works, as (like `strmacro()`) `wrapr` specifies replacements by target names (not inline annotation) and can work left-hand sides of argument bindings. We can re-work one of or `strmacro()` examples to demonstrate this.
+
+``` r
+library("wrapr")
+
+let(c("A" = "x"), eval = FALSE,
+    list(A = A))
+```
+
+    ## list(x = x)
+
 People who try `let()` tend to like it.
 
 <center>
@@ -308,9 +336,15 @@ In our [formal writeup](https://github.com/WinVector/wrapr/blob/master/extras/wr
 
 ### `rlang:!!`
 
-`rlang` was written by Lionel Henry and Hadley Wickham. `rlang` was incorporated into `dplyr` on June 6, 2017, giving it an incredible leg-up on promotion and acceptance (it doesn't really have to compete on merits). For simple effects such as [our linear modeling example](http://www.win-vector.com/blog/2018/09/r-tip-how-to-pass-a-formula-to-lm/) `rlang` can work with packages that it has not been integrated with. For the next example `rlang` can only be used with packages that have been re-built using `rlang` (such as `dplyr` has been).
+`rlang` was written by Lionel Henry and Hadley Wickham. `rlang` was incorporated into `dplyr` on June 6, 2017, giving it an incredible leg-up on promotion and acceptance (it doesn't really have to compete on merits). From <code>help(`!!`)</code>:
 
-`rlang` can be demonstrated on one of the examples we already exhibited in the `bquote()` section of this note as follows.
+> Quasiquotation is the mechanism that makes it possible to program flexibly with tidy evaluation grammars like dplyr. It is enabled in all tidyeval quoting functions, the most fundamental of which are quo() and expr().
+>
+> Quasiquotation is the combination of quoting an expression while allowing immediate evaluation (unquoting) of part of that expression. We provide both syntactic operators and functional forms for unquoting.
+
+For simple effects such as [our linear modeling example](http://www.win-vector.com/blog/2018/09/r-tip-how-to-pass-a-formula-to-lm/) `rlang` can work with packages that it has not been integrated with. For the next example `rlang` can only be used with packages that have been re-built using `rlang` (such as `dplyr` has been).
+
+`rlang` (parts of which are brought in by the `dplyr` package) can be demonstrated on one of the examples we already exhibited in the `bquote()` section of this note as follows.
 
 ``` r
 suppressPackageStartupMessages(library("dplyr"))
@@ -346,9 +380,38 @@ UQ <- function(s) {!!s}
 
 There are of course some semantic differences, such as how environments are handled. However, in our opinion, most of the earlier solutions already have sound ways of dealing with environments and ambiguity of references, which are merely different (not fundamentally inferior).
 
+Unlike `strmacro()` or `wrapr::let()` `rlang` substitution will not work on left-sides of argument binding. For example we can not successfully write the above block as follows (with <code>=</code> instead of <code>:=</code>).
+
+``` r
+suppressPackageStartupMessages(library("dplyr"))
+
+NEWVAR <- as.name("y")
+OLDVAR <- as.name("x")
+
+UQ <- function(s) {!!s}
+
+  data.frame(x = 1) %>%
+    mutate(UQ(NEWVAR) = UQ(OLDVAR) + 1)
+```
+
+    ## Error: <text>:9:23: unexpected '='
+    ## 8:   data.frame(x = 1) %>%
+    ## 9:     mutate(UQ(NEWVAR) =
+    ##                          ^
+
+So this change in capabilities in `dplyr 0.7.0` is from the introduction of `:=` (which is already enough to allow `bquote()` to program over `dplyr`), and *not* from `rlang`.
+
 `rlang` also emphasizes the ability to capture environments along with expressions (not demonstrated here). We find users with the discipline to follow John M. Chambers' advice do not typically need this additional facility (some notes [here](http://www.win-vector.com/blog/2018/08/r-tip-put-your-values-in-columns/)) and that collecting unexpected references to environments (as is often the case with `formula`, `closueres`, and now `quosures`) [is a source of reference leaks](http://www.win-vector.com/blog/2014/05/trimming-the-fat-from-glm-models-in-r/).
 
-`rlang` documentation tends not to mention or credit earlier `R` work such as `defmacro()` or `let()`. It does sometimes mention `bquote()`, but never seems to actually *try* `bquote()` as an alternate solution in a post-`dplyr 0.5.0` world (i.e., one where "`:=`" is part of `dplyr`). So new readers can be forgiven for having the (false) impression that `rlang` substitution is a unique and unprecedented capability for `R`.
+`rlang` documentation tends not to mention or credit earlier `R` work such as `defmacro()` or `let()`. It does sometimes mention `bquote()`, but never seems to actually *try* `bquote()` as an alternate solution in a post-`dplyr 0.5.0` world (i.e., one where "`:=`" is part of `dplyr`).
+
+In fact <code>help(`!!`)</code> for `rlang 0.2.2` appears to be `rlang`'s central quasiquotation documentation. This document never mentions `defmacro()` (one of the most prominent `R` package supplied macros), `bquote()` (the excellent quasiquotation system that is part of `R` itself), or `let()` (`wrapr`'s macro-like facility, and an antecedent to `rlang` whether so cited or not). The main reference to outside work is:
+
+> Formally, quo() and expr() are quasiquote functions, !! is the unquote operator, and !!! is the unquote-splice operator. These terms have a rich history in Lisp languages, and live on in modern languages like Julia and Racket.
+
+To be fair I, in my own eagerness have, made similar documentation omissions; however, I am looking to correct my omissions on my own and even more so if issues are pointed out.
+
+So new readers can be forgiven for having the (false) impression that `rlang` substitution is a unique and unprecedented capability for `R`.
 
 Conclusion
 ----------
