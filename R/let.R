@@ -281,6 +281,8 @@ letprep_lang <- function(alias, lexpr) {
 #' back-ticks) are forbidden.  It is suggested that substitution targets be written
 #' \code{ALL_CAPS} style to make them stand out.
 #'
+#' \code{let} was inspired by \code{gtools:strmacro()}.  Please see \url{https://github.com/WinVector/wrapr/blob/master/extras/bquote.md} for a discussion of macro tools in \code{R}.
+#'
 #'
 #' @param alias mapping from free names in expr to target names to use (mapping have both unique names and unique values).
 #' @param expr block to prepare for execution.
@@ -291,6 +293,8 @@ letprep_lang <- function(alias, lexpr) {
 #' @param eval logical if TRUE execute the re-mapped expression (else return it).
 #' @param debugPrint logical if TRUE print debugging information when in stringsubs mode.
 #' @return result of expr executed in calling environment (or expression if eval==FALSE).
+#'
+#' @seealso \code{\link[base]{bquote}}
 #'
 #' @examples
 #'

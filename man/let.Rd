@@ -60,6 +60,8 @@ that is the more properly left to \code{R}'s environment systems.
 outcomes that are not valid simple \code{R} variable names (produced with out use of
 back-ticks) are forbidden.  It is suggested that substitution targets be written
 \code{ALL_CAPS} style to make them stand out.
+
+\code{let} was inspired by \code{gtools:strmacro()}.  Please see \url{https://github.com/WinVector/wrapr/blob/master/extras/bquote.md} for a discussion of macro tools in \code{R}.
 }
 \examples{
 
@@ -91,4 +93,7 @@ print(length(groups))
 print(dres)
 
 
+}
+\seealso{
+\code{\link[base]{bquote}}
 }

@@ -75,7 +75,7 @@ let(
  #  [1] 14
 ```
 
-Please see `vignette('let', package='wrapr')` for more examples. Some formal documentation can be found [here](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf).
+Please see `vignette('let', package='wrapr')` for more examples. Some formal documentation can be found [here](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf). `wrapr::let()` was inspired by `gtools::strmacro()` and `base::bquote()`, please see [here](https://github.com/WinVector/wrapr/blob/master/extras/bquote.md) for some notes on macro methods in `R`.
 
 For working with `dplyr` `0.7.*` we strongly suggest `wrapr::let()` (or even an alternate approach called [`seplyr`](https://github.com/WinVector/seplyr/blob/master/README.md)).
 

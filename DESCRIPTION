@@ -1,8 +1,8 @@
 Package: wrapr
 Type: Package
 Title: Wrap R Tools for Debugging and Parametric Programming
-Version: 1.6.1
-Date: 2018-08-21
+Version: 1.6.2
+Date: 2018-09-04
 Authors@R: c(
     person("John", "Mount", email = "jmount@win-vector.com", role = c("aut", "cre")),
     person("Nina", "Zumel", email = "nzumel@win-vector.com", role = c("aut")),
@@ -14,7 +14,7 @@ BugReports: https://github.com/WinVector/wrapr/issues
 Description: Tools for writing and debugging R code. Provides: 
     'let()' 
     (converts non-standard evaluation interfaces to parametric standard
-    evaluation interfaces), 
+    evaluation interfaces, inspired by 'gtools:strmacro()' and 'base::bquote()'), 
     '%.>%' dot-pipe (an 'S3' configurable pipe),
     'build_frame()'/'draw_frame()' ('data.frame' example tools),
     'qc()' (quoting concatenate), 

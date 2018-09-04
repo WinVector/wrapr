@@ -78,8 +78,11 @@ let(c(z=quote(a)), z+b)
 eval(substitute(z+b, c(z=quote(a))))
 ```
 
-However, `wrapr::let()` is actually implemented in terms of a de-parse and safe language token substitution
-(to get around some issues of when and in what environment things are executed).
+However, `wrapr::let()` is actually implemented in terms of a de-parse and safe language token substitution.
+
+`wrapr::let()` was inspired by `gtools::strmacro()` and `base::bquote()`, please
+see [here](https://github.com/WinVector/wrapr/blob/master/extras/bquote.md) for some notes on macro methods in `R`.
+
 
 ## More
 

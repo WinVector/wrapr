@@ -357,15 +357,7 @@ So this change in capabilities in `dplyr 0.7.0` is from the introduction of `:=`
 
 `rlang` also emphasizes the ability to capture environments along with expressions (not demonstrated here).  We find users with the discipline to follow John M. Chambers' advice do not typically need this additional facility (some notes [here](http://www.win-vector.com/blog/2018/08/r-tip-put-your-values-in-columns/)) and that collecting unexpected references to environments (as is often the case with `formula`, `closueres`, and now `quosures`) [is a source of reference leaks](http://www.win-vector.com/blog/2014/05/trimming-the-fat-from-glm-models-in-r/). 
 
-`rlang` documentation tends not to mention or credit earlier `R` work such as `defmacro()` or `let()`.  It does sometimes mention `bquote()`, but never seems to actually *try* `bquote()` as an alternate solution in a post-`dplyr 0.5.0` world (i.e., one where "`:=`" is part of `dplyr`).
-
-In fact <code>help(`!!`)</code> for `rlang 0.2.2` appears to be `rlang`'s central quasiquotation documentation.  This document never mentions `defmacro()` (one of the most prominent `R` package supplied macros), `bquote()` (the excellent quasiquotation system that is part of `R` itself), or `let()` (`wrapr`'s macro-like facility, and an antecedent to `rlang` whether so cited or not).  The main reference to outside work is:
-
-> Formally, quo() and expr() are quasiquote functions, !! is the unquote operator, and !!! is the unquote-splice operator. These terms have a rich history in Lisp languages, and live on in modern languages like Julia and Racket.
-
-To be fair I, in my own eagerness have, made similar documentation omissions; however, I am looking to correct my omissions on my own and even more so if issues are pointed out.
-
-So new readers can be forgiven for having the (false) impression that `rlang` substitution is a unique and unprecedented capability for `R`.
+`rlang` documentation tends not to mention or credit earlier `R` work such as `defmacro()` or `let()`.  It does sometimes mention `bquote()`, but never seems to actually *try* `bquote()` as an alternate solution in a post-`dplyr 0.5.0` world (i.e., one where "`:=`" is part of `dplyr` and where `bquote()` is a good solution). So new readers can be forgiven for having the (false) impression that `rlang` substitution is a unique and unprecedented capability for `R`.
 
 ## Conclusion
 

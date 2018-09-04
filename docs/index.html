@@ -13,7 +13,7 @@
 <meta property="og:description" content="Tools for writing and debugging R code. Provides: 
     'let()' 
     (converts non-standard evaluation interfaces to parametric standard
-    evaluation interfaces), 
+    evaluation interfaces, inspired by 'gtools:strmacro()' and 'base::bquote()'), 
     '%.&gt;%' dot-pipe (an 'S3' configurable pipe),
     'build_frame()'/'draw_frame()' ('data.frame' example tools),
     'qc()' (quoting concatenate), 
@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">wrapr</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.6.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.6.2</span>
       </span>
     </div>
 
@@ -194,7 +194,7 @@ a &lt;-<span class="st"> </span><span class="dv">7</span>
  <span class="co">#      a + a</span>
  <span class="co">#  }</span>
  <span class="co">#  [1] 14</span></code></pre></div>
-<p>Please see <code><a href="articles/let.html">vignette('let', package='wrapr')</a></code> for more examples. Some formal documentation can be found <a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf">here</a>.</p>
+<p>Please see <code><a href="articles/let.html">vignette('let', package='wrapr')</a></code> for more examples. Some formal documentation can be found <a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf">here</a>. <code><a href="reference/let.html">wrapr::let()</a></code> was inspired by <code><a href="http://www.rdocumentation.org/packages/gtools/topics/defmacro">gtools::strmacro()</a></code> and <code><a href="http://www.rdocumentation.org/packages/base/topics/bquote">base::bquote()</a></code>, please see <a href="https://github.com/WinVector/wrapr/blob/master/extras/bquote.html">here</a> for some notes on macro methods in <code>R</code>.</p>
 <p>For working with <code>dplyr</code> <code>0.7.*</code> we strongly suggest <code><a href="reference/let.html">wrapr::let()</a></code> (or even an alternate approach called <a href="https://github.com/WinVector/seplyr/blob/master/README.html"><code>seplyr</code></a>).</p>
 </div>
 <div id="dot-pipe-or-dot-arrow" class="section level2">

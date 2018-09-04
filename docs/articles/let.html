@@ -29,7 +29,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.6.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.6.2</span>
       </span>
     </div>
 
@@ -106,7 +106,7 @@
       <h1>Let</h1>
                         <h4 class="author">Nina Zumel, John Mount</h4>
             
-            <h4 class="date">2018-08-21</h4>
+            <h4 class="date">2018-09-04</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/let.Rmd"><code>vignettes/let.Rmd</code></a></small>
       <div class="hidden name"><code>let.Rmd</code></div>
@@ -165,7 +165,8 @@ b &lt;-<span class="st"> </span><span class="dv">2</span>
 <pre><code>## [1] 3</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">eval</span>(<span class="kw">substitute</span>(z<span class="op">+</span>b, <span class="kw">c</span>(<span class="dt">z=</span><span class="kw">quote</span>(a))))</code></pre></div>
 <pre><code>## [1] 3</code></pre>
-<p>However, <code><a href="../reference/let.html">wrapr::let()</a></code> is actually implemented in terms of a de-parse and safe language token substitution (to get around some issues of when and in what environment things are executed).</p>
+<p>However, <code><a href="../reference/let.html">wrapr::let()</a></code> is actually implemented in terms of a de-parse and safe language token substitution.</p>
+<p><code><a href="../reference/let.html">wrapr::let()</a></code> was inspired by <code><a href="http://www.rdocumentation.org/packages/gtools/topics/defmacro">gtools::strmacro()</a></code> and <code><a href="http://www.rdocumentation.org/packages/base/topics/bquote">base::bquote()</a></code>, please see <a href="https://github.com/WinVector/wrapr/blob/master/extras/bquote.html">here</a> for some notes on macro methods in <code>R</code>.</p>
 </div>
 <div id="more" class="section level2">
 <h2 class="hasAnchor">
