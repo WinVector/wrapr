@@ -9,7 +9,7 @@ This note is a *very* cursory overview of some macro-substitution facilities ava
 
 The `R` macro (or code control) facilities we will discuss include (in time order):
 
- * `base::do.call()` (part of `R` since at least 1997).
+ * `base::do.call()` (part of `R` since [at least 1997](https://github.com/wch/r-source/blob/a625016dc706a58d11c75664f6c60d07e5d07b0c/src/main/names.c)).
  * `defmacro()` [Lumley T. "Programmer's Niche: Macros in R", R News, 2001, Vol 1, No. 3, pp 11–13](https://www.r-project.org/doc/Rnews/Rnews_2001-3.pdf). 
  * `base::bquote()` ([released in R 1.8.1, November 2003](https://github.com/wch/r-source/blob/5a156a0865362bb8381dcd69ac335f5174a4f60c/doc/NEWS.1)).
  * `gtools::defmacro()` ([gtools 2.0.9, September 2, 2005](https://cran.r-project.org/src/contrib/Archive/gtools/))  from the [`gtools`](https://CRAN.R-project.org/package=gtools) package.
@@ -239,7 +239,7 @@ strmacro(A, expr = list(A = A))('"x"')
 
 ### `lazyeval`
 
-`dplyr 0.5.0`'s parametric programming interface was a package called [`lazyeval`](https://CRAN.R-project.org/package=lazyeval) which describes itself as:
+`dplyr 0.5.0`'s parametric programming interface was a package called [`lazyeval`](https://CRAN.R-project.org/package=lazyeval) by Hadley Wickham which describes itself as:
 
 > An alternative approach to non-standard evaluation using formulas. Provides a full implementation of LISP style 'quasiquotation', making it easier to generate code with other code.
 
@@ -262,15 +262,17 @@ lazy_eval(lazy(B))
 
 `lazy()` appears to be doing attempting the role of substitute (as claimed [here](https://cran.r-project.org/web/packages/lazyeval/vignettes/lazyeval-old.html)). However, notice that it seems very hard to control the substitution.  Obviously we are doing something wrong, but part of this may be us not internalizing irregularity in the interface.
 
+`lazyeval` seems to incorporate a design principle that there is merit in carrying around a variable name plus an environment where that name is resolved to a value.  That is at best a point of view.  In my opinion, especially in the context of quasiquotation, it is *much* better to convert bound names to values.  The basic principle of computation is a bunch of code and data eventually becomes a result value.  `quasiquotation` is the partial substitution of values into otherwise quoted structures.  Obviously things are a bit more delicate in `R` as names are observable at various points.  However, designing centering on the detail of names is, in my opinion, back-porting complexity from interfaces instead of forward porting clarity from applications.
+
 It is my impression that `lazyeval` isn't currently recommended by its authors, so we will not belabor the point.
 
 ### `wrapr::let()`
 
-For some code-rewriting tasks we found both `substitute()` and `bquote()` a bit limiting.  For this reason we developed (taking inspiration from `gtools::strmacro()`) `wrapr::let()`.  `wrapr::let()` was designed to have syntax similar to `substitute()` and to classic <code>Lisp</code> "<code>let</code>" style value-binding blocks (informal example: "<code>(let X be 7 in (sin X))</code>)").  
+For some code-rewriting tasks we found both `substitute()` and `bquote()` a bit limiting.  For this reason we (John Mount and Nina Zumel) developed (taking inspiration from `gtools::strmacro()`) `wrapr::let()`.  `wrapr::let()` was designed to have syntax similar to `substitute()` and also to classic <code>Lisp</code> "<code>let</code>" style value-binding blocks (informal example: "<code>(let X be 7 in (sin X))</code>)").  
 
 Our first application of `let()` (at the time in the [`replyr`](https://CRAN.R-project.org/package=replyr) package) was to perform parametric programming over `dplyr 0.5.0` (the version of `dplyr` current at the time).
 
-We (me plus my college Dr. Nina Zumel) shared a number of articles and gave public talks on the topic.
+We (me plus my colleague Nina Zumel) shared a number of articles and gave public talks on the topic.
 
  * [Using replyr::let to Parameterize dplyr Expressions](http://www.win-vector.com/blog/2016/12/using-replyrlet-to-parameterize-dplyr-expressions/).
  * [help(let, package=’replyr’)](http://www.win-vector.com/blog/2016/12/helplet-packagereplyr/).
@@ -433,7 +435,9 @@ For fine control of the arguments of a single function call I recommend `base::d
 
 `gtools::defmacro()` is a great tool for building macros, especially parameterized code-snippets that are intended to have visible side effects (such as writing back values). `gtools::strmacro()` is a bit more wild, but definitely has uses.
 
-`base::bquote()` is able to easily program over `dplyr 0.7.0` and later versions and is part of the core `R` language (or "base `R`", which *should* be a *huge* plus).
+`base::bquote()` is a good choice with clear quasiquotation semantics.  It is able to easily program over `dplyr 0.7.0` and later versions and is part of the core `R` language (or "base `R`", which *should* be a *huge* plus).
+
+`lazyeval` is possibly in maintenance mode.
 
 `rlang` is the method being promoted by the `dplyr` package authors, however I do not recommend it for general use.
 
