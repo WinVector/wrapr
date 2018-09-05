@@ -445,17 +445,50 @@ describes itself as:
 > Provides a full implementation of LISP style ‘quasiquotation’, making
 > it easier to generate code with other code.
 
-`lazyeval` does not seem to be currently recommended, and is not
-fundamentally more powerful than `base::bquote()`. The primary reason
-`bquote()` at one time did not seem like a good macro tool for working
-with `dplyr` is: `dplyr 0.5.0` did not include the `:=` operator. Once
-`:=` was added (part of `dplyr 0.7.0`’s `rlang` integration) `bquote()`
-was able to work seamlessly with `dplyr`.
+We can try to work a small example.
 
-The `:=` was the missing piece. A `dplyr` that allows `:=` to denote
-assignment (as `data.table` has for a *very* long time) does not need an
-extension package such as `gtools`, `lazyeval`, `wrapr`, or `rlang` as
-`base::quote()` can in such circumstances be made to work.
+``` r
+library("lazyeval")
+x <- 7
+
+lazy(B, env = list("B" = as.name("x")))
+```
+
+    ## <lazy>
+    ##   expr: B
+    ##   env:  <environment: R_GlobalEnv>
+
+``` r
+lazy_eval(lazy(B, env = list("B" = as.name("x"))))
+```
+
+    ## Error in eval(x$expr, x$env, emptyenv()): object 'B' not found
+
+``` r
+B <- as.name("x")
+
+lazy(B)
+```
+
+    ## <lazy>
+    ##   expr: x
+    ##   env:  <environment: R_GlobalEnv>
+
+``` r
+lazy_eval(lazy(B))
+```
+
+    ## [1] 7
+
+`lazy()` appears to be doing attempting the role of substitute (as
+claimed
+[here](https://cran.r-project.org/web/packages/lazyeval/vignettes/lazyeval-old.html)).
+However, notice that it seems very hard to control the substitution.
+Obviously we are doing something wrong, but part of this may be us not
+internalizing irregularity in the interface.
+
+It is my impression that `lazyeval` isn’t currently recommended by its
+authors, so we will not belabor the point.
 
 ### `wrapr::let()`
 
@@ -663,6 +696,15 @@ So the change in macro capabilities in `dplyr 0.7.0` is essentially from
 the introduction of `:=` (which is already enough to allow `bquote()` to
 program over `dplyr`), and *not* from details of `rlang`.
 
+The primary reason `bquote()`, at one time, may not have seemed like a
+good macro tool for working with `dplyr` is: `dplyr 0.5.0` did not
+include the `:=` operator. Once `:=` was added (part of `dplyr 0.7.0`’s
+`rlang` integration) `bquote()` was able to work seamlessly with
+`dplyr`. The `:=` was the missing piece. A `dplyr` that allows `:=` to
+denote assignment (as `data.table` has for a *very* long time) does not
+need an extension package such as `gtools`, `lazyeval`, `wrapr`, or
+`rlang` as `base::quote()` can in such circumstances be made to work.
+
 `rlang` also emphasizes the ability to capture environments along with
 expressions (not demonstrated here). We find users with the discipline
 to follow John M. Chambers’ advice do not typically need this additional
@@ -676,7 +718,9 @@ leaks](http://www.win-vector.com/blog/2014/05/trimming-the-fat-from-glm-models-i
 There may be some fine distinctions as to if `rlang` controlled
 execution is be considered metaprogramming, macro facilities, or
 something else (due to the limited visibility of some `rlang` effects).
-However in some examples supplied by the `rlang` we see the exact
+Likely `rlang` is write derived intermediate data structures as it
+guides code interpretation (so it is in a sense reasoning over code).
+Also, in some examples supplied by the `rlang` we see the exact
 [`bquote()` capture/alter/execute
 pattern](http://www.win-vector.com/blog/2018/09/r-tip-how-to-pass-a-formula-to-lm/):
 
