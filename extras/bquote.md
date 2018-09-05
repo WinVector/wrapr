@@ -506,14 +506,11 @@ Conclusion
 
 `R` has a number of useful macro facilities. Not all `R` users know about them. This is because, due to a number of good `R` design decisions, not all `R` users regularly *need* macro facilities. If you do need to macros (or to "program over programs", which is always a bit harder than the more desirable programming over data) I suggest reading a few of the references and picking a system that works well for your tasks.
 
-For fine control of the arguments of a single function call I recommend `base::do.call()`.
+Some of our take-aways include:
 
-`gtools::defmacro()` is a great tool for building macros, especially parameterized code-snippets that are intended to have visible side effects (such as writing back values). `gtools::strmacro()` is a bit more wild, but definitely has uses.
-
-`base::bquote()` is a good choice with clear quasiquotation semantics. It is able to easily program over `dplyr 0.7.0` and later versions and is part of the core `R` language (or "base `R`", which *should* be a *huge* plus).
-
-`lazyeval` is possibly in maintenance mode.
-
-`rlang` is the method being promoted by the `dplyr` package authors, however I do not recommend it for general use.
-
-As for our method (`wrapr::let()`). I feel `wrapr::let()` is sufficiently specialized (combining re-writing and execution into one function, and being restricted only to name for name substitutions) and sufficiently general (working with any package without pre-arrangement) that it is a good comprehensible, safe, convenient, and powerful choice for interested `R` users. For more on `wrapr::let()` I suggest our [formal writeup](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf).
+-   For fine control of the arguments of a single function call I recommend using `base::do.call()`.
+-   `gtools::defmacro()` is a great tool for building macros, especially parameterized code-snippets that are intended to have visible side effects (such as writing back values). `gtools::strmacro()` is a bit more wild, but definitely has uses.
+-   `base::bquote()` is a good choice with clear quasiquotation semantics. It is able to easily program over `dplyr 0.7.0` and later versions and is part of the core `R` language (or "base `R`", which *should* be a *huge* plus).
+-   `lazyeval` is possibly in maintenance mode.
+-   `rlang` is the method being promoted by the `dplyr` package authors, however I do not recommend it for general use.
+-   As for our method (`wrapr::let()`). I feel `wrapr::let()` is sufficiently specialized (combining re-writing and execution into one function, and being restricted only to name for name substitutions) and sufficiently general (working with any package without pre-arrangement) that it is a good comprehensible, safe, convenient, and powerful choice for interested `R` users. For more on `wrapr::let()` I suggest our [formal writeup](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf).
