@@ -55,7 +55,7 @@ When applied to programs both concepts converge to "code that writes code."
 
 ### `base::do.call()`
 
-Sometimes you don't need macros or metaprogramming.  The function you are using may already have a powerful enough interface.  Or you may be only trying to control the execution of a single function, a task for which `R` already has an excellent tool: `base::do.call()`.
+Sometimes you don't need the full power of macros.  The function you are using may already have a powerful enough interface.  Or you may be only trying to control the execution of a single function, a task for which `R` already has an excellent tool: `base::do.call()`.
 
 For example if you want to control the call-presentation of a formula passed to `lm()` (a problem discussed [here](http://www.win-vector.com/blog/2018/09/r-tip-how-to-pass-a-formula-to-lm/)) the following code is sufficient.
 
@@ -405,7 +405,7 @@ The primary reason `bquote()`, at one time, may not have seemed like a good macr
 
 `rlang` also emphasizes the ability to capture environments along with expressions (not demonstrated here).  We find users with the discipline to follow John M. Chambers' advice do not typically need this additional facility (some notes [here](http://www.win-vector.com/blog/2018/08/r-tip-put-your-values-in-columns/)) and that collecting unexpected references to environments (as is often the case with `formula`, `closueres`, and now `quosures`) [is a source of reference leaks](http://www.win-vector.com/blog/2014/05/trimming-the-fat-from-glm-models-in-r/). 
 
-There may be some fine distinctions as to if `rlang` controlled execution is be considered metaprogramming, macro facilities, or something else (due to the limited visibility of some `rlang` effects).  Likely `rlang` is write derived intermediate data structures as it guides code interpretation (so it is in a sense reasoning over code).  Also, in some examples supplied by the `rlang` we see the exact [`bquote()` capture/alter/execute pattern](http://www.win-vector.com/blog/2018/09/r-tip-how-to-pass-a-formula-to-lm/):
+There may be some fine distinctions as to if `rlang` controlled execution is to be considered metaprogramming, macro facilities, or something else (due to the limited visibility of some `rlang` effects).  Likely `rlang` is in fact producing derived intermediate data structures as it guides code interpretation (so it likely re-writing code representations).  Also, in some examples supplied by the `rlang` we see the exact [`bquote()` capture/alter/execute pattern](http://www.win-vector.com/blog/2018/09/r-tip-how-to-pass-a-formula-to-lm/):
 
 ```{r lmrlang, warning=FALSE, message=FALSE}
 suppressPackageStartupMessages(library("dplyr"))
