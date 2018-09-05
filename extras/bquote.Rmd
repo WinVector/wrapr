@@ -86,7 +86,7 @@ print(model)
 
 `defmacro()` was introduced to the `R` community by [a fantastic article by Thomas Lumley in 2001](https://www.r-project.org/doc/Rnews/Rnews_2001-3.pdf), and then later enhanced and distributed as part of the [`gtools` package](https://CRAN.R-project.org/package=gtools) by Thomas Lumley and Gregory R. Warnes.
 
-Macros superficially look a bit like functions: the encapsulate some code.  However, instead of running code in an isolated environment (the function evaluation environment) they instead perform as if the user had type the code in directly.  Let's jump ahead in our timeline and use `gtools::defmacro()` to define a macro called "`set_variable`" as follows.
+Macros superficially look a bit like functions: they encapsulate some code.  However, instead of running code in an isolated environment (the function evaluation environment) they instead perform as if the user had type the code in directly.  Let's jump ahead in our timeline and use `gtools::defmacro()` to define a macro called "`set_variable`" as follows.
 
 ```{r defsetvar}
 library("gtools")
@@ -95,7 +95,7 @@ set_variable <- defmacro(VARNAME, VARVALUE,
                          expr = { VARNAME <- VARVALUE })
 ```
 
-And using such a macro is easy.
+Using such a macro is easy.
 
 ```{r usesetvvar}
 set_variable(x, 7)
@@ -255,7 +255,7 @@ It is my impression that `lazyeval` isn't currently recommended by its authors, 
 
 ### `wrapr::let()`
 
-For some code-rewriting tasks we found both `substitute()` and `bquote()` a bit limiting.  For this reason we (John Mount and Nina Zumel) developed (taking inspiration from `gtools::strmacro()`) `wrapr::let()`.  `wrapr::let()` was designed to have syntax similar to `substitute()` and also to classic <code>Lisp</code> "<code>let</code>" style value-binding blocks (informal example: "<code>(let X be 7 in (sin X))</code>)").  
+For some code-rewriting tasks we found both `substitute()` and `bquote()` a bit limiting.  For this reason we (John Mount and Nina Zumel) developed (taking inspiration from `gtools::strmacro()`) `wrapr::let()`.  `wrapr::let()` was designed to have syntax similar to `substitute()` and also to classic <code>Lisp</code> "<code>let</code>" style value-binding blocks (informal example: "<code>(let X be 7 in (sin X))</code>").  
 
 Our first application of `let()` (at the time in the [`replyr`](https://CRAN.R-project.org/package=replyr) package) was to perform parametric programming over `dplyr 0.5.0` (the version of `dplyr` current at the time).
 
@@ -311,7 +311,7 @@ let(
 )
 ```
 
-This works, as (like `strmacro()`) `wrapr` specifies replacements by target names (not inline annotation) and can work left-hand sides of argument bindings.  We can re-work one of or `strmacro()` examples to demonstrate this.
+This works, as (like `strmacro()`) `let()` specifies replacements by target names (not inline annotation) and can work left-hand sides of argument bindings.  We can re-work one of or `strmacro()` examples to demonstrate this.
 
 ```{r wraprl}
 library("wrapr")
@@ -323,7 +323,18 @@ let(
   list(A = A)
   
 )
+
+x <- 17
+
+let(
+  alias = c("A" = "x"),
+
+  list(A = A)
+  
+)
 ```
+
+Something we emphasize is: potential ambiguity between replacement targets and non-replacement is easily avoidable as both the full source code and replacement plan are written in the same code block.
 
 People who try `let()` tend to like it.
 
@@ -339,7 +350,7 @@ People who try `let()` tend to like it.
 >
 >  * The tidy eval framework, which is a well-founded system for non-standard evaluation built on quasiquotation (!!) and quosures (quo()).
 
-Quasiquotation is something we have discussed a few time by now.  Non-standard is this case is going to likely mean both capturing of names from source code (breaking referential transparency) and direct manipulation of environments (including carrying names plus environments the names are bound in instead of carrying values).  Both the `lazyeval` and `rlang` packages seem to follow `R`-formula style semantics (and indeed seemed to have been based on formulas at one point, trace from [here](https://github.com/r-lib/rlang/commit/cc0c497155a8da6adc43a38ac4020c2cc9bb9491#diff-04c6e90faac2675aa89e2176d2eec7d8) for details), so a bit criticism of `R`-formula design is relevant here.
+Quasiquotation is something we have discussed a few times by now.  The phrase "non-standard"" in this case is going to likely mean both capturing of names from source code (breaking referential transparency) and direct manipulation of environments (including carrying names plus environments the names are bound in instead of carrying values).  Both the `lazyeval` and `rlang` packages seem to follow `R`-formula style semantics (and indeed seemed to have been based on formulas at one point, trace from [here](https://github.com/r-lib/rlang/commit/cc0c497155a8da6adc43a38ac4020c2cc9bb9491#diff-04c6e90faac2675aa89e2176d2eec7d8) for details), so a bit criticism of `R`-formula design is relevant here.
 
 <blockquote>
 Many modelling and graphical functions have a formula argument and a data argument. If variables in the formula were required to be in the data argument life would be a lot simpler, but this requirement was not made when formulas were introduced. Authors of modelling and graphics functions are thus required to implement a limited form of dynamic scope, which they have not done in an entirely consistent way.
@@ -394,9 +405,7 @@ UQ <- function(s) {!!s}
     mutate(UQ(NEWVAR) = UQ(OLDVAR) + 1)
 ```
 
-So the change in macro capabilities in `dplyr 0.7.0` is essentially from the introduction of `:=` (which is already enough to allow `bquote()` to program over `dplyr`), and *not* from details of `rlang`.
- 
-The primary reason `bquote()`, at one time, may not have seemed like a good macro tool for working with `dplyr` is: `dplyr 0.5.0` did not include the `:=` operator.  Once `:=` was added (part of `dplyr 0.7.0`'s `rlang` integration) `bquote()` was able to work seamlessly with `dplyr`.  The `:=` was the missing piece.  A `dplyr` that allows `:=` to denote assignment (as `data.table` has for a *very* long time) does not need an extension package such as `gtools`, `lazyeval`, `wrapr`, or `rlang` as `base::quote()` can in such circumstances be made to work.
+So the change in macro capabilities in `dplyr 0.7.0` is essentially from the introduction of `:=` (which is already enough to allow `bquote()` to program over `dplyr`), and *not* from details of `rlang`. Once `:=` was added (part of `dplyr 0.7.0`'s `rlang` integration) `bquote()` was able to work seamlessly with `dplyr`.  The `:=` was the missing piece.  A `dplyr` that allows `:=` to denote assignment (as `data.table` has for a *very* long time) does not need an extension package such as `gtools`, `lazyeval`, `wrapr`, or `rlang`, as `base::bquote()` can in such circumstances be made to work.
 
 `rlang` also emphasizes the ability to capture environments along with expressions (not demonstrated here).  We find users with the discipline to follow John M. Chambers' advice do not typically need this additional facility (some notes [here](http://www.win-vector.com/blog/2018/08/r-tip-put-your-values-in-columns/)) and that collecting unexpected references to environments (as is often the case with `formula`, `closueres`, and now `quosures`) [is a source of reference leaks](http://www.win-vector.com/blog/2014/05/trimming-the-fat-from-glm-models-in-r/). 
 
@@ -428,12 +437,13 @@ eval(bquote(    lm(.(f), data = data)    ))
 
 Some of our take-aways include:
 
+  * Always consider using functions before resorting to macros.  Functions have more isolation and are generally safer to work with and compose.  When you use macros you are usurping standard evaluation rules and taking direct control, so after that things become somewhat your own fault.
   * For fine control of the arguments of a single function call I recommend using `base::do.call()`.
   * `gtools::defmacro()` is a great tool for building macros, especially parameterized code-snippets that are intended to have visible side effects (such as writing back values). `gtools::strmacro()` is a bit more wild, but definitely has uses.
-  * `base::bquote()` is a good choice with clear quasiquotation semantics.  It is able to easily program over `dplyr 0.7.0` and later versions and is part of the core `R` language (or "base `R`", which *should* be a *huge* plus).
-  * `lazyeval` is possibly in maintenance mode.
-  * `rlang` is the method being promoted by the `dplyr` package authors, however I do not recommend it for general use.
-  * As for our method (`wrapr::let()`). I feel `wrapr::let()` is sufficiently specialized (combining re-writing and execution into one function, and being restricted only to name for name substitutions) and sufficiently general (working with any package without pre-arrangement) that it is a good comprehensible, safe, convenient, and powerful option for interested `R` users.  For more on `wrapr::let()` I suggest our [formal writeup](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf).
+  * `base::bquote()` is a great choice for programming over other systems and uses clear quasiquotation semantics.  It is able to easily program over `dplyr 0.7.0` and later versions and is part of the core `R` language (or "base `R`", which *should* be a *huge* plus).
+  * `lazyeval` is possibly in maintenance mode, and possibly no longer recommended by the package authors.
+  * `wrapr::let()` (full disclosure: our own package). I feel `wrapr::let()` is sufficiently specialized (combining re-writing and execution into one function, and being restricted only to name for name substitutions) and sufficiently general (working with any package without pre-arrangement) that it is a good comprehensible, safe, convenient, and powerful option for interested `R` users.  For more on `wrapr::let()` I suggest our [formal writeup](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf).
+  * `rlang` is a package being promoted by the `dplyr` package authors, however I do not recommend it for general use.
 
 
 
