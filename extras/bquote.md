@@ -278,15 +278,6 @@ Notice the macro arguments are now passed in as strings *and* substitution is pe
 ``` r
 library("gtools")
 
-strmacro(A, expr = list(A = A))('"x"')
-```
-
-    ## $x
-    ## [1] "x"
-
-``` r
-library("gtools")
-
 A <- "AAA"
 B <- "BBB"
 x <- "xxx"

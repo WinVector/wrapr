@@ -230,11 +230,6 @@ Notice the macro arguments are now passed in as strings *and* substitution is pe
 
 `strmacro` can in fact replace left-hand sides of argument bindings.
 
-```{r strmacro2}
-library("gtools")
-
-strmacro(A, expr = list(A = A))('"x"')
-```
 
 ```{r leftissue1strmacro}
 library("gtools")
