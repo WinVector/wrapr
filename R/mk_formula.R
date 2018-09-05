@@ -32,18 +32,17 @@ mk_formula <- function(outcome, variables,
   f <- do.call(
     "~",
     list(as.name(outcome),
-         as.name(variables[[1]])))
-  environment(f) <- env
+         as.name(variables[[1]])),
+    envir = env)
   fs <- c(list(f),
           lapply(
             variables[-1],
             function(vi) {
-              fi <- do.call(
+              do.call(
                 "~",
                 list(as.name(outcome),
-                     call("+", as.name("."), as.name(vi))))
-              environment(fi) <- env
-              fi
+                     call("+", as.name("."), as.name(vi))),
+                envir = env)
             }
           ))
   Reduce(update.formula, fs)
