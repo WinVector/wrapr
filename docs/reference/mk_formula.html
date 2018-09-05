@@ -33,7 +33,7 @@
 <meta property="og:title" content="Construct a formula. — mk_formula" />
 
 <meta property="og:description" content="Safely construct a formula from the outcome (dependent variable) name
-and vector of input (indpendent variable) names." />
+and vector of input (independent variable) names." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -145,7 +145,7 @@ and vector of input (indpendent variable) names." />
     <div class="ref-description">
     
     <p>Safely construct a formula from the outcome (dependent variable) name
-and vector of input (indpendent variable) names.</p>
+and vector of input (independent variable) names.</p>
     
     </div>
 
@@ -160,7 +160,7 @@ and vector of input (indpendent variable) names.</p>
     </tr>
     <tr>
       <th>variables</th>
-      <td><p>character vector, names of input or indpendent variables.</p></td>
+      <td><p>character vector, names of input or independent variables.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -176,11 +176,22 @@ and vector of input (indpendent variable) names.</p>
 
     <p>a formula object</p>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Note: outcome and variables
+are each intended to be simple variable names or column names (or .). They are not
+intended to specify
+interactions, I()-terms, transforms, general experessions or other complex formula terms.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='http://www.rdocumentation.org/packages/stats/topics/update.formula'>update.formula</a></code></p></div>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='fu'>mk_formula</span>(<span class='st'>"mpg"</span>, <span class='fu'>c</span>(<span class='st'>"cyl"</span>, <span class='st'>"disp"</span>))</div><div class='output co'>#&gt; mpg ~ cyl + disp
-#&gt; &lt;environment: 0x7fcc7178aed0&gt;</div><div class='input'>
+#&gt; &lt;environment: 0x7f802c081a48&gt;</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -189,6 +200,10 @@ and vector of input (indpendent variable) names.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

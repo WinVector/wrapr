@@ -9,7 +9,7 @@ mk_formula(outcome, variables, ..., env = parent.frame())
 \arguments{
 \item{outcome}{character scalar, name of outcome or dependent variable.}
 
-\item{variables}{character vector, names of input or indpendent variables.}
+\item{variables}{character vector, names of input or independent variables.}
 
 \item{...}{not used, force later arguments to bind by name.}
 
@@ -20,10 +20,19 @@ a formula object
 }
 \description{
 Safely construct a formula from the outcome (dependent variable) name
-and vector of input (indpendent variable) names.
+and vector of input (independent variable) names.
+}
+\details{
+Note: outcome and variables
+are each intended to be simple variable names or column names (or .). They are not
+intended to specify
+interactions, I()-terms, transforms, general experessions or other complex formula terms.
 }
 \examples{
 
 mk_formula("mpg", c("cyl", "disp"))
 
+}
+\seealso{
+\code{\link[stats]{update.formula}}
 }
