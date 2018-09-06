@@ -350,8 +350,7 @@ let(
 )
 ```
 
-We emphasize that potential ambiguity between replacement targets and non-replacement is easily avoidable as both the full source code and replacement plan are written in the same code block,
-and thus near each other and under a single author's control.
+We emphasize that potential ambiguity between replacement targets and non-replacement is easily avoidable as both the full source code and replacement plan are written in the same code block, and thus near each other and under a single author's control.
 
 People who try `let()` tend to like it.
 
@@ -484,8 +483,6 @@ eval(bquote(  lm(.(f), data = dataf)  ))
 ## Conclusion
 
 `R` has a number of useful macro and metaprogramming facilities.  Not all `R` users know about them.  This is because, due to a number of good `R` design decisions, not all `R` users regularly *need* macro facilities.  If you do need macros (or to "program over programs", which is always a bit harder than the more desirable programming over data) I suggest reading a few of the references and picking a system that works well for your tasks. The job of metaprogramming to to reduce programmer burden, so these tools should only be applied when they are less work than the obvious alternatives (such as repeating code).
-
-From above you can see my preference is for simpler design, for example: preferring passing around values instead of carrying names plus binding environments. This preference is because the complexity introduced by taking values from many environments is large and has costs. Or to put it another way: I feel one should study complexities and intricacies to learn out to avoid them, not to learn how to tolerate them.
 
 Some of our take-aways include:
 
