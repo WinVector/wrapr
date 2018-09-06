@@ -250,6 +250,40 @@ eval(bquote(
     ##   x y
     ## 1 1 2
 
+One can even try to get clever about block and function notation, yielding notations such as the following (working the last example again).
+
+``` r
+# special code to make string to name maps
+namemap <- function(...) {
+  lapply(substitute(list(...))[-1], as.name)
+}
+
+# special block executing operator
+# "A %block% { B }" executes B under bquote rules taking name substitutions from A
+`%block%` <- function(a, b) {
+  env = parent.frame()
+  eval(do.call(bquote,
+               list(substitute(b), 
+                    where = a),
+               envir = env),
+       envir = env)
+}
+
+suppressPackageStartupMessages(library("dplyr"))
+
+# old example in new block notation
+namemap(
+  NEWVAR = "y",
+  OLDVAR = "x"
+) %block% {
+  data.frame(x = 1) %>%
+    mutate(.(NEWVAR) := .(OLDVAR) + 1)
+}
+```
+
+    ##   x y
+    ## 1 1 2
+
 `bquote()` is indeed a remarkable demonstration of the power of `R`'s <code>substitute</code> facility. The code for `bquote()` (accessible by executing `print(bquote)`) is amazingly compact. It is an example of where, with the right abstraction, an essentially 10-line function can do the job of an entire package (it is also hard to imagine a 10-line program having over 100 open issues, which can happen with large package solutions). This is a common situation in functional programming languages. This is part of why design, criticism, and iteration of design are so important in functional programming. Also this compactness is fairly common when you stay out of the way of <code>eval</code>/<code>apply</code> and let them do the heavy lifting. The relations between <code>eval</code> and <code>apply</code> are so fundamental that Alan Kay called it "Maxwell's Equations of Software": ["A conversation with Alan Kay", ACMqueue, Volume 2, Issue 9, December 27, 2004](https://queue.acm.org/detail.cfm?id=1039523), see also ["Lisp as the Maxwell’s equations of software", Michael Nielson April 11, 2012](http://www.michaelnielsen.org/ddi/lisp-as-the-maxwells-equations-of-software/).
 
 ### An aside
@@ -356,7 +390,7 @@ let(
     ##   x y
     ## 1 1 2
 
-Notice `wrapr::let()` specifies substitution targets by name (not by any decorating notation such as backtick or `.()`), and also can use the original "="-notation without problem.
+Notice `wrapr::let()` specifies substitution targets by name (not by any decorating notation such as backtick or `.()`), and also can use the original "="-notation without problem. `let()` only allows name for name substitutions, the theory is substituting names for values is the job of `R`s `environment`s and attempting to duplicate or replace core language functionality is not desirable.
 
 `let()` allows the user to [choose the substitution engine](https://cran.r-project.org/web/packages/wrapr/vignettes/SubstitutionModes.html) and has a debug-print option.
 
@@ -481,12 +515,12 @@ So the change in macro capabilities in `dplyr 0.7.0` is essentially from the int
 There may be some fine distinctions as to whether `rlang` controlled execution is to be considered metaprogramming, macro facilities, or something else (due to the limited visibility of some `rlang` effects). It is likely that `rlang` is producing derived intermediate data structures as it guides code interpretation (so it likely re-writing code representations). Also, in some examples supplied by the `rlang` documentation we see the exact [`bquote()` capture/alter/execute pattern](http://www.win-vector.com/blog/2018/09/r-tip-how-to-pass-a-formula-to-lm/) we have seen before. For example:
 
 ``` r
-suppressPackageStartupMessages(library("dplyr"))
+library("rlang")
 
 dataf <- mtcars
 f <- disp ~ drat
 
-eval(expr(lm(!!f, data = dataf)))
+eval(expr(   lm(!!f, data = dataf)   ))
 ```
 
     ## 
