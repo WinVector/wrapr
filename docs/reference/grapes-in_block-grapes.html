@@ -178,22 +178,24 @@
   <span class='kw'>Sepal_Width</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='fl'>4.0</span>,<span class='fl'>4.4</span>),
   <span class='kw'>Species</span><span class='kw'>=</span><span class='st'>'setosa'</span>)
 
-<span class='no'>mapping</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='qc.html'>qc</a></span>(
-  <span class='kw'>AREA_COL</span> <span class='kw'>=</span> <span class='no'>Sepal_area</span>,
-  <span class='kw'>LENGTH_COL</span> <span class='kw'>=</span> <span class='no'>Sepal_Length</span>,
-  <span class='kw'>WIDTH_COL</span> <span class='kw'>=</span> <span class='no'>Sepal_Width</span>
-)
-
 <span class='co'># let-block notation</span>
 <span class='fu'><a href='let.html'>let</a></span>(
-  <span class='no'>mapping</span>,
+  <span class='fu'><a href='qc.html'>qc</a></span>(
+    <span class='kw'>AREA_COL</span> <span class='kw'>=</span> <span class='no'>Sepal_area</span>,
+    <span class='kw'>LENGTH_COL</span> <span class='kw'>=</span> <span class='no'>Sepal_Length</span>,
+    <span class='kw'>WIDTH_COL</span> <span class='kw'>=</span> <span class='no'>Sepal_Width</span>
+  ),
   <span class='no'>d</span> <span class='kw'>%.&gt;%</span>
     <span class='fu'>transform</span>(<span class='no'>.</span>, <span class='kw'>AREA_COL</span> <span class='kw'>=</span> <span class='no'>LENGTH_COL</span> * <span class='no'>WIDTH_COL</span>)
 )</div><div class='output co'>#&gt;   Sepal_Length Sepal_Width Species Sepal_area
 #&gt; 1          5.8         4.0  setosa      23.20
 #&gt; 2          5.7         4.4  setosa      25.08</div><div class='input'>
 <span class='co'># %in_block% notation</span>
-<span class='no'>mapping</span> <span class='kw'>%in_block%</span> {
+<span class='fu'><a href='qc.html'>qc</a></span>(
+  <span class='kw'>AREA_COL</span> <span class='kw'>=</span> <span class='no'>Sepal_area</span>,
+  <span class='kw'>LENGTH_COL</span> <span class='kw'>=</span> <span class='no'>Sepal_Length</span>,
+  <span class='kw'>WIDTH_COL</span> <span class='kw'>=</span> <span class='no'>Sepal_Width</span>
+) <span class='kw'>%in_block%</span> {
   <span class='no'>d</span> <span class='kw'>%.&gt;%</span>
     <span class='fu'>transform</span>(<span class='no'>.</span>, <span class='kw'>AREA_COL</span> <span class='kw'>=</span> <span class='no'>LENGTH_COL</span> * <span class='no'>WIDTH_COL</span>)
 }</div><div class='output co'>#&gt;   Sepal_Length Sepal_Width Species Sepal_area

@@ -24,21 +24,23 @@ d <- data.frame(
   Sepal_Width=c(4.0,4.4),
   Species='setosa')
 
-mapping <- qc(
-  AREA_COL = Sepal_area,
-  LENGTH_COL = Sepal_Length,
-  WIDTH_COL = Sepal_Width
-)
-
 # let-block notation
 let(
-  mapping,
+  qc(
+    AREA_COL = Sepal_area,
+    LENGTH_COL = Sepal_Length,
+    WIDTH_COL = Sepal_Width
+  ),
   d \%.>\%
     transform(., AREA_COL = LENGTH_COL * WIDTH_COL)
 )
 
 # \%in_block\% notation
-mapping \%in_block\% {
+qc(
+  AREA_COL = Sepal_area,
+  LENGTH_COL = Sepal_Length,
+  WIDTH_COL = Sepal_Width
+) \%in_block\% {
   d \%.>\%
     transform(., AREA_COL = LENGTH_COL * WIDTH_COL)
 }
