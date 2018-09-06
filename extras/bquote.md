@@ -423,7 +423,7 @@ People who try `let()` tend to like it.
 </center>
 .
 
-### `rlang`
+### <code>rlang::`!!`</code>
 
 `rlang` was written by Lionel Henry and Hadley Wickham and was incorporated into `dplyr` on June 6, 2017. From <code>help(`!!`)</code>:
 
