@@ -45,7 +45,7 @@ Value oriented interfaces are easier to program over. However, not all `R` funct
 
 In `R` macros and meta-programming are *not* urgent user-facing problems, until the user attempts to program over an interface that is *only* designed for interactive use (i.e., doesn't accept or have an alternative that accepts values stored in additional variables).
 
-Macros are a bit technical, but when you are painted into a programming corner (such as not having an interface you want), you look to macros. So let's talk more about macros and metaprogramming from the concrete point of view of trying to code capturing interfaces (such as "`$`") into value oriented interfaces (such as "`[[]]`"). Again: the idea is code capturing interfaces may be convenient for interactive work (when we are typing in the code while looking at data), but are inconvenient for programming work (where we can't see the data and must take details from other variables, such as `COLUMNNAME`).
+Macros are a bit technical, but when you are painted into a programming corner (such as not having an interface you want), you look to macros. So let's talk more about macros and metaprogramming from the concrete point of view of trying to code capturing interfaces (such as "`$`") into value oriented interfaces (such as "`[[]]`"). Again: the idea is code capturing interfaces may be convenient for interactive work (when we are typing in the code while looking at data), but are inconvenient for programming work (where we can't always see the data and must take details from other variables, such as `COLUMNNAME`).
 
 ### Technical defintions
 
@@ -164,8 +164,11 @@ Macros superficially look a bit like functions: they encapsulate some code. Howe
 ``` r
 library("gtools")
 
-set_variable <- defmacro(VARNAME, VARVALUE, 
-                         expr = { VARNAME <- VARVALUE })
+set_variable <- defmacro(
+  VARNAME,  # sustitution target/placeholder
+  VARVALUE, # sustitution target/placeholder
+  expr = { VARNAME <- VARVALUE } # expression to manipulate
+)
 ```
 
 Using such a macro is easy.
@@ -183,13 +186,14 @@ I strongly suggest reading [the original article](https://www.r-project.org/doc/
 
 > While defmacro() has many (ok, one or two) practical uses, its main purpose is to show off the powers of substitute(). Manipulating expressions directly with substitute() can often let you avoid messing around with pasting and parsing strings, assigning into strange places with &lt;&lt;- or using other functions too evil to mention.
 
-We couldn't use `defmacro()` for our particular application (programming over `dplyr 0.5.0`) as the `substitute` function will not substitute the left-hand sides of argument bindings (which is how `dplyr::mutate()` specifies assignment). We demonstrate this below by trying to replace symbols with "<code>x</code>":
+We couldn't use `defmacro()` for our particular application (programming over `dplyr 0.5.0`) as the `substitute` function (which `defmacro()` is based on) will not substitute the left-hand sides of argument bindings (which is how `dplyr::mutate()` specifies assignment). We demonstrate this below by trying to replace symbols with "<code>x</code>":
 
 ``` r
 # notice right hand side "B" can be substituted
 substitute(
-  expr = c(A = B), 
-  env = list("B" = "x"))
+  expr = c(A = B),      # expression to manipulate
+  env = list("B" = "x") # mapping targets to replacements
+  )
 ```
 
     ## c(A = "x")
@@ -229,7 +233,7 @@ eval(substitute(sin(x = x), env = list(x = 7)))
 
 As `dplyr::mutate()` uses argument binding in "`...`" to denote assignments, we will want control of both sides of such sub-expressions when trying to program over `dplyr`.
 
-Notice substitute can replace items near a "`$`". `defmacro()` also does this, but produces yet another code capturing interface (not a value oriented interface).
+As an aside (and return to our earlier comments on "`$`"), notice substitute can replace items near a "`$`". `defmacro()` also does this, but produces yet another code capturing interface (not a value oriented interface).
 
 ``` r
 d <- data.frame(x = 1)
@@ -262,7 +266,7 @@ read_column(d, x)
 
     ## [1] 1
 
-So `defmacro()` is good at mapping name-capturing interfaces- but not specialized to converting name-capturing interfaces into value oriented interfaces. So if we want to build value oriented interfaces, we need to look forward a bit more for solutions.
+To resolve our issue we want direct control of what gets substituted as a name and what is treated as a value. It turns out `base::bquote()` gives us exactly that.
 
 ### `base::bquote()`
 
@@ -276,13 +280,13 @@ On August 15, 2003 Thomas Lumley contributed a fairly complete version of <code>
         
         git-svn-id: https://svn.r-project.org/R/trunk@25744 00db46b3-68df-0310-9c12-caf00c1e9a41
 
-`R`'s syntax is different, so `R` uses the notation "<code>.(NAME)</code>" instead of "<code>\`NAME</code>", but the concepts are related to the back-tick or quasi-quotation ideas discussed in the Bawden paper. `bquote()` is an under-appreciated tool. We can jump forward a bit to one of our conclusions: `bquote()` is a great solution for most "convert a name-capturing interface to a value oriented interface" tasks.
+`R`'s syntax is different than `Lisp`'s, so `R` uses the notation "<code>.(NAME)</code>" instead of "<code>\`NAME</code>". But the concepts are related to the back-tick or quasi-quotation ideas discussed in the Bawden paper. `bquote()` is an under-appreciated tool. We can jump forward a bit to one of our conclusions: `bquote()` is a great solution for most "convert a name-capturing interface to a value oriented interface" tasks.
 
 `bquote()` has a fairly concise description (from `help(bquote)`):
 
 > An analogue of the <code>Lisp</code> backquote macro. bquote quotes its argument except that terms wrapped in .() are evaluated in the specified <code>where</code> environment.
 
-We can demonstrate the idea as follows. First we can use `bquote()` to quote a user supplied expression, preventing its execution.
+We can demonstrate the idea as follows. Suppose we want to build up a simple expression that checks if a given variable is `5` or not, but we want to take the variable name in from another variable. This is easy to solve, but a good example for `bquote()`. First we use `bquote()` to quote a user supplied expression, preventing its execution.
 
 ``` r
 x <- 7
@@ -300,7 +304,7 @@ bquote( .(A) == 5 )
 
     ## x == 5
 
-And finally we can execute the altered expression with `eval()`.
+We have built up the specific expression we want (from code working over an abstract template or expression), and we are now ready to execute the altered expression with `eval()`.
 
 ``` r
 eval(bquote( .(A) == 5 ))
@@ -308,9 +312,9 @@ eval(bquote( .(A) == 5 ))
 
     ## [1] FALSE
 
-We used the above pattern in our article ["R tip: How to Pass A formula to lm"](http://www.win-vector.com/blog/2018/09/r-tip-how-to-pass-a-formula-to-lm/).
+And we are done! We used the above pattern in our article ["R tip: How to Pass A formula to lm"](http://www.win-vector.com/blog/2018/09/r-tip-how-to-pass-a-formula-to-lm/).
 
-There is one limitation: due to `R`'s syntax rules `bquote()` style notation can not substitute on the left-hand side of an "`=`" expression. This means we can not use it to control the following sort of expression.
+There is one limitation: due to `R`'s syntax rules `bquote()` style notation can not substitute on the left-hand side of an "`=`" expression. This means we can not use it to control the following sort of expression (as see below).
 
 ``` r
 bquote( list(.(A) = 5) )
@@ -333,7 +337,7 @@ fnull( list(.(A) = 5) )
     ## 3: fnull( list(.(A) =
     ##                     ^
 
-The problem is this sort of notation is used a lot for argument binding, and in the popular [`dplyr::mutate()`](https://dplyr.tidyverse.org/reference/mutate.html) function (though in `dplyr 0.7.0` and beyond there is a substitute notation "`:=`" available, a notation idea that the [<code>data.table</code>](https://CRAN.R-project.org/package=data.table) package has used for quite some time). One can work around the issue as we show below.
+The problem is this sort of notation is used in the popular [`dplyr::mutate()`](https://dplyr.tidyverse.org/reference/mutate.html) function to denote assignment. In `dplyr 0.7.0` and beyond there is a substitute notation "`:=`" which lets us avoid the issue with "`=`":
 
 ``` r
 suppressPackageStartupMessages(library("dplyr"))
@@ -352,7 +356,9 @@ eval(bquote(
     ##   x y
     ## 1 1 2
 
-`bquote()` is indeed a remarkable demonstration of the power of `R`'s <code>substitute</code> facility. The code for `bquote()` (accessible by executing `print(bquote)`) is amazingly compact. This is a common situation in functional programming languages. This is part of why design, criticism, and iteration of design are so important in functional programming. Also this compactness is fairly common when you stay out of the way of <code>eval</code>/<code>apply</code> and let them do the heavy lifting. The relations between <code>eval</code> and <code>apply</code> are so fundamental that Alan Kay called them "Maxwell's Equations of Software": ["A conversation with Alan Kay", ACMqueue, Volume 2, Issue 9, December 27, 2004](https://queue.acm.org/detail.cfm?id=1039523), see also ["Lisp as the Maxwell’s equations of software", Michael Nielson April 11, 2012](http://www.michaelnielsen.org/ddi/lisp-as-the-maxwells-equations-of-software/).
+However, for `dplyr 0.5.0` (the version of `dplyr` available when we were working on this issue) one must use "`=`", and therefore can not use directly `bquote()` to control `dplyr::mutate()` results.
+
+The code for `bquote()` (accessible by executing `print(bquote)`) is amazingly compact. This is a common situation in functional programming languages. This sort of compactness is fairly common when you stay out of the way of <code>eval</code>/<code>apply</code> and let them do the heavy lifting. The relations between <code>eval</code> and <code>apply</code> are so fundamental that Alan Kay called them "Maxwell's Equations of Software": ["A conversation with Alan Kay", ACMqueue, Volume 2, Issue 9, December 27, 2004](https://queue.acm.org/detail.cfm?id=1039523), see also ["Lisp as the Maxwell’s equations of software", Michael Nielson April 11, 2012](http://www.michaelnielsen.org/ddi/lisp-as-the-maxwells-equations-of-software/).
 
 ### `gtools::strmacro()`
 
@@ -361,7 +367,10 @@ Gregory R. Warnes added `strmacro()` to the `gtools` package to supply an additi
 ``` r
 library("gtools")
 
-mul <- strmacro(A, B, expr={A*B})
+mul <- strmacro(A, # substitution target 
+                B, # substitution target 
+                expr={A*B} # expression to manipulate
+                )
 x <- 7
 y <- 2
 mul("x", "y")
@@ -455,8 +464,10 @@ d[[column_i_want]]
 
 ``` r
 # adapted method (if [[]] did not exist)
-let(c(COLUMNNAME = column_i_want),
-    d$COLUMNNAME)
+let(
+  c(COLUMNNAME = column_i_want), # mapping of subsitution targets to replacement names
+    d$COLUMNNAME                 # expression to manipulate
+  )
 ```
 
     ## [1] 3 4
@@ -501,7 +512,7 @@ let(
 
     ## data.frame(x = 1) %>% mutate(y = x + 1)
 
-`let()` specifies replacements by target names (like `strmacro()`), and not as inline annotation. `let()` can also work left-hand sides of argument bindings. We can re-work one of our `strmacro()` examples to demonstrate this.
+`let()` specifies replacements by target names (like `strmacro()`), and not as inline annotation. `let()` can also work left-hand sides of argument bindings. We can re-work one of our earlier examples to demonstrate this.
 
 ``` r
 library("wrapr")
