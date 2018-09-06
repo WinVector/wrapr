@@ -323,7 +323,7 @@ For some code-rewriting tasks we found both `substitute()` and `bquote()` a bit 
 
 Our first application of `let()` (at the time in the [`replyr`](https://CRAN.R-project.org/package=replyr) package) was to perform parametric programming over `dplyr 0.5.0` (the version of `dplyr` current at the time).
 
-We (me plus my colleague Nina Zumel) shared a number of articles and gave public talks on the topic.
+We have shared a number of articles and gave public talks on the topic.
 
 -   [Using replyr::let to Parameterize dplyr Expressions](http://www.win-vector.com/blog/2016/12/using-replyrlet-to-parameterize-dplyr-expressions/).
 -   [help(let, package=’replyr’)](http://www.win-vector.com/blog/2016/12/helplet-packagereplyr/).
