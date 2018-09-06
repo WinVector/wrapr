@@ -412,19 +412,19 @@ There may be some fine distinctions as to whether `rlang` controlled execution i
 ```{r lmrlang, warning=FALSE, message=FALSE}
 suppressPackageStartupMessages(library("dplyr"))
 
-data <- mtcars
+dataf <- mtcars
 f <- disp ~ drat
 
-eval(expr(lm(!!f, data = data)))
+eval(expr(lm(!!f, data = dataf)))
 ```
 
 The above is nearly identical to how `bquote()` would have dealt with the issue.
 
 ```{r lmbquote}
-data <- mtcars
+dataf <- mtcars
 f <- disp ~ drat
 
-eval(bquote(    lm(.(f), data = data)    ))
+eval(bquote(    lm(.(f), data = dataf)    ))
 ```
 
 `rlang` documentation does sometimes mention `bquote()`, but never seems to actually *try* `bquote()` as an alternate solution in a post-`dplyr 0.5.0` world (i.e., one where "`:=`" is part of `dplyr` and where `bquote()` is a good solution). So new readers can be forgiven for having the (false) impression that `rlang` substitution is a unique and unprecedented capability for `R`.

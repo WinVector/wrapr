@@ -483,15 +483,15 @@ There may be some fine distinctions as to whether `rlang` controlled execution i
 ``` r
 suppressPackageStartupMessages(library("dplyr"))
 
-data <- mtcars
+dataf <- mtcars
 f <- disp ~ drat
 
-eval(expr(lm(!!f, data = data)))
+eval(expr(lm(!!f, data = dataf)))
 ```
 
     ## 
     ## Call:
-    ## lm(formula = disp ~ drat, data = data)
+    ## lm(formula = disp ~ drat, data = dataf)
     ## 
     ## Coefficients:
     ## (Intercept)         drat  
@@ -500,15 +500,15 @@ eval(expr(lm(!!f, data = data)))
 The above is nearly identical to how `bquote()` would have dealt with the issue.
 
 ``` r
-data <- mtcars
+dataf <- mtcars
 f <- disp ~ drat
 
-eval(bquote(    lm(.(f), data = data)    ))
+eval(bquote(    lm(.(f), data = dataf)    ))
 ```
 
     ## 
     ## Call:
-    ## lm(formula = disp ~ drat, data = data)
+    ## lm(formula = disp ~ drat, data = dataf)
     ## 
     ## Coefficients:
     ## (Intercept)         drat  
