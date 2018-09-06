@@ -62,7 +62,7 @@ Macros and metaprogramming are related concepts. Each has variations. For exampl
 Macros and metaprogramming in `R`
 ---------------------------------
 
-We are going to run through the code control methods we listed earlier in essentially chronological order. This is not a full comparison, but for each method will comment on its suitability for our example goal (converting code capturing interfaces into reusable referentially transparent interfaces) *and* how the capabilities of each method related to the methods available before them.
+We are going to run through the code control methods we listed earlier in essentially chronological order. This is not a full comparison, but for each method will comment on its suitability for our example goal (converting code capturing interfaces into reusable referentially transparent interfaces) *and* how the capabilities of each method relate to the methods available before them.
 
 ### `base::do.call()`
 
@@ -229,7 +229,7 @@ eval(substitute(sin(x = x), env = list(x = 7)))
 
 As `dplyr::mutate()` uses argument binding in "`...`" to denote assignments, we will want control of both sides of such sub-expressions when trying to program over `dplyr`.
 
-Also substitute can replace items near a "`$`". `defmacro()` also does this, but produces yet another code capturing interface (not a value oriented interface).
+Notice substitute can replace items near a "`$`". `defmacro()` also does this, but produces yet another code capturing interface (not a value oriented interface).
 
 ``` r
 d <- data.frame(x = 1)
@@ -333,7 +333,7 @@ fnull( list(.(A) = 5) )
     ## 3: fnull( list(.(A) =
     ##                     ^
 
-The problem is this sort of notation is used a lot for argument binding, and in the popular [`dplyr::mutate()`](https://dplyr.tidyverse.org/reference/mutate.html) function (though in `dplyr 0.7.0` and beyond there is a substitute notation "`:=`" available, a notation idea that the [<code>data.table</code>](https://CRAN.R-project.org/package=data.table) package has used for quite some time.). One can work around the issue as we show below.
+The problem is this sort of notation is used a lot for argument binding, and in the popular [`dplyr::mutate()`](https://dplyr.tidyverse.org/reference/mutate.html) function (though in `dplyr 0.7.0` and beyond there is a substitute notation "`:=`" available, a notation idea that the [<code>data.table</code>](https://CRAN.R-project.org/package=data.table) package has used for quite some time). One can work around the issue as we show below.
 
 ``` r
 suppressPackageStartupMessages(library("dplyr"))
@@ -411,9 +411,9 @@ strmacro(
 
 The `lazyeval` vignettes give some details ([here](https://cran.r-project.org/web/packages/lazyeval/vignettes/lazyeval-old.html) and [here](https://cran.r-project.org/web/packages/lazyeval/vignettes/lazyeval.html)).
 
-`lazyeval` seems to incorporate a design principle that there is merit in carrying around a variable name plus an environment where that name is resolved to a value. That is at best a point of view. In my opinion, especially in the context of quasiquotation, it is *much* better to design workflows that allow one to convert bound names to values and reserve unbound names to refer to `data.frame` columns.
+`lazyeval` seems to incorporate a design principle that there is of merit in carrying around a variable name plus an environment where that name is resolved to a value. That is at best a point of view. In my opinion, especially in the context of quasiquotation, it is *much* better to design workflows that allow one to convert bound names to values and reserve unbound names to refer to `data.frame` columns.
 
-It is my impression that `lazyeval` isn't currently recommended by its authors, so we work examples here.
+It is my impression that `lazyeval` isn't currently recommended by its authors, so we won't work examples here.
 
 ### `wrapr::let()`
 
@@ -436,20 +436,7 @@ Other contributors worked out additional applications for `let()` including usin
 
 ``` r
 library("wrapr")
-```
 
-    ## 
-    ## Attaching package: 'wrapr'
-
-    ## The following object is masked _by_ '.GlobalEnv':
-    ## 
-    ##     orderv
-
-    ## The following object is masked from 'package:dplyr':
-    ## 
-    ##     coalesce
-
-``` r
 d <- data.frame(x = 1:2, y = 3:4)
 
 # iteractive way to read the data
