@@ -274,7 +274,6 @@ On August 15, 2003 Thomas Lumley contributed a fairly complete version of <code>
 
         add bquote for partial substitution
         
-        
         git-svn-id: https://svn.r-project.org/R/trunk@25744 00db46b3-68df-0310-9c12-caf00c1e9a41
 
 `R`'s syntax is different, so `R` uses the notation "<code>.(NAME)</code>" instead of "<code>\`NAME</code>", but the concepts are related to the back-tick or quasi-quotation ideas discussed in the Bawden paper. `bquote()` is an under-appreciated tool. We can jump forward a bit to one of our conclusions: `bquote()` is a great solution for most "convert a name-capturing interface to a value oriented interface" tasks.
@@ -575,7 +574,7 @@ Many modelling and graphical functions have a formula argument and a data argume
 </center>
 </small>
 </blockquote>
-`rlang` (parts of which are brought in by the `dplyr` package) can be demonstrated on one of the examples we already exhibited in the `bquote()` section of this note as follows.
+<code>rlang</code> (parts of which are brought in by the <code>dplyr</code> package) can be demonstrated on one of the examples we already exhibited in the <code>bquote()</code> section of this note as follows.
 
 ``` r
 suppressPackageStartupMessages(library("dplyr"))

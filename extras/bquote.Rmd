@@ -205,7 +205,6 @@ Date:   Fri Aug 15 18:46:06 2003 +0000
 
     add bquote for partial substitution
     
-    
     git-svn-id: https://svn.r-project.org/R/trunk@25744 00db46b3-68df-0310-9c12-caf00c1e9a41
 ````
 
@@ -448,7 +447,7 @@ Many modelling and graphical functions have a formula argument and a data argume
 </center></small>
 </blockquote>
 
-`rlang` (parts of which are brought in by the `dplyr` package) can be demonstrated on one of the examples we already exhibited in the `bquote()` section of this note as follows.
+<code>rlang</code> (parts of which are brought in by the <code>dplyr</code> package) can be demonstrated on one of the examples we already exhibited in the <code>bquote()</code> section of this note as follows.
 
 ```{r rlangdplyr, warning=FALSE, message=FALSE}
 suppressPackageStartupMessages(library("dplyr"))
