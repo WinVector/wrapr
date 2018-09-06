@@ -442,7 +442,7 @@ Quasiquotation is something we have discussed a few times by now.  The phrase "n
 
 <blockquote>
 Many modelling and graphical functions have a formula argument and a data argument. If variables in the formula were required to be in the data argument life would be a lot simpler, but this requirement was not made when formulas were introduced. Authors of modelling and graphics functions are thus required to implement a limited form of dynamic scope, which they have not done in an entirely consistent way.
-<small><center>
+<p/><small><center>
 <a href="http://developer.r-project.org/nonstandard-eval.pdf">Thomas Lumley, "Standard nonstandard evaluation rules", March 19, 2003</a>
 </center></small>
 </blockquote>

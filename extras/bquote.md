@@ -568,7 +568,9 @@ The reader should now have enough experience to put the above description in con
 Quasiquotation is something we have discussed a few times by now. The phrase "non-standard"" in this case is going to likely mean both capturing of names from source code (breaking referential transparency) and direct manipulation of environments (including carrying names plus the environments that they are bound in, instead of simply carrying values). Both the `lazyeval` and `rlang` packages seem to be informed by `R`-formula style semantics (and indeed seemed to have been based on formulas at one point, trace from [here](https://github.com/r-lib/rlang/commit/cc0c497155a8da6adc43a38ac4020c2cc9bb9491#diff-04c6e90faac2675aa89e2176d2eec7d8) for details), so a bit of criticism of `R`-formula design itself is relevant here.
 
 <blockquote>
-Many modelling and graphical functions have a formula argument and a data argument. If variables in the formula were required to be in the data argument life would be a lot simpler, but this requirement was not made when formulas were introduced. Authors of modelling and graphics functions are thus required to implement a limited form of dynamic scope, which they have not done in an entirely consistent way. <small>
+Many modelling and graphical functions have a formula argument and a data argument. If variables in the formula were required to be in the data argument life would be a lot simpler, but this requirement was not made when formulas were introduced. Authors of modelling and graphics functions are thus required to implement a limited form of dynamic scope, which they have not done in an entirely consistent way.
+<p/>
+<small>
 <center>
 <a href="http://developer.r-project.org/nonstandard-eval.pdf">Thomas Lumley, "Standard nonstandard evaluation rules", March 19, 2003</a>
 </center>
