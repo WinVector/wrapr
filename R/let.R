@@ -298,32 +298,28 @@ letprep_lang <- function(alias, lexpr) {
 #'
 #' @examples
 #'
-#' d <- data.frame(Sepal_Length=c(5.8,5.7),
-#'                 Sepal_Width=c(4.0,4.4),
-#'                 Species='setosa',
-#'                 rank=c(1,2))
+#' d <- data.frame(
+#'   Sepal_Length=c(5.8,5.7),
+#'   Sepal_Width=c(4.0,4.4),
+#'   Species='setosa')
 #'
-#' RANKCOLUMN <- NULL # optional, make sure macro target does not look like unbound variable.
-#' GROUPCOLUMN <- NULL # optional, make sure macro target does not look like unbound variable.
-#' mapping = c(RANKCOLUMN= 'rank', GROUPCOLUMN= 'Species')
-#' let(alias = mapping,
-#'     expr = {
-#'        # Notice code here can be written in terms of known or concrete
-#'        # names "RANKCOLUMN" and "GROUPCOLUMN", but executes as if we
-#'        # had written mapping specified columns "rank" and "Species".
+#' mapping <- qc(
+#'   AREA_COL = Sepal_area,
+#'   LENGTH_COL = Sepal_Length,
+#'   WIDTH_COL = Sepal_Width
+#' )
 #'
-#'        # restart ranks at zero.
-#'        dres <- d
-#'        dres$RANKCOLUMN <- dres$RANKCOLUMN - 1 # notice, using $ not [[]]
+#' # let-block notation
+#' let(
+#'   mapping,
+#'   d %.>%
+#'     transform(., AREA_COL = LENGTH_COL * WIDTH_COL)
+#' )
 #'
-#'        # confirm set of groups.
-#'        groups <- unique(d$GROUPCOLUMN)
-#'     },
-#'     debugPrint = TRUE
-#'     )
-#' print(groups)
-#' print(length(groups))
-#' print(dres)
+#'
+#' # Note: in packages can make assignment such as:
+#' #   AREA_COL <- LENGTH_COL <- WIDTH_COL <- NULL
+#' # prior to code so targets don't look like unbound names.
 #'
 #'
 #' @export
@@ -374,6 +370,58 @@ let <- function(alias, expr,
   eval(exprS,
        envir=envir,
        enclos=envir)
+}
+
+
+#' Inline let-block notation.
+#'
+#' Inline version of \code{let}-block.
+#'
+#' @param a (left argument) named character vector with target names as names, and replacement names as values.
+#' @param b (right argument) expression or block to evaluate under let substitution rules.
+#' @return evaluated block.
+#'
+#' @examples
+#'
+#' d <- data.frame(
+#'   Sepal_Length=c(5.8,5.7),
+#'   Sepal_Width=c(4.0,4.4),
+#'   Species='setosa')
+#'
+#' mapping <- qc(
+#'   AREA_COL = Sepal_area,
+#'   LENGTH_COL = Sepal_Length,
+#'   WIDTH_COL = Sepal_Width
+#' )
+#'
+#' # let-block notation
+#' let(
+#'   mapping,
+#'   d %.>%
+#'     transform(., AREA_COL = LENGTH_COL * WIDTH_COL)
+#' )
+#'
+#' # %in_block% notation
+#' mapping %in_block% {
+#'   d %.>%
+#'     transform(., AREA_COL = LENGTH_COL * WIDTH_COL)
+#' }
+#'
+#' # Note: in packages can make assignment such as:
+#' #   AREA_COL <- LENGTH_COL <- WIDTH_COL <- NULL
+#' # prior to code so targets don't look like unbound names.
+#'
+#' @export
+#'
+#' @seealso \code{\link{let}}
+#'
+`%in_block%` <- function(a, b) {
+  env = parent.frame()
+  do.call(let,
+          list(
+            expr = substitute(b),
+            alias = a,
+            envir = env))
 }
 
 

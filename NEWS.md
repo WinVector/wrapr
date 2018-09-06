@@ -3,6 +3,7 @@
 
  * Add mk_formula.
  * Documentation fixes.
+ * Add %in_block% operator notation.
  
 # wrapr 1.6.1 2018-08-21
 

@@ -284,7 +284,7 @@ map_names(
     ##   x y
     ## 1 1 2
 
-In the above example mappings possibilities are set in the `map_names()` portion of the command and realized in the "`{}`"-block following `%in_block`. This double denotation is something we will eliminate later using `wrapr::let()`.
+In the above example mappings possibilities are set in the `map_names()` portion of the command and realized in the "`{}`"-block following `%in_block%`. This double denotation is something we will eliminate later using `wrapr::let()`.
 
 `bquote()` is indeed a remarkable demonstration of the power of `R`'s <code>substitute</code> facility. The code for `bquote()` (accessible by executing `print(bquote)`) is amazingly compact. It is an example of where, with the right abstraction, an essentially 10-line function can do the job of an entire package (it is also hard to imagine a 10-line program having over 100 open issues, which can happen with large package solutions). This is a common situation in functional programming languages. This is part of why design, criticism, and iteration of design are so important in functional programming. Also this compactness is fairly common when you stay out of the way of <code>eval</code>/<code>apply</code> and let them do the heavy lifting. The relations between <code>eval</code> and <code>apply</code> are so fundamental that Alan Kay called it "Maxwell's Equations of Software": ["A conversation with Alan Kay", ACMqueue, Volume 2, Issue 9, December 27, 2004](https://queue.acm.org/detail.cfm?id=1039523), see also ["Lisp as the Maxwell’s equations of software", Michael Nielson April 11, 2012](http://www.michaelnielsen.org/ddi/lisp-as-the-maxwells-equations-of-software/).
 

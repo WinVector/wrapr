@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Execute expr with name substitutions specified in alias. — let • wrapr</title>
+<title>Inline let-block notation. — %in_block% • wrapr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,10 +30,9 @@
 
 
 
-<meta property="og:title" content="Execute expr with name substitutions specified in alias. — let" />
+<meta property="og:title" content="Inline let-block notation. — %in_block%" />
 
-<meta property="og:description" content="let implements a mapping from desired names (names used directly in the expr code) to names used in the data.
-Mnemonic: &quot;expr code symbols are on the left, external data and function argument names are on the right.&quot;" />
+<meta property="og:description" content="Inline version of let-block." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -137,94 +136,39 @@ Mnemonic: &quot;expr code symbols are on the left, external data and function ar
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Execute expr with name substitutions specified in alias.</h1>
+    <h1>Inline let-block notation.</h1>
     <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/let.R'><code>R/let.R</code></a></small>
-    <div class="hidden name"><code>let.Rd</code></div>
+    <div class="hidden name"><code>grapes-in_block-grapes.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p><code>let</code> implements a mapping from desired names (names used directly in the expr code) to names used in the data.
-Mnemonic: "expr code symbols are on the left, external data and function argument names are on the right."</p>
+    <p>Inline version of <code>let</code>-block.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>let</span>(<span class='no'>alias</span>, <span class='no'>expr</span>, <span class='no'>...</span>, <span class='kw'>envir</span> <span class='kw'>=</span> <span class='fu'>parent.frame</span>(), <span class='kw'>subsMethod</span> <span class='kw'>=</span> <span class='st'>"langsubs"</span>,
-  <span class='kw'>strict</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>eval</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>debugPrint</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='no'>a</span> <span class='kw'>%in_block%</span> <span class='no'>b</span></pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>alias</th>
-      <td><p>mapping from free names in expr to target names to use (mapping have both unique names and unique values).</p></td>
+      <th>a</th>
+      <td><p>(left argument) named character vector with target names as names, and replacement names as values.</p></td>
     </tr>
     <tr>
-      <th>expr</th>
-      <td><p>block to prepare for execution.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>force later arguments to be bound by name.</p></td>
-    </tr>
-    <tr>
-      <th>envir</th>
-      <td><p>environment to work in.</p></td>
-    </tr>
-    <tr>
-      <th>subsMethod</th>
-      <td><p>character substitution method, one of  'langsubs' (preferred), 'subsubs', or 'stringsubs'.</p></td>
-    </tr>
-    <tr>
-      <th>strict</th>
-      <td><p>logical if TRUE names and values must be valid un-quoted names, and not dot.</p></td>
-    </tr>
-    <tr>
-      <th>eval</th>
-      <td><p>logical if TRUE execute the re-mapped expression (else return it).</p></td>
-    </tr>
-    <tr>
-      <th>debugPrint</th>
-      <td><p>logical if TRUE print debugging information when in stringsubs mode.</p></td>
+      <th>b</th>
+      <td><p>(right argument) expression or block to evaluate under let substitution rules.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>result of expr executed in calling environment (or expression if eval==FALSE).</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Please see the <code>wrapr</code> <code>vignette</code> for some discussion of let and crossing function call boundaries: <code>vignette('wrapr','wrapr')</code>.
-For formal documentation please see <a href='https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf'>https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf</a>.
-Transformation is performed by substitution, so please be wary of unintended name collisions or aliasing.</p>
-<p>Something like <code>let</code> is only useful to get control of a function that is parameterized
-(in the sense it take column names) but non-standard (in that it takes column names from
-non-standard evaluation argument name capture, and not as simple variables or parameters).  So  <code>wrapr:let</code> is not
-useful for non-parameterized functions (functions that work only over values such as <code><a href='http://www.rdocumentation.org/packages/base/topics/sum'>base::sum</a></code>),
-and not useful for functions take parameters in straightforward way (such as <code><a href='http://www.rdocumentation.org/packages/base/topics/merge'>base::merge</a></code>'s "<code>by</code>" argument).
-<code><a href='http://dplyr.tidyverse.org/reference/mutate.html'>dplyr::mutate</a></code> is an example where
-we can use a <code>let</code> helper.   <code><a href='http://dplyr.tidyverse.org/reference/mutate.html'>dplyr::mutate</a></code> is
-parameterized (in the sense it can work over user supplied columns and expressions), but column names are captured through non-standard evaluation
-(and it rapidly becomes unwieldy to use complex formulas with the standard evaluation equivalent <code><a href='http://dplyr.tidyverse.org/reference/se-deprecated.html'>dplyr::mutate_</a></code>).
-<code>alias</code> can not include the symbol "<code>.</code>".</p>
-<p>The intent from is from the user perspective to have (if
-<code>a &lt;- 1; b &lt;- 2</code>):
-<code>let(c(z = 'a'), z+b)</code> to behave a lot like
-<code>eval(substitute(z+b, c(z=quote(a))))</code>.</p>
-<p><code>let</code> deliberately checks that it is mapping only to legal <code>R</code> names;
-this is to discourage the use of <code>let</code> to make names to arbitrary values, as
-that is the more properly left to <code>R</code>'s environment systems.
-<code>let</code> is intended to transform
-"tame" variable and column names to "tame" variable and column names.  Substitution
-outcomes that are not valid simple <code>R</code> variable names (produced with out use of
-back-ticks) are forbidden.  It is suggested that substitution targets be written
-<code>ALL_CAPS</code> style to make them stand out.</p>
-<p><code>let</code> was inspired by <code>gtools:strmacro()</code>.  Please see <a href='https://github.com/WinVector/wrapr/blob/master/extras/bquote.md'>https://github.com/WinVector/wrapr/blob/master/extras/bquote.md</a> for a discussion of macro tools in <code>R</code>.</p>
+    <p>evaluated block.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='http://www.rdocumentation.org/packages/base/topics/bquote'>bquote</a></code></p></div>
+    <div class='dont-index'><p><code><a href='let.html'>let</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -241,18 +185,23 @@ back-ticks) are forbidden.  It is suggested that substitution targets be written
 )
 
 <span class='co'># let-block notation</span>
-<span class='fu'>let</span>(
+<span class='fu'><a href='let.html'>let</a></span>(
   <span class='no'>mapping</span>,
   <span class='no'>d</span> <span class='kw'>%.&gt;%</span>
     <span class='fu'>transform</span>(<span class='no'>.</span>, <span class='kw'>AREA_COL</span> <span class='kw'>=</span> <span class='no'>LENGTH_COL</span> * <span class='no'>WIDTH_COL</span>)
 )</div><div class='output co'>#&gt;   Sepal_Length Sepal_Width Species Sepal_area
 #&gt; 1          5.8         4.0  setosa      23.20
 #&gt; 2          5.7         4.4  setosa      25.08</div><div class='input'>
-
+<span class='co'># %in_block% notation</span>
+<span class='no'>mapping</span> <span class='kw'>%in_block%</span> {
+  <span class='no'>d</span> <span class='kw'>%.&gt;%</span>
+    <span class='fu'>transform</span>(<span class='no'>.</span>, <span class='kw'>AREA_COL</span> <span class='kw'>=</span> <span class='no'>LENGTH_COL</span> * <span class='no'>WIDTH_COL</span>)
+}</div><div class='output co'>#&gt;   Sepal_Length Sepal_Width Species Sepal_area
+#&gt; 1          5.8         4.0  setosa      23.20
+#&gt; 2          5.7         4.4  setosa      25.08</div><div class='input'>
 # Note: in packages can make assignment such as:
 #   AREA_COL <- LENGTH_COL <- WIDTH_COL <- NULL
 # prior to code so targets don't look like unbound names.
-
 
 </div></pre>
   </div>
@@ -262,8 +211,6 @@ back-ticks) are forbidden.  It is suggested that substitution targets be written
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>
       
