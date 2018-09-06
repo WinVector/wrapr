@@ -421,6 +421,8 @@ People who try `let()` tend to like it.
 <center>
 <img src="http://www.win-vector.com/blog/wp-content/uploads/2017/02/C1v_VNBXUAA8c7M.jpg-large.jpg" />
 </center>
+.
+
 ### `rlang`
 
 `rlang` was written by Lionel Henry and Hadley Wickham and was incorporated into `dplyr` on June 6, 2017. From <code>help(`!!`)</code>:

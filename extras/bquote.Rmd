@@ -359,6 +359,8 @@ People who try `let()` tend to like it.
 <img src="http://www.win-vector.com/blog/wp-content/uploads/2017/02/C1v_VNBXUAA8c7M.jpg-large.jpg" />
 </center>
 
+.
+
 
 ### `rlang`
 
