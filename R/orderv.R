@@ -30,5 +30,10 @@ orderv <- function(columns,
   if((!is.list(columns)) || (length(columns)<1)) {
     stop("wrapr::orderv columns must be a list containing at least one atomic vector")
   }
-  do.call(base::order, as.list(columns))
+  do.call(base::order, c(
+    as.list(columns),
+    list(
+      na.last = na.last,
+      decreasing = decreasing,
+      method = method)))
 }
