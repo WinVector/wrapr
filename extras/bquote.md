@@ -571,12 +571,14 @@ eval(bquote(  lm(.(f), data = dataf)  ))
     ## (Intercept)         drat  
     ##       822.8       -164.6
 
-`rlang` documentation does sometimes mention `bquote()`, but never seems to actually *try* `bquote()` as an alternate solution in a post-`dplyr 0.5.0` world (i.e., one where "`:=`" is part of `dplyr` and where `bquote()` is a good solution). So new readers can be forgiven for having the (false) impression that `rlang` substitution is a unique and unprecedented capability for `R`.
+`rlang` documentation does sometimes mention `bquote()`, but never seems to actually *try* `bquote()` as an alternate solution in a post-`dplyr 0.5.0` world (i.e., one where "`:=`" is part of `dplyr`). So new readers can be forgiven for having the (false) impression that `rlang` substitution is a unique and unprecedented capability for `R`.
 
 Conclusion
 ----------
 
-`R` has a number of useful macro facilities. Not all `R` users know about them. This is because, due to a number of good `R` design decisions, not all `R` users regularly *need* macro facilities. If you do need macros (or to "program over programs", which is always a bit harder than the more desirable programming over data) I suggest reading a few of the references and picking a system that works well for your tasks.
+`R` has a number of useful macro and metaprogramming facilities. Not all `R` users know about them. This is because, due to a number of good `R` design decisions, not all `R` users regularly *need* macro facilities. If you do need macros (or to "program over programs", which is always a bit harder than the more desirable programming over data) I suggest reading a few of the references and picking a system that works well for your tasks. The job of metaprogramming to to reduce programmer burden, so these tools should only be applied when they are less work than the obvious alternatives (such as repeating code).
+
+From above you can see my preference is for simpler design, for example: preferring passing around values instead of carrying environments plus values. This preference is because the complexity introduced by taking values from many environments is large and has costs. Or to put it another way: I feel one should study complexities and intricacies to learn out to avoid them, not to learn how to tolerate them.
 
 Some of our take-aways include:
 
@@ -585,5 +587,5 @@ Some of our take-aways include:
 -   `gtools::defmacro()` is a great tool for building macros, especially parameterized code-snippets that are intended to have visible side effects (such as writing back values). `gtools::strmacro()` is a bit more wild, but definitely has uses.
 -   `base::bquote()` is a great choice for programming over other systems and uses clear quasiquotation semantics. It is able to easily program over `dplyr 0.7.0` and later versions and is part of the core `R` language (or "base `R`", which *should* be a *huge* plus).
 -   `lazyeval` is possibly in maintenance mode, and possibly no longer recommended by the package authors.
--   `wrapr::let()` (full disclosure: our own package). I feel `wrapr::let()` is sufficiently specialized (combining re-writing and execution into one function, and being restricted only to name for name substitutions) and sufficiently general (working with any package without pre-arrangement) that it is a good comprehensible, safe, convenient, and powerful option for interested `R` users. For more on `wrapr::let()` I suggest our [formal writeup](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf).
+-   `wrapr::let()` (full disclosure: our own package). I feel `wrapr::let()` is sufficiently specialized (combining re-writing and execution into one function, and being restricted only to name for name substitutions) and sufficiently general (working with any package without pre-arrangement) that it is a good comprehensible, safe, convenient, and powerful option for interested `R` users. For more on `wrapr::let()` I suggest our [formal writeup](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf). Obviously we like our own solution, however it is based on ideas shared in earlier solutions and solves a different problem than `bquote()`.
 -   `rlang` is a package being promoted by the `dplyr` package authors, however I do not recommend it for general use.
