@@ -331,7 +331,7 @@ We have shared a number of articles and gave public talks on the topic.
 -   [help(let, package=’replyr’)](http://www.win-vector.com/blog/2016/12/helplet-packagereplyr/).
 -   [My recent BARUG talk: Parametric Programming in R with replyr](http://www.win-vector.com/blog/2017/02/my-recent-barug-talk-parametric-programming-in-r-with-replyr/).
 -   [Does replyr::let work with data.table?](http://www.win-vector.com/blog/2016/12/does-replyrlet-work-with-data-table/)
--   [Comparative examples using replyr::let](Comparative%20examples%20using%20replyr::let)
+-   [Comparative examples using replyr::let](http://www.win-vector.com/blog/2016/12/comparative-examples-using-replyrlet/)
 -   [Evolving R Tools and Practices](http://www.win-vector.com/blog/2017/02/evolving-r-tools-and-practices/)
 
 Other contributors worked out additional applications for `let()` including using it to control parameterized `R`-markdown.
@@ -421,7 +421,7 @@ People who try `let()` tend to like it.
 <center>
 <img src="http://www.win-vector.com/blog/wp-content/uploads/2017/02/C1v_VNBXUAA8c7M.jpg-large.jpg" />
 </center>
-### `rlang:!!`
+### `rlang`
 
 `rlang` was written by Lionel Henry and Hadley Wickham and was incorporated into `dplyr` on June 6, 2017. From <code>help(`!!`)</code>:
 
