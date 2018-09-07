@@ -92,6 +92,7 @@ print(model)
 orderv <- function(columns) {
   do.call(base::order, as.list(columns))
 }
+# Note: The package wrapr 1.6.2 supplies a more complete orderv()
 
 d <- data.frame(x = c(2, 2, 3, 3, 1, 1), y = 6:1, z = 1)
 
@@ -333,7 +334,7 @@ It is my impression that `lazyeval` isn't currently recommended by its authors, 
 
 ### `wrapr::let()`
 
-For some code-rewriting tasks we (John Mount and Nina Zumel) found both `substitute()` and `bquote()` a bit limiting.  For this reason we developed `wrapr::let()`, taking inspiration from `gtools::strmacro()`.  `wrapr::let()` was designed to have syntax similar to `substitute()` and also to classic <code>Lisp</code> "<code>let</code>" style value-binding blocks (informal example: "<code>(let X be 7 in (sin X))</code>").  
+For some code-rewriting tasks we (John Mount and Nina Zumel) found both `substitute()` and `bquote()` a bit limiting.  For this reason we developed `wrapr::let()`, taking inspiration from `gtools::strmacro()`.  `wrapr::let()` was designed to have syntax similar to `substitute()` and also to classic <code>Lisp</code> "<code>let</code>" style value-binding blocks (informal example: "<code>(let X be 7 in (sin X))</code>"). For clarity and safety `wrapr::let()` is deliberately limited to replacing names with names (which for convenience can be represent as strings), leaving value substitution to `R` itself.
 
 Our first application of `let()` (at the time in the [`replyr`](https://CRAN.R-project.org/package=replyr) package) was to perform parametric programming over `dplyr 0.5.0` (the version of `dplyr` current at the time).  That is to convert `dplyr 0.5.0` name/code capturing interfaces into standard referentially transparent interfaces.
 
