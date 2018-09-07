@@ -708,7 +708,7 @@ eval(bquote(  lm(.(f), data = dataf)  ))
 
 `rlang` documentation and promotion does sometimes mention `bquote()`, but never seems to actually *try* `bquote()` as an alternate solution in a post-`dplyr 0.5.0` world (i.e., one where "`:=`" is part of `dplyr`). So new readers can be forgiven for having the (false) impression that `rlang` substitution is a unique and unprecedented capability for `R`.
 
-Also the combined `rlang`/`dplyr` interface surface is large and complicated. A lot varies depending if the user is attempting to specify a column using an integer index, a string, a `name`/`symbol`, a `quosure`/`formula`, an expression, or un-evaluated source code (all of which seem to be allowed) plus variations depending on if the execution is a function context or not. This creates a large user responsibility to know which combination of adapters and which access patterns are correct. We give an example below (contrived, but the kind of experimentation a new user often tries):
+Also the combined `rlang`/`dplyr` interface surface is large and complicated. A lot varies depending if the user is attempting to specify a column using an integer index, a string, a `name`/`symbol`, a `quosure`/`formula`, an expression, or un-evaluated source code (all of which seem to be allowed); plus variations depending on if the execution is a function context or not; plus variations the "semantics" of the `dplyr` verb ([there are at least two styles: "`select`" and "`eval`", and possibly more](https://github.com/tidyverse/dplyr/issues/3316)). This creates a large user responsibility to know which combination of adapters and which access patterns are correct. We give an example below (contrived, but the kind of experimentation a new user often tries):
 
 ``` r
 suppressPackageStartupMessages(library("dplyr"))
@@ -857,6 +857,22 @@ let(
     ## 3 virginica     50
 
 ``` r
+# also works
+x <- as.name("Species")
+let(
+  c(X = x),
+  iris %>% group_by(X) %>% summarize(n = n())
+)
+```
+
+    ## # A tibble: 3 x 2
+    ##   Species        n
+    ##   <fct>      <int>
+    ## 1 setosa        50
+    ## 2 versicolor    50
+    ## 3 virginica     50
+
+``` r
 # works
 x <- "Species"
 let(
@@ -878,22 +894,6 @@ x <- as.name("Species")
 let(
   c(X = x),
   iris %>% group_by(.data$X) %>% summarize(n = n())
-)
-```
-
-    ## # A tibble: 3 x 2
-    ##   Species        n
-    ##   <fct>      <int>
-    ## 1 setosa        50
-    ## 2 versicolor    50
-    ## 3 virginica     50
-
-``` r
-# also works
-x <- as.name("Species")
-let(
-  c(X = x),
-  iris %>% group_by(X) %>% summarize(n = n())
 )
 ```
 
