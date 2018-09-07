@@ -7,6 +7,7 @@ output: github_document
 
 This note is a long but cursory overview of some macro-substitution facilities available in [`R`](https://www.r-project.org).  I am going to try to put a few of them in context (there are likely more I am missing) and explain why I wrote yet another one ([`replyr::let()`](http://www.win-vector.com/blog/2016/12/parametric-variable-names-and-dplyr/)/[`wrapr::let()`](https://cran.r-project.org/web/packages/wrapr/vignettes/let.html)).
 
+One of the goals of this note is to document differences between our method `wrapr::let()` and `rlang:!!`.  One reviewer of [our formal description of `wrapr::let()`](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf) complained there were not enough contrasts to differentiate `wrapr::let()` from the later package `rlang:!!`. It seemed like a survey and comparison would in fact be an different paper than a description and demonstrate of `wrapr::let()`, so we are sharing a comparative survey here (and adding as reference to the [`wrapr::let()` paper](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf)).
 
 The `R` macro (or code control) facilities we will discuss include (in time order):
 
@@ -60,7 +61,7 @@ Macros and metaprogramming are related concepts.  Each has variations. For examp
 
 ## Macros and metaprogramming in `R`
 
-We are going to run through the code control methods we listed earlier in essentially chronological order.  This is not a full comparison, but for each method will comment on its suitability for our example goal (converting code capturing interfaces into reusable referentially transparent interfaces) *and* how the capabilities of each method relate to the methods available before them (i.e. are they actually solving open problems).  Obviously there is the important possibility that newer solutions can be better solutions, but just because a solution is newer doesn't mean it is in fact better. Also each solution could easily be best if it gets to choose the problem we claim to be of interest.  The problem we are interested in programming over code, in particular programming over `dplry`, as this was an actual pain point in production projects. The `wrapr` package will get the (slightly unfair) presentation advantage that as the package author I can attempt to explain intent of `wrapr` package choices here.
+We are going to run through the code control methods we listed earlier in essentially chronological order. For each method will comment on its suitability for our example goal (converting code capturing interfaces into reusable referentially transparent interfaces) *and* how the capabilities of each method relate to the methods available before them (i.e. are they actually solving open problems).  Obviously there is the important possibility that newer solutions *can* be better solutions, but just because a solution is newer doesn't mean it is in fact better. Also each solution could easily be best if it gets to choose the problem we claim to be of interest.  The problem we are in fact interested in is: programming over code, in particular programming over `dplry`, as this was an actual pain point in some production work. The `wrapr` package will get the (slightly unfair) presentation advantage that as the package author I can attempt to explain intent of `wrapr` package motivation here.
 
 ### `base::do.call()`
 
@@ -662,8 +663,6 @@ let(
 ## Conclusion
 
 `R` has a number of useful macro and metaprogramming facilities.  Not all `R` users know about them.  This is because, due to a number of good `R` design decisions, not all `R` users regularly *need* macro facilities.  If you do need macros (or to "program over programs", which is always a bit harder than the more desirable programming over data) I suggest reading a few of the references and picking a system that works well for your tasks. The job of metaprogramming is to reduce programmer burden, so these tools should only be applied when they are less work than the obvious alternatives (such as repeating code).
-
-One of the goals of this note is to document differences between our method `wrapr::let()` and `rlang:!!`.  This helps allow our [formal write-up of `wrapr::let()`](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf) to itself try and be a bit more gracious and avoid belaboring such comparisons and stick to describing and teaching `wrapr::let()`.  One reviewer of the formal note wanted more comparison between these two packages, but we felt it would sour and side-track the formal write-up to include too many such comparisons in that document.  So, for better or worse, this document becomes a carrier of many such comparisons.
 
 
 Some of our take-aways include:
