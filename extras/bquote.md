@@ -1,7 +1,7 @@
 Macro Substitution in R
 ================
 John Mount
-2018-09-06
+2018-09-07
 
 This note is a long but cursory overview of some macro-substitution facilities available in [`R`](https://www.r-project.org). I am going to try to put a few of them in context (there are likely more I am missing) and explain why I wrote yet another one ([`replyr::let()`](http://www.win-vector.com/blog/2016/12/parametric-variable-names-and-dplyr/)/[`wrapr::let()`](https://cran.r-project.org/web/packages/wrapr/vignettes/let.html)).
 
