@@ -909,6 +909,8 @@ Conclusion
 
 `R` has a number of useful macro and metaprogramming facilities. Not all `R` users know about them. This is because, due to a number of good `R` design decisions, not all `R` users regularly *need* macro facilities. If you do need macros (or to "program over programs", which is always a bit harder than the more desirable programming over data) I suggest reading a few of the references and picking a system that works well for your tasks. The job of metaprogramming is to reduce programmer burden, so these tools should only be applied when they are less work than the obvious alternatives (such as repeating code).
 
+One of the goals of this note is to document differences between our method `wrapr::let()` and `rlang:!!`. This helps allow our [formal write-up of `wrapr::let()`](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf) to itself try and be a bit more gracious and avoid belaboring such comparisons and stick to describing and teaching `wrapr::let()`. One reviewer of the formal note wanted more comparison between these two packages, but we felt it would sour and side-track the formal write-up to include too many such comparisons in that document. So, for better or worse, this document becomes a carrier of many such comparisons.
+
 Some of our take-aways include:
 
 -   Always consider using functions before resorting to macros. Functions have more isolation and are generally safer to work with and compose. When you use macros you are usurping standard evaluation rules and taking direct control, so after that things become somewhat your own fault.

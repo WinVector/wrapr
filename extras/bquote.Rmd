@@ -7,6 +7,7 @@ output: github_document
 
 This note is a long but cursory overview of some macro-substitution facilities available in [`R`](https://www.r-project.org).  I am going to try to put a few of them in context (there are likely more I am missing) and explain why I wrote yet another one ([`replyr::let()`](http://www.win-vector.com/blog/2016/12/parametric-variable-names-and-dplyr/)/[`wrapr::let()`](https://cran.r-project.org/web/packages/wrapr/vignettes/let.html)).
 
+
 The `R` macro (or code control) facilities we will discuss include (in time order):
 
  * `base::do.call()` (part of `R` since [at least 1997](https://github.com/wch/r-source/blob/a625016dc706a58d11c75664f6c60d07e5d07b0c/src/main/names.c)).
@@ -661,6 +662,9 @@ let(
 ## Conclusion
 
 `R` has a number of useful macro and metaprogramming facilities.  Not all `R` users know about them.  This is because, due to a number of good `R` design decisions, not all `R` users regularly *need* macro facilities.  If you do need macros (or to "program over programs", which is always a bit harder than the more desirable programming over data) I suggest reading a few of the references and picking a system that works well for your tasks. The job of metaprogramming is to reduce programmer burden, so these tools should only be applied when they are less work than the obvious alternatives (such as repeating code).
+
+One of the goals of this note is to document differences between our method `wrapr::let()` and `rlang:!!`.  This helps allow our [formal write-up of `wrapr::let()`](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf) to itself try and be a bit more gracious and avoid belaboring such comparisons and stick to describing and teaching `wrapr::let()`.  One reviewer of the formal note wanted more comparison between these two packages, but we felt it would sour and side-track the formal write-up to include too many such comparisons in that document.  So, for better or worse, this document becomes a carrier of many such comparisons.
+
 
 Some of our take-aways include:
 
