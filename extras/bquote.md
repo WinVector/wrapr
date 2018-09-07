@@ -62,7 +62,7 @@ Macros and metaprogramming are related concepts. Each has variations. For exampl
 Macros and metaprogramming in `R`
 ---------------------------------
 
-We are going to run through the code control methods we listed earlier in essentially chronological order. This is not a full comparison, but for each method will comment on its suitability for our example goal (converting code capturing interfaces into reusable referentially transparent interfaces) *and* how the capabilities of each method relate to the methods available before them.
+We are going to run through the code control methods we listed earlier in essentially chronological order. This is not a full comparison, but for each method will comment on its suitability for our example goal (converting code capturing interfaces into reusable referentially transparent interfaces) *and* how the capabilities of each method relate to the methods available before them (i.e. are they actually solving open problems). Obviously there is the important possibility that newer solutions can be better solutions, but just because a solution is newer doesn't mean it is in fact better. Also each solution could easily be best if it gets to choose the problem we claim to be of interest. The problem we are interested in programming over code, in particular programming over `dplry`, as this was an actual pain point in production projects. The `wrapr` package will get the (slightly unfair) presentation advantage that as the package author I can attempt to explain intent of `wrapr` package choices here.
 
 ### `base::do.call()`
 
@@ -427,7 +427,7 @@ It is my impression that `lazyeval` isn't currently recommended by its authors, 
 
 ### `wrapr::let()`
 
-For some code-rewriting tasks we (John Mount and Nina Zumel) found both `substitute()` and `bquote()` a bit limiting. For this reason we developed `wrapr::let()`, taking inspiration from `gtools::strmacro()`. `wrapr::let()` was designed to have syntax similar to `substitute()` and also to classic <code>Lisp</code> "<code>let</code>" style value-binding blocks (informal example: "<code>(let X be 7 in (sin X))</code>"). For clarity and safety `wrapr::let()` is deliberately limited to replacing names with names (which for convenience can be represent as strings), leaving value substitution to `R` itself.
+For some code-rewriting tasks we (John Mount and Nina Zumel) found both `substitute()` and `bquote()` a bit limiting. For this reason we developed `wrapr::let()`, taking inspiration from `gtools::strmacro()`. `wrapr::let()` was designed to have syntax similar to `substitute()` and also to classic <code>Lisp</code> "<code>let</code>" style value-binding blocks (informal example: "<code>(let X be 7 in (sin X))</code>").
 
 Our first application of `let()` (at the time in the [`replyr`](https://CRAN.R-project.org/package=replyr) package) was to perform parametric programming over `dplyr 0.5.0` (the version of `dplyr` current at the time). That is to convert `dplyr 0.5.0` name/code capturing interfaces into standard referentially transparent interfaces.
 
@@ -493,6 +493,8 @@ let(
     ## 1 1 2
 
 Notice `wrapr::let()` specifies substitution targets by name (not by any decorating notation such as backtick or `.()`), and also can use the original "="-notation without problem. `let()` only allows name for name substitutions, the theory is substituting names for values is the job of `R`s `environment`s and attempting to duplicate or replace core language functionality is not desirable.
+
+For clarity and safety `wrapr::let()` is deliberately limited to replacing names with names (which for convenience can be represented as strings), leaving value substitution to `R` itself. This means `wrapr::let()` can *not* work the earlier [linear model example](http://www.win-vector.com/blog/2018/09/r-tip-how-to-pass-a-formula-to-lm/). Users should not consider that a problem, as we have already shown how to solve that problem with `do.call()`. I feel add-on packages should strive to solve problems that *do not* have satisfactory base-`R` solutions, and *not* attempt to supplant `R` itself for mere stylistic concerns.
 
 `let()` allows the user to [choose the substitution engine](https://cran.r-project.org/web/packages/wrapr/vignettes/SubstitutionModes.html) and has a debug-print option.
 
@@ -611,13 +613,13 @@ eval(bquote(
     ##   x y
     ## 1 1 2
 
-However, the only reason `rlang` could avoid this wrapping is `rlang` is integrated into the `dplyr` package (essentially the `mutate()` step itself incorporates such a wrapper). Such integration is easy to achieve, as we show below.
+However, the reason `rlang` could avoid the wrapping is: `rlang` is integrated into the `dplyr` package (essentially the `mutate()` step itself incorporates such a wrapper). Such integration is easy to achieve, as we show below.
 
 ``` r
 suppressPackageStartupMessages(library("dplyr"))
 
 # define a bquote() enabled variation of dplyr::mutate()
-mutate <- function(.data, ...) {
+mutate_bq <- function(.data, ...) {
   env = parent.frame()
   mc <- substitute(dplyr::mutate(.data = .data, ...))
   mc <- do.call(bquote, list(mc, where = env), envir = env)
@@ -628,15 +630,11 @@ NEWVAR <- as.name("y")
 OLDVAR <- as.name("x")
 
   data.frame(x = 1) %>%
-    mutate(.(NEWVAR) := .(OLDVAR) + 1)
+    mutate_bq(.(NEWVAR) := .(OLDVAR) + 1)
 ```
 
     ##   x y
     ## 1 1 2
-
-``` r
-rm(list = "mutate") # remove user defined mutate()
-```
 
 We just demonstrated a `bquote()`-enhanced (or `rlang`-free) version of `mutate()` in about 4 lines of code.
 
@@ -709,6 +707,184 @@ eval(bquote(  lm(.(f), data = dataf)  ))
     ##       822.8       -164.6
 
 `rlang` documentation and promotion does sometimes mention `bquote()`, but never seems to actually *try* `bquote()` as an alternate solution in a post-`dplyr 0.5.0` world (i.e., one where "`:=`" is part of `dplyr`). So new readers can be forgiven for having the (false) impression that `rlang` substitution is a unique and unprecedented capability for `R`.
+
+Also the combined `rlang`/`dplyr` interface surface is large and complicated. A lot varies depending if the user is attempting to specify a column using an integer index, a string, a `name`/`symbol`, a `quosure`/`formula`, an expression, or un-evaluated source code (all of which seem to be allowed) plus variations depending on if the execution is a function context or not. This creates a large user responsibility to know which combination of adapters and which access patterns are correct. We give an example below (contrived, but the kind of experimentation a new user often tries):
+
+``` r
+suppressPackageStartupMessages(library("dplyr"))
+
+x <- "Species"
+
+# wrong
+iris %>% group_by(x) %>% summarize(n = n())
+```
+
+    ## Error in grouped_df_impl(data, unname(vars), drop): Column `x` is unknown
+
+``` r
+# wrong
+iris %>% group_by(!!x) %>% summarize(n = n())
+```
+
+    ## # A tibble: 1 x 2
+    ##   `"Species"`     n
+    ##   <chr>       <int>
+    ## 1 Species       150
+
+``` r
+# wrong
+iris %>% group_by(!!quo(x)) %>% summarize(n = n())
+```
+
+    ## Error in grouped_df_impl(data, unname(vars), drop): Column `x` is unknown
+
+``` r
+# wrong
+iris %>% group_by(!!enquo(x)) %>% summarize(n = n())
+```
+
+    ## # A tibble: 1 x 2
+    ##   `"Species"`     n
+    ##   <chr>       <int>
+    ## 1 Species       150
+
+``` r
+# wrong
+iris %>% group_by(!!expr(x)) %>% summarize(n = n())
+```
+
+    ## Error in grouped_df_impl(data, unname(vars), drop): Column `x` is unknown
+
+``` r
+# wrong
+iris %>% group_by(!!enexpr(x)) %>% summarize(n = n())
+```
+
+    ## # A tibble: 1 x 2
+    ##   `"Species"`     n
+    ##   <chr>       <int>
+    ## 1 Species       150
+
+``` r
+# wrong (syntax error)
+iris %>% group_by(.data$!!x) %>% summarize(n = n())
+```
+
+    ## Error: <text>:2:25: unexpected '!'
+    ## 1: # wrong (syntax error)
+    ## 2: iris %>% group_by(.data$!
+    ##                            ^
+
+``` r
+# works
+iris %>% group_by(!!sym(x)) %>% summarize(n = n())
+```
+
+    ## # A tibble: 3 x 2
+    ##   Species        n
+    ##   <fct>      <int>
+    ## 1 setosa        50
+    ## 2 versicolor    50
+    ## 3 virginica     50
+
+``` r
+# also works
+x <- as.name("Species")
+iris %>% group_by(!!x) %>% summarize(n = n())
+```
+
+    ## # A tibble: 3 x 2
+    ##   Species        n
+    ##   <fct>      <int>
+    ## 1 setosa        50
+    ## 2 versicolor    50
+    ## 3 virginica     50
+
+To be fair: a lot of the above issues were driven by our insistence on starting from a string column name instead of a symbol or captured un-evaluated code. The `rlang` preference appears to be strongly for capturing un-evaluated code or arguments. However, considering column names to be strings is a valid point of view and a useful when when programming over modeling tasks (where one may supply the set of dependent variables as a vector of column names). I feel there is a subtle difference between the problems `rlang` apparently wants to solve (composing NSE interfaces) and the problems analysts/data-scientists actually have (wanting to propagate controlling values, such as column names, into analyses).
+
+In contrast to the above example the `wrapr::let()` pattern is quite regular. There are combination that do not work (mostly depending on differences between strings and names), however many obvious variations do work (which is a good user experience).
+
+``` r
+suppressPackageStartupMessages(library("dplyr"))
+library("wrapr")
+
+x <- "Species"
+
+# works
+let(
+  c(X = x),
+  iris %>% group_by(X) %>% summarize(n = n())
+)
+```
+
+    ## # A tibble: 3 x 2
+    ##   Species        n
+    ##   <fct>      <int>
+    ## 1 setosa        50
+    ## 2 versicolor    50
+    ## 3 virginica     50
+
+``` r
+# works
+let(
+  c(X = x),
+  iris %>% group_by(.data$X) %>% summarize(n = n())
+)
+```
+
+    ## # A tibble: 3 x 2
+    ##   Species        n
+    ##   <fct>      <int>
+    ## 1 setosa        50
+    ## 2 versicolor    50
+    ## 3 virginica     50
+
+``` r
+# also works
+x <- as.name("Species")
+let(
+  c(X = x),
+  iris %>% group_by(X) %>% summarize(n = n())
+)
+```
+
+    ## # A tibble: 3 x 2
+    ##   Species        n
+    ##   <fct>      <int>
+    ## 1 setosa        50
+    ## 2 versicolor    50
+    ## 3 virginica     50
+
+``` r
+# also works
+x <- as.name("Species")
+let(
+  c(X = x),
+  iris %>% group_by(.data$X) %>% summarize(n = n())
+)
+```
+
+    ## # A tibble: 3 x 2
+    ##   Species        n
+    ##   <fct>      <int>
+    ## 1 setosa        50
+    ## 2 versicolor    50
+    ## 3 virginica     50
+
+``` r
+# also works (base-R, wrapr package not needed)
+x <- as.name("Species")
+eval(bquote( 
+  iris %>% group_by(.(x)) %>% summarize(n = n()) 
+))
+```
+
+    ## # A tibble: 3 x 2
+    ##   Species        n
+    ##   <fct>      <int>
+    ## 1 setosa        50
+    ## 2 versicolor    50
+    ## 3 virginica     50
 
 Conclusion
 ----------
