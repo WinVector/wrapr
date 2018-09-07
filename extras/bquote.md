@@ -712,6 +712,7 @@ Also the combined `rlang`/`dplyr` interface surface is large and complicated. A 
 
 ``` r
 suppressPackageStartupMessages(library("dplyr"))
+library("rlang")
 
 x <- "Species"
 
