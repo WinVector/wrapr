@@ -802,15 +802,46 @@ iris %>% group_by(!!x) %>% summarize(n = n())
 
 To be fair: a lot of the above issues were driven by our insistence on starting from a string column name instead of a symbol or captured un-evaluated code. The `rlang` preference appears to be strongly for capturing un-evaluated code or arguments. However, considering column names to be strings is a valid point of view and a useful when when programming over modeling tasks (where one may supply the set of dependent variables as a vector of column names). I feel there is a subtle difference between the problems `rlang` apparently wants to solve (composing NSE interfaces) and the problems analysts/data-scientists actually have (wanting to propagate controlling values, such as column names, into analyses).
 
-In contrast to the above example the `wrapr::let()` pattern is quite regular. There are combination that do not work (mostly depending on differences between strings and names), however many obvious variations do work (which is a good user experience).
+In contrast to the above example the `base::bquote()` and `wrapr::let()` pattern are quite regular. There are combination that do not work (mostly depending on differences between strings and names), however many obvious variations do work (which is a good user experience).
+
+``` r
+suppressPackageStartupMessages(library("dplyr"))
+
+# works
+x <- as.name("Species")
+eval(bquote( 
+  iris %>% group_by(.(x)) %>% summarize(n = n()) 
+))
+```
+
+    ## # A tibble: 3 x 2
+    ##   Species        n
+    ##   <fct>      <int>
+    ## 1 setosa        50
+    ## 2 versicolor    50
+    ## 3 virginica     50
+
+``` r
+# also works
+x <- "Species"
+eval(bquote( 
+  iris %>% group_by(.data[[.(x)]]) %>% summarize(n = n())
+))
+```
+
+    ## # A tibble: 3 x 2
+    ##   Species        n
+    ##   <fct>      <int>
+    ## 1 setosa        50
+    ## 2 versicolor    50
+    ## 3 virginica     50
 
 ``` r
 suppressPackageStartupMessages(library("dplyr"))
 library("wrapr")
 
+# works
 x <- "Species"
-
-# works
 let(
   c(X = x),
   iris %>% group_by(X) %>% summarize(n = n())
@@ -826,6 +857,23 @@ let(
 
 ``` r
 # works
+x <- "Species"
+let(
+  c(X = x),
+  iris %>% group_by(.data$X) %>% summarize(n = n())
+)
+```
+
+    ## # A tibble: 3 x 2
+    ##   Species        n
+    ##   <fct>      <int>
+    ## 1 setosa        50
+    ## 2 versicolor    50
+    ## 3 virginica     50
+
+``` r
+# also works
+x <- as.name("Species")
 let(
   c(X = x),
   iris %>% group_by(.data$X) %>% summarize(n = n())
@@ -846,37 +894,6 @@ let(
   c(X = x),
   iris %>% group_by(X) %>% summarize(n = n())
 )
-```
-
-    ## # A tibble: 3 x 2
-    ##   Species        n
-    ##   <fct>      <int>
-    ## 1 setosa        50
-    ## 2 versicolor    50
-    ## 3 virginica     50
-
-``` r
-# also works
-x <- as.name("Species")
-let(
-  c(X = x),
-  iris %>% group_by(.data$X) %>% summarize(n = n())
-)
-```
-
-    ## # A tibble: 3 x 2
-    ##   Species        n
-    ##   <fct>      <int>
-    ## 1 setosa        50
-    ## 2 versicolor    50
-    ## 3 virginica     50
-
-``` r
-# also works (base-R, wrapr package not needed)
-x <- as.name("Species")
-eval(bquote( 
-  iris %>% group_by(.(x)) %>% summarize(n = n()) 
-))
 ```
 
     ## # A tibble: 3 x 2
