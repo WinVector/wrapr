@@ -3,7 +3,7 @@ Macro Substitution in R
 John Mount
 2018-09-08
 
-This note is a long but cursory overview of some macro-substitution facilities available in [`R`](https://www.r-project.org). I am going to try to put a few of them in context (there are likely more I am missing) and explain why I wrote yet another one ([`replyr::let()`](http://www.win-vector.com/blog/2016/12/parametric-variable-names-and-dplyr/)/[`wrapr::let()`](https://cran.r-project.org/web/packages/wrapr/vignettes/let.html)).
+This note is a long but cursory overview of some macro-substitution facilities available in [`R`](https://www.r-project.org). I am going to try to put a few of them in context (there are likely more I am missing) and explain why our group wrote yet another one ([`replyr::let()`](http://www.win-vector.com/blog/2016/12/parametric-variable-names-and-dplyr/)/[`wrapr::let()`](https://cran.r-project.org/web/packages/wrapr/vignettes/let.html)).
 
 The `R` macro (or code control) facilities we will discuss include 20 years of contributions (in time order):
 
@@ -779,7 +779,8 @@ iris %>% group_by(.data$!!x) %>% summarize(n = n())
     ##                            ^
 
 ``` r
-# works
+# works, package authors call patterns like this "quoting and unquoting"
+# https://github.com/tidyverse/dplyr/issues/3801#issuecomment-419137995
 iris %>% group_by(!!sym(x)) %>% summarize(n = n())
 ```
 
@@ -790,9 +791,21 @@ iris %>% group_by(!!sym(x)) %>% summarize(n = n())
     ## 2 versicolor    50
     ## 3 virginica     50
 
-To be fair: a lot of the above issues were driven by our insistence on starting from a string column name instead of a symbol or captured un-evaluated code. The `rlang` preference appears to be strongly for capturing un-evaluated code or arguments. However, [prefering variables to be columns](http://www.win-vector.com/blog/2018/08/r-tip-put-your-values-in-columns/) and considering column names to be strings is a valid point of view and a useful when when programming over modeling tasks (where one may supply the set of dependent variables as a vector of column names). I feel there is a subtle difference between the problems `rlang` apparently wants to solve (composing NSE interfaces) and the problems analysts/data-scientists actually have (wanting to propagate controlling values, such as column names, into analyses).
+``` r
+# works (base-R solution using dplyr's .data pronoun)
+iris %>% group_by(.data[[x]]) %>% summarize(n = n())
+```
 
-In contrast to the above example the `base::bquote()` and `wrapr::let()` patterns are fairly regular.
+    ## # A tibble: 3 x 2
+    ##   x              n
+    ##   <fct>      <int>
+    ## 1 setosa        50
+    ## 2 versicolor    50
+    ## 3 virginica     50
+
+To be fair: a lot of the above issues were driven by our insistence on starting from a string column name instead of a symbol or captured un-evaluated code. Though it is disappointing that "`x`" does not work as a synonym for "`!!sym(x)`" (one would like quoting plus unquoting to look like a no-op). The `rlang` preference appears to be strongly for capturing un-evaluated code or arguments. However, [prefering variables to be columns](http://www.win-vector.com/blog/2018/08/r-tip-put-your-values-in-columns/) and considering column names to be strings is a valid point of view and a useful when when programming over modeling tasks (where one may supply the set of dependent variables as a vector of column names). I feel there is a subtle difference between the problems `rlang` apparently wants to solve (composing NSE interfaces) and the problems analysts/data-scientists actually have (wanting to propagate controlling values, such as column names, into analyses).
+
+In contrast to the above examples the `base::bquote()` and `wrapr::let()` patterns are fairly regular.
 
 ``` r
 suppressPackageStartupMessages(library("dplyr"))
