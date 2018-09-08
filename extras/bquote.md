@@ -340,7 +340,9 @@ fnull( list(.(A) = 5) )
     ## 3: fnull( list(.(A) =
     ##                     ^
 
-The problem is this sort of notation is used in the popular [`dplyr::mutate()`](https://dplyr.tidyverse.org/reference/mutate.html) function to denote assignment. In `dplyr 0.7.0` and beyond there is a substitute notation "`:=`" which lets us avoid the issue with "`=`":
+The problem is this sort of notation is used in the popular [`dplyr::mutate()`](https://dplyr.tidyverse.org/reference/mutate.html) function to denote assignment.
+
+In `dplyr 0.7.0` and beyond there is a substitute notation "`:=`" (a notation already made popular by `data.table`) which lets us avoid the issue with "`=`":
 
 ``` r
 suppressPackageStartupMessages(library("dplyr"))
