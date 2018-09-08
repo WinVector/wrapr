@@ -31,10 +31,10 @@ mk_formula <- function(outcome, variables,
                        env = parent.frame()) {
   wrapr::stop_if_dot_args(substitute(list(...)), "wrapr::mk_formula")
   if((!is.character(outcome)) || (length(outcome)!=1)) {
-    stop("wrapr::mk_formula outcome must be length 1 character vector")
+    stop("wrapr::mk_formula outcome must be a length 1 character vector")
   }
   if((!is.character(variables)) || (length(variables)<1)) {
-    stop("wrapr::mk_formula variables must be length 1 or greater character vector")
+    stop("wrapr::mk_formula variables must be a length 1 or greater character vector")
   }
   f <- do.call(
     "~",
