@@ -16,7 +16,7 @@ The `R` macro (or code control) facilities we will discuss include 20 years of c
 -   `replyr::let()`/`wrapr::let()` ([released December 8th, 2016](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf)).
 -   `rlang::!!` ([released May 5th, 2017](https://cran.r-project.org/src/contrib/Archive/rlang/)).
 
-One of the goals of this note is to document differences between our method `wrapr::let()` and `rlang:!!`. One reviewer of [our formal description of `wrapr::let()`](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf) complained there were not enough contrasts to differentiate `wrapr::let()` from the *later* package `rlang`. It seemed like a survey and comparison would be a substantially different paper, so we are sharing a comparative survey here (and adding this as reference to the [`wrapr::let()` paper](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf)).
+One of the goals of this note is to document differences between our method `wrapr::let()` and `rlang:!!`. One anonymous reviewer of [our formal description of `wrapr::let()`](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf) complained there were not enough contrasts to differentiate `wrapr::let()` from the *later* package `rlang`. It seemed like a survey and comparison would be a substantially different paper, so we are sharing a comparative survey here (and adding this as reference to the [`wrapr::let()` paper](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf)).
 
 I have worked hard to include concrete and clear examples, so I think working through this note will be rewarding tutorial for `R` users interested in metaprogramming (we will define metaprogramming and macros shortly).
 
