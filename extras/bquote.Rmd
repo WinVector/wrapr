@@ -96,6 +96,7 @@ orderv <- function(columns) {
   do.call(base::order, as.list(columns))
 }
 # Note: The package wrapr 1.6.2 supplies a more complete orderv()
+# https://winvector.github.io/wrapr/reference/orderv.html
 
 d <- data.frame(x = c(2, 2, 3, 3, 1, 1), y = 6:1, z = 1)
 
