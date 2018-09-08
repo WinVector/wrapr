@@ -16,7 +16,7 @@ The `R` macro (or code control) facilities we will discuss include (in time orde
 -   `replyr::let()`/`wrapr::let()` ([released December 8th, 2016](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf)).
 -   `rlang::!!` ([released May 5th, 2017](https://cran.r-project.org/src/contrib/Archive/rlang/)).
 
-One of the goals of this note is to document differences between our method `wrapr::let()` and `rlang:!!`. One reviewer of [our formal description of `wrapr::let()`](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf) complained there were not enough contrasts to differentiate `wrapr::let()` from the *later* package `rlang`. It seemed like a survey and comparison would in fact be an different paper than a description and demonstrate of `wrapr::let()`, so we are sharing a comparative survey here (and adding as reference to the [`wrapr::let()` paper](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf)).
+One of the goals of this note is to document differences between our method `wrapr::let()` and `rlang:!!`. One reviewer of [our formal description of `wrapr::let()`](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf) complained there were not enough contrasts to differentiate `wrapr::let()` from the *later* package `rlang`. It seemed like a survey and comparison would in fact be an different paper than a description and demonstrate of `wrapr::let()`, so we are sharing a comparative survey here (and adding this as reference to the [`wrapr::let()` paper](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf)).
 
 I have worked hard to include concrete and clear examples, so I think working through this note will be rewarding for `R` users interested in metaprogramming (we will define metaprogramming and macros shortly).
 
@@ -790,22 +790,9 @@ iris %>% group_by(!!sym(x)) %>% summarize(n = n())
     ## 2 versicolor    50
     ## 3 virginica     50
 
-``` r
-# also works
-x <- as.name("Species")
-iris %>% group_by(!!x) %>% summarize(n = n())
-```
-
-    ## # A tibble: 3 x 2
-    ##   Species        n
-    ##   <fct>      <int>
-    ## 1 setosa        50
-    ## 2 versicolor    50
-    ## 3 virginica     50
-
 To be fair: a lot of the above issues were driven by our insistence on starting from a string column name instead of a symbol or captured un-evaluated code. The `rlang` preference appears to be strongly for capturing un-evaluated code or arguments. However, considering column names to be strings is a valid point of view and a useful when when programming over modeling tasks (where one may supply the set of dependent variables as a vector of column names). I feel there is a subtle difference between the problems `rlang` apparently wants to solve (composing NSE interfaces) and the problems analysts/data-scientists actually have (wanting to propagate controlling values, such as column names, into analyses).
 
-In contrast to the above example the `base::bquote()` and `wrapr::let()` patterns are fairly regular. There are combination that do not work (mostly depending on differences between strings and names), however many obvious variations do work (which is a good user experience).
+In contrast to the above example the `base::bquote()` and `wrapr::let()` patterns are fairly regular.
 
 ``` r
 suppressPackageStartupMessages(library("dplyr"))
@@ -814,21 +801,6 @@ suppressPackageStartupMessages(library("dplyr"))
 x <- as.name("Species")
 eval(bquote( 
   iris %>% group_by(.(x)) %>% summarize(n = n()) 
-))
-```
-
-    ## # A tibble: 3 x 2
-    ##   Species        n
-    ##   <fct>      <int>
-    ## 1 setosa        50
-    ## 2 versicolor    50
-    ## 3 virginica     50
-
-``` r
-# also works
-x <- "Species"
-eval(bquote( 
-  iris %>% group_by(.data[[.(x)]]) %>% summarize(n = n())
 ))
 ```
 
@@ -859,40 +831,8 @@ let(
     ## 3 virginica     50
 
 ``` r
-# also works
-x <- as.name("Species")
-let(
-  c(X = x),
-  iris %>% group_by(X) %>% summarize(n = n())
-)
-```
-
-    ## # A tibble: 3 x 2
-    ##   Species        n
-    ##   <fct>      <int>
-    ## 1 setosa        50
-    ## 2 versicolor    50
-    ## 3 virginica     50
-
-``` r
 # works
 x <- "Species"
-let(
-  c(X = x),
-  iris %>% group_by(.data$X) %>% summarize(n = n())
-)
-```
-
-    ## # A tibble: 3 x 2
-    ##   Species        n
-    ##   <fct>      <int>
-    ## 1 setosa        50
-    ## 2 versicolor    50
-    ## 3 virginica     50
-
-``` r
-# also works
-x <- as.name("Species")
 let(
   c(X = x),
   iris %>% group_by(.data$X) %>% summarize(n = n())
