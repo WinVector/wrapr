@@ -1,14 +1,14 @@
 ---
 title: "Macro Substitution in R"
 author: John Mount
-date: 2018-09-07
+date: 2018-09-08
 output: github_document
 ---
 
 This note is a long but cursory overview of some macro-substitution facilities available in [`R`](https://www.r-project.org).  I am going to try to put a few of them in context (there are likely more I am missing) and explain why I wrote yet another one ([`replyr::let()`](http://www.win-vector.com/blog/2016/12/parametric-variable-names-and-dplyr/)/[`wrapr::let()`](https://cran.r-project.org/web/packages/wrapr/vignettes/let.html)).
 
 
-The `R` macro (or code control) facilities we will discuss include (in time order):
+The `R` macro (or code control) facilities we will discuss include 20 years of contributions (in time order):
 
  * `base::do.call()` (part of `R` since [at least 1997](https://github.com/wch/r-source/blob/a625016dc706a58d11c75664f6c60d07e5d07b0c/src/main/names.c)).
  * `defmacro()` [Lumley T. "Programmer's Niche: Macros in R", R News, 2001, Vol 1, No. 3, pp 11–13](https://www.r-project.org/doc/Rnews/Rnews_2001-3.pdf). 
@@ -21,7 +21,7 @@ The `R` macro (or code control) facilities we will discuss include (in time orde
  
 One of the goals of this note is to document differences between our method `wrapr::let()` and `rlang:!!`.  One reviewer of [our formal description of `wrapr::let()`](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf) complained there were not enough contrasts to differentiate `wrapr::let()` from the *later* package `rlang`. It seemed like a survey and comparison would in fact be an different paper than a description and demonstrate of `wrapr::let()`, so we are sharing a comparative survey here (and adding this as reference to the [`wrapr::let()` paper](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf)).
 
-I have worked hard to include concrete and clear examples, so I think working through this note will be rewarding for `R` users interested in metaprogramming (we will define metaprogramming and macros shortly).
+I have worked hard to include concrete and clear examples, so I think working through this note will be rewarding tutorial for `R` users interested in metaprogramming (we will define metaprogramming and macros shortly).
  
 ## Why macros and metaprogramming?
 
@@ -602,7 +602,7 @@ iris %>% group_by(.data$!!x) %>% summarize(n = n())
 iris %>% group_by(!!sym(x)) %>% summarize(n = n())
 ```
 
-To be fair: a lot of the above issues were driven by our insistence on starting from a string column name instead of a symbol or captured un-evaluated code.  The `rlang` preference appears to be strongly for capturing un-evaluated code or arguments. However, considering column names to be strings is a valid point of view and a useful when when programming over modeling tasks (where one may supply the set of dependent variables as a vector of column names).  I feel there is a subtle difference between the problems `rlang` apparently wants to solve (composing NSE interfaces) and the problems analysts/data-scientists actually have (wanting to propagate controlling values, such as column names, into analyses).
+To be fair: a lot of the above issues were driven by our insistence on starting from a string column name instead of a symbol or captured un-evaluated code.  The `rlang` preference appears to be strongly for capturing un-evaluated code or arguments. However, [prefering varaibles to be columns](http://www.win-vector.com/blog/2018/08/r-tip-put-your-values-in-columns/) and considering column names to be strings is a valid point of view and a useful when when programming over modeling tasks (where one may supply the set of dependent variables as a vector of column names).  I feel there is a subtle difference between the problems `rlang` apparently wants to solve (composing NSE interfaces) and the problems analysts/data-scientists actually have (wanting to propagate controlling values, such as column names, into analyses).
 
 In contrast to the above example the `base::bquote()` and `wrapr::let()` patterns are fairly regular.
 
