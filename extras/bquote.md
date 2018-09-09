@@ -1,7 +1,7 @@
 Macro Substitution in R
 ================
 John Mount
-2018-09-08
+2018-09-09
 
 This note is a long but cursory overview of some macro-substitution facilities available in [`R`](https://www.r-project.org). I am going to try to put a few of them in context (there are likely more I am missing) and explain why our group wrote yet another one ([`replyr::let()`](http://www.win-vector.com/blog/2016/12/parametric-variable-names-and-dplyr/)/[`wrapr::let()`](https://cran.r-project.org/web/packages/wrapr/vignettes/let.html)).
 
@@ -499,7 +499,23 @@ let(
 
 Notice `wrapr::let()` specifies substitution targets by name (not by any decorating notation such as backtick or `.()`), and also can use the original "="-notation without problem. `let()` only allows name for name substitutions, the theory is substituting names for values is the job of `R`s `environment`s and attempting to duplicate or replace core language functionality is not desirable.
 
-For clarity and safety `wrapr::let()` is deliberately limited to replacing names with names (which for convenience can be represented as strings), leaving value substitution to `R` itself. This means `wrapr::let()` can *not* work the earlier [linear model example](http://www.win-vector.com/blog/2018/09/r-tip-how-to-pass-a-formula-to-lm/). Users should not consider that a problem, as we have already shown how to solve that problem with `do.call()`. I feel add-on packages should strive to solve problems that *do not* have satisfactory base-`R` solutions, and *not* attempt to supplant `R` itself for mere stylistic concerns.
+For clarity and safety `wrapr::let()` is deliberately limited to replacing names with names (which for convenience can be represented as strings), leaving value substitution to `R` itself. For example to following is deliberately not supported:
+
+``` r
+library("wrapr")
+
+let(
+  alias = c(X = 5),
+  
+  X
+)
+```
+
+    ## Error in prepareAlias(alias, strict = strict): wrapr:let alias values must all be strings or names ( X is class: numeric )
+
+I feel it it best to leave value substitution to `R` itself, and not to encourage users to migrate tasks that `R` already does well into `wrapr::let()`.
+
+This also means `wrapr::let()` can *not* work the earlier [linear model example](http://www.win-vector.com/blog/2018/09/r-tip-how-to-pass-a-formula-to-lm/). Users should not consider that a problem, as we have already shown how to solve that problem with `do.call()`. I feel add-on packages should strive to solve problems that *do not* have satisfactory base-`R` solutions, and *not* attempt to supplant `R` itself for mere stylistic concerns.
 
 `let()` allows the user to [choose the substitution engine](https://cran.r-project.org/web/packages/wrapr/vignettes/SubstitutionModes.html) and has a debug-print option.
 
@@ -563,15 +579,23 @@ People who try `let()` tend to like it.
 
 ### <code>rlang::`!!`</code>
 
-`rlang` (also called "tidy eval" by the authors) was written by Lionel Henry and Hadley Wickham and was incorporated into `dplyr` on June 6, 2017. From <code>help(`!!`)</code>:
+`rlang` was written by Lionel Henry and Hadley Wickham and was incorporated into `dplyr` on June 6, 2017. From <code>help(`!!`)</code>:
 
 > The rlang package provides tools to work with core language features of R and the tidyverse:
 >
 > -   The tidy eval framework, which is a well-founded system for non-standard evaluation built on quasiquotation (!!) and quosures (quo()).
 
-The reader should now have enough experience to put the above description in context.
+At this point of our note we have enough shared vocabulary to unpack the technical terms in above statement.
 
-"Tidyverse", for better or for worse, is a marketing brand name. Quasiquotation is something we have discussed a few times by now. The phrase "non-standard evaluation" in this case is going to likely mean both capturing of names from source code (breaking referential transparency) and direct manipulation of environments (including carrying names plus the environments that they are bound in, instead of simply carrying values). Both the `lazyeval` and `rlang` packages seem to be informed by `R`-formula style semantics (and indeed seemed to have been based on formulas at one point, trace from [here](https://github.com/r-lib/rlang/commit/cc0c497155a8da6adc43a38ac4020c2cc9bb9491#diff-04c6e90faac2675aa89e2176d2eec7d8) for details), so a bit of criticism of `R`-formula design itself is relevant here.
+-   "Tidyverse" is a marketing brand name.
+-   "The tidy eval framework" means the substitution and evaluation portions of `rlang` (`!!`, `rlang::expr()`, `rlang::sym()`, and other components).
+-   "non-standard evaluation" refers to both capturing of names from source code and carrying of environments references (essentially pointers to environments).
+-   Quasiquotation is something we have discussed a few times by now.
+-   "quosures" are described as follows in the ["Advanced R"](https://github.com/hadley/adv-r/blob/master/Quotation.Rmd) (authored by Hadley Wickham): "<code>~</code>, the formula, is a quoting function that also captures the environment. It's the inspiration for quosures ...".
+
+What I want to call out is the phrase "which is a well-founded system", and the repeated use of the word "tidy." This is fairly typical of `rlang` documentation and tutorials: a merely implied (but strongly repeated) assertion that earlier <code>R</code> systems are not well founded and are "un-tidy." "Advanced R"'s current discussion of <code>bquote()</code> is [almost entirely the two statements](https://github.com/hadley/adv-r/search?l=RMarkdown&q=bquote) "<code>bquote()</code> provides a limited form of quasiquotation" (what the limitation is does not appear to be discussed in the text) and "<code>bquote()</code> is a neat function, but is not used by any other function in base R." <code>rlang</code> seems to imply a critique of <code>R</code> and dismissal preceding packages, so let's continue in the vein before demonstrating <code>rlang</code>.
+
+The `rlang` package (and also [the `lazyeval` package](https://github.com/r-lib/rlang/commit/cc0c497155a8da6adc43a38ac4020c2cc9bb9491#diff-04c6e90faac2675aa89e2176d2eec7d8)) is an evolution of `R`-formula style semantics. So some known issues with `formula` remain relevant:
 
 <blockquote>
 Many modelling and graphical functions have a formula argument and a data argument. If variables in the formula were required to be in the data argument life would be a lot simpler, but this requirement was not made when formulas were introduced. Authors of modelling and graphics functions are thus required to implement a limited form of dynamic scope, which they have not done in an entirely consistent way.
@@ -582,6 +606,21 @@ Many modelling and graphical functions have a formula argument and a data argume
 </center>
 </small>
 </blockquote>
+`rlang` emphasizes the ability to capture environments along with expressions. John M. Chambers already criticized the over-use of taking values from the environment carried by `R` `formula` objects:
+
+<blockquote>
+Where clear and trustworthy software is a priority, I would personally avoid such tricks. Ideally, all the variables in the model frame should come from an explicit, verifiable data source, typically a data frame object that is archived for future inspection (or equivalently, some other equally well-defined source of data, either inside or outside <code>R</code>, that is used explicitly to construct the data for the model).
+<p/>
+<center>
+<small><em>Software for Data Analysis</em> (Springer 2008), John M. Chambers, Chapter 6, section 9, page 221.</small>
+</center>
+</blockquote>
+Chambers is saying "spaghetti data" (non-trivial values being taken from various carried environments) is worth avoiding (as [spaghetti code](https://en.wikipedia.org/wiki/Spaghetti_code) is worth avoiding). The principle is: one should restrict oneself to *structured data* (taking non-trivial values from <code>data.frame</code> columns, a data-version of [structured programming](https://en.wikipedia.org/wiki/Structured_programming), as we discuss [here](http://www.win-vector.com/blog/2018/08/r-tip-put-your-values-in-columns/)).
+
+Basically `rlang` `quosure`s are sufficiently like `formula`s to run into the same issues (including [reference leaks](http://www.win-vector.com/blog/2014/05/trimming-the-fat-from-glm-models-in-r/)). Our advice is: [prefer avoiding complexity to getting better and working within complexities](http://www.win-vector.com/blog/2011/04/do-your-tools-support-production-or-complexity/).
+
+But enough theory, let's see `rlang` in action.
+
 <code>rlang</code> (parts of which are brought in by the <code>dplyr</code> package) can be demonstrated on one of the examples we already exhibited in the <code>bquote()</code> section of this note as follows.
 
 ``` r
@@ -641,9 +680,9 @@ OLDVAR <- as.name("x")
     ##   x y
     ## 1 1 2
 
-We just demonstrated a `bquote()`-enhanced (or `rlang`-free) version of `mutate()` in about 4 lines of code.
+We just demonstrated a `bquote()`-enhanced version of `mutate()` in about 4 lines of code.
 
-There are, of course, some semantic differences, such as how environments are handled. However, in our opinion, most of the earlier solutions already have sound ways of dealing with environments and ambiguity of references, which are merely different (not fundamentally inferior). `rlang` does supply some additional services such as [vararg](https://en.wikipedia.org/wiki/Variadic_function) splicing through `!!!`, however as we have seen in our `order()` example `do.call()` already is an excellent tools for vararg splicing.
+There are, of course, some semantic differences, such as how to unambiguously choose values from the <code>data.frame</code> or the environment. However, in my opinion, most of the earlier solutions already have sound ways of dealing with these issues. `rlang` does supply some additional services such as [vararg](https://en.wikipedia.org/wiki/Variadic_function) splicing through `!!!`, however as we have seen in our `order()` example `do.call()` already is an excellent tools for vararg splicing. The other systems don't need to solve splicing, as it isn't an unsolved problem.
 
 Similar to `bquote()` (and unlike `strmacro()` and `let()`) `rlang` substitution will not work on left-sides of argument binding. For example we can not successfully write the above block as follows (with <code>=</code> instead of <code>:=</code>).
 
@@ -663,17 +702,6 @@ OLDVAR <- as.name("x")
     ##                        ^
 
 A `dplyr` that allows `:=` to denote assignment does not need an extension package such as `gtools`, `lazyeval`, `wrapr`, or `rlang`; `base::bquote()` is already able to do the work.
-
-`rlang` also emphasizes the ability to capture environments along with expressions (not demonstrated here). John M. Chambers has already criticized the over use of taking values from the environment carried by `R` `formula` objects:
-
-<blockquote>
-Where clear and trustworthy software is a priority, I would personally avoid such tricks. Ideally, all the variables in the model frame should come from an explicit, verifiable data source, typically a data frame object that is archived for future inspection (or equivalently, some other equally well-defined source of data, either inside or outside <code>R</code>, that is used explicitly to construct the data for the model).
-<p/>
-<center>
-<small><em>Software for Data Analysis</em> (Springer 2008), John M. Chambers, Chapter 6, section 9, page 221.</small>
-</center>
-</blockquote>
-The point being that `rlang` `quosure`s are sufficiently like `formula`s to run into the same issues (including [reference leaks](http://www.win-vector.com/blog/2014/05/trimming-the-fat-from-glm-models-in-r/)). There are so many benefits of having values as columns it is worth designing your work in this direction (we have some more writing on this [here](http://www.win-vector.com/blog/2018/08/r-tip-put-your-values-in-columns/)).
 
 `rlang` can also work with packages that it has not been integrated with, as [the linear modeling example](http://www.win-vector.com/blog/2018/09/r-tip-how-to-pass-a-formula-to-lm/) demonstrates. We repeat a simplified such example here.
 
@@ -713,7 +741,7 @@ eval(bquote(  lm(.(f), data = dataf)  ))
 
 `rlang` documentation and promotion does sometimes mention `bquote()`, but never seems to actually *try* `bquote()` as an alternate solution in a post-`dplyr 0.5.0` world (i.e., one where "`:=`" is part of `dplyr`). So new readers can be forgiven for having the (false) impression that `rlang` substitution is a unique and unprecedented capability for `R`.
 
-Also the combined `rlang`/`dplyr` interface surface is large and complicated. A lot varies depending if the user is attempting to specify a column using an integer index, a string, a `name`/`symbol`, a `quosure`/`formula`, an expression, or un-evaluated source code (all of which seem to be allowed); plus variations depending on if the execution is a function context or not; plus variations the "semantics" of the `dplyr` verb ([there are at least two styles: "`select`" and "`eval`", and possibly more](https://github.com/tidyverse/dplyr/issues/3316)). This creates a large user responsibility to know which combination of adapters and which access patterns are correct. We give an example below (contrived, but the kind of experimentation a new user often tries):
+Finally, the combined `rlang`/`dplyr` interface surface is large and complicated. A lot varies depending if the user is attempting to specify a column using an integer index, a string, a `name`/`symbol`, a `quosure`/`formula`, an expression, or un-evaluated source code (all of which seem to be allowed); plus variations depending on if the execution is a function context or not; plus variations the "semantics" of the `dplyr` verb ([there are at least two styles: "`select`" and "`eval`", and possibly more](https://github.com/tidyverse/dplyr/issues/3316)). This creates a large user responsibility to know which combination of adapters and which access patterns are correct. We give an example below (contrived, but the kind of experimentation a new user often uses to learn):
 
 <small>
 
@@ -814,6 +842,8 @@ To be fair: a lot of the above issues were driven by our insistence on starting 
 
 In contrast to the above examples the `base::bquote()` and `wrapr::let()` patterns are fairly regular.
 
+<small>
+
 ``` r
 suppressPackageStartupMessages(library("dplyr"))
 
@@ -830,6 +860,10 @@ eval(bquote(
     ## 1 setosa        50
     ## 2 versicolor    50
     ## 3 virginica     50
+
+</small>
+
+<small>
 
 ``` r
 suppressPackageStartupMessages(library("dplyr"))
@@ -865,6 +899,8 @@ let(
     ## 1 setosa        50
     ## 2 versicolor    50
     ## 3 virginica     50
+
+</small>
 
 Conclusion
 ----------
