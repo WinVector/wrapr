@@ -19,7 +19,7 @@ The `R` macro (or code control) facilities we will discuss include 20 years of c
  * `replyr::let()`/`wrapr::let()` ([released December 8th, 2016](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf)).
  * `rlang::!!` ([released May 5th, 2017](https://cran.r-project.org/src/contrib/Archive/rlang/)).
  
-One of the goals of this note is to document differences between our method `wrapr::let()` and `rlang:!!`.  One anonymous reviewer of [our formal description of `wrapr::let()`](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf) complained there were not enough contrasts to differentiate `wrapr::let()` from the *later* package `rlang`. It seemed like a survey and comparison would be a substantially different paper, so we are sharing a comparative survey here (and adding this as reference to the [`wrapr::let()` paper](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf)).
+One of the goals of this note is to document differences between our method `wrapr::let()` and `rlang:!!`.  One anonymous reviewer of [our formal description of `wrapr::let()`](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf) rejected our paper on the grounds that there were not enough contrasts to differentiate `wrapr::let()` from the *later* package `rlang`.  There are many such contrasts, and here we will state some of them. It seemed like a survey and comparison would be a substantially different paper, so we are sharing a comparative survey here (and adding this note as a reference in the [`wrapr::let()` paper](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf)).
 
 I have worked hard to include concrete and clear examples, so I think working through this note will be rewarding tutorial for `R` users interested in potentially lightening their programming workload through metaprogramming (we will define metaprogramming and macros shortly).
  
@@ -406,7 +406,7 @@ let(
 )
 ```
 
-I feel it it best to leave value substitution to `R` itself, and not to encourage users to migrate tasks that `R` already does well into `wrapr::let()`.
+The above is a bit of the `wrapr::let()` design philosophy: leave already well solved tasks to base `R` and packages that already do them well.  Value substitution is left to `R` itself (that is what `environment`s already do) and `bquote()`, splicing and vararg issues are left to `do.call()`.
 
 This also means `wrapr::let()` can *not* work the earlier [linear model example](http://www.win-vector.com/blog/2018/09/r-tip-how-to-pass-a-formula-to-lm/).  Users should not consider that a problem, as we have already shown how to solve that problem with `do.call()`.  I feel add-on packages should strive to solve problems that *do not* have satisfactory base-`R` solutions, and *not* attempt to supplant `R` itself for mere stylistic concerns.
 
