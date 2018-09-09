@@ -70,11 +70,16 @@ sortv <- function(data,
   if(!is.data.frame(data)) {
     stop("wrapr::sortv data must be a data.frame")
   }
-  if(!is.character(colnames)) {
-    stop("wrapr::sortv dcolnamesata must be of type character")
-  }
   if(length(colnames)<1) {
     return(data)
+  }
+  if(!is.character(colnames)) {
+    stop("wrapr::sortv colnames must be of type character")
+  }
+  bads <- setdiff(colnames, colnames(data))
+  if(length(bads)>0) {
+    stop(paste("wrapr::sortv data colnames that are not in colnames(data):",
+               paste(bads, collapse = ", ")))
   }
   perm <- orderv(as.list(data[, colnames, drop= FALSE]),
                  na.last = na.last,
