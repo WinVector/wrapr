@@ -563,7 +563,7 @@ OLDVAR <- as.name("x")
 
 A `dplyr` that allows `:=` to denote assignment does not need an extension package such as `gtools`, `lazyeval`, `wrapr`, or `rlang`; `base::bquote()` is already able to do the work.  
 
-`rlang` can also work with packages that it has not been integrated with, as [the linear modeling example](http://www.win-vector.com/blog/2018/09/r-tip-how-to-pass-a-formula-to-lm/) demonstrates.  We repeat a simplified such example here (example shared by an `rlang` package author recently):
+`rlang` can also work with packages that it has not been integrated with, as [the linear modeling example](http://www.win-vector.com/blog/2018/09/r-tip-how-to-pass-a-formula-to-lm/) demonstrates.  We repeat a simplified such example here (example volunteered by an `rlang` package author recently):
 
 ```{r lmrlang, warning=FALSE, message=FALSE}
 library("rlang")
