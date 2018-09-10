@@ -517,26 +517,7 @@ The above is a bit of the `wrapr::let()` design philosophy: leave already well s
 
 This also means `wrapr::let()` can *not* work the earlier [linear model example](http://www.win-vector.com/blog/2018/09/r-tip-how-to-pass-a-formula-to-lm/). Users should not consider that a problem, as we have already shown how to solve that problem with `do.call()`. I feel add-on packages should strive to solve problems that *do not* have satisfactory base-`R` solutions, and *not* attempt to supplant `R` itself for mere stylistic concerns.
 
-`let()` allows the user to [choose the substitution engine](https://cran.r-project.org/web/packages/wrapr/vignettes/SubstitutionModes.html) and has a debug-print option.
-
-``` r
-library("wrapr")
-suppressPackageStartupMessages(library("dplyr"))
-
-let(
-  alias = c(NEWVAR = "y",
-            OLDVAR = "x"),
-  eval = FALSE, # return code instead of evaluating it
-  
-  data.frame(x = 1) %>%
-    mutate(NEWVAR = OLDVAR + 1)
-  
-)
-```
-
-    ## data.frame(x = 1) %>% mutate(y = x + 1)
-
-`let()` specifies replacements by target names (like `strmacro()`), and not as inline annotation. `let()` can also work left-hand sides of argument bindings. We can re-work one of our earlier examples to demonstrate this.
+`let()` specifies replacements by target names (like `strmacro()`), and not as inline annotation (as with `bquote()).`let()\` can also work left-hand sides of argument bindings. We can re-work one of our earlier examples to demonstrate this.
 
 ``` r
 library("wrapr")
@@ -579,13 +560,13 @@ People who try `let()` tend to like it.
 
 ### <code>rlang::`!!`</code>
 
-`rlang` was written by Lionel Henry and Hadley Wickham and was incorporated into `dplyr` on June 6, 2017. From <code>help(`!!`)</code>:
+`rlang` was written by Lionel Henry and Hadley Wickham and was incorporated into `dplyr` on June 6, 2017. From <code>help(`!!`, package = "rlang")</code>:
 
 > The rlang package provides tools to work with core language features of R and the tidyverse:
 >
 > -   The tidy eval framework, which is a well-founded system for non-standard evaluation built on quasiquotation (!!) and quosures (quo()).
 
-At this point of our note we have enough shared vocabulary to unpack the technical terms in above statement.
+There is a lot packed into the above statement. However, at this point of our note we have enough shared vocabulary to work through the terms.
 
 -   "Tidyverse" is a marketing brand name.
 -   "The tidy eval framework" means the substitution and evaluation portions of `rlang` (`!!`, `rlang::expr()`, `rlang::sym()`, and other components).
@@ -593,9 +574,14 @@ At this point of our note we have enough shared vocabulary to unpack the technic
 -   Quasiquotation is something we have discussed a few times by now.
 -   "quosures" are described as follows in the ["Advanced R"](https://github.com/hadley/adv-r/blob/master/Quotation.Rmd) (authored by Hadley Wickham): "<code>~</code>, the formula, is a quoting function that also captures the environment. It's the inspiration for quosures ...".
 
-What I want to call out is the phrase "which is a well-founded system", and the repeated use of the word "tidy." This is fairly typical of `rlang` documentation and tutorials: a merely implied (but strongly repeated) assertion that earlier <code>R</code> systems are not well founded and are "un-tidy." "Advanced R"'s current discussion of <code>bquote()</code> is [almost entirely the two statements](https://github.com/hadley/adv-r/search?l=RMarkdown&q=bquote) "<code>bquote()</code> provides a limited form of quasiquotation" (what the limitation is does not appear to be discussed in the text) and "<code>bquote()</code> is a neat function, but is not used by any other function in base R." <code>rlang</code> as currently promoted seems to imply a critique of <code>R</code> and dismissal (or even ignoring of) preceding packages, so let's continue in the vein before demonstrating <code>rlang</code>.
+What I want to call out is: the phrase "which is a well-founded system", and the repeated use of the word "tidy." Alone this may not seem like much, but this is fairly typical of `rlang` promotion: a merely implied but strongly repeated assertion that earlier <code>R</code> systems are not well founded and are "un-tidy." For example "Advanced R"'s current discussion of <code>bquote()</code> is [almost entirely the following two statements.](https://github.com/hadley/adv-r/search?l=RMarkdown&q=bquote)
 
-The `rlang` package (and also [the `lazyeval` package](https://github.com/r-lib/rlang/commit/cc0c497155a8da6adc43a38ac4020c2cc9bb9491#diff-04c6e90faac2675aa89e2176d2eec7d8)) is an evolution of `R`-formula style semantics. So some known issues with `formula` remain relevant:
+-   "<code>bquote()</code> provides a limited form of quasiquotation" (what the deficiency is does not appear to be discussed in the text).
+-   "<code>bquote()</code> is a neat function, but is not used by any other function in base R."
+
+Let's directly establish some context before working `rlang` examples.
+
+The `rlang` package is an evolution of `R`-formula style semantics (as is also [the `lazyeval` package](https://github.com/r-lib/rlang/commit/cc0c497155a8da6adc43a38ac4020c2cc9bb9491#diff-04c6e90faac2675aa89e2176d2eec7d8)). So some known issues with `formula` remain relevant:
 
 <blockquote>
 Many modelling and graphical functions have a formula argument and a data argument. If variables in the formula were required to be in the data argument life would be a lot simpler, but this requirement was not made when formulas were introduced. Authors of modelling and graphics functions are thus required to implement a limited form of dynamic scope, which they have not done in an entirely consistent way.
@@ -606,6 +592,8 @@ Many modelling and graphical functions have a formula argument and a data argume
 </center>
 </small>
 </blockquote>
+.
+
 `rlang` emphasizes the ability to capture environments along with expressions. John M. Chambers already criticized the over-use of taking values from the environment carried by `R` `formula` objects:
 
 <blockquote>
@@ -615,6 +603,8 @@ Where clear and trustworthy software is a priority, I would personally avoid suc
 <small><em>Software for Data Analysis</em> (Springer 2008), John M. Chambers, Chapter 6, section 9, page 221.</small>
 </center>
 </blockquote>
+.
+
 Chambers is saying "spaghetti data" (non-trivial values being taken from various carried environments) is worth avoiding (as [spaghetti code](https://en.wikipedia.org/wiki/Spaghetti_code) is worth avoiding). The principle is: one should restrict oneself to *structured data* (taking non-trivial values from <code>data.frame</code> columns, a data-version of [structured programming](https://en.wikipedia.org/wiki/Structured_programming), as we discuss [here](http://www.win-vector.com/blog/2018/08/r-tip-put-your-values-in-columns/)).
 
 Basically `rlang` `quosure`s are sufficiently like `formula`s to run into the same issues (including [reference leaks](http://www.win-vector.com/blog/2014/05/trimming-the-fat-from-glm-models-in-r/)). Our advice is: [prefer avoiding complexity to getting better and working within complexities](http://www.win-vector.com/blog/2011/04/do-your-tools-support-production-or-complexity/).
