@@ -91,5 +91,5 @@ let(
 
 }
 \seealso{
-\code{\link[base]{bquote}}
+\code{\link[base]{bquote}}, \code{\link[base]{do.call}}
 }

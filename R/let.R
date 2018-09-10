@@ -294,7 +294,7 @@ letprep_lang <- function(alias, lexpr) {
 #' @param debugPrint logical if TRUE print debugging information when in stringsubs mode.
 #' @return result of expr executed in calling environment (or expression if eval==FALSE).
 #'
-#' @seealso \code{\link[base]{bquote}}
+#' @seealso \code{\link[base]{bquote}}, \code{\link[base]{do.call}}
 #'
 #' @examples
 #'

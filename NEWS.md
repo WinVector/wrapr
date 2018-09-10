@@ -1,5 +1,5 @@
 
-# wrapr 1.6.2 2018-09-08
+# wrapr 1.6.2 2018-09-09
 
  * Add mk_formula().
  * Documentation fixes.
