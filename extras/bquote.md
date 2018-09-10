@@ -693,7 +693,7 @@ OLDVAR <- as.name("x")
 
 A `dplyr` that allows `:=` to denote assignment does not need an extension package such as `gtools`, `lazyeval`, `wrapr`, or `rlang`; `base::bquote()` is already able to do the work.
 
-`rlang` can also work with packages that it has not been integrated with, as [the linear modeling example](http://www.win-vector.com/blog/2018/09/r-tip-how-to-pass-a-formula-to-lm/) demonstrates. We repeat a simplified such example here.
+`rlang` can also work with packages that it has not been integrated with, as [the linear modeling example](http://www.win-vector.com/blog/2018/09/r-tip-how-to-pass-a-formula-to-lm/) demonstrates. We repeat a simplified such example here (example from an `rlang` package author):
 
 ``` r
 library("rlang")
@@ -701,7 +701,7 @@ library("rlang")
 dataf <- mtcars
 f <- disp ~ drat
 
-eval(expr(    lm(!!f, data = dataf)   ))
+eval(expr(        lm(!!f, data = dataf)   ))
 ```
 
     ## 
@@ -712,13 +712,27 @@ eval(expr(    lm(!!f, data = dataf)   ))
     ## (Intercept)         drat  
     ##       822.8       -164.6
 
-However, the above is nearly identical to how `bquote()` would have dealt with the issue.
+Or possibly the following form is preferred:
+
+``` r
+eval_tidy(quo(    lm(!!f, data = dataf)   ))
+```
+
+    ## 
+    ## Call:
+    ## lm(formula = disp ~ drat, data = dataf)
+    ## 
+    ## Coefficients:
+    ## (Intercept)         drat  
+    ##       822.8       -164.6
+
+However, the above are nearly identical to how `bquote()` would have dealt with the issue.
 
 ``` r
 dataf <- mtcars
 f <- disp ~ drat
 
-eval(bquote(  lm(.(f), data = dataf)  ))
+eval(bquote(      lm(.(f), data = dataf)  ))
 ```
 
     ## 
@@ -728,6 +742,32 @@ eval(bquote(  lm(.(f), data = dataf)  ))
     ## Coefficients:
     ## (Intercept)         drat  
     ##       822.8       -164.6
+
+We are assuming the difference is much finer control of environments (the `expr()` object being of `class` `call` and not carrying an `environment`, and `quo()` object being of class `quosuer` and carrying an `environment`). However the `bquote()` object is of `class` `call` (without an environment) and the function `eval()` does take an environment argument, so with some care it is quite possible to reasonably control environments when using `bquote()`.
+
+The following (an expression of the form "`a - a`" that evaluates to a non-zero value) would be hard to write with `bquote()`.
+
+``` r
+library("rlang")
+
+mk_term <- function(name, value) {
+  v <- sym(name)
+  env <- environment()
+  assign(name, value, envir = env)
+  quo(!!v)
+}
+terms <- expr(!!mk_term("a", 5) - !!mk_term("a", 12))
+
+print(terms)
+```
+
+    ## (~a) - ~a
+
+``` r
+eval_tidy(terms)
+```
+
+    ## [1] -7
 
 `rlang` documentation and promotion does sometimes mention `bquote()`, but never seems to actually *try* `bquote()` as an alternate solution in a post-`dplyr 0.5.0` world (i.e., one where "`:=`" is part of `dplyr`). So new readers can be forgiven for having the (false) impression that `rlang` substitution is a unique and unprecedented capability for `R`.
 
