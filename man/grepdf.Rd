@@ -44,3 +44,6 @@ grepdf('^x', d)
 grepdf('b$', d)
 
 }
+\seealso{
+\code{\link[base]{grep}}, \code{\link{grepv}}
+}

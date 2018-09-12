@@ -3,6 +3,7 @@
 #' format a map.
 #'
 #' @param mp named vector or list
+#' @param ... not used, foce later arguments to bind by name.
 #' @param sep separator suffix, what to put after commas
 #' @param assignment assignment string
 #' @param quote_fn string quoting function
@@ -20,9 +21,11 @@
 #' @export
 #'
 map_to_char <- function(mp,
+                        ...,
                         sep = " ",
                         assignment = "=",
                         quote_fn = base::shQuote) {
+  stop_if_dot_args(substitute(list(...)), "wrapr::map_to_char")
   nms <- names(mp)
   vls <- as.character(mp)
   n <- length(vls)

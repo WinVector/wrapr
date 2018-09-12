@@ -14,6 +14,8 @@
 #' @param invert passed to \code{\link[base]{grep}}
 #' @return column names of x matching grep condition.
 #'
+#' @seealso \code{\link[base]{grep}}, \code{\link{grepv}}
+#'
 #' @examples
 #'
 #'
