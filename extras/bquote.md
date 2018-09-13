@@ -575,7 +575,7 @@ There is a lot packed into the above statement. However, at this point of our no
 -   Quasiquotation is something we have discussed a few times by now.
 -   "quosures" are described as follows in the ["Advanced R"](https://github.com/hadley/adv-r/blob/master/Quotation.Rmd) (authored by Hadley Wickham): "<code>~</code>, the formula, is a quoting function that also captures the environment. It's the inspiration for quosures ...".
 
-What I want to call out is: the phrase "which is a well-founded system", and the repeated use of the word "tidy." Alone this may not seem like much, but this is fairly typical of `rlang` promotion: a merely implied but strongly repeated assertion that earlier <code>R</code> systems are not well founded and are "un-tidy." For example "Advanced R"'s current discussion of <code>bquote()</code> is [almost entirely the following two statements.](https://github.com/hadley/adv-r/search?l=RMarkdown&q=bquote)
+What I want to call out is: the phrase "which is a well-founded system", and the repeated use of the word "tidy." Alone this may not seem like much, but this is fairly typical of `rlang`/`tidyverse` promotion: a merely implied but strongly repeated assertion that earlier <code>R</code> systems are not well founded and are "un-tidy." For example "Advanced R"'s current discussion of <code>bquote()</code> is [now almost entirely the following two statements.](https://github.com/hadley/adv-r/search?l=RMarkdown&q=bquote)
 
 -   "<code>bquote()</code> provides a limited form of quasiquotation" (what the deficiency is does not appear to be discussed in the text).
 -   "<code>bquote()</code> is a neat function, but is not used by any other function in base R."
