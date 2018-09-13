@@ -596,7 +596,7 @@ Many modelling and graphical functions have a formula argument and a data argume
 <p/>
 .
 
-`rlang` emphasizes the ability to capture environments along with expressions. John M. Chambers already criticized the over-use of taking values from the environment carried by `R` `formula` objects:
+`rlang` emphasizes the ability to capture environments along with expressions. John M. Chambers already criticized the over-use of taking non-trivial values from the environment carried by `R` `formula` objects:
 
 <blockquote>
 Where clear and trustworthy software is a priority, I would personally avoid such tricks. Ideally, all the variables in the model frame should come from an explicit, verifiable data source, typically a data frame object that is archived for future inspection (or equivalently, some other equally well-defined source of data, either inside or outside <code>R</code>, that is used explicitly to construct the data for the model).
