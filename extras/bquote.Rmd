@@ -647,7 +647,7 @@ The `rlang` replacement notation is just not as powerful as name-based substitut
 </a>
 </center><p/>
 
-It may be considered rude to bring this up to respond, but not being able to correct this is pretty damaging.
+It may be considered rude to bring this up to respond, but not being able to correct this is pretty damaging.  Frankly a combination of the earlier earlier systems, with care, can work most (or perhaps even all) of `rlang`'s examples- but `rlang` can not work all of earlier system's examples. I don't want to support a circular argument of the form if it isn't an `rlang` designed substitution then it isn't a reasonable need or example.  `R` itself (plus maybe a few packages) tends to give one "great powers", and often more than locking one self into any one single extension package.
 
 Finally, the combined `rlang`/`dplyr` interface surface is large and complicated. A lot varies depending if the user is attempting to specify a column using an integer index, a string, a `name`/`symbol`, a `quosure`/`formula`, an expression, or un-evaluated source code (all of which seem to be allowed); plus variations depending on if the execution is a function context or not; plus variations the "semantics" of the `dplyr` verb ([there are at least two styles: "`select`" and "`eval`", and possibly more](https://github.com/tidyverse/dplyr/issues/3316)).  This creates a large user responsibility to know which combination of adapters and which access patterns are correct.  We give an example below (contrived, but the kind of experimentation a new user often uses to learn):
 
