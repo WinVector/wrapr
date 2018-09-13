@@ -18,7 +18,7 @@ The `R` macro (or code control) facilities we will discuss include over 20 years
 
 One of the goals of this note is to document differences between our own method `wrapr::let()` and the *later* system `rlang:!!`.
 
-I have worked hard to include concrete and clear examples, so I think working through this note will be rewarding tutorial for `R` users interested in potentially lightening their programming workload through metaprogramming (we will define metaprogramming and macros shortly).
+I have worked hard to include concrete and clear examples, so I think working through this note will be rewarding tutorial for `R` users interested in potentially lightening their programming workload through macros or metaprogramming (we will define metaprogramming and macros shortly). So I will re-phrase that: if you are interested in improving your `R` programming and not already expert in using macros methods, you may want to read on. We also advise reader's who's primary experience with metapgrogramming is the `rlang` package to read on.
 
 Why macros and metaprogramming?
 -------------------------------
@@ -43,9 +43,9 @@ d[[COLUMNNAME]]
 
     ## [1] 3 4
 
-Value oriented interfaces are easier to program over. However, not all `R` functions and packages have the discipline of design to always supply value oriented alternatives to any code capturing interfaces. For example some commands such as `base::order()` can be hard to program over (due to its heavy leaning on the "`...`" argument, unlike the [`data.table`](https://CRAN.R-project.org/package=data.table) design of having both a `data.table::setorder()` and a `data.table::setorderv()`).
+Value oriented interfaces are easier to program over. However, not all `R` functions and packages have the discipline of design to always supply value oriented alternatives to any code capturing interfaces. For example some commands such as `base::order()` can be hard to program over (due to its heavy leaning on the "`...`" argument, unlike the [`data.table`](https://CRAN.R-project.org/package=data.table) design of having both a `data.table::setorder()` and a `data.table::setorderv()`; we now have thin [`orderv()`](https://winvector.github.io/wrapr/reference/orderv.html) and [`sortv`()](https://winvector.github.io/wrapr/reference/sortv.html) adapters to directly address this issue).
 
-In `R` macros and meta-programming are *not* urgent user-facing problems, until the user attempts to program over an interface that is *only* designed for interactive use (i.e., doesn't accept or have an alternative that accepts values stored in additional variables).
+In `R` macros and meta-programming are *not* urgent user-facing problems, until the user attempts to program over an interface that is *only* designed for interactive use (i.e., doesn't accept or have an alternative that accepts values stored in additional variables). In our case we researched macros because we found the interfaces of `dplyr 0.5.0` to be hard to program over, even with the included `lazyeval` package; this will be our motivating problem throughout. `dplyr 0.7.*`/`dplyr 0.8.*` now uses a new metaprogramming facility called `rlang`, but this was not available until after we published `let()` and (in my opinion) is not a good solution (especially when considered in context).
 
 Macros are a bit technical, but when you are painted into a programming corner (such as not having an interface you want), you look to macros. So let's talk more about macros and metaprogramming from the concrete point of view of trying to code capturing interfaces (such as "`$`") into value oriented interfaces (such as "`[[]]`"). Again: the idea is code capturing interfaces may be convenient for interactive work (when we are typing in the code while looking at data), but are inconvenient for programming work (where we can't always see the data and must take details from other variables, such as `COLUMNNAME`).
 
@@ -59,7 +59,7 @@ Some technical definitions (which we will expand on and use later).
 -   **Referential transparency**: "One of the most useful properties of expressions is that called by Quine referential transparency. In essence this means that if we wish to find the value of an expression which contains a sub-expression, the only thing we need to know about the sub-expression is its value." [Christopher Strachey, "Fundamental Concepts in Programming Languages", Higher-Order and Symbolic Computation, 13, 1149, 2000, Kluwer Academic Publishers](https://www.itu.dk/courses/BPRD/E2009/fundamental-1967.pdf) ([lecture notes written by Christopher Strachey for the International Summer School in Computer Programming at Copenhagen in August, 1967](https://en.wikipedia.org/wiki/Fundamental_Concepts_in_Programming_Languages)). This is the idea are attempting to capture in the informal phrase "value oriented interfaces."
 -   **Non-standard evaluation**/**NSE**: Evaluation that is not referentially transparent, as it may include inspecting and capturing names from code and direct control of both execution and look-up environments. Discussed (but not defined) in [Thomas Lumley, "Standard nonstandard evaluation rules", March 19, 2003](http://developer.r-project.org/nonstandard-eval.pdf). "Code capturing interfaces" a style of **NSE** interfaces. **NSE** is convenient in interactive sessions, but is so at the cost of losing referential transparency (which in turn means we lose a lot of power to program and reason about programs).
 
-Macros and metaprogramming are related concepts. Each has variations. For example <code>C</code>-macros are mere text substitutions performed by a pre-processor in some of the code compilation stages. Whereas <code>Lisp</code> macros operate directly on <code>Lisp</code> data structures and language objects (not mere text). When applied to programs both concepts converge to "code that writes code" or "programming over programs." There are games one can play to exclude or include various programming methods from these definitions, let's take a broad and general view that tools that achieve similar effects are similar enough to compare independent of how you categorize the internal implementation (which is relevant only in how influence result quality).
+Macros and metaprogramming are related concepts. Each has variations. For example <code>C</code>-macros are mere text substitutions performed by a pre-processor in some of the code compilation stages. Whereas <code>Lisp</code> macros operate directly on <code>Lisp</code> data structures and language objects (not mere text). When applied to programs both concepts converge to "code that writes code" or "programming over programs." There are games one can play to exclude or include various programming methods from these definitions, let's take a broad and general view that tools that achieve similar effects are similar enough to compare independent of how you categorize the internal implementation (an issue that does remain relevant when characterizing result quality and reliability).
 
 Macros and metaprogramming in `R`
 ---------------------------------
@@ -572,7 +572,7 @@ wrapr::let(
 
 The difference is `wrapr::let()` is substituting on language objects, not on mere strings. Notice `wrapr::let()` does not substitute into all string situations the same, but can use language context to make good choices. However, as we have said before, users can completely avoid such ambiguity by choosing appropriate substitution targets when they write their alias and code.
 
-That being said: notice once one has `base::substitute()`, `base::bquote()`, `gtools::defmacro()`, and `gtools::strmacro()` one already has a *a lot* of power. In fact our (minor) criticism is: one has bit too much power, so for some applications more specialized and deliberately limited user facing tools can have a lot of user advantages.
+That being said: notice once one has `base::substitute()`, `base::do.call()`, `base::bquote()`, `gtools::defmacro()`, and `gtools::strmacro()` one already has a *a lot* of power. In fact our (minor) criticism is: one has bit too much power, so for some applications more specialized and deliberately limited user facing tools can have a lot of user advantages. By the end of 2005 R users have enough tools (either in base-`R` or in `R` packages that are purely `R` code, not `C`/`C++` facilities) to do quite a lot. However, as we have said `R` is designed so the user doesn't have to resort to often resort to metaprogramming, so likely the methods were not taught or celebrated enough in the intervening 10 year of our narrative.
 
 ### `lazyeval`
 
@@ -1078,7 +1078,7 @@ iris %>% group_by(.data[[x]]) %>% summarize(n = n())
     ## 3 virginica     50
 
 </small>
-
+<p/>
 To be fair: a lot of the above issues were driven by our insistence on starting from a string column name instead of a symbol or captured un-evaluated code. Though it is disappointing that "`x`" does not work as a synonym for "`!!sym(x)`" (one would like quoting plus unquoting to look like a no-op). The `rlang` preference appears to be strongly for capturing un-evaluated code or arguments. However, [prefering non-trivial variables to be in columns](http://www.win-vector.com/blog/2018/08/r-tip-put-your-values-in-columns/) and considering column names to be strings is a valid point of view and a useful when when programming over modeling tasks (where one may supply the set of dependent variables as a vector of column names). I feel there is a subtle difference between the problems `rlang` apparently wants to solve (composing NSE interfaces) and the problems analysts/data-scientists actually have (wanting to propagate controlling values, such as column names, into analyses).
 
 In contrast to the above examples the `base::bquote()` and `wrapr::let()` patterns are fairly regular.
@@ -1142,7 +1142,7 @@ let(
     ## 3 virginica     50
 
 </small>
-
+<p/>
 Conclusion
 ----------
 
