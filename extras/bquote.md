@@ -1,7 +1,7 @@
 Macro Substitution in R
 ================
 John Mount
-2018-09-12
+2018-09-13
 
 This note is a long but cursory overview of some macro-substitution facilities available in [`R`](https://www.r-project.org). I am going to try to put a few of them in context (there are likely more I am missing) and explain why our group wrote yet another one ([`replyr::let()`](http://www.win-vector.com/blog/2016/12/parametric-variable-names-and-dplyr/)/[`wrapr::let()`](https://cran.r-project.org/web/packages/wrapr/vignettes/let.html)).
 
@@ -693,7 +693,7 @@ OLDVAR <- as.name("x")
 
 A `dplyr` that allows `:=` to denote assignment does not need an extension package such as `gtools`, `lazyeval`, `wrapr`, or `rlang`; `base::bquote()` is already able to do the work.
 
-`rlang` can also work with packages that it has not been integrated with, as [the linear modeling example](http://www.win-vector.com/blog/2018/09/r-tip-how-to-pass-a-formula-to-lm/) demonstrates. We repeat a simplified such example here (example volunteered by an `rlang` package author recently):
+`rlang` can work with packages that it has not been integrated with, as [the linear modeling example](http://www.win-vector.com/blog/2018/09/r-tip-how-to-pass-a-formula-to-lm/) demonstrates. We repeat a simplified such example here (example volunteered by an `rlang` package author recently):
 
 ``` r
 library("rlang")
@@ -770,6 +770,54 @@ eval_tidy(terms)
     ## [1] -7
 
 `rlang` documentation and promotion does sometimes mention `bquote()`, but never seems to actually *try* `bquote()` as an alternate solution in a post-`dplyr 0.5.0` world (i.e., one where "`:=`" is part of `dplyr`). So new readers can be forgiven for having the (false) impression that `rlang` substitution is a unique and unprecedented capability for `R`.
+
+`rlang` currently can not substitute into a number of common target positions. For example the we could try to repeat the `wrapr::let()` replace the item on the right of the "`$`" example, but that does not work.
+
+``` r
+library("rlang")
+
+X <- sym("y")
+expr(d$!!X)
+```
+
+    ## Error: <text>:4:8: unexpected '!'
+    ## 3: X <- sym("y")
+    ## 4: expr(d$!
+    ##           ^
+
+``` r
+expr(f <- function(!!X) { !!X + 1 })
+```
+
+    ## Error: <text>:1:20: unexpected '!'
+    ## 1: expr(f <- function(!
+    ##                        ^
+
+Similar issues likely exist for the right-hand sides of "`$`", and function arguments ([cases `wrapr::let()` handles with ease](https://winvector.github.io/wrapr/articles/SubstitutionModes.html)).
+
+``` r
+library("wrapr")
+
+let(
+  c(X = "y"),
+  {
+    d$X
+    X$a
+    f <- function(X) { X + 1 }
+  },
+  eval = FALSE
+)
+```
+
+    ## {
+    ##     d$y
+    ##     y$a
+    ##     f <- function(y) {
+    ##         y + 1
+    ##     }
+    ## }
+
+The `rlang` replacement notation is just not as powerful as name-based substitution (as used by `strmacro()` and `wrapr::let()`).
 
 Finally, the combined `rlang`/`dplyr` interface surface is large and complicated. A lot varies depending if the user is attempting to specify a column using an integer index, a string, a `name`/`symbol`, a `quosure`/`formula`, an expression, or un-evaluated source code (all of which seem to be allowed); plus variations depending on if the execution is a function context or not; plus variations the "semantics" of the `dplyr` verb ([there are at least two styles: "`select`" and "`eval`", and possibly more](https://github.com/tidyverse/dplyr/issues/3316)). This creates a large user responsibility to know which combination of adapters and which access patterns are correct. We give an example below (contrived, but the kind of experimentation a new user often uses to learn):
 
