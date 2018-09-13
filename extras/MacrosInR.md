@@ -7,18 +7,19 @@ This note is a long, but cursory, overview of some macro-substitution facilities
 
 The `R` macro (or code control) facilities we will discuss include over 20 years of contributions (in time order):
 
--   `base::do.call()` (part of `R` since [at least 1997](https://github.com/wch/r-source/blob/a625016dc706a58d11c75664f6c60d07e5d07b0c/src/main/names.c)).
--   `defmacro()` [Lumley T. "Programmer's Niche: Macros in R", R News, 2001, Vol 1, No. 3, pp 11–13](https://www.r-project.org/doc/Rnews/Rnews_2001-3.pdf).
--   `base::bquote()` ([released in R 1.8.1, November 2003](https://github.com/wch/r-source/blob/5a156a0865362bb8381dcd69ac335f5174a4f60c/doc/NEWS.1)).
--   `gtools::defmacro()` ([gtools 2.0.9, September 2, 2005](https://cran.r-project.org/src/contrib/Archive/gtools/)) from the [`gtools`](https://CRAN.R-project.org/package=gtools) package.
--   `gtools::strmacro()` ([gtools 2.1.1, September 23, 2005](https://cran.r-project.org/src/contrib/Archive/gtools/)) from the [`gtools`](https://CRAN.R-project.org/package=gtools) package.
--   `lazyeval` package ([released October 1, 2014](https://cran.r-project.org/src/contrib/Archive/lazyeval/)).
--   `replyr::let()`/`wrapr::let()` ([released December 8th, 2016](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf) in the [`replyr`](https://github.com/WinVector/replyr) package, later extended and moved to the low-dependency [`wrapr`](https://github.com/WinVector/wrapr) package).
--   `rlang::!!` ([released May 5th, 2017](https://cran.r-project.org/src/contrib/Archive/rlang/)).
+-   `base::substitute()`/`base::eval()`: Likely part of `R` from the start (1993), as they were known in `S` (please see John M. Chambers, *Programming with Data: A Guide to the S Language*, Springer, 1998; and see also [here](https://github.com/wch/r-source/tree/fa44a2cd83a81ecbccd6545895955cff7f719156/src/library/base/R)).
+-   `base::do.call()`: Part of `R` since [at least 1997](https://github.com/wch/r-source/blob/a625016dc706a58d11c75664f6c60d07e5d07b0c/src/main/names.c), probably earlier.
+-   `defmacro()`: [Lumley T. "Programmer's Niche: Macros in R", R News, 2001, Vol 1, No. 3, pp 11–13](https://www.r-project.org/doc/Rnews/Rnews_2001-3.pdf).
+-   `base::bquote()`: [Released in R 1.8.1, November 2003](https://github.com/wch/r-source/blob/5a156a0865362bb8381dcd69ac335f5174a4f60c/doc/NEWS.1).
+-   `gtools::defmacro()`: [gtools 2.0.9, September 2, 2005](https://cran.r-project.org/src/contrib/Archive/gtools/).
+-   `gtools::strmacro()`: [gtools 2.1.1, September 23, 2005](https://cran.r-project.org/src/contrib/Archive/gtools/).
+-   `lazyeval` package: [Released October 1, 2014](https://cran.r-project.org/src/contrib/Archive/lazyeval/).
+-   `replyr::let()`/`wrapr::let()` [Released December 8th, 2016](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf) in the [`replyr`](https://github.com/WinVector/replyr) package, later extended and moved to the low-dependency [`wrapr`](https://github.com/WinVector/wrapr) package.
+-   `rlang::!!`: [Released May 5th, 2017](https://cran.r-project.org/src/contrib/Archive/rlang/).
 
 One of the goals of this note is to document differences between our own method `wrapr::let()` and the *later* system `rlang:!!`.
 
-I have worked hard to include concrete and clear examples, so I think working through this note will be rewarding tutorial for `R` users interested in potentially lightening their programming workload through macros or metaprogramming (we will define metaprogramming and macros shortly). So I will re-phrase that: if you are interested in improving your `R` programming and not already expert in using macros methods, you may want to read on. We also advise reader's who's primary experience with metapgrogramming is the `rlang` package to read on.
+I have worked hard to include concrete and clear examples, so I think working through this note will be rewarding tutorial for `R` users interested in potentially lightening their programming workload through macros or metaprogramming (we will define metaprogramming and macros shortly). So I will re-phrase that: if you are interested in improving your `R` programming and not already expert in using macros methods, you may want to read on. We also advise readers who's primary experience with metapgrogramming is the `rlang` package to also read on.
 
 Why macros and metaprogramming?
 -------------------------------
@@ -64,9 +65,11 @@ Macros and metaprogramming are related concepts. Each has variations. For exampl
 Macros and metaprogramming in `R`
 ---------------------------------
 
-We are going to run through the code control methods we listed earlier in essentially chronological order. For each method will comment on its suitability for our example goal (converting code capturing interfaces into reusable referentially transparent interfaces) *and* how the capabilities of each method relate to the methods available before them (i.e. are they actually solving open problems). Obviously there is the important possibility that newer solutions *can* be better solutions, but just because a solution is newer doesn't mean it is in fact better. Also each solution could easily be best if it gets to choose the problem we claim to be of interest. The problem we are in fact interested in is: programming over code, in particular programming over `dplry`, as this was an actual pain point in some production work. The `wrapr` package will get the (slightly unfair) presentation advantage that as the package author I can attempt to explain intent of `wrapr` package motivation here.
+We are going to run through the code control methods we listed earlier in essentially chronological order. For each method will comment on its suitability for our example goal (converting code capturing interfaces into reusable referentially transparent interfaces) *and* how the capabilities of each method relate to the methods available before them (i.e. are they actually solving open problems). Obviously there is the important possibility that newer solutions *can* be better solutions, but just because a solution is newer doesn't mean it is in fact better. Also each solution could easily be best if it gets to choose the problem we claim to be of interest. The problem we are in fact interested in is: programming over code, in particular programming over `dplry`, as this was an actual pain point in some production work. The `wrapr` package will get the (slightly unfair) presentation advantage that as the package author I can attempt to explain the intent and motivation of `wrapr` the package here.
 
 ### `base::do.call()`
+
+We are going to discuss `base::do.call()` before `base::substitute()` and `base::eval()`, regardless of the order they may have entered into the `R` language.
 
 Sometimes you don't need the full power of macros. The function you are using may already have a powerful enough interface. Or you may be only trying to control the execution of a single function, a task for which `R` already has an excellent tool: `base::do.call()`.
 
@@ -159,7 +162,46 @@ d[orderv(order_spec), , drop = FALSE]
 
 Now the above [varargs](https://en.wikipedia.org/wiki/Variadic_function) issue is not quite the same issue as macro name-replacement, but they are similar in the sense variadic interfaces and name-capturing interfaces and optimized for interactive use (making them shorter than value oriented interfaces, but also a bit harder to program over).
 
+`base::substitute()`/`base::eval()`
+===================================
+
+We are not going to show much direct use of `base::substitute()`, `base::eval()`. They are fundamental tools used both directly and to build other tools. Since we are taking a user-view of coding we will spend more time on more specialized tools build on top of these fundamental operators. So we will try to move on after merely a brief orientation or description.
+
+`base::substitute()` captures un-evaluated code or arguments of functions. It also can, in some contexts, perform symbol substitutions (hence the name). `base::quote()` also captures its input, and [started as an function that called `substitue()`](https://github.com/wch/r-source/blob/fa44a2cd83a81ecbccd6545895955cff7f719156/src/library/base/R/eval) (which may still have different meaning, as `substitute()` behaves differently depending on the execution environment). `base::eval()` evaluates code (undoes the quoting of `substitute()` or `quote()`). This is easy to see with an example.
+
+``` r
+substitute(1 + 1)
+```
+
+    ## 1 + 1
+
+``` r
+eval(substitute(1 + 1))
+```
+
+    ## [1] 2
+
+``` r
+quote(1 + 1)
+```
+
+    ## 1 + 1
+
+``` r
+eval(quote(1 + 1))
+```
+
+    ## [1] 2
+
+At this point we see how capturing un-evaluated code is possible, and how captured code can be later executed. Beyond delaying and printing things we haven't yet shown anything very deep.
+
+In fact we now have enough power to directly imitate Lisp's <code>eval</code> and <code>apply</code>. This is already a lot of power, in fact the relations between such functions can be used to define the entire semantics of functional languages. The relations between Lisp <code>eval</code> and Lisp <code>apply</code> are so fundamental that Alan Kay called them "Maxwell's Equations of Software": ["A conversation with Alan Kay", ACMqueue, Volume 2, Issue 9, December 27, 2004](https://queue.acm.org/detail.cfm?id=1039523), see also ["Lisp as the Maxwell’s equations of software", Michael Nielson April 11, 2012](http://www.michaelnielsen.org/ddi/lisp-as-the-maxwells-equations-of-software/).
+
+The above functions are "power tools", able to do just about anything for those that study them but a bit bulky and dangerous for casual use. Often user facing tools are built in terms of these operators. A great example of this is `defmacro()`, which we will discuss next.
+
 ### `defmacro()`/`gtools::defmacro()`
+
+`defmacro()` is a function that lets the user define their own macros. `R` doesn't need a special macro definition sub-language, because the `R` language is already powerful enough to build macros.
 
 `defmacro()` was introduced to the `R` community in [a fantastic article by Thomas Lumley in 2001](https://www.r-project.org/doc/Rnews/Rnews_2001-3.pdf), and then later enhanced and distributed as part of the [`gtools` package](https://CRAN.R-project.org/package=gtools) by Thomas Lumley and Gregory R. Warnes.
 
@@ -364,7 +406,7 @@ eval(bquote(
 
 However, for `dplyr 0.5.0` (the version of `dplyr` available when we were working on this issue) one must use "`=`", and therefore can not use directly `bquote()` to control `dplyr::mutate()` results.
 
-The code for `bquote()` (accessible by executing `print(bquote)`) is amazingly compact. This is a common situation in functional programming languages. This sort of compactness is fairly common when you stay out of the way of <code>eval</code>/<code>apply</code> and let them do the heavy lifting. The relations between <code>eval</code> and <code>apply</code> are so fundamental that Alan Kay called them "Maxwell's Equations of Software": ["A conversation with Alan Kay", ACMqueue, Volume 2, Issue 9, December 27, 2004](https://queue.acm.org/detail.cfm?id=1039523), see also ["Lisp as the Maxwell’s equations of software", Michael Nielson April 11, 2012](http://www.michaelnielsen.org/ddi/lisp-as-the-maxwells-equations-of-software/).
+The code for `bquote()` (accessible by executing `print(bquote)`) is amazingly compact. This is a common situation in functional programming languages.
 
 ### `gtools::strmacro()`
 
@@ -588,7 +630,7 @@ It is my impression that `lazyeval` isn't currently recommended by its authors, 
 
 ### `wrapr::let()`
 
-For some code-rewriting tasks we (John Mount and Nina Zumel) found both `substitute()` and `bquote()` a bit limiting, and `strmacro()` a bit wild. For this reason we developed `wrapr::let()`, taking inspiration from `gtools::strmacro()`. `wrapr::let()` was designed to have syntax similar to `substitute()` and also to classic <code>Lisp</code> "<code>let</code>" style value-binding blocks (informal example: "<code>(let X be 7 in (sin X))</code>"). Informally we think of `let()` as "`base::with()`, but for names, instead of values." Early implementations used string-based methods, later we switched to more powerful language object based substitutions.
+For some code-rewriting tasks we (John Mount and Nina Zumel) found both `substitute()` and `bquote()` a bit limiting, and `strmacro()` a bit wild. For this reason we developed `wrapr::let()`, taking inspiration from `gtools::strmacro()`. `wrapr::let()` was designed to have syntax similar to `substitute()` and also to classic <code>Lisp</code> "<code>let</code>" style value-binding blocks (informal example: "<code>(let X be 7 in (sin X))</code>"). Informally we think of `let()` as "`base::with()`, but for names, instead of values." We wanted `let()` to be a direct user facing tool, not a tool that builds tools (such as `strmacro()`). Early implementations used string-based methods, later we switched to more powerful language object based substitutions.
 
 Our first application of `let()` (at the time in the [`replyr`](https://CRAN.R-project.org/package=replyr) package) was to perform parametric programming over `dplyr 0.5.0` (the version of `dplyr` current at the time). That is to convert `dplyr 0.5.0` name/code capturing interfaces into standard referentially transparent interfaces.
 
@@ -1143,6 +1185,8 @@ let(
 
 </small>
 <p/>
+.
+
 Conclusion
 ----------
 
@@ -1152,6 +1196,7 @@ Some of our take-aways include:
 
 -   Always consider using functions before resorting to macros. Functions have more isolation and are generally safer to work with and compose. When you use macros you are usurping standard evaluation rules and taking direct control, so after that things become somewhat your own fault.
 -   For fine control of the arguments of a single function call I recommend using `base::do.call()`.
+-   For composing macro-like entities with each other `substitute()`, `quote()`, `eval()`, and `unquote()` are the base-`R` fundamental tools.
 -   `gtools::defmacro()` is a great tool for building macros, especially parameterized code-snippets that are intended to have visible side effects (such as writing back values).
 -   `base::bquote()` is a great choice for programming over other systems and uses clear quasiquotation semantics. It is able to easily program over `dplyr 0.7.0` and later versions and is part of the core `R` language (or "base `R`", which *should* be a *huge* plus).
 -   `gtools::strmacro()` is a very powerful tool, fully capable of programming over `dplyr 0.5.0`.
