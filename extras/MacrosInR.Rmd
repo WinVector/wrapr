@@ -19,7 +19,7 @@ The `R` macro (or code control) facilities we will discuss include 20 years of c
  * `replyr::let()`/`wrapr::let()` ([released December 8th, 2016](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf) in the [`replyr`](https://github.com/WinVector/replyr) package, later extended and moved to the low-dependency [`wrapr`](https://github.com/WinVector/wrapr) package).
  * `rlang::!!` ([released May 5th, 2017](https://cran.r-project.org/src/contrib/Archive/rlang/)).
 
-One of the goals of this note is to document differences between our method `wrapr::let()` and `rlang:!!`.  An anonymous reviewer of [our formal description of `wrapr::let()`](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf) rejected our paper on the grounds that there were not enough claimed contrasts to differentiate `let()` from the *later* package `rlang`.  There are many easily found contrasts, but as many favor `let()` we had felt it was polite to not belabor them.  Having now been asked (by a reviewer that frequently used the term "overscope" in describing examples; ["overscope" being an `rlang` favored term for a variation on `environment`s](https://www.rdocumentation.org/packages/rlang/versions/0.1/topics/as_overscope)) we will share a comparative survey here and add this note as a reference in the [`wrapr::let()` paper](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf).  Probably [our original paper](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf) will never get journal publication, but it is still available to help users.
+One of the goals of this note is to document differences between our own method `wrapr::let()` and the *later* system `rlang:!!`.
 
 I have worked hard to include concrete and clear examples, so I think working through this note will be rewarding tutorial for `R` users interested in potentially lightening their programming workload through metaprogramming (we will define metaprogramming and macros shortly).
  
@@ -745,15 +745,7 @@ let(
 )
 ```
 
-The `rlang` replacement notation is just not as powerful as name-based substitution (as used by `strmacro()` and `wrapr::let()`).  This is despite public claims to the contrary:
-
-<center>
-<a href="https://blog.rstudio.com/2017/04/13/dplyr-0-6-0-coming-soon/#comment-3405180631">
-<img src="tidyeval.png">
-</a>
-</center><p/>
-
-It may be considered rude to bring this up to respond, but not being able to correct this is pretty damaging.  Frankly a combination of the earlier earlier systems, with care, can work most (or perhaps even all) of `rlang`'s examples- but `rlang` can not work all of earlier system's examples. I don't want to support a circular argument of the form if it isn't an `rlang` designed substitution then it isn't a reasonable need or example.  `R` itself (plus maybe a few packages) tends to give one "great powers", and often more than locking one self into any one single extension package.
+The `rlang` replacement notation is just not as powerful as name-based substitution (as used by `strmacro()` and `wrapr::let()`). 
 
 #### `rlang` and `dplyr`
 
