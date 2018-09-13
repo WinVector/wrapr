@@ -5,10 +5,10 @@ date: 2018-09-13
 output: github_document
 ---
 
-This note is a long but cursory overview of some macro-substitution facilities available in [`R`](https://www.r-project.org).  I am going to try to put a few of them in context (there are likely more I am missing) and explain why our group wrote yet another one ([`replyr::let()`](http://www.win-vector.com/blog/2016/12/parametric-variable-names-and-dplyr/)/[`wrapr::let()`](https://cran.r-project.org/web/packages/wrapr/vignettes/let.html)).
+This note is a long, but cursory, overview of some macro-substitution facilities available in [`R`](https://www.r-project.org).  I am going to try to put a few of them in context (there are likely more I am missing) and explain why our group wrote yet another one ([`replyr::let()`](http://www.win-vector.com/blog/2016/12/parametric-variable-names-and-dplyr/)/[`wrapr::let()`](https://cran.r-project.org/web/packages/wrapr/vignettes/let.html)).
 
 
-The `R` macro (or code control) facilities we will discuss include 20 years of contributions (in time order):
+The `R` macro (or code control) facilities we will discuss include over 20 years of contributions (in time order):
 
  * `base::do.call()` (part of `R` since [at least 1997](https://github.com/wch/r-source/blob/a625016dc706a58d11c75664f6c60d07e5d07b0c/src/main/names.c)).
  * `defmacro()` [Lumley T. "Programmer's Niche: Macros in R", R News, 2001, Vol 1, No. 3, pp 11–13](https://www.r-project.org/doc/Rnews/Rnews_2001-3.pdf). 
@@ -57,7 +57,7 @@ Some technical definitions (which we will expand on and use later).
   * __Referential transparency__: "One of the most useful properties of expressions is that called by Quine referential transparency. In essence this means that if we wish to find the value of an expression which contains a sub-expression, the only thing we need to know about the sub-expression is its value." [Christopher Strachey, "Fundamental Concepts in Programming Languages", Higher-Order and Symbolic Computation, 13, 1149, 2000, Kluwer Academic Publishers](https://www.itu.dk/courses/BPRD/E2009/fundamental-1967.pdf) ([lecture notes written by Christopher Strachey for the International Summer School in Computer Programming at Copenhagen in August, 1967](https://en.wikipedia.org/wiki/Fundamental_Concepts_in_Programming_Languages)).  This is the idea are attempting to capture in the informal phrase "value oriented interfaces."
   * __Non-standard evaluation__/__NSE__: Evaluation that is not referentially transparent, as it may include inspecting and capturing names from code and direct control of both execution and look-up environments.  Discussed (but not defined) in [Thomas Lumley, "Standard nonstandard evaluation rules", March 19, 2003](http://developer.r-project.org/nonstandard-eval.pdf).  "Code capturing interfaces" a style of __NSE__ interfaces.  __NSE__ is convenient in interactive sessions, but is so at the cost of losing referential transparency (which in turn means we lose a lot of power to program and reason about programs).
   
-Macros and metaprogramming are related concepts.  Each has variations. For example <code>C</code>-macros are mere text substitutions performed by a pre-processor in some of the code compilation stages.  Whereas <code>Lisp</code> macros operate directly on <code>Lisp</code> data structures and language objects (not mere text). When applied to programs both concepts converge to "code that writes code" or "programming over programs."
+Macros and metaprogramming are related concepts.  Each has variations. For example <code>C</code>-macros are mere text substitutions performed by a pre-processor in some of the code compilation stages.  Whereas <code>Lisp</code> macros operate directly on <code>Lisp</code> data structures and language objects (not mere text). When applied to programs both concepts converge to "code that writes code" or "programming over programs."  There are games one can play to exclude or include various programming methods from these definitions, let's take a broad and general view that tools that achieve similar effects are similar enough to compare independent of how you categorize the internal implementation (which is relevant only in how influence result quality).
 
 
 ## Macros and metaprogramming in `R`
