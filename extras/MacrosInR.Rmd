@@ -58,7 +58,7 @@ Some technical definitions (which we will expand on and use later).
   * __Referential transparency__: "One of the most useful properties of expressions is that called by Quine referential transparency. In essence this means that if we wish to find the value of an expression which contains a sub-expression, the only thing we need to know about the sub-expression is its value." [Christopher Strachey, "Fundamental Concepts in Programming Languages", Higher-Order and Symbolic Computation, 13, 1149, 2000, Kluwer Academic Publishers](https://www.itu.dk/courses/BPRD/E2009/fundamental-1967.pdf) ([lecture notes written by Christopher Strachey for the International Summer School in Computer Programming at Copenhagen in August, 1967](https://en.wikipedia.org/wiki/Fundamental_Concepts_in_Programming_Languages)).  This is the idea are attempting to capture in the informal phrase "value oriented interfaces."
   * __Non-standard evaluation__/__NSE__: Evaluation that is not referentially transparent, as it may include inspecting and capturing names from code and direct control of both execution and look-up environments.  Discussed (but not defined) in [Thomas Lumley, "Standard nonstandard evaluation rules", March 19, 2003](http://developer.r-project.org/nonstandard-eval.pdf).  "Code capturing interfaces" a style of __NSE__ interfaces.  __NSE__ is convenient in interactive sessions, but is so at the cost of losing referential transparency (which in turn means we lose a lot of power to program and reason about programs).
   
-Macros and metaprogramming are related concepts.  Each has variations. For example <code>C</code>-macros are mere text substitutions performed by a pre-processor in some of the code compilation stages.  Whereas <code>Lisp</code> macros operate directly on <code>Lisp</code> data structures and language objects (not mere text). When applied to programs both concepts converge to "code that writes code" or "programming over programs."  There are games one can play to exclude or include various programming methods from these definitions, let's take a broad and general view that tools that achieve similar effects are similar enough to compare independent of how you categorize the internal implementation (an issue that does remain relevant when characterizing result quality and reliability).
+Macros and metaprogramming are related concepts.  Each has variations. For example <code>C</code>-macros are mere text substitutions performed by a pre-processor in some of the code compilation stages.  Whereas <code>Lisp</code> macros operate directly on <code>Lisp</code> data structures and language objects (not mere text). When applied to programs both concepts converge to "code that writes code" or "programming over programs."  There are games one can play to exclude or include various programming methods from these definitions. Let's take a broad (non pedantic) and general view that tools that achieve similar effects are similar enough to compare independent of how you categorize the internal implementation (an issue that does remain relevant when characterizing result quality and reliability).
 
 
 ## Macros and metaprogramming in `R`
@@ -171,7 +171,7 @@ I strongly suggest reading [the original article](https://www.r-project.org/doc/
 
 > While defmacro() has many (ok, one or two) practical uses, its main purpose is to show off the powers of substitute(). Manipulating expressions directly with substitute() can often let you avoid messing around with pasting and parsing strings, assigning into strange places with <<- or using other functions too evil to mention.
 
-We couldn't use `defmacro()` for our particular application (programming over `dplyr 0.5.0`) as the `substitute` function (which `defmacro()` is based on) will not substitute the left-hand sides of argument bindings (which is how `dplyr::mutate()` specifies assignment).  We demonstrate this below by trying to replace symbols with "<code>x</code>":
+We couldn't use `defmacro()` for our particular application (programming over `dplyr 0.5.0`) as the `substitute()` function (which `defmacro()` is based on) will not substitute the left-hand sides of argument bindings (which is how `dplyr::mutate()` specifies assignment).  We demonstrate this below by trying to replace symbols with "<code>x</code>":
 
 ```{r leftissue1}
 # notice right hand side "B" can be substituted
@@ -201,7 +201,7 @@ substitute(sin(x = x), env = list(x = 7))
 eval(substitute(sin(x = x), env = list(x = 7)))
 ```
 
-As `dplyr::mutate()` uses argument binding in "`...`" to denote assignments, we will want control of both sides of such sub-expressions when trying to program over `dplyr`.
+As `dplyr::mutate()` uses named argument binding in "`...`" to denote assignments, we will want control of both sides of such sub-expressions when trying to program over `dplyr`.
 
 As an aside (and return to our earlier comments on "`$`"), notice substitute can replace items near a "`$`".  `defmacro()` also does this, but produces yet another code capturing interface (not a value oriented interface).
 
@@ -454,7 +454,7 @@ wrapr::let(
 
 The difference is `wrapr::let()` is substituting on language objects, not on mere strings.  Notice `wrapr::let()` does not substitute into all string situations the same, but can use language context to make good choices. However, as we have said before, users can completely avoid such ambiguity by choosing appropriate substitution targets when they write their alias and code.
 
-That being said: notice once one has `base::substitute()`, `base::do.call()`, `base::bquote()`, `gtools::defmacro()`, and `gtools::strmacro()` one already has a *a lot* of power.  In fact our (minor) criticism is: one has bit too much power, so for some applications more specialized and deliberately limited user facing tools can have a lot of user advantages. By the end of 2005 R users have enough tools (either in base-`R` or in `R` packages that are purely `R` code, not `C`/`C++` facilities) to do quite a lot. However, as we have said `R` is designed so the user doesn't have to resort to often resort to metaprogramming, so likely the methods were not taught or celebrated enough in the intervening 10 year of our narrative.
+That being said: notice once one has `base::substitute()`, `base::do.call()`, `base::bquote()`, `gtools::defmacro()`, and `gtools::strmacro()` one already has a *a lot* of power.  In fact our (minor) criticism is: one has bit too much power, so for some applications more specialized and deliberately limited user facing tools can have a lot of user advantages. By the end of 2005 R users have enough tools (either in base-`R` or in `R` packages that are purely `R` code, not `C`/`C++` facilities) to do quite a lot. However, as we have said `R` is designed so the user doesn't have to resort to often resort to metaprogramming, so likely the methods were not taught or celebrated enough in the next 10 year of our narrative.
 
 ### `lazyeval`
 
