@@ -106,7 +106,7 @@
       <h1>Substitution Modes</h1>
                         <h4 class="author">John Mount</h4>
             
-            <h4 class="date">2018-09-12</h4>
+            <h4 class="date">2018-09-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/SubstitutionModes.Rmd"><code>vignettes/SubstitutionModes.Rmd</code></a></small>
       <div class="hidden name"><code>SubstitutionModes.Rmd</code></div>
@@ -128,6 +128,9 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  {
     d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="st">"X"</span> =<span class="st"> "X"</span>, <span class="dt">X2 =</span> <span class="st">"XX"</span>, <span class="dt">d =</span> X<span class="op">*</span>X, <span class="dt">.X =</span> X_)
     X &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">X =</span> d<span class="op">$</span>X, <span class="dt">X2 =</span> d<span class="op">$</span><span class="st">"X"</span>, <span class="dt">v1 =</span> <span class="st">`</span><span class="dt">X</span><span class="st">`</span>, <span class="dt">v2 =</span> <span class="st">`</span><span class="dt"> X</span><span class="st">`</span>, <span class="kw">F</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>))
+    X<span class="op">$</span>a
+    <span class="st">"X"</span><span class="op">$</span>a
+    X =<span class="st"> </span><span class="cf">function</span>(X, ...) { X <span class="op">+</span><span class="st"> </span><span class="dv">1</span> }
   }</code></pre></div>
 <p>This block a lot of different examples and corner-cases.</p>
 <div id="language-substitution-subsmethodlangsubs" class="section level4">
@@ -140,11 +143,19 @@
   {
     d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="st">"X"</span> =<span class="st"> "X"</span>, <span class="dt">X2 =</span> <span class="st">"XX"</span>, <span class="dt">d =</span> X<span class="op">*</span>X, <span class="dt">.X =</span> X_)
     X &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">X =</span> d<span class="op">$</span>X, <span class="dt">X2 =</span> d<span class="op">$</span><span class="st">"X"</span>, <span class="dt">v1 =</span> <span class="st">`</span><span class="dt">X</span><span class="st">`</span>, <span class="dt">v2 =</span> <span class="st">`</span><span class="dt"> X</span><span class="st">`</span>, <span class="kw">F</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>))
+    X<span class="op">$</span>a
+    <span class="st">"X"</span><span class="op">$</span>a
+    X =<span class="st"> </span><span class="cf">function</span>(X, ...) { X <span class="op">+</span><span class="st"> </span><span class="dv">1</span> }
   },
   <span class="dt">eval =</span> <span class="ot">FALSE</span>, <span class="dt">subsMethod =</span> <span class="st">'langsubs'</span>)</code></pre></div>
 <pre><code>## {
 ##     d &lt;- data.frame(y = "X", X2 = "XX", d = y * y, .X = X_)
 ##     y &lt;- list(y = d$y, X2 = d$y, v1 = y, v2 = ` X`, sin(1:2))
+##     y$a
+##     "X"$a
+##     y = function(y, ...) {
+##         y + 1
+##     }
 ## }</code></pre>
 <p>Notice the substitution replaced all symbol-like uses of “<code>X</code>”, and only these (including correctly working with some that were quoted!).</p>
 </div>
@@ -156,11 +167,19 @@
   {
     d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="st">"X"</span> =<span class="st"> "X"</span>, <span class="dt">X2 =</span> <span class="st">"XX"</span>, <span class="dt">d =</span> X<span class="op">*</span>X, <span class="dt">.X =</span> X_)
     X &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">X =</span> d<span class="op">$</span>X, <span class="dt">X2 =</span> d<span class="op">$</span><span class="st">"X"</span>, <span class="dt">v1 =</span> <span class="st">`</span><span class="dt">X</span><span class="st">`</span>, <span class="dt">v2 =</span> <span class="st">`</span><span class="dt"> X</span><span class="st">`</span>, <span class="kw">F</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>))
+    X<span class="op">$</span>a
+    <span class="st">"X"</span><span class="op">$</span>a
+    X =<span class="st"> </span><span class="cf">function</span>(X, ...) { X <span class="op">+</span><span class="st"> </span><span class="dv">1</span> }
   },
   <span class="dt">eval =</span> <span class="ot">FALSE</span>, <span class="dt">subsMethod =</span> <span class="st">'stringsubs'</span>)</code></pre></div>
 <pre><code>## expression({
 ##     d &lt;- data.frame(y = "y", X2 = "XX", d = y * y, .y = X_)
 ##     y &lt;- list(y = d$y, X2 = d$y, v1 = y, v2 = ` y`, sin(1:2))
+##     y$a
+##     "y"$a
+##     y = function(y, ...) {
+##         y + 1
+##     }
 ## })</code></pre>
 <p>Notice string substitution has a few flaws: it went after variable names that appeared to start with a word-boundary (the cases where the variable name started with a dot or a space). Substitution also occurred in some string constants (which as we have seen could be considered a good thing).</p>
 <p>These situations are all avoidable as both the code inside the <code>let</code>-block and the substitution targets are chosen by the programmer, so they can be chosen to be simple and mutually consistent. We suggest “<code>ALL_CAPS</code>” style substitution targets as they jump out as being macro targets. But, of course, it is better to have stricter control on substitution.</p>
@@ -173,11 +192,19 @@
     {
       d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="st">"X"</span> =<span class="st"> "X"</span>, <span class="dt">X2 =</span> <span class="st">"XX"</span>, <span class="dt">d =</span> X<span class="op">*</span>X, <span class="dt">.X =</span> X_)
       X &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">X =</span> d<span class="op">$</span>X, <span class="dt">X2 =</span> d<span class="op">$</span><span class="st">"X"</span>, <span class="dt">v1 =</span> <span class="st">`</span><span class="dt">X</span><span class="st">`</span>, <span class="dt">v2 =</span> <span class="st">`</span><span class="dt"> X</span><span class="st">`</span>, <span class="kw">F</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>))
+      X<span class="op">$</span>a
+      <span class="st">"X"</span><span class="op">$</span>a
+      X =<span class="st"> </span><span class="cf">function</span>(X, ...) { X <span class="op">+</span><span class="st"> </span><span class="dv">1</span> }
     },
     <span class="dt">eval =</span> <span class="ot">FALSE</span>, <span class="dt">subsMethod =</span> <span class="st">'subsubs'</span>)</code></pre></div>
 <pre><code>## {
 ##     d &lt;- data.frame(X = "X", X2 = "XX", d = y * y, .X = X_)
 ##     y &lt;- list(X = d$y, X2 = d$X, v1 = y, v2 = ` X`, sin(1:2))
+##     y$a
+##     "X"$a
+##     y = function(X, ...) {
+##         y + 1
+##     }
 ## }</code></pre>
 <p>Notice <code><a href="http://www.rdocumentation.org/packages/base/topics/substitute">base::substitute()</a></code> doesn’t re-write left-hand-sides of argument bindings. This is why I originally didn’t consider using this implementation. Re-writing left-hand-sides of assignments is critical in expressions such as <code><a href="http://dplyr.tidyverse.org/reference/mutate.html">dplyr::mutate( RESULTCOL = INPUTCOL + 1)</a></code>. Also <code><a href="http://www.rdocumentation.org/packages/base/topics/substitute">base::substitute()</a></code> doesn’t special case the <code>d$"X"</code> situation (but that really isn’t very important).</p>
 </div>

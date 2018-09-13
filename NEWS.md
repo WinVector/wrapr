@@ -1,7 +1,8 @@
 
-# wrapr 1.6.2 2018-09-12
+# wrapr 1.6.2 2018-09-13
 
- * Add grepv()
+ * Add grepv().
+ * More exaples in SubstitutionModes vignette (show we don't need special pairlist case).
  
 # wrapr 1.6.2 2018-09-10
 
