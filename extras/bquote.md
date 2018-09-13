@@ -13,10 +13,10 @@ The `R` macro (or code control) facilities we will discuss include 20 years of c
 -   `gtools::defmacro()` ([gtools 2.0.9, September 2, 2005](https://cran.r-project.org/src/contrib/Archive/gtools/)) from the [`gtools`](https://CRAN.R-project.org/package=gtools) package.
 -   `strmacro()` ([gtools 2.1.1, September 23, 2005](https://cran.r-project.org/src/contrib/Archive/gtools/)) from the [`gtools`](https://CRAN.R-project.org/package=gtools) package.
 -   `lazyeval` package ([released October 1, 2014](https://cran.r-project.org/src/contrib/Archive/lazyeval/)).
--   `replyr::let()`/`wrapr::let()` ([released December 8th, 2016](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf)).
+-   `replyr::let()`/`wrapr::let()` ([released December 8th, 2016](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf) in the `replyr` package, later extended and moved to the low-dependency `wrapr` package).
 -   `rlang::!!` ([released May 5th, 2017](https://cran.r-project.org/src/contrib/Archive/rlang/)).
 
-One of the goals of this note is to document differences between our method `wrapr::let()` and `rlang:!!`. One anonymous reviewer of [our formal description of `wrapr::let()`](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf) rejected our paper on the grounds that there were not enough contrasts to differentiate `wrapr::let()` from the *later* package `rlang`. There are many such contrasts, and here we will state some of them. It seemed like a survey and comparison would be a substantially different paper, so we are sharing a comparative survey here (and adding this note as a reference in the [`wrapr::let()` paper](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf)).
+One of the goals of this note is to document differences between our method `wrapr::let()` and `rlang:!!`. One anonymous reviewer of [our formal description of `wrapr::let()`](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf) rejected our paper on the grounds that there were not enough claimed contrasts to differentiate `let()` from the *later* package `rlang`. There are many such contrasts, but as many favor `let()` we had felt it was polite to not belabor them. Having been asked (and possibly even by an `rlang` package author, given the repeated use of "overscope" terminology, [an `rlang` favored variation on `environment`s](https://www.rdocumentation.org/packages/rlang/versions/0.1/topics/as_overscope), in the review) we will share a comparative survey here and add this note as a reference in the [`wrapr::let()` paper](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf). Probably [the original paper](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf) will never get journal publication, but it is still available to help users.
 
 I have worked hard to include concrete and clear examples, so I think working through this note will be rewarding tutorial for `R` users interested in potentially lightening their programming workload through metaprogramming (we will define metaprogramming and macros shortly).
 
@@ -817,8 +817,11 @@ let(
     ##     }
     ## }
 
-The `rlang` replacement notation is just not as powerful as name-based substitution (as used by `strmacro()` and `wrapr::let()`).
+The `rlang` replacement notation is just not as powerful as name-based substitution (as used by `strmacro()` and `wrapr::let()`). This is despite public claims to the contrary:
 
+<center>
+<a href="https://blog.rstudio.com/2017/04/13/dplyr-0-6-0-coming-soon/#comment-3405180631"> <img src="tidyeval.png"> </a>
+</center>
 Finally, the combined `rlang`/`dplyr` interface surface is large and complicated. A lot varies depending if the user is attempting to specify a column using an integer index, a string, a `name`/`symbol`, a `quosure`/`formula`, an expression, or un-evaluated source code (all of which seem to be allowed); plus variations depending on if the execution is a function context or not; plus variations the "semantics" of the `dplyr` verb ([there are at least two styles: "`select`" and "`eval`", and possibly more](https://github.com/tidyverse/dplyr/issues/3316)). This creates a large user responsibility to know which combination of adapters and which access patterns are correct. We give an example below (contrived, but the kind of experimentation a new user often uses to learn):
 
 <small>
