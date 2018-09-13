@@ -208,7 +208,7 @@ wrapr res
 5 %.&gt;% sin()
 </td>
 <td style="text-align:left;width: 1.75in; ">
-wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as "sin()", please use sin(.)).
+0 arguments passed to 'sin' which requires 1
 </td>
 </tr>
 <tr>
@@ -250,7 +250,7 @@ unused argument (sin)
 5 %.&gt;% base::sin()
 </td>
 <td style="text-align:left;width: 1.75in; ">
-wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as "base::sin()", please use base::sin(.)).
+0 arguments passed to 'sin' which requires 1
 </td>
 </tr>
 <tr>
@@ -292,7 +292,7 @@ wrapr::pipe\_step.default does not allow direct piping into a no-argument functi
 5 %.&gt;% ( sin() )
 </td>
 <td style="text-align:left;width: 1.75in; ">
-wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as "sin()", please use sin(.)).
+0 arguments passed to 'sin' which requires 1
 </td>
 </tr>
 <tr>
@@ -470,7 +470,7 @@ lst &lt;- list(h = sin); 5 %&gt;% lst$h()
 lst &lt;- list(h = sin); 5 %.&gt;% lst$h()
 </td>
 <td style="text-align:left;width: 1.75in; ">
-wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as "lst$h()", please use lst$h(.)).
+0 arguments passed to 'sin' which requires 1
 </td>
 </tr>
 <tr>
@@ -512,7 +512,7 @@ lst &lt;- list(h = sin); 5 %&gt;% lst\[\['h'\]\]()
 lst &lt;- list(h = sin); 5 %.&gt;% lst\[\['h'\]\]()
 </td>
 <td style="text-align:left;width: 1.75in; ">
-wrapr::pipe\_step.default does not allow direct piping into a no-argument function call expression (such as "lst\[\["h"\]\]()", please use lst\[\["h"\]\](.)).
+0 arguments passed to 'sin' which requires 1
 </td>
 </tr>
 <tr>
@@ -609,7 +609,7 @@ attempt to apply non-function
 5 %.&gt;% 1 + .
 </td>
 <td style="text-align:left;width: 1.75in; ">
-wrapr::pipe\_step.default does not allow direct piping into scalar values such as class:numeric, type:double.
+wrapr::apply\_left.default does not allow piping into obvious concrete right-argument (clearly can't depend on left argument): numeric numeric
 </td>
 </tr>
 <tr>
@@ -653,7 +653,9 @@ For some operations that are unlikely to work close to reasonable user intent `w
 5 %.>% 7
 ```
 
-    ## Error in pipe_step.default(pipe_left_arg, pipe_right_arg, pipe_environment, : wrapr::pipe_step.default does not allow direct piping into scalar values such as class:numeric,  type:double.
+    ## Error: wrapr::apply_left.default does not allow piping into obvious concrete right-argument (clearly can't depend on left argument):
+    ##   numeric 
+    ##   numeric
 
 ``` r
 # magrittr's error message for the above is something of the form:
@@ -662,7 +664,7 @@ For some operations that are unlikely to work close to reasonable user intent `w
 5 %.>% .
 ```
 
-    ## Error in pipe_impl(pipe_left_arg, pipe_right_arg, pipe_environment, pipe_name): wrapr::pipe does not allow direct piping into '.'
+    ## Error in pipe_impl(pipe_left_arg, pipe_right_arg, pipe_environment, pipe_string): to reduce surprising behavior wrapr::pipe does not allow direct piping into some names, such as .
 
 ``` r
 # note: the above error message is improved to:
@@ -672,7 +674,7 @@ For some operations that are unlikely to work close to reasonable user intent `w
 5 %.>% return(.)
 ```
 
-    ## Error in pipe_step.default(pipe_left_arg, pipe_right_arg, pipe_environment, : wrapr::pipe_step.default does not allow direct piping into certain reserved words or control structures (such as "return").
+    ## Error in apply_left.default(pipe_left_arg, pipe_right_arg, pipe_environment, : to reduce surprising execution behavior wrapr::apply_left.default does not allow direct piping into some expressions (such as "return(.)").
 
 Throwing errors in these situations is based on the principle that non-signalling errors (often leading to result corruption) are much worse than signalling errors. The "`return`" example is an interesting case in point.
 
@@ -752,7 +754,7 @@ f_wrapr(37)
 f_wrapr(35)
 ```
 
-    ## Error in pipe_step.default(pipe_left_arg, pipe_right_arg, pipe_environment, : wrapr::pipe_step.default does not allow direct piping into certain reserved words or control structures (such as "return").
+    ## Error in apply_left.default(pipe_left_arg, pipe_right_arg, pipe_environment, : to reduce surprising execution behavior wrapr::apply_left.default does not allow direct piping into some expressions (such as "return(.)").
 
 `wrapr` also can not handle `return()` control flow correctly, however it (helpfully) throws an exception to indicate the problem.
 

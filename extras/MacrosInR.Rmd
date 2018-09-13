@@ -14,7 +14,7 @@ The `R` macro (or code control) facilities we will discuss include 20 years of c
  * `defmacro()` [Lumley T. "Programmer's Niche: Macros in R", R News, 2001, Vol 1, No. 3, pp 11–13](https://www.r-project.org/doc/Rnews/Rnews_2001-3.pdf). 
  * `base::bquote()` ([released in R 1.8.1, November 2003](https://github.com/wch/r-source/blob/5a156a0865362bb8381dcd69ac335f5174a4f60c/doc/NEWS.1)).
  * `gtools::defmacro()` ([gtools 2.0.9, September 2, 2005](https://cran.r-project.org/src/contrib/Archive/gtools/))  from the [`gtools`](https://CRAN.R-project.org/package=gtools) package.
- * `strmacro()` ([gtools 2.1.1, September 23, 2005](https://cran.r-project.org/src/contrib/Archive/gtools/)) from the [`gtools`](https://CRAN.R-project.org/package=gtools) package.
+ * `gtools::strmacro()` ([gtools 2.1.1, September 23, 2005](https://cran.r-project.org/src/contrib/Archive/gtools/)) from the [`gtools`](https://CRAN.R-project.org/package=gtools) package.
  * `lazyeval` package ([released October 1, 2014](https://cran.r-project.org/src/contrib/Archive/lazyeval/)).
  * `replyr::let()`/`wrapr::let()` ([released December 8th, 2016](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf) in the [`replyr`](https://github.com/WinVector/replyr) package, later extended and moved to the low-dependency [`wrapr`](https://github.com/WinVector/wrapr) package).
  * `rlang::!!` ([released May 5th, 2017](https://cran.r-project.org/src/contrib/Archive/rlang/)).
@@ -324,6 +324,112 @@ strmacro(
 
 `strmacro` happens to be inconvenient for our particular application (executing a `dplyr 0.5.0` pipeline) due to the need to explicitly execute the macro and the quoting.  However, `strmacro` supplied good ideas for the initial implementation of `let()` (which has since evolved quite a bit) and we found studying it and `defmacro()` to be very rewarding.
 
+For example notice `strmacro` can successful substitute "`a`" for "`X`" on the left and right-hand sides of "`$`" and even over function definitions.
+
+
+```{r wstrmacro2, message=FALSE, warning=FALSE}
+library("gtools")
+
+d <- data.frame(X = "XCOL", a = "ACOL")
+a <- list(X = "XITEM", a = "AITEM")
+
+macro <- strmacro(
+  X, # define substitution target
+  expr = list(
+    d$X,
+    X$a,
+    f <- function(X) { X + 1 }
+  )
+)
+macro("a")
+```
+
+This *is* the kind of power we want.
+
+Please keep in mind that when writing a macro both the substitution target names and code being transformed are known to the author and near each other (so easy to manage/alter together).  It is only the replacement values that are not fully known or controlled.  That means most danger or ambiguity seen in an example such as above can be completely eliminated by merely choosing longer substitution targets:
+
+```{r wstrmacro3, message=FALSE, warning=FALSE}
+library("gtools")
+
+d <- data.frame(X = "XCOL", a = "ACOL")
+a <- list(X = "XITEM", a = "AITEM")
+
+macro <- strmacro(
+  STR_MACRO_TARGET_X, # define substitution target
+  expr = list(
+    d$STR_MACRO_TARGET_X,
+    STR_MACRO_TARGET_X$a,
+    f <- function(STR_MACRO_TARGET_X) { STR_MACRO_TARGET_X + 1 }
+  )
+)
+macro("a")
+```
+
+`strmacro` is powerful enough to program over `dplyr 0.5.0`:
+
+```{r wstrmacro4, message=FALSE, warning=FALSE}
+library("gtools")
+suppressPackageStartupMessages(library("dplyr"))
+
+macro <- strmacro(
+  NEWVAR, # define substitution target
+  OLDVAR, 
+  expr = {
+    data.frame(x = 1) %>%
+      mutate(NEWVAR = OLDVAR + 1)
+  }
+)
+macro("y", "x")
+```
+
+And one can even write a version of `let()` quickly in terms of `strmacro`:
+
+```{r wstrmacro5, message=FALSE, warning=FALSE}
+library("gtools")
+suppressPackageStartupMessages(library("dplyr"))
+
+lets <- function(alias, expr, env = parent.frame()) {
+  expr <- base::substitute(expr)
+  args <- lapply(names(alias), as.name)
+  macro <- do.call(gtools::strmacro, c(args, list(expr = expr)))
+  do.call(macro, as.list(as.character(alias)), envir = env)
+}
+
+lets(
+  alias = c(NEWVAR = "y",
+            OLDVAR = "x"),
+  
+  data.frame(x = 1) %>%
+    mutate(NEWVAR = OLDVAR + 1)
+)
+```
+
+Honestly we probably should have thought harder about using `strmacro` to build `let()` early on.  With our own `wrapr` implementation of `let()` we do get a bit finer control, and escape the common criticism of string based solutions (using instead a language based solution).  A small example of differences is given here.
+
+```{r wstrmacro6, message=FALSE, warning=FALSE}
+lst <- list(A = 1)
+
+lets( 
+  alias = c(X = "SUBSTITUTED"),
+  expr = list(
+    c(X = "X.X"),
+    .X = c("X" = "X")
+  )
+)
+
+wrapr::let(
+  alias = c(X = "SUBSTITUTED",
+            Y = "lst"),
+  expr = list(
+    c(X = "X.X"),
+    .X = c("X" = "X")
+  )
+)
+```
+
+The difference is `wrapr::let()` is substituting on language objects, not on mere strings.  Notice `wrapr::let()` does not substitute into all string situations the same, but can use language context to make good choices. However, as we have said before, users can completely avoid such ambiguity by choosing appropriate substitution targets when they write their alias and code.
+
+That being said: notice once one has `base::substitute()`, `base::bquote()`, `gtools::defmacro()`, and `gtools::strmacro()` one already has a *a lot* of power.  In fact our (minor) criticism is: one has bit too much power, so for some applications more specialized and deliberately limited user facing tools can have a lot of user advantages.
 
 ### `lazyeval`
 
@@ -335,11 +441,11 @@ The `lazyeval` vignettes give some details ([here](https://cran.r-project.org/we
 
 `lazyeval` seems to incorporate a design principle that there is of merit in carrying around a variable name plus an environment where that name is resolved to a value.  That is at best a point of view. In my opinion, especially in the context of quasiquotation, [it is *much* better to design workflows that allow one to convert bound names to values and reserve unbound names to refer to `data.frame` columns](http://www.win-vector.com/blog/2018/08/r-tip-put-your-values-in-columns/).  
 
-It is my impression that `lazyeval` isn't currently recommended by its authors, so we won't work examples here.
+It is my impression that `lazyeval` isn't currently recommended by its authors, so examples teaching it or example further criticizing it are not germane to the current discussion.  We place `lazyeval` in its chronological place here to respect its priority.
 
 ### `wrapr::let()`
 
-For some code-rewriting tasks we (John Mount and Nina Zumel) found both `substitute()` and `bquote()` a bit limiting.  For this reason we developed `wrapr::let()`, taking inspiration from `gtools::strmacro()`.  `wrapr::let()` was designed to have syntax similar to `substitute()` and also to classic <code>Lisp</code> "<code>let</code>" style value-binding blocks (informal example: "<code>(let X be 7 in (sin X))</code>"). Informally we think of `let()` as "`base::with()`, but for names, instead of values."
+For some code-rewriting tasks we (John Mount and Nina Zumel) found both `substitute()` and `bquote()` a bit limiting, and `strmacro()` a bit wild.  For this reason we developed `wrapr::let()`, taking inspiration from `gtools::strmacro()`.  `wrapr::let()` was designed to have syntax similar to `substitute()` and also to classic <code>Lisp</code> "<code>let</code>" style value-binding blocks (informal example: "<code>(let X be 7 in (sin X))</code>"). Informally we think of `let()` as "`base::with()`, but for names, instead of values."  Early implementations used string-based methods, later we switched to more powerful language object based substitutions.
 
 Our first application of `let()` (at the time in the [`replyr`](https://CRAN.R-project.org/package=replyr) package) was to perform parametric programming over `dplyr 0.5.0` (the version of `dplyr` current at the time).  That is to convert `dplyr 0.5.0` name/code capturing interfaces into standard referentially transparent interfaces.
 
@@ -545,7 +651,7 @@ OLDVAR <- as.name("x")
     mutate_bq(.(NEWVAR) := .(OLDVAR) + 1)
 ```
 
-We just demonstrated a `bquote()`-enhanced version of `mutate()` in about 4 lines of code.
+We just demonstrated a `bquote()`-enhanced version of `mutate()` in about 4 lines of code.  Enhancing `mutate()` with `strmacro()` or `let()` would be similarly easy.
 
 There are, of course, some semantic differences, such as how to unambiguously choose values from the <code>data.frame</code> or the environment.  However, in my opinion, most of the earlier solutions already have sound ways of dealing with these issues. `rlang` does supply some additional services such as [vararg](https://en.wikipedia.org/wiki/Variadic_function) splicing through `!!!`, however as we have seen in our `order()` example `do.call()` already is an excellent tools for vararg splicing. The other systems don't need to solve splicing, as it isn't an unsolved problem.
 
@@ -649,7 +755,11 @@ The `rlang` replacement notation is just not as powerful as name-based substitut
 
 It may be considered rude to bring this up to respond, but not being able to correct this is pretty damaging.  Frankly a combination of the earlier earlier systems, with care, can work most (or perhaps even all) of `rlang`'s examples- but `rlang` can not work all of earlier system's examples. I don't want to support a circular argument of the form if it isn't an `rlang` designed substitution then it isn't a reasonable need or example.  `R` itself (plus maybe a few packages) tends to give one "great powers", and often more than locking one self into any one single extension package.
 
-Finally, the combined `rlang`/`dplyr` interface surface is large and complicated. A lot varies depending if the user is attempting to specify a column using an integer index, a string, a `name`/`symbol`, a `quosure`/`formula`, an expression, or un-evaluated source code (all of which seem to be allowed); plus variations depending on if the execution is a function context or not; plus variations the "semantics" of the `dplyr` verb ([there are at least two styles: "`select`" and "`eval`", and possibly more](https://github.com/tidyverse/dplyr/issues/3316)).  This creates a large user responsibility to know which combination of adapters and which access patterns are correct.  We give an example below (contrived, but the kind of experimentation a new user often uses to learn):
+#### `rlang` and `dplyr`
+
+A huge marketing advantage for `rlang` is its privileged place in the so-called `tidyverse` and its integration into `dplyr`.  So it is relevant to examine this combination of packages.
+
+The combined `rlang`/`dplyr` interface surface is large and complicated. A lot varies depending if the user is attempting to specify a column using an integer index, a string, a `name`/`symbol`, a `quosure`/`formula`, an expression, or un-evaluated source code (all of which seem to be allowed); plus variations depending on if the execution is a function context or not; plus variations the "semantics" of the `dplyr` verb ([there are at least two styles: "`select`" and "`eval`", and possibly more](https://github.com/tidyverse/dplyr/issues/3316)).  This creates a large user responsibility to know which combination of adapters and which access patterns are correct.  We give an example below (contrived, but the kind of experimentation a new user often uses to learn):
 
 <small>
 ```{r dplyrqt, error=TRUE, message=FALSE, warning=FALSE}
@@ -738,8 +848,9 @@ Some of our take-aways include:
 
   * Always consider using functions before resorting to macros.  Functions have more isolation and are generally safer to work with and compose.  When you use macros you are usurping standard evaluation rules and taking direct control, so after that things become somewhat your own fault.
   * For fine control of the arguments of a single function call I recommend using `base::do.call()`.
-  * `gtools::defmacro()` is a great tool for building macros, especially parameterized code-snippets that are intended to have visible side effects (such as writing back values). `gtools::strmacro()` is a bit more wild, but definitely has uses.
+  * `gtools::defmacro()` is a great tool for building macros, especially parameterized code-snippets that are intended to have visible side effects (such as writing back values). 
   * `base::bquote()` is a great choice for programming over other systems and uses clear quasiquotation semantics.  It is able to easily program over `dplyr 0.7.0` and later versions and is part of the core `R` language (or "base `R`", which *should* be a *huge* plus).
+  * `gtools::strmacro()` is a very powerful tool, fully capable of programming over `dplyr 0.5.0`.
   * `lazyeval` is possibly in maintenance mode, and possibly no longer recommended by the package authors.
   * `wrapr::let()` (full disclosure: our own package). My opinion is: `wrapr::let()` is sufficiently specialized (combining re-writing and execution into one function, and being restricted only to name for name substitutions) and sufficiently general (working with any package without pre-arrangement) so that it is a good comprehensible, safe, convenient, and powerful option for interested `R` users.  I recommend using `wrapr::let()` in conjunction with the other tools we have mentioned earlier, in particular `base::do.call()` for multi-argument splicing. It is not reasonable to insist that all metaprogramming or macro effects come from a single package, as this would require later packages attempting to contribute additional metaprogramming tools to also needlessly attempt to re-implement additional tools that already work well.  For more on `wrapr::let()` I suggest our [formal writeup](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf).
   * `rlang` is a package being promoted by the `dplyr` package authors. My opinion and experience is: I do not recommend `rlang` for general use.

@@ -2,6 +2,7 @@
 title: "magrittr and wrapr Pipes in R, an Examination"
 author: "John Mount, Win-Vector LLC"
 date: "4/6/2018"
+always_allow_html: yes
 output: github_document
 ---
 
