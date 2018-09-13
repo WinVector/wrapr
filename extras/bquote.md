@@ -593,6 +593,7 @@ Many modelling and graphical functions have a formula argument and a data argume
 </center>
 </small>
 </blockquote>
+<p/>
 .
 
 `rlang` emphasizes the ability to capture environments along with expressions. John M. Chambers already criticized the over-use of taking values from the environment carried by `R` `formula` objects:
@@ -604,6 +605,7 @@ Where clear and trustworthy software is a priority, I would personally avoid suc
 <small><em>Software for Data Analysis</em> (Springer 2008), John M. Chambers, Chapter 6, section 9, page 221.</small>
 </center>
 </blockquote>
+<p/>
 .
 
 Chambers is saying "spaghetti data" (non-trivial values being taken from various carried environments) is worth avoiding (as [spaghetti code](https://en.wikipedia.org/wiki/Spaghetti_code) is worth avoiding). The principle is: one should restrict oneself to *structured data* (taking non-trivial values from <code>data.frame</code> columns, a data-version of [structured programming](https://en.wikipedia.org/wiki/Structured_programming), as we discuss [here](http://www.win-vector.com/blog/2018/08/r-tip-put-your-values-in-columns/)).

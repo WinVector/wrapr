@@ -475,7 +475,7 @@ Many modelling and graphical functions have a formula argument and a data argume
 <p/><small><center>
 <a href="http://developer.r-project.org/nonstandard-eval.pdf">Thomas Lumley, "Standard nonstandard evaluation rules", March 19, 2003</a>
 </center></small>
-</blockquote>
+</blockquote><p/>
 
 .
 
@@ -485,7 +485,7 @@ Many modelling and graphical functions have a formula argument and a data argume
 Where clear and trustworthy software is a priority, I would personally avoid such tricks.  Ideally, all the variables in the model frame should come from an explicit, verifiable data source, typically a data frame object that is archived for future inspection (or equivalently, some other equally well-defined source of data, either inside or outside <code>R</code>, that is used explicitly to construct the data for the model).
 <p/>
 <center><small><em>Software for Data Analysis</em> (Springer 2008), John M. Chambers, Chapter 6, section 9, page 221.</small></center>
-</blockquote>
+</blockquote><p/>
 
 .
 
