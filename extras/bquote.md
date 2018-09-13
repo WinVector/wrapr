@@ -745,7 +745,7 @@ eval(bquote(      lm(.(f), data = dataf)  ))
 
 We are assuming the difference is much finer control of environments (the `expr()` object being of `class` `call` and not carrying an `environment`, and `quo()` object being of class `quosuer` and carrying an `environment`). However the `bquote()` object is of `class` `call` (without an environment) and the function `eval()` does take an environment argument, so with some care it is quite possible to reasonably control environments when using `bquote()`.
 
-`rlang` environment control is powerful, for example the following (an expression of the form "`a - a`" that evaluates to a non-zero value) would be hard to write with `bquote()`.
+`rlang` environment control is powerful, allowing an expression of the form "`a - a`" that evaluates to a non-zero value.
 
 ``` r
 library("rlang")
@@ -771,7 +771,7 @@ eval_tidy(terms)
 
 `rlang` documentation and promotion does sometimes mention `bquote()`, but never seems to actually *try* `bquote()` as an alternate solution in a post-`dplyr 0.5.0` world (i.e., one where "`:=`" is part of `dplyr`). So new readers can be forgiven for having the (false) impression that `rlang` substitution is a unique and unprecedented capability for `R`.
 
-`rlang` currently can not substitute into a number of common target positions. For example the we could try to repeat the `wrapr::let()` replace the item on the right of the "`$`" example, but that does not work.
+`rlang` can not substitute into a number of common target positions due to syntax restrictions. For example the we could try to repeat the `wrapr::let()` replace the item on the right of the "`$`" example, but that does not work.
 
 ``` r
 library("rlang")
