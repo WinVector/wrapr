@@ -17,7 +17,7 @@ The `R` macro (or code control) facilities we will discuss include over 20 years
 -   `replyr::let()`/`wrapr::let()` [Released December 8th, 2016](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf) in the [`replyr`](https://github.com/WinVector/replyr) package, later extended and moved to the low-dependency [`wrapr`](https://github.com/WinVector/wrapr) package.
 -   `rlang::!!`: [Released May 5th, 2017](https://cran.r-project.org/src/contrib/Archive/rlang/).
 
-One of the goals of this note is to document differences between our own method `wrapr::let()` and the *later* system `rlang:!!`.
+One of the goals of this note is to document differences between our own method `wrapr::let()` and the *later* system `rlang:!!` (as we recently had [a paper](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf) rejected for not having enough such comparisons, and therefore would benefit from a reference that does so).
 
 I have worked hard to include concrete and clear examples, so I think working through this note will be rewarding tutorial for `R` users interested in potentially lightening their programming workload through macros or metaprogramming (we will define metaprogramming and macros shortly). So I will re-phrase that: if you are interested in improving your `R` programming and not already expert in using macros methods, you may want to read on. We also advise readers who's primary experience with metapgrogramming is the `rlang` package to also read on.
 
