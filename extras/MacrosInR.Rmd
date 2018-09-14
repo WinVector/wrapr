@@ -1,7 +1,7 @@
 ---
 title: "Macro Substitution in R"
 author: John Mount
-date: 2018-09-13
+date: 2018-09-14
 output: github_document
 ---
 
@@ -44,7 +44,7 @@ d[[COLUMNNAME]]
 
 Value oriented interfaces are easier to program over. However, not all `R` functions and packages have the discipline of design to always supply value oriented alternatives to any code capturing interfaces. For example some commands such as `base::order()` can be hard to program over (due to its heavy leaning on the "`...`" argument, unlike the [`data.table`](https://CRAN.R-project.org/package=data.table) design of having both a `data.table::setorder()` and a `data.table::setorderv()`; we now have thin [`orderv()`](https://winvector.github.io/wrapr/reference/orderv.html) and [`sortv`()](https://winvector.github.io/wrapr/reference/sortv.html) adapters to directly address this issue).
 
-In `R` macros and meta-programming are *not* urgent user-facing problems, until the user attempts to program over an interface that is *only* designed for interactive use (i.e., doesn't accept or have an alternative that accepts values stored in additional variables).  In our case we researched macros because we found the interfaces of `dplyr 0.5.0` to be hard to program over, even with the included `lazyeval` package; this will be our motivating problem throughout.  `dplyr 0.7.*`/`dplyr 0.8.*` now uses a new metaprogramming facility called `rlang`, but this was not available until after we published `let()` and (in my opinion) is not a good solution (especially when considered in context).
+In `R` macros and metaprogramming are *not* urgent user-facing problems, until the user attempts to program over an interface that is *only* designed for interactive use (i.e., doesn't accept or have an alternative that accepts values stored in additional variables).  In our case we researched macros because we found the interfaces of `dplyr 0.5.0` to be hard to program over, even with the included `lazyeval` package; this will be our motivating problem throughout.  `dplyr 0.7.*`/`dplyr 0.8.*` now uses a new metaprogramming facility called `rlang`, but this was not available until after we published `let()` and (in my opinion) is not a good solution (especially when considered in context).
 
 Macros are a bit technical, but when you are painted into a programming corner (such as not having an interface you want), you look to macros.  So let's talk more about macros and metaprogramming from the concrete point of view of trying to code capturing interfaces (such as "`$`") into value oriented interfaces (such as "`[[]]`").  Again: the idea is code capturing interfaces may be convenient for interactive work (when we are typing in the code while looking at data), but are inconvenient for programming work (where we can't always see the data and must take details from other variables, such as `COLUMNNAME`).
 
@@ -63,7 +63,11 @@ Macros and metaprogramming are related concepts.  Each has variations. For examp
 
 ## Macros and metaprogramming in `R`
 
-We are going to run through the code control methods we listed earlier in essentially chronological order. For each method will comment on its suitability for our example goal (converting code capturing interfaces into reusable referentially transparent interfaces) *and* how the capabilities of each method relate to the methods available before them (i.e. are they actually solving open problems).  Obviously there is the important possibility that newer solutions *can* be better solutions, but just because a solution is newer doesn't mean it is in fact better. Also each solution could easily be best if it gets to choose the problem we claim to be of interest.  The problem we are in fact interested in is: programming over code, in particular programming over `dplry`, as this was an actual pain point in some production work. The `wrapr` package will get the (slightly unfair) presentation advantage that as the package author I can attempt to explain the intent and motivation of `wrapr` the package here.
+We are going to run through the code control methods we listed earlier in roughly chronological or priority order. For each method will comment on its suitability for our example goal (converting code capturing interfaces into reusable referentially transparent interfaces, especially programming over `dplyr 0.5.0`) *and* how the capabilities of each method relate to the methods available before them (i.e. are they actually solving open problems).  Obviously there is the important possibility that newer solutions *can* be better solutions, but just because a solution is newer doesn't mean it is in fact better. We prefer a mix of solutions: taking good methods from various sources instead of commit all fealty to single package (or package family) as this relieves later packages of the having to re-implement already available methods.
+
+It is, of course, an untenable burden to expect users to ingest even a partial history of methodology before they are allowed to try a new method.  However a forgetful or even mendacious view of history on the part of method developers is counter productive, as [a lot of expensive and valuable lessons are lost in each re-invention](https://www.joelonsoftware.com/2000/04/06/things-you-should-never-do-part-i/).
+
+The `wrapr` package will get the (slightly unfair) presentation advantage: that as the package author, I can attempt to explain the intent and motivation of `wrapr` the package here.
 
 ### `base::do.call()`
 
@@ -230,7 +234,7 @@ To resolve our issue we want direct control of what gets substituted as a name a
 
 ### `base::bquote()`
 
-On August 15, 2003 Thomas Lumley contributed a fairly complete version of <code>Lisp</code>'s quasi-quotation (please see ["Quasiquotation in lisp", Alan Bawden, 1999](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.309.227)) system or ["the backquote"](http://cl-cookbook.sourceforge.net/macros.html) to `R` itself.
+On August 15, 2003 Thomas Lumley contributed a implementation of <code>Lisp</code>'s quasiquotation (please see ["Quasiquotation in lisp", Alan Bawden, 1999](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.309.227)) system or ["the backquote"](http://cl-cookbook.sourceforge.net/macros.html) to `R` itself.
 
 ````
 commit 6af5ee3fab4a347accc61a96185921320547c1e6   refs/remotes/origin/R-grid
@@ -242,7 +246,7 @@ Date:   Fri Aug 15 18:46:06 2003 +0000
     git-svn-id: https://svn.r-project.org/R/trunk@25744 00db46b3-68df-0310-9c12-caf00c1e9a41
 ````
 
-`R`'s syntax is different than `Lisp`'s, so `R` uses the notation "<code>.(NAME)</code>" instead of "<code>&#96;NAME</code>". But the concepts are related to the back-tick or quasi-quotation ideas discussed in the Bawden paper. `bquote()` is an under-appreciated tool.  We can jump forward a bit to one of our conclusions: `bquote()` is a great solution for most "convert a name-capturing interface to a value oriented interface" tasks.
+`R`'s syntax is different than `Lisp`'s, so `R` uses the notation "<code>.(NAME)</code>" instead of "<code>&#96;NAME</code>". But this is in fact the back-tick and quasiquotation ideas discussed in the Bawden paper. `bquote()` is an under-appreciated tool.  We can jump forward a bit to one of our conclusions: `bquote()` is a great solution for most "convert a name-capturing interface to a value oriented interface" tasks.
 
 `bquote()` has a fairly concise description (from `help(bquote)`):
 
@@ -454,8 +458,6 @@ wrapr::let(
 
 The difference is `wrapr::let()` is substituting on language objects, not on mere strings.  Notice `wrapr::let()` does not substitute into all string situations the same, but can use language context to make good choices. However, as we have said before, users can completely avoid such ambiguity by choosing appropriate substitution targets when they write their alias and code.
 
-That being said: notice once one has `base::substitute()`, `base::do.call()`, `base::bquote()`, `gtools::defmacro()`, and `gtools::strmacro()` one already has a *a lot* of power.  In fact our (minor) criticism is: one has bit too much power, so for some applications more specialized and deliberately limited user facing tools can have a lot of user advantages. By the end of 2005 R users have enough tools (either in base-`R` or in `R` packages that are purely `R` code, not `C`/`C++` facilities) to do quite a lot. However, as we have said `R` is designed so the user doesn't have to resort to often resort to metaprogramming, so likely the methods were not taught or celebrated enough in the next 10 year of our narrative.
-
 ### `lazyeval`
 
 `dplyr 0.5.0`'s parametric programming interface was a package called [`lazyeval`](https://CRAN.R-project.org/package=lazyeval) by Hadley Wickham which describes itself as:
@@ -592,7 +594,7 @@ There is a lot packed into the above statement.  However, at this point of our n
   * Quasiquotation is something we have discussed a few times by now.
   * "quosures" are described as follows in the ["Advanced R"](https://github.com/hadley/adv-r/blob/master/Quotation.Rmd) (authored by Hadley Wickham): "<code>~</code>, the formula, is a quoting function that also captures the environment. It's the inspiration for quosures ...".
 
-What I want to call out is: the phrase "which is a well-founded system", and the repeated use of the word "tidy."  Alone this may not seem like much, but this is fairly typical of `rlang`/`tidyeval`/`tidyverse` promotion: a merely implied but strongly repeated assertion that earlier <code>R</code> systems are not well founded and are "un-tidy."  For example "Advanced R"'s current discussion of <code>bquote()</code> is [now almost entirely the following two statements.](https://github.com/hadley/adv-r/search?l=RMarkdown&q=bquote) 
+What I want to call out is: the phrase "which is a well-founded system", and the repeated use of the word "tidy."  Alone this may not seem like much, but this is fairly typical of `rlang`/`tidyeval`/`tidyverse` promotion: a merely implied but strongly repeated assertion that earlier <code>R</code> systems are not well founded and are "un-tidy."  For example "Advanced R"'s current discussion of <code>bquote()</code> is [now almost entirely the following two statements.](https://github.com/hadley/adv-r/search?l=RMarkdown&q=bquote):
 
   * "<code>bquote()</code> provides a limited form of quasiquotation" (what the deficiency is does not appear to be discussed in the text).
   * "<code>bquote()</code> is a neat function, but is not used by any other function in base R."  
