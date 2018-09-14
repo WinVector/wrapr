@@ -11,6 +11,10 @@ NULL
 #' are each intended to be simple variable names or column names (or .). They are not
 #' intended to specify
 #' interactions, I()-terms, transforms, general experessions or other complex formula terms.
+#' Essentially the same effect as \code{\link[stats]{reformulate}}, but trying to avoid the
+#' \code{paste} currently in \code{\link[stats]{reformulate}} by calling \code{\link[stats]{update.formula}}
+#' (which appears to work over terms).
+#' Another reasonable way to do this is just \code{paste(outcome, paste(variables, collapse = " + "), sep = " ~ ")}.
 #'
 #' @param outcome character scalar, name of outcome or dependent variable.
 #' @param variables character vector, names of input or independent variables.
@@ -18,7 +22,7 @@ NULL
 #' @param env environment to use in formula.
 #' @return a formula object
 #'
-#' @seealso \code{\link[stats]{update.formula}}
+#' @seealso \code{\link[stats]{reformulate}}, \code{\link[stats]{update.formula}}
 #'
 #' @examples
 #'
