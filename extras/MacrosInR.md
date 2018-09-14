@@ -19,7 +19,7 @@ The `R` macro (or code control) facilities we will discuss include over 20 years
 
 One of the goals of this note is to document differences between our own method `wrapr::let()` and the *later* system `rlang:!!` (as we recently had [a paper](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf) rejected for not having enough such comparisons, and therefore would benefit from a reference that does so).
 
-I have worked hard to include concrete and clear examples, so I think working through this note will be rewarding tutorial for `R` users interested in potentially lightening their programming workload through macros or metaprogramming (we will define metaprogramming and macros shortly). So I will re-phrase that: if you are interested in improving your `R` programming and not already expert in using macros methods, you may want to read on. We also advise readers who's primary experience with metapgrogramming is the `rlang` package to also read on.
+I have worked hard to include concrete and clear examples, so I think working through this note will be rewarding tutorial for `R` users interested in lightening their `R` programming (and not already expert in using macro methods, which we will define and demonstrate through examples). We also advise readers who's primary experience with metapgrogramming is the `rlang` package to also read on.
 
 Why macros and metaprogramming?
 -------------------------------
@@ -54,20 +54,20 @@ Macros are a bit technical, but when you are painted into a programming corner (
 
 Some technical definitions (which we will expand on and use later).
 
--   **Macro**: In computer science a macro is "a rule or pattern that specifies how a certain input sequence (often a sequence of characters) should be mapped to a replacement output sequence (also often a sequence of characters) according to a defined procedure" ([source Wikipedia](https://en.wikipedia.org/wiki/Macro_(computer_science))). Macros are most interesting when the input they are working over is program source code (either parsed or not-parsed).
+-   **Macro**: In computer science a macro is "a rule or pattern that specifies how a certain input sequence (often a sequence of characters) should be mapped to a replacement output sequence (also often a sequence of characters) according to a defined procedure" ([source Wikipedia](https://en.wikipedia.org/wiki/Macro_(computer_science))). Macros are most interesting when the input they are working over is program source code (either as text/strings or as language objects).
 -   **Metaprogramming**: "Metaprogramming is a programming technique in which computer programs have the ability to treat programs as their data" ([source Wikipedia](https://en.wikipedia.org/wiki/Metaprogramming)).
 -   **Quasiquotation**: "Quasiquotation is a parameterized version of ordinary quotation where instead of specifying a value exactly some holes are left to be filled in later. A quasiquotation is a template." ["Quasiquotation in lisp", Alan Bawden, 1999](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.309.227).
 -   **Referential transparency**: "One of the most useful properties of expressions is that called by Quine referential transparency. In essence this means that if we wish to find the value of an expression which contains a sub-expression, the only thing we need to know about the sub-expression is its value." [Christopher Strachey, "Fundamental Concepts in Programming Languages", Higher-Order and Symbolic Computation, 13, 1149, 2000, Kluwer Academic Publishers](https://www.itu.dk/courses/BPRD/E2009/fundamental-1967.pdf) ([lecture notes written by Christopher Strachey for the International Summer School in Computer Programming at Copenhagen in August, 1967](https://en.wikipedia.org/wiki/Fundamental_Concepts_in_Programming_Languages)). This is the idea are attempting to capture in the informal phrase "value oriented interfaces."
 -   **Non-standard evaluation**/**NSE**: Evaluation that is not referentially transparent, as it may include inspecting and capturing names from code and direct control of both execution and look-up environments. Discussed (but not defined) in [Thomas Lumley, "Standard nonstandard evaluation rules", March 19, 2003](http://developer.r-project.org/nonstandard-eval.pdf). "Code capturing interfaces" a style of **NSE** interfaces. **NSE** is convenient in interactive sessions, but is so at the cost of losing referential transparency (which in turn means we lose a lot of power to program and reason about programs).
 
-Macros and metaprogramming are related concepts. Each has variations. For example <code>C</code>-macros are mere text substitutions performed by a pre-processor in some of the code compilation stages. Whereas <code>Lisp</code> macros operate directly on <code>Lisp</code> data structures and language objects (not mere text). When applied to programs both concepts converge to "code that writes code" or "programming over programs." There are games one can play to exclude or include various programming methods from these definitions. Let's take a broad (non pedantic) and general view that tools that achieve similar effects are similar enough to compare independent of how you categorize the internal implementation (an issue that does remain relevant when characterizing result quality and reliability).
+Macros and metaprogramming are related concepts. Each has variations. For example <code>C</code>-macros are mere text substitutions performed by a pre-processor in some of the code compilation stages. Whereas <code>Lisp</code> macros operate directly on <code>Lisp</code> data structures and language objects (not mere text). When applied to programs both concepts converge to "programming over programs." There are games one can play to exclude or include various programming methods from these definitions. Let's take a broad (non pedantic) and general view that tools that achieve similar effects are similar enough to compare independent of how you categorize the internal implementations (an issue that does remain relevant when characterizing result quality and reliability).
 
 Macros and metaprogramming in `R`
 ---------------------------------
 
 We are going to run through the code control methods we listed earlier in roughly chronological or priority order. For each method will comment on its suitability for our example goal (converting code capturing interfaces into reusable referentially transparent interfaces, especially programming over `dplyr 0.5.0`) *and* how the capabilities of each method relate to the methods available before them (i.e. are they actually solving open problems). Obviously there is the important possibility that newer solutions *can* be better solutions, but just because a solution is newer doesn't mean it is in fact better. We prefer a mix of solutions: taking good methods from various sources instead of commit all fealty to single package (or package family) as this relieves later packages of the having to re-implement already available methods.
 
-It is, of course, an untenable burden to expect users to ingest even a partial history of methodology before they are allowed to try a new method. However, for method developers/proselytizers: a forgetful presentation of history is mendacious history; and is counter-productive, as [a lot of expensive and valuable lessons are lost in each re-invention](https://www.joelonsoftware.com/2000/04/06/things-you-should-never-do-part-i/).
+It is, of course, an untenable burden to expect users to ingest even a partial history of methodology before they are allowed to try a new method. However, for method developers/proselytizers: a forgetful presentation of history is a mendacious history; and is counter-productive, as [a lot of expensive and valuable lessons are lost in each re-invention](https://www.joelonsoftware.com/2000/04/06/things-you-should-never-do-part-i/).
 
 The `wrapr` package will get the (slightly unfair) presentation advantage: that as the package author, I can attempt to explain the intent and motivation of `wrapr` the package here.
 
@@ -113,16 +113,9 @@ print(model)
 `do.call()` is also an excellent way to build a value-oriented interface for order, as we show here.
 
 ``` r
-orderv <- function(columns) {
-  do.call(base::order, as.list(columns))
-}
-# Note: The package wrapr 1.6.2 supplies a more complete orderv()
-# https://winvector.github.io/wrapr/reference/orderv.html
-
 d <- data.frame(x = c(2, 2, 3, 3, 1, 1), y = 6:1, z = 1)
 
-# code-capturing verison of the order() call, 
-# concise but hard to program over
+# argumentes suplied in ..., not in a list() object
 d[order(d$x, d$y), , drop = FALSE]
 ```
 
@@ -135,23 +128,16 @@ d[order(d$x, d$y), , drop = FALSE]
     ## 3 3 4 1
 
 ``` r
+# use do.call() build a value oriented interface.
+orderv <- function(columns) {
+  base::do.call(base::order, as.list(columns))
+}
+# Note: The package wrapr 1.6.2 supplies a more complete orderv()
+# https://winvector.github.io/wrapr/reference/orderv.html
+
+
 # value oriented verion of the call, 
 # a bit longer but easier to program over
-d[orderv(list(d$x, d$y)), , drop = FALSE]
-```
-
-    ##   x y z
-    ## 6 1 1 1
-    ## 5 1 2 1
-    ## 2 2 5 1
-    ## 1 2 6 1
-    ## 4 3 3 1
-    ## 3 3 4 1
-
-``` r
-# above interface is value oriented in the sense we 
-# can take the specification from an outside source in a 
-# variable.
 order_spec <- list(d$x, d$y)
 d[orderv(order_spec), , drop = FALSE]
 ```
@@ -181,18 +167,6 @@ substitute(1 + 1)
 
 ``` r
 eval(substitute(1 + 1))
-```
-
-    ## [1] 2
-
-``` r
-quote(1 + 1)
-```
-
-    ## 1 + 1
-
-``` r
-eval(quote(1 + 1))
 ```
 
     ## [1] 2
@@ -550,74 +524,6 @@ macro("y", "x")
     ##   x y
     ## 1 1 2
 
-And one can even write a version of `let()` quickly in terms of `strmacro`:
-
-``` r
-library("gtools")
-suppressPackageStartupMessages(library("dplyr"))
-
-lets <- function(alias, expr, env = parent.frame()) {
-  expr <- base::substitute(expr)
-  args <- lapply(names(alias), as.name)
-  macro <- do.call(gtools::strmacro, c(args, list(expr = expr)))
-  do.call(macro, as.list(as.character(alias)), envir = env)
-}
-
-lets(
-  alias = c(NEWVAR = "y",
-            OLDVAR = "x"),
-  
-  data.frame(x = 1) %>%
-    mutate(NEWVAR = OLDVAR + 1)
-)
-```
-
-    ##   x y
-    ## 1 1 2
-
-The first version of `replyr::let()` was [an attributed adaption of `strmacro()` code](https://github.com/WinVector/replyr/blob/edbbbc1bc8ca2f9f5f5ec753e53ef00c6aaaca81/R/let.R), but the method is now language based. Honestly we probably should have thought harder about building `let()` *on top of* `strmacro` early on. With our own `wrapr` implementation of `let()` we do get a bit finer control, and escape the common criticism of string based solutions (using instead a language based solution). A small example of differences is given here.
-
-``` r
-lst <- list(A = 1)
-
-lets( 
-  alias = c(X = "SUBSTITUTED"),
-  expr = list(
-    c(X = "X.X"),
-    .X = c("X" = "X")
-  )
-)
-```
-
-    ## [[1]]
-    ##               SUBSTITUTED 
-    ## "SUBSTITUTED.SUBSTITUTED" 
-    ## 
-    ## $.SUBSTITUTED
-    ##   SUBSTITUTED 
-    ## "SUBSTITUTED"
-
-``` r
-wrapr::let(
-  alias = c(X = "SUBSTITUTED",
-            Y = "lst"),
-  expr = list(
-    c(X = "X.X"),
-    .X = c("X" = "X")
-  )
-)
-```
-
-    ## [[1]]
-    ## SUBSTITUTED 
-    ##       "X.X" 
-    ## 
-    ## $.X
-    ## SUBSTITUTED 
-    ##         "X"
-
-The difference is `wrapr::let()` is substituting on language objects, not on mere strings. Notice `wrapr::let()` does not substitute into all string situations the same, but can use language context to make good choices. However, as we have said before, users can completely avoid such ambiguity by choosing appropriate substitution targets when they write their alias and code.
-
 ### `lazyeval`
 
 `dplyr 0.5.0`'s parametric programming interface was a package called [`lazyeval`](https://CRAN.R-project.org/package=lazyeval) by Hadley Wickham which describes itself as:
@@ -759,6 +665,138 @@ People who try `let()` tend to like it.
 <p/>
 .
 
+#### Using `strmacro()` or `defmacro()` to implement `let()`
+
+The first version of `replyr::let()` was [an attributed adaption of `strmacro()` code](https://github.com/WinVector/replyr/blob/edbbbc1bc8ca2f9f5f5ec753e53ef00c6aaaca81/R/let.R), but the method is now a new independent language based implementation. Some of the closeness can be seen by implementing approximations of `let()` using `strmacro()` and `defmacro()`.
+
+``` r
+library("gtools")
+suppressPackageStartupMessages(library("dplyr"))
+
+# define a gtools::strmacro() based let()
+lets <- function(alias, expr, env = parent.frame()) {
+  expr <- base::substitute(expr)
+  args <- base::lapply(names(alias), as.name)
+  macro <- do.call(gtools::strmacro, c(args, list(expr = expr)))
+  do.call(macro, as.list(as.character(alias)), envir = env)
+}
+
+# apply it
+lets(
+  alias = c(NEWVAR = "y",
+            OLDVAR = "x"),
+  
+  data.frame(x = 1) %>%
+    mutate(NEWVAR = OLDVAR + 1)
+)
+```
+
+    ##   x y
+    ## 1 1 2
+
+``` r
+# define a gtools::defmacro() based let()
+letd <- function(alias, expr, env = parent.frame()) {
+  expr <- base::substitute(expr)
+  args <- base::lapply(names(alias), as.name)
+  macro <- do.call(gtools::defmacro, c(args, list(expr = expr)))
+  newargs <- base::lapply(as.character(alias), as.name)
+  do.call(macro, as.list(newargs), envir = env)
+}
+
+# notice letd() does not get the assignment variable 
+# when = notation is used
+letd(
+  alias = c(NEWVAR = "y",
+            OLDVAR = "x"),
+  
+  data.frame(x = 1) %>%
+    mutate(NEWVAR = OLDVAR + 1)
+)
+```
+
+    ##   x NEWVAR
+    ## 1 1      2
+
+``` r
+# notice letd() does  get the assignment variable 
+# when := notation is used, a notation dplyr
+# only accepts in versions 0.7.0 and later
+letd(
+  alias = c(NEWVAR = "y",
+            OLDVAR = "x"),
+  
+  data.frame(x = 1) %>%
+    mutate(NEWVAR := OLDVAR + 1)
+)
+```
+
+    ##   x y
+    ## 1 1 2
+
+With our own `wrapr` implementation of `let()` we do get a bit finer control, and escape the common criticism of string based solutions (using instead a language based solution). A small example of differences is given here.
+
+``` r
+# our reference implementation with desired behavior
+wrapr::let(
+  alias = c(X = "SUBSTITUTED",
+            Y = "lst"),
+  expr = list(
+    c(X = "X.X"),
+    .X = c("X" = "X")
+  )
+)
+```
+
+    ## [[1]]
+    ## SUBSTITUTED 
+    ##       "X.X" 
+    ## 
+    ## $.X
+    ## SUBSTITUTED 
+    ##         "X"
+
+``` r
+# repaces too much
+lets( 
+  alias = c(X = "SUBSTITUTED"),
+  expr = list(
+    c(X = "X.X"),
+    .X = c("X" = "X")
+  )
+)
+```
+
+    ## [[1]]
+    ##               SUBSTITUTED 
+    ## "SUBSTITUTED.SUBSTITUTED" 
+    ## 
+    ## $.SUBSTITUTED
+    ##   SUBSTITUTED 
+    ## "SUBSTITUTED"
+
+``` r
+# replaces too little, probably
+# (intentionally) did not go into the list
+letd( 
+  alias = c(X = "SUBSTITUTED"),
+  expr = list(
+    c(X = "X.X"),
+    .X = c("X" = "X")
+  )
+)
+```
+
+    ## [[1]]
+    ##     X 
+    ## "X.X" 
+    ## 
+    ## $.X
+    ##   X 
+    ## "X"
+
+The differences are because `wrapr::let()` is substituting on language objects, not on mere strings (behaving a bit more like `bquote()`). Notice `wrapr::let()` does not substitute into all string situations the same, but can use language context to make good choices. However, users can completely avoid mapping ambiguity by choosing appropriate substitution targets when they write their alias and code.
+
 ### <code>rlang::`!!`</code>
 
 `rlang` was written by Lionel Henry and Hadley Wickham and was incorporated into `dplyr` on June 6, 2017. From <code>help(`!!`, package = "rlang")</code>:
@@ -812,7 +850,7 @@ Chambers is saying "spaghetti data" (non-trivial values being taken from various
 
 Basically `rlang` `quosure`s are sufficiently like `formula`s to run into the same issues (including [reference leaks](http://www.win-vector.com/blog/2014/05/trimming-the-fat-from-glm-models-in-r/)). Our advice is: [prefer avoiding complexity to getting better and working within complexities](http://www.win-vector.com/blog/2011/04/do-your-tools-support-production-or-complexity/).
 
-But enough theory, let's see `rlang` in action.
+But enough theoretical criticism, let's see `rlang` in action.
 
 <code>rlang</code> (parts of which are brought in by the <code>dplyr</code> package) can be demonstrated on one of the examples we already exhibited in the <code>bquote()</code> section of this note as follows.
 
@@ -896,7 +934,7 @@ OLDVAR <- as.name("x")
 
 A `dplyr` that allows `:=` to denote assignment does not need an extension package such as `gtools`, `lazyeval`, `wrapr`, or `rlang`; `base::bquote()` is already able to do the work.
 
-`rlang` can work with packages that it has not been integrated with, as [the linear modeling example](http://www.win-vector.com/blog/2018/09/r-tip-how-to-pass-a-formula-to-lm/) demonstrates. We repeat a simplified such example here (example volunteered by an `rlang` package author recently):
+`rlang` can work with packages that it has not been integrated with, as [the linear modeling example](http://www.win-vector.com/blog/2018/09/r-tip-how-to-pass-a-formula-to-lm/) demonstrates. We repeat a simplified such example here (example recently volunteered by an `rlang` package author):
 
 ``` r
 library("rlang")
@@ -948,7 +986,7 @@ eval(bquote(      lm(.(f), data = dataf)  ))
 
 We are assuming the difference is much finer control of environments (the `expr()` object being of `class` `call` and not carrying an `environment`, and `quo()` object being of class `quosuer` and carrying an `environment`). However the `bquote()` object is of `class` `call` (without an environment) and the function `eval()` does take an environment argument, so with some care it is quite possible to reasonably control environments when using `bquote()`.
 
-`rlang` environment control is powerful, allowing an expression of the form "`a - a`" that evaluates to a non-zero value.
+`rlang` environment control is powerful. For instance it can build an expression of the form "`a - a`" that evaluates to a large non-zero value.
 
 ``` r
 library("rlang")
@@ -1020,7 +1058,7 @@ let(
     ##     }
     ## }
 
-The `rlang` replacement notation is just not as powerful as name-based substitution (as used by `strmacro()` and `wrapr::let()`).
+In `R` the `rlang` replacement notation is just not as powerful as target-based substitution (as used by `strmacro()` and `wrapr::let()`).
 
 #### `rlang` and `dplyr`
 
@@ -1198,7 +1236,7 @@ Some of our take-aways include:
 
 -   Always consider using functions before resorting to macros. Functions have more isolation and are generally safer to work with and compose. When you use macros you are usurping standard evaluation rules and taking direct control, so after that things become somewhat your own fault.
 -   For fine control of the arguments of a single function call I recommend using `base::do.call()`.
--   For composing macro-like entities with each other `substitute()`, `quote()`, `eval()`, and `unquote()` are the base-`R` fundamental tools.
+-   For composing code-aware methods with each other the are the base-`R` fundamental tools are: `substitute()`, `quote()`, `eval()`, and `unquote()` .
 -   `gtools::defmacro()` is a great tool for building macros, especially parameterized code-snippets that are intended to have visible side effects (such as writing back values).
 -   `base::bquote()` is a great choice for programming over other systems and uses clear quasiquotation semantics. It is able to easily program over `dplyr 0.7.0` and later versions and is part of the core `R` language (or "base `R`", which *should* be a *huge* plus).
 -   `gtools::strmacro()` is a very powerful tool, fully capable of programming over `dplyr 0.5.0`.
