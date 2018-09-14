@@ -470,7 +470,7 @@ macro("a")
     ##     a + 1
     ## }
 
-This *is* the kind of power we want.
+This is the kind of power we want.
 
 Please keep in mind that when writing a macro both the substitution target names and code being transformed are known to the author and near each other (so easy to manage/alter together). It is only the replacement values that are not fully known or controlled. That means most danger or ambiguity seen in an example such as above can be completely eliminated by merely choosing longer substitution targets:
 
@@ -795,7 +795,7 @@ letd(
     ##   X 
     ## "X"
 
-The differences are because `wrapr::let()` is substituting on language objects, not on mere strings (behaving a bit more like `bquote()`). Notice `wrapr::let()` does not substitute into all string situations the same, but can use language context to make good choices. However, users can completely avoid mapping ambiguity by choosing appropriate substitution targets when they write their alias and code.
+More examples can be found [here](https://winvector.github.io/wrapr/articles/SubstitutionModes.html). The differences are because `wrapr::let()` is substituting on language objects, not on mere strings (behaving a bit more like `bquote()`). Notice `wrapr::let()` does not substitute into all string situations the same, but can use language context to make good choices. However, users can completely avoid mapping ambiguity by choosing appropriate substitution targets when they write their alias and code.
 
 ### <code>rlang::`!!`</code>
 
