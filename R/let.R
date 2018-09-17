@@ -420,6 +420,7 @@ let <- function(alias, expr,
 #'
 `%in_block%` <- function(a, b) {
   env = parent.frame()
+  force(env)
   do.call(let,
           list(
             expr = substitute(b),
