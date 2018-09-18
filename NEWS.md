@@ -1,8 +1,9 @@
 
-# wrapr 1.6.2 2018-09-13
+# wrapr 1.6.3 2018-09-18
 
  * Add grepv().
  * More exaples in SubstitutionModes vignette (show we don't need special pairlist case).
+ * Make sure parent.frame() is unambiguosly resovled (force()).
  
 # wrapr 1.6.2 2018-09-10
 

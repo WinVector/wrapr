@@ -32,6 +32,7 @@
 #' @export
 #'
 makeFunction_se <- function(params, body, env = parent.frame()) {
+  force(env)
   vars <- as.character(params)
   formals <- replicate(length(vars), quote(expr = ))
   names(formals) <- vars
@@ -77,6 +78,7 @@ makeFunction_se <- function(params, body, env = parent.frame()) {
 #' @export
 #'
 lambda <- function(..., env = parent.frame()) {
+  force(env)
   args <- base::substitute(list(...))
   body <- args[[length(args)]]
   args <- args[-length(args)]
@@ -104,6 +106,7 @@ lambda <- function(..., env = parent.frame()) {
 #' @export
 #'
 defineLambda <- function(envir = parent.frame(), name = NULL) {
+  force(envir)
   if(is.null(name)) {
     name <- intToUtf8(0x03BB)
   }

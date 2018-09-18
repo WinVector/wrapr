@@ -33,6 +33,7 @@ NULL
 mk_formula <- function(outcome, variables,
                        ...,
                        env = parent.frame()) {
+  force(env)
   wrapr::stop_if_dot_args(substitute(list(...)), "wrapr::mk_formula")
   if((!is.character(outcome)) || (length(outcome)!=1)) {
     stop("wrapr::mk_formula outcome must be a length 1 character vector")

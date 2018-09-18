@@ -169,6 +169,7 @@ execute_parallel <- function(tables,
                              cl = NULL,
                              debug = FALSE,
                              env = parent.frame()) {
+  force(env)
   tablesets <- partition_tables(names(tables),
                                 partition_column = partition_column,
                                 tables = tables,

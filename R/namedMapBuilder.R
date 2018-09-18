@@ -70,7 +70,8 @@ early_tries <- function(nm, vl, values) {
       # assume formula
       vars <- setdiff(as.character(all.vars(nm)), "~")
     }
-    return(makeFunction_se(vars, vl, parent.frame()))
+    env <- parent.frame()
+    return(makeFunction_se(vars, vl, env))
   }
   NULL # continue in the normal way
 }

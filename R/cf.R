@@ -61,6 +61,7 @@ is_infix <- function(vi) {
 #'
 build_frame <- function(..., cf_eval_environment = parent.frame()) {
   v <- as.list(substitute(list(...))[-1])
+  force(cf_eval_environment)
   lv <- length(v)
   # inspect input
   if(lv<1) {
