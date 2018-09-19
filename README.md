@@ -301,7 +301,7 @@ More Information
 More details on `wrapr` capabilities can be found in the following two technical articles:
 
 -   [let](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf)
--   [Dot-Pipe](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf)
+-   [R Journal "Dot-Pipe: an S3 Extensible Pipe for R""](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html)
 
 Note
 ----
