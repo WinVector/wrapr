@@ -419,8 +419,8 @@ let <- function(alias, expr,
 #' @seealso \code{\link{let}}
 #'
 `%in_block%` <- function(a, b) {
-  env = parent.frame()
-  force(env)
+  env <- parent.frame()
+  force(env)  # probably do not need this step
   do.call(let,
           list(
             expr = substitute(b),
