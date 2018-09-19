@@ -4,7 +4,7 @@
 \alias{dot_arrow}
 \alias{\%.>\%}
 \alias{\%>.\%}
-\title{Pipe operator ("dot arrow").}
+\title{Pipe operator ("dot arrow", "dot pipe" or "dot arrow pipe").}
 \usage{
 pipe_left_arg \%.>\% pipe_right_arg
 
@@ -33,6 +33,7 @@ off by adding braces.
 For some discussion, please see \url{http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/}.
 For some more examples, please see the package README \url{https://github.com/WinVector/wrapr}.
 For formal documentation please see \url{https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf}.
+For a base-R step-debuggable pipe please try the Bizarro Pipe \url{http://www.win-vector.com/blog/2017/01/using-the-bizarro-pipe-to-debug-magrittr-pipelines-in-r/}.
 \code{\%>.\%} and \code{\%.>\%} are synonyms.
 }
 \section{Functions}{

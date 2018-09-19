@@ -400,7 +400,7 @@ pipe_impl <- function(pipe_left_arg,
   }
 }
 
-#' Pipe operator ("dot arrow").
+#' Pipe operator ("dot arrow", "dot pipe" or "dot arrow pipe").
 #'
 #' Defined as roughly : \code{a \%>.\% b} ~ \code{\{ . <- a; b \};}
 #' (with visible .-side effects).
@@ -415,6 +415,7 @@ pipe_impl <- function(pipe_left_arg,
 #' For some discussion, please see \url{http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/}.
 #' For some more examples, please see the package README \url{https://github.com/WinVector/wrapr}.
 #' For formal documentation please see \url{https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf}.
+#' For a base-R step-debuggable pipe please try the Bizarro Pipe \url{http://www.win-vector.com/blog/2017/01/using-the-bizarro-pipe-to-debug-magrittr-pipelines-in-r/}.
 #' \code{\%>.\%} and \code{\%.>\%} are synonyms.
 #'
 #' @param pipe_left_arg left argument expression (substituted into .)
