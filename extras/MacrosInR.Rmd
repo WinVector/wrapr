@@ -535,6 +535,7 @@ suppressPackageStartupMessages(library("dplyr"))
 
 # define a gtools::strmacro() based let()
 lets <- function(alias, expr, env = parent.frame()) {
+  env <- force(env)
   expr <- base::substitute(expr)
   args <- base::lapply(names(alias), as.name)
   macro <- do.call(gtools::strmacro, c(args, list(expr = expr)))
@@ -552,6 +553,7 @@ lets(
 
 # define a gtools::defmacro() based let()
 letd <- function(alias, expr, env = parent.frame()) {
+  env <- force(env)
   expr <- base::substitute(expr)
   args <- base::lapply(names(alias), as.name)
   macro <- do.call(gtools::defmacro, c(args, list(expr = expr)))
@@ -717,7 +719,7 @@ OLDVAR <- as.name("x")
     mutate_bq(.(NEWVAR) := .(OLDVAR) + 1)
 ```
 
-We just demonstrated a `bquote()`-enhanced version of `mutate()` in about 4 lines of code.  Enhancing `mutate()` with `strmacro()` or `let()` would be similarly easy.
+We just demonstrated a `bquote()`-enhanced version of `mutate()` in about 4 lines of code.  Enhancing `mutate()` with `strmacro()` or `let()` would be similarly easy.  We have more examples of building `bquote()`-enabled `dplyr` methods using a method converting factory [here](http://www.win-vector.com/blog/2018/09/parameterizing-with-bquote/).
 
 There are, of course, some semantic differences, such as how to unambiguously choose values from the <code>data.frame</code> or the environment.  However, in my opinion, most of the earlier solutions already have sound ways of dealing with these issues. `rlang` does supply some additional services such as [vararg](https://en.wikipedia.org/wiki/Variadic_function) splicing through `!!!`, however as we have seen in our `order()` example `do.call()` already is an excellent tools for vararg splicing. The other systems don't need to solve splicing, as it isn't an unsolved problem.
 
