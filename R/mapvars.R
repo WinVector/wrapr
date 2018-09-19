@@ -17,7 +17,7 @@
 #' @export
 #'
 mapsyms <- function(...) {
-  mapsyms_envir = parent.frame()
+  mapsyms_envir <- parent.frame()
   mapsyms_args <- as.list(substitute(list(...))[-1])
   mapsyms_names <- vapply(mapsyms_args,
                           function(ai) {
@@ -63,7 +63,7 @@ mapsyms <- function(...) {
 #' @export
 #'
 map_upper <- function(...) {
-  map_upper_envir = parent.frame()
+  map_upper_envir <- parent.frame()
   map_upper_args <- as.list(substitute(list(...))[-1])
   map_upper_names <- vapply(map_upper_args,
                             function(ai) {

@@ -120,7 +120,7 @@ returnCapture <- function(e, saveDest, cap, wrapperName,
 #' @export
 DebugFn <- function(saveDest,fn,...) {
   args <- list(...)
-  envir = parent.frame()
+  envir <- parent.frame()
   namedargs <- match.call()
   fn_name <- as.character(namedargs[['fn']])
   force(saveDest)
@@ -191,7 +191,7 @@ DebugFnW <- function(saveDest,fn) {
   force(fn)
   function(...) {
     args <- list(...)
-    envir = parent.frame()
+    envir <- parent.frame()
     namedargs <- match.call()
     tryCatch({
       do.call(fn, args, envir=envir)
@@ -246,7 +246,7 @@ DebugPrintFn <- function(saveDest,fn,...) {
   args <- list(...)
   namedargs <- match.call()
   fn_name <- as.character(namedargs[['fn']])
-  envir = parent.frame()
+  envir <- parent.frame()
   force(saveDest)
   force(fn)
   tryCatch({
@@ -297,7 +297,7 @@ DebugPrintFn <- function(saveDest,fn,...) {
 #' @export
 DebugFnE <- function(saveDest,fn,...) {
   args <- list(...)
-  envir = parent.frame()
+  envir <- parent.frame()
   namedargs <- match.call()
   fn_name <- as.character(namedargs[['fn']])
   force(saveDest)
@@ -359,7 +359,7 @@ DebugFnWE <- function(saveDest,fn,...) {
   force(fn)
   function(...) {
     args <- list(...)
-    envir = parent.frame()
+    envir <- parent.frame()
     namedargs <- match.call()
     tryCatch({
       do.call(fn, args, envir=envir)
@@ -412,7 +412,7 @@ DebugFnWE <- function(saveDest,fn,...) {
 #' @export
 DebugPrintFnE <- function(saveDest,fn,...) {
   args <- list(...)
-  envir = parent.frame()
+  envir <- parent.frame()
   namedargs <- match.call()
   fn_name <- as.character(namedargs[['fn']])
   force(saveDest)

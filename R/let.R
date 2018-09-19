@@ -331,6 +331,7 @@ let <- function(alias, expr,
                 strict= TRUE,
                 eval= TRUE,
                 debugPrint= FALSE) {
+  force(envir)
   exprQ <- substitute(expr)  # do this early before things enter local environment
   stop_if_dot_args(substitute(list(...)), "wrapr::let")
   allowedMethods <- c('langsubs', 'stringsubs', 'subsubs')
