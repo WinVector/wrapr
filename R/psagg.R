@@ -35,7 +35,7 @@
 psagg <- function(x) {
   len <- length(x)
   if(len<1) {
-    stop("wrapr::psagg empty non-NULL argument")
+    stop("wrapr::psagg empty argument")
   }
   v <- x[[1]]
   if(len>1) {
