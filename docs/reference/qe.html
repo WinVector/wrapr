@@ -175,12 +175,7 @@ to allow forms such as "Sepal.Length &gt;= 2 * Sepal.Width".
     <pre class="examples"><div class='input'>
 <span class='no'>exprs</span> <span class='kw'>&lt;-</span> <span class='fu'>qe</span>(<span class='no'>Sepal.Length</span> <span class='kw'>&gt;=</span> <span class='no'>ratio</span> * <span class='no'>Sepal.Width</span>,
              <span class='no'>Petal.Length</span> <span class='kw'>&lt;=</span> <span class='fl'>3.5</span>)
-<span class='fu'>print</span>(<span class='no'>exprs</span>)</div><div class='output co'>#&gt; [[1]]
-#&gt; [1] "Sepal.Length &gt;= ratio * Sepal.Width"
-#&gt; 
-#&gt; [[2]]
-#&gt; [1] "Petal.Length &lt;= 3.5"
-#&gt; </div><div class='input'>
+<span class='fu'>print</span>(<span class='no'>exprs</span>)</div><div class='output co'>#&gt; [1] "Sepal.Length &gt;= ratio * Sepal.Width" "Petal.Length &lt;= 3.5"                </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

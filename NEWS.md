@@ -1,7 +1,8 @@
 
-# wrapr 1.6.3 2018-09-21
+# wrapr 1.6.3 2018-09-23
 
  * Make sure parent.frame() is unambiguosly resovled (force()).
+ * qe(), qae(), qs() now return character vectors instead of lists.
  * Add psagg().
  * Add grepv().
  * More exaples in SubstitutionModes vignette (show we don't need special pairlist case).

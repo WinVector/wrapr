@@ -2,7 +2,7 @@
 % Please edit documentation in R/qae.R
 \name{qs}
 \alias{qs}
-\title{Quote a string.}
+\title{Quote argument as a string.}
 \usage{
 qs(s)
 }
@@ -13,7 +13,7 @@ qs(s)
 character
 }
 \description{
-Quote a string.
+Quote argument as a string.
 }
 \examples{
 

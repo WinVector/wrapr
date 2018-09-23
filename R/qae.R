@@ -26,9 +26,9 @@ qe <- function(...) {
   # e_terms is a list of k+1 items, first is "list" the rest are captured expressions
   len <- length(e_terms) # first slot is "list"
   if(len<=1) {
-    return(c())
+    return(character(0))
   }
-  rhs <- vector(len-1, mode='list')
+  rhs <- character(len-1)
   for(i in (2:len)) {
     ei <- e_terms[[i]]
     rhs[[i-1]] <- wrapr_deparse(ei)
@@ -68,11 +68,11 @@ qae <- function(...) {
   # ae_terms is a list of k+1 items, first is "list" the rest are captured expressions
   len <- length(ae_terms) # first slot is "list"
   if(len<=1) {
-    return(c())
+    return(character())
   }
   nms <- names(ae_terms)
-  lhs <- vector(len-1, mode='list')
-  rhs <- vector(len-1, mode='list')
+  lhs <- character(len-1)
+  rhs <- character(len-1)
   for(i in (2:len)) {
     ei <- ae_terms[[i]]
     ni <- nms[[i]]
@@ -104,7 +104,7 @@ qae <- function(...) {
 }
 
 
-#' Quote a string.
+#' Quote argument as a string.
 #'
 #' @param s expression to be quoted as a string.
 #' @return character
