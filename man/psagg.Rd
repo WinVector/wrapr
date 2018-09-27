@@ -4,10 +4,14 @@
 \alias{psagg}
 \title{Pseudo aggregator.}
 \usage{
-psagg(x)
+psagg(x, ..., strict = TRUE)
 }
 \arguments{
-\item{x}{should be a vector or list of simple (comparable) items.}
+\item{x}{should be a vector or list of items.}
+
+\item{...}{force later arguments to be passed by name}
+
+\item{strict}{logical, should we check value uniqueness.}
 }
 \value{
 x[[1]] (or throw if not all items are equal or this is an empty vector).

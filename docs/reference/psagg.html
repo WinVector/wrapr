@@ -149,14 +149,22 @@ If the argument length is zero or there are different items throw in an error.</
     
     </div>
 
-    <pre class="usage"><span class='fu'>psagg</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>psagg</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>strict</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>should be a vector or list of simple (comparable) items.</p></td>
+      <td><p>should be a vector or list of items.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>force later arguments to be passed by name</p></td>
+    </tr>
+    <tr>
+      <th>strict</th>
+      <td><p>logical, should we check value uniqueness.</p></td>
     </tr>
     </table>
     

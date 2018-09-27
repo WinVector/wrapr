@@ -8,7 +8,9 @@
 #' This function is useful in some split by column situations as a safe and legible
 #' way to convert vectors to scalars.
 #'
-#' @param x should be a vector or list of simple (comparable) items.
+#' @param x should be a vector or list of items.
+#' @param ... force later arguments to be passed by name
+#' @param strict logical, should we check value uniqueness.
 #' @return x[[1]] (or throw if not all items are equal or this is an empty vector).
 #'
 #' @examples
@@ -32,10 +34,13 @@
 #'
 #' @export
 #'
-psagg <- function(x) {
+psagg <- function(x,
+                  ...,
+                  strict = TRUE) {
+  stop_if_dot_args(substitute(list(...)), "wrapr::psagg")
   len <- length(x)
   if(len<1) {
-    stop("wrapr::psagg empty argument")
+    stop("wrapr::psagg length zero argument")
   }
   v <- x[[1]]
   if(len>1) {
@@ -53,14 +58,10 @@ psagg <- function(x) {
       }
       return(v)
     }
-    comps <- vapply(
-      2:len,
-      function(i) {
-        identical(x[[1]], x[[i]])
-      },
-      logical(1))
-    if(!all(comps)) {
-      stop("wrapr::psagg argument values are varying")
+    if(strict) {
+      if(length(unique(x))!=1) {
+        stop("wrapr::psagg argument values are varying")
+      }
     }
   }
   v
