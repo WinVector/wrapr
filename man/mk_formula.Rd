@@ -4,7 +4,7 @@
 \alias{mk_formula}
 \title{Construct a formula.}
 \usage{
-mk_formula(outcome, variables, ..., env = parent.frame())
+mk_formula(outcome, variables, ..., env = baseenv())
 }
 \arguments{
 \item{outcome}{character scalar, name of outcome or dependent variable.}
@@ -34,7 +34,9 @@ Another reasonable way to do this is just \code{paste(outcome, paste(variables, 
 }
 \examples{
 
-mk_formula("mpg", c("cyl", "disp"))
+f <- mk_formula("mpg", c("cyl", "disp"))
+print(f)
+lm(f, mtcars)
 
 }
 \seealso{

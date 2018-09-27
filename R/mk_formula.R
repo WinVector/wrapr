@@ -1,5 +1,5 @@
 
-#' @importFrom stats update.formula
+#' @importFrom stats update.formula lm
 NULL
 
 #' Construct a formula.
@@ -26,13 +26,15 @@ NULL
 #'
 #' @examples
 #'
-#' mk_formula("mpg", c("cyl", "disp"))
+#' f <- mk_formula("mpg", c("cyl", "disp"))
+#' print(f)
+#' lm(f, mtcars)
 #'
 #' @export
 #'
 mk_formula <- function(outcome, variables,
                        ...,
-                       env = parent.frame()) {
+                       env = baseenv()) {
   force(env)
   wrapr::stop_if_dot_args(substitute(list(...)), "wrapr::mk_formula")
   if((!is.character(outcome)) || (length(outcome)!=1)) {

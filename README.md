@@ -181,6 +181,16 @@ cat(draw_frame(x))
  #     "accuracy"                  , 0.8       , 0.6          )
 ```
 
+The dot pipe has been [formally written up in the R Journal](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html).
+
+    @article{RJ-2018-042,
+      author = {John Mount and Nina Zumel},
+      title = {{Dot-Pipe: an S3 Extensible Pipe for R}},
+      year = {2018},
+      journal = {{The R Journal}},
+      url = {https://journal.r-project.org/archive/2018/RJ-2018-042/index.html}
+    }
+
 [`qc()` (quoting concatenate)](https://winvector.github.io/wrapr/reference/qc.html)
 -----------------------------------------------------------------------------------
 
