@@ -258,7 +258,15 @@ Anonymous function constructions are evaluated so the function can be applied (e
 Checks and transforms are not performed on items inside braces (example: <code>5 %.&gt;% { function(x) {x+1} }</code> returns <code>function(x) {x+1}</code>, not 6).
 </li>
 </ul>
-<p>The dot pipe is also user configurable through standard S3 methods.</p>
+<p>The dot pipe is also user configurable through standard <code>S3</code>/<code>S4</code> methods.</p>
+<p>The dot pipe has been <a href="https://journal.r-project.org/archive/2018/RJ-2018-042/index.html">formally written up in the R Journal</a>.</p>
+<pre><code>@article{RJ-2018-042,
+  author = {John Mount and Nina Zumel},
+  title = {{Dot-Pipe: an S3 Extensible Pipe for R}},
+  year = {2018},
+  journal = {{The R Journal}},
+  url = {https://journal.r-project.org/archive/2018/RJ-2018-042/index.html}
+}</code></pre>
 </div>
 <div id="build_frame-draw_frame" class="section level2">
 <h2 class="hasAnchor">
@@ -283,14 +291,6 @@ Checks and transforms are not performed on items inside braces (example: <code>5
  <span class="co">#     "measure"                   , "training", "validation" |</span>
  <span class="co">#     "minus binary cross entropy", 5         , -7           |</span>
  <span class="co">#     "accuracy"                  , 0.8       , 0.6          )</span></code></pre></div>
-<p>The dot pipe has been <a href="https://journal.r-project.org/archive/2018/RJ-2018-042/index.html">formally written up in the R Journal</a>.</p>
-<pre><code>@article{RJ-2018-042,
-  author = {John Mount and Nina Zumel},
-  title = {{Dot-Pipe: an S3 Extensible Pipe for R}},
-  year = {2018},
-  journal = {{The R Journal}},
-  url = {https://journal.r-project.org/archive/2018/RJ-2018-042/index.html}
-}</code></pre>
 </div>
 <div id="qc-quoting-concatenate" class="section level2">
 <h2 class="hasAnchor">

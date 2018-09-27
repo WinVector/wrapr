@@ -153,7 +153,17 @@ Anonymous function constructions are evaluated so the function can be applied (e
 Checks and transforms are not performed on items inside braces (example: `5 %.>% { function(x) {x+1} }` returns `function(x) {x+1}`, not 6).
 </li>
 </ul>
-The dot pipe is also user configurable through standard S3 methods.
+The dot pipe is also user configurable through standard `S3`/`S4` methods.
+
+The dot pipe has been [formally written up in the R Journal](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html).
+
+    @article{RJ-2018-042,
+      author = {John Mount and Nina Zumel},
+      title = {{Dot-Pipe: an S3 Extensible Pipe for R}},
+      year = {2018},
+      journal = {{The R Journal}},
+      url = {https://journal.r-project.org/archive/2018/RJ-2018-042/index.html}
+    }
 
 [`build_frame()`](https://winvector.github.io/wrapr/reference/build_frame.html) / [`draw_frame()`](https://winvector.github.io/wrapr/reference/draw_frame.html)
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -180,16 +190,6 @@ cat(draw_frame(x))
  #     "minus binary cross entropy", 5         , -7           |
  #     "accuracy"                  , 0.8       , 0.6          )
 ```
-
-The dot pipe has been [formally written up in the R Journal](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html).
-
-    @article{RJ-2018-042,
-      author = {John Mount and Nina Zumel},
-      title = {{Dot-Pipe: an S3 Extensible Pipe for R}},
-      year = {2018},
-      journal = {{The R Journal}},
-      url = {https://journal.r-project.org/archive/2018/RJ-2018-042/index.html}
-    }
 
 [`qc()` (quoting concatenate)](https://winvector.github.io/wrapr/reference/qc.html)
 -----------------------------------------------------------------------------------
