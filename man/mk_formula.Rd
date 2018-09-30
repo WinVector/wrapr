@@ -4,7 +4,7 @@
 \alias{mk_formula}
 \title{Construct a formula.}
 \usage{
-mk_formula(outcome, variables, ..., env = baseenv())
+mk_formula(outcome, variables, ..., intercept = TRUE, env = baseenv())
 }
 \arguments{
 \item{outcome}{character scalar, name of outcome or dependent variable.}
@@ -12,6 +12,8 @@ mk_formula(outcome, variables, ..., env = baseenv())
 \item{variables}{character vector, names of input or independent variables.}
 
 \item{...}{not used, force later arguments to bind by name.}
+
+\item{intercept}{logical, if TRUE allow an intercept term.}
 
 \item{env}{environment to use in formula.}
 }

@@ -19,6 +19,7 @@ NULL
 #' @param outcome character scalar, name of outcome or dependent variable.
 #' @param variables character vector, names of input or independent variables.
 #' @param ... not used, force later arguments to bind by name.
+#' @param intercept logical, if TRUE allow an intercept term.
 #' @param env environment to use in formula.
 #' @return a formula object
 #'
@@ -34,30 +35,43 @@ NULL
 #'
 mk_formula <- function(outcome, variables,
                        ...,
+                       intercept = TRUE,
                        env = baseenv()) {
   force(env)
   wrapr::stop_if_dot_args(substitute(list(...)), "wrapr::mk_formula")
   if((!is.character(outcome)) || (length(outcome)!=1)) {
     stop("wrapr::mk_formula outcome must be a length 1 character vector")
   }
-  if((!is.character(variables)) || (length(variables)<1)) {
-    stop("wrapr::mk_formula variables must be a length 1 or greater character vector")
+  if(!is.character(variables)) {
+    stop("wrapr::mk_formula variables must be a character vector")
   }
-  f <- do.call(
-    "~",
-    list(as.name(outcome),
-         as.name(variables[[1]])),
-    envir = env)
-  fs <- c(list(f),
-          lapply(
-            variables[-1],
-            function(vi) {
-              do.call(
-                "~",
-                list(as.name(outcome),
-                     call("+", as.name("."), as.name(vi))),
-                envir = env)
-            }
-          ))
-  Reduce(update.formula, fs)
+  if(!intercept) {
+    f <- do.call(
+      "~",
+      list(as.name(outcome),
+           0),
+      envir = env)
+  } else {
+    f <- do.call(
+      "~",
+      list(as.name(outcome),
+           as.name(variables[[1]])),
+      envir = env)
+    variables <- variables[-1]
+  }
+  if(length(variables)>0) {
+    fs <- c(list(f),
+            lapply(
+              variables,
+              function(vi) {
+                do.call(
+                  "~",
+                  list(as.name(outcome),
+                       call("+", as.name("."), as.name(vi))),
+                  envir = env)
+              }
+            ))
+    f <- Reduce(update.formula, fs)
+  }
+  f
 }

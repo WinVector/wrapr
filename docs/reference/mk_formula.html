@@ -149,7 +149,7 @@ and vector of input (independent variable) names.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>mk_formula</span>(<span class='no'>outcome</span>, <span class='no'>variables</span>, <span class='no'>...</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'>baseenv</span>())</pre>
+    <pre class="usage"><span class='fu'>mk_formula</span>(<span class='no'>outcome</span>, <span class='no'>variables</span>, <span class='no'>...</span>, <span class='kw'>intercept</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'>baseenv</span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -165,6 +165,10 @@ and vector of input (independent variable) names.</p>
     <tr>
       <th>...</th>
       <td><p>not used, force later arguments to bind by name.</p></td>
+    </tr>
+    <tr>
+      <th>intercept</th>
+      <td><p>logical, if TRUE allow an intercept term.</p></td>
     </tr>
     <tr>
       <th>env</th>
