@@ -1,5 +1,5 @@
 
-# wrapr 1.6.3 2018-09-30
+# wrapr 1.6.3 2018-10-03
 
  * Make sure parent.frame() is unambiguosly resovled (force()).
  * qe(), qae(), qs() now return character vectors instead of lists.

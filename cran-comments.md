@@ -6,20 +6,6 @@
 
     devtools::build_win()
     
-    * using log directory 'd:/RCompile/CRANguest/R-devel/wrapr.Rcheck'
-    * using R Under development (unstable) (2018-09-20 r75339)
-    * using platform: x86_64-w64-mingw32 (64-bit)
-    * using session charset: ISO8859-1
-    * checking for file 'wrapr/DESCRIPTION' ... OK
-    * checking extension type ... Package
-    * this is package 'wrapr' version '1.6.3'
-    * package encoding: UTF-8
-    * checking CRAN incoming feasibility ... NOTE
-    Maintainer: 'John Mount <jmount@win-vector.com>'
-
-    Number of updates in past 6 months: 7
-
-    Status: 1 NOTE
     
     
 ### OSX 
@@ -34,19 +20,15 @@
     * checking extension type ... Package
     * this is package ‘wrapr’ version ‘1.6.3’
     * package encoding: UTF-8
-    * checking CRAN incoming feasibility ... NOTE
+    * checking CRAN incoming feasibility ... Note_to_CRAN_maintainers
     Maintainer: ‘John Mount <jmount@win-vector.com>’
-
-    Number of updates in past 6 months: 7
-    * checking package namespace information ... OK
+    * checking top-level files ... WARNING
     Conversion of ‘README.md’ failed:
     pandoc: Could not fetch https://www.r-pkg.org/badges/version/wrapr
-     TlsExceptionHostPort (HandshakeFailed (Error_Misc "user error (unexpected type received. expecting handshake and got: Alert [(AlertLevel_Fatal,HandshakeFailure)])")) "www.r-pkg.org" 443
-     
-    Status: 1 WARNING, 1 NOT
-    
-Note is the number of builds, warning is spurious (URL is good).
+    TlsException (HandshakeFailed (Error_Protocol ("expecting server hello, got alert : [(AlertLevel_Fatal,HandshakeFailure)]",True,HandshakeFailure)))
+    Status: 1 WARNING
 
+    Warning is spurious (and not repeated on other tests): the URL is good.
 
 
 ## Downstream dependencies
@@ -54,7 +36,7 @@ Note is the number of builds, warning is spurious (URL is good).
     Checked all downstream dependencies.
 
     devtools::revdep_check()
-    Checking 8 packages: cdata, replyr, rqdatatable, rquery, seplyr, sigr, vtreat, WVPlots
+    Downloading 8 source packages: cdata, replyr, rqdatatable, rquery, seplyr, sigr, vtreat, WVPlots
     Checked cdata      : 0 errors | 0 warnings | 0 notes
     Checked replyr     : 0 errors | 0 warnings | 0 notes
     Checked rqdatatable: 0 errors | 0 warnings | 0 notes
@@ -63,4 +45,4 @@ Note is the number of builds, warning is spurious (URL is good).
     Checked sigr       : 0 errors | 0 warnings | 0 notes
     Checked vtreat     : 0 errors | 0 warnings | 0 notes
     Checked WVPlots    : 0 errors | 0 warnings | 0 notes
- 
+    
