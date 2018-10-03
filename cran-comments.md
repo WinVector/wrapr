@@ -5,7 +5,18 @@
 ### Windows
 
     devtools::build_win()
-    
+
+    * using R Under development (unstable) (2018-10-03 r75387)
+    * using platform: x86_64-w64-mingw32 (64-bit)
+    * using session charset: ISO8859-1
+    * checking for file 'wrapr/DESCRIPTION' ... OK
+    * checking extension type ... Package
+    * this is package 'wrapr' version '1.6.3'
+    * package encoding: UTF-8
+    * checking CRAN incoming feasibility ... Note_to_CRAN_maintainers
+    Maintainer: 'John Mount <jmount@win-vector.com>'
+
+    Status: OK
     
     
 ### OSX 
