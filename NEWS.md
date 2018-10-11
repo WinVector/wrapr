@@ -1,7 +1,8 @@
 
-# wrapr 1.6.4 2018-10-10
+# wrapr 1.6.4 2018-10-11
 
  * Preserve NA types in draw_frame.
+ * Add VectorizeM.
 
 # wrapr 1.6.3 2018-10-03
 
