@@ -1,4 +1,8 @@
 
+# wrapr 1.6.4 2018-10-10
+
+ * Preserve NA types in draw_frame.
+
 # wrapr 1.6.3 2018-10-03
 
  * Make sure parent.frame() is unambiguosly resovled (force()).

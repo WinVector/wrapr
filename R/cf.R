@@ -239,10 +239,13 @@ draw_frame <- function(x,
         xq[[ci]] <- paste0("\"",
                            format(x[[ci]], time_format),
                            "\"")
+        xq[[ci]][is.na(x[[ci]])] <- "NA_real_"
       } else if(is.character(x[[ci]]) || is.factor(x[[ci]])) {
         xq[[ci]] <- qts(as.character(x[[ci]]))
+        xq[[ci]][is.na(x[[ci]])] <- "NA_character_"
       } else if(is.integer(x[[ci]])) {
         xq[[ci]] <- paste0(format(x[[ci]], scientific = FALSE), "L")
+        xq[[ci]][is.na(x[[ci]])] <- "NA_integer_"
       } else if(is.numeric(x[[ci]])) {
         xq[[ci]] <- formatC(x[[ci]],
                             digits = formatC_args$digits,
@@ -258,10 +261,14 @@ draw_frame <- function(x,
                             preserve.width =  formatC_args$preserve.width,
                             zero.print =  formatC_args$zero.print,
                             drop0trailing =  formatC_args$drop0trailing)
+        xq[[ci]][is.na(x[[ci]])] <- "NA_real_"
+      } else if(is.logical(x[[ci]])) {
+        xq[[ci]] <- as.character(x[[ci]])
+        xq[[ci]][is.na(x[[ci]])] <- "NA"
       } else {
         xq[[ci]] <- as.character(x[[ci]])
+        xq[[ci]][is.na(x[[ci]])] <- "NA"
       }
-      xq[[ci]][is.na(x[[ci]])] <- NA
     }
     xm <- as.matrix(xq)
     xm <- matrix(data = as.character(xm),
