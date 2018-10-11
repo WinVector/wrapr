@@ -1,0 +1,27 @@
+---
+title: "VectorizeM Example"
+output: github_document
+---
+
+```{r}
+d <- rep(base::date(), 3)
+
+f1 <- function(d) {
+  lubridate::parse_date_time(d, "mdHMSy")
+}
+
+str(f1(d))
+
+f2 <- wrapr::VectorizeM(f1, 
+                        SIMPLIFY = FALSE, 
+                        UNLIST = TRUE)
+
+str(f2(d))
+
+d <- rep(base::date(), 1000000)
+
+timings <- microbenchmark::microbenchmark(f1(d),
+                                          f2(d))
+print(timings)
+```
+

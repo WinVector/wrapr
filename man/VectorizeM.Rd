@@ -5,7 +5,7 @@
 \title{Memoizating wrapr to base::Vectorize()}
 \usage{
 VectorizeM(FUN, vectorize.args = arg.names, SIMPLIFY = TRUE,
-  USE.NAMES = TRUE)
+  USE.NAMES = TRUE, UNLIST = FALSE)
 }
 \arguments{
 \item{FUN}{function to apply, found via match.fun.}
@@ -15,6 +15,8 @@ VectorizeM(FUN, vectorize.args = arg.names, SIMPLIFY = TRUE,
 \item{SIMPLIFY}{logical or character string; attempt to reduce the result to a vector, matrix or higher dimensional array; see the simplify argument of sapply.}
 
 \item{USE.NAMES}{logical; use names if the first ... argument has names, or if it is a character vector, use that character vector as the names.}
+
+\item{UNLIST}{logical; if TRUE try to unlist the result.}
 }
 \description{
 Build a wrapped function that applies to each unique argument in a vector of arguments once.

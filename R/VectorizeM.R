@@ -13,6 +13,7 @@
 #' @param vectorize.args	a character vector of arguments which should be vectorized. Defaults to first argument of FUN.  If set must be length 1.
 #' @param SIMPLIFY logical or character string; attempt to reduce the result to a vector, matrix or higher dimensional array; see the simplify argument of sapply.
 #' @param USE.NAMES	logical; use names if the first ... argument has names, or if it is a character vector, use that character vector as the names.
+#' @param UNLIST logical; if TRUE try to unlist the result.
 #'
 #' @examples
 #'
@@ -23,7 +24,7 @@
 #'
 #' @export
 #'
-VectorizeM <- function(FUN, vectorize.args = arg.names, SIMPLIFY = TRUE, USE.NAMES = TRUE) {
+VectorizeM <- function(FUN, vectorize.args = arg.names, SIMPLIFY = TRUE, USE.NAMES = TRUE, UNLIST = FALSE) {
   arg.names <- as.list(formals(FUN))
   arg.names[["..."]] <- NULL
   arg.names <- names(arg.names)
@@ -31,9 +32,12 @@ VectorizeM <- function(FUN, vectorize.args = arg.names, SIMPLIFY = TRUE, USE.NAM
   if (!length(vectorize.args))
     return(FUN)
   vectorize.args <- vectorize.args[[1]]
+  force(SIMPLIFY)
+  force(USE.NAMES)
+  force(UNLIST)
   if (!all(vectorize.args %in% arg.names))
     stop("must specify names of formal arguments for 'vectorize'")
-  collisions <- arg.names %in% c("FUN", "SIMPLIFY", "USE.NAMES",
+  collisions <- arg.names %in% c("FUN", "SIMPLIFY", "USE.NAMES", "UNLIST",
                                  "vectorize.args")
   if (any(collisions))
     stop(sQuote("FUN"), " may not have argument(s) named ",
@@ -65,6 +69,11 @@ VectorizeM <- function(FUN, vectorize.args = arg.names, SIMPLIFY = TRUE, USE.NAM
     } else {
       names(rnames) <- as.character(vargs2[[names]])
       names(res) <- rnames[as.character(vargs[[names]])]
+    }
+    if(UNLIST) {
+      attr <- attributes(res[[1]])
+      res <- unlist(res)
+      attributes(res) <- attr
     }
     res
   }
