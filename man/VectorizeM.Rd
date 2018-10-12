@@ -2,7 +2,7 @@
 % Please edit documentation in R/VectorizeM.R
 \name{VectorizeM}
 \alias{VectorizeM}
-\title{Memoizating wrapr to base::Vectorize()}
+\title{Memoizing wrapper to base::Vectorize()}
 \usage{
 VectorizeM(FUN, vectorize.args = arg.names, SIMPLIFY = TRUE,
   USE.NAMES = TRUE, UNLIST = FALSE)
@@ -33,5 +33,5 @@ fv(c(0, 1, 1, 0, 0, 1))
 
 }
 \seealso{
-\code{\link[base]{Vectorize}}
+\code{\link[base]{Vectorize}}, \code{\link{vapplym}}, \code{\link{lapplym}}
 }

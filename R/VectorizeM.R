@@ -1,11 +1,71 @@
 
-#' Memoizating wrapr to base::Vectorize()
+
+#' Memoizing wrapper for lapply.
+#'
+#'
+#' @seealso \code{\link{VectorizeM}}, \code{\link{vapplym}}
+#'
+#' @param X list or vector of inputs
+#' @param FUN function to apply
+#' @param ... additional arguments passed to lapply
+#'
+#' @examples
+#'
+#' fs <- function(x) { x <- x[[1]]; print(paste("see", x)); sin(x) }
+#' # should only print "see" twice, not 6 times
+#' lapplym(c(0, 1, 1, 0, 0, 1), fs)
+#'
+#' @export
+#'
+lapplym <- function(X, FUN, ...) {
+  UX <- unique(X)
+  first_indexes <- match(UX, X)
+  all_indexes <- match(X, UX)
+  res <- lapply(X[first_indexes], FUN, ...)
+  res2 <- res[all_indexes]
+  names(res2) <- names(X)
+  res2
+}
+
+#' Memoizing wrapper for vapply.
+#'
+#'
+#' @seealso \code{\link{VectorizeM}}, \code{\link{lapplym}}
+#'
+#' @param X list or vector of inputs
+#' @param FUN function to apply
+#' @param FUN.VALUE type of vector to return
+#' @param ... additional arguments passed to lapply
+#' @param USE.NAMES passed to vapply
+#'
+#' @examples
+#'
+#' fs <- function(x) { x <- x[[1]]; print(paste("see", x)); sin(x) }
+#' # should only print "see" twice, not 6 times
+#' vapplym(c(0, 1, 1, 0, 0, 1), fs, numeric(1))
+#'
+#' @export
+#'
+vapplym <- function(X, FUN, FUN.VALUE, ..., USE.NAMES = TRUE) {
+  UX <- unique(X)
+  first_indexes <- match(UX, X)
+  all_indexes <- match(X, UX)
+  res <- vapply(X[first_indexes], FUN, FUN.VALUE, ...,  USE.NAMES = USE.NAMES)
+  res2 <- res[all_indexes]
+  if(USE.NAMES) {
+    names(res2) <- names(X)
+  }
+  res2
+}
+
+
+#' Memoizing wrapper to base::Vectorize()
 #'
 #' Build a wrapped function that applies to each unique argument in a vector of arguments once.
 #'
 #' Only sensible for pure side-effect free deterministic functions.
 #'
-#' @seealso \code{\link[base]{Vectorize}}
+#' @seealso \code{\link[base]{Vectorize}}, \code{\link{vapplym}}, \code{\link{lapplym}}
 #'
 #'
 #'
@@ -32,6 +92,7 @@ VectorizeM <- function(FUN, vectorize.args = arg.names, SIMPLIFY = TRUE, USE.NAM
   if (!length(vectorize.args))
     return(FUN)
   vectorize.args <- vectorize.args[[1]]
+  force(FUN)
   force(SIMPLIFY)
   force(USE.NAMES)
   force(UNLIST)
@@ -45,36 +106,32 @@ VectorizeM <- function(FUN, vectorize.args = arg.names, SIMPLIFY = TRUE, USE.NAM
   if(length(vectorize.args)!=1) {
     stop(sQuote("FUN"), " can only vectorize one argument name")
   }
-  FNAM <- sQuote("FUN")
+  rm(list = "arg.names")
   FUNV <- function() {
     args <- lapply(as.list(match.call())[-1L], eval, parent.frame())
     if(length(args)!=1) {
-      stop(FNAM, "VectorizeM function: saw more than one argument group")
+      stop(sQuote("FUN"), "VectorizeM function: saw more than one argument group")
     }
     names <- if (is.null(names(args)))
       character(length(args))
     else names(args)
     dovec <- names %in% vectorize.args
     vargs <- args[dovec]
-    firsts <- match(unique(vargs[[1]]), vargs[[1]])
+    unique_values <- unique(vargs[[1]])
+    first_indexes <- match(unique_values, vargs[[1]])
+    all_indexes <- match(vargs[[1]], unique_values)
     vargs2 <- list()
-    vargs2[[names]] <- vargs[[names]][firsts]
-    res <- do.call("mapply", c(FUN = FUN, vargs2, MoreArgs = list(args[!dovec]),
+    vargs2[[names]] <- vargs[[names]][first_indexes]
+    res <- do.call("mapply", c(FUN = FUN, vargs2,
+                               MoreArgs = list(args[!dovec]),
                                SIMPLIFY = SIMPLIFY, USE.NAMES = USE.NAMES))
-    rnames <- names(res)
-    names(res) <- as.character(vargs2[[names]])
-    res <- res[as.character(vargs[[names]])]
-    if(is.null(rnames))  {
-      names(res) <- NULL
-    } else {
-      names(rnames) <- as.character(vargs2[[names]])
-      names(res) <- rnames[as.character(vargs[[names]])]
-    }
+    res <- res[all_indexes]
     if(UNLIST) {
       attr <- attributes(res[[1]])
       res <- unlist(res)
       attributes(res) <- attr
     }
+    names(res) <- names(vargs[[1]])
     res
   }
   formals(FUNV) <- formals(FUN)

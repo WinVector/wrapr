@@ -4,10 +4,11 @@ output: github_document
 ---
 
 ```{r}
-d <- rep(base::date(), 3)
+date_time <- "2018-10-12 16:12:28 PDT"
+d <- rep(date_time, 3)
 
 f1 <- function(d) {
-  lubridate::parse_date_time(d, "mdHMSy")
+  lubridate::ymd_hms(d)
 }
 
 str(f1(d))
@@ -18,7 +19,11 @@ f2 <- wrapr::VectorizeM(f1,
 
 str(f2(d))
 
-d <- rep(base::date(), 1000000)
+# generate lots of date strings, but only from a few 
+# dates
+d <- rep(f1(date_time), 1000000)
+d <- d + sample.int(100, size = length(d), replace = TRUE)
+d <- as.character(d)
 
 timings <- microbenchmark::microbenchmark(f1(d),
                                           f2(d))
