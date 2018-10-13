@@ -49,8 +49,7 @@ data.frame(x = 1:20) %.>%
   ggplot(., aes(x = x,  y = y)) %.>%
   geom_point() %.>%
   geom_line() %.>%
-  ggtitle("piped ggplot2",
-          subtitle = "wrapr")
+  ggtitle("piped ggplot2")
 ```
 
 ![](ggplot2_piped_files/figure-markdown_github/unnamed-chunk-3-1.png)
@@ -65,7 +64,7 @@ A minor (undiscussed) technical difficulty is: `ggplot2` users can store pieces 
 line <- geom_line(linetype = 2)
 
 title <- ggtitle("piped ggplot2",
-                 subtitle = "wrapr")
+                 subtitle = "pre-stored title")
 ```
 
 We can not, without a bit more adaption, pipe into these structures.

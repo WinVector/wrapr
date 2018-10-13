@@ -52,8 +52,7 @@ data.frame(x = 1:20) %.>%
   ggplot(., aes(x = x,  y = y)) %.>%
   geom_point() %.>%
   geom_line() %.>%
-  ggtitle("piped ggplot2",
-          subtitle = "wrapr")
+  ggtitle("piped ggplot2")
 ```
 
 Notice the `ggplot2` geom/layer/item paces do not use "`.`".  The evaluation rule is these items are evaluated as "pipe_right_arg" before seeing any of the pipeline to the left.  This is roughly how `ggplot2` handles composition through its override of "`+`".
@@ -66,7 +65,7 @@ A minor (undiscussed) technical difficulty is: `ggplot2` users can store pieces 
 line <- geom_line(linetype = 2)
 
 title <- ggtitle("piped ggplot2",
-                 subtitle = "wrapr")
+                 subtitle = "pre-stored title")
 ```
 
 We can not, without a bit more adaption, pipe into these structures.
