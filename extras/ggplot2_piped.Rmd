@@ -1,18 +1,36 @@
 ---
-title: "ggplot2_piped.Rmd"
+title: "Piping into ggplot2"
 author: "John Mount, Win-Vector LLC"
-date: "1/29/2018"
+date: "2018-10-13"
 output: github_document
 ---
 
-Using [`wrapr`](https://winvector.github.io/wrapr/)'s pipe with `ggplot2` (as in [Why can’t ggplot2 use %>%?](https://community.rstudio.com/t/why-cant-ggplot2-use/4372)).
+In the [`wrapr`](https://winvector.github.io/wrapr/)'s [pipe RJournal article](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html) we used piping into [`ggplot2`]( https://CRAN.R-project.org/package=ggplot2)
+commands as an example. 
 
-```{r}
+Being able to use the same pipe operator for data processing steps and for `ggplot2` layering is a question that comes up from time to time (for example:  [Why can’t ggplot2 use %>%?](https://community.rstudio.com/t/why-cant-ggplot2-use/4372)).  There are some fundamental difficulties in trying to use the [`magrittr`]( https://CRAN.R-project.org/package=magrittr) pipe in such a way, the concept being pipe stages are usually functions or function calls, and `ggplot2` components are objects (verbs versus nouns).
+
+However, the `wrapr` [dot-arrow-pipe](https://winvector.github.io/wrapr/reference/dot_arrow.html) was designed to handle such distinctions.
+
+Let's work an example.
+
+First suppose we want a single pipe to combine data processing and `ggplot2` layer composition.  
+
+The `wrapr` dot-arrow-pipe performs data processing steps by explicit use of dot and sequencing of expressions.  That is the dot-arrow notation treats `a %.>% b` as being very much like `{. <- a; b}`.  This means if the user writes a function application expression such as `a %.>% b(.)` the evaluation is very similar to `b(a)` (with some visible side-effects in the "`.`" variable).  The `wrapr` dot arrow has some short-cuts and convenience methods (such as treating `a %.>% f` as `a %.>% f(.)` when `f` is bound to a function as in `5 %.>% sin`). What we are saying is that [explicit argument notation](http://www.win-vector.com/blog/2018/03/r-tip-make-arguments-explicit-in-magrittr-dplyr-pipelines/) is one of the `wrapr` dot-arrow principles.
+
+With that in mind lets use `wrapr` dot-arrow-pipe for both data processing and `ggplot2` layering.
+
+First we load our packages.
+
+```{r, message=FALSE, warning=FALSE}
 library("ggplot2")
 library("wrapr")
 suppressPackageStartupMessages(library("dplyr"))
+```
 
+Now we tell `wrapr` what do do when the left-argument to a pipe is of class-`gg`.  In this case we say treat `a %.>% b` as `a + b` (instead of the default `{. <- a; b}`).  Notice this is an extension that any user or package can make, `wrapr` does not have special adaption for `ggplot2`.  Instead it supplies sufficient control to be able to adapt to `ggplot2`.
 
+```{r}
 apply_left.gg <- function(pipe_left_arg,
                           pipe_right_arg,
                           pipe_environment,
@@ -24,8 +42,59 @@ apply_left.gg <- function(pipe_left_arg,
                          enclos = pipe_environment)
   pipe_left_arg + pipe_right_arg 
 }
+```
 
+Now we can run a single pipeline that combines data processing steps and `ggplot` plot construction.
 
+```{r}
+data.frame(x = 1:20) %.>%
+  mutate(., y = cos(3*x)) %.>%
+  ggplot(., aes(x = x,  y = y)) %.>%
+  geom_point() %.>%
+  geom_line() %.>%
+  ggtitle("piped ggplot2",
+          subtitle = "wrapr")
+```
+
+Notice the `ggplot2` geom/layer/item paces do not use "`.`".  The evaluation rule is these items are evaluated as "pipe_right_arg" before seeing any of the pipeline to the left.  This is roughly how `ggplot2` handles composition through its override of "`+`".
+
+And this is where we stopped the `ggplot2` example in the [`wrapr`](https://winvector.github.io/wrapr/)'s [pipe RJournal article](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html).  The article was about the `wrap` dot-arrow-pipe, and not about `ggplot2` so it seemed important to move on from the example quickly.
+
+A minor (undiscussed) technical difficulty is: `ggplot2` users can store pieces of a plot in objects.  They may use this to write more modular plotting code.  For example suppose the user stored the `geom_line()` specification and the title in two variables as below.
+
+```{r}
+line <- geom_line(linetype = 2)
+
+title <- ggtitle("piped ggplot2",
+                 subtitle = "wrapr")
+```
+
+We can not, without a bit more adaption, pipe into these structures.
+
+```{r error=TRUE}
+data.frame(x = 1:20) %.>%
+  mutate(., y = cos(3*x)) %.>%
+  ggplot(., aes(x = x,  y = y)) %.>%
+  geom_point() %.>%
+  line %.>%
+  title
+```
+
+The above error message is intentional.  When the right-hand side of a `wrapr` pipe is the name of an an object (instead of an expression or function) `wrapr` uses a right-dispatch followed by an `S4` dispatch to decide what to do.  The error message here just means there is no registered right or `S4` dispatch for the classes of objects seen.  This is easy to fix by examining the classes of the objects and adding appropriate right dispatch methods.  What we are trying to say: the original left dispatch was enough to deal with plots where all the layers are presented as un-evaluated function calls (the most typical way to user `ggplot2`), however layers/geoms/items already evaluated and stored in variables need additional adaption.
+
+To fix this we examine the classes of the items we want rules for.
+
+```{r}
+class(line)
+
+class(title)
+```
+
+Notice `title` is not of class `gg`, so it will need its own rule.
+
+The rules are.
+
+```{r}
 apply_right.gg <- function(pipe_left_arg,
                            pipe_right_arg,
                            pipe_environment,
@@ -41,14 +110,16 @@ apply_right.labels <- function(pipe_left_arg,
                                left_arg_name,
                                pipe_string,
                                right_arg_name) {
+  if(!("gg" %in% class(pipe_left_arg))) {
+    stop("apply_right.labels expected left argument to be class-gg")
+  }
   pipe_left_arg + pipe_right_arg 
 }
+```
 
+With these rules in place we can now build up a `ggplot2` combining data processing, in-line steps, and stored layers/items.
 
-line <- geom_line()
-title <- ggtitle("piped ggplot2",
-                 subtitle = "wrapr")
-
+```{r}
 data.frame(x = 1:20) %.>%
   mutate(., y = cos(3*x)) %.>%
   ggplot(., aes(x = x,  y = y)) %.>%
@@ -56,3 +127,6 @@ data.frame(x = 1:20) %.>%
   line %.>%
   title
 ```
+
+Details on how the `wrapr` dot-pipe distpatch works can be found in the [RJournal article](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html.
+
