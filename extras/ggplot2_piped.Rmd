@@ -8,10 +8,7 @@ output: github_document
 In our [`wrapr`](https://winvector.github.io/wrapr/) [pipe RJournal article](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html) we used piping into [`ggplot2`]( https://CRAN.R-project.org/package=ggplot2)
 layers/geoms/items as an example. 
 
-Being able to use the same pipe operator for data processing steps and for `ggplot2` layering is a question that comes up from time to time (for example:  [Why can’t ggplot2 use %>%?](https://community.rstudio.com/t/why-cant-ggplot2-use/4372)).  In fact the package author wishes that piping was the composing notation:
-
-[<img src="ggpipe.png">](https://community.rstudio.com/t/why-cant-ggplot2-use/4372/7)
-
+Being able to use the same pipe operator for data processing steps and for `ggplot2` layering is a question that comes up from time to time (for example:  [Why can’t ggplot2 use %>%?](https://community.rstudio.com/t/why-cant-ggplot2-use/4372)).  In fact the primary `ggplot2` package author wishes that `magrittr` piping was the composing notation for `ggplot2` (though it is obviously too late to change).
 
 There are some fundamental difficulties in trying to use the [`magrittr`]( https://CRAN.R-project.org/package=magrittr) pipe in such a way.  In particular `magrittr` looks for its own pipe by name in un-evaluated code, and thus is difficult to engineer over (though it can be [hacked around](https://community.rstudio.com/t/why-cant-ggplot2-use/4372/3)). The general concept is: pipe stages are usually functions or function calls, and `ggplot2` components are objects (verbs versus nouns); and at first these seem incompatible.
 
