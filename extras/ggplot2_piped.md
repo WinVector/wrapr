@@ -15,7 +15,7 @@ Let's work an example.
 
 Suppose we want a single pipe notation to combine data processing and `ggplot2` layer composition steps.
 
-The `wrapr` dot-arrow-pipe performs data processing steps by explicit use of dot and sequencing of expressions. The dot-arrow semantics treats `a %.>% b` as being very much like `{. <- a; b}`. This means if the user writes an expression such as `a %.>% b(.)` the evaluation is very similar to `b(a)` (with some visible side-effects in the "`.`" variable). [Explicit argument notation](http://www.win-vector.com/blog/2018/03/r-tip-make-arguments-explicit-in-magrittr-dplyr-pipelines/) in in fact a `wrapr` dot-arrow design principle, though `wrapr` dot arrow has some short-cuts and convenience methods (such as treating `a %.>% f` as `a %.>% f(.)` when `f` is bound to a function as in `5 %.>% sin`). The `wrapr` dot-arrow-pipe concept is sequencing of expressions, which is related to (but not the same as) composition of functions.
+The `wrapr` dot-arrow-pipe performs data processing steps by explicit use of dot and sequencing of expressions. The dot-arrow semantics treats `a %.>% b` as being very much like `{. <- a; b}`. This means if the user writes an expression such as `a %.>% b(.)` the evaluation is very similar to `b(a)` (with some visible side-effects in the "`.`" variable). [Explicit argument notation](http://www.win-vector.com/blog/2018/03/r-tip-make-arguments-explicit-in-magrittr-dplyr-pipelines/) is in fact a `wrapr` dot-arrow design principle, though `wrapr` dot arrow has some short-cuts and convenience methods (such as treating `a %.>% f` as `a %.>% f(.)` when `f` is bound to a function as in `5 %.>% sin`). The `wrapr` dot-arrow-pipe concept is sequencing of expressions, which is related to (but not the same as) composition of functions.
 
 With this in mind lets use `wrapr` dot-arrow-pipe for both data processing and `ggplot2` layering.
 
@@ -56,7 +56,7 @@ data.frame(x = 1:20) %.>%
 
 ![](ggplot2_piped_files/figure-markdown_github/unnamed-chunk-3-1.png)
 
-Notice the data processing step `mutate()` and the initial `ggplot()` step *must* use "`.`", as that is how the dot-arrow-pipe normally moves data forward. The `ggplot2` geom/layer/item paces do not use "`.`". The evaluation rule is these items are evaluated as "pipe\_right\_arg" before seeing any of the pipeline to the left; this is roughly how `ggplot2` handles composition through its override of "`+`".
+Notice the data processing step `mutate()` and the initial `ggplot()` step *must* use "`.`", as that is how the dot-arrow-pipe normally moves data forward. The `ggplot2` geom/layer/item pieces do not use "`.`". The evaluation rule is these items are evaluated as "pipe\_right\_arg" before seeing any of the pipeline to the left; this is roughly how `ggplot2` handles composition through its override of "`+`".
 
 And this is where we stopped the `ggplot2` example in the [`wrapr`](https://winvector.github.io/wrapr/)'s [pipe RJournal article](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html). The article was about the `wrap` dot-arrow-pipe, and not about `ggplot2` so it seemed important to move on from the example quickly.
 
