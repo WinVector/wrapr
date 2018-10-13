@@ -5,7 +5,7 @@ John Mount, Win-Vector LLC
 
 In our [`wrapr`](https://winvector.github.io/wrapr/) [pipe RJournal article](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html) we used piping into [`ggplot2`](https://CRAN.R-project.org/package=ggplot2) layers/geoms/items as an example.
 
-Being able to use the same pipe operator for data processing steps and for `ggplot2` layering is a question that comes up from time to time (for example: [Why can’t ggplot2 use %&gt;%?](https://community.rstudio.com/t/why-cant-ggplot2-use/4372)). In fact the primary `ggplot2` package author wishes that `magrittr` piping was the composing notation for `ggplot2` (though it is obviously too late to change).
+Being able to use the same pipe operator for data processing steps and for `ggplot2` layering is a question that comes up from time to time (for example: [Why can’t ggplot2 use %&gt;%?](https://community.rstudio.com/t/why-cant-ggplot2-use/4372)). In fact the primary `ggplot2` package author [wishes that `magrittr` piping was the composing notation for `ggplot2`](https://community.rstudio.com/t/why-cant-ggplot2-use/4372/7) (though it is obviously too late to change).
 
 There are some fundamental difficulties in trying to use the [`magrittr`](https://CRAN.R-project.org/package=magrittr) pipe in such a way. In particular `magrittr` looks for its own pipe by name in un-evaluated code, and thus is difficult to engineer over (though it can be [hacked around](https://community.rstudio.com/t/why-cant-ggplot2-use/4372/3)). The general concept is: pipe stages are usually functions or function calls, and `ggplot2` components are objects (verbs versus nouns); and at first these seem incompatible.
 
@@ -13,11 +13,11 @@ However, the `wrapr` [dot-arrow-pipe](https://winvector.github.io/wrapr/referenc
 
 Let's work an example.
 
-First suppose we want a single pipe to combine data processing and `ggplot2` layer composition.
+Suppose we want a single pipe notation to combine data processing and `ggplot2` layer composition steps.
 
-The `wrapr` dot-arrow-pipe performs data processing steps by explicit use of dot and sequencing of expressions. That is the dot-arrow notation treats `a %.>% b` as being very much like `{. <- a; b}`. This means if the user writes a function application expression such as `a %.>% b(.)` the evaluation is very similar to `b(a)` (with some visible side-effects in the "`.`" variable). The `wrapr` dot arrow has some short-cuts and convenience methods (such as treating `a %.>% f` as `a %.>% f(.)` when `f` is bound to a function as in `5 %.>% sin`). What we are saying is that [explicit argument notation](http://www.win-vector.com/blog/2018/03/r-tip-make-arguments-explicit-in-magrittr-dplyr-pipelines/) in in fact a `wrapr` dot-arrow design principles. The `wrapr` concept is sequencing of expressions, which is related to (but not the same as) composition of functions.
+The `wrapr` dot-arrow-pipe performs data processing steps by explicit use of dot and sequencing of expressions. The dot-arrow semantics treats `a %.>% b` as being very much like `{. <- a; b}`. This means if the user writes a function application expression such as `a %.>% b(.)` the evaluation is very similar to `b(a)` (with some visible side-effects in the "`.`" variable). [Explicit argument notation](http://www.win-vector.com/blog/2018/03/r-tip-make-arguments-explicit-in-magrittr-dplyr-pipelines/) in in fact a `wrapr` dot-arrow design principle, though `wrapr` dot arrow has some short-cuts and convenience methods (such as treating `a %.>% f` as `a %.>% f(.)` when `f` is bound to a function as in `5 %.>% sin`). The `wrapr` dot-arrow-pipe concept is sequencing of expressions, which is related to (but not the same as) composition of functions.
 
-With that in mind lets use `wrapr` dot-arrow-pipe for both data processing and `ggplot2` layering.
+With this in mind lets use `wrapr` dot-arrow-pipe for both data processing and `ggplot2` layering.
 
 First we load our packages.
 
@@ -60,7 +60,7 @@ Notice the data processing step `mutate()` and the initial `ggplot()` step *must
 
 And this is where we stopped the `ggplot2` example in the [`wrapr`](https://winvector.github.io/wrapr/)'s [pipe RJournal article](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html). The article was about the `wrap` dot-arrow-pipe, and not about `ggplot2` so it seemed important to move on from the example quickly.
 
-A minor (undiscussed) technical difficulty is: `ggplot2` users can store pieces of a plot in objects. They may use this to write more modular plotting code. For example suppose the user stored the `geom_line()` specification and the title in two variables as below.
+A minor (undiscussed) technical difficulty is: `ggplot2` users can store pieces of a plot in variables (or more correctly variable names my refer to pieces in environments). They may use this to write more modular plotting code. For example suppose the user stored the `geom_line()` specification and the title in two variables as below.
 
 ``` r
 line <- geom_line(linetype = 2)
@@ -85,9 +85,11 @@ data.frame(x = 1:20) %.>%
     ##  line gg, ggplot 
     ##   must have a more specific S4 method defined to dispatch
 
-The above error message is intentional. When the right-hand side of a `wrapr` pipe is the name of an an object (instead of an expression or function) `wrapr` uses a right-dispatch followed by an `S4` dispatch to decide what to do. The error message here just means there is no registered right or `S4` dispatch for the classes of objects seen. This is easy to fix by examining the classes of the objects and adding appropriate right dispatch methods. What we are trying to say: the original left dispatch was enough to deal with plots where all the layers are presented as un-evaluated function calls (the most typical way to user `ggplot2`), however layers/geoms/items already evaluated and stored in variables need additional adaption.
+The above error message is intentional. When the right-hand side of a `wrapr` pipe is the name of an object (instead of an expression or function) `wrapr` uses a right-dispatch followed by an `S4` dispatch to decide what to do. The error message here just means there is no registered right or `S4` dispatch for the classes of objects seen. This is easy to fix by examining the classes of the objects and adding appropriate right dispatch methods. What we are trying to say: the original left dispatch was enough to deal with plots where all the layers are presented as un-evaluated function calls (the most typical way to user `ggplot2`), however layers/geoms/items already evaluated and stored in variables need additional adaption.
 
-To fix this we examine the classes of the items we want rules for.
+This detail is not fragility of the `wrapr` dot-arrow-pipe, but an important design distinction. Names and objects on the right side of the pipe can explicitly specify stand-in or surrogate functions or effects. The idea was already present in allowing `5 %.>% sin` to be a shorthand for `5 %.>% sin(.)`. We have merely generalized the surrogate effect and added explicit control points.
+
+To extend the `ggplot2` effects to use stored values, we first examine the classes of the items we want rules for.
 
 ``` r
 class(line)
@@ -147,4 +149,4 @@ data.frame(x = 1:20) %.%
 
 ![](ggplot2_piped_files/figure-markdown_github/unnamed-chunk-9-1.png)
 
-More details on `wrapr` dot-pipe can be found in the [RJournal article](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html).
+More details on `wrapr` dot-arrow-pipe can be found in the [RJournal article](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html).
