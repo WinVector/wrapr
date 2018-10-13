@@ -140,4 +140,4 @@ data.frame(x = 1:20) %.>%
 
 ![](ggplot2_piped_files/figure-markdown_github/unnamed-chunk-8-1.png)
 
-Details on how the `wrapr` dot-pipe distpatch works can be found in the \[RJournal article\](<https://journal.r-project.org/archive/2018/RJ-2018-042/index.html>.
+Details on how the `wrapr` dot-pipe distpatch works can be found in the [RJournal article](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html).
