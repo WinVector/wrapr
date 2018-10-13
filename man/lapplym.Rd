@@ -13,6 +13,9 @@ lapplym(X, FUN, ...)
 
 \item{...}{additional arguments passed to lapply}
 }
+\value{
+list of results.
+}
 \description{
 Memoizing wrapper for lapply.
 }
@@ -24,5 +27,5 @@ lapplym(c(0, 1, 1, 0, 0, 1), fs)
 
 }
 \seealso{
-\code{\link{VectorizeM}}, \code{\link{vapplym}}
+\code{\link{VectorizeM}}, \code{\link{vapplym}}, \code{\link{parLapplyLBm}}
 }

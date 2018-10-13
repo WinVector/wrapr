@@ -18,6 +18,9 @@ VectorizeM(FUN, vectorize.args = arg.names, SIMPLIFY = TRUE,
 
 \item{UNLIST}{logical; if TRUE try to unlist the result.}
 }
+\value{
+adapted function (vectorized with one call per different value).
+}
 \description{
 Build a wrapped function that applies to each unique argument in a vector of arguments once.
 }

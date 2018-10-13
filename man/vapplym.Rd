@@ -17,6 +17,9 @@ vapplym(X, FUN, FUN.VALUE, ..., USE.NAMES = TRUE)
 
 \item{USE.NAMES}{passed to vapply}
 }
+\value{
+vector of results.
+}
 \description{
 Memoizing wrapper for vapply.
 }

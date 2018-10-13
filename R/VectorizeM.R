@@ -1,13 +1,52 @@
 
 
+#' Memoizing wrapper for parLapplyLB
+#'
+#'
+#' @seealso \code{\link[parallel]{parLapplyLB}}, \code{\link{lapplym}}, \code{\link{VectorizeM}}, \code{\link{vapplym}}
+#'
+#' @param cl cluster object
+#' @param X list or vector of inputs
+#' @param fun function to apply
+#' @param ... additional arguments passed to lapply
+#' @param chunk.size passed to \code{parallel::parLapplyLB}
+#' @return list of results.
+#'
+#' @examples
+#'
+#' if(requireNamespace("parallel", quietly = TRUE)) {
+#'   cl <- parallel::makeCluster(2)
+#'   fs <- function(x) { x <- x[[1]]; Sys.sleep(1); sin(x) }
+#'   # without memoization should take 1000 seconds
+#'   lst <- parLapplyLBm(cl, c(rep(0, 1000), rep(1, 1000)), fs)
+#'   parallel::stopCluster(cl)
+#' }
+#'
+#' @export
+#'
+parLapplyLBm <- function(cl = NULL, X, fun, ..., chunk.size = NULL) {
+  if(!requireNamespace("parallel", quietly = TRUE)) {
+    stop("wrapr::parLapplyLBm requires the parallel package")
+  }
+  UX <- unique(X)
+  first_indexes <- match(UX, X)
+  all_indexes <- match(X, UX)
+  res <- parallel::parLapplyLB(cl, X[first_indexes], fun, ..., chunk.size = chunk.size)
+  res2 <- res[all_indexes]
+  names(res2) <- names(X)
+  res2
+}
+
+
 #' Memoizing wrapper for lapply.
 #'
 #'
-#' @seealso \code{\link{VectorizeM}}, \code{\link{vapplym}}
+#' @seealso \code{\link{VectorizeM}}, \code{\link{vapplym}}, \code{\link{parLapplyLBm}}
 #'
 #' @param X list or vector of inputs
 #' @param FUN function to apply
 #' @param ... additional arguments passed to lapply
+#' @return list of results.
 #'
 #' @examples
 #'
@@ -37,6 +76,7 @@ lapplym <- function(X, FUN, ...) {
 #' @param FUN.VALUE type of vector to return
 #' @param ... additional arguments passed to lapply
 #' @param USE.NAMES passed to vapply
+#' @return vector of results.
 #'
 #' @examples
 #'
@@ -74,6 +114,7 @@ vapplym <- function(X, FUN, FUN.VALUE, ..., USE.NAMES = TRUE) {
 #' @param SIMPLIFY logical or character string; attempt to reduce the result to a vector, matrix or higher dimensional array; see the simplify argument of sapply.
 #' @param USE.NAMES	logical; use names if the first ... argument has names, or if it is a character vector, use that character vector as the names.
 #' @param UNLIST logical; if TRUE try to unlist the result.
+#' @return adapted function (vectorized with one call per different value).
 #'
 #' @examples
 #'
