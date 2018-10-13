@@ -193,7 +193,7 @@
 <span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>)
 <span class='no'>b</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>2</span>)
 
-<span class='co'># a %.&gt;% b # will equal b</span>
+<span class='co'># a %.&gt;% b # will (intentionally) throw</span>
 
 <span class='fu'>setMethod</span>(
   <span class='st'>"apply_right_S4"</span>,

@@ -31,7 +31,7 @@ Intended to be generic on first two arguments.
 a <- data.frame(x = 1)
 b <- data.frame(x = 2)
 
-# a \%.>\% b # will equal b
+# a \%.>\% b # will (intentionally) throw
 
 setMethod(
   "apply_right_S4",
