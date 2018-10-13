@@ -102,7 +102,7 @@ class(title)
 
 Notice `title` is not of class `gg`, so it will need its own rule.
 
-The rules are.
+The new S3 right-dispatch rules are.
 
 ``` r
 apply_right.gg <- function(pipe_left_arg,
