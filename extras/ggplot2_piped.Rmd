@@ -8,7 +8,7 @@ output: github_document
 In the [`wrapr`](https://winvector.github.io/wrapr/)'s [pipe RJournal article](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html) we used piping into [`ggplot2`]( https://CRAN.R-project.org/package=ggplot2)
 commands as an example. 
 
-Being able to use the same pipe operator for data processing steps and for `ggplot2` layering is a question that comes up from time to time (for example:  [Why can’t ggplot2 use %>%?](https://community.rstudio.com/t/why-cant-ggplot2-use/4372)).  There are some fundamental difficulties in trying to use the [`magrittr`]( https://CRAN.R-project.org/package=magrittr) pipe in such a way, the concept being pipe stages are usually functions or function calls, and `ggplot2` components are objects (verbs versus nouns).
+Being able to use the same pipe operator for data processing steps and for `ggplot2` layering is a question that comes up from time to time (for example:  [Why can’t ggplot2 use %>%?](https://community.rstudio.com/t/why-cant-ggplot2-use/4372)).  There are some fundamental difficulties in trying to use the [`magrittr`]( https://CRAN.R-project.org/package=magrittr) pipe in such a way.  In particular `magrittr` looks for its own pipe by name in un-evaluated code, and thus is difficult to engineer over. The general concept is: pipe stages are usually functions or function calls, and `ggplot2` components are objects (verbs versus nouns).
 
 However, the `wrapr` [dot-arrow-pipe](https://winvector.github.io/wrapr/reference/dot_arrow.html) was designed to handle such distinctions.
 
@@ -16,7 +16,7 @@ Let's work an example.
 
 First suppose we want a single pipe to combine data processing and `ggplot2` layer composition.  
 
-The `wrapr` dot-arrow-pipe performs data processing steps by explicit use of dot and sequencing of expressions.  That is the dot-arrow notation treats `a %.>% b` as being very much like `{. <- a; b}`.  This means if the user writes a function application expression such as `a %.>% b(.)` the evaluation is very similar to `b(a)` (with some visible side-effects in the "`.`" variable).  The `wrapr` dot arrow has some short-cuts and convenience methods (such as treating `a %.>% f` as `a %.>% f(.)` when `f` is bound to a function as in `5 %.>% sin`). What we are saying is that [explicit argument notation](http://www.win-vector.com/blog/2018/03/r-tip-make-arguments-explicit-in-magrittr-dplyr-pipelines/) is one of the `wrapr` dot-arrow principles.
+The `wrapr` dot-arrow-pipe performs data processing steps by explicit use of dot and sequencing of expressions.  That is the dot-arrow notation treats `a %.>% b` as being very much like `{. <- a; b}`.  This means if the user writes a function application expression such as `a %.>% b(.)` the evaluation is very similar to `b(a)` (with some visible side-effects in the "`.`" variable).  The `wrapr` dot arrow has some short-cuts and convenience methods (such as treating `a %.>% f` as `a %.>% f(.)` when `f` is bound to a function as in `5 %.>% sin`). What we are saying is that [explicit argument notation](http://www.win-vector.com/blog/2018/03/r-tip-make-arguments-explicit-in-magrittr-dplyr-pipelines/) in in fact a `wrapr` dot-arrow design principles.
 
 With that in mind lets use `wrapr` dot-arrow-pipe for both data processing and `ggplot2` layering.
 
@@ -128,5 +128,5 @@ data.frame(x = 1:20) %.>%
   title
 ```
 
-Details on how the `wrapr` dot-pipe distpatch works can be found in the [RJournal article](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html).
+Details on how the `wrapr` dot-pipe dispatch works can be found in the [RJournal article](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html).
 
