@@ -3,9 +3,13 @@ Piping into ggplot2
 John Mount, Win-Vector LLC
 2018-10-13
 
-In the [`wrapr`](https://winvector.github.io/wrapr/)'s [pipe RJournal article](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html) we used piping into [`ggplot2`](https://CRAN.R-project.org/package=ggplot2) commands as an example.
+In our [`wrapr`](https://winvector.github.io/wrapr/) [pipe RJournal article](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html) we used piping into [`ggplot2`](https://CRAN.R-project.org/package=ggplot2) layers/geoms/items as an example.
 
-Being able to use the same pipe operator for data processing steps and for `ggplot2` layering is a question that comes up from time to time (for example: [Why can’t ggplot2 use %&gt;%?](https://community.rstudio.com/t/why-cant-ggplot2-use/4372)). There are some fundamental difficulties in trying to use the [`magrittr`](https://CRAN.R-project.org/package=magrittr) pipe in such a way. In particular `magrittr` looks for its own pipe by name in un-evaluated code, and thus is difficult to engineer over. The general concept is: pipe stages are usually functions or function calls, and `ggplot2` components are objects (verbs versus nouns).
+Being able to use the same pipe operator for data processing steps and for `ggplot2` layering is a question that comes up from time to time (for example: [Why can’t ggplot2 use %&gt;%?](https://community.rstudio.com/t/why-cant-ggplot2-use/4372)). In fact the package author wishes that piping was the composing notation:
+
+[<img src="ggpipe.png">](https://community.rstudio.com/t/why-cant-ggplot2-use/4372/7)
+
+There are some fundamental difficulties in trying to use the [`magrittr`](https://CRAN.R-project.org/package=magrittr) pipe in such a way. In particular `magrittr` looks for its own pipe by name in un-evaluated code, and thus is difficult to engineer over (though it can be [hacked around](https://community.rstudio.com/t/why-cant-ggplot2-use/4372/3)). The general concept is: pipe stages are usually functions or function calls, and `ggplot2` components are objects (verbs versus nouns); and at first these seem incompatible.
 
 However, the `wrapr` [dot-arrow-pipe](https://winvector.github.io/wrapr/reference/dot_arrow.html) was designed to handle such distinctions.
 
@@ -13,7 +17,7 @@ Let's work an example.
 
 First suppose we want a single pipe to combine data processing and `ggplot2` layer composition.
 
-The `wrapr` dot-arrow-pipe performs data processing steps by explicit use of dot and sequencing of expressions. That is the dot-arrow notation treats `a %.>% b` as being very much like `{. <- a; b}`. This means if the user writes a function application expression such as `a %.>% b(.)` the evaluation is very similar to `b(a)` (with some visible side-effects in the "`.`" variable). The `wrapr` dot arrow has some short-cuts and convenience methods (such as treating `a %.>% f` as `a %.>% f(.)` when `f` is bound to a function as in `5 %.>% sin`). What we are saying is that [explicit argument notation](http://www.win-vector.com/blog/2018/03/r-tip-make-arguments-explicit-in-magrittr-dplyr-pipelines/) in in fact a `wrapr` dot-arrow design principles.
+The `wrapr` dot-arrow-pipe performs data processing steps by explicit use of dot and sequencing of expressions. That is the dot-arrow notation treats `a %.>% b` as being very much like `{. <- a; b}`. This means if the user writes a function application expression such as `a %.>% b(.)` the evaluation is very similar to `b(a)` (with some visible side-effects in the "`.`" variable). The `wrapr` dot arrow has some short-cuts and convenience methods (such as treating `a %.>% f` as `a %.>% f(.)` when `f` is bound to a function as in `5 %.>% sin`). What we are saying is that [explicit argument notation](http://www.win-vector.com/blog/2018/03/r-tip-make-arguments-explicit-in-magrittr-dplyr-pipelines/) in in fact a `wrapr` dot-arrow design principles. The `wrapr` concept is sequencing of expressions, which is related to (but not the same as) composition of functions.
 
 With that in mind lets use `wrapr` dot-arrow-pipe for both data processing and `ggplot2` layering.
 
@@ -54,7 +58,7 @@ data.frame(x = 1:20) %.>%
 
 ![](ggplot2_piped_files/figure-markdown_github/unnamed-chunk-3-1.png)
 
-Notice the `ggplot2` geom/layer/item paces do not use "`.`". The evaluation rule is these items are evaluated as "pipe\_right\_arg" before seeing any of the pipeline to the left. This is roughly how `ggplot2` handles composition through its override of "`+`".
+Notice the data processing step `mutate()` and the initial `ggplot()` step *must* use "`.`", as that is how the dot-arrow-pipe normally moves data forward. The `ggplot2` geom/layer/item paces do not use "`.`". The evaluation rule is these items are evaluated as "pipe\_right\_arg" before seeing any of the pipeline to the left; this is roughly how `ggplot2` handles composition through its override of "`+`".
 
 And this is where we stopped the `ggplot2` example in the [`wrapr`](https://winvector.github.io/wrapr/)'s [pipe RJournal article](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html). The article was about the `wrap` dot-arrow-pipe, and not about `ggplot2` so it seemed important to move on from the example quickly.
 
@@ -126,17 +130,23 @@ apply_right.labels <- function(pipe_left_arg,
 }
 ```
 
+And, just for fun, let's assign the `wrapr`-dot-arrow-pipe to the shorter pipe-name `%.%`. Unlike `magrittr` pipe the dot-arrow-pipe semantics do not depend on the name of the pipe.
+
+``` r
+`%.%` <- wrapr::`%.>%`
+```
+
 With these rules in place we can now build up a `ggplot2` combining data processing, in-line steps, and stored layers/items.
 
 ``` r
-data.frame(x = 1:20) %.>%
-  mutate(., y = cos(3*x)) %.>%
-  ggplot(., aes(x = x,  y = y)) %.>%
-  geom_point() %.>%
-  line %.>%
+data.frame(x = 1:20) %.%
+  mutate(., y = cos(3*x)) %.%
+  ggplot(., aes(x = x,  y = y)) %.%
+  geom_point() %.%
+  line %.%
   title
 ```
 
-![](ggplot2_piped_files/figure-markdown_github/unnamed-chunk-8-1.png)
+![](ggplot2_piped_files/figure-markdown_github/unnamed-chunk-9-1.png)
 
-Details on how the `wrapr` dot-pipe dispatch works can be found in the [RJournal article](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html).
+More details on `wrapr` dot-pipe can be found in the [RJournal article](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html).
