@@ -167,8 +167,8 @@
     <pre class="examples"><div class='input'>
 <span class='no'>f1</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) { <span class='fu'>substitute</span>(<span class='no'>x</span>) }
 <span class='no'>f2</span> <span class='kw'>&lt;-</span> <span class='fu'>bquote_function</span>(<span class='no'>f1</span>)
-<span class='no'>arg</span> <span class='kw'>&lt;-</span> <span class='st'>"USER_ARG"</span>
-<span class='fu'>f2</span>(<span class='no'>arg</span>)    <span class='co'># returns arg</span></div><div class='output co'>#&gt; arg</div><div class='input'><span class='fu'>f2</span>(<span class='fu'>.</span>(<span class='no'>arg</span>)) <span class='co'># returns USER_ARG</span></div><div class='output co'>#&gt; [1] "USER_ARG"</div><div class='input'>
+<span class='no'>arg</span> <span class='kw'>&lt;-</span> <span class='fu'>as.name</span>(<span class='st'>"USER_ARG"</span>)
+<span class='fu'>f2</span>(<span class='no'>arg</span>)    <span class='co'># returns arg</span></div><div class='output co'>#&gt; arg</div><div class='input'><span class='fu'>f2</span>(<span class='fu'>.</span>(<span class='no'>arg</span>)) <span class='co'># returns USER_ARG</span></div><div class='output co'>#&gt; USER_ARG</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

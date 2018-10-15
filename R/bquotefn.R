@@ -8,7 +8,7 @@
 #'
 #' f1 <- function(x) { substitute(x) }
 #' f2 <- bquote_function(f1)
-#' arg <- "USER_ARG"
+#' arg <- as.name("USER_ARG")
 #' f2(arg)    # returns arg
 #' f2(.(arg)) # returns USER_ARG
 #'
@@ -17,15 +17,19 @@
 bquote_function <- function(fn) {
   frmls <- formals(fn)
   if(length(formals)<=0) {
-    stop("bquote_function function must have formals() not empty")
+    stop("wrapr::bquote_function function must have formals() not empty")
   }
+  .wrapr_wrapped_function <- NULL # don't look unbound
   f <- function() {
     call <- match.call()
     env <- parent.frame()
     mc <- do.call(bquote, list(call, where = env), envir = env)
-    mc[[1]] <- fn
+    mc[[1]] <- .wrapr_wrapped_function
     eval(mc, envir = env)
   }
   formals(f) <- frmls
+  newenv <- new.env(parent = environment(fn))
+  assign('.wrapr_wrapped_function', fn, envir = newenv)
+  environment(f) <- newenv
   f
 }

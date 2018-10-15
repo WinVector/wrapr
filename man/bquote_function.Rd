@@ -19,7 +19,7 @@ Adapt a function to use bquote on its arguments.
 
 f1 <- function(x) { substitute(x) }
 f2 <- bquote_function(f1)
-arg <- "USER_ARG"
+arg <- as.name("USER_ARG")
 f2(arg)    # returns arg
 f2(.(arg)) # returns USER_ARG
 
