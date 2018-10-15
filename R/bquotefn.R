@@ -1,4 +1,52 @@
 
+#' Treat ... call argument as bquoted-values.
+#'
+#' bquote_call re-writes calls.
+#'
+#' Note: eagerly evalutes argument and writes them into the function's
+#' executing environment.
+#'
+#' @param call result of match.call()
+#' @param env environment to perform lookups in.
+#' @return altered call
+#'
+#' @seealso \code{\link{bquote_function}}, \code{\link{bquote_call_args}}
+#'
+#' @keywords internal
+#'
+#'
+#' @export
+#'
+#'
+bquote_call <- function(call, env = parent.frame()) {
+  force(env)
+  # perform bquote transform
+  mc <- do.call(bquote, list(call, where = env), envir = env)
+  # map a := b to name(a) = b
+  fixpos <- which(vapply(mc[-1],
+                         function(ai) {
+                           is.call(ai) && (as.character(ai)[[1]]==":=")
+                         }, logical(1)))
+  if(length(fixpos)>0) {
+    fixpos <- fixpos + 1
+    if(length(intersect(names(mc)[fixpos], names(mc)[!fixpos]))>0) {
+      stop("wrapr::bquote_call := and = names must be disjoint")
+    }
+    nms <- vapply(mc[fixpos],
+                  function(ai) {
+                    as.character(ai[[2]])
+                  }, character(1))
+    vals <- lapply(mc[fixpos],
+                   function(ai) {
+                     ai[[3]]
+                   })
+    names(mc)[fixpos] <- nms
+    mc[fixpos] <- vals
+  }
+  mc
+}
+
+
 #' Treat ... argument as bquoted-values.
 #'
 #' bquote_call_args is a helper to allow the user to write functions with bquote-enabled argument substitution.
@@ -8,18 +56,20 @@
 #' executing environment.
 #'
 #' @param call result of match.call()
+#' @param env environment to perform lookups in.
 #' @return name list of values
 #'
-#' @section \code{\link{bquote_function}}
+#' @seealso \code{\link{bquote_function}}
 #'
 #' @examples
 #'
 #' f <- function(q, ...) {
+#'   env = parent.frame()
 #'   # match.call() best called in function context.
 #'   captured_call <- match.call()
-#'   captured_args <- bquote_call_args(captured_call)
+#'   captured_args <- bquote_call_args(captured_call, env)
 #'   for(nmi in setdiff(ls(),
-#'                      c("captured_call", "captured_args"))) {
+#'                      c("captured_call", "captured_args", "env"))) {
 #'     print(paste(nmi, get(nmi)))
 #'   }
 #'   captured_args
@@ -37,31 +87,9 @@
 #' @export
 #'
 #'
-bquote_call_args <- function(call) {
-  # perform bquote transform
-  env <- parent.frame()
-  mc <- do.call(bquote, list(call, where = env), envir = env)
-  args <- as.list(mc[-1])
-  # map a := b to name(a) = b
-  fixpos <- which(vapply(args,
-                         function(ai) {
-                           is.call(ai) && (as.character(ai)[[1]]==":=")
-                         }, logical(1)))
-  if(length(fixpos)>0) {
-    if(length(intersect(names(args)[fixpos], names(args)[!fixpos]))>0) {
-      stop("wrapr::bquote_dots := and = names must be disjoint") # TODO: see if we need this
-    }
-    nms <- vapply(args[fixpos],
-                  function(ai) {
-                    as.character(ai[[2]])
-                  }, character(1))
-    vals <- lapply(args[fixpos],
-                   function(ai) {
-                     ai[[3]]
-                   })
-    names(args)[fixpos] <- nms
-    args[fixpos] <- vals
-  }
+bquote_call_args <- function(call, env = parent.frame()) {
+  force(env)
+  args <- as.list(wrapr::bquote_call(call, env)[-1])
   resframe <- parent.frame()
   for(i in seq_len(length(args))) {
     nmi <- names(args)[[i]]
@@ -83,7 +111,7 @@ bquote_call_args <- function(call) {
 #' @param fn function to adapt, must have non-empty formals().
 #' @return new function.
 #'
-#' @section \code{\link{bquote_call_args}}
+#' @seealso \code{\link{bquote_call_args}}
 #'
 #' @examples
 #'
@@ -104,7 +132,7 @@ bquote_function <- function(fn) {
   f <- function() {
     call <- match.call()
     env <- parent.frame()
-    mc <- do.call(bquote, list(call, where = env), envir = env)
+    mc <- wrapr::bquote_call(call, env)
     mc[[1]] <- .wrapr_wrapped_function_
     eval(mc, envir = env)
   }

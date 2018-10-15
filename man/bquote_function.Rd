@@ -13,7 +13,7 @@ bquote_function(fn)
 new function.
 }
 \description{
-Adapt a function to use bquote on its arguments.
+bquote_function is for adapting a function defined elsewhere for bquite-enabled argument substitution.
 }
 \examples{
 
@@ -23,4 +23,7 @@ arg <- as.name("USER_ARG")
 f2(arg)    # returns arg
 f2(.(arg)) # returns USER_ARG
 
+}
+\seealso{
+\code{\link{bquote_call_args}}
 }
