@@ -19,17 +19,17 @@ bquote_function <- function(fn) {
   if(length(formals)<=0) {
     stop("wrapr::bquote_function function must have formals() not empty")
   }
-  .wrapr_wrapped_function <- NULL # don't look unbound
+  .wrapr_wrapped_function_ <- NULL # don't look unbound
   f <- function() {
     call <- match.call()
     env <- parent.frame()
     mc <- do.call(bquote, list(call, where = env), envir = env)
-    mc[[1]] <- .wrapr_wrapped_function
+    mc[[1]] <- .wrapr_wrapped_function_
     eval(mc, envir = env)
   }
   formals(f) <- frmls
   newenv <- new.env(parent = environment(fn))
-  assign('.wrapr_wrapped_function', fn, envir = newenv)
+  assign('.wrapr_wrapped_function_', fn, envir = newenv)
   environment(f) <- newenv
   f
 }
