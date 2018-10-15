@@ -176,5 +176,13 @@ VectorizeM <- function(FUN, vectorize.args = arg.names, SIMPLIFY = TRUE, USE.NAM
     res
   }
   formals(FUNV) <- formals(FUN)
+  newenv <- new.env(parent = environment(FUN))
+  assign('vectorize.args', vectorize.args, envir = newenv)
+  assign('FUN', FUN, envir = newenv)
+  assign('SIMPLIFY', SIMPLIFY, envir = newenv)
+  assign('FUN', FUN, envir = newenv)
+  assign('USE.NAMES', USE.NAMES, envir = newenv)
+  assign('UNLIST', UNLIST, envir = newenv)
+  environment(FUNV) <- newenv
   FUNV
 }

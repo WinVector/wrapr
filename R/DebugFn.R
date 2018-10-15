@@ -35,7 +35,18 @@ buildNameCallback <- function(varName) {
 }
 
 
-# return an error to a file, environment (no names) or callback
+#' Return an error to a file, environment (no names) or callback
+#'
+#' @param e caught exception
+#' @param saveDest where to save
+#' @param cap saved arguments
+#' @param wrapperName name of wrapper
+#' @param recallString how to call function again
+#'
+#' @keywords internal
+#'
+#' @export
+#'
 returnCapture <- function(e, saveDest, cap, wrapperName,
                           recallString = 'do.call(p$fn, p$args)') {
   es <- trimws(paste(as.character(e), collapse = ' '))
@@ -58,10 +69,10 @@ returnCapture <- function(e, saveDest, cap, wrapperName,
     if(!is.null(fName)) {
       return(paste0("wrapr::", wrapperName,
                     ": wrote error to user function: '",
-                  fName, "' on catching '", es, "'",
-                  "\n You can reproduce the error with:",
-                  "\n '", recallString,
-                  "' (replace 'p' with actual variable name)"))
+                    fName, "' on catching '", es, "'",
+                    "\n You can reproduce the error with:",
+                    "\n '", recallString,
+                    "' (replace 'p' with actual variable name)"))
     }
     return(paste0("wrapr::", wrapperName,
                   ": wrote error to user function on catching '",
@@ -74,15 +85,15 @@ returnCapture <- function(e, saveDest, cap, wrapperName,
     saveRDS(object=cap,
             file=saveDest)
     return(paste0("wrapr::", wrapperName, ": wrote '",saveDest,
-                "' on catching '",es,"'",
-                "\n You can reproduce the error with:",
-                "\n'p <- readRDS('",saveDest,
-                "'); ", recallString, "'"))
+                  "' on catching '",es,"'",
+                  "\n You can reproduce the error with:",
+                  "\n'p <- readRDS('",saveDest,
+                  "'); ", recallString, "'"))
   }
   return(paste0("wrapr::", wrapperName,
                 ": don't know how to write error to '",
-              class(saveDest),
-              "' on catching '", es, "'"))
+                class(saveDest),
+                "' on catching '", es, "'"))
 }
 
 
@@ -132,7 +143,7 @@ DebugFn <- function(saveDest,fn,...) {
     cap <- list(fn=fn,
                 args=args,
                 fn_name=fn_name)
-    es <- returnCapture(e, saveDest, cap, "DebugFn")
+    es <- wrapr::returnCapture(e, saveDest, cap, "DebugFn")
     stop(es)
   })
 }
@@ -189,7 +200,7 @@ DebugFnW <- function(saveDest,fn) {
   fn_name <- as.character(namedargs[['fn']])
   force(saveDest)
   force(fn)
-  function(...) {
+  f2 <- function(...) {
     args <- list(...)
     envir <- parent.frame()
     namedargs <- match.call()
@@ -201,10 +212,16 @@ DebugFnW <- function(saveDest,fn) {
                   args=args,
                   namedargs=namedargs,
                   fn_name=fn_name)
-      es <- returnCapture(e, saveDest, cap, "DebugFnW")
+      es <- wrapr::returnCapture(e, saveDest, cap, "DebugFnW")
       stop(es)
     })
   }
+  newenv <- new.env(parent = environment(fn))
+  assign('fn', fn, envir = newenv)
+  assign('fn_name', fn_name, envir = newenv)
+  assign('saveDest', saveDest, envir = newenv)
+  environment(f2) <- newenv
+  f2
 }
 
 
@@ -258,7 +275,7 @@ DebugPrintFn <- function(saveDest,fn,...) {
     cap <- list(fn=fn,
                 args=args,
                 fn_name=fn_name)
-    es <- returnCapture(e, saveDest, cap, "DebugPrintFn")
+    es <- wrapr::returnCapture(e, saveDest, cap, "DebugPrintFn")
     stop(es)
   })
 }
@@ -310,8 +327,8 @@ DebugFnE <- function(saveDest,fn,...) {
                 args=args,
                 env=envir,
                 fn_name=fn_name)
-    es <- returnCapture(e, saveDest, cap, "DebugFnE",
-                        recallString = 'do.call(p$fn, p$args, envir= p$env)')
+    es <- wrapr::returnCapture(e, saveDest, cap, "DebugFnE",
+                               recallString = 'do.call(p$fn, p$args, envir= p$env)')
     stop(es)
   })
 }
@@ -357,7 +374,7 @@ DebugFnWE <- function(saveDest,fn,...) {
   fn_name <- as.character(namedargs[['fn']])
   force(saveDest)
   force(fn)
-  function(...) {
+  f2 <- function(...) {
     args <- list(...)
     envir <- parent.frame()
     namedargs <- match.call()
@@ -370,11 +387,17 @@ DebugFnWE <- function(saveDest,fn,...) {
                   namedargs=namedargs,
                   fn_name=fn_name,
                   env=envir)
-      es <- returnCapture(e, saveDest, cap, "DebugFnWE",
-                          recallString = 'do.call(p$fn, p$args, envir= p$env)')
+      es <- wrapr::returnCapture(e, saveDest, cap, "DebugFnWE",
+                                 recallString = 'do.call(p$fn, p$args, envir= p$env)')
       stop(es)
     })
   }
+  newenv <- new.env(parent = environment(fn))
+  assign('fn', fn, envir = newenv)
+  assign('fn_name', fn_name, envir = newenv)
+  assign('saveDest', saveDest, envir = newenv)
+  environment(f2) <- newenv
+  f2
 }
 
 #' Capture arguments and environment of exception throwing function call for later debugging.
@@ -427,8 +450,8 @@ DebugPrintFnE <- function(saveDest,fn,...) {
                 args=args,
                 env=envir,
                 fn_name=fn_name)
-    es <- returnCapture(e, saveDest, cap, "DebugPrintFnE",
-                        recallString = 'do.call(p$fn, p$args, envir= p$env)')
+    es <- wrapr::returnCapture(e, saveDest, cap, "DebugPrintFnE",
+                               recallString = 'do.call(p$fn, p$args, envir= p$env)')
     stop(es)
   })
 }

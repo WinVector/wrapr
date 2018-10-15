@@ -2,7 +2,7 @@ Package: wrapr
 Type: Package
 Title: Wrap R Tools for Debugging and Parametric Programming
 Version: 1.6.4
-Date: 2018-10-14
+Date: 2018-10-15
 Authors@R: c(
     person("John", "Mount", email = "jmount@win-vector.com", role = c("aut", "cre")),
     person("Nina", "Zumel", email = "nzumel@win-vector.com", role = c("aut")),
@@ -19,7 +19,6 @@ Description: Tools for writing and debugging R code. Provides:
     'build_frame()'/'draw_frame()' ('data.frame' example tools),
     'qc()' (quoting concatenate), 
     ':=' (named map builder),
-    'DebugFnW()' (capture function context on error for debugging),
     and more.
 License: GPL-3
 Encoding: UTF-8
