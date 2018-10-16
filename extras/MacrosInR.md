@@ -277,7 +277,7 @@ eval(substitute(d$COLUMNNAME,
 read_column <- defmacro(DATA, COLUMNNAME,
                         expr = { DATA$COLUMNNAME})
 
-# wrong
+# wrong (returns NULL)
 read_column(d, column_i_want)
 ```
 
@@ -285,6 +285,7 @@ read_column(d, column_i_want)
 
 ``` r
 # correct, but not what we wanted, behaves like $ not like [[]]
+# returned column x
 read_column(d, x)
 ```
 
@@ -1083,14 +1084,14 @@ library("rlang")
 
 x <- "Species"
 
-# wrong
+# wrong (errors-out)
 iris %>% group_by(x) %>% summarize(n = n())
 ```
 
     ## Error in grouped_df_impl(data, unname(vars), drop): Column `x` is unknown
 
 ``` r
-# wrong
+# wrong (created a new constant column named "Species")
 iris %>% group_by(!!x) %>% summarize(n = n())
 ```
 
@@ -1100,14 +1101,14 @@ iris %>% group_by(!!x) %>% summarize(n = n())
     ## 1 Species       150
 
 ``` r
-# wrong
+# wrong (errors-out)
 iris %>% group_by(!!quo(x)) %>% summarize(n = n())
 ```
 
     ## Error in grouped_df_impl(data, unname(vars), drop): Column `x` is unknown
 
 ``` r
-# wrong
+# wrong (created a new constant column named "Species")
 iris %>% group_by(!!enquo(x)) %>% summarize(n = n())
 ```
 
@@ -1117,14 +1118,14 @@ iris %>% group_by(!!enquo(x)) %>% summarize(n = n())
     ## 1 Species       150
 
 ``` r
-# wrong
+# wrong (errors-out)
 iris %>% group_by(!!expr(x)) %>% summarize(n = n())
 ```
 
     ## Error in grouped_df_impl(data, unname(vars), drop): Column `x` is unknown
 
 ``` r
-# wrong
+# wrong (created a new constant column named "Species")
 iris %>% group_by(!!enexpr(x)) %>% summarize(n = n())
 ```
 
@@ -1144,7 +1145,7 @@ iris %>% group_by(.data$!!x) %>% summarize(n = n())
     ##                            ^
 
 ``` r
-# wrong
+# wrong (created a new column named x)
 iris %>% group_by(.data[[x]]) %>% summarize(n = n())
 ```
 
@@ -1179,6 +1180,13 @@ iris %>% group_by(.data[[!!x]]) %>% summarize(n = n())
     ## 1 setosa        50
     ## 2 versicolor    50
     ## 3 virginica     50
+
+``` r
+# wrong (errors-out)
+iris %>% group_by(.data[[!!sym(x)]]) %>% summarize(n = n())
+```
+
+    ## Error in mutate_impl(.data, dots): Evaluation error: Must subset the data pronoun with a string.
 
 </small>
 <p/>

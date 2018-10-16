@@ -216,10 +216,11 @@ eval(substitute(d$COLUMNNAME,
 read_column <- defmacro(DATA, COLUMNNAME,
                         expr = { DATA$COLUMNNAME})
 
-# wrong
+# wrong (returns NULL)
 read_column(d, column_i_want)
 
 # correct, but not what we wanted, behaves like $ not like [[]]
+# returned column x
 read_column(d, x)
 ```
 
@@ -831,22 +832,22 @@ library("rlang")
 
 x <- "Species"
 
-# wrong
+# wrong (errors-out)
 iris %>% group_by(x) %>% summarize(n = n())
 
-# wrong
+# wrong (created a new constant column named "Species")
 iris %>% group_by(!!x) %>% summarize(n = n())
 
-# wrong
+# wrong (errors-out)
 iris %>% group_by(!!quo(x)) %>% summarize(n = n())
 
-# wrong
+# wrong (created a new constant column named "Species")
 iris %>% group_by(!!enquo(x)) %>% summarize(n = n())
 
-# wrong
+# wrong (errors-out)
 iris %>% group_by(!!expr(x)) %>% summarize(n = n())
 
-# wrong
+# wrong (created a new constant column named "Species")
 iris %>% group_by(!!enexpr(x)) %>% summarize(n = n())
 ```
 
@@ -856,17 +857,18 @@ iris %>% group_by(.data$!!x) %>% summarize(n = n())
 ```
 
 ```{r dplyrqt3, error=TRUE, message=FALSE, warning=FALSE}
-# wrong
+# wrong (created a new column named x)
 iris %>% group_by(.data[[x]]) %>% summarize(n = n())
-```
 
-```{r dplyrqt4, error=TRUE, message=FALSE, warning=FALSE}
 # works, package authors call patterns like this "quoting and unquoting"
 # https://github.com/tidyverse/dplyr/issues/3801#issuecomment-419137995
 iris %>% group_by(!!sym(x)) %>% summarize(n = n())
 
 # works
 iris %>% group_by(.data[[!!x]]) %>% summarize(n = n())
+
+# wrong (errors-out)
+iris %>% group_by(.data[[!!sym(x)]]) %>% summarize(n = n())
 ```
 </small><p/>
 .
