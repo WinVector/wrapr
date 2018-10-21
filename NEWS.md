@@ -11,7 +11,7 @@
  * qe(), qae(), qs() now return character vectors instead of lists.
  * Add psagg().
  * Add grepv().
- * More exaples in SubstitutionModes vignette (show we don't need special pairlist case).
+ * More examples in SubstitutionModes vignette (show we don't need special pairlist case).
  * Allow no-intercept version of formula.
  
 # wrapr 1.6.2 2018-09-10
