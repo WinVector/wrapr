@@ -295,6 +295,8 @@ pipe_impl <- function(pipe_left_arg,
         (as.character(pipe_right_arg[[1]])=="(")) {
     pipe_right_arg <- pipe_right_arg[[2]]
   }
+  # make sure environment is availabl
+  force(pipe_environment)
   # capture names
   left_arg_name <- NULL
   if(is.name(pipe_left_arg)) {
