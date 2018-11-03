@@ -16,17 +16,41 @@
 #'
 #' @examples
 #'
-#' # collects from left to right
 #' apply_left.character <- function(pipe_left_arg,
 #'                                  pipe_right_arg,
 #'                                  pipe_environment,
 #'                                  left_arg_name,
 #'                                  pipe_string,
 #'                                  right_arg_name) {
-#'   paste(pipe_left_arg, pipe_right_arg)
+#'   if(is.language(pipe_right_arg)) {
+#'     wrapr::apply_left_default(pipe_left_arg,
+#'                               pipe_right_arg,
+#'                               pipe_environment,
+#'                               left_arg_name,
+#'                               pipe_string,
+#'                               right_arg_name)
+#'   } else {
+#'     paste(pipe_left_arg, pipe_right_arg)
+#'   }
 #' }
+#' setMethod(
+#'   wrapr::apply_right_S4,
+#'   signature = c(pipe_left_arg = "character", pipe_right_arg = "character"),
+#'   function(pipe_left_arg,
+#'            pipe_right_arg,
+#'            pipe_environment,
+#'            left_arg_name,
+#'            pipe_string,
+#'            right_arg_name) {
+#'     paste(pipe_left_arg, pipe_right_arg)
+#'   })
 #'
 #' "a" %.>% 5 %.>% 7
+#'
+#' "a" %.>% toupper(.)
+#'
+#' q <- "z"
+#' "a" %.>% q
 #'
 #'
 #' @export
@@ -72,12 +96,13 @@ forbidden_pipe_destination_names <- c("else",
 #'
 #' @export
 #'
-apply_left.default <- function(pipe_left_arg,
+apply_left_default <- function(pipe_left_arg,
                                pipe_right_arg,
                                pipe_environment,
                                left_arg_name,
                                pipe_string,
                                right_arg_name) {
+  force(pipe_environment)
   # remove some exceptional cases
   if(length(pipe_right_arg)<1) {
     stop("wrapr::apply_left.default does not allow direct piping into NULL/empty")
@@ -106,6 +131,42 @@ apply_left.default <- function(pipe_left_arg,
   eval(pipe_right_arg,
        envir = pipe_environment,
        enclos = pipe_environment)
+}
+
+
+#' S3 dispatch on class of pipe_left_arg.
+#'
+#' Place evaluation of left argument in \code{.} and then evaluate right argument.
+#'
+#' @param pipe_left_arg left argument
+#' @param pipe_right_arg substitute(pipe_right_arg) argument
+#' @param pipe_environment environment to evaluate in
+#' @param left_arg_name name, if not NULL name of left argument.
+#' @param pipe_string character, name of pipe operator.
+#' @param right_arg_name name, if not NULL name of right argument.
+#' @return result
+#'
+#' @seealso \code{\link{apply_left}}
+#'
+#' @examples
+#'
+#' 5 %.>% sin(.)
+#'
+#' @export
+#'
+apply_left.default <- function(pipe_left_arg,
+                               pipe_right_arg,
+                               pipe_environment,
+                               left_arg_name,
+                               pipe_string,
+                               right_arg_name) {
+  force(pipe_environment)
+  apply_left_default(pipe_left_arg = pipe_left_arg,
+                     pipe_right_arg = pipe_right_arg,
+                     pipe_environment = pipe_environment,
+                     left_arg_name = left_arg_name,
+                     pipe_string = pipe_string,
+                     right_arg_name = right_arg_name)
 }
 
 
@@ -153,6 +214,7 @@ apply_right <- function(pipe_left_arg,
                         left_arg_name,
                         pipe_string,
                         right_arg_name) {
+  force(pipe_environment)
   UseMethod("apply_right", pipe_right_arg)
 }
 
@@ -196,6 +258,7 @@ apply_right.default <- function(pipe_left_arg,
                                 left_arg_name,
                                 pipe_string,
                                 right_arg_name) {
+  force(pipe_environment)
   apply_right_S4(pipe_left_arg = pipe_left_arg,
                  pipe_right_arg = pipe_right_arg,
                  pipe_environment = pipe_environment,
@@ -295,7 +358,7 @@ pipe_impl <- function(pipe_left_arg,
         (as.character(pipe_right_arg[[1]])=="(")) {
     pipe_right_arg <- pipe_right_arg[[2]]
   }
-  # make sure environment is availabl
+  # make sure environment is available
   force(pipe_environment)
   # capture names
   left_arg_name <- NULL
