@@ -5,7 +5,7 @@
  * Add VectorizeM, vapplym, lapplym.
  * Add bquote_function().
  * Export underbar version of apply_left_default to get non-S3 version of code.
- * Better string concant example.
+ * Better string concat example.
 
 # wrapr 1.6.3 2018-10-03
 
