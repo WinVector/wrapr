@@ -12,7 +12,7 @@ e1 \%qc\% e2
 \item{e2}{second, or gith argument.}
 }
 \value{
-c(e1, c2)
+qc(e1, c2)
 }
 \description{
 Inline quoting concatinate.

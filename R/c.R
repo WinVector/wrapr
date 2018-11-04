@@ -24,7 +24,7 @@
 #'
 #' @param e1 first, or left argument.
 #' @param e2 second, or gith argument.
-#' @return c(e1, c2)
+#' @return qc(e1, c2)
 #'
 #' @examples
 #'
