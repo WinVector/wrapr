@@ -826,25 +826,33 @@ A huge marketing advantage for `rlang` is its privileged place in the so-called 
 The combined `rlang`/`dplyr` interface surface is large and complicated. A lot varies depending if the user is attempting to specify a column using an integer index, a string, a `name`/`symbol`, a `quosure`/`formula`, an expression, or un-evaluated source code (all of which seem to be allowed); plus variations depending on if the execution is a function context or not; plus variations the "semantics" of the `dplyr` verb ([there are at least two styles: "`select`" and "`eval`", and possibly more](https://github.com/tidyverse/dplyr/issues/3316)).  This creates a large user responsibility to know which combination of adapters and which access patterns are correct.  We give an example below (contrived, but the kind of experimentation a new user often uses to learn):
 
 <small>
-```{r dplyrqt, error=TRUE, message=FALSE, warning=FALSE}
+```{r dplyrqt, message=FALSE, warning=FALSE}
 suppressPackageStartupMessages(library("dplyr"))
 library("rlang")
+packageVersion("dplyr")
+packageVersion("rlang")
+packageVersion("tidyselect")
+```
 
+```{r dplyrqta0, error=TRUE}
 x <- "Species"
 
-# wrong (errors-out)
+# works
+iris %>% group_by(Species) %>% summarize(n = n())
+
+# wrong (errors-out, column x unknown)
 iris %>% group_by(x) %>% summarize(n = n())
 
 # wrong (created a new constant column named "Species")
 iris %>% group_by(!!x) %>% summarize(n = n())
 
-# wrong (errors-out)
+# wrong (errors-out, column x unknown)
 iris %>% group_by(!!quo(x)) %>% summarize(n = n())
 
 # wrong (created a new constant column named "Species")
 iris %>% group_by(!!enquo(x)) %>% summarize(n = n())
 
-# wrong (errors-out)
+# wrong (errors-out, column x unknown)
 iris %>% group_by(!!expr(x)) %>% summarize(n = n())
 
 # wrong (created a new constant column named "Species")
@@ -856,15 +864,15 @@ iris %>% group_by(!!enexpr(x)) %>% summarize(n = n())
 iris %>% group_by(.data$!!x) %>% summarize(n = n())
 ```
 
-```{r dplyrqt3, error=TRUE, message=FALSE, warning=FALSE}
-# wrong (created a new column named x)
+```{r dplyrqt3, error=TRUE}
+# works
 iris %>% group_by(.data[[x]]) %>% summarize(n = n())
 
 # works, package authors call patterns like this "quoting and unquoting"
 # https://github.com/tidyverse/dplyr/issues/3801#issuecomment-419137995
 iris %>% group_by(!!sym(x)) %>% summarize(n = n())
 
-# works
+# works, but currently warns
 iris %>% group_by(.data[[!!x]]) %>% summarize(n = n())
 
 # wrong (errors-out)
@@ -873,7 +881,7 @@ iris %>% group_by(.data[[!!sym(x)]]) %>% summarize(n = n())
 </small><p/>
 .
 
-To be fair: a lot of the above issues were driven by our insistence on starting from a string column name instead of a symbol or captured un-evaluated code.  Though it is disappointing that "`x`" does not work as a synonym for "`!!sym(x)`" (one would like quoting plus unquoting to look like a no-op). The `rlang` preference appears to be strongly for capturing un-evaluated code or arguments. However, [prefering non-trivial variables to be in columns](http://www.win-vector.com/blog/2018/08/r-tip-put-your-values-in-columns/) and considering column names to be strings is a valid point of view and a useful when when programming over modeling tasks (where one may supply the set of dependent variables as a vector of column names).  I feel there is a subtle difference between the problems `rlang` apparently wants to solve (composing NSE interfaces) and the problems analysts/data-scientists actually have (wanting to propagate controlling values, such as column names, into analyses).
+To be fair: some of the above issues were driven by our insistence on starting from a string column name instead of a symbol or captured un-evaluated code.  Though it is disappointing that "`x`" does not work as a synonym for "`!!sym(x)`" (one would like quoting plus unquoting to look like a no-op). The `rlang` preference appears to be strongly for capturing un-evaluated code or arguments. However, [prefering non-trivial variables to be in columns](http://www.win-vector.com/blog/2018/08/r-tip-put-your-values-in-columns/) and considering column names to be strings is a valid point of view and a useful when when programming over modeling tasks (where one may supply the set of dependent variables as a vector of column names).  I feel there is a subtle difference between the problems `rlang` apparently wants to solve (composing NSE interfaces) and the problems analysts/data-scientists actually have (wanting to propagate controlling values, such as column names, into analyses).
 
 In contrast to the above examples the `base::bquote()` and `wrapr::let()` patterns are fairly regular.
 

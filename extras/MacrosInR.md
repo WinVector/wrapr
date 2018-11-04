@@ -1081,10 +1081,42 @@ The combined `rlang`/`dplyr` interface surface is large and complicated. A lot v
 ``` r
 suppressPackageStartupMessages(library("dplyr"))
 library("rlang")
+packageVersion("dplyr")
+```
 
+    ## [1] '0.7.7'
+
+``` r
+packageVersion("rlang")
+```
+
+    ## [1] '0.3.0.1'
+
+``` r
+packageVersion("tidyselect")
+```
+
+    ## [1] '0.2.5'
+
+``` r
 x <- "Species"
 
-# wrong (errors-out)
+# works
+iris %>% group_by(Species) %>% summarize(n = n())
+```
+
+    ## Warning: The `printer` argument is soft-deprecated as of rlang 0.3.0.
+    ## This warning is displayed once per session.
+
+    ## # A tibble: 3 x 2
+    ##   Species        n
+    ##   <fct>      <int>
+    ## 1 setosa        50
+    ## 2 versicolor    50
+    ## 3 virginica     50
+
+``` r
+# wrong (errors-out, column x unknown)
 iris %>% group_by(x) %>% summarize(n = n())
 ```
 
@@ -1101,7 +1133,7 @@ iris %>% group_by(!!x) %>% summarize(n = n())
     ## 1 Species       150
 
 ``` r
-# wrong (errors-out)
+# wrong (errors-out, column x unknown)
 iris %>% group_by(!!quo(x)) %>% summarize(n = n())
 ```
 
@@ -1118,7 +1150,7 @@ iris %>% group_by(!!enquo(x)) %>% summarize(n = n())
     ## 1 Species       150
 
 ``` r
-# wrong (errors-out)
+# wrong (errors-out, column x unknown)
 iris %>% group_by(!!expr(x)) %>% summarize(n = n())
 ```
 
@@ -1145,12 +1177,12 @@ iris %>% group_by(.data$!!x) %>% summarize(n = n())
     ##                            ^
 
 ``` r
-# wrong (created a new column named x)
+# works
 iris %>% group_by(.data[[x]]) %>% summarize(n = n())
 ```
 
     ## # A tibble: 3 x 2
-    ##   x              n
+    ##   Species        n
     ##   <fct>      <int>
     ## 1 setosa        50
     ## 2 versicolor    50
@@ -1170,9 +1202,12 @@ iris %>% group_by(!!sym(x)) %>% summarize(n = n())
     ## 3 virginica     50
 
 ``` r
-# works
+# works, but currently warns
 iris %>% group_by(.data[[!!x]]) %>% summarize(n = n())
 ```
+
+    ## Warning: It is no longer necessary to unquote within the `.data` pronoun
+    ## This warning is displayed once per session.
 
     ## # A tibble: 3 x 2
     ##   Species        n
@@ -1192,7 +1227,7 @@ iris %>% group_by(.data[[!!sym(x)]]) %>% summarize(n = n())
 <p/>
 .
 
-To be fair: a lot of the above issues were driven by our insistence on starting from a string column name instead of a symbol or captured un-evaluated code. Though it is disappointing that "`x`" does not work as a synonym for "`!!sym(x)`" (one would like quoting plus unquoting to look like a no-op). The `rlang` preference appears to be strongly for capturing un-evaluated code or arguments. However, [prefering non-trivial variables to be in columns](http://www.win-vector.com/blog/2018/08/r-tip-put-your-values-in-columns/) and considering column names to be strings is a valid point of view and a useful when when programming over modeling tasks (where one may supply the set of dependent variables as a vector of column names). I feel there is a subtle difference between the problems `rlang` apparently wants to solve (composing NSE interfaces) and the problems analysts/data-scientists actually have (wanting to propagate controlling values, such as column names, into analyses).
+To be fair: some of the above issues were driven by our insistence on starting from a string column name instead of a symbol or captured un-evaluated code. Though it is disappointing that "`x`" does not work as a synonym for "`!!sym(x)`" (one would like quoting plus unquoting to look like a no-op). The `rlang` preference appears to be strongly for capturing un-evaluated code or arguments. However, [prefering non-trivial variables to be in columns](http://www.win-vector.com/blog/2018/08/r-tip-put-your-values-in-columns/) and considering column names to be strings is a valid point of view and a useful when when programming over modeling tasks (where one may supply the set of dependent variables as a vector of column names). I feel there is a subtle difference between the problems `rlang` apparently wants to solve (composing NSE interfaces) and the problems analysts/data-scientists actually have (wanting to propagate controlling values, such as column names, into analyses).
 
 In contrast to the above examples the `base::bquote()` and `wrapr::let()` patterns are fairly regular.
 
