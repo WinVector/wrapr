@@ -31,6 +31,8 @@ qc(sin(x))  # returns the string "sin(x)"
 
 qc(a, qc(b, c)) # returns c("a", "b", "c")
 
+qc(a, c("b", "c")) # returns c("a", "b", "c")
+
 qc(x=a, qc(y=b, z=c)) # returns c(x="a", y="b", z="c")
 
 qc('x'='a', wrapr::qc('y'='b', 'z'='c')) # returns c(x="a", y="b", z="c")

@@ -1,11 +1,13 @@
 
-# wrapr 1.6.4 2018-11-03
+# wrapr 1.6.4 2018-11-04
 
  * Preserve NA types in draw_frame.
  * Add VectorizeM, vapplym, lapplym.
  * Add bquote_function().
  * Export underbar version of apply_left_default to get non-S3 version of code.
  * Better string concat example.
+ * Add %c% and %qc%.
+ * Allowd qc() to call c().
 
 # wrapr 1.6.3 2018-10-03
 
