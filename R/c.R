@@ -40,6 +40,7 @@
 #'
 `%qc%` <- function(e1, e2) {
   env <- parent.frame()
-  do.call(qc, list(substitute(e1), substitute(e2)))
+  do.call(qc, list(substitute(e1), substitute(e2)),
+          envir = env)
 }
 
