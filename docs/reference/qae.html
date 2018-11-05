@@ -64,7 +64,7 @@ Terms are expressions of the form &quot;lhs := rhs&quot;, &quot;lhs = rhs&quot;,
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.6.4</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.7.0</span>
       </span>
     </div>
 
@@ -168,6 +168,10 @@ Terms are expressions of the form "lhs := rhs", "lhs = rhs", "lhs %:=% rhs".</p>
 
     <p>array of quoted assignment expressions.</p>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>qae() uses bquote() .() quasiquotation escaping notation.</p>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='qc.html'>qc</a></code>, <code><a href='qe.html'>qe</a></code></p></div>
@@ -175,10 +179,16 @@ Terms are expressions of the form "lhs := rhs", "lhs = rhs", "lhs %:=% rhs".</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
+<span class='no'>ratio</span> <span class='kw'>&lt;-</span> <span class='fl'>2</span>
+
 <span class='no'>exprs</span> <span class='kw'>&lt;-</span> <span class='fu'>qae</span>(<span class='no'>Sepal_Long</span> <span class='kw'>:=</span> <span class='no'>Sepal.Length</span> <span class='kw'>&gt;=</span> <span class='no'>ratio</span> * <span class='no'>Sepal.Width</span>,
              <span class='kw'>Petal_Short</span> <span class='kw'>=</span> <span class='no'>Petal.Length</span> <span class='kw'>&lt;=</span> <span class='fl'>3.5</span>)
 <span class='fu'>print</span>(<span class='no'>exprs</span>)</div><div class='output co'>#&gt;                            Sepal_Long                           Petal_Short 
-#&gt; "Sepal.Length &gt;= ratio * Sepal.Width"                 "Petal.Length &lt;= 3.5" </div><div class='input'>#ratio <- 2
+#&gt; "Sepal.Length &gt;= ratio * Sepal.Width"                 "Petal.Length &lt;= 3.5" </div><div class='input'>
+<span class='no'>exprs</span> <span class='kw'>&lt;-</span> <span class='fu'>qae</span>(<span class='no'>Sepal_Long</span> <span class='kw'>:=</span> <span class='no'>Sepal.Length</span> <span class='kw'>&gt;=</span> <span class='fu'>.</span>(<span class='no'>ratio</span>) * <span class='no'>Sepal.Width</span>,
+             <span class='kw'>Petal_Short</span> <span class='kw'>=</span> <span class='no'>Petal.Length</span> <span class='kw'>&lt;=</span> <span class='fl'>3.5</span>)
+<span class='fu'>print</span>(<span class='no'>exprs</span>)</div><div class='output co'>#&gt;                        Sepal_Long                       Petal_Short 
+#&gt; "Sepal.Length &gt;= 2 * Sepal.Width"             "Petal.Length &lt;= 3.5" </div><div class='input'>
 #datasets::iris %.>%
 #  seplyr::mutate_se(., exprs) %.>%
 #  summary(.)
@@ -191,6 +201,8 @@ Terms are expressions of the form "lhs := rhs", "lhs = rhs", "lhs %:=% rhs".</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

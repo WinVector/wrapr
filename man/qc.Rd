@@ -14,16 +14,24 @@ quoted array of character items
 }
 \description{
 The qc() function is intended to help quote user inputs.
-It is a convenience function allowing the user to elide
+}
+\details{
+qc() a convenience function allowing the user to elide
 excess quotation marks.  It quotes its arguments instead
 of evaluating them, except in the case of a nested
-call to qc() itself.  Please see the examples for
+call to qc() or c() itself.  Please see the examples for
 typical uses both for named and un-named character vectors.
+
+qc() uses bquote() .() quasiquotation escaping notation.
 }
 \examples{
 
 a <- "x"
 qc(a) # returns the string "a" (not "x")
+
+qc(.(a)) # returns the string "x" (not "a")
+
+qc(.(a) := a) # returns c("x" = "a")
 
 qc("a") # return the string "a" (not "\\"a\\"")
 
@@ -39,5 +47,5 @@ qc('x'='a', wrapr::qc('y'='b', 'z'='c')) # returns c(x="a", y="b", z="c")
 
 }
 \seealso{
-\code{\link{qe}}, \code{\link{qae}}
+\code{\link{qe}}, \code{\link{qae}}, \code{\link[base]{bquote}}
 }

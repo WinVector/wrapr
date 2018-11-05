@@ -13,10 +13,14 @@ qs(s)
 character
 }
 \description{
-Quote argument as a string.
+qs() uses bquote() .() quasiquotation escaping notation.
 }
 \examples{
 
-qs(a == "x")
+x <- 7
+
+qs(a == x)
+
+qs(a == .(x))
 
 }

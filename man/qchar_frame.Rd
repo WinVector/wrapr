@@ -18,12 +18,16 @@ first "|" (or other infix operator) determines number of columns
 (all other infix operators are aliases for ",").
 Names are treated as character types.
 }
+\details{
+qchar_frame() uses bquote() .() quasiquotation escaping notation.
+}
 \examples{
 
+loss_name <- "loss"
 x <- qchar_frame(
-   measure,                      training, validation |
-   "minus binary cross entropy", loss,     val_loss   |
-   accuracy,                     acc,      val_acc    )
+   measure,                      training,     validation |
+   "minus binary cross entropy", .(loss_name), val_loss   |
+   accuracy,                     acc,          val_acc    )
 print(x)
 str(x)
 cat(draw_frame(x))
@@ -31,7 +35,7 @@ cat(draw_frame(x))
 qchar_frame(
   x |
   1 |
-  2 )
+  2 ) \%.>\% str(.)
 
 }
 \seealso{

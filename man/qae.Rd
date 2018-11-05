@@ -18,12 +18,21 @@ assignments to allow forms such as "Sepal_Long := Sepal.Length >= 2 * Sepal.Widt
 (without the quotes).
 Terms are expressions of the form "lhs := rhs", "lhs = rhs", "lhs \%:=\% rhs".
 }
+\details{
+qae() uses bquote() .() quasiquotation escaping notation.
+}
 \examples{
+
+ratio <- 2
 
 exprs <- qae(Sepal_Long := Sepal.Length >= ratio * Sepal.Width,
              Petal_Short = Petal.Length <= 3.5)
 print(exprs)
-#ratio <- 2
+
+exprs <- qae(Sepal_Long := Sepal.Length >= .(ratio) * Sepal.Width,
+             Petal_Short = Petal.Length <= 3.5)
+print(exprs)
+
 #datasets::iris \%.>\%
 #  seplyr::mutate_se(., exprs) \%.>\%
 #  summary(.)

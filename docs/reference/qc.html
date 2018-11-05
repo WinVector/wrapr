@@ -32,12 +32,7 @@
 
 <meta property="og:title" content="Quoting version of c() array concatenate. — qc" />
 
-<meta property="og:description" content="The qc() function is intended to help quote user inputs.
-It is a convenience function allowing the user to elide
-excess quotation marks.  It quotes its arguments instead
-of evaluating them, except in the case of a nested
-call to qc() itself.  Please see the examples for
-typical uses both for named and un-named character vectors." />
+<meta property="og:description" content="The qc() function is intended to help quote user inputs." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -66,7 +61,7 @@ typical uses both for named and un-named character vectors." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.6.4</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.7.0</span>
       </span>
     </div>
 
@@ -148,12 +143,7 @@ typical uses both for named and un-named character vectors." />
 
     <div class="ref-description">
     
-    <p>The qc() function is intended to help quote user inputs.
-It is a convenience function allowing the user to elide
-excess quotation marks.  It quotes its arguments instead
-of evaluating them, except in the case of a nested
-call to qc() itself.  Please see the examples for
-typical uses both for named and un-named character vectors.</p>
+    <p>The qc() function is intended to help quote user inputs.</p>
     
     </div>
 
@@ -172,15 +162,27 @@ typical uses both for named and un-named character vectors.</p>
 
     <p>quoted array of character items</p>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>qc() a convenience function allowing the user to elide
+excess quotation marks.  It quotes its arguments instead
+of evaluating them, except in the case of a nested
+call to qc() or c() itself.  Please see the examples for
+typical uses both for named and un-named character vectors.</p>
+<p>qc() uses bquote() .() quasiquotation escaping notation.</p>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='qe.html'>qe</a></code>, <code><a href='qae.html'>qae</a></code></p></div>
+    <div class='dont-index'><p><code><a href='qe.html'>qe</a></code>, <code><a href='qae.html'>qae</a></code>, <code><a href='http://www.rdocumentation.org/packages/base/topics/bquote'>bquote</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='st'>"x"</span>
 <span class='fu'>qc</span>(<span class='no'>a</span>) <span class='co'># returns the string "a" (not "x")</span></div><div class='output co'>#&gt; [1] "a"</div><div class='input'>
+<span class='fu'>qc</span>(<span class='fu'>.</span>(<span class='no'>a</span>)) <span class='co'># returns the string "x" (not "a")</span></div><div class='output co'>#&gt; [1] "x"</div><div class='input'>
+<span class='fu'>qc</span>(<span class='fu'>.</span>(<span class='no'>a</span>) <span class='kw'>:=</span> <span class='no'>a</span>) <span class='co'># returns c("x" = "a")</span></div><div class='output co'>#&gt;   x 
+#&gt; "a" </div><div class='input'>
 <span class='fu'>qc</span>(<span class='st'>"a"</span>) <span class='co'># return the string "a" (not "\"a\"")</span></div><div class='output co'>#&gt; [1] "a"</div><div class='input'>
 <span class='fu'>qc</span>(<span class='fu'>sin</span>(<span class='no'>x</span>))  <span class='co'># returns the string "sin(x)"</span></div><div class='output co'>#&gt; [1] "sin(x)"</div><div class='input'>
 <span class='fu'>qc</span>(<span class='no'>a</span>, <span class='fu'>qc</span>(<span class='no'>b</span>, <span class='no'>c</span>)) <span class='co'># returns c("a", "b", "c")</span></div><div class='output co'>#&gt; [1] "a" "b" "c"</div><div class='input'>
@@ -197,6 +199,8 @@ typical uses both for named and un-named character vectors.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>
       
