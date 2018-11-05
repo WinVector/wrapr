@@ -34,6 +34,7 @@ Suggests:
     parallel,
     testthat,
     knitr,
-    rmarkdown
-VignetteBuilder: knitr
+    rmarkdown,
+    R.rsp
+VignetteBuilder: knitr, R.rsp
 ByteCompile: true
