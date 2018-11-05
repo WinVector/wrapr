@@ -1,5 +1,5 @@
 
-# wrapr 1.7.0 2018-11-04
+# wrapr 1.7.0 2018-11-05
 
  * bquote enable qc() and other quoting methods.
  * Preserve NA types in draw_frame.
@@ -8,7 +8,7 @@
  * Export underbar version of apply_left_default to get non-S3 version of code.
  * Better string concat example.
  * Add %c% and %qc%.
- * Allowd qc() to call c().
+ * Allow qc() to call c().
 
 # wrapr 1.6.3 2018-10-03
 
