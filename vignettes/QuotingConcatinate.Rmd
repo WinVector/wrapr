@@ -76,7 +76,7 @@ Also, `qc()` is designed to have a simple "mutually recursive" relationship with
 qc(Petal.Width, c(OTHER_SYMBOL))
 ```
 
-This escape notation arises as a natural consequence of a design of `qc()` that calls `c()` instead of quoting it (i.e. delegates `c()`-expressions to `c()`). The `bquote()-.()` should be the prefered notation for regularity, and to match any other `bquote()` quasiquotation interface (such as `qchar_frame()` or [even a variation of `dplyr`](http://www.win-vector.com/blog/2018/10/quasiquotation-in-r-via-bquote/)).
+This escape notation arises as a natural consequence of a design of `qc()` that calls `c()` instead of quoting it (i.e. delegates `c()`-expressions to `c()`). The `bquote()-.()` should be the preferred notation for regularity, and to match any other `bquote()` quasiquotation interface (such as `qchar_frame()` or [even a variation of `dplyr`](http://www.win-vector.com/blog/2018/10/quasiquotation-in-r-via-bquote/)).
 
 `qc()` also takes some trouble to work with named vectors:
 
@@ -92,7 +92,8 @@ LEFT_NAME = "a"
 qc(.(LEFT_NAME) := b)
 ```
 
-Notice that if one had `qc()` one would not need additional special-capture methods such as `ggplot2::aes()` and `ggplot2::aes_string()`.
+Notice syntactically `qc()` fills a general niche much like the specific function `ggplot2::aes()` fits in the `ggplot2` package.
 
-The `qc()` notation is very powerful and clearly indicates where which quoting rules are in effect when.
+The `qc()` notation is very powerful and clearly indicates where which quoting rules are in effect when.  We strongly suggest users look to it for code-capturing and package developers recommend it to their users.
+
 

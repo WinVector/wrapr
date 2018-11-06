@@ -131,8 +131,10 @@
 <span class="kw"><a href="../reference/qc.html">qc</a></span>(Petal.Width, Petal.Length)</code></pre></div>
 <pre><code>## [1] "Petal.Width"  "Petal.Length"</code></pre>
 <p>This, in turn, lets you replace this:</p>
-<pre><code>iris %&gt;%
-  dplyr::select(., Petal.Width, Petal.Length) %&gt;%
+<pre><code>library("dplyr")
+
+iris %&gt;%
+  select(., Petal.Width, Petal.Length) %&gt;%
   head(.)</code></pre>
 <p>with this:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iris[, <span class="kw"><a href="../reference/qc.html">qc</a></span>(Petal.Width, Petal.Length)] <span class="op">%.&gt;%</span>
@@ -158,7 +160,7 @@
 <p>Also, <code><a href="../reference/qc.html">qc()</a></code> is designed to have a simple “mutually recursive” relationship with <code>c()</code> (i.e. they call each other when they see one another). This means <code>c()</code> is also a quasiquotation escape-notation for <code><a href="../reference/qc.html">qc()</a></code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/qc.html">qc</a></span>(Petal.Width, <span class="kw">c</span>(OTHER_SYMBOL))</code></pre></div>
 <pre><code>## [1] "Petal.Width"  "Petal.Length"</code></pre>
-<p>This escape notation arises as a natural consequence of a design of <code><a href="../reference/qc.html">qc()</a></code> that calls <code>c()</code> instead of quoting it (i.e. delegates <code>c()</code>-expressions to <code>c()</code>). The <code>bquote()-.()</code> should be the prefered notation for regularity, and to match any other <code>bquote()</code> quasiquotation interface (such as <code><a href="../reference/qchar_frame.html">qchar_frame()</a></code> or <a href="http://www.win-vector.com/blog/2018/10/quasiquotation-in-r-via-bquote/">even a variation of <code>dplyr</code></a>).</p>
+<p>This escape notation arises as a natural consequence of a design of <code><a href="../reference/qc.html">qc()</a></code> that calls <code>c()</code> instead of quoting it (i.e. delegates <code>c()</code>-expressions to <code>c()</code>). The <code>bquote()-.()</code> should be the preferred notation for regularity, and to match any other <code>bquote()</code> quasiquotation interface (such as <code><a href="../reference/qchar_frame.html">qchar_frame()</a></code> or <a href="http://www.win-vector.com/blog/2018/10/quasiquotation-in-r-via-bquote/">even a variation of <code>dplyr</code></a>).</p>
 <p><code><a href="../reference/qc.html">qc()</a></code> also takes some trouble to work with named vectors:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/qc.html">qc</a></span>(<span class="dt">a =</span> b)</code></pre></div>
 <pre><code>##   a 
@@ -169,8 +171,8 @@
 <span class="kw"><a href="../reference/qc.html">qc</a></span>(.(LEFT_NAME) <span class="op">:</span><span class="er">=</span><span class="st"> </span>b)</code></pre></div>
 <pre><code>##   a 
 ## "b"</code></pre>
-<p>Notice that if one had <code><a href="../reference/qc.html">qc()</a></code> one would not need additional special-capture methods such as <code><a href="ggplot2.tidyverse.org/reference/aes.html">ggplot2::aes()</a></code> and <code><a href="ggplot2.tidyverse.org/reference/aes_.html">ggplot2::aes_string()</a></code>.</p>
-<p>The <code><a href="../reference/qc.html">qc()</a></code> notation is very powerful and clearly indicates where which quoting rules are in effect when.</p>
+<p>Notice syntactically <code><a href="../reference/qc.html">qc()</a></code> fills a general niche much like the specific function <code><a href="ggplot2.tidyverse.org/reference/aes.html">ggplot2::aes()</a></code> fits in the <code>ggplot2</code> package.</p>
+<p>The <code><a href="../reference/qc.html">qc()</a></code> notation is very powerful and clearly indicates where which quoting rules are in effect when. We strongly suggest users look to it for code-capturing and package developers recommend it to their users.</p>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
