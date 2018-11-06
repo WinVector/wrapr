@@ -131,8 +131,8 @@
 <span class="kw"><a href="../reference/qc.html">qc</a></span>(Petal.Width, Petal.Length)</code></pre></div>
 <pre><code>## [1] "Petal.Width"  "Petal.Length"</code></pre>
 <p>This, in turn, lets you replace this:</p>
-<pre><code>iris %.&gt;%
-  dplyr::select(., Petal.Width, Petal.Length) %.&gt;%
+<pre><code>iris %&gt;%
+  dplyr::select(., Petal.Width, Petal.Length) %&gt;%
   head(.)</code></pre>
 <p>with this:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iris[, <span class="kw"><a href="../reference/qc.html">qc</a></span>(Petal.Width, Petal.Length)] <span class="op">%.&gt;%</span>

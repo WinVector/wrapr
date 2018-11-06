@@ -37,8 +37,8 @@ qc(Petal.Width, Petal.Length)
 This, in turn, lets you replace this:
 
 ```
-iris %.>%
-  dplyr::select(., Petal.Width, Petal.Length) %.>%
+iris %>%
+  dplyr::select(., Petal.Width, Petal.Length) %>%
   head(.)
 ```
 
