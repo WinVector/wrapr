@@ -40,6 +40,13 @@
 #'
 #' qc('x'='a', wrapr::qc('y'='b', 'z'='c')) # returns c(x="a", y="b", z="c")
 #'
+#' # qc() does treat names different than c() does, and := is not
+#' # completely equivilent to = with respect to names.
+#'
+#' c(a = c(a=1, b=2)) # returns c(a.a = 1, a.b = 2)
+#' qc(a = c(a=1, b=2)) # returns c(a = 1, b = 2)
+#' qc(a := c(a=1, b=2)) # returns structure(c(1, 2), .Names = c("a", NA))
+#'
 #' @export
 #'
 qc <- function(..., .wrapr_private_var_env = parent.frame()) {
