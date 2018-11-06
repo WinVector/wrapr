@@ -14,6 +14,7 @@
 #'
 #'
 #' @param ... items to place into an array
+#' @param .wrapr_private_var_env environment to evaluate in
 #' @return quoted array of character items
 #'
 #' @seealso \code{\link{qe}}, \code{\link{qae}}, \code{\link[base]{bquote}}
@@ -41,14 +42,14 @@
 #'
 #' @export
 #'
-qc <- function(...) {
-  .wrapr_private_var_env <- parent.frame()
+qc <- function(..., .wrapr_private_var_env = parent.frame()) {
+  force(.wrapr_private_var_env)
   #.wrapr_private_var_args <- substitute(list(...))
   .wrapr_private_var_args <- do.call(bquote, list(substitute(list(...)),
                                                    where = .wrapr_private_var_env),
                                      envir = .wrapr_private_var_env)
   if(length(.wrapr_private_var_args)<=1) {
-    return(c())
+    return(character(0))
   }
   .wrapr_private_var_names <- names(.wrapr_private_var_args)
   .wrapr_private_var_res <- lapply(
@@ -73,8 +74,12 @@ qc <- function(...) {
           .wrapr_private_var_fnname <- gsub("[[:space:]]+", "", .wrapr_private_var_fnname)
           if(isTRUE(.wrapr_private_var_fnname %in%
              c(":=", "%:=%"))) {
-            v <- as.character(.wrapr_private_var_ei[[3]])
-            names(v) <- as.character(.wrapr_private_var_ei[[2]])
+            v <- do.call(qc, c(list(.wrapr_private_var_ei[[3]]),
+                               list(.wrapr_private_var_env = .wrapr_private_var_env)),
+                         envir = .wrapr_private_var_env)
+            names(v) <- do.call(qc, c(list(.wrapr_private_var_ei[[2]]),
+                                      list(.wrapr_private_var_env = .wrapr_private_var_env)),
+                                envir = .wrapr_private_var_env)
             return(v)
           }
           if(isTRUE(.wrapr_private_var_fnname %in%
@@ -98,7 +103,7 @@ qc <- function(...) {
       }
       if(is.vector(.wrapr_private_var_ei) || is.list(.wrapr_private_var_ei)) {
         if(length(.wrapr_private_var_ei)<=0) {
-          return(NULL)
+          return(character(0))
         }
       }
       # base case, character vectors, list, and objects
@@ -110,7 +115,7 @@ qc <- function(...) {
     })
   .wrapr_private_var_res <- Filter(function(ei) { !is.null(ei) }, .wrapr_private_var_res)
   if(length(.wrapr_private_var_res)<1) {
-    return(c())
+    return(character(0))
   }
   unlist(.wrapr_private_var_res)
 }

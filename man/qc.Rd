@@ -4,10 +4,12 @@
 \alias{qc}
 \title{Quoting version of c() array concatenate.}
 \usage{
-qc(...)
+qc(..., .wrapr_private_var_env = parent.frame())
 }
 \arguments{
 \item{...}{items to place into an array}
+
+\item{.wrapr_private_var_env}{environment to evaluate in}
 }
 \value{
 quoted array of character items
