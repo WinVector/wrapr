@@ -25,9 +25,25 @@ c('a', 'b') := c(5, 6)
 
 The left-side argument of the `:=` operator is called "the names", and the right-side argument is called "the values".  The `:=` operators returns the values with the names set to names.
 
+`:=` is a left-over assignment operator in `R`. It is part of the syntax, but by default not defined.
+
+`data.table` has long used `:=` to denote "in-place assignment" as in the following.
+
+```
+library("data.table")
+
+data.table(x = 1)[, y := x + 1][]
+#    x y
+# 1: 1 2
+```
+
+`dplyr` later adopted the `:=` notation as this allows for substitution on the left-hand sides of assignments.  [`wrapr::qc()`](https://winvector.github.io/wrapr/articles/QuotingConcatinate.html) uses the `:=` for the same purpose.
+
 A key use of the named map builder is the following:
 
 ```{r key1}
+`:=` <- wrapr::`:=` # in case data.tables "catch calls" definition is active
+
 key = 'keycode'
 key := 'value'
 ```
