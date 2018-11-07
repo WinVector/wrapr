@@ -7,8 +7,9 @@
 #' qc() a convenience function allowing the user to elide
 #' excess quotation marks.  It quotes its arguments instead
 #' of evaluating them, except in the case of a nested
-#' call to qc() or c() itself.  Please see the examples for
+#' call to qc() or c().  Please see the examples for
 #' typical uses both for named and un-named character vectors.
+#'
 #'
 #' qc() uses bquote() .() quasiquotation escaping notation.
 #'
@@ -22,6 +23,7 @@
 #' @examples
 #'
 #' a <- "x"
+#'
 #' qc(a) # returns the string "a" (not "x")
 #'
 #' qc(.(a)) # returns the string "x" (not "a")
@@ -40,16 +42,15 @@
 #'
 #' qc('x'='a', wrapr::qc('y'='b', 'z'='c')) # returns c(x="a", y="b", z="c")
 #'
-#' # qc() does treat names different than c() does, and := is not
-#' # completely equivilent to = with respect to names.
+#' c(a = c(a="1", b="2")) # returns c(a.a = "1", a.b = "2")
+#' qc(a = c(a=1, b=2)) # returns c(a.a = "1", a.b = "2")
+#' qc(a := c(a=1, b=2)) # returns c(a.a = "1", a.b = "2")
 #'
-#' c(a = c(a=1, b=2)) # returns c(a.a = 1, a.b = 2)
-#' qc(a = c(a=1, b=2)) # returns c(a = 1, b = 2)
-#' qc(a := c(a=1, b=2)) # returns structure(c(1, 2), .Names = c("a", NA))
 #'
 #' @export
 #'
 qc <- function(..., .wrapr_private_var_env = parent.frame()) {
+  # invariant: returns are always character vectors
   force(.wrapr_private_var_env)
   #.wrapr_private_var_args <- substitute(list(...))
   .wrapr_private_var_args <- do.call(bquote, list(substitute(list(...)),
@@ -66,6 +67,9 @@ qc <- function(..., .wrapr_private_var_env = parent.frame()) {
       .wrapr_private_var_ni <- NULL
       if(.wrapr_private_var_i<=length(.wrapr_private_var_names)) {
         .wrapr_private_var_ni <- .wrapr_private_var_names[[.wrapr_private_var_i]]
+        if(nchar(.wrapr_private_var_ni)<=0) {
+          .wrapr_private_var_ni <- NULL
+        }
       }
       if(is.name(.wrapr_private_var_ei)) {
         # names are scalars
@@ -84,9 +88,16 @@ qc <- function(..., .wrapr_private_var_env = parent.frame()) {
             v <- do.call(qc, c(list(.wrapr_private_var_ei[[3]]),
                                list(.wrapr_private_var_env = .wrapr_private_var_env)),
                          envir = .wrapr_private_var_env)
-            names(v) <- do.call(qc, c(list(.wrapr_private_var_ei[[2]]),
-                                      list(.wrapr_private_var_env = .wrapr_private_var_env)),
-                                envir = .wrapr_private_var_env)
+            nms <- do.call(qc, c(list(.wrapr_private_var_ei[[2]]),
+                                 list(.wrapr_private_var_env = .wrapr_private_var_env)),
+                           envir = .wrapr_private_var_env)
+            if((length(nms)==1)&&(length(nms)<length(v))) {
+              nms <- nms[rep(1, length(v))]
+            }
+            if(length(names(v))>0) {
+              nms <- paste(nms, names(v), sep=".")
+            }
+            names(v) <- nms
             return(v)
           }
           if(isTRUE(.wrapr_private_var_fnname %in%
@@ -98,6 +109,12 @@ qc <- function(..., .wrapr_private_var_env = parent.frame()) {
             .wrapr_private_var_ei <- eval(.wrapr_private_var_ei,
                                           envir = .wrapr_private_var_env,
                                           enclos = .wrapr_private_var_env)
+            nms <- names(.wrapr_private_var_ei)
+            .wrapr_private_var_ei <- as.character(.wrapr_private_var_ei)
+            if(!is.null(.wrapr_private_var_ni)) {
+              nms <- paste(.wrapr_private_var_ni, nms, sep = '.')
+            }
+            names(.wrapr_private_var_ei) <- nms
             return(.wrapr_private_var_ei)
           }
         }
@@ -120,10 +137,6 @@ qc <- function(..., .wrapr_private_var_env = parent.frame()) {
       }
       return(.wrapr_private_var_ei)
     })
-  .wrapr_private_var_res <- Filter(function(ei) { !is.null(ei) }, .wrapr_private_var_res)
-  if(length(.wrapr_private_var_res)<1) {
-    return(character(0))
-  }
-  unlist(.wrapr_private_var_res)
+  do.call(c, .wrapr_private_var_res, envir = .wrapr_private_var_env)
 }
 

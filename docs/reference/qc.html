@@ -174,7 +174,7 @@
     <p>qc() a convenience function allowing the user to elide
 excess quotation marks.  It quotes its arguments instead
 of evaluating them, except in the case of a nested
-call to qc() or c() itself.  Please see the examples for
+call to qc() or c().  Please see the examples for
 typical uses both for named and un-named character vectors.</p>
 <p>qc() uses bquote() .() quasiquotation escaping notation.</p>
     
@@ -186,6 +186,7 @@ typical uses both for named and un-named character vectors.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='st'>"x"</span>
+
 <span class='fu'>qc</span>(<span class='no'>a</span>) <span class='co'># returns the string "a" (not "x")</span></div><div class='output co'>#&gt; [1] "a"</div><div class='input'>
 <span class='fu'>qc</span>(<span class='fu'>.</span>(<span class='no'>a</span>)) <span class='co'># returns the string "x" (not "a")</span></div><div class='output co'>#&gt; [1] "x"</div><div class='input'>
 <span class='fu'>qc</span>(<span class='fu'>.</span>(<span class='no'>a</span>) <span class='kw'>:=</span> <span class='no'>a</span>) <span class='co'># returns c("x" = "a")</span></div><div class='output co'>#&gt;   x 
@@ -198,6 +199,11 @@ typical uses both for named and un-named character vectors.</p>
 #&gt; "a" "b" "c" </div><div class='input'>
 <span class='fu'>qc</span>(<span class='st'>'x'</span><span class='kw'>=</span><span class='st'>'a'</span>, <span class='kw pkg'>wrapr</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/wrapr/topics/qc'>qc</a></span>(<span class='st'>'y'</span><span class='kw'>=</span><span class='st'>'b'</span>, <span class='st'>'z'</span><span class='kw'>=</span><span class='st'>'c'</span>)) <span class='co'># returns c(x="a", y="b", z="c")</span></div><div class='output co'>#&gt;   x   y   z 
 #&gt; "a" "b" "c" </div><div class='input'>
+<span class='fu'>c</span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='kw'>a</span><span class='kw'>=</span><span class='st'>"1"</span>, <span class='kw'>b</span><span class='kw'>=</span><span class='st'>"2"</span>)) <span class='co'># returns c(a.a = "1", a.b = "2")</span></div><div class='output co'>#&gt; a.a a.b 
+#&gt; "1" "2" </div><div class='input'><span class='fu'>qc</span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='kw'>a</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>b</span><span class='kw'>=</span><span class='fl'>2</span>)) <span class='co'># returns c(a.a = "1", a.b = "2")</span></div><div class='output co'>#&gt; a.a a.b 
+#&gt; "1" "2" </div><div class='input'><span class='fu'>qc</span>(<span class='no'>a</span> <span class='kw'>:=</span> <span class='fu'>c</span>(<span class='kw'>a</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>b</span><span class='kw'>=</span><span class='fl'>2</span>)) <span class='co'># returns c(a.a = "1", a.b = "2")</span></div><div class='output co'>#&gt; a.a a.b 
+#&gt; "1" "2" </div><div class='input'>
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

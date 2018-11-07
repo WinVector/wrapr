@@ -21,7 +21,7 @@ The qc() function is intended to help quote user inputs.
 qc() a convenience function allowing the user to elide
 excess quotation marks.  It quotes its arguments instead
 of evaluating them, except in the case of a nested
-call to qc() or c() itself.  Please see the examples for
+call to qc() or c().  Please see the examples for
 typical uses both for named and un-named character vectors.
 
 qc() uses bquote() .() quasiquotation escaping notation.
@@ -29,6 +29,7 @@ qc() uses bquote() .() quasiquotation escaping notation.
 \examples{
 
 a <- "x"
+
 qc(a) # returns the string "a" (not "x")
 
 qc(.(a)) # returns the string "x" (not "a")
@@ -47,12 +48,10 @@ qc(x=a, qc(y=b, z=c)) # returns c(x="a", y="b", z="c")
 
 qc('x'='a', wrapr::qc('y'='b', 'z'='c')) # returns c(x="a", y="b", z="c")
 
-# qc() does treat names different than c() does, and := is not
-# completely equivilent to = with respect to names.
+c(a = c(a="1", b="2")) # returns c(a.a = "1", a.b = "2")
+qc(a = c(a=1, b=2)) # returns c(a.a = "1", a.b = "2")
+qc(a := c(a=1, b=2)) # returns c(a.a = "1", a.b = "2")
 
-c(a = c(a=1, b=2)) # returns c(a.a = 1, a.b = 2)
-qc(a = c(a=1, b=2)) # returns c(a = 1, b = 2)
-qc(a := c(a=1, b=2)) # returns structure(c(1, 2), .Names = c("a", NA))
 
 }
 \seealso{
