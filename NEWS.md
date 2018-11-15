@@ -1,5 +1,5 @@
 
-# wrapr 1.7.0 2018-11-05
+# wrapr 1.7.0 2018-11-15
 
  * bquote enable qc() and other quoting methods.
  * Preserve NA types in draw_frame.
