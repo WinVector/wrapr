@@ -31,7 +31,11 @@ parLapplyLBm <- function(cl = NULL, X, fun, ..., chunk.size = NULL) {
   UX <- unique(X)
   first_indexes <- match(UX, X)
   all_indexes <- match(X, UX)
-  res <- parallel::parLapplyLB(cl, X[first_indexes], fun, ..., chunk.size = chunk.size)
+  if(length(chunk.size)<=0) {
+    res <- parallel::parLapplyLB(cl, X[first_indexes], fun, ...)
+  } else {
+    res <- parallel::parLapplyLB(cl, X[first_indexes], fun, ..., chunk.size = chunk.size)
+  }
   res2 <- res[all_indexes]
   names(res2) <- names(X)
   res2
