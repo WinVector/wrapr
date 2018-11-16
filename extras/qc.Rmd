@@ -102,6 +102,8 @@ As of `wrapr 1.7.0` `qc()` incorporates [`bquote()`](https://stat.ethz.ch/R-manu
 A quoting tool such as `qc()` becomes a quasi-quoting tool if we add a notation that signals we do not wish to quote.  In `R` the standard notation for this is "`.()`" (Lisp uses a back-tick, and the `rlang` package uses "`!!`").  The `bquote()`-enabled version of `qc()` lets us write code such as the following.
 
 ```{r}
+library(wrapr)
+
 extra_column = "Species"
 
 qc(Petal.Length, Petal.Width, extra_column)
@@ -126,8 +128,6 @@ qc(.(left_name) := .(right_value))
 The `wrapr` package also exports an implementation for `:=`.  So one could also write:
 
 ```{r}
-library(wrapr)
-
 left_name := right_value
 ```
 
