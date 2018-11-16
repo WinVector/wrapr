@@ -143,7 +143,7 @@ The idea is: with `qc()` the user can switch name capturing notation at will, wi
 
 As of `wrapr 1.7.0` `qc()` incorporates [`bquote()`](https://stat.ethz.ch/R-manual/R-devel/library/base/html/bquote.html) functionality. `bquote()` is `R`'s built-in quasi-quotation facility. It was added to `R` in August of 2003 by Thomas Lumley, and doesn't get as much attention as it deserves.
 
-A quoting tool such as `qc()` becomes a quasi-quoting tool if we add a notation that signals we do not wish to quote. In `R` the standard notation for this is "`.()`" (Lisp uses a back-tick, and the `rlang` package uses "`!!`"). The `bquote()`-enabled version of `qc()` lets us write code such as the following.
+A quoting tool such as `qc()` becomes a quasi-quoting tool if we add a notation that signals we do not wish to quote. In `R` the standard notation for this is "`.()`" (Lisp uses a back-tick, the `data.table` package uses "`..`", and the `rlang` package uses "`!!`"). The `bquote()`-enabled version of `qc()` lets us write code such as the following.
 
 ``` r
 extra_column = "Species"
