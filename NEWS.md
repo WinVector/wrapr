@@ -1,6 +1,7 @@
 
 # wrapr 1.7.0 2018-11-19
 
+ * Add split_at_brace_pairs.
  * Documentation fixes.
  
 # wrapr 1.7.0 2018-11-15
