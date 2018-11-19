@@ -18,11 +18,12 @@ split_at_brace_pairs <- function(s, open_symbol = "{", close_symbol = "}") {
   if(length(s)<1) {
     return(s)
   }
-  if(is.list(s)) {
-    return(lapply(s, split_at_brace_pairs))
-  }
-  if(length(s)>1) {
-    return(lapply(s, split_at_brace_pairs))
+  if((is.list(s))||(length(s)>1)) {
+    return(lapply(s,
+                  function(si) {
+                    split_at_brace_pairs(si,
+                                         open_symbol = open_symbol, close_symbol = close_symbol)
+                  }))
   }
   if(!is.character(s)) {
     return(s)
