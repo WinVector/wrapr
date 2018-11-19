@@ -16,9 +16,11 @@ The `R` macro (or code control) facilities we will discuss include over 20 years
  * `base::bquote()`: [Released in R 1.8.1, November 2003](https://github.com/wch/r-source/blob/5a156a0865362bb8381dcd69ac335f5174a4f60c/doc/NEWS.1).
  * `gtools::defmacro()`: [gtools 2.0.9, September 2, 2005](https://cran.r-project.org/src/contrib/Archive/gtools/).
  * `gtools::strmacro()`: [gtools 2.1.1, September 23, 2005](https://cran.r-project.org/src/contrib/Archive/gtools/).
+ * `vadr` package: [Packaged May 7, 2012](https://github.com/crowding/vadr) and refactored into a CRAN package [`nseval`](https://CRAN.R-project.org/package=nseval) August 6, 2018.
  * `lazyeval` package: [Released October 1, 2014](https://cran.r-project.org/src/contrib/Archive/lazyeval/).
  * `replyr::let()`/`wrapr::let()` [Released December 8th, 2016](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf) in the [`replyr`](https://github.com/WinVector/replyr) package, later extended and moved to the low-dependency [`wrapr`](https://github.com/WinVector/wrapr) package.
  * `rlang::!!`: [Released May 5th, 2017](https://cran.r-project.org/src/contrib/Archive/rlang/).
+
 
 One of the goals of this note is to document differences between our own method `wrapr::let()` and the *later* system `rlang:!!` (as we recently had [a paper](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf) rejected for not having enough such comparisons, and therefore would benefit from a reference that does so).
 
@@ -918,6 +920,11 @@ let(
 ```
 </small><p/>
 .
+
+### `nseval`
+
+`nseval`'s goal is to supply `quotation` and `dots` structures that correctly expose
+`R` quotation and evaluation facilities *without* having to go through the `S`-notation exposed to the user (as `S` notation does not properly represent full `R` semantics).  The package [README](https://cran.r-project.org/web/packages/nseval/readme/README.html) explains this quite well.
 
 ## Conclusion
 
