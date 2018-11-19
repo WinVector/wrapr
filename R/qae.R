@@ -76,8 +76,9 @@ qe <- function(...) {
 #'              Petal_Short = Petal.Length <= 3.5)
 #' print(exprs)
 #'
-#' #datasets::iris %.>%
-#' #  seplyr::mutate_se(., exprs) %.>%
+#' # library("rqdatatable")
+#' # datasets::iris %.>%
+#' #  extend_se(., exprs) %.>%
 #' #  summary(.)
 #'
 #' @export
@@ -120,7 +121,7 @@ qae <- function(...) {
       }
     }
     if(is.null(ni)) {
-      stop("seplyr::qae terms must all have names (either from =, :=, or %:=%)")
+      stop("wrapr::qae terms must all have names (either from =, :=, or %:=%)")
     }
     lhs[[i-1]] <- ni
     rhs[[i-1]] <- vi

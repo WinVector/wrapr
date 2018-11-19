@@ -1,4 +1,8 @@
 
+# wrapr 1.7.0 2018-11-19
+
+ * Documentation fixes.
+ 
 # wrapr 1.7.0 2018-11-15
 
  * bquote enable qc() and other quoting methods.

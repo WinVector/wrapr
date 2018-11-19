@@ -33,8 +33,9 @@ exprs <- qae(Sepal_Long := Sepal.Length >= .(ratio) * Sepal.Width,
              Petal_Short = Petal.Length <= 3.5)
 print(exprs)
 
-#datasets::iris \%.>\%
-#  seplyr::mutate_se(., exprs) \%.>\%
+# library("rqdatatable")
+# datasets::iris \%.>\%
+#  extend_se(., exprs) \%.>\%
 #  summary(.)
 
 }

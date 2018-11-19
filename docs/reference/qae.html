@@ -64,7 +64,7 @@ Terms are expressions of the form &quot;lhs := rhs&quot;, &quot;lhs = rhs&quot;,
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.7.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.7.1</span>
       </span>
     </div>
 
@@ -192,8 +192,9 @@ Terms are expressions of the form "lhs := rhs", "lhs = rhs", "lhs %:=% rhs".</p>
              <span class='kw'>Petal_Short</span> <span class='kw'>=</span> <span class='no'>Petal.Length</span> <span class='kw'>&lt;=</span> <span class='fl'>3.5</span>)
 <span class='fu'>print</span>(<span class='no'>exprs</span>)</div><div class='output co'>#&gt;                        Sepal_Long                       Petal_Short 
 #&gt; "Sepal.Length &gt;= 2 * Sepal.Width"             "Petal.Length &lt;= 3.5" </div><div class='input'>
-#datasets::iris %.>%
-#  seplyr::mutate_se(., exprs) %.>%
+# library("rqdatatable")
+# datasets::iris %.>%
+#  extend_se(., exprs) %.>%
 #  summary(.)
 
 </div></pre>
