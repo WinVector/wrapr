@@ -33,4 +33,7 @@ test_that("test_split_braces.R", {
                          list(c("{x}", " + y"),
                               c("{x}", " + y + ", "{z}")))
 
+  testthat::expect_equal(
+    split_at_brace_pairs("-<hi>- <hi> -hi-", open_symbol = "-<", close_symbol = ">-"),
+    c("-<hi>-", " <hi> -hi-"))
 })

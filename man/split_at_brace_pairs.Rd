@@ -4,10 +4,14 @@
 \alias{split_at_brace_pairs}
 \title{Split strings at {}-pairs.}
 \usage{
-split_at_brace_pairs(s)
+split_at_brace_pairs(s, open_symbol = "{", close_symbol = "}")
 }
 \arguments{
 \item{s}{string or list of strings to split.}
+
+\item{open_symbol}{symbol to start marking.}
+
+\item{close_symbol}{symbol to end marking.}
 }
 \value{
 array or list of split strings.

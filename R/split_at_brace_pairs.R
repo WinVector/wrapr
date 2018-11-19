@@ -4,6 +4,8 @@
 #' Split strings at {}-pairs.
 #'
 #' @param s string or list of strings to split.
+#' @param open_symbol symbol to start marking.
+#' @param close_symbol symbol to end marking.
 #' @return array or list of split strings.
 #'
 #' @examples
@@ -12,7 +14,7 @@
 #'
 #' @export
 #'
-split_at_brace_pairs <- function(s) {
+split_at_brace_pairs <- function(s, open_symbol = "{", close_symbol = "}") {
   if(length(s)<1) {
     return(s)
   }
@@ -29,16 +31,17 @@ split_at_brace_pairs <- function(s) {
   if(nc<1) {
     return(s)
   }
-  lefts <- as.numeric(gregexpr("{", s, fixed = TRUE)[[1]])
+  lefts <- as.numeric(gregexpr(open_symbol, s, fixed = TRUE)[[1]])
   if(length(lefts)<=0) {
     return(s)
   }
-  rights <- as.numeric(gregexpr("}", s, fixed = TRUE)[[1]])
+  rights <- as.numeric(gregexpr(close_symbol, s, fixed = TRUE)[[1]])
   ng = length(lefts)
   # lefts and rights are supposed to be alternating, starting with left
   if(length(rights)!=ng) {
     return(s)
   }
+  rights = rights + nchar(close_symbol) - 1
   if(!isTRUE(all(lefts<rights))) {
     return(s)
   }
