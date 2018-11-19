@@ -16,6 +16,9 @@ split_at_brace_pairs <- function(s) {
   if(length(s)<1) {
     return(s)
   }
+  if(is.list(s)) {
+    return(lapply(s, split_at_brace_pairs))
+  }
   if(length(s)>1) {
     return(lapply(s, split_at_brace_pairs))
   }
