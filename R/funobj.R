@@ -50,6 +50,22 @@ wrap_fname_S3 <- function(fn_name = NULL,
 }
 
 
+get_wrapr_funobj_S3_portion <- function(wfn) {
+  if("wrapr_funobj_S3" %in% class(wfn)) {
+    return(wfn)
+  }
+  if(!isS4(wfn)) {
+    return(NULL)
+  }
+  tryCatch({
+    wfn <- wfn@wfn
+    },
+    error = function(e) {e})
+  if("wrapr_funobj_S3" %in% class(wfn)) {
+    return(wfn)
+  }
+  return(NULL)
+}
 
 #' Apply a wrapped function to an argument.
 #'
@@ -61,8 +77,13 @@ wrap_fname_S3 <- function(fn_name = NULL,
 #' @seealso \code{\link{wrap_function_S3}}, \code{\link{wrap_fname_S3}}, \code{\link{wrap_function_S4}}, \code{\link{wrap_fname_S4}}
 #'
 #' @export
+#'
 applyto <- function(wfn, arg, env = parent.frame()) {
   force(env)
+  wfn <- get_wrapr_funobj_S3_portion(wfn)
+  if(!("wrapr_funobj_S3" %in% class(wfn))) {
+    stop("wrapr::applyto wfn must be of class wrapr_funobj_S3 or a class derived from def_funobj_s4_class()")
+  }
   if(!is.null(wfn$fn)) {
     fn = wfn$fn
   } else {
@@ -147,7 +168,7 @@ set_funobj_s4_applyto <- function(left_class,
              pipe_string,
              right_arg_name) {
       force(pipe_environment)
-      applyto(wfn = pipe_right_arg@wfn, arg = pipe_left_arg, env = pipe_environment)
+      applyto(wfn = pipe_right_arg, arg = pipe_left_arg, env = pipe_environment)
     },
     where = where)
 }
@@ -210,11 +231,9 @@ wrap_fname_S4 <- function(Class, fn_name = NULL,
 pipe_list <- function(...) {
   r <- list(...)
   for(ri in r) {
-    if(!("wrapr_funobj_S3" %in% class(ri))) {
-      slot = ri@wfn
-      if(!("wrapr_funobj_S3" %in% class(slot))) {
-        stop("wrapr::pipe_list all items must be wrapr_funobj_S3 or from def_funobj_s4_class() derived classes")
-      }
+    ci <- get_wrapr_funobj_S3_portion(ri)
+    if(!("wrapr_funobj_S3" %in% class(ci))) {
+      stop("wrapr::pipe_list elements must be of class wrapr_funobj_S3 or a class derived from def_funobj_s4_class()")
     }
   }
   class(r) <- "pipe_list"
@@ -245,11 +264,7 @@ apply_right.pipe_list <- function(pipe_left_arg,
                          envir = pipe_environment,
                          enclos = pipe_environment)
   for(pri in pipe_right_arg) {
-    if("wrapr_funobj_S3" %in% class(pri)) {
-      pipe_left_arg <- applyto(wfn = pri, arg = pipe_left_arg, env = pipe_environment)
-    } else {
-      pipe_left_arg <- applyto(wfn = pri@wfn, arg = pipe_left_arg, env = pipe_environment)
-    }
+    pipe_left_arg <- applyto(wfn = pri, arg = pipe_left_arg, env = pipe_environment)
   }
   pipe_left_arg
 }
