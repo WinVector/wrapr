@@ -320,7 +320,7 @@ apply_right_S4 <- function(pipe_left_arg,
   #            right_arg_name = right_arg_name)
   stop(paste("wrapr::apply_right_S4 default called with classes:\n",
              ifelse(is.null(left_arg_name), "", left_arg_name), paste(class(pipe_left_arg), collapse = ", "), "\n",
-             ifelse(is.null(right_arg_name), "", right_arg_name), paste(class(pipe_left_arg), collapse = ", "), "\n",
+             ifelse(is.null(right_arg_name), "", right_arg_name), paste(class(pipe_right_arg), collapse = ", "), "\n",
              " must have a more specific S4 method defined to dispatch\n"),
        call. = FALSE)
 }
