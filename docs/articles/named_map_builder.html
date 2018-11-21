@@ -61,6 +61,9 @@
       <a href="../articles/FrameTools.html">Frame Tools</a>
     </li>
     <li>
+      <a href="../articles/Function_Objects.html">Function Objects</a>
+    </li>
+    <li>
       <a href="../articles/Named_Arguments.html">Named Arguments</a>
     </li>
     <li>
@@ -109,7 +112,7 @@
       <h1>Named Map Builder</h1>
                         <h4 class="author">John Mount</h4>
             
-            <h4 class="date">2018-11-19</h4>
+            <h4 class="date">2018-11-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/named_map_builder.Rmd"><code>vignettes/named_map_builder.Rmd</code></a></small>
       <div class="hidden name"><code>named_map_builder.Rmd</code></div>
@@ -120,15 +123,15 @@
     
 <p>“named map builder” is an operator written as “<code>:=</code>”. Named map builder is a <em>very</em> simple bit of code that performs a very simple task: it adds names to vectors or lists (making them work more like maps).</p>
 <p>Here are some examples:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"wrapr"</span>)
-
-<span class="st">'a'</span> <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="dv">5</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"wrapr"</span>)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="st">'a'</span> <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="dv">5</span></a></code></pre></div>
 <pre><code>## a 
 ## 5</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="st">'a'</span> <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="dv">5</span>, <span class="st">'b'</span> <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="dv">6</span>)</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">c</span>(<span class="st">'a'</span> <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="dv">5</span>, <span class="st">'b'</span> <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="dv">6</span>)</a></code></pre></div>
 <pre><code>## a b 
 ## 5 6</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="st">'a'</span>, <span class="st">'b'</span>) <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">6</span>)</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">c</span>(<span class="st">'a'</span>, <span class="st">'b'</span>) <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">6</span>)</a></code></pre></div>
 <pre><code>## a b 
 ## 5 6</code></pre>
 <p>The left-side argument of the <code>:=</code> operator is called “the names”, and the right-side argument is called “the values”. The <code>:=</code> operators returns the values with the names set to names.</p>
@@ -141,14 +144,14 @@ data.table(x = 1)[, y := x + 1][]
 # 1: 1 2</code></pre>
 <p><code>dplyr</code> later adopted the <code>:=</code> notation as this allows for substitution on the left-hand sides of assignments. <a href="https://winvector.github.io/wrapr/articles/QuotingConcatinate.html"><code><a href="../reference/qc.html">wrapr::qc()</a></code></a> uses the <code>:=</code> for the same purpose.</p>
 <p>A key use of the named map builder is the following:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="st">`</span><span class="dt">:=</span><span class="st">`</span> &lt;-<span class="st"> </span>wrapr<span class="op">::</span><span class="st">`</span><span class="dt">:=</span><span class="st">`</span> <span class="co"># in case data.tables "catch calls" definition is active</span>
-
-key =<span class="st"> 'keycode'</span>
-key <span class="op">:</span><span class="er">=</span><span class="st"> 'value'</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="st">`</span><span class="dt">:=</span><span class="st">`</span> &lt;-<span class="st"> </span>wrapr<span class="op">::</span><span class="st">`</span><span class="dt">:=</span><span class="st">`</span> <span class="co"># in case data.tables "catch calls" definition is active</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">key =<span class="st"> 'keycode'</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">key <span class="op">:</span><span class="er">=</span><span class="st"> 'value'</span></a></code></pre></div>
 <pre><code>## keycode 
 ## "value"</code></pre>
 <p>Notice the value inside the variable <code>key</code> was used as the array name, this differs from what is easily done with <code>R</code>’s native <code>c(key = 'value')</code> style notation.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">help</span>(<span class="st">`</span><span class="dt">:=</span><span class="st">`</span>, <span class="dt">package =</span> <span class="st">'wrapr'</span>)</code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">help</span>(<span class="st">`</span><span class="dt">:=</span><span class="st">`</span>, <span class="dt">package =</span> <span class="st">'wrapr'</span>)</a></code></pre></div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

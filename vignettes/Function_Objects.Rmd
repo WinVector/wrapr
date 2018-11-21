@@ -104,7 +104,7 @@ steps <- pipe_list(m2, exp_step)
 d %.>% steps
 ```
 
-The idea is the `pipe_list` stores an arbitrary number of function objects as a simple list.  This list is easier to work with than function closures or pipelines.
+The idea is the `pipe_list` stores an arbitrary number of function objects as a simple list.  We are calling objects of class `wrapr_funobj_S3` or classes from `def_funobj_s4_class()` "function objects".  These objects are small and simple (you can examine and serialize their content).  This list of function objects is easier to work with than function closures or pipelines.
 
 
 And that is how to user `wrapr` to build powerful data processing pipelines.

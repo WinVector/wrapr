@@ -202,13 +202,21 @@ wrap_fname_S4 <- function(Class, fn_name = NULL,
 
 #' Construct a list of class pipe_list
 #'
-#' @param ... items to keep
+#' @param ... items to keep, must all be function object classes.
 #' @return list of class pipe_list
 #'
 #' @export
 #'
 pipe_list <- function(...) {
   r <- list(...)
+  for(ri in r) {
+    if(!("wrapr_funobj_S3" %in% class(ri))) {
+      slot = ri@wfn
+      if(!("wrapr_funobj_S3" %in% class(slot))) {
+        stop("wrapr::pipe_list all items must be wrapr_funobj_S3 or from def_funobj_s4_class() derived classes")
+      }
+    }
+  }
   class(r) <- "pipe_list"
   r
 }

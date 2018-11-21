@@ -7,7 +7,7 @@
 pipe_list(...)
 }
 \arguments{
-\item{...}{items to keep}
+\item{...}{items to keep, must all be function object classes.}
 }
 \value{
 list of class pipe_list

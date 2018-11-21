@@ -61,6 +61,9 @@
       <a href="../articles/FrameTools.html">Frame Tools</a>
     </li>
     <li>
+      <a href="../articles/Function_Objects.html">Function Objects</a>
+    </li>
+    <li>
       <a href="../articles/Named_Arguments.html">Named Arguments</a>
     </li>
     <li>
@@ -109,7 +112,7 @@
       <h1>Substitution Modes</h1>
                         <h4 class="author">John Mount</h4>
             
-            <h4 class="date">2018-11-19</h4>
+            <h4 class="date">2018-11-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/SubstitutionModes.Rmd"><code>vignettes/SubstitutionModes.Rmd</code></a></small>
       <div class="hidden name"><code>SubstitutionModes.Rmd</code></div>
@@ -128,29 +131,29 @@
 <li>String substitution (<code>subsMethod='stringsubs'</code>, the previous default now deprecated). In this mode user code is captured as text and then string replacement on word-boundaries is used to substitute in variable re-mappings.</li>
 </ul>
 <p>The semantics of the three methods can be illustrated by showing the effects of substituting the variable name “<code>y</code>” for “<code>X</code>” and the function “<code>sin</code>” for “<code>F</code>” in the somewhat complicated block of statements:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  {
-    d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="st">"X"</span> =<span class="st"> "X"</span>, <span class="dt">X2 =</span> <span class="st">"XX"</span>, <span class="dt">d =</span> X<span class="op">*</span>X, <span class="dt">.X =</span> X_)
-    X &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">X =</span> d<span class="op">$</span>X, <span class="dt">X2 =</span> d<span class="op">$</span><span class="st">"X"</span>, <span class="dt">v1 =</span> <span class="st">`</span><span class="dt">X</span><span class="st">`</span>, <span class="dt">v2 =</span> <span class="st">`</span><span class="dt"> X</span><span class="st">`</span>, <span class="kw">F</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>))
-    X<span class="op">$</span>a
-    <span class="st">"X"</span><span class="op">$</span>a
-    X =<span class="st"> </span><span class="cf">function</span>(X, ...) { X <span class="op">+</span><span class="st"> </span><span class="dv">1</span> }
-  }</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">  {</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">    d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="st">"X"</span> =<span class="st"> "X"</span>, <span class="dt">X2 =</span> <span class="st">"XX"</span>, <span class="dt">d =</span> X<span class="op">*</span>X, <span class="dt">.X =</span> X_)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">    X &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">X =</span> d<span class="op">$</span>X, <span class="dt">X2 =</span> d<span class="op">$</span><span class="st">"X"</span>, <span class="dt">v1 =</span> <span class="st">`</span><span class="dt">X</span><span class="st">`</span>, <span class="dt">v2 =</span> <span class="st">`</span><span class="dt"> X</span><span class="st">`</span>, <span class="kw">F</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">    X<span class="op">$</span>a</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">    <span class="st">"X"</span><span class="op">$</span>a</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">    X =<span class="st"> </span><span class="cf">function</span>(X, ...) { X <span class="op">+</span><span class="st"> </span><span class="dv">1</span> }</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">  }</a></code></pre></div>
 <p>This block a lot of different examples and corner-cases.</p>
 <div id="language-substitution-subsmethodlangsubs" class="section level4">
 <h4 class="hasAnchor">
 <a href="#language-substitution-subsmethodlangsubs" class="anchor"></a>Language substitution (<code>subsMethod='langsubs'</code>)</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"wrapr"</span>)
-
-<span class="kw"><a href="../reference/let.html">let</a></span>(
-  <span class="kw">c</span>(<span class="dt">X =</span> <span class="st">'y'</span>, <span class="dt">F =</span> <span class="st">'sin'</span>), 
-  {
-    d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="st">"X"</span> =<span class="st"> "X"</span>, <span class="dt">X2 =</span> <span class="st">"XX"</span>, <span class="dt">d =</span> X<span class="op">*</span>X, <span class="dt">.X =</span> X_)
-    X &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">X =</span> d<span class="op">$</span>X, <span class="dt">X2 =</span> d<span class="op">$</span><span class="st">"X"</span>, <span class="dt">v1 =</span> <span class="st">`</span><span class="dt">X</span><span class="st">`</span>, <span class="dt">v2 =</span> <span class="st">`</span><span class="dt"> X</span><span class="st">`</span>, <span class="kw">F</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>))
-    X<span class="op">$</span>a
-    <span class="st">"X"</span><span class="op">$</span>a
-    X =<span class="st"> </span><span class="cf">function</span>(X, ...) { X <span class="op">+</span><span class="st"> </span><span class="dv">1</span> }
-  },
-  <span class="dt">eval =</span> <span class="ot">FALSE</span>, <span class="dt">subsMethod =</span> <span class="st">'langsubs'</span>)</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"wrapr"</span>)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="../reference/let.html">let</a></span>(</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">  <span class="kw">c</span>(<span class="dt">X =</span> <span class="st">'y'</span>, <span class="dt">F =</span> <span class="st">'sin'</span>), </a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">  {</a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">    d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="st">"X"</span> =<span class="st"> "X"</span>, <span class="dt">X2 =</span> <span class="st">"XX"</span>, <span class="dt">d =</span> X<span class="op">*</span>X, <span class="dt">.X =</span> X_)</a>
+<a class="sourceLine" id="cb2-7" data-line-number="7">    X &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">X =</span> d<span class="op">$</span>X, <span class="dt">X2 =</span> d<span class="op">$</span><span class="st">"X"</span>, <span class="dt">v1 =</span> <span class="st">`</span><span class="dt">X</span><span class="st">`</span>, <span class="dt">v2 =</span> <span class="st">`</span><span class="dt"> X</span><span class="st">`</span>, <span class="kw">F</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">    X<span class="op">$</span>a</a>
+<a class="sourceLine" id="cb2-9" data-line-number="9">    <span class="st">"X"</span><span class="op">$</span>a</a>
+<a class="sourceLine" id="cb2-10" data-line-number="10">    X =<span class="st"> </span><span class="cf">function</span>(X, ...) { X <span class="op">+</span><span class="st"> </span><span class="dv">1</span> }</a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">  },</a>
+<a class="sourceLine" id="cb2-12" data-line-number="12">  <span class="dt">eval =</span> <span class="ot">FALSE</span>, <span class="dt">subsMethod =</span> <span class="st">'langsubs'</span>)</a></code></pre></div>
 <pre><code>## {
 ##     d &lt;- data.frame(y = "X", X2 = "XX", d = y * y, .X = X_)
 ##     y &lt;- list(y = d$y, X2 = d$y, v1 = y, v2 = ` X`, sin(1:2))
@@ -165,16 +168,16 @@
 <div id="string-substitution-subsmethodstringsubs" class="section level4">
 <h4 class="hasAnchor">
 <a href="#string-substitution-subsmethodstringsubs" class="anchor"></a>String substitution (<code>subsMethod='stringsubs'</code>)</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/let.html">let</a></span>(
-  <span class="kw">c</span>(<span class="dt">X =</span> <span class="st">'y'</span>, <span class="dt">F =</span> <span class="st">'sin'</span>), 
-  {
-    d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="st">"X"</span> =<span class="st"> "X"</span>, <span class="dt">X2 =</span> <span class="st">"XX"</span>, <span class="dt">d =</span> X<span class="op">*</span>X, <span class="dt">.X =</span> X_)
-    X &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">X =</span> d<span class="op">$</span>X, <span class="dt">X2 =</span> d<span class="op">$</span><span class="st">"X"</span>, <span class="dt">v1 =</span> <span class="st">`</span><span class="dt">X</span><span class="st">`</span>, <span class="dt">v2 =</span> <span class="st">`</span><span class="dt"> X</span><span class="st">`</span>, <span class="kw">F</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>))
-    X<span class="op">$</span>a
-    <span class="st">"X"</span><span class="op">$</span>a
-    X =<span class="st"> </span><span class="cf">function</span>(X, ...) { X <span class="op">+</span><span class="st"> </span><span class="dv">1</span> }
-  },
-  <span class="dt">eval =</span> <span class="ot">FALSE</span>, <span class="dt">subsMethod =</span> <span class="st">'stringsubs'</span>)</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="../reference/let.html">let</a></span>(</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">  <span class="kw">c</span>(<span class="dt">X =</span> <span class="st">'y'</span>, <span class="dt">F =</span> <span class="st">'sin'</span>), </a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">  {</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">    d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="st">"X"</span> =<span class="st"> "X"</span>, <span class="dt">X2 =</span> <span class="st">"XX"</span>, <span class="dt">d =</span> X<span class="op">*</span>X, <span class="dt">.X =</span> X_)</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">    X &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">X =</span> d<span class="op">$</span>X, <span class="dt">X2 =</span> d<span class="op">$</span><span class="st">"X"</span>, <span class="dt">v1 =</span> <span class="st">`</span><span class="dt">X</span><span class="st">`</span>, <span class="dt">v2 =</span> <span class="st">`</span><span class="dt"> X</span><span class="st">`</span>, <span class="kw">F</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">    X<span class="op">$</span>a</a>
+<a class="sourceLine" id="cb4-7" data-line-number="7">    <span class="st">"X"</span><span class="op">$</span>a</a>
+<a class="sourceLine" id="cb4-8" data-line-number="8">    X =<span class="st"> </span><span class="cf">function</span>(X, ...) { X <span class="op">+</span><span class="st"> </span><span class="dv">1</span> }</a>
+<a class="sourceLine" id="cb4-9" data-line-number="9">  },</a>
+<a class="sourceLine" id="cb4-10" data-line-number="10">  <span class="dt">eval =</span> <span class="ot">FALSE</span>, <span class="dt">subsMethod =</span> <span class="st">'stringsubs'</span>)</a></code></pre></div>
 <pre><code>## expression({
 ##     d &lt;- data.frame(y = "y", X2 = "XX", d = y * y, .y = X_)
 ##     y &lt;- list(y = d$y, X2 = d$y, v1 = y, v2 = ` y`, sin(1:2))
@@ -191,15 +194,15 @@
 <div id="substitute-substitution-subsmethodsubsubs" class="section level4">
 <h4 class="hasAnchor">
 <a href="#substitute-substitution-subsmethodsubsubs" class="anchor"></a>Substitute substitution (<code>subsMethod='subsubs'</code>)</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/let.html">let</a></span>(<span class="kw">c</span>(<span class="dt">X =</span> <span class="st">'y'</span>, <span class="dt">F =</span> <span class="st">'sin'</span>), 
-    {
-      d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="st">"X"</span> =<span class="st"> "X"</span>, <span class="dt">X2 =</span> <span class="st">"XX"</span>, <span class="dt">d =</span> X<span class="op">*</span>X, <span class="dt">.X =</span> X_)
-      X &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">X =</span> d<span class="op">$</span>X, <span class="dt">X2 =</span> d<span class="op">$</span><span class="st">"X"</span>, <span class="dt">v1 =</span> <span class="st">`</span><span class="dt">X</span><span class="st">`</span>, <span class="dt">v2 =</span> <span class="st">`</span><span class="dt"> X</span><span class="st">`</span>, <span class="kw">F</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>))
-      X<span class="op">$</span>a
-      <span class="st">"X"</span><span class="op">$</span>a
-      X =<span class="st"> </span><span class="cf">function</span>(X, ...) { X <span class="op">+</span><span class="st"> </span><span class="dv">1</span> }
-    },
-    <span class="dt">eval =</span> <span class="ot">FALSE</span>, <span class="dt">subsMethod =</span> <span class="st">'subsubs'</span>)</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="../reference/let.html">let</a></span>(<span class="kw">c</span>(<span class="dt">X =</span> <span class="st">'y'</span>, <span class="dt">F =</span> <span class="st">'sin'</span>), </a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">    {</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">      d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="st">"X"</span> =<span class="st"> "X"</span>, <span class="dt">X2 =</span> <span class="st">"XX"</span>, <span class="dt">d =</span> X<span class="op">*</span>X, <span class="dt">.X =</span> X_)</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">      X &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">X =</span> d<span class="op">$</span>X, <span class="dt">X2 =</span> d<span class="op">$</span><span class="st">"X"</span>, <span class="dt">v1 =</span> <span class="st">`</span><span class="dt">X</span><span class="st">`</span>, <span class="dt">v2 =</span> <span class="st">`</span><span class="dt"> X</span><span class="st">`</span>, <span class="kw">F</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">      X<span class="op">$</span>a</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">      <span class="st">"X"</span><span class="op">$</span>a</a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">      X =<span class="st"> </span><span class="cf">function</span>(X, ...) { X <span class="op">+</span><span class="st"> </span><span class="dv">1</span> }</a>
+<a class="sourceLine" id="cb6-8" data-line-number="8">    },</a>
+<a class="sourceLine" id="cb6-9" data-line-number="9">    <span class="dt">eval =</span> <span class="ot">FALSE</span>, <span class="dt">subsMethod =</span> <span class="st">'subsubs'</span>)</a></code></pre></div>
 <pre><code>## {
 ##     d &lt;- data.frame(X = "X", X2 = "XX", d = y * y, .X = X_)
 ##     y &lt;- list(X = d$y, X2 = d$X, v1 = y, v2 = ` X`, sin(1:2))

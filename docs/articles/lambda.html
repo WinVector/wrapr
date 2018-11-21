@@ -61,6 +61,9 @@
       <a href="../articles/FrameTools.html">Frame Tools</a>
     </li>
     <li>
+      <a href="../articles/Function_Objects.html">Function Objects</a>
+    </li>
+    <li>
       <a href="../articles/Named_Arguments.html">Named Arguments</a>
     </li>
     <li>
@@ -109,7 +112,7 @@
       <h1>lambda Function Builder</h1>
                         <h4 class="author">John Mount</h4>
             
-            <h4 class="date">2018-11-19</h4>
+            <h4 class="date">2018-11-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/lambda.Rmd"><code>vignettes/lambda.Rmd</code></a></small>
       <div class="hidden name"><code>lambda.Rmd</code></div>
@@ -120,26 +123,26 @@
     
 <p>The <a href="https://cran.r-project.org"><code>CRAN</code></a> version of the <a href="https://www.r-project.org"><code>R</code></a> package <a href="https://CRAN.R-project.org/package=wrapr"><code>wrapr</code></a> package now includes a concise anonymous function constructor: <code>l()</code>.</p>
 <p>To use it please do the following: attach <code>wrapr</code> and ask it to place a definition for <code>l()</code> in your environment:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"wrapr"</span>)
-wrapr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/wrapr/topics/defineLambda">defineLambda</a></span>(<span class="dt">name =</span> <span class="st">"l"</span>)
-<span class="kw">ls</span>()</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"wrapr"</span>)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">wrapr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/wrapr/topics/defineLambda">defineLambda</a></span>(<span class="dt">name =</span> <span class="st">"l"</span>)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">ls</span>()</a></code></pre></div>
 <pre><code>## [1] "l"</code></pre>
 <p>Note: throughout this document we are using the letter “<code>l</code>” as a stand-in for the Greek letter lambda, as this non-ASCII character can cause formatting problems in some situations.</p>
 <p>You can use <code>l()</code> to define functions. The syntax is: <code>l(arg [, arg]*, body [, env=env])</code>. That is we write a <code>l()</code>-call (which you can do by cutting and pasting) and list the desired function arguments and then the function body. For example the function that squares numbers is:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">l</span>(x, x<span class="op">^</span><span class="dv">2</span>)</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">l</span>(x, x<span class="op">^</span><span class="dv">2</span>)</a></code></pre></div>
 <pre><code>## function (x) 
 ## x^2</code></pre>
 <p>We can use such a function to square the first four positive integers as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="kw">l</span>(x, x<span class="op">^</span><span class="dv">2</span>))</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="kw">l</span>(x, x<span class="op">^</span><span class="dv">2</span>))</a></code></pre></div>
 <pre><code>## [1]  1  4  9 16</code></pre>
 <p>Dot-pipe style notation does not need the <code>l()</code> factory as it treats pipe stages as expressions parameterized over the variable “<code>.</code>”:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span><span class="op">:</span><span class="dv">4</span> <span class="op">%.&gt;%</span><span class="st"> </span>{ .<span class="op">^</span><span class="dv">2</span> }</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="dv">1</span><span class="op">:</span><span class="dv">4</span> <span class="op">%.&gt;%</span><span class="st"> </span>{ .<span class="op">^</span><span class="dv">2</span> }</a></code></pre></div>
 <pre><code>## [1]  1  4  9 16</code></pre>
 <p>If you do want an operator notation for function construction you can also use on of the variations of the named map builder:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>) <span class="op">%.&gt;%</span><span class="st"> </span>(x <span class="op">:</span><span class="er">=</span><span class="st"> </span>{ x<span class="op">^</span><span class="dv">2</span> })(.)</code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>) <span class="op">%.&gt;%</span><span class="st"> </span>(x <span class="op">:</span><span class="er">=</span><span class="st"> </span>{ x<span class="op">^</span><span class="dv">2</span> })(.)</a></code></pre></div>
 <pre><code>## [1]  1  4  9 16</code></pre>
 <p>And we can build functions that take more than one argument as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">l</span>(x, y, x <span class="op">+</span><span class="st"> </span><span class="dv">3</span><span class="op">*</span>y)</code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">l</span>(x, y, x <span class="op">+</span><span class="st"> </span><span class="dv">3</span><span class="op">*</span>y)</a></code></pre></div>
 <pre><code>## function (x, y) 
 ## x + 3 * y</code></pre>
   </div>

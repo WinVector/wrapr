@@ -61,6 +61,9 @@
       <a href="../articles/FrameTools.html">Frame Tools</a>
     </li>
     <li>
+      <a href="../articles/Function_Objects.html">Function Objects</a>
+    </li>
+    <li>
       <a href="../articles/Named_Arguments.html">Named Arguments</a>
     </li>
     <li>
@@ -109,7 +112,7 @@
       <h1>Named Arguments</h1>
                         <h4 class="author">John Mount, Win-Vector LLC</h4>
             
-            <h4 class="date">2018-11-19</h4>
+            <h4 class="date">2018-11-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/Named_Arguments.Rmd"><code>vignettes/Named_Arguments.Rmd</code></a></small>
       <div class="hidden name"><code>Named_Arguments.Rmd</code></div>
@@ -120,33 +123,33 @@
     
 <p>R’s named function argument binding is a great aid in writing correct programs. It is a good idea, if practical, to force optional arguments to only be usable by name. To do this declare the additional arguments after “<code>…</code>” and enforce that none got lost in the “<code>…</code> trap” by using a checker such as <a href="https://winvector.github.io/wrapr/reference/stop_if_dot_args.html">wrapr::stop_if_dot_args()</a>.</p>
 <p>Example:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#' Increment x by inc.</span>
-<span class="co">#' </span>
-<span class="co">#' @param x item to add to</span>
-<span class="co">#' @param ... not used for values, forces later arguments to bind by name</span>
-<span class="co">#' @param inc (optional) value to add</span>
-<span class="co">#' @return x+inc</span>
-<span class="co">#'</span>
-<span class="co">#' @examples</span>
-<span class="co">#'</span>
-<span class="co">#' f(7) # returns 8</span>
-<span class="co">#'</span>
-f &lt;-<span class="st"> </span><span class="cf">function</span>(x, ..., <span class="dt">inc =</span> <span class="dv">1</span>) {
-   wrapr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/wrapr/topics/stop_if_dot_args">stop_if_dot_args</a></span>(<span class="kw">substitute</span>(<span class="kw">list</span>(...)), <span class="st">"f"</span>)
-   x <span class="op">+</span><span class="st"> </span>inc
-}
-
-<span class="kw">f</span>(<span class="dv">7</span>)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co">#' Increment x by inc.</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#' </span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#' @param x item to add to</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#' @param ... not used for values, forces later arguments to bind by name</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#' @param inc (optional) value to add</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#' @return x+inc</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#'</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#' @examples</span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#'</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#' f(7) # returns 8</span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#'</span></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12">f &lt;-<span class="st"> </span><span class="cf">function</span>(x, ..., <span class="dt">inc =</span> <span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb1-13" data-line-number="13">   wrapr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/wrapr/topics/stop_if_dot_args">stop_if_dot_args</a></span>(<span class="kw">substitute</span>(<span class="kw">list</span>(...)), <span class="st">"f"</span>)</a>
+<a class="sourceLine" id="cb1-14" data-line-number="14">   x <span class="op">+</span><span class="st"> </span>inc</a>
+<a class="sourceLine" id="cb1-15" data-line-number="15">}</a>
+<a class="sourceLine" id="cb1-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="kw">f</span>(<span class="dv">7</span>)</a></code></pre></div>
 <pre><code>## [1] 8</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">f</span>(<span class="dv">7</span>, <span class="dt">inc =</span> <span class="dv">2</span>)</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">f</span>(<span class="dv">7</span>, <span class="dt">inc =</span> <span class="dv">2</span>)</a></code></pre></div>
 <pre><code>## [1] 9</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tryCatch</span>(
-  <span class="kw">f</span>(<span class="dv">7</span>, <span class="dt">q =</span> mtcars),
-  <span class="dt">error =</span> <span class="cf">function</span>(e) { <span class="kw">print</span>(e) })</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">tryCatch</span>(</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">  <span class="kw">f</span>(<span class="dv">7</span>, <span class="dt">q =</span> mtcars),</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="dt">error =</span> <span class="cf">function</span>(e) { <span class="kw">print</span>(e) })</a></code></pre></div>
 <pre><code>## &lt;simpleError: f unexpected arguments: q = mtcars&gt;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tryCatch</span>(
-  <span class="kw">f</span>(<span class="dv">7</span>, <span class="dv">2</span>),
-  <span class="dt">error =</span> <span class="cf">function</span>(e) { <span class="kw">print</span>(e) })</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">tryCatch</span>(</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">  <span class="kw">f</span>(<span class="dv">7</span>, <span class="dv">2</span>),</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">  <span class="dt">error =</span> <span class="cf">function</span>(e) { <span class="kw">print</span>(e) })</a></code></pre></div>
 <pre><code>## &lt;simpleError: f unexpected arguments: 2&gt;</code></pre>
 <p>By R function evaluation rules: any unexpected/undeclared arguments are captured by the “<code>…</code>” argument. Then “wrapr::stop_if_dot_args()” inspects for such values and reports an error if there are such. The “f” string is returned as part of the error, I chose the name of the function as in this case. The “substitute(list(…))” part is R’s way of making the contents of “…” available for inspection.</p>
 <p>You can also use the technique on required arguments. <a href="https://winvector.github.io/wrapr/reference/stop_if_dot_args.html">wrapr::stop_if_dot_args()</a> is a simple low-dependency helper function intended to make writing code such as the above easier. This is under the rubric that hidden errors are worse than thrown exceptions. It is best to find and signal problems early, and near the cause.</p>
