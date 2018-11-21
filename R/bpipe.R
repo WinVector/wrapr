@@ -111,7 +111,7 @@ apply_left_default <- function(pipe_left_arg,
   if(!is.language(pipe_right_arg)) {
     stop(paste("wrapr::apply_left.default does not allow piping into obvious concrete right-argument (clearly can't depend on left argument):\n",
                ifelse(is.null(left_arg_name), "", left_arg_name), paste(class(pipe_left_arg), collapse = ", "), "\n",
-               ifelse(is.null(right_arg_name), "", right_arg_name), paste(class(pipe_left_arg), collapse = ", ")),
+               ifelse(is.null(right_arg_name), "", right_arg_name), paste(class(pipe_right_arg), collapse = ", ")),
          call. = FALSE)
   }
   if(is.call(pipe_right_arg) && (is.name(pipe_right_arg[[1]]))) {
