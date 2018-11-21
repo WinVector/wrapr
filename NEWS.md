@@ -1,5 +1,5 @@
 
-# wrapr 1.7.0 2018-11-20
+# wrapr 1.7.0 2018-11-21
 
  * Add funobj.
  * Add split_at_brace_pairs.

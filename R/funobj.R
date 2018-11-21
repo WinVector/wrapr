@@ -95,6 +95,26 @@ applyto <- function(wfn, arg, env = parent.frame()) {
 }
 
 
+#' Apply a list of wrapped functions to an argument.
+#'
+#' @param lwfn list of wrapped functions
+#' @param arg additional argument value.
+#' @param env environment to evaluate in.
+#' @return wfn applied to arg.
+#'
+#' @seealso \code{\link{wrap_function_S3}}, \code{\link{wrap_fname_S3}}, \code{\link{wrap_function_S4}}, \code{\link{wrap_fname_S4}}
+#'
+#' @export
+#'
+lapplyto <- function(lwfn, arg, env = parent.frame()) {
+  force(env)
+  for(wfn in lwfn) {
+    arg <- applyto(wfn = wfn, arg = arg, env = env)
+  }
+  arg
+}
+
+
 #' Apply right wrapped function to argument on left.
 #'
 #' @param pipe_left_arg left argument
@@ -263,8 +283,5 @@ apply_right.pipe_list <- function(pipe_left_arg,
   pipe_right_arg <- eval(pipe_right_arg,
                          envir = pipe_environment,
                          enclos = pipe_environment)
-  for(pri in pipe_right_arg) {
-    pipe_left_arg <- applyto(wfn = pri, arg = pipe_left_arg, env = pipe_environment)
-  }
-  pipe_left_arg
+  lapplyto(pipe_right_arg, pipe_left_arg, pipe_environment)
 }

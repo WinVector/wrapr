@@ -173,42 +173,55 @@
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">d2 <span class="op">%.&gt;%</span><span class="st"> </span>model_o</a></code></pre></div>
 <pre><code>##   1   2   3   4   5 
 ## 1.6 1.9 2.2 2.5 2.8</code></pre>
-<p>This works because <code>model_o</code> declares <code>S3</code> class <code>wrapr_funobj_S3</code>. And <code>wrapr</code> defines a <code>S3</code> function named <code>apply_right.wrapr_funobj_S3</code>, meaning <code>wrapr</code>’s pipe-method <code>apply_right</code> has a special definition for this class (the definition being: apply <code><a href="http://www.rdocumentation.org/packages/stats/topics/predict.lm">stats::predict.lm</a></code> to the piped in argument plus the arguments stored in <code>args</code>, supplied by the function <code><a href="../reference/applyto.html">wrapr::applyto()</a></code>).</p>
+<p>This works because <code>model_o</code> declares <code>S3</code> class <code>wrapr_funobj_S3</code>. And <code>wrapr</code> defines a <code>S3</code> function named <code><a href="../reference/apply_right.wrapr_funobj_S3.html">apply_right.wrapr_funobj_S3()</a></code>, meaning <code>wrapr</code>’s pipe-method <code>apply_right</code> has a special definition for this class (the definition being: apply <code><a href="http://www.rdocumentation.org/packages/stats/topics/predict.lm">stats::predict.lm</a></code> to the piped in argument plus the arguments stored in <code>args</code>, supplied by the function <code><a href="../reference/applyto.html">wrapr::applyto()</a></code>). The <code>wrapr</code> design would allow these kinds of extensions to be defined by users or other packages, but for convenience <code>wrapr</code> is supplying on such extension itself (<code>S3</code>/<code>S4</code> extension details can be found in the RJournal <a href="https://journal.r-project.org/archive/2018/RJ-2018-042/index.html">here</a>).</p>
+<p>The pipe notation is not strictly required as the apply is done through the function <a href="https://winvector.github.io/wrapr/reference/applyto.html"><code><a href="../reference/applyto.html">wrapr::applyto()</a></code></a>.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="../reference/applyto.html">applyto</a></span>(model_o, d2) </a></code></pre></div>
+<pre><code>##   1   2   3   4   5 
+## 1.6 1.9 2.2 2.5 2.8</code></pre>
+<p>However, the pipe notation is particularly convenient. This is especially true when we have a list of operations we wish to share (which we will demonstrate later in this note).</p>
 <p>The above could all have been defined in user code (the <code>wrapr</code> pipe allows external extension), but as a convenience it is now supplied with of <code>wrapr</code> itself.</p>
 <p>The above methods can be used to wrap functions such as <a href="https://winvector.github.io/vtreat/reference/prepare.html"><code><a href="http://www.rdocumentation.org/packages/vtreat/topics/prepare">vtreat::prepare()</a></code></a> to create very powerful data processing pipelines.</p>
 <p><code>wrapr</code> also has an easy to use <code>S4</code> interface. Using <code>S4</code> we can insist that our function is only dispatched if both the classes of the left and right pipe arguments are as expected. This is done as follows.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co"># define our right-class</span></a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw"><a href="../reference/def_funobj_s4_class.html">def_funobj_s4_class</a></span>(<span class="st">"model_class"</span>)</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co"># ask wrapr to use partial function methods</span></a>
-<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co"># on this pair of classes.</span></a>
-<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="kw"><a href="../reference/set_funobj_s4_applyto.html">set_funobj_s4_applyto</a></span>(<span class="st">"data.frame"</span>, <span class="st">"model_class"</span>)</a>
-<a class="sourceLine" id="cb10-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co"># build a new model wrapper of class "model_class"</span></a>
-<a class="sourceLine" id="cb10-9" data-line-number="9">m2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/wrap_fname_S4.html">wrap_fname_S4</a></span>(<span class="st">"model_class"</span>, </a>
-<a class="sourceLine" id="cb10-10" data-line-number="10">                    <span class="st">'predict.lm'</span>, <span class="dt">fn_package =</span> <span class="st">"stats"</span>,</a>
-<a class="sourceLine" id="cb10-11" data-line-number="11">                    <span class="dt">arg_name =</span> <span class="st">"newdata"</span>, </a>
-<a class="sourceLine" id="cb10-12" data-line-number="12">                    <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">object =</span> model))</a>
-<a class="sourceLine" id="cb10-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co"># now pipe into the new model representation.</span></a>
-<a class="sourceLine" id="cb10-15" data-line-number="15">d <span class="op">%.&gt;%</span><span class="st"> </span>m2</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="co"># define our right-class</span></a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw"><a href="../reference/def_funobj_s4_class.html">def_funobj_s4_class</a></span>(<span class="st">"model_class"</span>)</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co"># ask wrapr to use partial function methods</span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co"># on this pair of classes.</span></a>
+<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="kw"><a href="../reference/set_funobj_s4_applyto.html">set_funobj_s4_applyto</a></span>(<span class="st">"data.frame"</span>, <span class="st">"model_class"</span>)</a>
+<a class="sourceLine" id="cb12-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb12-8" data-line-number="8"><span class="co"># build a new model wrapper of class "model_class"</span></a>
+<a class="sourceLine" id="cb12-9" data-line-number="9">m2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/wrap_fname_S4.html">wrap_fname_S4</a></span>(<span class="st">"model_class"</span>, </a>
+<a class="sourceLine" id="cb12-10" data-line-number="10">                    <span class="st">'predict.lm'</span>, <span class="dt">fn_package =</span> <span class="st">"stats"</span>,</a>
+<a class="sourceLine" id="cb12-11" data-line-number="11">                    <span class="dt">arg_name =</span> <span class="st">"newdata"</span>, </a>
+<a class="sourceLine" id="cb12-12" data-line-number="12">                    <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">object =</span> model))</a>
+<a class="sourceLine" id="cb12-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb12-14" data-line-number="14"><span class="co"># now pipe into the new model representation.</span></a>
+<a class="sourceLine" id="cb12-15" data-line-number="15">d2 <span class="op">%.&gt;%</span><span class="st"> </span>m2</a></code></pre></div>
 <pre><code>##   1   2   3   4   5 
-## 1.0 1.3 1.6 1.9 2.2</code></pre>
+## 1.6 1.9 2.2 2.5 2.8</code></pre>
+<p>The <code>S4</code> forms are going to be a bit harder to share, as the objects depend on external items such as the <code>S4</code> class definition and application rules. So we recommend, in general, using the <code>S3</code> methods shown earlier.</p>
 <p>All models that can accept a <code>data.frame</code> could share the same model class and apply-to definitions.</p>
 <p>Note: the <code>wrapr</code> right-dispatch we are using is only triggered when the right-hand side of a pipeline is a symbol or name. This is consistent with pipelines such as “<code>5 %.&gt;% sin</code>” where we are not so much piping into the sin-function, but into a name that refers to the sin-function. However, piping into names covers almost every practical case.</p>
 <p>Many function object steps can be captured in a list.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">exp_step &lt;-<span class="st"> </span><span class="kw"><a href="../reference/wrap_fname_S3.html">wrap_fname_S3</a></span>(<span class="st">'exp'</span>,</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2">                          <span class="dt">arg_name =</span> <span class="st">"x"</span>)</a>
-<a class="sourceLine" id="cb12-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb12-4" data-line-number="4">d <span class="op">%.&gt;%</span><span class="st"> </span>m2 <span class="op">%.&gt;%</span><span class="st"> </span>exp_step</a></code></pre></div>
-<pre><code>##        1        2        3        4        5 
-## 2.718282 3.669297 4.953032 6.685894 9.025013</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">steps &lt;-<span class="st"> </span><span class="kw"><a href="../reference/pipe_list.html">pipe_list</a></span>(m2, exp_step)</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb14-3" data-line-number="3">d <span class="op">%.&gt;%</span><span class="st"> </span>steps</a></code></pre></div>
-<pre><code>##        1        2        3        4        5 
-## 2.718282 3.669297 4.953032 6.685894 9.025013</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">exp_step &lt;-<span class="st"> </span><span class="kw"><a href="../reference/wrap_fname_S3.html">wrap_fname_S3</a></span>(<span class="st">'exp'</span>,</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">                          <span class="dt">arg_name =</span> <span class="st">"x"</span>)</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb14-4" data-line-number="4"><span class="co"># pipe line version</span></a>
+<a class="sourceLine" id="cb14-5" data-line-number="5">d2 <span class="op">%.&gt;%</span><span class="st"> </span>model_o <span class="op">%.&gt;%</span><span class="st"> </span>exp_step</a></code></pre></div>
+<pre><code>##         1         2         3         4         5 
+##  4.953032  6.685894  9.025013 12.182494 16.444647</code></pre>
+<p>The sequence of piped function objects is easier to share as a list, and we supply a list-type that can be piped into.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">steps &lt;-<span class="st"> </span><span class="kw"><a href="../reference/pipe_list.html">pipe_list</a></span>(model_o, exp_step)</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb16-3" data-line-number="3">d2 <span class="op">%.&gt;%</span><span class="st"> </span>steps</a></code></pre></div>
+<pre><code>##         1         2         3         4         5 
+##  4.953032  6.685894  9.025013 12.182494 16.444647</code></pre>
 <p>The idea is the <code>pipe_list</code> stores an arbitrary number of function objects as a simple list. We are calling objects of class <code>wrapr_funobj_S3</code> or classes from <code><a href="../reference/def_funobj_s4_class.html">def_funobj_s4_class()</a></code> “function objects”. These objects are small and simple (you can examine and serialize their content). This list of function objects is easier to work with than function closures or pipelines.</p>
+<p>Again, the pipe notation is not required (but is a nice notation). The apply a list of function objects effect can be achieved directly with <code><a href="../reference/lapplyto.html">wrapr::lapplyto()</a></code>.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw"><a href="../reference/lapplyto.html">lapplyto</a></span>(<span class="kw">list</span>(model_o, exp_step), d2)</a></code></pre></div>
+<pre><code>##         1         2         3         4         5 
+##  4.953032  6.685894  9.025013 12.182494 16.444647</code></pre>
+<p>The idea is: sharing a list of function object steps frees any downstream users of the pipeline from having to know how many steps or in the pipeline. What we are trying to do with this set of features is share processing specifications as data, without having to share <code>R</code> code our function closures (which are heavier weight, and a bit more delicate). The functionality is inspired by partially applied functions, but a bit more circumspect in what is carried around. In Lisp “code is data”, in <code>R</code> it is a bit more complicated- so a pure-data solution has some merits.</p>
 <p>And that is how to user <code>wrapr</code> to build powerful data processing pipelines.</p>
   </div>
 
