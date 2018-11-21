@@ -4,10 +4,12 @@
 \alias{wrap_fname_S4}
 \title{Wrap a function name and arguments in an object for later S4 pipe dispatch.}
 \usage{
-wrap_fname_S4(fn_name = NULL, ..., fn_package = "base",
+wrap_fname_S4(Class, fn_name = NULL, ..., fn_package = "base",
   arg_name = "", args = list())
 }
 \arguments{
+\item{Class}{character name of class.}
+
 \item{fn_name}{character, name of function.}
 
 \item{...}{force later arguments to be taken by name.}

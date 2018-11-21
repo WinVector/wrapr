@@ -4,9 +4,11 @@
 \alias{wrap_function_S4}
 \title{Wrap a function and arguments in an object for later S4 pipe dispatch.}
 \usage{
-wrap_function_S4(fn, ..., arg_name = "", args = list())
+wrap_function_S4(Class, fn, ..., arg_name = "", args = list())
 }
 \arguments{
+\item{Class}{character name of class.}
+
 \item{fn}{function to wrap}
 
 \item{...}{force later arguments to be taken by name.}

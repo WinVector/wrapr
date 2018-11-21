@@ -2,6 +2,9 @@
 
 # treat objects as partially applied functions
 
+#' @importFrom methods new setClass setMethod signature
+NULL
+
 #' Wrap a function and arguments in an object for later S3 pipe dispatch.
 #'
 #' @param fn function to wrap
@@ -47,53 +50,6 @@ wrap_fname_S3 <- function(fn_name = NULL,
 }
 
 
-setOldClass("wrapr_funobj_S3")
-
-#' @export
-setClass("wrapr_funobj_S4", slots = c(wfn = "wrapr_funobj_S3"))
-
-#' Wrap a function and arguments in an object for later S4 pipe dispatch.
-#'
-#' @param fn function to wrap
-#' @param ... force later arguments to be taken by name.
-#' @param arg_name name for remaining argument.
-#' @param args list of function argument values
-#' @return wrapped function
-#'
-#' @seealso \code{\link{applyto}}
-#'
-#' @export
-#'
-wrap_function_S4 <- function(fn,
-                             ...,
-                             arg_name = '', args = list()) {
-  stop_if_dot_args(substitute(list(...)), "wrapr::wrap_function_S4")
-  new("wrapr_funobj_S4",
-      wfn = wrap_function_S3(fn = fn, arg_name = arg_name, args = args))
-}
-
-#' Wrap a function name and arguments in an object for later S4 pipe dispatch.
-#'
-#' @param fn_name character, name of function.
-#' @param ... force later arguments to be taken by name.
-#' @param fn_package character, name of package.
-#' @param arg_name name for remaining argument.
-#' @param args list of function argument values
-#' @return wrapped function
-#'
-#' @seealso \code{\link{applyto}}
-#'
-#' @export
-#'
-wrap_fname_S4 <- function(fn_name = NULL,
-                          ...,
-                          fn_package = "base",
-                          arg_name = '', args = list()) {
-  stop_if_dot_args(substitute(list(...)), "wrapr::wrap_fname_S4")
-  new("wrapr_funobj_S4",
-      wfn = wrap_fname_S3(fn_name = fn_name, fn_package = fn_package,
-                          arg_name = arg_name, args = args))
-}
 
 #' Apply a wrapped function to an argument.
 #'
@@ -141,18 +97,49 @@ apply_right.wrapr_funobj_S3 <- function(pipe_left_arg,
   applyto(wfn = pipe_right_arg, arg = pipe_left_arg, env = pipe_environment)
 }
 
-#' Set the S4 right action of apply_right_S4.
+
+
+
+
+
+setOldClass("wrapr_funobj_S3")
+
+#' Define a S4 right action class.
 #'
-#' Set the S4 right action of apply_right_S4 for left_class and "wrapr_funobj_S4".
-#'
-#' @param left_class character, name of left class.
+#' @param Class character, name of class.
+#' @param where environment to work in.
 #'
 #' @export
-set_funobj_s4_right_action <- function(left_class, where = topenv(parent.frame())) {
+#'
+def_funobj_s4_class <- function(Class,
+                                where = topenv(parent.frame())) {
+  force(Class)
+  force(where)
+  setClass(Class, slots = c(wfn = "wrapr_funobj_S3"), where = where)
+}
+
+
+
+#' Set the S4 right action.
+#'
+#' Set the S4 right action of apply_right_S4 for left_class and right_class.
+#'
+#' @param left_class character, name of left class.
+#' @param right_class character, name of right class.
+#' @param where environment to work in.
+#'
+#' @keywords internal
+#'
+#' @export
+set_funobj_s4_applyto <- function(left_class,
+                                  right_class,
+                                  where = topenv(parent.frame())) {
+  force(left_class)
+  force(right_class)
   force(where)
   setMethod(
     "apply_right_S4",
-    signature(left_class, "wrapr_funobj_S4"),
+    signature(left_class, right_class),
     function(pipe_left_arg,
              pipe_right_arg,
              pipe_environment,
@@ -163,4 +150,51 @@ set_funobj_s4_right_action <- function(left_class, where = topenv(parent.frame()
       applyto(wfn = pipe_right_arg@wfn, arg = pipe_left_arg, env = pipe_environment)
     },
     where = where)
+}
+
+
+
+#' Wrap a function and arguments in an object for later S4 pipe dispatch.
+#'
+#' @param Class character name of class.
+#' @param fn function to wrap
+#' @param ... force later arguments to be taken by name.
+#' @param arg_name name for remaining argument.
+#' @param args list of function argument values
+#' @return wrapped function
+#'
+#' @seealso \code{\link{applyto}}
+#'
+#' @export
+#'
+wrap_function_S4 <- function(Class, fn,
+                             ...,
+                             arg_name = '', args = list()) {
+  stop_if_dot_args(substitute(list(...)), "wrapr::wrap_function_S4")
+  new(Class,
+      wfn = wrap_function_S3(fn = fn, arg_name = arg_name, args = args))
+}
+
+#' Wrap a function name and arguments in an object for later S4 pipe dispatch.
+#'
+#' @param Class character name of class.
+#' @param fn_name character, name of function.
+#' @param ... force later arguments to be taken by name.
+#' @param fn_package character, name of package.
+#' @param arg_name name for remaining argument.
+#' @param args list of function argument values
+#' @return wrapped function
+#'
+#' @seealso \code{\link{applyto}}
+#'
+#' @export
+#'
+wrap_fname_S4 <- function(Class, fn_name = NULL,
+                          ...,
+                          fn_package = "base",
+                          arg_name = '', args = list()) {
+  stop_if_dot_args(substitute(list(...)), "wrapr::wrap_fname_S4")
+  new(Class,
+      wfn = wrap_fname_S3(fn_name = fn_name, fn_package = fn_package,
+                          arg_name = arg_name, args = args))
 }
