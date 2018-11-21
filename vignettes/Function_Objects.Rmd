@@ -91,6 +91,22 @@ All models that can accept a `data.frame` could share the same model class and a
 
 Note: the `wrapr` right-dispatch we are using is only triggered when the right-hand side of a pipeline is a symbol or name.  This is consistent with pipelines such as "`5 %.>% sin`" where we are not so much piping into the sin-function, but into a name that refers to the sin-function.  However, piping into names covers almost every practical case.
 
+Many function object steps can be captured in a list.
+
+```{r lst}
+exp_step <- wrap_fname_S3('exp',
+                          arg_name = "x")
+
+d %.>% m2 %.>% exp_step
+
+steps <- pipe_list(m2, exp_step)
+
+d %.>% steps
+```
+
+The idea is the `pipe_list` stores an arbitrary number of function objects as a simple list.  This list is easier to work with than function closures or pipelines.
+
+
 And that is how to user `wrapr` to build powerful data processing pipelines.
 
 

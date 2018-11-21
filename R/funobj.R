@@ -198,3 +198,50 @@ wrap_fname_S4 <- function(Class, fn_name = NULL,
       wfn = wrap_fname_S3(fn_name = fn_name, fn_package = fn_package,
                           arg_name = arg_name, args = args))
 }
+
+
+#' Construct a list of class pipe_list
+#'
+#' @param ... items to keep
+#' @return list of class pipe_list
+#'
+#' @export
+#'
+pipe_list <- function(...) {
+  r <- list(...)
+  class(r) <- "pipe_list"
+  r
+}
+
+#' Apply right to a list of items.
+#'
+#' @param pipe_left_arg left argument
+#' @param pipe_right_arg a pipe_list
+#' @param pipe_environment environment to evaluate in
+#' @param left_arg_name name, if not NULL name of left argument.
+#' @param pipe_string character, name of pipe operator.
+#' @param right_arg_name name, if not NULL name of right argument.
+#' @return result
+#'
+#' @keywords internal
+#'
+#' @export
+apply_right.pipe_list <- function(pipe_left_arg,
+                                  pipe_right_arg,
+                                  pipe_environment,
+                                  left_arg_name,
+                                  pipe_string,
+                                  right_arg_name) {
+  force(pipe_environment)
+  pipe_right_arg <- eval(pipe_right_arg,
+                         envir = pipe_environment,
+                         enclos = pipe_environment)
+  for(pri in pipe_right_arg) {
+    if("wrapr_funobj_S3" %in% class(pri)) {
+      pipe_left_arg <- applyto(wfn = pri, arg = pipe_left_arg, env = pipe_environment)
+    } else {
+      pipe_left_arg <- applyto(wfn = pri@wfn, arg = pipe_left_arg, env = pipe_environment)
+    }
+  }
+  pipe_left_arg
+}
