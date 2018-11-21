@@ -1,0 +1,99 @@
+---
+title: "Function Objects"
+author: "John Mount"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Function Objects}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+The [`wrapr`](https://github.com/WinVector/wrapr) [dot arrow pipe](https://winvector.github.io/wrapr/reference/dot_arrow.html) includes a detailed `S3`/`S4` configurable interface (detailed in the RJournal [here](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html)).  The primary
+purpose of these interfaces is to be able to treat objects as functions: i.e. to be
+able to pipe data into objects.
+
+This can be made clearer with an example using some helper functions.
+
+Suppose we wish to build a linear model as follows.
+
+```{r lm1}
+d <- data.frame(x = 1:5, y = c(1, 1, 2, 2, 2))
+model <- lm(y~x, data= d)
+```
+
+It is then natural to want to apply this model later to new data.  This can be done as follows.
+
+```{r lm2}
+d2 <- data.frame(x = 3:7)
+predict(model, newdata = d2)
+```
+
+The `wrapr` package allows us to use a "piping into a function" notation as follows.
+
+```{r lmf}
+library("wrapr")
+
+model_f <- function(df) {
+  predict(model, newdata = df)
+}
+
+d2 %.>% model_f
+```
+
+In the above example the `model` contents are captured in the function closure.  However, it would be much more useful to store the model in an object.
+
+`wrapr` supplies a method to do this, which we will now demonstrate.
+
+```{r lms3_1}
+model_o <- wrap_fname_S3('predict.lm',
+                         fn_package = "stats",
+                         arg_name = "newdata", 
+                         args = list(object = model))
+
+print(model_o)
+```
+
+Notice `model_o` is an object (not a function).  However we can pipe into `model_o` as if it were an object.
+
+```{r lms3pipe}
+d2 %.>% model_o
+```
+
+This works because `model_o` declares `S3` class `wrapr_funobj_S3`.  And `wrapr` defines a `S3` function named `apply_right.wrapr_funobj_S3`, meaning `wrapr`'s pipe-method `apply_right` has a special definition for this class (the definition being: apply `stats::predict.lm` to the piped in argument plus the arguments stored in `args`, supplied
+by the function `wrapr::applyto()`).
+
+The above could all have been defined in user code (the `wrapr` pipe allows external extension), but as a convenience it is now supplied with of `wrapr` itself.
+
+The above methods can be used to wrap functions such as [`vtreat::prepare()`](https://winvector.github.io/vtreat/reference/prepare.html) to create very powerful data processing pipelines.
+
+`wrapr` also has an easy to use `S4` interface.  Using `S4` we can insist that our function is only dispatched if both the classes of the left and right pipe arguments are as expected. This is done as follows.
+
+```{r s4pipe}
+# define our right-class
+def_funobj_s4_class("model_class")
+
+# ask wrapr to use partial function methods
+# on this pair of classes.
+set_funobj_s4_applyto("data.frame", "model_class")
+
+# build a new model wrapper of class "model_class"
+m2 <- wrap_fname_S4("model_class", 
+                    'predict.lm', fn_package = "stats",
+                    arg_name = "newdata", 
+                    args = list(object = model))
+
+# now pipe into the new model representation.
+d %.>% m2
+```
+
+All models that can accept a `data.frame` could share the same model class and apply-to definitions.
+
+Note: the `wrapr` right-dispatch we are using is only triggered when the right-hand side of a pipeline is a symbol or name.  This is consistent with pipelines such as "`5 %.>% sin`" where we are not so much piping into the sin-function, but into a name that refers to the sin-function.  However, piping into names covers almost every practical case.
+
+And that is how to user `wrapr` to build powerful data processing pipelines.
+
+
+
+
+
