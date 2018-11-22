@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Apply a wrapped function to an argument. — applyto • wrapr</title>
+<title>Apply a single argument function to its argument. — ApplyTo • wrapr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,13 @@
 
 
 
-<meta property="og:title" content="Apply a wrapped function to an argument. — applyto" />
+<meta property="og:title" content="Apply a single argument function to its argument. — ApplyTo" />
 
-<meta property="og:description" content="Apply a wrapped function to an argument." />
+<meta property="og:description" content="If x is a UnaryFn instance this function returns a new
+UnaryFnList representing the composite function c(f, x)
+which is interpreted as the function x(f(.)) (composition
+from left to right).  Otherwise evaluate f(x) (application
+from left to right)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -142,43 +146,78 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Apply a wrapped function to an argument.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/funobj.R'><code>R/funobj.R</code></a></small>
-    <div class="hidden name"><code>applyto.Rd</code></div>
+    <h1>Apply a single argument function to its argument.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/UnaryFunctions.R'><code>R/UnaryFunctions.R</code></a></small>
+    <div class="hidden name"><code>ApplyTo.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Apply a wrapped function to an argument.</p>
+    <p>If x is a UnaryFn instance this function returns a new
+UnaryFnList representing the composite function c(f, x)
+which is interpreted as the function x(f(.)) (composition
+from left to right).  Otherwise evaluate f(x) (application
+from left to right).</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>applyto</span>(<span class='no'>wfn</span>, <span class='no'>arg</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'>parent.frame</span>())</pre>
+    <pre class="usage"><span class='fu'>ApplyTo</span>(<span class='no'>f</span>, <span class='no'>x</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'>parent.frame</span>())
+
+<span class='co'># S4 method for UnaryFnList,UnaryFnList</span>
+<span class='fu'>ApplyTo</span>(<span class='no'>f</span>, <span class='no'>x</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'>parent.frame</span>())
+
+<span class='co'># S4 method for UnaryFnList,UnaryFn</span>
+<span class='fu'>ApplyTo</span>(<span class='no'>f</span>, <span class='no'>x</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'>parent.frame</span>())
+
+<span class='co'># S4 method for UnaryFn,UnaryFnList</span>
+<span class='fu'>ApplyTo</span>(<span class='no'>f</span>, <span class='no'>x</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'>parent.frame</span>())
+
+<span class='co'># S4 method for UnaryFn,UnaryFn</span>
+<span class='fu'>ApplyTo</span>(<span class='no'>f</span>, <span class='no'>x</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'>parent.frame</span>())
+
+<span class='co'># S4 method for UnaryFnList,ANY</span>
+<span class='fu'>ApplyTo</span>(<span class='no'>f</span>, <span class='no'>x</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'>parent.frame</span>())
+
+<span class='co'># S4 method for PartialNamedFn,ANY</span>
+<span class='fu'>ApplyTo</span>(<span class='no'>f</span>, <span class='no'>x</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'>parent.frame</span>())
+
+<span class='co'># S4 method for PartialNamedFn,UnaryFnList</span>
+<span class='fu'>ApplyTo</span>(<span class='no'>f</span>, <span class='no'>x</span>,
+  <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'>parent.frame</span>())
+
+<span class='co'># S4 method for PartialNamedFn,UnaryFn</span>
+<span class='fu'>ApplyTo</span>(<span class='no'>f</span>, <span class='no'>x</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'>parent.frame</span>())
+
+<span class='co'># S4 method for PartialFunction,ANY</span>
+<span class='fu'>ApplyTo</span>(<span class='no'>f</span>, <span class='no'>x</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'>parent.frame</span>())
+
+<span class='co'># S4 method for PartialFunction,UnaryFnList</span>
+<span class='fu'>ApplyTo</span>(<span class='no'>f</span>, <span class='no'>x</span>,
+  <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'>parent.frame</span>())
+
+<span class='co'># S4 method for PartialFunction,UnaryFn</span>
+<span class='fu'>ApplyTo</span>(<span class='no'>f</span>, <span class='no'>x</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'>parent.frame</span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>wfn</th>
-      <td><p>wrapped function.</p></td>
+      <th>f</th>
+      <td><p>object of S4 class UnaryFn</p></td>
     </tr>
     <tr>
-      <th>arg</th>
-      <td><p>additional argument value.</p></td>
+      <th>x</th>
+      <td><p>argument.</p></td>
     </tr>
     <tr>
       <th>env</th>
-      <td><p>environment to evaluate in.</p></td>
+      <td><p>environment to work in.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>wfn applied to arg.</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='wrap_function_S3.html'>wrap_function_S3</a></code>, <code><a href='wrap_fname_S3.html'>wrap_fname_S3</a></code>, <code><a href='wrap_function_S4.html'>wrap_function_S4</a></code>, <code><a href='wrap_fname_S4.html'>wrap_fname_S4</a></code></p></div>
+    <p>f(x) if x is not a UnaryFn else f composed with x.</p>
     
 
   </div>
@@ -188,8 +227,6 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
           </ul>
 
   </div>

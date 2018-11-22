@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Construct a list of class pipe_list — pipe_list • wrapr</title>
+<title>Apply right wrapped function to argument on left. — apply_left.UnaryFn • wrapr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Construct a list of class pipe_list — pipe_list" />
+<meta property="og:title" content="Apply right wrapped function to argument on left. — apply_left.UnaryFn" />
 
-<meta property="og:description" content="Construct a list of class pipe_list" />
+<meta property="og:description" content="Apply right wrapped function to argument on left." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -142,31 +142,53 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Construct a list of class pipe_list</h1>
-    <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/funobj.R'><code>R/funobj.R</code></a></small>
-    <div class="hidden name"><code>pipe_list.Rd</code></div>
+    <h1>Apply right wrapped function to argument on left.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/UnaryFunctions.R'><code>R/UnaryFunctions.R</code></a></small>
+    <div class="hidden name"><code>apply_left.UnaryFn.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Construct a list of class pipe_list</p>
+    <p>Apply right wrapped function to argument on left.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>pipe_list</span>(<span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='co'># S3 method for UnaryFn</span>
+<span class='fu'><a href='apply_left.html'>apply_left</a></span>(<span class='no'>pipe_left_arg</span>, <span class='no'>pipe_right_arg</span>,
+  <span class='no'>pipe_environment</span>, <span class='no'>left_arg_name</span>, <span class='no'>pipe_string</span>, <span class='no'>right_arg_name</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>...</th>
-      <td><p>items to keep, must all be function object classes.</p></td>
+      <th>pipe_left_arg</th>
+      <td><p>left argument</p></td>
+    </tr>
+    <tr>
+      <th>pipe_right_arg</th>
+      <td><p>substitute(pipe_right_arg) argument</p></td>
+    </tr>
+    <tr>
+      <th>pipe_environment</th>
+      <td><p>environment to evaluate in</p></td>
+    </tr>
+    <tr>
+      <th>left_arg_name</th>
+      <td><p>name, if not NULL name of left argument.</p></td>
+    </tr>
+    <tr>
+      <th>pipe_string</th>
+      <td><p>character, name of pipe operator.</p></td>
+    </tr>
+    <tr>
+      <th>right_arg_name</th>
+      <td><p>name, if not NULL name of right argument.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>list of class pipe_list</p>
+    <p>result</p>
     
 
   </div>

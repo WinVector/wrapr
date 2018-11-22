@@ -1,7 +1,7 @@
 
-# wrapr 1.7.0 2018-11-21
+# wrapr 1.7.0 2018-11-22
 
- * Add funobj.
+ * Add generic unary functions.
  * Add split_at_brace_pairs.
  * Documentation fixes.
  * Error msg fix.

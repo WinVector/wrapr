@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Wrap a function and arguments in an object for later S4 pipe dispatch. — wrap_function_S4 • wrapr</title>
+<title>Apply right wrapped function to argument on left. — apply_right.UnaryFn • wrapr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Wrap a function and arguments in an object for later S4 pipe dispatch. — wrap_function_S4" />
+<meta property="og:title" content="Apply right wrapped function to argument on left. — apply_right.UnaryFn" />
 
-<meta property="og:description" content="Wrap a function and arguments in an object for later S4 pipe dispatch." />
+<meta property="og:description" content="Apply right wrapped function to argument on left." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -142,51 +142,53 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Wrap a function and arguments in an object for later S4 pipe dispatch.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/funobj.R'><code>R/funobj.R</code></a></small>
-    <div class="hidden name"><code>wrap_function_S4.Rd</code></div>
+    <h1>Apply right wrapped function to argument on left.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/UnaryFunctions.R'><code>R/UnaryFunctions.R</code></a></small>
+    <div class="hidden name"><code>apply_right.UnaryFn.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Wrap a function and arguments in an object for later S4 pipe dispatch.</p>
+    <p>Apply right wrapped function to argument on left.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>wrap_function_S4</span>(<span class='no'>Class</span>, <span class='no'>fn</span>, <span class='no'>...</span>, <span class='kw'>arg_name</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>args</span> <span class='kw'>=</span> <span class='fu'>list</span>())</pre>
+    <pre class="usage"><span class='co'># S3 method for UnaryFn</span>
+<span class='fu'><a href='apply_right.html'>apply_right</a></span>(<span class='no'>pipe_left_arg</span>, <span class='no'>pipe_right_arg</span>,
+  <span class='no'>pipe_environment</span>, <span class='no'>left_arg_name</span>, <span class='no'>pipe_string</span>, <span class='no'>right_arg_name</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>Class</th>
-      <td><p>character name of class.</p></td>
+      <th>pipe_left_arg</th>
+      <td><p>left argument</p></td>
     </tr>
     <tr>
-      <th>fn</th>
-      <td><p>function to wrap</p></td>
+      <th>pipe_right_arg</th>
+      <td><p>substitute(pipe_right_arg) argument</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>force later arguments to be taken by name.</p></td>
+      <th>pipe_environment</th>
+      <td><p>environment to evaluate in</p></td>
     </tr>
     <tr>
-      <th>arg_name</th>
-      <td><p>name for remaining argument.</p></td>
+      <th>left_arg_name</th>
+      <td><p>name, if not NULL name of left argument.</p></td>
     </tr>
     <tr>
-      <th>args</th>
-      <td><p>list of function argument values</p></td>
+      <th>pipe_string</th>
+      <td><p>character, name of pipe operator.</p></td>
+    </tr>
+    <tr>
+      <th>right_arg_name</th>
+      <td><p>name, if not NULL name of right argument.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>wrapped function</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='applyto.html'>applyto</a></code></p></div>
+    <p>result</p>
     
 
   </div>
@@ -196,8 +198,6 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
           </ul>
 
   </div>

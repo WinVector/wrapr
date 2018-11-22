@@ -13,7 +13,7 @@ The [`wrapr`](https://github.com/WinVector/wrapr) [dot arrow pipe](https://winve
 purpose of these interfaces is to be able to treat objects as functions: i.e. to be
 able to pipe data into objects.
 
-This can be made clearer with an example using some helper functions.
+This can be made clearer with an example using some additional helper classes.
 
 Suppose we wish to build a linear model as follows.
 
@@ -46,10 +46,11 @@ In the above example the `model` contents are captured in the function closure. 
 `wrapr` supplies a method to do this, which we will now demonstrate.
 
 ```{r lms3_1}
-model_o <- wrap_fname_S3('predict.lm',
-                         fn_package = "stats",
-                         arg_name = "newdata", 
-                         args = list(object = model))
+model_o <-  new("PartialNamedFn",
+                fn_name = 'predict.lm',
+                fn_package = "stats",
+                arg_name = "newdata", 
+                args = list(object = model))
 
 print(model_o)
 ```
@@ -60,53 +61,31 @@ Notice `model_o` is an object (not a function).  However we can pipe into `model
 d2 %.>% model_o
 ```
 
-This works because `model_o` declares `S3` class `wrapr_funobj_S3`.  And `wrapr` defines a `S3` function named `apply_right.wrapr_funobj_S3()`, meaning `wrapr`'s pipe-method `apply_right` has a special definition for this class (the definition being: apply `stats::predict.lm` to the piped in argument plus the arguments stored in `args`, supplied
-by the function `wrapr::applyto()`).  The `wrapr` design would allow these kinds of  extensions to be defined by users or other packages, but for convenience `wrapr` is supplying on such extension itself (`S3`/`S4` extension details can be found in the RJournal [here](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html)).
+This works because `model_o` is derived from the `S4` class `UnaryFn` and  `wrapr` has definitions for `apply_right.UnaryFn` and `apply_left.UnaryFn`, which integrate this class into the [`wrapr` dot-arrow pipe](https://winvector.github.io/wrapr/reference/dot_arrow.html).  The family of `UnaryFn` classes model linear pipelines of single argument functions.  This system happens to be implemented by `wrapr`, but `wrapr` dot arrow extension mechanisms also allow users to build their own pipe-compatible systems. (`S3`/`S4` extension details can be found in the RJournal [here](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html).
 
-The pipe notation is not strictly required as the apply is done through the function [`wrapr::applyto()`](https://winvector.github.io/wrapr/reference/applyto.html).
+The pipe notation is not strictly required as the apply is done through the `S4` method [`wrapr::ApplyTo()`](https://winvector.github.io/wrapr/reference/ApplyTo.html).
 
 ```{r lms3nopipe}
-applyto(model_o, d2) 
+ApplyTo(model_o, d2) 
 ```
 
 However, the pipe notation is particularly convenient.  This is especially true when we have a list of operations we wish to share (which we will demonstrate later in this note).
 
 The above could all have been defined in user code (the `wrapr` pipe allows external extension), but as a convenience it is now supplied with of `wrapr` itself.
 
-The above methods can be used to wrap functions such as [`vtreat::prepare()`](https://winvector.github.io/vtreat/reference/prepare.html) to create very powerful data processing pipelines.
+The above methods can be used to wrap functions such as [`vtreat::prepare()`](https://winvector.github.io/vtreat/reference/prepare.html) to create very powerful data processing pipelines.  A more involved example of trying this technique can be found [here](https://github.com/WinVector/vtreat/blob/master/extras/ModelingPipelines.md).
 
-`wrapr` also has an easy to use `S4` interface.  Using `S4` we can insist that our function is only dispatched if both the classes of the left and right pipe arguments are as expected. This is done as follows.
-
-```{r s4pipe}
-# define our right-class
-def_funobj_s4_class("model_class")
-
-# ask wrapr to use partial function methods
-# on this pair of classes.
-set_funobj_s4_applyto("data.frame", "model_class")
-
-# build a new model wrapper of class "model_class"
-m2 <- wrap_fname_S4("model_class", 
-                    'predict.lm', fn_package = "stats",
-                    arg_name = "newdata", 
-                    args = list(object = model))
-
-# now pipe into the new model representation.
-d2 %.>% m2
-```
-
-The `S4` forms are going to be a bit harder to share, as the objects depend on
-external items such as the `S4` class definition and application rules.  So we recommend, in general, using the `S3` methods shown earlier.
-
-All models that can accept a `data.frame` could share the same model class and apply-to definitions.
 
 Note: the `wrapr` right-dispatch we are using is only triggered when the right-hand side of a pipeline is a symbol or name.  This is consistent with pipelines such as "`5 %.>% sin`" where we are not so much piping into the sin-function, but into a name that refers to the sin-function.  However, piping into names covers almost every practical case.
 
 Many function object steps can be captured in a list.
 
 ```{r lst}
-exp_step <- wrap_fname_S3('exp',
-                          arg_name = "x")
+exp_step <- new("PartialNamedFn",
+                fn_name = 'exp',
+                fn_package = "base",
+                arg_name = "x", 
+                args = list())
 
 # pipe line version
 d2 %.>% model_o %.>% exp_step
@@ -115,22 +94,22 @@ d2 %.>% model_o %.>% exp_step
 The sequence of piped function objects is easier to share as a list, and we supply a list-type that can be piped into.
 
 ```{r lst2}
-steps <- pipe_list(model_o, exp_step)
+steps <- model_o %.>% exp_step
 
 d2 %.>% steps
 ```
 
-The idea is the `pipe_list` stores an arbitrary number of function objects as a simple list.  We are calling objects of class `wrapr_funobj_S3` or classes from `def_funobj_s4_class()` "function objects".  These objects are small and simple (you can examine and serialize their content).  This list of function objects is easier to work with than function closures or pipelines.
+The idea is the `pipe_list` stores an arbitrary number of function objects as a simple list, which itself declares itself as a function argument.  Steps are executed left to right as one would expect in pipeline notation.  These functions objects are small and simple.  In particular the do not capture environments as function closures do (though obviously any function in them does have its own closure).  This list of function objects can be easier to work with, store, and share than function closures or pipelines.
 
-Again, the pipe notation is not required (but is a nice notation).  The apply a list of function objects effect can be achieved directly with `wrapr::lapplyto()`.
+Again, the pipe notation is not required (but is a nice notation).  The apply a list of function objects effect can be achieved directly with `wrapr::ApplyTo()`.
 
 ```{r lst3}
-lapplyto(list(model_o, exp_step), d2)
+ApplyTo(steps, d2)
 ```
 
 The idea is: sharing a list of function object steps frees any downstream users of the pipeline from having to know how many steps or in the pipeline. What we are trying to do with this set of features is share processing specifications as data, without having to share `R` code our function closures (which are heavier weight, and a bit more delicate).  The functionality is inspired by partially applied functions, but a bit more circumspect in what is carried around.  In Lisp "code is data", in `R` it is a bit more complicated- so a pure-data solution has some merits.
 
-And that is how to user `wrapr` to build powerful data processing pipelines.  An more involved example of trying this technique can be found [here](https://github.com/WinVector/vtreat/blob/master/extras/ModelingPipelines.md).
+And that is how to user `wrapr` to build powerful data processing pipelines. 
 
 
 
