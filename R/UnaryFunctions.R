@@ -31,6 +31,17 @@ setGeneric(
   })
 
 
+# build a list of all UnaryFn from possibly composite
+concat_items_rev <- function(op1, op2) {
+  if(!is.list(op1)) {
+    op1 <- list(op1)
+  }
+  if(!is.list(op2)) {
+    op2 <- list(op2)
+  }
+  c(op2, op1)
+}
+
 #' Apply right wrapped function to argument on left.
 #'
 #' @param pipe_left_arg left argument
@@ -95,7 +106,7 @@ setMethod(
   signature(f = "UnaryFnList", x = "UnaryFnList"),
   function(f, x, env = parent.frame()) {
     new("UnaryFnList",
-        items =  c(f@items, x@items))
+        items =  concat_items_rev(f@items, x@items))
   })
 
 #' @rdname ApplyTo
@@ -105,7 +116,7 @@ setMethod(
   signature(f = "UnaryFnList", x = "UnaryFn"),
   function(f, x, env = parent.frame()) {
     new("UnaryFnList",
-        items =  c(f@items, list(x)))
+        items =  concat_items_rev(f@items, list(x)))
   })
 
 #' @rdname ApplyTo
@@ -115,7 +126,7 @@ setMethod(
   signature(f = "UnaryFn", x = "UnaryFnList"),
   function(f, x, env = parent.frame()) {
     new("UnaryFnList",
-        items =  c(list(f), x@items))
+        items =  concat_items_rev(list(f), x@items))
   })
 
 #' @rdname ApplyTo
@@ -125,7 +136,7 @@ setMethod(
   signature(f = "UnaryFn", x = "UnaryFn"),
   function(f, x, env = parent.frame()) {
     new("UnaryFnList",
-        items =  list(f, x))
+        items =  concat_items_rev(list(f), list(x)))
   })
 
 #' @rdname ApplyTo
@@ -176,7 +187,7 @@ setMethod(
   signature(f = "PartialNamedFn", x = "UnaryFnList"),
   function(f, x, env = parent.frame()) {
     new("UnaryFnList",
-        items =  c(list(f), x@items))
+        items =  concat_items_rev(list(f), x@items))
   })
 
 #' @rdname ApplyTo
@@ -186,7 +197,7 @@ setMethod(
   signature(f = "PartialNamedFn", x = "UnaryFn"),
   function(f, x, env = parent.frame()) {
     new("UnaryFnList",
-        items =  list(f, x))
+        items =  concat_items_rev(list(f), list(x)))
   })
 
 
@@ -220,7 +231,7 @@ setMethod(
   signature(f = "PartialFunction", x = "UnaryFnList"),
   function(f, x, env = parent.frame()) {
     new("UnaryFnList",
-        items =  c(list(f), x@items))
+        items =  concat_items_rev(list(f), x@items))
   })
 
 #' @rdname ApplyTo
@@ -230,7 +241,7 @@ setMethod(
   signature(f = "PartialFunction", x = "UnaryFn"),
   function(f, x, env = parent.frame()) {
     new("UnaryFnList",
-        items =  list(f, x))
+        items =  concat_items_rev(list(f), list(x)))
   })
 
 
