@@ -92,12 +92,33 @@ apply_left.UnaryFn <- function(pipe_left_arg,
   ApplyTo(pipe_right_arg, pipe_left_arg, pipe_environment)
 }
 
+is_list_of_unaryfns <- function(object) {
+  items <- object@items
+  if(!is.list(items)) {
+    return("items must be a list")
+  }
+  for(i in seq_len(length(items))) {
+    item_i <- items[[i]]
+    if((!isS4(item_i)) || (!is(item_i, "UnaryFn"))) {
+      return(paste("item ", i, " must be an instance of a class derived from UnaryFn"))
+    }
+    s4class <- as.character(class(item_i))
+    if(length(s4class)!=1) {
+      return(paste("item ", i, " must have single class name"))
+    }
+    if(s4class %in% c("UnaryFn", "UnaryFnList")) {
+      return(paste("item ", i, " must not be of class ", s4class))
+    }
+  }
+  return(character(0))
+}
 
 #' List of Unary functions taken in order.
 #' @export
 setClass("UnaryFnList",
          contains = "UnaryFn",
-         slots = c(items = "list"))
+         slots = c(items = "list"),
+         validity = is_list_of_unaryfns)
 
 #' @rdname ApplyTo
 #' @export
@@ -245,6 +266,66 @@ setMethod(
   })
 
 
+
+
+
+#' @export
+format.UnaryFnList <- function(x, ...) {
+  fns <- vapply(x@items,
+                format,
+                character(1))
+  paste0("UnaryFnList",
+         "(\n   ",
+         paste(fns, collapse = ",\n   "),
+         ")")
+}
+
+
+#' @export
+setMethod(
+  f = "show",
+  signature = "UnaryFnList",
+  definition = function(object) {
+    print(format(object))
+  })
+
+
+
+#' @export
+format.PartialNamedFn <- function(x, ...) {
+  paste0( x@fn_package, "::", x@fn_name,
+          "(",
+          x@arg_name, "=., ",
+          paste(names(x@args), collapse = ", "),
+          ")")
+}
+
+#' @export
+setMethod(
+  f = "show",
+  signature = "PartialNamedFn",
+  definition = function(object) {
+    print(format(object))
+  })
+
+
+
+#' @export
+format.PartialFunction <- function(x, ...) {
+  paste0("PartialFunction",
+         "(",
+         x@arg_name, "=., ",
+         paste(names(x@args), collapse = ", "),
+         ")")
+}
+
+#' @export
+setMethod(
+  f = "show",
+  signature = "PartialFunction",
+  definition = function(object) {
+    print(format(object))
+  })
 
 
 

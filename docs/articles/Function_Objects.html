@@ -150,25 +150,7 @@
 <a class="sourceLine" id="cb6-5" data-line-number="5">                <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">object =</span> model))</a>
 <a class="sourceLine" id="cb6-6" data-line-number="6"></a>
 <a class="sourceLine" id="cb6-7" data-line-number="7"><span class="kw">print</span>(model_o)</a></code></pre></div>
-<pre><code>## An object of class "PartialNamedFn"
-## Slot "fn_name":
-## [1] "predict.lm"
-## 
-## Slot "fn_package":
-## [1] "stats"
-## 
-## Slot "arg_name":
-## [1] "newdata"
-## 
-## Slot "args":
-## $object
-## 
-## Call:
-## lm(formula = y ~ x, data = d)
-## 
-## Coefficients:
-## (Intercept)            x  
-##         0.7          0.3</code></pre>
+<pre><code>## [1] "stats::predict.lm(newdata=., object)"</code></pre>
 <p>Notice <code>model_o</code> is an object (not a function). However we can pipe into <code>model_o</code> as if it were an object.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">d2 <span class="op">%.&gt;%</span><span class="st"> </span>model_o</a></code></pre></div>
 <pre><code>##   1   2   3   4   5 
@@ -204,7 +186,29 @@
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="../reference/ApplyTo.html">ApplyTo</a></span>(steps, d2)</a></code></pre></div>
 <pre><code>##         1         2         3         4         5 
 ##  4.953032  6.685894  9.025013 12.182494 16.444647</code></pre>
-<p>The idea is: sharing a list of function object steps frees any downstream users of the pipeline from having to know how many steps or in the pipeline. What we are trying to do with this set of features is share processing specifications as data, without having to share <code>R</code> code our function closures (which are heavier weight, and a bit more delicate). The functionality is inspired by partially applied functions, but a bit more circumspect in what is carried around. In Lisp “code is data”, in <code>R</code> it is a bit more complicated- so a pure-data solution has some merits.</p>
+<p>The idea is: sharing a list of function object steps frees any downstream users of the pipeline from having to know how many steps or in the pipeline. What we are trying to do with this set of features is share processing specifications as data, without having to share <code>R</code> code our function closures (which are heavier weight, and a bit more delicate).</p>
+<p>We can look at the <code>steps</code> and the list items:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">cat</span>(<span class="kw">format</span>(steps))</a></code></pre></div>
+<pre><code>## UnaryFnList(
+##    stats::predict.lm(newdata=., object),
+##    base::exp(x=., ))</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">steps<span class="op">@</span>items</a></code></pre></div>
+<pre><code>## [[1]]
+## [1] "stats::predict.lm(newdata=., object)"
+## 
+## [[2]]
+## [1] "base::exp(x=., )"</code></pre>
+<p>And we can build such composite pipelines directly, without using <code><a href="../reference/ApplyTo.html">ApplyTo()</a></code> or pipes.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">s2 &lt;-<span class="st"> </span><span class="kw">new</span>(<span class="st">"UnaryFnList"</span>, <span class="dt">items =</span> <span class="kw">list</span>(model_o, exp_step))</a>
+<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="kw">cat</span>(<span class="kw">format</span>(s2))</a></code></pre></div>
+<pre><code>## UnaryFnList(
+##    stats::predict.lm(newdata=., object),
+##    base::exp(x=., ))</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">d2 <span class="op">%.&gt;%</span><span class="st"> </span>s2</a></code></pre></div>
+<pre><code>##         1         2         3         4         5 
+##  4.953032  6.685894  9.025013 12.182494 16.444647</code></pre>
+<p>The <code>steps</code> object is a <code>UnaryFnList</code> <code>S4</code> class instance. This class’s purpose is to implement the <code>UnaryFn</code> interface (essentially be compatible with <code><a href="../reference/ApplyTo.html">ApplyTo()</a></code>) and carry a list of steps in its <code>@items</code> slot. The idea is this object is convenient to serialize and to pipe into.</p>
+<p>The demonstrated design and functionality is inspired by partially applied functions, but a bit more circumspect in what is carried around. In Lisp “code is data”, in <code>R</code> it is a bit more complicated- so a pure-data solution has some merits.</p>
 <p>And that is how to user <code>wrapr</code> to build powerful data processing pipelines.</p>
   </div>
 
