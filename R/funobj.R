@@ -280,8 +280,5 @@ apply_right.pipe_list <- function(pipe_left_arg,
                                   pipe_string,
                                   right_arg_name) {
   force(pipe_environment)
-  pipe_right_arg <- eval(pipe_right_arg,
-                         envir = pipe_environment,
-                         enclos = pipe_environment)
   lapplyto(pipe_right_arg, pipe_left_arg, pipe_environment)
 }
