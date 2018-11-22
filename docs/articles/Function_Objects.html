@@ -208,6 +208,20 @@
 <pre><code>##         1         2         3         4         5 
 ##  4.953032  6.685894  9.025013 12.182494 16.444647</code></pre>
 <p>The <code>steps</code> object is a <code>UnaryFnList</code> <code>S4</code> class instance. This class’s purpose is to implement the <code>UnaryFn</code> interface (essentially be compatible with <code><a href="../reference/ApplyTo.html">ApplyTo()</a></code>) and carry a list of steps in its <code>@items</code> slot. The idea is this object is convenient to serialize and to pipe into.</p>
+<p>In addition to the <code>PartialNamedFn</code> class we suggest looking at the following additional adapters:</p>
+<ul>
+<li>The <code>SrcFunction</code> class which accepts the source code for an arbitrary expression.</li>
+<li>The <code>PartialFunction</code> class which directly accepts a function (including it closure).</li>
+</ul>
+<p>Examples include:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">s4 &lt;-<span class="st"> </span><span class="kw">new</span>(<span class="st">"SrcFunction"</span>, <span class="dt">expr_src =</span> <span class="st">". + y"</span>, <span class="dt">arg_name =</span> <span class="st">"."</span>, <span class="dt">args=</span> <span class="kw">list</span>(<span class="dt">y=</span><span class="dv">13</span>))</a>
+<a class="sourceLine" id="cb26-2" data-line-number="2"><span class="kw">print</span>(s4)</a></code></pre></div>
+<pre><code>## [1] "SrcFunction{ . + y }(.=., y)"</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="dv">22</span> <span class="op">%.&gt;%</span><span class="st"> </span>s4</a></code></pre></div>
+<pre><code>## [1] 35</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">s5 &lt;-<span class="st"> </span><span class="kw">new</span>(<span class="st">"PartialFunction"</span>, <span class="dt">fn =</span> tan, <span class="dt">arg_name =</span> <span class="st">"x"</span>, <span class="dt">args =</span> <span class="kw">list</span>())</a>
+<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="dv">1</span><span class="op">:</span><span class="dv">4</span> <span class="op">%.&gt;%</span><span class="st"> </span>s5</a></code></pre></div>
+<pre><code>## [1]  1.5574077 -2.1850399 -0.1425465  1.1578213</code></pre>
 <p>The demonstrated design and functionality is inspired by partially applied functions, but a bit more circumspect in what is carried around. In Lisp “code is data”, in <code>R</code> it is a bit more complicated- so a pure-data solution has some merits.</p>
 <p>And that is how to user <code>wrapr</code> to build powerful data processing pipelines.</p>
   </div>

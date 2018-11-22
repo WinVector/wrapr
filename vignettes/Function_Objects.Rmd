@@ -129,6 +129,23 @@ d2 %.>% s2
 
 The `steps` object is a `UnaryFnList` `S4` class instance.  This class's  purpose is to implement the `UnaryFn` interface (essentially be compatible with `ApplyTo()`) and carry a list of steps in its `@items` slot.  The idea is this object is convenient to serialize and to pipe into.
 
+In addition to the `PartialNamedFn` class we suggest looking at the following additional adapters:
+
+ * The `SrcFunction` class which accepts the source code for an arbitrary expression.
+ * The `PartialFunction` class which directly accepts a function (including it closure).
+ 
+Examples include:
+
+```{r specfn}
+
+s4 <- new("SrcFunction", expr_src = ". + y", arg_name = ".", args= list(y=13))
+print(s4)
+22 %.>% s4
+
+s5 <- new("PartialFunction", fn = tan, arg_name = "x", args = list())
+1:4 %.>% s5
+```
+
 
 The demonstrated design and functionality is inspired by partially applied functions, but a bit more circumspect in what is carried around.  In Lisp "code is data", in `R` it is a bit more complicated- so a pure-data solution has some merits.
 

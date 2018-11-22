@@ -14,6 +14,9 @@
 \alias{ApplyTo,PartialFunction,ANY-method}
 \alias{ApplyTo,PartialFunction,UnaryFnList-method}
 \alias{ApplyTo,PartialFunction,UnaryFn-method}
+\alias{ApplyTo,SrcFunction,ANY-method}
+\alias{ApplyTo,SrcFunction,UnaryFnList-method}
+\alias{ApplyTo,SrcFunction,UnaryFn-method}
 \title{Apply a single argument function to its argument.}
 \usage{
 ApplyTo(f, x, env = parent.frame())
@@ -41,6 +44,12 @@ ApplyTo(f, x, env = parent.frame())
   env = parent.frame())
 
 \S4method{ApplyTo}{PartialFunction,UnaryFn}(f, x, env = parent.frame())
+
+\S4method{ApplyTo}{SrcFunction,ANY}(f, x, env = parent.frame())
+
+\S4method{ApplyTo}{SrcFunction,UnaryFnList}(f, x, env = parent.frame())
+
+\S4method{ApplyTo}{SrcFunction,UnaryFn}(f, x, env = parent.frame())
 }
 \arguments{
 \item{f}{object of S4 class UnaryFn}

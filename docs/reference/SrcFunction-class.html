@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Build a custom writeback function that writes state into a user named variable. — buildNameCallback • wrapr</title>
+<title>Code text as a new partial function. — SrcFunction-class • wrapr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Build a custom writeback function that writes state into a user named variable. — buildNameCallback" />
+<meta property="og:title" content="Code text as a new partial function. — SrcFunction-class" />
 
-<meta property="og:description" content="Build a custom writeback function that writes state into a user named variable." />
+<meta property="og:description" content="Code text as a new partial function." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -142,69 +142,24 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Build a custom writeback function that writes state into a user named variable.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/DebugFn.R'><code>R/DebugFn.R</code></a></small>
-    <div class="hidden name"><code>buildNameCallback.Rd</code></div>
+    <h1>Code text as a new partial function.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/UnaryFunctions.R'><code>R/UnaryFunctions.R</code></a></small>
+    <div class="hidden name"><code>SrcFunction-class.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Build a custom writeback function that writes state into a user named variable.</p>
+    <p>Code text as a new partial function.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>buildNameCallback</span>(<span class='no'>varName</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>varName</th>
-      <td><p>character where to write captured state</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+        
 
-    <p>writeback function for use with functions such as  <code><a href='DebugFnW.html'>DebugFnW</a></code></p>
-    
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='co'># user function</span>
-<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>i</span>) { (<span class='fl'>1</span>:<span class='fl'>10</span>)<span class='kw'>[[</span><span class='no'>i</span>]] }
-<span class='co'># capture last error in variable called "lastError"</span>
-<span class='no'>writeBack</span> <span class='kw'>&lt;-</span> <span class='fu'>buildNameCallback</span>(<span class='st'>'lastError'</span>)
-<span class='co'># wrap function with writeBack</span>
-<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='DebugFnW.html'>DebugFnW</a></span>(<span class='no'>writeBack</span>,<span class='no'>f</span>)
-<span class='co'># capture error (Note: tryCatch not needed for user code!)</span>
-<span class='fu'>tryCatch</span>(
-  <span class='fu'>df</span>(<span class='fl'>12</span>),
-   <span class='kw'>error</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>e</span>) { <span class='fu'>print</span>(<span class='no'>e</span>) })</div><div class='output co'>#&gt; &lt;simpleError in value[[3L]](cond): wrapr::DebugFnW: wrote error to user function: 'writing to variable: "lastError"' on catching 'Error in (1:10)[[i]]: subscript out of bounds'
-#&gt;  You can reproduce the error with:
-#&gt;  'do.call(p$fn, p$args)' (replace 'p' with actual variable name)&gt;</div><div class='input'><span class='co'># examine error</span>
-<span class='fu'>str</span>(<span class='no'>lastError</span>)</div><div class='output co'>#&gt; List of 4
-#&gt;  $ fn       :function (i)  
-#&gt;   ..- attr(*, "srcref")= 'srcref' int [1:8] 3 6 3 32 6 32 3 3
-#&gt;   .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x7fceda6bbe30&gt; 
-#&gt;  $ args     :List of 1
-#&gt;   ..$ : num 12
-#&gt;  $ namedargs: language df(12)
-#&gt;  $ fn_name  : chr "f"</div><div class='input'><span class='co'># redo call, perhaps debugging</span>
-<span class='fu'>tryCatch</span>(
- <span class='fu'>do.call</span>(<span class='no'>lastError</span>$<span class='no'>fn_name</span>, <span class='no'>lastError</span>$<span class='no'>args</span>),
-   <span class='kw'>error</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>e</span>) { <span class='fu'>print</span>(<span class='no'>e</span>) })</div><div class='output co'>#&gt; &lt;simpleError in (1:10)[[i]]: subscript out of bounds&gt;</div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+                </ul>
 
   </div>
 </div>

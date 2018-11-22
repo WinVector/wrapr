@@ -1,7 +1,7 @@
 
 # treat objects as partially applied functions using S4 and wrapr::`%.>%` (dot arrow pipe)
 
-#' @importFrom methods new setClass setMethod signature
+#' @importFrom methods new setClass setMethod signature show is
 NULL
 
 
@@ -92,6 +92,13 @@ apply_left.UnaryFn <- function(pipe_left_arg,
   ApplyTo(pipe_right_arg, pipe_left_arg, pipe_environment)
 }
 
+
+
+
+
+
+
+
 is_list_of_unaryfns <- function(object) {
   items <- object@items
   if(!is.list(items)) {
@@ -173,6 +180,38 @@ setMethod(
     x
   })
 
+#' format step
+#'
+#' @param x object to format
+#' @param ... additional aguments (not used)
+#' @return character
+#'
+#' @export
+format.UnaryFnList <- function(x, ...) {
+  fns <- vapply(x@items,
+                format,
+                character(1))
+  paste0("UnaryFnList",
+         "(\n   ",
+         paste(fns, collapse = ",\n   "),
+         ")")
+}
+
+#' S4 print method
+#'
+#' @param object item to print
+#'
+#' @export
+setMethod(
+  f = "show",
+  signature = "UnaryFnList",
+  definition = function(object) {
+    print(format(object))
+  })
+
+
+
+
 
 
 #' Package qualified name of a function as a function.
@@ -222,6 +261,39 @@ setMethod(
   })
 
 
+#' format step
+#'
+#' @param x object to format
+#' @param ... additional aguments (not used)
+#' @return character
+#'
+#' @export
+format.PartialNamedFn <- function(x, ...) {
+  paste0( x@fn_package, "::", x@fn_name,
+          "(",
+          x@arg_name, "=., ",
+          paste(names(x@args), collapse = ", "),
+          ")")
+}
+
+#' S4 print method
+#'
+#' @param object item to print
+#'
+#' @export
+setMethod(
+  f = "show",
+  signature = "PartialNamedFn",
+  definition = function(object) {
+    print(format(object))
+  })
+
+
+
+
+
+
+
 
 #' Function with partial arguments as a new single argument function.
 #' @export
@@ -266,50 +338,12 @@ setMethod(
   })
 
 
-
-
-
-#' @export
-format.UnaryFnList <- function(x, ...) {
-  fns <- vapply(x@items,
-                format,
-                character(1))
-  paste0("UnaryFnList",
-         "(\n   ",
-         paste(fns, collapse = ",\n   "),
-         ")")
-}
-
-
-#' @export
-setMethod(
-  f = "show",
-  signature = "UnaryFnList",
-  definition = function(object) {
-    print(format(object))
-  })
-
-
-
-#' @export
-format.PartialNamedFn <- function(x, ...) {
-  paste0( x@fn_package, "::", x@fn_name,
-          "(",
-          x@arg_name, "=., ",
-          paste(names(x@args), collapse = ", "),
-          ")")
-}
-
-#' @export
-setMethod(
-  f = "show",
-  signature = "PartialNamedFn",
-  definition = function(object) {
-    print(format(object))
-  })
-
-
-
+#' format step
+#'
+#' @param x object to format
+#' @param ... additional aguments (not used)
+#' @return character
+#'
 #' @export
 format.PartialFunction <- function(x, ...) {
   paste0("PartialFunction",
@@ -319,6 +353,10 @@ format.PartialFunction <- function(x, ...) {
          ")")
 }
 
+#' S4 print method
+#'
+#' @param object item to print
+#'
 #' @export
 setMethod(
   f = "show",
@@ -326,6 +364,89 @@ setMethod(
   definition = function(object) {
     print(format(object))
   })
+
+
+
+
+
+
+#' Code text as a new partial function.
+#' @export
+setClass(
+  "SrcFunction",
+  contains = "UnaryFn",
+  slots = c(expr_src = "character",
+            arg_name = "character",
+            args = "list"))
+
+#' @rdname ApplyTo
+#' @export
+setMethod(
+  "ApplyTo",
+  signature(f = "SrcFunction", x = "ANY"),
+  function(f, x, env = parent.frame()) {
+    force(env)
+    expr_src <- f@expr_src
+    eval_env <- new.env(parent = env)
+    for(ni in names(f@args)) {
+      vi <- f@args[[ni]]
+      assign(ni, vi, envir = eval_env)
+    }
+    assign(f@arg_name, x, envir = eval_env)
+    eval(parse(text = expr_src),
+         envir = eval_env,
+         enclos = eval_env)
+  })
+
+#' @rdname ApplyTo
+#' @export
+setMethod(
+  "ApplyTo",
+  signature(f = "SrcFunction", x = "UnaryFnList"),
+  function(f, x, env = parent.frame()) {
+    new("UnaryFnList",
+        items =  concat_items_rev(list(f), x@items))
+  })
+
+#' @rdname ApplyTo
+#' @export
+setMethod(
+  "ApplyTo",
+  signature(f = "SrcFunction", x = "UnaryFn"),
+  function(f, x, env = parent.frame()) {
+    new("UnaryFnList",
+        items =  concat_items_rev(list(f), list(x)))
+  })
+
+
+#' format step
+#'
+#' @param x object to format
+#' @param ... additional aguments (not used)
+#' @return character
+#'
+#' @export
+format.SrcFunction <- function(x, ...) {
+  paste0("SrcFunction{ ",
+         x@expr_src,
+         " }(",
+         x@arg_name, "=., ",
+         paste(names(x@args), collapse = ", "),
+         ")")
+}
+
+#' S4 print method
+#'
+#' @param object item to print
+#'
+#' @export
+setMethod(
+  f = "show",
+  signature = "SrcFunction",
+  definition = function(object) {
+    print(format(object))
+  })
+
 
 
 
