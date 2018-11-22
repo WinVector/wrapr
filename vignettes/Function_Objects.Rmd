@@ -107,7 +107,12 @@ Again, the pipe notation is not required (but is a nice notation).  The apply a 
 ApplyTo(steps, d2)
 ```
 
-The idea is: sharing a list of function object steps frees any downstream users of the pipeline from having to know how many steps or in the pipeline. What we are trying to do with this set of features is share processing specifications as data, without having to share `R` code our function closures (which are heavier weight, and a bit more delicate).  The functionality is inspired by partially applied functions, but a bit more circumspect in what is carried around.  In Lisp "code is data", in `R` it is a bit more complicated- so a pure-data solution has some merits.
+The idea is: sharing a list of function object steps frees any downstream users of the pipeline from having to know how many steps or in the pipeline. What we are trying to do with this set of features is share processing specifications as data, without having to share `R` code our function closures (which are heavier weight, and a bit more delicate).  
+
+The `steps` object is a `UnaryFnList` `S4` class instance.  This class's  purpose is to implement the `UnaryFn` interface (essentially be compatible with `ApplyTo()`) and carry a list of steps in its `@items` slot.  The idea is this object is convenient to serialize and to pipe into.
+
+
+The demonstrated design and functionality is inspired by partially applied functions, but a bit more circumspect in what is carried around.  In Lisp "code is data", in `R` it is a bit more complicated- so a pure-data solution has some merits.
 
 And that is how to user `wrapr` to build powerful data processing pipelines. 
 
