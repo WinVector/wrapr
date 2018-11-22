@@ -130,7 +130,7 @@ lapplyto(list(model_o, exp_step), d2)
 
 The idea is: sharing a list of function object steps frees any downstream users of the pipeline from having to know how many steps or in the pipeline. What we are trying to do with this set of features is share processing specifications as data, without having to share `R` code our function closures (which are heavier weight, and a bit more delicate).  The functionality is inspired by partially applied functions, but a bit more circumspect in what is carried around.  In Lisp "code is data", in `R` it is a bit more complicated- so a pure-data solution has some merits.
 
-And that is how to user `wrapr` to build powerful data processing pipelines.
+And that is how to user `wrapr` to build powerful data processing pipelines.  An more involved example of trying this technique can be found [here](https://github.com/WinVector/vtreat/blob/master/extras/ModelingPipelines.md).
 
 
 

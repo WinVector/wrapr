@@ -222,7 +222,7 @@
 <pre><code>##         1         2         3         4         5 
 ##  4.953032  6.685894  9.025013 12.182494 16.444647</code></pre>
 <p>The idea is: sharing a list of function object steps frees any downstream users of the pipeline from having to know how many steps or in the pipeline. What we are trying to do with this set of features is share processing specifications as data, without having to share <code>R</code> code our function closures (which are heavier weight, and a bit more delicate). The functionality is inspired by partially applied functions, but a bit more circumspect in what is carried around. In Lisp “code is data”, in <code>R</code> it is a bit more complicated- so a pure-data solution has some merits.</p>
-<p>And that is how to user <code>wrapr</code> to build powerful data processing pipelines.</p>
+<p>And that is how to user <code>wrapr</code> to build powerful data processing pipelines. An more involved example of trying this technique can be found <a href="https://github.com/WinVector/vtreat/blob/master/extras/ModelingPipelines.html">here</a>.</p>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
