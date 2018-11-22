@@ -105,7 +105,7 @@ setMethod(
   signature(f = "UnaryFnList", x = "UnaryFn"),
   function(f, x, env = parent.frame()) {
     new("UnaryFnList",
-        items =  c(f@items, x))
+        items =  c(f@items, list(x)))
   })
 
 #' @rdname ApplyTo
@@ -115,7 +115,7 @@ setMethod(
   signature(f = "UnaryFn", x = "UnaryFnList"),
   function(f, x, env = parent.frame()) {
     new("UnaryFnList",
-        items =  c(f, x@items))
+        items =  c(list(f), x@items))
   })
 
 #' @rdname ApplyTo
@@ -125,7 +125,7 @@ setMethod(
   signature(f = "UnaryFn", x = "UnaryFn"),
   function(f, x, env = parent.frame()) {
     new("UnaryFnList",
-        items =  c(f, x))
+        items =  list(f, x))
   })
 
 #' @rdname ApplyTo
@@ -176,7 +176,7 @@ setMethod(
   signature(f = "PartialNamedFn", x = "UnaryFnList"),
   function(f, x, env = parent.frame()) {
     new("UnaryFnList",
-        items =  c(f, x@items))
+        items =  c(list(f), x@items))
   })
 
 #' @rdname ApplyTo
@@ -186,7 +186,7 @@ setMethod(
   signature(f = "PartialNamedFn", x = "UnaryFn"),
   function(f, x, env = parent.frame()) {
     new("UnaryFnList",
-        items =  c(f, x))
+        items =  list(f, x))
   })
 
 
@@ -220,7 +220,7 @@ setMethod(
   signature(f = "PartialFunction", x = "UnaryFnList"),
   function(f, x, env = parent.frame()) {
     new("UnaryFnList",
-        items =  c(f, x@items))
+        items =  c(list(f), x@items))
   })
 
 #' @rdname ApplyTo
@@ -230,7 +230,7 @@ setMethod(
   signature(f = "PartialFunction", x = "UnaryFn"),
   function(f, x, env = parent.frame()) {
     new("UnaryFnList",
-        items =  c(f, x))
+        items =  list(f, x))
   })
 
 
