@@ -248,23 +248,3 @@ setMethod(
 
 
 
-# f <- new("PartialNamedFn",
-#          fn_name = "exp",
-#          fn_package = "base",
-#          arg_name = "x",
-#          args = list())
-#
-#
-# f2 <- new("PartialFunction",
-#           fn = base::sin,
-#           arg_name = "x",
-#           args = list())
-#
-# ApplyTo(f, 5)
-#
-# ApplyTo(f2, 5)
-#
-# f3 <- new("UnaryFnList", items = list(f, f2))
-#
-# ApplyTo(f3, 5)
-
