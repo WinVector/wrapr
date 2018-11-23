@@ -400,17 +400,10 @@ sapply(1:4, x := { x^2 })
 
 ## Installation
 
-Install with either:
+Install with:
 
 ``` r
 install.packages("wrapr")
-```
-
-or
-
-``` r
-# install.packages("devtools")
-devtools::install_github("WinVector/wrapr")
 ```
 
 ## More Information
