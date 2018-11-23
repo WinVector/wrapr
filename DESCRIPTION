@@ -1,6 +1,7 @@
 Package: wrapr
 Type: Package
 Title: Wrap R Tools for Debugging and Parametric Programming
+Priority: recommended
 Version: 1.7.1
 Date: 2018-11-23
 Authors@R: c(
