@@ -122,7 +122,8 @@
 
     
     
-<p>The <a href="https://github.com/WinVector/wrapr"><code>wrapr</code></a> <a href="https://winvector.github.io/wrapr/reference/dot_arrow.html">dot arrow pipe</a> includes a detailed <code>S3</code>/<code>S4</code> configurable interface (detailed in the RJournal <a href="https://journal.r-project.org/archive/2018/RJ-2018-042/index.html">here</a>). The primary purpose of these interfaces is to be able to treat objects as functions: i.e. to be able to pipe data into objects.</p>
+<p>The <a href="https://github.com/WinVector/wrapr"><code>wrapr</code></a> <a href="https://winvector.github.io/wrapr/reference/dot_arrow.html">dot arrow pipe</a> includes a detailed <code>S3</code>/<code>S4</code> configurable interface (detailed in the RJournal <a href="https://journal.r-project.org/archive/2018/RJ-2018-042/index.html">here</a>). The primary purpose of these pipe interfaces is to be able to treat objects as functions: i.e. to be able to pipe data into objects.</p>
+<p>That is: <a href="https://winvector.github.io/wrapr/articles/dot_pipe.html">pipe notation</a> wants a world data transforms are single argument functions (with other parameters already bound in), and the <code>UnaryFn</code> derived classes we discuss here help realize such a world.</p>
 <p>This can be made clearer with an example using some additional helper classes.</p>
 <p>Suppose we wish to build a linear model as follows.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">d &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dt">y =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>))</a>
@@ -156,7 +157,7 @@
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">d2 <span class="op">%.&gt;%</span><span class="st"> </span>model_o</a></code></pre></div>
 <pre><code>##   1   2   3   4   5 
 ## 1.6 1.9 2.2 2.5 2.8</code></pre>
-<p>This works because <code>model_o</code> is derived from the <code>S4</code> class <code>UnaryFn</code> and <code>wrapr</code> has definitions for <code>apply_right.UnaryFn</code> and <code>apply_left.UnaryFn</code>, which integrate this class into the <a href="https://winvector.github.io/wrapr/reference/dot_arrow.html"><code>wrapr</code> dot-arrow pipe</a>. The family of <code>UnaryFn</code> classes model linear pipelines of single argument functions. This system happens to be implemented by <code>wrapr</code>, but <code>wrapr</code> dot arrow extension mechanisms also allow users to build their own pipe-compatible systems. (<code>S3</code>/<code>S4</code> extension details can be found in the RJournal <a href="https://journal.r-project.org/archive/2018/RJ-2018-042/index.html">here</a>.</p>
+<p>This works because <code>model_o</code> is derived from the <code>S4</code> class <code>UnaryFn</code> and <code>wrapr</code> has definitions for <code>apply_right.UnaryFn</code> and <code>apply_left.UnaryFn</code>, which integrate this class into the <a href="https://winvector.github.io/wrapr/reference/dot_arrow.html"><code>wrapr</code> dot-arrow pipe</a>. The family of <code>UnaryFn</code> classes single argument functions. This system happens to be implemented by <code>wrapr</code>, but <code>wrapr</code> dot arrow extension mechanisms also allow users to build their own pipe-compatible systems. (<code>S3</code>/<code>S4</code> extension details can be found in the RJournal <a href="https://journal.r-project.org/archive/2018/RJ-2018-042/index.html">here</a>.</p>
 <p>The pipe notation is not strictly required as the apply is done through the <code>S4</code> method <a href="https://winvector.github.io/wrapr/reference/ApplyTo.html"><code><a href="../reference/ApplyTo.html">wrapr::ApplyTo()</a></code></a>.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="../reference/ApplyTo.html">ApplyTo</a></span>(model_o, d2) </a></code></pre></div>
 <pre><code>##   1   2   3   4   5 
@@ -182,7 +183,7 @@
 <a class="sourceLine" id="cb14-3" data-line-number="3">d2 <span class="op">%.&gt;%</span><span class="st"> </span>steps</a></code></pre></div>
 <pre><code>##         1         2         3         4         5 
 ##  4.953032  6.685894  9.025013 12.182494 16.444647</code></pre>
-<p>The idea is the <code>pipe_list</code> stores an arbitrary number of function objects as a simple list, which itself declares itself as a function argument. Steps are executed left to right as one would expect in pipeline notation. These functions objects are small and simple. In particular the do not capture environments as function closures do (though obviously any function in them does have its own closure). This list of function objects can be easier to work with, store, and share than function closures or pipelines.</p>
+<p>The idea is: <code>steps</code> stores an arbitrary number of function objects as a simple list, which itself declares itself as function object. Steps are executed left to right as one would expect in pipeline notation. These functions objects are small and simple. In particular the do not capture environments as function closures do (though obviously any function in them does have its own closure). This list of function objects can be easier to work with, store, and share than function closures or pipelines.</p>
 <p>Again, the pipe notation is not required (but is a nice notation). The apply a list of function objects effect can be achieved directly with <code><a href="../reference/ApplyTo.html">wrapr::ApplyTo()</a></code>.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="../reference/ApplyTo.html">ApplyTo</a></span>(steps, d2)</a></code></pre></div>
 <pre><code>##         1         2         3         4         5 
@@ -224,7 +225,7 @@
 <a class="sourceLine" id="cb30-2" data-line-number="2"><span class="dv">1</span><span class="op">:</span><span class="dv">4</span> <span class="op">%.&gt;%</span><span class="st"> </span>s5</a></code></pre></div>
 <pre><code>## [1]  1.5574077 -2.1850399 -0.1425465  1.1578213</code></pre>
 <p>The demonstrated design and functionality is inspired by partially applied functions, but a bit more circumspect in what is carried around. In Lisp “code is data”, in <code>R</code> it is a bit more complicated- so a pure-data solution has some merits.</p>
-<p>And that is how to user <code>wrapr</code> to build powerful data processing pipelines.</p>
+<p>And that the basics of <code>wrapr</code> function objects. For a more substantial data processing example please see <a href="https://github.com/WinVector/vtreat/blob/master/extras/ModelingPipelines.md">here</a>.</p>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
