@@ -27,7 +27,9 @@ setClass("UnaryFn")
 setGeneric(
   "ApplyTo",
   function(f, x, env = parent.frame()) {
-    stop("default ApplyTo called")
+    stop(paste("default ApplyTo(f, x, env) called with classes",
+               "f:{", paste(class(f), collapse = ", "), "}",
+               "x:{", paste(class(x), collapse = ", "), "}"))
   })
 
 
