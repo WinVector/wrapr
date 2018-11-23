@@ -1,5 +1,5 @@
 
-# wrapr 1.7.0 2018-11-22
+# wrapr 1.7.0 2018-11-23
 
  * Add generic unary functions.
  * Add split_at_brace_pairs.
