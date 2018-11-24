@@ -82,11 +82,11 @@ apply_right.UnaryFn <- function(pipe_left_arg,
 #'
 #' @export
 apply_left.UnaryFn <- function(pipe_left_arg,
-                                pipe_right_arg,
-                                pipe_environment,
-                                left_arg_name,
-                                pipe_string,
-                                right_arg_name) {
+                               pipe_right_arg,
+                               pipe_environment,
+                               left_arg_name,
+                               pipe_string,
+                               right_arg_name) {
   force(pipe_environment)
   pipe_right_arg <- eval(pipe_right_arg,
                          envir = pipe_environment,
@@ -124,10 +124,27 @@ is_list_of_unaryfns <- function(object) {
 
 #' List of Unary functions taken in order.
 #' @export
-setClass("UnaryFnList",
-         contains = "UnaryFn",
-         slots = c(items = "list"),
-         validity = is_list_of_unaryfns)
+setClass(
+  "UnaryFnList",
+  contains = "UnaryFn",
+  slots = c(items = "list"),
+  validity = is_list_of_unaryfns)
+
+#' Wrap a list of functions as a function.
+#'
+#' @param items list of UnaryFn derived instances (no nested UnaryFnList items).
+#' @return UnaryFnList
+#'
+#' @seealso \code{\link{pkgfn}}, \code{\link{wrapfn}}, \code{\link{srcfn}}
+#'
+#' @export
+#'
+fnlist <- function(items) {
+  new(
+    "UnaryFnList",
+    items = items
+  )
+}
 
 #' @rdname ApplyTo
 #' @export
@@ -218,12 +235,42 @@ setMethod(
 
 #' Package qualified name of a function as a function.
 #' @export
-setClass("PartialNamedFn",
-         contains = "UnaryFn",
-         slots = c(fn_name = "character",
-                   fn_package = "character",
-                   arg_name = "character",
-                   args = "list"))
+setClass(
+  "PartialNamedFn",
+  contains = "UnaryFn",
+  slots = c(fn_name = "character",
+            fn_package = "character",
+            arg_name = "character",
+            args = "list"))
+
+
+#' Wrap the name of a function as a function.
+#'
+#' @param fname character, function name in fname or package::fname format.
+#' @param arg_name characer, name of argument to assign.
+#' @param args named list of adittional arguments and values.
+#' @return PartialNamedFn
+#'
+#' @seealso \code{\link{fnlist}}, \code{\link{wrapfn}}, \code{\link{srcfn}}
+#'
+#' @export
+#'
+pkgfn <- function(fname, arg_name = ".", args = list()) {
+  parts <- strsplit(fname, '::', fixed = TRUE)[[1]]
+  if(length(parts)==1) {
+    parts <- c("base", parts)
+  }
+  if(length(parts)!=2) {
+    stop("pkgfn fname not in correct format")
+  }
+  new(
+    "PartialNamedFn",
+    fn_name = parts[[2]],
+    fn_package = parts[[1]],
+    arg_name = arg_name,
+    args = args
+  )
+}
 
 #' @rdname ApplyTo
 #' @export
@@ -271,11 +318,11 @@ setMethod(
 #'
 #' @export
 format.PartialNamedFn <- function(x, ...) {
-  paste0( x@fn_package, "::", x@fn_name,
-          "(",
-          x@arg_name, "=., ",
-          paste(names(x@args), collapse = ", "),
-          ")")
+  paste0(x@fn_package, "::", x@fn_name,
+         "(",
+         x@arg_name, "=., ",
+         paste(names(x@args), collapse = ", "),
+         ")")
 }
 
 #' S4 print method
@@ -303,8 +350,31 @@ setClass(
   "PartialFunction",
   contains = "UnaryFn",
   slots = c(fn = "function",
+            fn_text = "character",
             arg_name = "character",
             args = "list"))
+
+#' Wrap the source for an exprssion as a function.
+#'
+#' @param fn function.
+#' @param arg_name characer, name of argument to assign.
+#' @param args named list of adittional arguments and values.
+#' @return PartialFunction
+#'
+#' @seealso \code{\link{pkgfn}}, \code{\link{fnlist}}, \code{\link{srcfn}}
+#'
+#' @export
+#'
+wrapfn <- function(fn, arg_name = ".", args = list()) {
+  fn_text <- paste(deparse(substitute(fn)), collapse = " ")
+  new(
+    "PartialFunction",
+    fn = fn,
+    fn_text = fn_text,
+    arg_name = arg_name,
+    args = args
+  )
+}
 
 #' @rdname ApplyTo
 #' @export
@@ -348,8 +418,9 @@ setMethod(
 #'
 #' @export
 format.PartialFunction <- function(x, ...) {
-  paste0("PartialFunction",
-         "(",
+  paste0("PartialFunction{",
+         paste(x@fn_text, collapse = "\n   "),
+         "}(",
          x@arg_name, "=., ",
          paste(names(x@args), collapse = ", "),
          ")")
@@ -380,6 +451,28 @@ setClass(
   slots = c(expr_src = "character",
             arg_name = "character",
             args = "list"))
+
+#' Wrap the source for an exprssion as a function.
+#'
+#' @param expr_src character, source code of expresson.
+#' @param arg_name characer, name of argument to assign.
+#' @param args named list of adittional arguments and values.
+#' @return SrcFunction
+#'
+#' @seealso  \code{\link{fnlist}}, \code{\link{pkgfn}}, \code{\link{wrapfn}}
+#'
+#' @export
+#'
+srcfn <- function(expr_src, arg_name = ".", args = list()) {
+  new(
+    "SrcFunction",
+    expr_src = expr_src,
+    arg_name = arg_name,
+    args = args
+  )
+}
+
+
 
 #' @rdname ApplyTo
 #' @export
@@ -430,7 +523,7 @@ setMethod(
 #' @export
 format.SrcFunction <- function(x, ...) {
   paste0("SrcFunction{ ",
-         x@expr_src,
+         paste(x@expr_src, collapse = "\n   "),
          " }(",
          x@arg_name, "=., ",
          paste(names(x@args), collapse = ", "),

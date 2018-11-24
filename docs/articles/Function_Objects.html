@@ -145,13 +145,11 @@
 ## 1.6 1.9 2.2 2.5 2.8</code></pre>
 <p>In the above example the <code>model</code> contents are captured in the function closure. However, it would be much more useful to store the model in an object.</p>
 <p><code>wrapr</code> supplies a method to do this, which we will now demonstrate.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">model_o &lt;-<span class="st">  </span><span class="kw">new</span>(<span class="st">"PartialNamedFn"</span>,</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">                <span class="dt">fn_name =</span> <span class="st">'predict.lm'</span>,</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">                <span class="dt">fn_package =</span> <span class="st">"stats"</span>,</a>
-<a class="sourceLine" id="cb6-4" data-line-number="4">                <span class="dt">arg_name =</span> <span class="st">"newdata"</span>, </a>
-<a class="sourceLine" id="cb6-5" data-line-number="5">                <span class="dt">args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">object =</span> model))</a>
-<a class="sourceLine" id="cb6-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(model_o)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">model_o &lt;-<span class="st">  </span><span class="kw"><a href="../reference/pkgfn.html">pkgfn</a></span>(<span class="st">"stats::predict.lm"</span>,</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">                  <span class="dt">arg_name =</span> <span class="st">"newdata"</span>, </a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">                  <span class="dt">args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">object =</span> model))</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(model_o)</a></code></pre></div>
 <pre><code>## [1] "stats::predict.lm(newdata=., object)"</code></pre>
 <p>Notice <code>model_o</code> is an object (not a function). However we can pipe into <code>model_o</code> as if it were an object.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">d2 <span class="op">%.&gt;%</span><span class="st"> </span>model_o</a></code></pre></div>
@@ -167,14 +165,11 @@
 <p>The above methods can be used to wrap functions such as <a href="https://winvector.github.io/vtreat/reference/prepare.html"><code><a href="https://www.rdocumentation.org/packages/vtreat/topics/prepare">vtreat::prepare()</a></code></a> to create very powerful data processing pipelines. A more involved example of trying this technique can be found <a href="https://github.com/WinVector/vtreat/blob/master/extras/ModelingPipelines.md">here</a>.</p>
 <p>Note: the <code>wrapr</code> right-dispatch we are using is only triggered when the right-hand side of a pipeline is a symbol or name. This is consistent with pipelines such as “<code>5 %.&gt;% sin</code>” where we are not so much piping into the sin-function, but into a name that refers to the sin-function. However, piping into names covers almost every practical case.</p>
 <p>Many function object steps can be captured in a list.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">exp_step &lt;-<span class="st"> </span><span class="kw">new</span>(<span class="st">"PartialNamedFn"</span>,</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2">                <span class="dt">fn_name =</span> <span class="st">'exp'</span>,</a>
-<a class="sourceLine" id="cb12-3" data-line-number="3">                <span class="dt">fn_package =</span> <span class="st">"base"</span>,</a>
-<a class="sourceLine" id="cb12-4" data-line-number="4">                <span class="dt">arg_name =</span> <span class="st">"x"</span>, </a>
-<a class="sourceLine" id="cb12-5" data-line-number="5">                <span class="dt">args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>())</a>
-<a class="sourceLine" id="cb12-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co"># pipe line version</span></a>
-<a class="sourceLine" id="cb12-8" data-line-number="8">d2 <span class="op">%.&gt;%</span><span class="st"> </span>model_o <span class="op">%.&gt;%</span><span class="st"> </span>exp_step</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">exp_step &lt;-<span class="st"> </span><span class="kw"><a href="../reference/pkgfn.html">pkgfn</a></span>(<span class="st">"base::exp"</span>,</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">                  <span class="dt">arg_name =</span> <span class="st">"x"</span>)</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co"># pipe line version</span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5">d2 <span class="op">%.&gt;%</span><span class="st"> </span>model_o <span class="op">%.&gt;%</span><span class="st"> </span>exp_step</a></code></pre></div>
 <pre><code>##         1         2         3         4         5 
 ##  4.953032  6.685894  9.025013 12.182494 16.444647</code></pre>
 <p>The sequence of piped function objects is easier to share as a list, and we supply a list-type that can be piped into.</p>
@@ -201,7 +196,7 @@
 ## [[2]]
 ## [1] "base::exp(x=., )"</code></pre>
 <p>And we can build such composite pipelines directly, without using <code><a href="../reference/ApplyTo.html">ApplyTo()</a></code> or pipes.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">s2 &lt;-<span class="st"> </span><span class="kw">new</span>(<span class="st">"UnaryFnList"</span>, <span class="dt">items =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(model_o, exp_step))</a>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">s2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/fnlist.html">fnlist</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(model_o, exp_step))</a>
 <a class="sourceLine" id="cb22-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/format">format</a></span>(s2))</a></code></pre></div>
 <pre><code>## UnaryFnList(
 ##    stats::predict.lm(newdata=., object),
@@ -216,13 +211,15 @@
 <li>The <code>PartialFunction</code> class which directly accepts a function (including it closure).</li>
 </ul>
 <p>Examples include:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">s4 &lt;-<span class="st"> </span><span class="kw">new</span>(<span class="st">"SrcFunction"</span>, <span class="dt">expr_src =</span> <span class="st">". + y"</span>, <span class="dt">arg_name =</span> <span class="st">"."</span>, <span class="dt">args=</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">y=</span><span class="dv">13</span>))</a>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">s4 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/srcfn.html">srcfn</a></span>(<span class="st">". + y"</span>, <span class="dt">arg_name =</span> <span class="st">"."</span>, <span class="dt">args=</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">y=</span><span class="dv">13</span>))</a>
 <a class="sourceLine" id="cb26-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(s4)</a></code></pre></div>
 <pre><code>## [1] "SrcFunction{ . + y }(.=., y)"</code></pre>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="dv">22</span> <span class="op">%.&gt;%</span><span class="st"> </span>s4</a></code></pre></div>
 <pre><code>## [1] 35</code></pre>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">s5 &lt;-<span class="st"> </span><span class="kw">new</span>(<span class="st">"PartialFunction"</span>, <span class="dt">fn =</span> tan, <span class="dt">arg_name =</span> <span class="st">"x"</span>, <span class="dt">args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>())</a>
-<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="dv">1</span><span class="op">:</span><span class="dv">4</span> <span class="op">%.&gt;%</span><span class="st"> </span>s5</a></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">s5 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/wrapfn.html">wrapfn</a></span>(tan, <span class="dt">arg_name =</span> <span class="st">"x"</span>)</a>
+<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(s5)</a></code></pre></div>
+<pre><code>## [1] "PartialFunction{tan}(x=., )"</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="dv">1</span><span class="op">:</span><span class="dv">4</span> <span class="op">%.&gt;%</span><span class="st"> </span>s5</a></code></pre></div>
 <pre><code>## [1]  1.5574077 -2.1850399 -0.1425465  1.1578213</code></pre>
 <p>The demonstrated design and functionality is inspired by partially applied functions, but a bit more circumspect in what is carried around. In Lisp “code is data”, in <code>R</code> it is a bit more complicated- so a pure-data solution has some merits.</p>
 <p>And that the basics of <code>wrapr</code> function objects. For a more substantial data processing example please see <a href="https://github.com/WinVector/vtreat/blob/master/extras/ModelingPipelines.md">here</a>.</p>

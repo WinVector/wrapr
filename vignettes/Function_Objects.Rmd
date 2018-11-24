@@ -50,11 +50,9 @@ In the above example the `model` contents are captured in the function closure. 
 `wrapr` supplies a method to do this, which we will now demonstrate.
 
 ```{r lms3_1}
-model_o <-  new("PartialNamedFn",
-                fn_name = 'predict.lm',
-                fn_package = "stats",
-                arg_name = "newdata", 
-                args = list(object = model))
+model_o <-  pkgfn("stats::predict.lm",
+                  arg_name = "newdata", 
+                  args = list(object = model))
 
 print(model_o)
 ```
@@ -85,11 +83,8 @@ Note: the `wrapr` right-dispatch we are using is only triggered when the right-h
 Many function object steps can be captured in a list.
 
 ```{r lst}
-exp_step <- new("PartialNamedFn",
-                fn_name = 'exp',
-                fn_package = "base",
-                arg_name = "x", 
-                args = list())
+exp_step <- pkgfn("base::exp",
+                  arg_name = "x")
 
 # pipe line version
 d2 %.>% model_o %.>% exp_step
@@ -124,7 +119,7 @@ steps@items
 And we can build such composite pipelines directly, without using `ApplyTo()` or pipes.
 
 ```{r listlist}
-s2 <- new("UnaryFnList", items = list(model_o, exp_step))
+s2 <- fnlist(list(model_o, exp_step))
 cat(format(s2))
 
 d2 %.>% s2
@@ -142,11 +137,12 @@ Examples include:
 
 ```{r specfn}
 
-s4 <- new("SrcFunction", expr_src = ". + y", arg_name = ".", args= list(y=13))
+s4 <- srcfn(". + y", arg_name = ".", args= list(y=13))
 print(s4)
 22 %.>% s4
 
-s5 <- new("PartialFunction", fn = tan, arg_name = "x", args = list())
+s5 <- wrapfn(tan, arg_name = "x")
+print(s5)
 1:4 %.>% s5
 ```
 
