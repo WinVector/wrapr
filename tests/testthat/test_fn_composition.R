@@ -56,4 +56,15 @@ test_that("test_fn_composition.R", {
   error = function(...) { stop("saw error")},
   warning = function(...) { stop("saw warning")}
   )
+
+  z <- new("PartialNamedFn",
+      fn_name = "exp",
+      fn_package = "base",
+      arg_name = "x",
+      args = list()) %.>%
+    new("PartialFunction",
+        fn = base::sin,
+        arg_name = "x",
+        args = list())
+  v <- x %.>% z
 })
