@@ -10,10 +10,12 @@ Collector()
 a Collector list-object.
 }
 \description{
-Build a collector that can capture all pipe stages to the right.
+Build a collector that can capture all pipe stages to the right, using
+\code{bquote()-.()} escaping.
 }
 \examples{
 
-Collector() \%.>\% sin(.) \%.>\% cos(.)
+phase <- 0.1
+Collector() \%.>\% sin(.) \%.>\% cos(. + .(phase))
 
 }

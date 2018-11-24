@@ -24,6 +24,6 @@
 result
 }
 \description{
-Capture all right-arguments unevaluated.
+Capture all right-arguments unevaluated, using \code{bquote()-.()} escaping.
 }
 \keyword{internal}

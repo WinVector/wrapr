@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Capture arguments and environment of exception throwing function call for later debugging. — DebugFnE • wrapr</title>
+<title>Evaluate a sequence of expressions with <code>.</code>-value substituted in. — eval_dot_sequence • wrapr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,9 @@
 
 
 
-<meta property="og:title" content="Capture arguments and environment of exception throwing function call for later debugging. — DebugFnE" />
+<meta property="og:title" content="Evaluate a sequence of expressions with <code>.</code>-value substituted in. — eval_dot_sequence" />
 
-<meta property="og:description" content="Run fn, save arguments, and environment on failure.
-Please see: vignette(&quot;DebugFnW&quot;, package=&quot;wrapr&quot;)." />
+<meta property="og:description" content="Evaluate a sequence of expressions with .-value substituted in." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -145,71 +144,46 @@ Please see: vignette(&quot;DebugFnW&quot;, package=&quot;wrapr&quot;)." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Capture arguments and environment of exception throwing function call for later debugging.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/DebugFn.R'><code>R/DebugFn.R</code></a></small>
-    <div class="hidden name"><code>DebugFnE.Rd</code></div>
+    <h1>Evaluate a sequence of expressions with <code>.</code>-value substituted in.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/CapturePipeline.R'><code>R/CapturePipeline.R</code></a></small>
+    <div class="hidden name"><code>eval_dot_sequence.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Run fn, save arguments, and environment on failure.
-Please see: <code><a href='../articles/DebugFnW.html'>vignette("DebugFnW", package="wrapr")</a></code>.</p>
+    <p>Evaluate a sequence of expressions with <code>.</code>-value substituted in.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>DebugFnE</span>(<span class='no'>saveDest</span>, <span class='no'>fn</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>eval_dot_sequence</span>(<span class='no'>.</span>, <span class='no'>dot_seq</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sys.parent'>parent.frame</a></span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>saveDest</th>
-      <td><p>where to write captured state (determined by type): NULL random temp file, character temp file, name globalenv() variable, and function triggers callback.</p></td>
+      <th>.</th>
+      <td><p>value to pass in.</p></td>
     </tr>
     <tr>
-      <th>fn</th>
-      <td><p>function to call</p></td>
+      <th>dot_seq</th>
+      <td><p>list of expressions.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>arguments for fn</p></td>
+      <th>env</th>
+      <td><p>environment to work in.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>fn(...) normally, but if fn(...) throws an exception save to saveDest RDS of list r such that do.call(r$fn,r$args) repeats the call to fn with args.</p>
+    <p>sequential evaluation result.</p>
     
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <div class='dont-index'><p><code><a href='https://www.rdocumentation.org/packages/utils/topics/debugger'>dump.frames</a></code>, <code><a href='DebugFn.html'>DebugFn</a></code>, <code><a href='DebugFnW.html'>DebugFnW</a></code>,  <code><a href='DebugFnWE.html'>DebugFnWE</a></code>, <code><a href='DebugPrintFn.html'>DebugPrintFn</a></code>, <code>DebugFnE</code>, <code><a href='DebugPrintFnE.html'>DebugPrintFnE</a></code></p></div>
+    <p>Note: not for steps that intend side-effects or have references to items
+in non-standard environments.</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='no'>saveDest</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempfile</a></span>(<span class='st'>'debug'</span>),<span class='st'>'.RDS'</span>)
-<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>i</span>) { (<span class='fl'>1</span>:<span class='fl'>10</span>)<span class='kw'>[[</span><span class='no'>i</span>]] }
-<span class='co'># correct run</span>
-<span class='fu'>DebugFnE</span>(<span class='no'>saveDest</span>, <span class='no'>f</span>, <span class='fl'>5</span>)</div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='co'># now re-run</span>
-<span class='co'># capture error on incorrect run</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/conditions'>tryCatch</a></span>(
-   <span class='fu'>DebugFnE</span>(<span class='no'>saveDest</span>, <span class='no'>f</span>, <span class='fl'>12</span>),
-   <span class='kw'>error</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>e</span>) { <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>e</span>) })</div><div class='output co'>#&gt; &lt;simpleError in value[[3L]](cond): wrapr::DebugFnE: wrote '/var/folders/6t/x_r4km317f3gdmnvlcwb349w0000gn/T//RtmptEGFKG/debug12c012eab6fd6.RDS' on catching 'Error in (1:10)[[i]]: subscript out of bounds'
-#&gt;  You can reproduce the error with:
-#&gt; 'p &lt;- readRDS('/var/folders/6t/x_r4km317f3gdmnvlcwb349w0000gn/T//RtmptEGFKG/debug12c012eab6fd6.RDS'); do.call(p$fn, p$args, envir= p$env)'&gt;</div><div class='input'><span class='co'># examine details</span>
-<span class='no'>situation</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/readRDS'>readRDS</a></span>(<span class='no'>saveDest</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/str'>str</a></span>(<span class='no'>situation</span>)</div><div class='output co'>#&gt; List of 4
-#&gt;  $ fn     :function (i)  
-#&gt;   ..- attr(*, "srcref")= 'srcref' int [1:8] 3 6 3 32 6 32 3 3
-#&gt;   .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x7fa76053be98&gt; 
-#&gt;  $ args   :List of 1
-#&gt;   ..$ : num 12
-#&gt;  $ env    :&lt;environment: 0x7fa76053c250&gt; 
-#&gt;  $ fn_name: chr "f"</div><div class='input'><span class='co'># fix and re-run</span>
-<span class='no'>situation</span>$<span class='no'>args</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='kw'>&lt;-</span> <span class='fl'>6</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/do.call'>do.call</a></span>(<span class='no'>situation</span>$<span class='no'>fn</span>, <span class='no'>situation</span>$<span class='no'>args</span>, <span class='kw'>envir</span><span class='kw'>=</span><span class='no'>situation</span>$<span class='no'>env</span>)</div><div class='output co'>#&gt; [1] 6</div><div class='input'><span class='co'># clean up</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/files'>file.remove</a></span>(<span class='no'>saveDest</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -218,10 +192,8 @@ Please see: <code><a href='../articles/DebugFnW.html'>vignette("DebugFnW", packa
       
       <li><a href="#value">Value</a></li>
 
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+      <li><a href="#details">Details</a></li>
+          </ul>
 
   </div>
 </div>
