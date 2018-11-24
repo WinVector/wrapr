@@ -1,7 +1,8 @@
 
-# wrapr 1.7.0 2018-11-23
+# wrapr 1.7.0 2018-11-24
 
  * Add generic unary functions.
+ * Add .() pipe escaping.
  * Add split_at_brace_pairs.
  * Documentation fixes.
  * Error msg fix.

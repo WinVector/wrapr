@@ -351,6 +351,8 @@ pipe_impl <- function(pipe_left_arg,
                       pipe_right_arg,
                       pipe_environment,
                       pipe_string = NULL) {
+  # make sure environment is available
+  force(pipe_environment)
   # special case: parenthesis
   while(is.call(pipe_right_arg) &&
         (length(pipe_right_arg)==2) &&
@@ -358,8 +360,6 @@ pipe_impl <- function(pipe_left_arg,
         (as.character(pipe_right_arg[[1]])=="(")) {
     pipe_right_arg <- pipe_right_arg[[2]]
   }
-  # make sure environment is available
-  force(pipe_environment)
   # capture names
   left_arg_name <- NULL
   if(is.name(pipe_left_arg)) {
@@ -384,10 +384,12 @@ pipe_impl <- function(pipe_left_arg,
   is_function_decl <- is.call(pipe_right_arg) &&
     (length(as.character(pipe_right_arg[[1]]))==1) &&
     (as.character(pipe_right_arg[[1]])=="function")
+  # special-case .() on RHS
+  dot_paren <- (is.call(pipe_right_arg) && as.character(pipe_right_arg[[1]])==".")
   # check for right-apply situations
   if(is.function(pipe_right_arg) ||
      is_name || qualified_name ||
-     is_function_decl) {
+     is_function_decl || dot_paren) {
     if(is_name) {
       if(as.character(pipe_right_arg) %in% forbidden_pipe_destination_names) {
         stop(paste("to reduce surprising behavior wrapr::pipe does not allow direct piping into some names, such as",
@@ -397,12 +399,12 @@ pipe_impl <- function(pipe_left_arg,
                                   envir = pipe_environment,
                                   mode = "any",
                                   inherits = TRUE)
-    } else if(qualified_name) {
+    } else if(qualified_name || is_function_decl) {
       pipe_right_arg <- base::eval(pipe_right_arg,
                                    envir = pipe_environment,
                                    enclos = pipe_environment)
-    } else if(is_function_decl) {
-      pipe_right_arg <- eval(pipe_right_arg,
+    } else if(dot_paren) {
+      pipe_right_arg <- eval(pipe_right_arg[[2]],
                             envir = pipe_environment,
                             enclos = pipe_environment)
     }
