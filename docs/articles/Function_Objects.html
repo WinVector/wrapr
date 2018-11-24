@@ -164,7 +164,7 @@
 <p>The above could all have been defined in user code (the <code>wrapr</code> pipe allows external extension), but as a convenience it is now supplied with of <code>wrapr</code> itself.</p>
 <p>The above methods can be used to wrap functions such as <a href="https://winvector.github.io/vtreat/reference/prepare.html"><code><a href="https://www.rdocumentation.org/packages/vtreat/topics/prepare">vtreat::prepare()</a></code></a> to create very powerful data processing pipelines. A more involved example of trying this technique can be found <a href="https://github.com/WinVector/vtreat/blob/master/extras/ModelingPipelines.md">here</a>.</p>
 <p>Note: the <code>wrapr</code> right-dispatch we are using is only triggered when the right-hand side of a pipeline is a symbol or name. This is consistent with pipelines such as “<code>5 %.&gt;% sin</code>” where we are not so much piping into the sin-function, but into a name that refers to the sin-function. However, piping into names covers almost every practical case.</p>
-<p>Many function object steps can be captured in a list.</p>
+<p>Many function object steps can be captured by piping them together.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">exp_step &lt;-<span class="st"> </span><span class="kw"><a href="../reference/pkgfn.html">pkgfn</a></span>(<span class="st">"base::exp"</span>,</a>
 <a class="sourceLine" id="cb12-2" data-line-number="2">                  <span class="dt">arg_name =</span> <span class="st">"x"</span>)</a>
 <a class="sourceLine" id="cb12-3" data-line-number="3"></a>
@@ -195,7 +195,7 @@
 ## 
 ## [[2]]
 ## [1] "base::exp(x=., )"</code></pre>
-<p>And we can build such composite pipelines directly, without using <code><a href="../reference/ApplyTo.html">ApplyTo()</a></code> or pipes.</p>
+<p>And we can build such composite pipelines directly, without using <code><a href="../reference/ApplyTo.html">ApplyTo()</a></code> or pipes using the <code><a href="../reference/fnlist.html">fnlist()</a></code> method.</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">s2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/fnlist.html">fnlist</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(model_o, exp_step))</a>
 <a class="sourceLine" id="cb22-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/format">format</a></span>(s2))</a></code></pre></div>
 <pre><code>## UnaryFnList(
@@ -207,8 +207,10 @@
 <p>The <code>steps</code> object is a <code>UnaryFnList</code> <code>S4</code> class instance. This class’s purpose is to implement the <code>UnaryFn</code> interface (essentially be compatible with <code><a href="../reference/ApplyTo.html">ApplyTo()</a></code>) and carry a list of steps in its <code>@items</code> slot. The idea is this object is convenient to serialize and to pipe into.</p>
 <p>In addition to the <code>PartialNamedFn</code> class we suggest looking at the following additional adapters:</p>
 <ul>
-<li>The <code>SrcFunction</code> class which accepts the source code for an arbitrary expression.</li>
-<li>The <code>PartialFunction</code> class which directly accepts a function (including it closure).</li>
+<li>
+<code><a href="../reference/srcfn.html">srcfn()</a></code> which accepts the source code for an arbitrary expression.</li>
+<li>
+<code><a href="../reference/wrapfn.html">wrapfn()</a></code> class which directly accepts a function (including the closure).</li>
 </ul>
 <p>Examples include:</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">s4 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/srcfn.html">srcfn</a></span>(<span class="st">". + y"</span>, <span class="dt">arg_name =</span> <span class="st">"."</span>, <span class="dt">args=</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">y=</span><span class="dv">13</span>))</a>

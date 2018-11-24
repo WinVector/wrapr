@@ -80,7 +80,7 @@ The above methods can be used to wrap functions such as [`vtreat::prepare()`](ht
 
 Note: the `wrapr` right-dispatch we are using is only triggered when the right-hand side of a pipeline is a symbol or name.  This is consistent with pipelines such as "`5 %.>% sin`" where we are not so much piping into the sin-function, but into a name that refers to the sin-function.  However, piping into names covers almost every practical case.
 
-Many function object steps can be captured in a list.
+Many function object steps can be captured by piping them together.
 
 ```{r lst}
 exp_step <- pkgfn("base::exp",
@@ -116,7 +116,7 @@ cat(format(steps))
 steps@items
 ```
 
-And we can build such composite pipelines directly, without using `ApplyTo()` or pipes.
+And we can build such composite pipelines directly, without using `ApplyTo()` or pipes using the `fnlist()` method.
 
 ```{r listlist}
 s2 <- fnlist(list(model_o, exp_step))
@@ -130,8 +130,8 @@ The `steps` object is a `UnaryFnList` `S4` class instance.  This class's  purpos
 
 In addition to the `PartialNamedFn` class we suggest looking at the following additional adapters:
 
- * The `SrcFunction` class which accepts the source code for an arbitrary expression.
- * The `PartialFunction` class which directly accepts a function (including it closure).
+ * `srcfn()` which accepts the source code for an arbitrary expression.
+ * `wrapfn()` class which directly accepts a function (including the closure).
  
 Examples include:
 
