@@ -27,3 +27,8 @@ result
 \code{apply_left} for \code{Argument} \code{class}.  Forced evaluation of
 right argument and appies \code{apply_right}.
 }
+\examples{
+
+as_argument(1:3) \%.>\% wrapfn(sin, "x") \%.>\% wrapfn(cos, "x") \%.>\% as_value(.)
+
+}
