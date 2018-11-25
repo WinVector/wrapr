@@ -65,7 +65,7 @@ d2 %.>% model_o
 
 This works because `model_o` is derived from the `S4` class `UnaryFn` and  `wrapr` has definitions for `apply_right.UnaryFn` and `apply_left.UnaryFn`, which integrate this class into the [`wrapr` dot-arrow pipe](https://winvector.github.io/wrapr/reference/dot_arrow.html).  The family of `UnaryFn` classes single argument functions.  This system happens to be implemented by `wrapr`, but `wrapr` dot arrow extension mechanisms also allow users to build their own pipe-compatible systems. (`S3`/`S4` extension details can be found in the RJournal [here](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html).
 
-The pipe notation is not strictly required as the apply is done through the `S4` method [`wrapr::ApplyTo()`](https://winvector.github.io/wrapr/reference/ApplyTo.html).
+The pipe notation is not strictly required as the apply is done through the `S4` method `wrapr::ApplyTo()`.
 
 ```{r lms3nopipe}
 ApplyTo(model_o, d2) 
