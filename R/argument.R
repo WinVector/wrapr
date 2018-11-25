@@ -10,6 +10,9 @@
 #' @export
 #'
 as_argument <- function(x) {
+  if("Argument" %in% class(x)) {
+    return(x)
+  }
   r <- list(x)
   class(r) <- "Argument"
   r
