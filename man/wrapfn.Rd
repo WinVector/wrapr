@@ -19,6 +19,13 @@ PartialFunction
 \description{
 Wrap the source for an exprssion as a function.
 }
+\examples{
+
+f <- wrapfn(sin, "x")
+cat(format(f))
+1:3 \%.>\% f
+
+}
 \seealso{
 \code{\link{pkgfn}}, \code{\link{fnlist}}, \code{\link{srcfn}}
 }

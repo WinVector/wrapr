@@ -4,16 +4,23 @@
 \alias{fnlist}
 \title{Wrap a list of functions as a function.}
 \usage{
-fnlist(items)
+fnlist(...)
 }
 \arguments{
-\item{items}{list of UnaryFn derived instances (no nested UnaryFnList items).}
+\item{...}{UnaryFn derived instances (no nested UnaryFnList items).}
 }
 \value{
 UnaryFnList
 }
 \description{
 Wrap a list of functions as a function.
+}
+\examples{
+
+f <- fnlist(pkgfn("base::sin", "x"), pkgfn("base::cos", "x"))
+cat(format(f))
+1:3 \%.>\% f
+
 }
 \seealso{
 \code{\link{pkgfn}}, \code{\link{wrapfn}}, \code{\link{srcfn}}

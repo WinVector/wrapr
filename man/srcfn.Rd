@@ -19,6 +19,14 @@ SrcFunction
 \description{
 Wrap the source for an exprssion as a function.
 }
+\examples{
+
+f <- srcfn(". + z", ".", args = list(z = 10))
+cat(format(f))
+1:3 \%.>\% f
+
+
+}
 \seealso{
 \code{\link{fnlist}}, \code{\link{pkgfn}}, \code{\link{wrapfn}}
 }

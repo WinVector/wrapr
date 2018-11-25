@@ -196,7 +196,7 @@ d2 <span class="op">%.&gt;%</span><span class="st"> </span>steps</code></pre></d
 ## [[2]]
 ## [1] "base::exp(x=., )"</code></pre>
 <p>And we can build such composite pipelines directly, without using <code><a href="../reference/ApplyTo.html">ApplyTo()</a></code> or pipes using the <code><a href="../reference/fnlist.html">fnlist()</a></code> method.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">s2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/fnlist.html">fnlist</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(model_o, exp_step))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">s2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/fnlist.html">fnlist</a></span>(model_o, exp_step)
 <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/format">format</a></span>(s2))</code></pre></div>
 <pre><code>## UnaryFnList(
 ##    stats::predict.lm(newdata=., object),

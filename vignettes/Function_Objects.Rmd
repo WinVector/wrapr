@@ -119,7 +119,7 @@ steps@items
 And we can build such composite pipelines directly, without using `ApplyTo()` or pipes using the `fnlist()` method.
 
 ```{r listlist}
-s2 <- fnlist(list(model_o, exp_step))
+s2 <- fnlist(model_o, exp_step)
 cat(format(s2))
 
 d2 %.>% s2

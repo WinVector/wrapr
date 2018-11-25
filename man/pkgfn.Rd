@@ -19,6 +19,13 @@ PartialNamedFn
 \description{
 Wrap the name of a function as a function.
 }
+\examples{
+
+f <- pkgfn("base::sin", "x")
+cat(format(f))
+1:3 \%.>\% f
+
+}
 \seealso{
 \code{\link{fnlist}}, \code{\link{wrapfn}}, \code{\link{srcfn}}
 }
