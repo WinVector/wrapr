@@ -67,6 +67,7 @@ apply_left <- function(pipe_left_arg,
 # things we don't want to piple into
 forbidden_pipe_destination_names <- c("else",
                                       "return",
+                                      "stop", "warning",
                                       "in", "next", "break",
                                       "TRUE", "FALSE", "NULL", "Inf", "NaN",
                                       "NA", "NA_integer_", "NA_real_", "NA_complex_", "NA_character_",
