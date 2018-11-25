@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.0</span>
       </span>
     </div>
 
@@ -113,7 +113,7 @@
       <h1>Function Objects</h1>
                         <h4 class="author">John Mount</h4>
             
-            <h4 class="date">2018-11-24</h4>
+            <h4 class="date">2018-11-25</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/Function_Objects.Rmd"><code>vignettes/Function_Objects.Rmd</code></a></small>
       <div class="hidden name"><code>Function_Objects.Rmd</code></div>
@@ -156,7 +156,7 @@
 <pre><code>##   1   2   3   4   5 
 ## 1.6 1.9 2.2 2.5 2.8</code></pre>
 <p>This works because <code>model_o</code> is derived from the <code>S4</code> class <code>UnaryFn</code> and <code>wrapr</code> has definitions for <code>apply_right.UnaryFn</code> and <code>apply_left.UnaryFn</code>, which integrate this class into the <a href="https://winvector.github.io/wrapr/reference/dot_arrow.html"><code>wrapr</code> dot-arrow pipe</a>. The family of <code>UnaryFn</code> classes single argument functions. This system happens to be implemented by <code>wrapr</code>, but <code>wrapr</code> dot arrow extension mechanisms also allow users to build their own pipe-compatible systems. (<code>S3</code>/<code>S4</code> extension details can be found in the RJournal <a href="https://journal.r-project.org/archive/2018/RJ-2018-042/index.html">here</a>.</p>
-<p>The pipe notation is not strictly required as the apply is done through the <code>S4</code> method <a href="https://winvector.github.io/wrapr/reference/ApplyTo.html"><code><a href="../reference/ApplyTo.html">wrapr::ApplyTo()</a></code></a>.</p>
+<p>The pipe notation is not strictly required as the apply is done through the <code>S4</code> method <code><a href="../reference/ApplyTo.html">wrapr::ApplyTo()</a></code>.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="../reference/ApplyTo.html">ApplyTo</a></span>(model_o, d2) </a></code></pre></div>
 <pre><code>##   1   2   3   4   5 
 ## 1.6 1.9 2.2 2.5 2.8</code></pre>
