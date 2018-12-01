@@ -225,7 +225,7 @@ apply_right <- function(pipe_left_arg,
 #' Default apply_right implementation: S4 dispatch to apply_right_S4.
 #'
 #' @param pipe_left_arg left argument
-#' @param pipe_right_arg substitute(pipe_right_arg) argument
+#' @param pipe_right_arg pipe_right_arg argument
 #' @param pipe_environment environment to evaluate in
 #' @param left_arg_name name, if not NULL name of left argument.
 #' @param pipe_string character, name of pipe operator.
@@ -273,7 +273,7 @@ apply_right.default <- function(pipe_left_arg,
 #' Intended to be generic on first two arguments.
 #'
 #' @param pipe_left_arg left argument
-#' @param pipe_right_arg substitute(pipe_right_arg) argument
+#' @param pipe_right_arg pipe_right_arg argument
 #' @param pipe_environment environment to evaluate in
 #' @param left_arg_name name, if not NULL name of left argument.
 #' @param pipe_string character, name of pipe operator.

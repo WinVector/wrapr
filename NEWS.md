@@ -1,5 +1,5 @@
 
-# wrapr 1.8.0 2018-11-25
+# wrapr 1.8.0 2018-12-01
 
  * Add generic unary functions.
  * Add .() pipe escaping.
