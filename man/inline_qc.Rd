@@ -2,7 +2,7 @@
 % Please edit documentation in R/c.R
 \name{\%qc\%}
 \alias{\%qc\%}
-\title{Inline quoting concatinate.}
+\title{Inline quoting list/array concatenate.}
 \usage{
 e1 \%qc\% e2
 }
@@ -15,7 +15,7 @@ e1 \%qc\% e2
 qc(e1, c2)
 }
 \description{
-Inline quoting concatinate.
+Inline quoting list/array concatenate.
 }
 \examples{
 

@@ -1,6 +1,6 @@
 
 
-#' Inline concatinate.
+#' Inline list/array concatenate.
 #'
 #' @param e1 first, or left argument.
 #' @param e2 second, or gith argument.
@@ -20,7 +20,7 @@
   c(e1, e2)
 }
 
-#' Inline quoting concatinate.
+#' Inline quoting list/array concatenate.
 #'
 #' @param e1 first, or left argument.
 #' @param e2 second, or gith argument.

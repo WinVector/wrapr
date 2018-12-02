@@ -520,3 +520,15 @@ NULL
   pipe_impl(pipe_left_arg, pipe_right_arg,
             pipe_environment, pipe_string)
 }
+
+
+#' @describeIn dot_arrow alias for dot arrow
+#' @export
+`%.%` <- function(pipe_left_arg, pipe_right_arg) {
+  pipe_left_arg <- substitute(pipe_left_arg)
+  pipe_right_arg <- substitute(pipe_right_arg)
+  pipe_environment <- parent.frame()
+  pipe_string <- as.character(sys.call()[[1]])
+  pipe_impl(pipe_left_arg, pipe_right_arg,
+            pipe_environment, pipe_string)
+}

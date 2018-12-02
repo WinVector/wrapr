@@ -4,11 +4,14 @@
 \alias{dot_arrow}
 \alias{\%.>\%}
 \alias{\%>.\%}
+\alias{\%.\%}
 \title{Pipe operator ("dot arrow", "dot pipe" or "dot arrow pipe").}
 \usage{
 pipe_left_arg \%.>\% pipe_right_arg
 
 pipe_left_arg \%>.\% pipe_right_arg
+
+pipe_left_arg \%.\% pipe_right_arg
 }
 \arguments{
 \item{pipe_left_arg}{left argument expression (substituted into .)}
@@ -41,6 +44,8 @@ For a base-R step-debuggable pipe please try the Bizarro Pipe \url{http://www.wi
 \item \code{\%.>\%}: dot arrow
 
 \item \code{\%>.\%}: alias for dot arrow
+
+\item \code{\%.\%}: alias for dot arrow
 }}
 
 \examples{
