@@ -1,5 +1,5 @@
 
-#' Inline character concatenate.
+#' Inline character paste0.
 #'
 #' @param e1 first, or left argument.
 #' @param e2 second, or right argument.
@@ -7,14 +7,14 @@
 #'
 #' @examples
 #'
-#' "a" %+% "b"
+#' "a" %p% "b"
 #'
-#' c("a", "b") %+% "_d"
+#' c("a", "b") %p% "_d"
 #'
 #' @rdname inline_paste0
 #'
 #' @export
 #'
-`%+%` <- function(e1, e2) {
+`%p%` <- function(e1, e2) {
   paste0(e1, e2)
 }

@@ -18,12 +18,13 @@ setClass("UnaryFn")
 #' from left to right).  Otherwise evaluate f(x) (application
 #' from left to right).
 #'
-#' @param f object of S4 class UnaryFn
+#' @param f object of S4 class derived from UnaryFn.
 #' @param x argument.
 #' @param env environment to work in.
 #' @return f(x) if x is not a UnaryFn else f composed with x.
 #'
 #' @export
+#'
 setGeneric(
   "ApplyTo",
   function(f, x, env = parent.frame()) {
@@ -47,7 +48,7 @@ concat_items_rev <- function(op1, op2) {
 #' Apply right wrapped function to argument on left.
 #'
 #' @param pipe_left_arg left argument
-#' @param pipe_right_arg pipe_right_arg argument
+#' @param pipe_right_arg pipe_right_arg argument, class derived from UnaryFn.
 #' @param pipe_environment environment to evaluate in
 #' @param left_arg_name name, if not NULL name of left argument.
 #' @param pipe_string character, name of pipe operator.
@@ -74,7 +75,7 @@ apply_right.UnaryFn <- function(pipe_left_arg,
 #' Apply right wrapped function to argument on left.
 #'
 #' @param pipe_left_arg left argument
-#' @param pipe_right_arg substitute(pipe_right_arg) argument
+#' @param pipe_right_arg substitute(pipe_right_arg) argument, should evaluate to a class derived from UnaryFn.
 #' @param pipe_environment environment to evaluate in
 #' @param left_arg_name name, if not NULL name of left argument.
 #' @param pipe_string character, name of pipe operator.

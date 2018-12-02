@@ -10,7 +10,7 @@
 \arguments{
 \item{pipe_left_arg}{left argument}
 
-\item{pipe_right_arg}{pipe_right_arg argument}
+\item{pipe_right_arg}{pipe_right_arg argument, class derived from UnaryFn.}
 
 \item{pipe_environment}{environment to evaluate in}
 

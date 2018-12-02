@@ -52,7 +52,7 @@ ApplyTo(f, x, env = parent.frame())
 \S4method{ApplyTo}{SrcFunction,UnaryFn}(f, x, env = parent.frame())
 }
 \arguments{
-\item{f}{object of S4 class UnaryFn}
+\item{f}{object of S4 class derived from UnaryFn.}
 
 \item{x}{argument.}
 
