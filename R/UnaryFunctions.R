@@ -47,7 +47,7 @@ concat_items_rev <- function(op1, op2) {
 #' Apply right wrapped function to argument on left.
 #'
 #' @param pipe_left_arg left argument
-#' @param pipe_right_arg substitute(pipe_right_arg) argument
+#' @param pipe_right_arg pipe_right_arg argument
 #' @param pipe_environment environment to evaluate in
 #' @param left_arg_name name, if not NULL name of left argument.
 #' @param pipe_string character, name of pipe operator.
@@ -64,6 +64,9 @@ apply_right.UnaryFn <- function(pipe_left_arg,
                                 pipe_string,
                                 right_arg_name) {
   force(pipe_environment)
+  if((!isS4(pipe_right_arg)) || (!is(pipe_right_arg, "UnaryFn"))) {
+    stop(paste("wrapr::apply_right.UnaryFn right argument: ", pipe_right_arg, " must be an instance of a class derived from UnaryFn"))
+  }
   ApplyTo(pipe_right_arg, pipe_left_arg, pipe_environment)
 }
 
@@ -91,6 +94,9 @@ apply_left.UnaryFn <- function(pipe_left_arg,
   pipe_right_arg <- eval(pipe_right_arg,
                          envir = pipe_environment,
                          enclos = pipe_environment)
+  if((!isS4(pipe_right_arg)) || (!is(pipe_right_arg, "UnaryFn"))) {
+    stop(paste("wrapr::apply_left.UnaryFn right argument: ", pipe_right_arg, " must be an instance of a class derived from UnaryFn"))
+  }
   ApplyTo(pipe_right_arg, pipe_left_arg, pipe_environment)
 }
 
