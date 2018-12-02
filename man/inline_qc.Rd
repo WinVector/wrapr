@@ -9,7 +9,7 @@ e1 \%qc\% e2
 \arguments{
 \item{e1}{first, or left argument.}
 
-\item{e2}{second, or gith argument.}
+\item{e2}{second, or right argument.}
 }
 \value{
 qc(e1, c2)

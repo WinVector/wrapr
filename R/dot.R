@@ -1,5 +1,5 @@
 
-#' Inline character concatenate.
+#' Inline dot product.
 #'
 #' @param e1 first, or left argument.
 #' @param e2 second, or right argument.
@@ -7,14 +7,13 @@
 #'
 #' @examples
 #'
-#' "a" %+% "b"
+#' c(1,2) %dot% c(3, 5)
 #'
-#' c("a", "b") %+% "_d"
 #'
-#' @rdname inline_paste0
+#' @rdname inline_dot
 #'
 #' @export
 #'
-`%+%` <- function(e1, e2) {
-  paste0(e1, e2)
+`%dot%` <- function(e1, e2) {
+  sum(e1 * e2)
 }
