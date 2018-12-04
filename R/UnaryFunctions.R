@@ -34,7 +34,16 @@ setGeneric(
   })
 
 
-# build a list of all UnaryFn from possibly composite
+#' build a list of all UnaryFn from possibly composite
+#'
+#' @param op1 list1
+#' @param op2 list2
+#' @return c(list2, list1)
+#'
+#' @keywords internal
+#'
+#' @export
+#'
 concat_items_rev <- function(op1, op2) {
   if(!is.list(op1)) {
     op1 <- list(op1)
