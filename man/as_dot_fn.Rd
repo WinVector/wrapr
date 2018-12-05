@@ -2,7 +2,7 @@
 % Please edit documentation in R/as_dot_fn.R
 \name{as_dot_fn}
 \alias{as_dot_fn}
-\title{Convert an unevaluted pipeline into a function of "."}
+\title{Convert an unevaluted pipeline into a function.}
 \usage{
 as_dot_fn(pipeline, env = parent.frame())
 }
@@ -15,7 +15,7 @@ as_dot_fn(pipeline, env = parent.frame())
 single function with signature (., env = parent.frame())
 }
 \description{
-Convert an unevaluted pipeline into a function.
+Convert an unevaluted pipeline into a function of "."
 }
 \details{
 Note: writes "." into env.

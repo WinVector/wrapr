@@ -61,6 +61,7 @@ apply_left <- function(pipe_left_arg,
                        left_arg_name,
                        pipe_string,
                        right_arg_name) {
+  force(pipe_environment)
   UseMethod("apply_left", pipe_left_arg)
 }
 
@@ -312,6 +313,7 @@ apply_right_S4 <- function(pipe_left_arg,
                            left_arg_name,
                            pipe_string,
                            right_arg_name) {
+  force(pipe_environment)
   # # go to default left S3 dispatch on apply_left()
   # apply_left(pipe_left_arg = pipe_left_arg,
   #            pipe_right_arg = pipe_right_arg,
