@@ -178,6 +178,28 @@ fnlist <- function(...) {
   )
 }
 
+#' Wrap a list of functions as a function.
+#'
+#' @param items list of UnaryFn derived instances (no nested UnaryFnList items).
+#' @return UnaryFnList
+#'
+#' @seealso \code{\link{pkgfn}}, \code{\link{wrapfn}}, \code{\link{srcfn}}
+#'
+#' @examples
+#'
+#' f <- as_fnlist(list(pkgfn("base::sin", "x"), pkgfn("base::cos", "x")))
+#' cat(format(f))
+#' 1:3 %.>% f
+#'
+#' @export
+#'
+as_fnlist <- function(items) {
+  new(
+    "UnaryFnList",
+    items = items
+  )
+}
+
 #' @rdname ApplyTo
 #' @export
 setMethod(
