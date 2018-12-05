@@ -67,12 +67,12 @@ as_fn <- function(pipeable, env = parent.frame()) {
       left_arg_name <- as.character(ds)
     }
     assign(".", ., envir = env)
-    apply_right(pipe_left_arg = .,
-                pipe_right_arg = pipeable,
-                pipe_environment = env,
-                left_arg_name = left_arg_name,
-                pipe_string = "%.>%",
-                right_arg_name = right_arg_name)
+    wrapr::apply_right(pipe_left_arg = .,
+                       pipe_right_arg = pipeable,
+                       pipe_environment = env,
+                       left_arg_name = left_arg_name,
+                       pipe_string = "%.>%",
+                       right_arg_name = right_arg_name)
   }
   f_env = new.env(parent = env)
   assign("pipeable", pipeable, envir = env)
