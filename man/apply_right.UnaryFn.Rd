@@ -8,7 +8,7 @@
   pipe_environment, left_arg_name, pipe_string, right_arg_name)
 }
 \arguments{
-\item{pipe_left_arg}{left argument}
+\item{pipe_left_arg}{left argument.}
 
 \item{pipe_right_arg}{pipe_right_arg argument, class derived from UnaryFn.}
 

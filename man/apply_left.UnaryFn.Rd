@@ -8,7 +8,7 @@
   pipe_environment, left_arg_name, pipe_string, right_arg_name)
 }
 \arguments{
-\item{pipe_left_arg}{left argument}
+\item{pipe_left_arg}{left argument should be a class derived from UnaryFn.}
 
 \item{pipe_right_arg}{substitute(pipe_right_arg) argument, should evaluate to a class derived from UnaryFn.}
 

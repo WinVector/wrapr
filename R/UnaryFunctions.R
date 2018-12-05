@@ -56,7 +56,7 @@ concat_items_rev <- function(op1, op2) {
 
 #' Apply right wrapped function to argument on left.
 #'
-#' @param pipe_left_arg left argument
+#' @param pipe_left_arg left argument.
 #' @param pipe_right_arg pipe_right_arg argument, class derived from UnaryFn.
 #' @param pipe_environment environment to evaluate in
 #' @param left_arg_name name, if not NULL name of left argument.
@@ -74,8 +74,11 @@ apply_right.UnaryFn <- function(pipe_left_arg,
                                 pipe_string,
                                 right_arg_name) {
   force(pipe_environment)
-  if((!isS4(pipe_right_arg)) || (!is(pipe_right_arg, "UnaryFn"))) {
+  if((!isS4(pipe_right_arg)) || (!methods::is(pipe_right_arg, "UnaryFn"))) {
     stop(paste("wrapr::apply_right.UnaryFn right argument: ", pipe_right_arg, " must be an instance of a class derived from UnaryFn"))
+  }
+  if("relop" %in% class(pipe_left_arg)) {
+    stop("attempt to pipe a relop into a wrapr::UnaryFn, please use rqdatatable::rq_fn_wrapper() to wrap the relop or rqdatatable::rq_ufn() to wrap the UnaryFn")
   }
   ApplyTo(pipe_right_arg, pipe_left_arg, pipe_environment)
 }
@@ -83,7 +86,7 @@ apply_right.UnaryFn <- function(pipe_left_arg,
 
 #' Apply right wrapped function to argument on left.
 #'
-#' @param pipe_left_arg left argument
+#' @param pipe_left_arg left argument should be a class derived from UnaryFn.
 #' @param pipe_right_arg substitute(pipe_right_arg) argument, should evaluate to a class derived from UnaryFn.
 #' @param pipe_environment environment to evaluate in
 #' @param left_arg_name name, if not NULL name of left argument.
@@ -104,7 +107,13 @@ apply_left.UnaryFn <- function(pipe_left_arg,
   pipe_right_arg <- eval(pipe_right_arg,
                          envir = pipe_environment,
                          enclos = pipe_environment)
-  if((!isS4(pipe_right_arg)) || (!is(pipe_right_arg, "UnaryFn"))) {
+  if("relop" %in% class(pipe_right_arg)) {
+    stop("attempt to pipe a wrapr::UnaryFn into a relop, please use rqdatatable::rq_fn_wrapper() to wrap the relop or rqdatatable::rq_ufn() to wrap the UnaryFn")
+  }
+  if((!isS4(pipe_left_arg)) || (!methods::is(pipe_left_arg, "UnaryFn"))) {
+    stop(paste("wrapr::apply_left.UnaryFn left argument: ", pipe_left_arg, " must be an instance of a class derived from UnaryFn"))
+  }
+  if((!isS4(pipe_right_arg)) || (!methods::is(pipe_right_arg, "UnaryFn"))) {
     stop(paste("wrapr::apply_left.UnaryFn right argument: ", pipe_right_arg, " must be an instance of a class derived from UnaryFn"))
   }
   ApplyTo(pipe_right_arg, pipe_left_arg, pipe_environment)
@@ -124,7 +133,7 @@ is_list_of_unaryfns <- function(object) {
   }
   for(i in seq_len(length(items))) {
     item_i <- items[[i]]
-    if((!isS4(item_i)) || (!is(item_i, "UnaryFn"))) {
+    if((!isS4(item_i)) || (!methods::is(item_i, "UnaryFn"))) {
       return(paste("item ", i, " must be an instance of a class derived from UnaryFn"))
     }
     s4class <- as.character(class(item_i))
