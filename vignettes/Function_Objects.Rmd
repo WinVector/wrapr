@@ -146,6 +146,17 @@ print(s5)
 1:4 %.>% s5
 ```
 
+A `wrapr` [dot-pipe](https://winvector.github.io/wrapr/reference/dot_arrow.html) pipeable object can be converted into a single-argument function of "dot" with the [`as_fn()`](https://winvector.github.io/wrapr/reference/as_fn.html) method:
+
+```{r as_fn}
+f5 <- as_fn(s5)
+
+f5(1:5)
+
+1:5 %.>% f5
+```
+
+
 
 The demonstrated design and functionality is inspired by partially applied functions, but a bit more circumspect in what is carried around.  In Lisp "code is data", in `R` it is a bit more complicated- so a pure-data solution has some merits.
 

@@ -222,6 +222,13 @@ d2 <span class="op">%.&gt;%</span><span class="st"> </span>steps</code></pre></d
 <pre><code>## [1] "PartialFunction{tan}(x=., )"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span><span class="op">:</span><span class="dv">4</span> <span class="op">%.&gt;%</span><span class="st"> </span>s5</code></pre></div>
 <pre><code>## [1]  1.5574077 -2.1850399 -0.1425465  1.1578213</code></pre>
+<p>A <code>wrapr</code> <a href="https://winvector.github.io/wrapr/reference/dot_arrow.html">dot-pipe</a> pipeable object can be converted into a single-argument function of “dot” with the <a href="https://winvector.github.io/wrapr/reference/as_fn.html"><code><a href="../reference/as_fn.html">as_fn()</a></code></a> method:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">f5 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/as_fn.html">as_fn</a></span>(s5)
+
+<span class="kw">f5</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>)</code></pre></div>
+<pre><code>## [1]  1.5574077 -2.1850399 -0.1425465  1.1578213 -3.3805150</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span><span class="op">:</span><span class="dv">5</span> <span class="op">%.&gt;%</span><span class="st"> </span>f5</code></pre></div>
+<pre><code>## [1]  1.5574077 -2.1850399 -0.1425465  1.1578213 -3.3805150</code></pre>
 <p>The demonstrated design and functionality is inspired by partially applied functions, but a bit more circumspect in what is carried around. In Lisp “code is data”, in <code>R</code> it is a bit more complicated- so a pure-data solution has some merits.</p>
 <p>And that the basics of <code>wrapr</code> function objects. For a more substantial data processing example please see <a href="https://github.com/WinVector/vtreat/blob/master/extras/ModelingPipelines.html">here</a>.</p>
   </div>
