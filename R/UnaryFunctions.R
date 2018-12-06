@@ -176,7 +176,7 @@ setClass(
   validity = is_list_of_unaryfns)
 
 
-#' Wrap a list of functions as a function.
+#' Wrap a list of UnaryFns as a UnaryFnList.
 #'
 #' Unary functions are evaluated in left to right or first to last order.
 #'
@@ -207,6 +207,43 @@ as_fnlist <- function(items, env = parent.frame()) {
   }
   if(!is.list(items)) {
     stop("wrapr::as_fnlist items must be a UnaryFn derived class or list of such")
+  }
+  x <- new(
+    "UnaryFnList",
+    items = list()
+  )
+  for(itm in items) {
+    x <- ApplyTo(itm, x, env = env)
+  }
+  x
+}
+
+#' Convert a list of UnaryFns into a UnaryFn.
+#'
+#' Unary functions are evaluated in left to right or first to last order.
+#'
+#' @param items list of UnaryFn derived instances.
+#' @param env environment to work in.
+#' @return UnaryFnList
+#'
+#' @seealso \code{\link{pkgfn}}, \code{\link{wrapfn}}, \code{\link{srcfn}}
+#'
+#' @examples
+#'
+#' f <- as.UnaryFn(list(pkgfn("base::sin", "x"), pkgfn("base::cos", "x")))
+#' cat(format(f))
+#' 1:3 %.>% f
+#'
+#' @export
+#'
+as.UnaryFn <- function(items, env = parent.frame()) {
+  force(env)
+  # get odd cases where user has passed us a single UnaryFn
+  if(isS4(items) && methods::is(items, "UnaryFn")) {
+    return(items)
+  }
+  if(!is.list(items)) {
+    stop("wrapr::as.UnaryFn items must be a UnaryFn derived class or list of such")
   }
   x <- new(
     "UnaryFnList",
