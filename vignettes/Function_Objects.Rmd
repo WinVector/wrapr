@@ -9,28 +9,56 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-The [`wrapr`](https://github.com/WinVector/wrapr) [dot arrow pipe](https://winvector.github.io/wrapr/reference/dot_arrow.html) includes a detailed `S3`/`S4` configurable interface (detailed in the RJournal [here](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html)).  The primary
-purpose of these pipe interfaces is to be able to treat objects as functions: i.e. to be
-able to pipe data into objects.
 
-That is: [pipe notation](https://winvector.github.io/wrapr/articles/dot_pipe.html) wants a world data transforms are single argument functions (with other
+Composing functions and sequencing operations are core programming concepts.  
+
+Some notable realizations of sequencing or pipelining operations include:
+
+  * Unix's [`|`-pipe](https://en.wikipedia.org/wiki/Pipeline_(Unix))
+  * [CMS Pipelines](https://en.wikipedia.org/wiki/CMS_Pipelines).
+  * `F#`'s forward pipe operator `|>`.
+  * Haskel's Data.Function `&` operator.
+  * The [`R`](https://www.r-project.org) [`magrittr`](https://CRAN.R-project.org/package=magrittr) forward pipe.
+  * [Scikit-learn](https://scikit-learn.org/stable/index.html)'s [`sklearn.pipeline.Pipeline`](https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html).
+  
+The idea is: many important calculations can be considered as a sequence of transforms applied to a data set.  Each step may be a function taking many arguments.  It is often the case that only one of each function's arguments is primary, and the rest are parameters.  For data science applications this is particularly common, so having convenient pipeline notation can be a plus.  An example of a non-trivial data processing pipeline can be found [here](https://github.com/WinVector/vtreat/blob/master/extras/ModelingPipelines.md).
+
+In this note we will discuss the advanced [`R`](https://www.r-project.org) pipeline operator ["dot arrow pipe"](https://winvector.github.io/wrapr/reference/dot_arrow.html) and an `S4` class ([`wrapr::UnaryFn`](https://winvector.github.io/wrapr/index.html)) that makes working with pipeline notation much more powerful and much easier.
+
+The ideas are:
+
+  * The [`wrapr`](https://github.com/WinVector/wrapr) [dot arrow pipe](https://winvector.github.io/wrapr/reference/dot_arrow.html) includes a detailed `S3`/`S4` configurable interface (detailed in the RJournal [here](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html)).  These interfaces are able to treat objects as functions: i.e. they can pipe data into objects.
+  * The `wrapr::UnaryFn` class supplies a convenient tool for the [partial function application](https://en.wikipedia.org/wiki/Partial_application) needed to work with pipelines.
+
+Or: pipe notation assumes a world data transforms are single argument functions (with other
 parameters already bound in), and the `UnaryFn` derived classes we discuss here help realize 
 such a world.
 
-This can be made clearer with an example using some additional helper classes.
+This can be made clearer with examples.
 
-Suppose we wish to build a linear model as follows.
+Suppose we build a linear model of `log(y)` as follows.
 
 ```{r lm1}
-d <- data.frame(x = 1:5, y = c(1, 1, 2, 2, 2))
-model <- lm(y~x, data= d)
+d <- data.frame(
+  x = c(1, 2, 3, 4, 5), 
+  y = c(3, 5, 20, 50, 150))
+
+model <- lm(log(y) ~ x, data = d)
 ```
 
-It is then natural to want to apply this model later to new data.  This can be done as follows.
+
+We can see our predictions in original `y`-units by making the prediction and then exponentiation:
+
+```{r}
+exp(predict(model, newdata = d))
+```
+
+It is natural to want to apply a model later to new data.  This can be done as follows.
 
 ```{r lm2}
 d2 <- data.frame(x = 3:7)
-predict(model, newdata = d2)
+
+exp(predict(model, newdata = d2))
 ```
 
 The `wrapr` package allows us to use a "piping into a function" notation as follows.
@@ -39,25 +67,32 @@ The `wrapr` package allows us to use a "piping into a function" notation as foll
 library("wrapr")
 
 model_f <- function(df) {
-  predict(model, newdata = df)
+  exp(predict(model, newdata = df))
 }
 
 d2 %.>% model_f
 ```
 
-In the above example the `model` contents are captured in the function closure.  However, it would be much more useful to store the model in an object.
+In the above example the `model` contents are captured in the function closure.  However, it is better practice to explicitly store data in objects.
 
 `wrapr` supplies a method to do this, which we will now demonstrate.
 
 ```{r lms3_1}
-model_o <-  pkgfn("stats::predict.lm",
-                  arg_name = "newdata", 
-                  args = list(object = model))
+model_o <-
+  fnlist(
+    pkgfn(
+      "stats::predict.lm",
+      arg_name = "newdata", 
+      args = list(object = model)),
+    pkgfn(
+      "exp",
+      arg_name = "x"))
+  
 
-print(model_o)
+cat(format(model_o))
 ```
 
-Notice `model_o` is an object (not a function).  However we can pipe into `model_o` as if it were an object.
+Notice `model_o` is an object (not a function).  However we can pipe into `model_o` as if it were a function.
 
 ```{r lms3pipe}
 d2 %.>% model_o
@@ -71,82 +106,75 @@ The pipe notation is not strictly required as the apply is done through the `S4`
 ApplyTo(model_o, d2) 
 ```
 
-However, the pipe notation is particularly convenient.  This is especially true when we have a list of operations we wish to share (which we will demonstrate later in this note).
-
-The above could all have been defined in user code (the `wrapr` pipe allows external extension), but as a convenience it is now supplied with of `wrapr` itself.
-
-The above methods can be used to wrap functions such as [`vtreat::prepare()`](https://winvector.github.io/vtreat/reference/prepare.html) to create very powerful data processing pipelines.  A more involved example of trying this technique can be found [here](https://github.com/WinVector/vtreat/blob/master/extras/ModelingPipelines.md).
+The above methods can be used to wrap substantial functions such as [`vtreat::prepare()`](https://winvector.github.io/vtreat/reference/prepare.html) to create very powerful data processing pipelines.  A more involved example of trying this technique can be found [here](https://github.com/WinVector/vtreat/blob/master/extras/ModelingPipelines.md).
 
 
-Note: the `wrapr` right-dispatch we are using is only triggered when the right-hand side of a pipeline is a symbol or name.  This is consistent with pipelines such as "`5 %.>% sin`" where we are not so much piping into the sin-function, but into a name that refers to the sin-function.  However, piping into names covers almost every practical case.
+Note: the `wrapr` right-dispatch we are using is only triggered when the right-hand side of a pipeline is a symbol or name.  This is consistent with pipelines such as "`5 %.>% sin`" where we are not so much piping into the sin-function, but into a name that refers to the sin-function.  However, piping into names covers most practical cases.
 
-Many function object steps can be captured by piping them together.
+We can apply processing pipelines piece by piece.
 
 ```{r lst}
-exp_step <- pkgfn("base::exp",
-                  arg_name = "x")
+pred_step <- pkgfn(
+  "stats::predict.lm",
+  arg_name = "newdata", 
+  args = list(object = model))
 
-# pipe line version
-d2 %.>% model_o %.>% exp_step
+exp_step <- pkgfn(
+  "base::exp",
+  arg_name = "x")
+
+d2 %.>% pred_step %.>% exp_step
 ```
 
-The sequence of piped function objects is easier to share as a list, and we supply a list-type that can be piped into.
+We can also build such a pipeline by piping pieces into each other.
 
-```{r lst2}
-steps <- model_o %.>% exp_step
+```{r ppl}
+model_p <- pred_step %.>% exp_step
 
-d2 %.>% steps
+cat(format(model_p))
+
+d2 %.>% model_p
 ```
 
-The idea is: `steps` stores an arbitrary number of function objects as a simple list, which itself declares itself as function object.  Steps are executed left to right as one would expect in pipeline notation.  These functions objects are small and simple.  In particular the do not capture environments as function closures do (though obviously any function in them does have its own closure).  This list of function objects can be easier to work with, store, and share than function closures or pipelines.
-
-Again, the pipe notation is not required (but is a nice notation).  The apply a list of function objects effect can be achieved directly with `wrapr::ApplyTo()`.
+The pipe notation is not required (but is a nice notation).  The apply a list of function objects effect can be achieved directly with `wrapr::ApplyTo()`.
 
 ```{r lst3}
-ApplyTo(steps, d2)
+ApplyTo(model_p, d2)
 ```
 
-The idea is: sharing a list of function object steps frees any downstream users of the pipeline from having to know how many steps or in the pipeline. What we are trying to do with this set of features is share processing specifications as data, without having to share `R` code our function closures (which are heavier weight, and a bit more delicate).  
+The idea is: the processing pipelines store an arbitrary number of function objects as a simple list. The list declares function-like behavior to both `ApplyTo` and the `wrapr` dot-arrow pipe through `R` `S3`/`S4` class declarations.  Function objects do not capture environments as function closures do (though obviously any function in them does have its own closure).  List of function objects can be easier to work with, store, and share than function closures or other pipeline structures.
 
-We can look at the `steps` and the list items:
+
+We can look at the contents of a pipeline as follows.
 
 ```{r listp1}
-cat(format(steps))
-
-steps@items
+model_p@items
 ```
 
-And we can build such composite pipelines directly, without using `ApplyTo()` or pipes using the `fnlist()` method.
-
-```{r listlist}
-s2 <- fnlist(model_o, exp_step)
-cat(format(s2))
-
-d2 %.>% s2
-```
-
-
-The `steps` object is a `UnaryFnList` `S4` class instance.  This class's  purpose is to implement the `UnaryFn` interface (essentially be compatible with `ApplyTo()`) and carry a list of steps in its `@items` slot.  The idea is this object is convenient to serialize and to pipe into.
 
 In addition to the `PartialNamedFn` class we suggest looking at the following additional adapters:
 
- * `srcfn()` which accepts the source code for an arbitrary expression.
+ * `srcfn()` which accepts the source code for an arbitrary expression (quoted either with quote-marks or with `wrapr::qe()`).
  * `wrapfn()` class which directly accepts a function (including the closure).
  
 Examples include:
 
 ```{r specfn}
-
-s4 <- srcfn(". + y", arg_name = ".", args= list(y=13))
+s4 <- srcfn(
+  qe(. + y), 
+  arg_name = ".", 
+  args= list(y=13))
 print(s4)
 22 %.>% s4
 
-s5 <- wrapfn(tan, arg_name = "x")
+s5 <- wrapfn(
+  tan, 
+  arg_name = "x")
 print(s5)
 1:4 %.>% s5
 ```
 
-A `wrapr` [dot-pipe](https://winvector.github.io/wrapr/reference/dot_arrow.html) pipeable object can be converted into a single-argument function of "dot" with the [`as_fn()`](https://winvector.github.io/wrapr/reference/as_fn.html) method:
+For convenience `wrapr` [dot-pipe](https://winvector.github.io/wrapr/reference/dot_arrow.html) pipeable object can be converted into a single-argument function of "dot" with the [`as_fn()`](https://winvector.github.io/wrapr/reference/as_fn.html) method:
 
 ```{r as_fn}
 f5 <- as_fn(s5)
@@ -156,11 +184,72 @@ f5(1:5)
 1:5 %.>% f5
 ```
 
+The `UnaryFn` pipelines can also interpenetrate with [`rqdatatable`](https://winvector.github.io/rqdatatable/) pipelines.
 
+`wrapr` `UnaryFn` pipelines can also be placed inside (stricter, table oriented) `rqdatatable` pipelines.
+
+
+```{r}
+library("rqdatatable")
+
+upipe <- fnlist(
+  pkgfn(
+    "stats::predict.lm",
+    arg_name = "newdata", 
+    args = list(object = model)),
+  srcfn(
+    qe(data.frame(log_pred = .))
+  ))
+
+d %.>% upipe
+
+ops <- mk_td("d", "x") %.>%
+  rq_ufn(., 
+         upipe, 
+         columns_produced = "log_pred") %.>%
+  extend(.,
+         pred = exp(log_pred))
+
+columns_used(ops)
+
+column_names(ops)
+
+cat(format(ops))
+
+d %.>% 
+  ops 
+```
+
+
+Or `rqdatatable` pipelines can be stored in `UnaryFn` nodes.
+
+```{r}
+library("rqdatatable")
+
+d2 <- data.frame(x = 1)
+
+ops <- mk_td("d", "x") %.>%
+  extend(., y = x + 1)
+
+cat(format(ops))
+
+d2 %.>% ops
+
+p <- rq_fn_wrapper(ops) %.>%
+  srcfn(qe(.[, cname, drop = TRUE]),
+        arg_name = ".",
+        args = list(cname = "y"))
+
+cat(format(p))
+
+d2 %.>% p
+```
+
+The idea is `wrapr` supplies many possible variations of notations: functions sequences as lists, function composition by pipe, function composition by call, function application by pipe, and function application by call.  Then the user can pick what notation they prefer.  `rquery` pipelines are very restricted (they date `data.frame`s to `data.frame`s and pre-check a number of invariants).  `UnaryFn` pipelines are more free-form, they check very little before application.
 
 The demonstrated design and functionality is inspired by partially applied functions, but a bit more circumspect in what is carried around.  In Lisp "code is data", in `R` it is a bit more complicated- so a pure-data solution has some merits.
 
-And that the basics of `wrapr` function objects.  For a more substantial data processing example please see [here](https://github.com/WinVector/vtreat/blob/master/extras/ModelingPipelines.md).
+And these are the basics of `wrapr` function objects.  For a more substantial data processing example please see [here](https://github.com/WinVector/vtreat/blob/master/extras/ModelingPipelines.md).
 
 
 
