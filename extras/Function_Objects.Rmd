@@ -184,7 +184,66 @@ f5(1:5)
 1:5 %.>% f5
 ```
 
+The `UnaryFn` pipelines can also interpenetrate with [`rqdatatable`](https://winvector.github.io/rqdatatable/) pipelines.
 
+`wrapr` `UnaryFn` pipelines can also be placed inside (stricter, table oriented) `rqdatatable` pipelines.
+
+
+```{r}
+library("rqdatatable")
+
+upipe <- fnlist(
+  pkgfn(
+    "stats::predict.lm",
+    arg_name = "newdata", 
+    args = list(object = model)),
+  srcfn(
+    qe(data.frame(log_pred = .))
+  ))
+
+d %.>% upipe
+
+ops <- mk_td("d", "x") %.>%
+  rq_ufn(., 
+         upipe, 
+         columns_produced = "log_pred") %.>%
+  extend(.,
+         pred = exp(log_pred))
+
+columns_used(ops)
+
+column_names(ops)
+
+cat(format(ops))
+
+d %.>% 
+  ops 
+```
+
+
+Or `rqdatatable` pipelines can be stored in `UnaryFn` nodes.
+
+```{r}
+library("rqdatatable")
+
+d2 <- data.frame(x = 1)
+
+ops <- mk_td("d", "x") %.>%
+  extend(., y = x + 1)
+
+cat(format(ops))
+
+d2 %.>% ops
+
+p <- rq_fn_wrapper(ops) %.>%
+  srcfn(qe(.[, cname, drop = TRUE]),
+        arg_name = ".",
+        args = list(cname = "y"))
+
+cat(format(p))
+
+d2 %.>% p
+```
 
 The idea is `wrapr` supplies many possible variations of notations: functions sequences as lists, function composition by pipe, function composition by call, function application by pipe, and function application by call.  Then the user can pick what notation they prefer.  `rquery` pipelines are very restricted (they date `data.frame`s to `data.frame`s and pre-check a number of invariants).  `UnaryFn` pipelines are more free-form, they check very little before application.
 
