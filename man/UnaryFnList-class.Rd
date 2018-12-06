@@ -5,5 +5,5 @@
 \alias{UnaryFnList-class}
 \title{List of Unary functions taken in order.}
 \description{
-List of Unary functions taken in order.
+Unary functions are evaluated in left to right or first to last order.
 }

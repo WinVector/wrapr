@@ -7,13 +7,13 @@
 fnlist(...)
 }
 \arguments{
-\item{...}{UnaryFn derived instances (no nested UnaryFnList items).}
+\item{...}{UnaryFn derived instances.}
 }
 \value{
 UnaryFnList
 }
 \description{
-Wrap a list of functions as a function.
+Unary functions are evaluated in left to right or first to last order.
 }
 \examples{
 

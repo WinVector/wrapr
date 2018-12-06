@@ -4,16 +4,18 @@
 \alias{as_fnlist}
 \title{Wrap a list of functions as a function.}
 \usage{
-as_fnlist(items)
+as_fnlist(items, env = parent.frame())
 }
 \arguments{
-\item{items}{list of UnaryFn derived instances (no nested UnaryFnList items).}
+\item{items}{list of UnaryFn derived instances.}
+
+\item{env}{environment to work in.}
 }
 \value{
 UnaryFnList
 }
 \description{
-Wrap a list of functions as a function.
+Unary functions are evaluated in left to right or first to last order.
 }
 \examples{
 

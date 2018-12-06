@@ -148,6 +148,9 @@ is_list_of_unaryfns <- function(object) {
 }
 
 #' List of Unary functions taken in order.
+#'
+#' Unary functions are evaluated in left to right or first to last order.
+#'
 #' @export
 setClass(
   "UnaryFnList",
@@ -155,9 +158,54 @@ setClass(
   slots = c(items = "list"),
   validity = is_list_of_unaryfns)
 
+
 #' Wrap a list of functions as a function.
 #'
-#' @param ... UnaryFn derived instances (no nested UnaryFnList items).
+#' Unary functions are evaluated in left to right or first to last order.
+#'
+#' @param items list of UnaryFn derived instances.
+#' @param env environment to work in.
+#' @return UnaryFnList
+#'
+#' @seealso \code{\link{pkgfn}}, \code{\link{wrapfn}}, \code{\link{srcfn}}
+#'
+#' @examples
+#'
+#' f <- as_fnlist(list(pkgfn("base::sin", "x"), pkgfn("base::cos", "x")))
+#' cat(format(f))
+#' 1:3 %.>% f
+#'
+#' @export
+#'
+as_fnlist <- function(items, env = parent.frame()) {
+  force(env)
+  # get odd cases where user has passed us a single UnaryFn
+  if(isS4(items) && methods::is(items, "UnaryFn")) {
+    if(methods::is(items, "UnaryFnList")) {
+      return(items)
+    }
+    return(new(
+      "UnaryFnList",
+      items = list(items)))
+  }
+  if(!is.list(items)) {
+    stop("wrapr::as_fnlist items must be a UnaryFn derived class or list of such")
+  }
+  x <- new(
+    "UnaryFnList",
+    items = list()
+  )
+  for(itm in items) {
+    x <- ApplyTo(itm, x, env = env)
+  }
+  x
+}
+
+#' Wrap a list of functions as a function.
+#'
+#' Unary functions are evaluated in left to right or first to last order.
+#'
+#' @param ... UnaryFn derived instances.
 #' @return UnaryFnList
 #'
 #' @seealso \code{\link{pkgfn}}, \code{\link{wrapfn}}, \code{\link{srcfn}}
@@ -172,33 +220,11 @@ setClass(
 #'
 fnlist <- function(...) {
   items <- list(...)
-  new(
-    "UnaryFnList",
-    items = items
-  )
+  env = parent.frame()
+  as_fnlist(items = items, env = env)
 }
 
-#' Wrap a list of functions as a function.
-#'
-#' @param items list of UnaryFn derived instances (no nested UnaryFnList items).
-#' @return UnaryFnList
-#'
-#' @seealso \code{\link{pkgfn}}, \code{\link{wrapfn}}, \code{\link{srcfn}}
-#'
-#' @examples
-#'
-#' f <- as_fnlist(list(pkgfn("base::sin", "x"), pkgfn("base::cos", "x")))
-#' cat(format(f))
-#' 1:3 %.>% f
-#'
-#' @export
-#'
-as_fnlist <- function(items) {
-  new(
-    "UnaryFnList",
-    items = items
-  )
-}
+
 
 #' @rdname ApplyTo
 #' @export
@@ -248,7 +274,7 @@ setMethod(
   function(f, x, env = parent.frame()) {
     force(env)
     for(itm in f@items) {
-      x <- ApplyTo(itm, x)
+      x <- ApplyTo(itm, x, env = env)
     }
     x
   })
