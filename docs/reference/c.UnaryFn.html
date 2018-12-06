@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Wrap function to capture arguments and environment of exception throwing function call for later debugging. — DebugFnWE • wrapr</title>
+<title>Combine UnaryFns — c.UnaryFn • wrapr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,10 +30,9 @@
 
 
 
-<meta property="og:title" content="Wrap function to capture arguments and environment of exception throwing function call for later debugging. — DebugFnWE" />
+<meta property="og:title" content="Combine UnaryFns — c.UnaryFn" />
 
-<meta property="og:description" content="Wrap fn, so it will save arguments and environment on failure.
-Please see: vignette(&quot;DebugFnW&quot;, package=&quot;wrapr&quot;)." />
+<meta property="og:description" content="Combine UnaryFns" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -143,73 +142,37 @@ Please see: vignette(&quot;DebugFnW&quot;, package=&quot;wrapr&quot;)." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Wrap function to capture arguments and environment of exception throwing function call for later debugging.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/DebugFn.R'><code>R/DebugFn.R</code></a></small>
-    <div class="hidden name"><code>DebugFnWE.Rd</code></div>
+    <h1>Combine UnaryFns</h1>
+    <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/UnaryFunctions.R'><code>R/UnaryFunctions.R</code></a></small>
+    <div class="hidden name"><code>c.UnaryFn.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Wrap fn, so it will save arguments and environment on failure.
-Please see: <code><a href='../articles/DebugFnW.html'>vignette("DebugFnW", package="wrapr")</a></code>.</p>
+    <p>Combine UnaryFns</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>DebugFnWE</span>(<span class='no'>saveDest</span>, <span class='no'>fn</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='co'># S3 method for UnaryFn</span>
+<span class='fu'>c</span>(<span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>saveDest</th>
-      <td><p>where to write captured state (determined by type): NULL random temp file, character temp file, name globalenv() variable, and function triggers callback.</p></td>
-    </tr>
-    <tr>
-      <th>fn</th>
-      <td><p>function to call</p></td>
-    </tr>
-    <tr>
       <th>...</th>
-      <td><p>arguments for fn</p></td>
+      <td><p>UnaryFn derived classes to combine</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>wrapped function that captures state on error.</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='http://www.rdocumentation.org/packages/utils/topics/debugger'>dump.frames</a></code>, <code><a href='DebugFn.html'>DebugFn</a></code>, <code><a href='DebugFnW.html'>DebugFnW</a></code>,  <code>DebugFnWE</code>, <code><a href='DebugPrintFn.html'>DebugPrintFn</a></code>, <code><a href='DebugFnE.html'>DebugFnE</a></code>, <code><a href='DebugPrintFnE.html'>DebugPrintFnE</a></code></p>
-<p>Idea from: https://gist.github.com/nassimhaddad/c9c327d10a91dcf9a3370d30dff8ac3d</p></div>
+    <p>UnaryFn representing the sequence</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>saveDest</span> <span class='kw'>&lt;-</span> <span class='fu'>paste0</span>(<span class='fu'>tempfile</span>(<span class='st'>'debug'</span>),<span class='st'>'.RDS'</span>)
-<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>i</span>) { (<span class='fl'>1</span>:<span class='fl'>10</span>)<span class='kw'>[[</span><span class='no'>i</span>]] }
-<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'>DebugFnWE</span>(<span class='no'>saveDest</span>, <span class='no'>f</span>)
-<span class='co'># correct run</span>
-<span class='fu'>df</span>(<span class='fl'>5</span>)</div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='co'># now re-run</span>
-<span class='co'># capture error on incorrect run</span>
-<span class='fu'>tryCatch</span>(
-   <span class='fu'>df</span>(<span class='fl'>12</span>),
-   <span class='kw'>error</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>e</span>) { <span class='fu'>print</span>(<span class='no'>e</span>) })</div><div class='output co'>#&gt; &lt;simpleError in value[[3L]](cond): wrapr::DebugFnWE: wrote '/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//RtmpOqKtaJ/debug6992695c823e.RDS' on catching 'Error in (1:10)[[i]]: subscript out of bounds'
-#&gt;  You can reproduce the error with:
-#&gt; 'p &lt;- readRDS('/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//RtmpOqKtaJ/debug6992695c823e.RDS'); do.call(p$fn, p$args, envir= p$env)'&gt;</div><div class='input'><span class='co'># examine details</span>
-<span class='no'>situation</span> <span class='kw'>&lt;-</span> <span class='fu'>readRDS</span>(<span class='no'>saveDest</span>)
-<span class='fu'>str</span>(<span class='no'>situation</span>)</div><div class='output co'>#&gt; List of 5
-#&gt;  $ fn       :function (i)  
-#&gt;   ..- attr(*, "srcref")= 'srcref' int [1:8] 3 6 3 32 6 32 3 3
-#&gt;   .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x7f9c26b69f60&gt; 
-#&gt;  $ args     :List of 1
-#&gt;   ..$ : num 12
-#&gt;  $ namedargs: language df(12)
-#&gt;  $ fn_name  : chr "f"
-#&gt;  $ env      :&lt;environment: 0x7f9c26b69be0&gt; </div><div class='input'><span class='co'># fix and re-run</span>
-<span class='no'>situation</span>$<span class='no'>args</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='kw'>&lt;-</span> <span class='fl'>6</span>
-<span class='fu'>do.call</span>(<span class='no'>situation</span>$<span class='no'>fn</span>, <span class='no'>situation</span>$<span class='no'>args</span>, <span class='kw'>envir</span><span class='kw'>=</span><span class='no'>situation</span>$<span class='no'>env</span>)</div><div class='output co'>#&gt; [1] 6</div><div class='input'><span class='co'># clean up</span>
-<span class='fu'>file.remove</span>(<span class='no'>saveDest</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+<span class='fu'>c</span>(<span class='fu'><a href='pkgfn.html'>pkgfn</a></span>(<span class='st'>"base::sin"</span>, <span class='st'>"x"</span>), <span class='fu'><a href='pkgfn.html'>pkgfn</a></span>(<span class='st'>"base::cos"</span>, <span class='st'>"x"</span>))</div><div class='output co'>#&gt; [1] "UnaryFnList(\n   base::sin(x=., ),\n   base::cos(x=., ))"</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -218,8 +181,6 @@ Please see: <code><a href='../articles/DebugFnW.html'>vignette("DebugFnW", packa
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

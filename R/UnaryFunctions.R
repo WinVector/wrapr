@@ -147,6 +147,23 @@ is_list_of_unaryfns <- function(object) {
   return(character(0))
 }
 
+# probably redundant, but can check there are no UnaryFns in the list
+# later if we want.
+args_is_a_okay_list <- function(object) {
+  args <- object@args
+  if(!is.list(args)) {
+    return("items must be a list")
+  }
+  for(arg in args) {
+    if(isS4(arg) && methods::is(arg, "UnaryFn")) {
+      return("args must not be UnaryFn derived objects")
+    }
+  }
+  return(character(0))
+}
+
+
+
 #' List of Unary functions taken in order.
 #'
 #' Unary functions are evaluated in left to right or first to last order.
@@ -221,8 +238,69 @@ as_fnlist <- function(items, env = parent.frame()) {
 fnlist <- function(...) {
   items <- list(...)
   env = parent.frame()
-  as_fnlist(items = items, env = env)
+  wrapr::as_fnlist(items = items, env = env)
 }
+
+
+#' Combine UnaryFns
+#'
+#' @param ... UnaryFn derived classes to combine
+#' @return UnaryFn representing the sequence
+#'
+#' @examples
+#'
+#' c(pkgfn("base::sin", "x"), pkgfn("base::cos", "x"))
+#'
+#' @export
+#'
+c.UnaryFn <- function(...) {
+  items <- list(...)
+  if(length(items)<=1) {
+    if(length(items)==1) {
+      return(items[[1]])
+    }
+    return(items)
+  }
+  env <- parent.frame()
+  wrapr::as_fnlist(items = items, env = env)
+}
+
+#' Get list of primative unary fns.
+#'
+#' @param x UnaryFn derived classe to extract
+#' @param ... not used.
+#' @return list of non UnaryFnList functions
+#'
+#' @examples
+#'
+#' as.list(pkgfn("base::sin", "x"))
+#' as.list(c(pkgfn("base::sin", "x"), pkgfn("base::cos", "x")))
+#'
+#' @export
+#'
+as.list.UnaryFnList <- function(x, ...) {
+  wrapr::stop_if_dot_args(substitute(list(...)), "wrapr::as.list.UnaryFnList")
+  x@items
+}
+
+#' Get list of primative unary fns.
+#'
+#' @param x UnaryFn derived classe to extract
+#' @param ... not used.
+#' @return list of non UnaryFnList functions
+#'
+#' @examples
+#'
+#' as.list(pkgfn("base::sin", "x"))
+#' as.list(c(pkgfn("base::sin", "x"), pkgfn("base::cos", "x")))
+#'
+#' @export
+#'
+as.list.UnaryFn <- function(x, ...) {
+  wrapr::stop_if_dot_args(substitute(list(...)), "wrapr::as.list.UnaryFn")
+  list(x)
+}
+
 
 
 
@@ -321,7 +399,8 @@ setClass(
   slots = c(fn_name = "character",
             fn_package = "character",
             arg_name = "character",
-            args = "list"))
+            args = "list"),
+  validity = args_is_a_okay_list)
 
 
 #' Wrap the name of a function as a function.
@@ -349,6 +428,9 @@ pkgfn <- function(fname, arg_name = ".", args = list()) {
   if(length(parts)!=2) {
     stop("pkgfn fname not in correct format")
   }
+  if(!is.list(args)) {
+    stop("wrapr::pkgfn args should be a list")
+  }
   new(
     "PartialNamedFn",
     fn_name = parts[[2]],
@@ -372,7 +454,7 @@ setMethod(
     }
     argl <- list(x)
     names(argl) <- f@arg_name
-    do.call(what = fn, args = c(as.list(f@args), argl), envir = env)
+    do.call(what = fn, args = c(argl, f@args), envir = env)
   })
 
 #' @rdname ApplyTo
@@ -438,7 +520,8 @@ setClass(
   slots = c(fn = "function",
             fn_text = "character",
             arg_name = "character",
-            args = "list"))
+            args = "list"),
+  validity = args_is_a_okay_list)
 
 #' Wrap the source for an exprssion as a function.
 #'
@@ -459,6 +542,9 @@ setClass(
 #'
 wrapfn <- function(fn, arg_name = ".", args = list()) {
   fn_text <- paste(deparse(substitute(fn)), collapse = " ")
+  if(!is.list(args)) {
+    stop("wrapr::wrapfn args should be a list")
+  }
   new(
     "PartialFunction",
     fn = fn,
@@ -478,7 +564,7 @@ setMethod(
     fn = f@fn
     argl <- list(x)
     names(argl) <- f@arg_name
-    do.call(what = fn, args = c(as.list(f@args), argl), envir = env)
+    do.call(what = fn, args = c(argl, f@args), envir = env)
   })
 
 #' @rdname ApplyTo
@@ -542,7 +628,8 @@ setClass(
   contains = "UnaryFn",
   slots = c(expr_src = "character",
             arg_name = "character",
-            args = "list"))
+            args = "list"),
+  validity = args_is_a_okay_list)
 
 #' Wrap the source for an exprssion as a function.
 #'
