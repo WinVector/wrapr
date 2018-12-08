@@ -1,8 +1,9 @@
 
-# wrapr 1.8.0 2018-12-06
+# wrapr 1.8.0 2018-12-08
 
  * Add generic unary functions.
  * Add .() pipe escaping.
+ * Add clean lm() and glm() fitters.
  * Add split_at_brace_pairs.
  * Documentation fixes.
  * Error msg fix.
