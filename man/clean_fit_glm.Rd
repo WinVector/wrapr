@@ -43,8 +43,8 @@ dsmall <- data.frame(
   y = 1:4,
   yC = c(FALSE, TRUE, TRUE, TRUE),
   stringsAsFactors = FALSE)
-res_lm <- clean_fit_lm("y", c("x1", "x2"), dlarge)
-str(res_lm$model)
-predict(res_lm$model, newdata = dsmall)
+res_glm <- clean_fit_glm("yC", c("x1", "x2"), dlarge, family = binomial)
+str(res_glm$model)
+predict(res_glm$model, newdata = dsmall, type = "response")
 
 }

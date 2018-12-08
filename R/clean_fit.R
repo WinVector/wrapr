@@ -2,7 +2,7 @@
 
 
 
-#' Fit a stats::gl without carying back large structures.
+#' Fit a stats::lm without carying back large structures.
 #'
 #' @param outcome character, name of outcome column.
 #' @param variables character, names of varaible columns.
@@ -90,9 +90,9 @@ clean_fit_lm <- function(outcome, variables, data,
 #'   y = 1:4,
 #'   yC = c(FALSE, TRUE, TRUE, TRUE),
 #'   stringsAsFactors = FALSE)
-#' res_lm <- clean_fit_lm("y", c("x1", "x2"), dlarge)
-#' str(res_lm$model)
-#' predict(res_lm$model, newdata = dsmall)
+#' res_glm <- clean_fit_glm("yC", c("x1", "x2"), dlarge, family = binomial)
+#' str(res_glm$model)
+#' predict(res_glm$model, newdata = dsmall, type = "response")
 #'
 #' @export
 #'

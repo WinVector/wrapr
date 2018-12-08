@@ -2,7 +2,7 @@
 % Please edit documentation in R/clean_fit.R
 \name{clean_fit_lm}
 \alias{clean_fit_lm}
-\title{Fit a stats::gl without carying back large structures.}
+\title{Fit a stats::lm without carying back large structures.}
 \usage{
 clean_fit_lm(outcome, variables, data, ..., weights = NULL,
   env = baseenv())
@@ -24,7 +24,7 @@ clean_fit_lm(outcome, variables, data, ..., weights = NULL,
 list(model=model, summary=summary)
 }
 \description{
-Fit a stats::gl without carying back large structures.
+Fit a stats::lm without carying back large structures.
 }
 \examples{
 
