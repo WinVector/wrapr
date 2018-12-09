@@ -4,6 +4,8 @@
 
 #' Fit a stats::lm without carying back large structures.
 #'
+#' Please see \url{http://www.win-vector.com/blog/2014/05/trimming-the-fat-from-glm-models-in-r/} for discussion.
+#'
 #' @param outcome character, name of outcome column.
 #' @param variables character, names of varaible columns.
 #' @param data data.frame, training data.
@@ -65,6 +67,8 @@ clean_fit_lm <- function(outcome, variables, data,
 
 
 #' Fit a stats::glm without carying back large structures.
+#'
+#' Please see \url{http://www.win-vector.com/blog/2014/05/trimming-the-fat-from-glm-models-in-r/} for discussion.
 #'
 #' @param outcome character, name of outcome column.
 #' @param variables character, names of varaible columns.
@@ -129,6 +133,7 @@ clean_fit_glm <- function(outcome, variables, data,
   m$model <- NULL
   m$y <- NULL
   environment(m$terms) <- env
+  environment(m$formula) <- env
   list(model = m, summary = s)
 }
 

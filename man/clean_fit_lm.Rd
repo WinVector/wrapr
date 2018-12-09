@@ -24,7 +24,7 @@ clean_fit_lm(outcome, variables, data, ..., weights = NULL,
 list(model=model, summary=summary)
 }
 \description{
-Fit a stats::lm without carying back large structures.
+Please see \url{http://www.win-vector.com/blog/2014/05/trimming-the-fat-from-glm-models-in-r/} for discussion.
 }
 \examples{
 
