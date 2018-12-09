@@ -16,22 +16,25 @@
 #'
 #' @examples
 #'
-#' k = 1000
-#' dlarge <- data.frame(
-#'   x1 = rep(c("a", "a", "b", "b"), k),
-#'   x2 = rep(c(0, 0, 0, 1), k),
-#'   y = rep(1:4, k),
-#'   yC = rep(c(FALSE, TRUE, TRUE, TRUE), k),
-#'   stringsAsFactors = FALSE)
-#' dsmall <- data.frame(
-#'   x1 = c("a", "a", "b", "b"),
-#'   x2 = c(0, 0, 0, 1),
-#'   y = 1:4,
-#'   yC = c(FALSE, TRUE, TRUE, TRUE),
-#'   stringsAsFactors = FALSE)
-#' res_lm <- clean_fit_lm("y", c("x1", "x2"), dlarge)
-#' str(res_lm$model)
-#' predict(res_lm$model, newdata = dsmall)
+#' mk_data_example <- function(k) {
+#'   data.frame(
+#'     x1 = rep(c("a", "a", "b", "b"), k),
+#'     x2 = rep(c(0, 0, 0, 1), k),
+#'     y = rep(1:4, k),
+#'     yC = rep(c(FALSE, TRUE, TRUE, TRUE), k),
+#'     stringsAsFactors = FALSE)
+#' }
+#'
+#' res_lm <- clean_fit_lm("y", c("x1", "x2"),
+#'                        mk_data_example(1))
+#' length(serialize(res_lm$model, NULL))
+#'
+#' res_lm <- clean_fit_lm("y", c("x1", "x2"),
+#'                        mk_data_example(10000))
+#' length(serialize(res_lm$model, NULL))
+#'
+#' predict(res_lm$model,
+#'         newdata = mk_data_example(1))
 #'
 #' @export
 #'
@@ -81,22 +84,28 @@ clean_fit_lm <- function(outcome, variables, data,
 #'
 #' @examples
 #'
-#' k = 1000
-#' dlarge <- data.frame(
-#'   x1 = rep(c("a", "a", "b", "b"), k),
-#'   x2 = rep(c(0, 0, 0, 1), k),
-#'   y = rep(1:4, k),
-#'   yC = rep(c(FALSE, TRUE, TRUE, TRUE), k),
-#'   stringsAsFactors = FALSE)
-#' dsmall <- data.frame(
-#'   x1 = c("a", "a", "b", "b"),
-#'   x2 = c(0, 0, 0, 1),
-#'   y = 1:4,
-#'   yC = c(FALSE, TRUE, TRUE, TRUE),
-#'   stringsAsFactors = FALSE)
-#' res_glm <- clean_fit_glm("yC", c("x1", "x2"), dlarge, family = binomial)
-#' str(res_glm$model)
-#' predict(res_glm$model, newdata = dsmall, type = "response")
+#' mk_data_example <- function(k) {
+#'   data.frame(
+#'     x1 = rep(c("a", "a", "b", "b"), k),
+#'     x2 = rep(c(0, 0, 0, 1), k),
+#'     y = rep(1:4, k),
+#'     yC = rep(c(FALSE, TRUE, TRUE, TRUE), k),
+#'     stringsAsFactors = FALSE)
+#' }
+#'
+#' res_glm <- clean_fit_glm("yC", c("x1", "x2"),
+#'                          mk_data_example(1),
+#'                          family = binomial)
+#' length(serialize(res_glm$model, NULL))
+#'
+#' res_glm <- clean_fit_glm("yC", c("x1", "x2"),
+#'                          mk_data_example(10000),
+#'                          family = binomial)
+#' length(serialize(res_glm$model, NULL))
+#'
+#' predict(res_glm$model,
+#'         newdata = mk_data_example(1),
+#'         type = "response")
 #'
 #' @export
 #'
