@@ -388,7 +388,9 @@ pipe_impl <- function(pipe_left_arg,
     (length(as.character(pipe_right_arg[[1]]))==1) &&
     (as.character(pipe_right_arg[[1]])=="function")
   # special-case .() on RHS
-  dot_paren <- (is.call(pipe_right_arg) && as.character(pipe_right_arg[[1]])==".")
+  dot_paren <- is.call(pipe_right_arg) &&
+    (length(as.character(pipe_right_arg[[1]]))==1) &&
+    (as.character(pipe_right_arg[[1]])[[1]]==".")
   # check for right-apply situations
   if(is.function(pipe_right_arg) ||
      is_name || qualified_name ||
