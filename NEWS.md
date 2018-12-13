@@ -1,4 +1,8 @@
 
+# wrapr 1.8.1 2018-12-13
+
+ * Fix as_fn() environment assignment.
+
 # wrapr 1.8.0 2018-12-11
 
  * Add generic unary functions.

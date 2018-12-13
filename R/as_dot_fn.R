@@ -28,7 +28,7 @@ as_dot_fn <- function(pipeline, env = parent.frame()) {
     eval(pipeline, envir = env, enclos = env)
   }
   f_env = new.env(parent = env)
-  assign("pipeline", pipeline, envir = env)
+  assign("pipeline", pipeline, envir = f_env)
   environment(f) <- f_env
   f
 }
@@ -75,8 +75,8 @@ as_fn <- function(pipeable, env = parent.frame()) {
                        right_arg_name = right_arg_name)
   }
   f_env = new.env(parent = env)
-  assign("pipeable", pipeable, envir = env)
-  assign("right_arg_name", right_arg_name, envir = env)
+  assign("pipeable", pipeable, envir = f_env)
+  assign("right_arg_name", right_arg_name, envir = f_env)
   environment(f) <- f_env
   f
 }
