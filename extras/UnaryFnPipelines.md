@@ -375,9 +375,12 @@ d %.>% pipeline
     ##   b   a 
     ## 2.0 1.5
 
-And that is some of the power of `wrapr` function objects. Essentially
-`wrapr` function objects are a reference application of the `S3`/`S4`
-piping abilities discussed in the [`wrapr` pipe formal
+# Conclusion
+
+And that is some of the power of `wrapr` piping, `rquery`/`rqdatatable`,
+and `wrapr` function objects. Essentially `wrapr` function objects are a
+reference application of the `S3`/`S4` piping abilities discussed in the
+[`wrapr` pipe formal
 article](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html).
 
 The technique is very convenient when each of the steps is a substantial
