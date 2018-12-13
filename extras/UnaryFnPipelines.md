@@ -4,13 +4,36 @@ Reusable Pipelines in R
 Pipelines in [`R`](https://www.r-project.org) are popular, the most
 popular one being `magrittr` as used by `dplyr`.
 
-This note will discuss the advanced re-usable systems:
+This note will discuss the advanced re-usable piping systems:
 [`rquery`](https://github.com/WinVector/rquery)/[`rqdatatable`](https://github.com/WinVector/rqdatatable)
 operator trees and [`wrapr` function object
 pipelines](https://winvector.github.io/wrapr/articles/Function_Objects.html).
 In each case we have a set of objects designed to extract extra power
 from the [`wrapr` dot-arrow pipe
 `%.>%`](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html).
+
+## Piping
+
+Piping is not much more than having a system that lets one treat “`x
+%.>% f(.)`” as a near synonym for “`f(x)`”. For the `wrapr` dot arrow
+pipe the semantics are intentionally closer to `(x %.>% f(.)) ~ {. <- x;
+f(.)}`.
+
+The pipe notation may be longer, but it avoids nesting and reversed
+right to left reading for many-stage operations (such as “`x %.>% f1(.)
+%.>% f2(.) %.>% f3(.)`” versus “`f3(f2(f1(x)))`”).
+
+In addition to allowing users to write operations in this notation, most
+piping systems allow users to save pipelines for later re-use (though
+some others have issues serializing or saving such pipelines due to
+entanglement with the defining environment).
+
+`wrapr` and `rquery`/`rqdatatable` supply a number of piping tools that
+are re-usable, serializable, and very powerful (via `R` `S3` and `S4`
+dispatch features). One of the most compelling features are “function
+objects” which mans objects can be treated like functions (applied to
+other objects by pipelines). We will discuss some of these features in
+the context of `rquery`/`rqdatatable` and `wrapr`.
 
 ## `rquery`/`rqdatatable`
 
@@ -352,10 +375,13 @@ d %.>% pipeline
     ##   b   a 
     ## 2.0 1.5
 
-And that is some of the power of `wrapr` function objects. This may seem
-laborious when the steps are simple transforms, however the technique is
-very convenient when each of the steps is a substantial (such as
-non-trivial data preparation and model application steps).
+And that is some of the power of `wrapr` function objects. Essentially
+`wrapr` function objects are a reference application of the `S3`/`S4`
+piping abilities discussed in the [`wrapr` pipe formal
+article](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html).
+
+The technique is very convenient when each of the steps is a substantial
+(such as non-trivial data preparation and model application steps).
 
 The above techniques can make reproducing and sharing methods much
 easier.
