@@ -1,7 +1,10 @@
 Reusable Pipelines in R
 ================
 
-This note will discuss the [`R`](https://www.r-project.org) features:
+Pipelines in [`R`](https://www.r-project.org) are popular, the most
+popular one being `magrittr` as used by `dplyr`.
+
+This note will discuss the advanced re-usable systems:
 [`rquery`](https://github.com/WinVector/rquery)/[`rqdatatable`](https://github.com/WinVector/rqdatatable)
 operator trees and [`wrapr` function object
 pipelines](https://winvector.github.io/wrapr/articles/Function_Objects.html).
@@ -19,8 +22,8 @@ These pipelines are (deliberately) fairly strict:
   - Each step must advertise what columns it makes available or
     produces, for later condition checking.
 
-For our example suppose we want to subset some data, get per-group
-means, and then sort the data by those means.
+For a guiding example suppose we want to row-subset some data, get
+per-group means, and then sort the data by those means.
 
 ``` r
 # our example data
@@ -275,10 +278,10 @@ d %.>% pipeline
     ## 2.0 1.5
 
 Notice this pipeline works as before, but no longer refers to the
-external value `threshold`.
+external value `threshold`. This pipeline can be saved and shared.
 
-A recommended way to bind in values is with the `args`-argument, which
-is a named list of values that are expected to be available with a
+Another recommended way to bind in values is with the `args`-argument,
+which is a named list of values that are expected to be available with a
 `srcfn()` is evaluated, or additional named arguments that will be
 applied to a `pkgfn()`.
 
