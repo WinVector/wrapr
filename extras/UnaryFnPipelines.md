@@ -1,0 +1,300 @@
+Advanced Pipelines in R
+================
+
+This note will discuss
+[`rquery`](https://github.com/WinVector/rquery)/[`rqdatatable`](https://github.com/WinVector/rqdatatable)
+operator trees and [`wrapr` function object
+pipelines](https://winvector.github.io/wrapr/articles/Function_Objects.html).
+
+For a while the [`rquery`](https://github.com/WinVector/rquery) and
+[`rqdatatable`](https://github.com/WinVector/rqdatatable) packages have
+supplied a sequence of operators abstraction called an “operator tree”
+or “operator pipeline”.
+
+These pipelines are fairly strict:
+
+  - They must start with a table description or definition.
+  - Each step must be a table to table transform meeting certain column
+    pre-conditions.
+  - Each step must advertise what columns it makes available or
+    produces, for later condition checking.
+
+A quick example is given here:
+
+``` r
+# our example data
+d <- data.frame(
+  group = c("a", "a", "b", "b"),
+  value = c(  1,  2,   2,  -10),
+  stringsAsFactors = FALSE
+)
+
+# load our package
+library("rqdatatable")
+```
+
+    ## Loading required package: rquery
+
+``` r
+# build an operator tree
+threshold <- 0.0
+ops <-
+  local_td(d) %.>%
+  select_rows_nse(.,
+                  value >= threshold) %.>%
+  project_nse(.,
+              groupby = "group",
+              mean_value = mean(value)) %.>%
+  orderby(.,
+          cols = "mean_value",
+          reverse = "mean_value")
+
+# show the tree/pipeline
+cat(format(ops))
+```
+
+    ## table(d; 
+    ##   group,
+    ##   value) %.>%
+    ##  select_rows(.,
+    ##    value >= 0) %.>%
+    ##  project(., mean_value := mean(value),
+    ##   g= group) %.>%
+    ##  orderby(., desc(mean_value))
+
+Of course the purpose of such a pipeline is applying it to data. This is
+done simply with the [`wrapr` dot arrow
+pipe](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html):
+
+``` r
+d %.>% ops
+```
+
+    ##    group mean_value
+    ## 1:     b        2.0
+    ## 2:     a        1.5
+
+An important feature of `rquery` pipelines is: they are designed for
+serialization. This means we can save them and also send them to
+multiple nodes for parallel processing.
+
+``` r
+# save the optree
+saveRDS(ops, "rquery_optree.RDS")
+
+# simulate a fresh R session
+rm(list=setdiff(ls(), "d"))
+
+library("rqdatatable")
+
+# read the optree back in
+ops <- readRDS('rquery_optree.RDS')
+
+# look at it
+cat(format(ops))
+```
+
+    ## table(d; 
+    ##   group,
+    ##   value) %.>%
+    ##  select_rows(.,
+    ##    value >= 0) %.>%
+    ##  project(., mean_value := mean(value),
+    ##   g= group) %.>%
+    ##  orderby(., desc(mean_value))
+
+``` r
+# use it again
+d %.>% ops
+```
+
+    ##    group mean_value
+    ## 1:     b        2.0
+    ## 2:     a        1.5
+
+``` r
+# clean up
+rm(list=setdiff(ls(), "d"))
+```
+
+A natural question is: given we already have `rquery` pipelines why do
+we need [`wrapr` function object
+pipelines](https://winvector.github.io/wrapr/articles/Function_Objects.html)?
+The reason is: `rquery`/`rdatatable` pipelines are strict and
+deliberately restricted to operations that can be hosted both in `R`
+(via `data.table`) or on databases (examples: `PostgreSQL` and `Spark`).
+One might also want a more general pipeline with fewer constraints
+optimized for working in `R` directly.
+
+The `wrapr` “function object” pipelines allow treatment of arbitrary
+objects as items we can pipe into. Their primary purpose is to
+[partially apply
+functions](https://en.wikipedia.org/wiki/Partial_application) to convert
+arbitrary objects and functions into single-argument (or unary)
+functions. This converted form is perfect for pipelining. This, in a
+sense, lets us treat these objects as functions. The `wrapr` function
+object pipeline also has less constraint checking than `rquery`
+pipelines, so it is more suitable for “black box” steps that do not
+publish their column use and production details (in fact `wrapr`
+function object pipelines work on arbitrary objects, not just
+`data.frame`s or tables).
+
+Let’s adapt our above example to `wrapr` function object pipelines.
+
+``` r
+library("wrapr")
+
+threshold <- 0
+
+pipeline <-
+  srcfn(
+    ".[.$value >= threshold, , drop = FALSE]" ) %.>%
+  srcfn(
+    "tapply(.$value, .$group, 'mean')")  %.>%
+  pkgfn(
+    "sort",
+    arg_name = "x",
+    args = list(decreasing = TRUE))
+
+cat(format(pipeline))
+```
+
+    ## UnaryFnList(
+    ##    SrcFunction{ .[.$value >= threshold, , drop = FALSE] }(.=., ),
+    ##    SrcFunction{ tapply(.$value, .$group, 'mean') }(.=., ),
+    ##    base::sort(x=., decreasing))
+
+In this example we used two `wrapr` abstractions:
+
+  - [`srcfn()`](https://winvector.github.io/wrapr/reference/srcfn.html)
+    which wraps arbitrary quoted code as a function object.
+  - [`pkgfn()`](https://winvector.github.io/wrapr/reference/pkgfn.html)
+    which wraps a package qualified function name as a function object
+    (“`base`” being the default package).
+
+This sort of `pipeline` can be applied to data using pipe notation:
+
+``` r
+d %.>% pipeline
+```
+
+    ##   b   a 
+    ## 2.0 1.5
+
+The above pipeline has one key inconvenience and one key weakness:
+
+  - For the `srcfn()` steps we had to place the source code in quotes,
+    which defeats any sort of syntax highlighting and auto-completing in
+    our `R` integrated development environment (IDE).
+  - The above pipeline has a reference to the value of `threshold` in
+    our current environment, this means the pipeline is not sufficiently
+    self-contained to serialize and share.
+
+We can quickly address both of these issues with the
+[`wrapr::qe()`](https://winvector.github.io/wrapr/reference/qe.html)
+(“quote expression”) function. It uses `base::substitute()` to quote
+its arguments, and the IDE doesn’t know the contents are quoted and thus
+can help us with syntax highlighting and auto-completion. Also we are
+using [`base::bquote()`
+style](http://www.win-vector.com/blog/2018/09/parameterizing-with-bquote/)
+escaping to bind in the value of `threshold`.
+
+``` r
+pipeline <-
+  srcfn(
+    qe( .[.$value >= .(threshold), , drop = FALSE] )) %.>%
+  srcfn(
+    qe( tapply(.$value, .$group, 'mean') ))  %.>%
+  pkgfn(
+    "sort",
+    arg_name = "x",
+    args = list(decreasing = TRUE))
+
+cat(format(pipeline))
+```
+
+    ## UnaryFnList(
+    ##    SrcFunction{ .[.$value >= 0, , drop = FALSE] }(.=., ),
+    ##    SrcFunction{ tapply(.$value, .$group, "mean") }(.=., ),
+    ##    base::sort(x=., decreasing))
+
+``` r
+d %.>% pipeline
+```
+
+    ##   b   a 
+    ## 2.0 1.5
+
+Notice this pipeline works as before, but no longer refers to the
+external value `threshold`.
+
+The advised way to bind in values is with the `args`-argument, which is
+a named list of values that are expected to be available with a
+`srcfn()` is evaluated, or additional named arguments that will be
+applied to a `pkgfn()`.
+
+In this notation the pipeline is written as follows.
+
+``` r
+pipeline <-
+  srcfn(
+    qe( .[.$value >= threshold, , drop = FALSE] ),
+    args = list('threshold' = threshold)) %.>%
+  srcfn(
+    qe( tapply(.$value, .$group, 'mean') ))  %.>%
+  pkgfn(
+    "sort",
+    arg_name = "x",
+    args = list(decreasing = TRUE))
+
+cat(format(pipeline))
+```
+
+    ## UnaryFnList(
+    ##    SrcFunction{ .[.$value >= threshold, , drop = FALSE] }(.=., threshold),
+    ##    SrcFunction{ tapply(.$value, .$group, "mean") }(.=., ),
+    ##    base::sort(x=., decreasing))
+
+``` r
+d %.>% pipeline
+```
+
+    ##   b   a 
+    ## 2.0 1.5
+
+We can save this pipeline.
+
+``` r
+saveRDS(pipeline, "wrapr_pipeline.RDS")
+```
+
+And simulate using it in a fresh environment (i.e. simulate sharing it).
+
+``` r
+# simulate a fresh environment
+rm(list = setdiff(ls(), "d"))
+
+library("wrapr")
+
+pipeline <- readRDS('wrapr_pipeline.RDS')
+
+cat(format(pipeline))
+```
+
+    ## UnaryFnList(
+    ##    SrcFunction{ .[.$value >= threshold, , drop = FALSE] }(.=., threshold),
+    ##    SrcFunction{ tapply(.$value, .$group, "mean") }(.=., ),
+    ##    base::sort(x=., decreasing))
+
+``` r
+d %.>% pipeline
+```
+
+    ##   b   a 
+    ## 2.0 1.5
+
+``` r
+# clean up after example
+unlink("rquery_optree.RDS")
+unlink("wrapr_pipeline.RDS")
+```
