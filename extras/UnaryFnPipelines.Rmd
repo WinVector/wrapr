@@ -1,20 +1,20 @@
 ---
-title: "Advanced Pipelines in R"
+title: "Reusable Pipelines in R"
 output: github_document
 ---
 
 
-This note will discuss [`rquery`](https://github.com/WinVector/rquery)/[`rqdatatable`](https://github.com/WinVector/rqdatatable) operator trees and [`wrapr` function object pipelines](https://winvector.github.io/wrapr/articles/Function_Objects.html).
+This note will discuss the [`R`](https://www.r-project.org) features: [`rquery`](https://github.com/WinVector/rquery)/[`rqdatatable`](https://github.com/WinVector/rqdatatable) operator trees and [`wrapr` function object pipelines](https://winvector.github.io/wrapr/articles/Function_Objects.html).
 
-For a while the [`rquery`](https://github.com/WinVector/rquery) and [`rqdatatable`](https://github.com/WinVector/rqdatatable) packages have supplied a sequence of operators abstraction called an "operator tree" or "operator pipeline".  
+For quite a while the [`rquery`](https://github.com/WinVector/rquery) and [`rqdatatable`](https://github.com/WinVector/rqdatatable) packages have supplied a sequence of operators abstraction called an "operator tree" or "operator pipeline".  
 
-These pipelines are fairly strict:
+These pipelines are (deliberately) fairly strict:
 
   * They must start with a table description or definition.
   * Each step must be a table to table transform meeting certain column pre-conditions.
   * Each step must advertise what columns it makes available or produces, for later condition checking.
   
-A quick example is given here:
+For our example suppose we want to subset some data, get per-group means, and then sort the data by those means.
 
 ```{r}
 # our example data
@@ -30,12 +30,16 @@ library("rqdatatable")
 # build an operator tree
 threshold <- 0.0
 ops <-
-  local_td(d) %.>%
+  # define the data format
+  local_td(d) %.>%   
+  # restrict to rows with value >= threshold
   select_rows_nse(.,
                   value >= threshold) %.>%
+  # compute per-group aggegations
   project_nse(.,
               groupby = "group",
               mean_value = mean(value)) %.>%
+  # sort rows by mean_value decreasing
   orderby(.,
           cols = "mean_value",
           reverse = "mean_value")
@@ -44,13 +48,14 @@ ops <-
 cat(format(ops))
 ```
 
-Of course the purpose of such a pipeline is applying it to data.  This is done simply with the [`wrapr` dot arrow pipe](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html):
+Of course the purpose of such a pipeline is to be able to apply it to data.  This is done simply with the [`wrapr` dot arrow pipe](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html):
 
 ```{r}
 d %.>% ops
 ```
 
-An important feature of `rquery` pipelines is: they are designed for serialization.  This means we can save them and also send them to multiple nodes for parallel processing.
+`rquery` pipelines are designed to specify and execute data wrangling tasks. An important feature of `rquery` pipelines is: they are designed for serialization.  This means we can save them and also send them to multiple nodes for parallel processing.
+
 
 ```{r}
 # save the optree
@@ -74,11 +79,43 @@ d %.>% ops
 rm(list=setdiff(ls(), "d"))
 ```
 
+We can also run `rqdatatable` operations in "immediate mode", without pre-defining the pipeline or tables:
+
+```{r}
+threshold <- 0.0
+
+d %.>%
+  select_rows_nse(.,
+                  value >= threshold) %.>%
+  project_nse(.,
+              groupby = "group",
+              mean_value = mean(value)) %.>%
+  orderby(.,
+          cols = "mean_value",
+          reverse = "mean_value")
+```
+
 A natural question is: given we already have `rquery` pipelines why do we need [`wrapr` function object pipelines](https://winvector.github.io/wrapr/articles/Function_Objects.html)? The reason is: `rquery`/`rdatatable` pipelines are strict and deliberately restricted to operations that can be hosted both in `R` (via `data.table`) or on databases (examples: `PostgreSQL` and `Spark`).  One might also want a more general pipeline with fewer constraints optimized for working in `R` directly.  
 
-The `wrapr` "function object" pipelines allow treatment of arbitrary objects as items we can pipe into.  Their primary purpose is to [partially apply functions](https://en.wikipedia.org/wiki/Partial_application) to convert arbitrary objects and functions into single-argument (or unary) functions.  This converted form is perfect for pipelining. This, in a sense, lets us treat these objects as functions.  The `wrapr` function object pipeline also has less constraint checking than `rquery` pipelines, so it is more suitable for "black box" steps that do not publish their column use and production details (in fact `wrapr` function object pipelines work on arbitrary objects, not just `data.frame`s or tables).
+The `wrapr` "function object" pipelines allow treatment of arbitrary objects as items we can pipe into.  Their primary purpose is to [partially apply functions](https://en.wikipedia.org/wiki/Partial_application) to convert arbitrary objects and functions into single-argument (or unary) functions.  This converted form is perfect for pipelining. This, in a sense, lets us treat these objects as functions.  The `wrapr` function object pipeline also has less constraint checking than `rquery` pipelines, so is more suitable for "black box" steps that do not publish their column use and production details (in fact `wrapr` function object pipelines work on arbitrary objects, not just `data.frame`s or tables).
 
-Let's adapt our above example to `wrapr` function object pipelines.
+Let's adapt our above example into a simple `wrapr` dot arrow pipeline.
+
+
+```{r}
+library("wrapr")
+
+threshold <- 0
+
+d %.>%
+  .[.$value >= threshold, , drop = FALSE] %.>%
+  tapply(.$value, .$group, 'mean') %.>%
+  sort(., decreasing = TRUE)
+```
+
+All we have done is replace the `rquery` steps with typical base-`R` commands. As we see the `wrapr` dot arrow can route data through a sequence of such commands to repeat our example.
+
+Now let's adapt our above example into a re-usable `wrapr` function object pipeline.
 
 ```{r}
 library("wrapr")
@@ -89,7 +126,7 @@ pipeline <-
   srcfn(
     ".[.$value >= threshold, , drop = FALSE]" ) %.>%
   srcfn(
-    "tapply(.$value, .$group, 'mean')")  %.>%
+    "tapply(.$value, .$group, 'mean')" ) %.>%
   pkgfn(
     "sort",
     arg_name = "x",
@@ -98,7 +135,8 @@ pipeline <-
 cat(format(pipeline))
 ```
 
-In this example we used two `wrapr` abstractions:
+
+We used two `wrapr` abstractions to capture the steps for re-use (something built in to `rquery`, and now also supplied by `wrapr`).  The abstractions are:
 
   * [`srcfn()`](https://winvector.github.io/wrapr/reference/srcfn.html) which wraps arbitrary quoted code as a function object.
   * [`pkgfn()`](https://winvector.github.io/wrapr/reference/pkgfn.html) which wraps a package qualified function name as a function object ("`base`" being the default package).
@@ -115,7 +153,7 @@ The above pipeline has one key inconvenience and one key weakness:
   * For the `srcfn()` steps we had to place the source code in quotes, which defeats any sort of syntax highlighting and auto-completing in our `R` integrated development environment (IDE).
   * The above pipeline has a reference to the value of `threshold` in our current environment, this means the pipeline is not sufficiently self-contained to serialize and share.
   
-We can quickly address both of these issues with the [`wrapr::qe()`](https://winvector.github.io/wrapr/reference/qe.html) ("quote expression") function.  It uses `base::substitute()` to quote its arguments, and the IDE doesn't know the contents are quoted and thus can help us with syntax highlighting and auto-completion.  Also we are using [`base::bquote()` style](http://www.win-vector.com/blog/2018/09/parameterizing-with-bquote/) escaping to bind in the value of `threshold`.
+We can quickly address both of these issues with the [`wrapr::qe()`](https://winvector.github.io/wrapr/reference/qe.html) ("quote expression") function.  It uses `base::substitute()` to quote its arguments, and the IDE doesn't know the contents are quoted and thus can help us with syntax highlighting and auto-completion.  Also we are using [`base::bquote()` .()-style](http://www.win-vector.com/blog/2018/09/parameterizing-with-bquote/) escaping to bind in the value of `threshold`.
 
 ```{r}
 pipeline <-
@@ -135,7 +173,7 @@ d %.>% pipeline
 
 Notice this pipeline works as before, but no longer refers to the external value `threshold`.
 
-The advised way to bind in values is with the `args`-argument, which is a named list of values that are expected to be available with a `srcfn()` is evaluated, or additional named arguments that will be applied to a `pkgfn()`.
+A recommended way to bind in values is with the `args`-argument, which is a named list of values that are expected to be available with a `srcfn()` is evaluated, or additional named arguments that will be applied to a `pkgfn()`.
 
 In this notation the pipeline is written as follows.
 
@@ -179,6 +217,12 @@ cat(format(pipeline))
 
 d %.>% pipeline
 ```
+
+And that is some of the power of `wrapr` function objects.  This may seem laborious when the steps are simple transforms, however the technique is very convenient when each of the steps is a substantial (such as non-trivial data preparation and model application steps). 
+
+The above techniques can make reproducing and sharing methods much easier.
+
+We have some more examples of the technique [here](http://www.win-vector.com/blog/2018/12/sharing-modeling-pipelines-in-r/) and [here](https://winvector.github.io/wrapr/articles/Function_Objects.html).
 
 
 ```{r}
