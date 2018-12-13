@@ -6,8 +6,10 @@ output: github_document
 
 Pipelines in [`R`](https://www.r-project.org) are popular, the most popular one being `magrittr` as used by `dplyr`.
 
-This note will discuss the advanced re-usable systems: [`rquery`](https://github.com/WinVector/rquery)/[`rqdatatable`](https://github.com/WinVector/rqdatatable) operator trees and [`wrapr` function object pipelines](https://winvector.github.io/wrapr/articles/Function_Objects.html).
+This note will discuss the advanced re-usable systems: [`rquery`](https://github.com/WinVector/rquery)/[`rqdatatable`](https://github.com/WinVector/rqdatatable) operator trees and [`wrapr` function object pipelines](https://winvector.github.io/wrapr/articles/Function_Objects.html).  In each case we have a set of objects designed to extract extra power from the [`wrapr` dot-arrow pipe `%.>%`](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html).
 
+
+## `rquery`/`rqdatatable`
 
 For quite a while the [`rquery`](https://github.com/WinVector/rquery) and [`rqdatatable`](https://github.com/WinVector/rqdatatable) packages have supplied a sequence of operators abstraction called an "operator tree" or "operator pipeline".  
 
@@ -97,6 +99,8 @@ d %.>%
           cols = "mean_value",
           reverse = "mean_value")
 ```
+
+## `wrapr` function objects
 
 A natural question is: given we already have `rquery` pipelines why do we need [`wrapr` function object pipelines](https://winvector.github.io/wrapr/articles/Function_Objects.html)? The reason is: `rquery`/`rdatatable` pipelines are strict and deliberately restricted to operations that can be hosted both in `R` (via `data.table`) or on databases (examples: `PostgreSQL` and `Spark`).  One might also want a more general pipeline with fewer constraints optimized for working in `R` directly.  
 

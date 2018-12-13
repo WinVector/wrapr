@@ -8,6 +8,11 @@ This note will discuss the advanced re-usable systems:
 [`rquery`](https://github.com/WinVector/rquery)/[`rqdatatable`](https://github.com/WinVector/rqdatatable)
 operator trees and [`wrapr` function object
 pipelines](https://winvector.github.io/wrapr/articles/Function_Objects.html).
+In each case we have a set of objects designed to extract extra power
+from the [`wrapr` dot-arrow pipe
+`%.>%`](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html).
+
+## `rquery`/`rqdatatable`
 
 For quite a while the [`rquery`](https://github.com/WinVector/rquery)
 and [`rqdatatable`](https://github.com/WinVector/rqdatatable) packages
@@ -146,6 +151,8 @@ d %.>%
     ##    group mean_value
     ## 1:     b        2.0
     ## 2:     a        1.5
+
+## `wrapr` function objects
 
 A natural question is: given we already have `rquery` pipelines why do
 we need [`wrapr` function object
