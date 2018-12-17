@@ -1,4 +1,8 @@
 
+# wrapr 1.8.2 2018-12-17
+
+ * paste(class(), collapse=" ")
+
 # wrapr 1.8.1 2018-12-13
 
  * Fix as_fn() environment assignment.

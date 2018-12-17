@@ -92,7 +92,7 @@ returnCapture <- function(e, saveDest, cap, wrapperName,
   }
   return(paste0("wrapr::", wrapperName,
                 ": don't know how to write error to '",
-                class(saveDest),
+                paste(class(saveDest), collapse= " "),
                 "' on catching '", es, "'"))
 }
 
