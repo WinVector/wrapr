@@ -143,3 +143,25 @@ bquote_function <- function(fn) {
   f
 }
 
+#' eval(bquote(expr)) shortcut.
+#'
+#' @param ... expression to evaluate (one argument).
+#' @param where environment to work in.
+#' @return eval(bquote(expr))
+#'
+#' @examples
+#'
+#' x = 5
+#' y = 2
+#' evalb(.(x) + .(y))
+#'
+#' @export
+#'
+evalb <- function(..., where = parent.frame()) {
+  force(where)
+  exprq <- bquote(..., where = where)
+  eval(exprq,
+       envir = where,
+       enclos = where)
+}
+
