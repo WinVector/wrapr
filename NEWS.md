@@ -1,5 +1,5 @@
 
-# wrapr 1.8.2 2019-01-03
+# wrapr 1.8.2 2019-01-04
 
  * Add paste(class(), collapse=" ").
  * Add seqi().
