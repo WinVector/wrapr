@@ -17,7 +17,7 @@
  * Add split_at_brace_pairs.
  * Documentation fixes.
  * Error msg fix.
- * Add %+%, and %.%.
+ * Add %p%, and %.%.
  
 # wrapr 1.7.0 2018-11-15
 
