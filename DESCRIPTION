@@ -29,6 +29,7 @@ Depends:
 Imports: 
     utils,
     methods,
+    graphics,
     stats
 Suggests: 
     parallel,

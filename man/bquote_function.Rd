@@ -17,11 +17,23 @@ bquote_function is for adapting a function defined elsewhere for bquite-enabled 
 }
 \examples{
 
+
+
+day = 1:10
+variable <- as.name("day")
+plotb <- bquote_function(graphics::plot)
+plotb(x = .(variable) ,y = sin(.(variable)))
+
+
+
 f1 <- function(x) { substitute(x) }
 f2 <- bquote_function(f1)
 arg <- as.name("USER_ARG")
 f2(arg)    # returns arg
 f2(.(arg)) # returns USER_ARG
+
+
+
 
 }
 \seealso{

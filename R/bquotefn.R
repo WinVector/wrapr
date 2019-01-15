@@ -84,6 +84,8 @@ bquote_call <- function(call, env = parent.frame()) {
 #'
 #' print(args)
 #'
+#' @keywords internal
+#'
 #' @export
 #'
 #'
@@ -102,6 +104,8 @@ bquote_call_args <- function(call, env = parent.frame()) {
 }
 
 
+#' @importFrom graphics plot
+NULL
 
 
 #' Adapt a function to use bquote on its arguments.
@@ -115,11 +119,23 @@ bquote_call_args <- function(call, env = parent.frame()) {
 #'
 #' @examples
 #'
+#'
+#'
+#' day = 1:10
+#' variable <- as.name("day")
+#' plotb <- bquote_function(graphics::plot)
+#' plotb(x = .(variable) ,y = sin(.(variable)))
+#'
+#'
+#'
 #' f1 <- function(x) { substitute(x) }
 #' f2 <- bquote_function(f1)
 #' arg <- as.name("USER_ARG")
 #' f2(arg)    # returns arg
 #' f2(.(arg)) # returns USER_ARG
+#'
+#'
+#'
 #'
 #' @export
 #'
@@ -151,9 +167,9 @@ bquote_function <- function(fn) {
 #'
 #' @examples
 #'
-#' x = 5
-#' y = 2
-#' evalb(.(x) + .(y))
+#' day = 1:10
+#' variable <- as.name("day")
+#' evalb(plot(x = .(variable) ,y = sin(.(variable))))
 #'
 #' @export
 #'

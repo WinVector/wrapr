@@ -49,3 +49,4 @@ print(args)
 \seealso{
 \code{\link{bquote_function}}
 }
+\keyword{internal}

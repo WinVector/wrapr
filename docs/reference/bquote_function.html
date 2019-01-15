@@ -175,10 +175,21 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
+
+
+<span class='no'>day</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>10</span>
+<span class='no'>variable</span> <span class='kw'>&lt;-</span> <span class='fu'>as.name</span>(<span class='st'>"day"</span>)
+<span class='no'>plotb</span> <span class='kw'>&lt;-</span> <span class='fu'>bquote_function</span>(<span class='kw pkg'>graphics</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>)
+<span class='fu'>plotb</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'>.</span>(<span class='no'>variable</span>) ,<span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'>sin</span>(<span class='fu'>.</span>(<span class='no'>variable</span>)))</div><div class='img'><img src='bquote_function-1.png' alt='' width='700' height='433' /></div><div class='input'>
+
+
 <span class='no'>f1</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) { <span class='fu'>substitute</span>(<span class='no'>x</span>) }
 <span class='no'>f2</span> <span class='kw'>&lt;-</span> <span class='fu'>bquote_function</span>(<span class='no'>f1</span>)
 <span class='no'>arg</span> <span class='kw'>&lt;-</span> <span class='fu'>as.name</span>(<span class='st'>"USER_ARG"</span>)
 <span class='fu'>f2</span>(<span class='no'>arg</span>)    <span class='co'># returns arg</span></div><div class='output co'>#&gt; arg</div><div class='input'><span class='fu'>f2</span>(<span class='fu'>.</span>(<span class='no'>arg</span>)) <span class='co'># returns USER_ARG</span></div><div class='output co'>#&gt; USER_ARG</div><div class='input'>
+
+
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
