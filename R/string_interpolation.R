@@ -13,7 +13,7 @@
 #'
 #' @examples
 #'
-#' strsplit_capture("x is .(x) and x+1 is .(x+1)", "\\.\\([^)]+\\)")
+#' strsplit_capture("x is .(x) and x+1 is .(x+1)", "\\.\\([^()]+\\)")
 #'
 #' @export
 #'
@@ -71,13 +71,22 @@ strsplit_capture <- function(x, split,
 #' x <- 7
 #' sinterp(c("x is .(x), x+1 is .(x+1)", ".(x) is odd is .(x%%2 == 1)"))
 #'
+#' # Because matching is done by a regular expression we
+#' # can not use parenthesis inside the interpolation region.
+#' # One can work around that by pre-arranging values to be
+#' # in variables or by using {} for expressions and
+#' # pipe for single argument function evaluation.
+#' # This is obviously awkward, but does work
+#' # (assuming the wrapr package is attached):
+#' sinterp("sin(x*(x+1)) is .({x*{x+1}} %.>% sin)")
+#'
 #' @export
 #'
 sinterp <- function(str,
                     ...,
                     envir = parent.frame(),
                     enclos = parent.frame(),
-                    match_pattern = "\\.\\([^)]+\\)",
+                    match_pattern = "\\.\\([^()]+\\)",
                     removal_patterns = c("^\\.\\(", "\\)$")) {
   force(envir)
   force(enclos)

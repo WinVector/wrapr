@@ -30,6 +30,6 @@ Split a string, keeping separator regions
 }
 \examples{
 
-strsplit_capture("x is .(x) and x+1 is .(x+1)", "\\\\.\\\\([^)]+\\\\)")
+strsplit_capture("x is .(x) and x+1 is .(x+1)", "\\\\.\\\\([^()]+\\\\)")
 
 }

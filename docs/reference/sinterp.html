@@ -156,7 +156,7 @@ glue::glue().  Pure R, no C/C++ code called." />
     </div>
 
     <pre class="usage"><span class='fu'>sinterp</span>(<span class='no'>str</span>, <span class='no'>...</span>, <span class='kw'>envir</span> <span class='kw'>=</span> <span class='fu'>parent.frame</span>(), <span class='kw'>enclos</span> <span class='kw'>=</span> <span class='fu'>parent.frame</span>(),
-  <span class='kw'>match_pattern</span> <span class='kw'>=</span> <span class='st'>"\\.\\([^)]+\\)"</span>,
+  <span class='kw'>match_pattern</span> <span class='kw'>=</span> <span class='st'>"\\.\\([^()]+\\)"</span>,
   <span class='kw'>removal_patterns</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"^\\.\\("</span>, <span class='st'>"\\)$"</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -197,6 +197,14 @@ glue::glue().  Pure R, no C/C++ code called." />
     <pre class="examples"><div class='input'>
 <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fl'>7</span>
 <span class='fu'>sinterp</span>(<span class='fu'>c</span>(<span class='st'>"x is .(x), x+1 is .(x+1)"</span>, <span class='st'>".(x) is odd is .(x%%2 == 1)"</span>))</div><div class='output co'>#&gt; [1] "x is 7, x+1 is 8" "7 is odd is TRUE"</div><div class='input'>
+<span class='co'># Because matching is done by a regular expression we</span>
+<span class='co'># can not use parenthesis inside the interpolation region.</span>
+<span class='co'># One can work around that by pre-arranging values to be</span>
+<span class='co'># in variables or by using {} for expressions and</span>
+<span class='co'># pipe for single argument function evaluation.</span>
+<span class='co'># This is obviously awkward, but does work</span>
+<span class='co'># (assuming the wrapr package is attached):</span>
+<span class='fu'>sinterp</span>(<span class='st'>"sin(x*(x+1)) is .({x*{x+1}} %.&gt;% sin)"</span>)</div><div class='output co'>#&gt; [1] "sin(x*(x+1)) is -0.521551002086912"</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
