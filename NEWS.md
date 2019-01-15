@@ -1,4 +1,8 @@
 
+# wrapr 1.8.3 2019-01-15
+
+ * Add string strsplit_capture() and dotsubs().
+
 # wrapr 1.8.2 2019-01-04
 
  * Add paste(class(), collapse=" ").
