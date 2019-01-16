@@ -4,7 +4,7 @@ author: "John Mount"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Dot Pipe}
+  %\VignetteIndexEntry{bquote}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
