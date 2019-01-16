@@ -41,11 +41,13 @@ strsplit_capture <- function(x, split,
     attr(x, "is_sep") <- FALSE
     return(x)
   }
+  match_posns <- logical(nchar(x)+1)
+  match_posns[idxs] <- TRUE
   intervals <- sort(unique(c(1, nchar(x)+1, idxs, idxs+lens)))
   pieces <- lapply(
     seq_len(length(intervals)-1),
     function(i) {
-      is_match <- intervals[[i]] %in% idxs
+      is_match <- match_posns[[intervals[[i]]]]
       pi <- substr(x, intervals[[i]], intervals[[i+1]]-1)
       attr(pi, "is_sep") <- is_match
       pi
