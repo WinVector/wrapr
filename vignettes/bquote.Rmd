@@ -28,7 +28,7 @@ sinterp(
 ```
 
 Notice the "<code>.(variable)</code>" portion was replaced with the actual variable name "<code>angle</code>".
-For string interpolation are intentionally using the notation that Thomas Lumley’s picked in 2003 when he introduced quasi-quotation into <code>R</code>.
+For string interpolation we are intentionally using the notation that Thomas Lumley’s picked in 2003 when he introduced quasi-quotation into <code>R</code>.
 
 This is a common need and there are many [<code>R</code>](https://www.r-project.org) packages that supply variations of such functionality:
 
