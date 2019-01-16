@@ -12,8 +12,6 @@
 #'
 #' @seealso \code{\link{bquote_function}}, \code{\link{bquote_call_args}}
 #'
-#' @keywords internal
-#'
 #'
 #' @export
 #'
@@ -121,10 +119,10 @@ NULL
 #'
 #'
 #'
-#' day = 1:10
-#' variable <- as.name("day")
+#' angle = 1:10
+#' variable <- as.name("angle")
 #' plotb <- bquote_function(graphics::plot)
-#' plotb(x = .(variable) ,y = sin(.(variable)))
+#' plotb(x = .(variable), y = sin(.(variable)))
 #'
 #'
 #'
@@ -167,9 +165,9 @@ bquote_function <- function(fn) {
 #'
 #' @examples
 #'
-#' day = 1:10
-#' variable <- as.name("day")
-#' evalb(plot(x = .(variable) ,y = sin(.(variable))))
+#' angle = 1:10
+#' variable <- as.name("angle")
+#' evalb(plot(x = .(variable), y = sin(.(variable))))
 #'
 #' @export
 #'

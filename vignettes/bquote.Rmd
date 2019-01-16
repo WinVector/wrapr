@@ -1,0 +1,89 @@
+---
+title: "bquote"
+author: "John Mount"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Dot Pipe}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+It would be nice if [<code>R</code>](https://www.r-project.org) [string-interpolation](https://en.wikipedia.org/wiki/String_interpolation) and ["quasi-quotation"](https://en.wikipedia.org/wiki/Grave_accent#Use_in_programming) both used the same notation.  They are related concepts, so some commonality of notation would actually be clarifying, and help teach the concepts. We will define both of the above terms, and demonstrate the relation between the two concepts.
+
+
+## String-interpolation
+
+[String-interpolation](https://en.wikipedia.org/wiki/String_interpolation) is the name for substituting value into a string.
+For example:
+
+```{r}
+library("wrapr")
+
+variable <- as.name("angle")
+
+sinterp(
+  'variable name is .(variable)'
+)
+```
+
+Notice the "<code>.(variable)</code>" portion was replaced with the actual variable name "<code>angle</code>".
+For string interpolation are intentionally using the notation that Thomas Lumley’s picked in 2003 when he introduced quasi-quotation into <code>R</code>.
+
+This is a common need and there are many [<code>R</code>](https://www.r-project.org) packages that supply variations of such functionality:
+
+  * <code>base::sprintf</code>
+  * [<code>R.utils::gstring()</code>](https://CRAN.R-project.org/package=R.utils)
+  * [<code>rprintf::rprintf()</code>](https://CRAN.R-project.org/package=rprintf)
+  * [<code>stringr::str_interp()</code>](https://CRAN.R-project.org/package=stringr)
+  * [<code>glue::glue()</code>](https://CRAN.R-project.org/package=glue).
+  
+  
+## Quasi-quotation
+
+A related idea is ["quasi-quotation"](https://en.wikipedia.org/wiki/Grave_accent#Use_in_programming) which substitutes a value into a general expression.  For example:
+
+```{r}
+angle = 1:10
+variable <- as.name("angle")
+
+evalb(
+  
+  plot(x = .(variable), 
+       y = sin(.(variable)))
+  
+  )
+```
+
+Notice how in the above plot the actual variable name "<code>angle</code>" was substituted into the <code>graphics::plot()</code> arguments, allowing this name to appear on the axis labels.
+
+<code>evalb()</code> is is a very simple function built on top of <code>base::bquote()</code>:
+
+```{r}
+print(evalb)
+```
+
+<code>evalb()</code> is likely the exact sort of application Thomas Lumley’s intended when he added <code>bquote()</code> to <code>R</code>.  All we have done above is: call <code>bquote()</code> as intended.  We also used the same symbol for string interpolation as the concepts are so similar having a related notation is a good idea.
+
+There are other <code>R</code> quasi-quotation systems including:
+
+ * [<code>gtools::strmacro()</code>](https://CRAN.R-project.org/package=gtools)
+ * [<code>lazyeval</code>](https://CRAN.R-project.org/package=lazyeval)
+ * [<code>wrapr::let()</code>](https://winvector.github.io/wrapr/reference/let.html)
+ * [<code>rlang::as_quosure()</code>](https://rlang.r-lib.org/reference/as_quosure.html).
+ * [<code>nseval</code>](https://CRAN.R-project.org/package=nseval).
+
+If you don't want to wrap your <code>plot()</code> call in <code>evalb()</code> you can instead pre-adapt the function.  Below we create a new function <code>plotb()</code> that is intended to shorthand for <code>eval(bquote(plot(...)))</code>.
+
+```{r}
+plotb <- bquote_function(graphics::plot)
+
+plotb(x = .(variable), 
+      y = sin(.(variable)))
+```
+
+## Conclusion
+
+When string-inerpolation and quasi-quotation use the same notation we can teach them quickly as simple related concepts.
+
+

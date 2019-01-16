@@ -19,8 +19,8 @@ eval(bquote(expr)) shortcut.
 }
 \examples{
 
-day = 1:10
-variable <- as.name("day")
-evalb(plot(x = .(variable) ,y = sin(.(variable))))
+angle = 1:10
+variable <- as.name("angle")
+evalb(plot(x = .(variable), y = sin(.(variable))))
 
 }

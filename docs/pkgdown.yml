@@ -9,6 +9,7 @@ articles:
   Named_Arguments: Named_Arguments.html
   QuotingConcatinate: QuotingConcatinate.html
   SubstitutionModes: SubstitutionModes.html
+  bquote: bquote.html
   dot_pipe: dot_pipe.html
   lambda: lambda.html
   let: let.html

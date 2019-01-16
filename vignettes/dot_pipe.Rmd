@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-`%.>%` dot arrow pipe is a strict pipe with intended semantics:
+[`%.>%` dot arrow pipe](https://winvector.github.io/wrapr/reference/dot_arrow.html) is a strict pipe with intended semantics:
 
 
 >  "`a %.>% b`" is to be treated

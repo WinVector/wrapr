@@ -24,4 +24,3 @@ executing environment.
 \seealso{
 \code{\link{bquote_function}}, \code{\link{bquote_call_args}}
 }
-\keyword{internal}
