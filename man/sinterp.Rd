@@ -5,7 +5,7 @@
 \title{Dot substitution.}
 \usage{
 sinterp(str, ..., envir = parent.frame(), enclos = parent.frame(),
-  match_pattern = "\\\\.\\\\([^()]+\\\\)",
+  match_pattern = "\\\\.\\\\((([^()]+)|(\\\\([^()]*\\\\)))+\\\\)",
   removal_patterns = c("^\\\\.\\\\(", "\\\\)$"))
 }
 \arguments{
@@ -25,21 +25,32 @@ sinterp(str, ..., envir = parent.frame(), enclos = parent.frame(),
 modified strings
 }
 \description{
-String interpolation using \code{bquote}-stype .() notation.  See also
-\code{glue::glue()}.  Pure R, no C/C++ code called.
+String interpolation using \code{bquote}-stype .() notation. Pure R, no C/C++ code called.
+}
+\details{
+See also
+\url{https://CRAN.R-project.org/package=R.utils},
+\url{https://CRAN.R-project.org/package=rprintf},
+and \url{https://CRAN.R-project.org/package=glue}.
 }
 \examples{
 
 x <- 7
-sinterp(c("x is .(x), x+1 is .(x+1)", ".(x) is odd is .(x\%\%2 == 1)"))
+sinterp(c("x is .(x), x+1 is .(x+1)",
+          ".(x) is odd is .(x\%\%2 == 1)"))
 
 # Because matching is done by a regular expression we
-# can not use parenthesis inside the interpolation region.
-# One can work around that by pre-arranging values to be
-# in variables or by using {} for expressions and
-# pipe for single argument function evaluation.
-# This is obviously awkward, but does work
-# (assuming the wrapr package is attached):
-sinterp("sin(x*(x+1)) is .({x*{x+1}} \%.>\% sin)")
+# can not use arbitrary depths of nested parenthesis inside
+# the interpolation region.  The default regexp allows
+# one level of nesting (and one can use {} in place
+# of parens in many places).
+sinterp("sin(x*(x+1)) is .(sin(x*{x+1}))")
+
+# We can also change the delimiters,
+# in this case to !! through the first whitespace.
+sinterp(c("x is !!x , x+1 is !!x+1",
+          "!!x  is odd is !!x\%\%2==1"),
+        match_pattern = '!![^[:space:]]+[[:space:]]?',
+        removal_patterns = c("^!!", "[[:space:]]?$"))
 
 }

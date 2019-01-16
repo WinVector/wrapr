@@ -1,5 +1,5 @@
 
-# wrapr 1.8.3 2019-01-15
+# wrapr 1.8.3 2019-01-16
 
  * Add string strsplit_capture() and dotsubs().
  * better bquote_function() and evalb() examples.
