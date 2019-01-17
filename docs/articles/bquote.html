@@ -124,7 +124,7 @@
 
     
     
-<p>It would be nice if <a href="https://www.r-project.org"><code>R</code></a> <a href="https://en.wikipedia.org/wiki/String_interpolation">string-interpolation</a> and <a href="https://en.wikipedia.org/wiki/Grave_accent#Use_in_programming">“quasi-quotation”</a> both used the same notation. They are related concepts, so some commonality of notation would actually be clarifying, and help teach the concepts. We will define both of the above terms, and demonstrate the relation between the two concepts.</p>
+<p>It would be nice if <a href="https://www.r-project.org"><code>R</code></a> <a href="https://en.wikipedia.org/wiki/String_interpolation">string-interpolation</a> and <a href="https://en.wikipedia.org/wiki/Grave_accent#Use_in_programming">quasi-quotation</a> both used the same notation. They are related concepts. So some commonality of notation would actually be clarifying, and help teach the concepts. We will define both of the above terms, and demonstrate the relation between the two concepts.</p>
 <div id="string-interpolation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#string-interpolation" class="anchor"></a>String-interpolation</h2>
@@ -138,7 +138,7 @@ variable &lt;-<span class="st"> </span><span class="kw">as.name</span>(<span cla
 )</code></pre></div>
 <pre><code>## [1] "variable name is angle"</code></pre>
 <p>Notice the “<code>.(variable)</code>” portion was replaced with the actual variable name “<code>angle</code>”. For string interpolation we are intentionally using the “<code>.()</code>” notation that Thomas Lumley’s picked in 2003 when he introduced quasi-quotation into <code>R</code> (a different concept than string-interpolation, but the topic of our next section).</p>
-<p>String interpolation is common need, and there are many <a href="https://www.r-project.org"><code>R</code></a> packages that supply variations of such functionality:</p>
+<p>String interpolation is a common need, and there are many <a href="https://www.r-project.org"><code>R</code></a> packages that supply variations of such functionality:</p>
 <ul>
 <li><code><a href="http://www.rdocumentation.org/packages/base/topics/sprintf">base::sprintf</a></code></li>
 <li><a href="https://CRAN.R-project.org/package=R.utils"><code><a href="http://www.rdocumentation.org/packages/R.utils/topics/gstring">R.utils::gstring()</a></code></a></li>
@@ -173,7 +173,7 @@ variable &lt;-<span class="st"> </span><span class="kw">as.name</span>(<span cla
 ##        envir = where,
 ##        enclos = where)
 ## }
-## &lt;bytecode: 0x7f975efccc18&gt;
+## &lt;bytecode: 0x7f937f9f1468&gt;
 ## &lt;environment: namespace:wrapr&gt;</code></pre>
 <p>All <code><a href="../reference/evalb.html">evalb()</a></code> does is: call <code>bquote()</code> as intended. A way to teach this is to just call <code>bqoute()</code> alone.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">bquote</span>(

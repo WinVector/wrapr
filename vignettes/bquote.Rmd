@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-It would be nice if [<code>R</code>](https://www.r-project.org) [string-interpolation](https://en.wikipedia.org/wiki/String_interpolation) and [quasi-quotation](https://en.wikipedia.org/wiki/Grave_accent#Use_in_programming) both used the same notation.  They are related concepts, so some commonality of notation would actually be clarifying, and help teach the concepts. We will define both of the above terms, and demonstrate the relation between the two concepts.
+It would be nice if [<code>R</code>](https://www.r-project.org) [string-interpolation](https://en.wikipedia.org/wiki/String_interpolation) and [quasi-quotation](https://en.wikipedia.org/wiki/Grave_accent#Use_in_programming) both used the same notation.  They are related concepts. So some commonality of notation would actually be clarifying, and help teach the concepts. We will define both of the above terms, and demonstrate the relation between the two concepts.
 
 
 ## String-interpolation
@@ -30,7 +30,7 @@ sinterp(
 Notice the "<code>.(variable)</code>" portion was replaced with the actual variable name "<code>angle</code>".
 For string interpolation we are intentionally using the "<code>.()</code>" notation that Thomas Lumley’s picked in 2003 when he introduced quasi-quotation into <code>R</code> (a different concept than string-interpolation, but the topic of our next section).
 
-String interpolation is common need, and there are many [<code>R</code>](https://www.r-project.org) packages that supply variations of such functionality:
+String interpolation is a common need, and there are many [<code>R</code>](https://www.r-project.org) packages that supply variations of such functionality:
 
   * <code>base::sprintf</code>
   * [<code>R.utils::gstring()</code>](https://CRAN.R-project.org/package=R.utils)
