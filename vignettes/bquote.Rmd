@@ -28,9 +28,9 @@ sinterp(
 ```
 
 Notice the "<code>.(variable)</code>" portion was replaced with the actual variable name "<code>angle</code>".
-For string interpolation we are intentionally using the notation that Thomas Lumley’s picked in 2003 when he introduced quasi-quotation into <code>R</code> (different than string-interpolation, but the topic of our next section).
+For string interpolation we are intentionally using the "<code>.()</code>" notation that Thomas Lumley’s picked in 2003 when he introduced quasi-quotation into <code>R</code> (a different concept than string-interpolation, but the topic of our next section).
 
-This is a common need and there are many [<code>R</code>](https://www.r-project.org) packages that supply variations of such functionality:
+String interpolation is common need, and there are many [<code>R</code>](https://www.r-project.org) packages that supply variations of such functionality:
 
   * <code>base::sprintf</code>
   * [<code>R.utils::gstring()</code>](https://CRAN.R-project.org/package=R.utils)
@@ -64,17 +64,29 @@ Notice how in the above plot the actual variable name "<code>angle</code>" was s
 print(evalb)
 ```
 
-All <code>evalb()</code> does is: call <code>bquote()</code> as intended.  We also used the same symbol for string interpolation as the concepts are so similar having a related notation is a good idea.
+All <code>evalb()</code> does is: call <code>bquote()</code> as intended.  A way to teach this is to just call `bqoute()` alone.
 
-There are other <code>R</code> quasi-quotation systems including:
+```{r}
+bquote(
+  
+  plot(x = .(variable), 
+       y = sin(.(variable)))
+  
+  )
+```
 
+And we see the un-executed code with the substitutions performed.
+
+There are many <code>R</code> quasi-quotation systems including:
+
+ * <code>base::bquote()</code>
  * [<code>gtools::strmacro()</code>](https://CRAN.R-project.org/package=gtools)
  * [<code>lazyeval</code>](https://CRAN.R-project.org/package=lazyeval)
  * [<code>wrapr::let()</code>](https://winvector.github.io/wrapr/reference/let.html)
  * [<code>rlang::as_quosure()</code>](https://rlang.r-lib.org/reference/as_quosure.html)
  * [<code>nseval</code>](https://CRAN.R-project.org/package=nseval)
 
-If you don't want to wrap your <code>plot()</code> call in <code>evalb()</code> you can instead pre-adapt the function.  Below we create a new function <code>plotb()</code> that is intended to shorthand for <code>eval(bquote(plot(...)))</code>.
+If you don't want to wrap your <code>plot()</code> call in <code>evalb()</code> you can instead pre-adapt the function.  Below we create a new function <code>plotb()</code> that is intended as shorthand for <code>eval(bquote(plot(...)))</code>.
 
 ```{r}
 plotb <- bquote_function(graphics::plot)

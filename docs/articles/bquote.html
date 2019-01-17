@@ -137,8 +137,8 @@ variable &lt;-<span class="st"> </span><span class="kw">as.name</span>(<span cla
   <span class="st">'variable name is .(variable)'</span>
 )</code></pre></div>
 <pre><code>## [1] "variable name is angle"</code></pre>
-<p>Notice the “<code>.(variable)</code>” portion was replaced with the actual variable name “<code>angle</code>”. For string interpolation we are intentionally using the notation that Thomas Lumley’s picked in 2003 when he introduced quasi-quotation into <code>R</code> (different than string-interpolation, but the topic of our next section).</p>
-<p>This is a common need and there are many <a href="https://www.r-project.org"><code>R</code></a> packages that supply variations of such functionality:</p>
+<p>Notice the “<code>.(variable)</code>” portion was replaced with the actual variable name “<code>angle</code>”. For string interpolation we are intentionally using the “<code>.()</code>” notation that Thomas Lumley’s picked in 2003 when he introduced quasi-quotation into <code>R</code> (a different concept than string-interpolation, but the topic of our next section).</p>
+<p>String interpolation is common need, and there are many <a href="https://www.r-project.org"><code>R</code></a> packages that supply variations of such functionality:</p>
 <ul>
 <li><code><a href="http://www.rdocumentation.org/packages/base/topics/sprintf">base::sprintf</a></code></li>
 <li><a href="https://CRAN.R-project.org/package=R.utils"><code><a href="http://www.rdocumentation.org/packages/R.utils/topics/gstring">R.utils::gstring()</a></code></a></li>
@@ -173,23 +173,32 @@ variable &lt;-<span class="st"> </span><span class="kw">as.name</span>(<span cla
 ##        envir = where,
 ##        enclos = where)
 ## }
-## &lt;bytecode: 0x7f9ce1b41678&gt;
+## &lt;bytecode: 0x7f975efccc18&gt;
 ## &lt;environment: namespace:wrapr&gt;</code></pre>
-<p>All <code><a href="../reference/evalb.html">evalb()</a></code> does is: call <code>bquote()</code> as intended. We also used the same symbol for string interpolation as the concepts are so similar having a related notation is a good idea.</p>
-<p>There are other <code>R</code> quasi-quotation systems including:</p>
+<p>All <code><a href="../reference/evalb.html">evalb()</a></code> does is: call <code>bquote()</code> as intended. A way to teach this is to just call <code>bqoute()</code> alone.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">bquote</span>(
+  
+  <span class="kw">plot</span>(<span class="dt">x =</span> .(variable), 
+       <span class="dt">y =</span> <span class="kw">sin</span>(.(variable)))
+  
+  )</code></pre></div>
+<pre><code>## plot(x = angle, y = sin(angle))</code></pre>
+<p>And we see the un-executed code with the substitutions performed.</p>
+<p>There are many <code>R</code> quasi-quotation systems including:</p>
 <ul>
+<li><code><a href="http://www.rdocumentation.org/packages/base/topics/bquote">base::bquote()</a></code></li>
 <li><a href="https://CRAN.R-project.org/package=gtools"><code><a href="http://www.rdocumentation.org/packages/gtools/topics/defmacro">gtools::strmacro()</a></code></a></li>
 <li><a href="https://CRAN.R-project.org/package=lazyeval"><code>lazyeval</code></a></li>
 <li><a href="https://winvector.github.io/wrapr/reference/let.html"><code><a href="../reference/let.html">wrapr::let()</a></code></a></li>
 <li><a href="https://rlang.r-lib.org/reference/as_quosure.html"><code><a href="http://www.rdocumentation.org/packages/rlang/topics/as_quosure">rlang::as_quosure()</a></code></a></li>
 <li><a href="https://CRAN.R-project.org/package=nseval"><code>nseval</code></a></li>
 </ul>
-<p>If you don’t want to wrap your <code>plot()</code> call in <code><a href="../reference/evalb.html">evalb()</a></code> you can instead pre-adapt the function. Below we create a new function <code>plotb()</code> that is intended to shorthand for <code>eval(bquote(plot(…)))</code>.</p>
+<p>If you don’t want to wrap your <code>plot()</code> call in <code><a href="../reference/evalb.html">evalb()</a></code> you can instead pre-adapt the function. Below we create a new function <code>plotb()</code> that is intended as shorthand for <code>eval(bquote(plot(…)))</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">plotb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/bquote_function.html">bquote_function</a></span>(graphics<span class="op">::</span>plot)
 
 <span class="kw">plotb</span>(<span class="dt">x =</span> .(variable), 
       <span class="dt">y =</span> <span class="kw">sin</span>(.(variable)))</code></pre></div>
-<p><img src="bquote_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+<p><img src="bquote_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 </div>
 <div id="conclusion" class="section level2">
 <h2 class="hasAnchor">
