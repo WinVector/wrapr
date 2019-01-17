@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-It would be nice if [<code>R</code>](https://www.r-project.org) [string-interpolation](https://en.wikipedia.org/wiki/String_interpolation) and ["quasi-quotation"](https://en.wikipedia.org/wiki/Grave_accent#Use_in_programming) both used the same notation.  They are related concepts, so some commonality of notation would actually be clarifying, and help teach the concepts. We will define both of the above terms, and demonstrate the relation between the two concepts.
+It would be nice if [<code>R</code>](https://www.r-project.org) [string-interpolation](https://en.wikipedia.org/wiki/String_interpolation) and [quasi-quotation](https://en.wikipedia.org/wiki/Grave_accent#Use_in_programming) both used the same notation.  They are related concepts, so some commonality of notation would actually be clarifying, and help teach the concepts. We will define both of the above terms, and demonstrate the relation between the two concepts.
 
 
 ## String-interpolation
