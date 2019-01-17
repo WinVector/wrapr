@@ -164,7 +164,7 @@ variable &lt;-<span class="st"> </span><span class="kw">as.name</span>(<span cla
   )</code></pre></div>
 <p><img src="bquote_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
 <p>Notice how in the above plot the actual variable name “<code>angle</code>” was substituted into the <code><a href="http://www.rdocumentation.org/packages/graphics/topics/plot">graphics::plot()</a></code> arguments, allowing this name to appear on the axis labels.</p>
-<p><code><a href="../reference/evalb.html">evalb()</a></code> is is a very simple function built on top of <code><a href="http://www.rdocumentation.org/packages/base/topics/bquote">base::bquote()</a></code>:</p>
+<p><code><a href="../reference/evalb.html">evalb()</a></code> is a very simple function built on top of <code><a href="http://www.rdocumentation.org/packages/base/topics/bquote">base::bquote()</a></code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(evalb)</code></pre></div>
 <pre><code>## function(..., where = parent.frame()) {
 ##   force(where)
@@ -173,7 +173,7 @@ variable &lt;-<span class="st"> </span><span class="kw">as.name</span>(<span cla
 ##        envir = where,
 ##        enclos = where)
 ## }
-## &lt;bytecode: 0x7f937f9f1468&gt;
+## &lt;bytecode: 0x7ffa318a3648&gt;
 ## &lt;environment: namespace:wrapr&gt;</code></pre>
 <p>All <code><a href="../reference/evalb.html">evalb()</a></code> does is: call <code>bquote()</code> as intended. A way to teach this is to just call <code>bqoute()</code> alone.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">bquote</span>(

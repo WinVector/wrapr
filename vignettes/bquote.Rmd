@@ -58,7 +58,7 @@ evalb(
 
 Notice how in the above plot the actual variable name "<code>angle</code>" was substituted into the <code>graphics::plot()</code> arguments, allowing this name to appear on the axis labels.
 
-<code>evalb()</code> is is a very simple function built on top of <code>base::bquote()</code>:
+<code>evalb()</code> is a very simple function built on top of <code>base::bquote()</code>:
 
 ```{r}
 print(evalb)
