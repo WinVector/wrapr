@@ -298,6 +298,12 @@ Install with:
 install.packages("wrapr")
 ```
 
+Or you get get the latest development version with:
+
+``` r
+devtools::install_github("WinVector/wrapr")
+```
+
 More Information
 ----------------
 
