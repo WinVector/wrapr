@@ -26,7 +26,7 @@ mk_formula(outcome, variables, ..., intercept = TRUE,
 a formula object
 }
 \description{
-Safely construct a formula from the outcome (dependent variable) name
+Safely construct a simple Wilkinson notation formula from the outcome (dependent variable) name
 and vector of input (independent variable) names.
 }
 \details{
@@ -46,7 +46,7 @@ print(f)
 (model <- lm(f, mtcars))
 format(model$terms)
 
-f <- mk_formula("cyl", c("hp", "disp"), outcome_target = 8, outcome_comparator = ">=")
+f <- mk_formula("cyl", c("wt", "gear"), outcome_target = 8, outcome_comparator = ">=")
 print(f)
 (model <- glm(f, mtcars, family = binomial))
 format(model$terms)
