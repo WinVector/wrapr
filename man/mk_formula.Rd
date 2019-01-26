@@ -4,7 +4,8 @@
 \alias{mk_formula}
 \title{Construct a formula.}
 \usage{
-mk_formula(outcome, variables, ..., intercept = TRUE, env = baseenv())
+mk_formula(outcome, variables, ..., intercept = TRUE,
+  outcome_target = NULL, outcome_comparator = "==", env = baseenv())
 }
 \arguments{
 \item{outcome}{character scalar, name of outcome or dependent variable.}
@@ -14,6 +15,10 @@ mk_formula(outcome, variables, ..., intercept = TRUE, env = baseenv())
 \item{...}{not used, force later arguments to bind by name.}
 
 \item{intercept}{logical, if TRUE allow an intercept term.}
+
+\item{outcome_target}{scalar, if not NULL write outcome==outcome_target in formula.}
+
+\item{outcome_comparator}{one of "==", "!=", ">=", "<=", ">", "<", only use of outcome_target is not NULL.}
 
 \item{env}{environment to use in formula.}
 }
@@ -38,7 +43,13 @@ Another reasonable way to do this is just \code{paste(outcome, paste(variables, 
 
 f <- mk_formula("mpg", c("cyl", "disp"))
 print(f)
-lm(f, mtcars)
+(model <- lm(f, mtcars))
+format(model$terms)
+
+f <- mk_formula("cyl", c("hp", "disp"), outcome_target = 8, outcome_comparator = ">=")
+print(f)
+(model <- glm(f, mtcars, family = binomial))
+format(model$terms)
 
 }
 \seealso{

@@ -20,6 +20,8 @@ NULL
 #' @param variables character vector, names of input or independent variables.
 #' @param ... not used, force later arguments to bind by name.
 #' @param intercept logical, if TRUE allow an intercept term.
+#' @param outcome_target scalar, if not NULL write outcome==outcome_target in formula.
+#' @param outcome_comparator one of "==", "!=", ">=", "<=", ">", "<", only use of outcome_target is not NULL.
 #' @param env environment to use in formula.
 #' @return a formula object
 #'
@@ -29,13 +31,21 @@ NULL
 #'
 #' f <- mk_formula("mpg", c("cyl", "disp"))
 #' print(f)
-#' lm(f, mtcars)
+#' (model <- lm(f, mtcars))
+#' format(model$terms)
+#'
+#' f <- mk_formula("cyl", c("hp", "disp"), outcome_target = 8, outcome_comparator = ">=")
+#' print(f)
+#' (model <- glm(f, mtcars, family = binomial))
+#' format(model$terms)
 #'
 #' @export
 #'
 mk_formula <- function(outcome, variables,
                        ...,
                        intercept = TRUE,
+                       outcome_target = NULL,
+                       outcome_comparator = "==",
                        env = baseenv()) {
   force(env)
   wrapr::stop_if_dot_args(substitute(list(...)), "wrapr::mk_formula")
@@ -45,16 +55,35 @@ mk_formula <- function(outcome, variables,
   if(!is.character(variables)) {
     stop("wrapr::mk_formula variables must be a character vector")
   }
+  outcome_name <- as.name(outcome)
+  outcome_expr <- outcome_name
+  if(!is.null(outcome_target)) {
+    if(outcome_comparator=="==") {
+      outcome_expr <- bquote((.(outcome_name) == .(outcome_target)))
+    } else if(outcome_comparator=="!=") {
+        outcome_expr <- bquote((.(outcome_name) != .(outcome_target)))
+    } else if(outcome_comparator==">=") {
+      outcome_expr <- bquote((.(outcome_name) >= .(outcome_target)))
+    } else if(outcome_comparator=="<=") {
+      outcome_expr <- bquote((.(outcome_name) <= .(outcome_target)))
+    } else if(outcome_comparator==">") {
+      outcome_expr <- bquote((.(outcome_name) > .(outcome_target)))
+    } else if(outcome_comparator=="<") {
+      outcome_expr <- bquote((.(outcome_name) < .(outcome_target)))
+    } else {
+      stop('wrapr::mk_formula outcome_comparator must be one of "==", "!=", ">=", "<=", ">", "<"')
+    }
+  }
   if(!intercept) {
     f <- do.call(
       "~",
-      list(as.name(outcome),
+      list(outcome_expr,
            0),
       envir = env)
   } else {
     f <- do.call(
       "~",
-      list(as.name(outcome),
+      list(outcome_expr,
            as.name(variables[[1]])),
       envir = env)
     variables <- variables[-1]
@@ -66,7 +95,7 @@ mk_formula <- function(outcome, variables,
               function(vi) {
                 do.call(
                   "~",
-                  list(as.name(outcome),
+                  list(outcome_expr,
                        call("+", as.name("."), as.name(vi))),
                   envir = env)
               }

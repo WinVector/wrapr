@@ -3,6 +3,7 @@
 
  * Add string strsplit_capture() and dotsubs().
  * better bquote_function() and evalb() examples.
+ * Allow comparisions in mk_formula().
 
 # wrapr 1.8.2 2019-01-04
 

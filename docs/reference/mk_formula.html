@@ -158,7 +158,8 @@ and vector of input (independent variable) names.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>mk_formula</span>(<span class='no'>outcome</span>, <span class='no'>variables</span>, <span class='no'>...</span>, <span class='kw'>intercept</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'>baseenv</span>())</pre>
+    <pre class="usage"><span class='fu'>mk_formula</span>(<span class='no'>outcome</span>, <span class='no'>variables</span>, <span class='no'>...</span>, <span class='kw'>intercept</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>outcome_target</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>outcome_comparator</span> <span class='kw'>=</span> <span class='st'>"=="</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'>baseenv</span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -178,6 +179,14 @@ and vector of input (independent variable) names.</p>
     <tr>
       <th>intercept</th>
       <td><p>logical, if TRUE allow an intercept term.</p></td>
+    </tr>
+    <tr>
+      <th>outcome_target</th>
+      <td><p>scalar, if not NULL write outcome==outcome_target in formula.</p></td>
+    </tr>
+    <tr>
+      <th>outcome_comparator</th>
+      <td><p>one of "==", "!=", "&gt;=", "&lt;=", "&gt;", "&lt;", only use of outcome_target is not NULL.</p></td>
     </tr>
     <tr>
       <th>env</th>
@@ -209,14 +218,26 @@ Another reasonable way to do this is just <code>paste(outcome, paste(variables, 
     <pre class="examples"><div class='input'>
 <span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='fu'>mk_formula</span>(<span class='st'>"mpg"</span>, <span class='fu'>c</span>(<span class='st'>"cyl"</span>, <span class='st'>"disp"</span>))
 <span class='fu'>print</span>(<span class='no'>f</span>)</div><div class='output co'>#&gt; mpg ~ cyl + disp
-#&gt; &lt;environment: base&gt;</div><div class='input'><span class='fu'>lm</span>(<span class='no'>f</span>, <span class='no'>mtcars</span>)</div><div class='output co'>#&gt; 
+#&gt; &lt;environment: base&gt;</div><div class='input'>(<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>f</span>, <span class='no'>mtcars</span>))</div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; lm(formula = f, data = mtcars)
 #&gt; 
 #&gt; Coefficients:
 #&gt; (Intercept)          cyl         disp  
 #&gt;    34.66099     -1.58728     -0.02058  
-#&gt; </div><div class='input'>
+#&gt; </div><div class='input'><span class='fu'>format</span>(<span class='no'>model</span>$<span class='no'>terms</span>)</div><div class='output co'>#&gt; [1] "mpg ~ cyl + disp"</div><div class='input'>
+<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='fu'>mk_formula</span>(<span class='st'>"cyl"</span>, <span class='fu'>c</span>(<span class='st'>"hp"</span>, <span class='st'>"disp"</span>), <span class='kw'>outcome_target</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>outcome_comparator</span> <span class='kw'>=</span> <span class='st'>"&gt;="</span>)
+<span class='fu'>print</span>(<span class='no'>f</span>)</div><div class='output co'>#&gt; (cyl &gt;= 8) ~ hp + disp
+#&gt; &lt;environment: base&gt;</div><div class='input'>(<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(<span class='no'>f</span>, <span class='no'>mtcars</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='no'>binomial</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: glm.fit: algorithm did not converge</span></div><div class='output co'>#&gt; <span class='warning'>Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred</span></div><div class='output co'>#&gt; 
+#&gt; Call:  glm(formula = f, family = binomial, data = mtcars)
+#&gt; 
+#&gt; Coefficients:
+#&gt; (Intercept)           hp         disp  
+#&gt;   -192.6330       0.6459       0.3866  
+#&gt; 
+#&gt; Degrees of Freedom: 31 Total (i.e. Null);  29 Residual
+#&gt; Null Deviance:	    43.86 
+#&gt; Residual Deviance: 1.474e-09 	AIC: 6</div><div class='input'><span class='fu'>format</span>(<span class='no'>model</span>$<span class='no'>terms</span>)</div><div class='output co'>#&gt; [1] "(cyl &gt;= 8) ~ hp + disp"</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
