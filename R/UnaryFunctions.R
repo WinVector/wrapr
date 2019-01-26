@@ -8,7 +8,8 @@ NULL
 
 #' Functions that take a single argument
 #' @export
-setClass("UnaryFn")
+setClass("UnaryFn",
+         slots = c(mutable_annotation_space = "environment"))
 
 #' Apply a single argument function to its argument.
 #'
@@ -203,6 +204,7 @@ as_fnlist <- function(items, env = parent.frame()) {
     }
     return(new(
       "UnaryFnList",
+      mutable_annotation_space = new.env(parent = emptyenv()),
       items = list(items)))
   }
   if(!is.list(items)) {
@@ -210,6 +212,7 @@ as_fnlist <- function(items, env = parent.frame()) {
   }
   x <- new(
     "UnaryFnList",
+    mutable_annotation_space = new.env(parent = emptyenv()),
     items = list()
   )
   for(itm in items) {
@@ -247,6 +250,7 @@ as.UnaryFn <- function(items, env = parent.frame()) {
   }
   x <- new(
     "UnaryFnList",
+    mutable_annotation_space = new.env(parent = emptyenv()),
     items = list()
   )
   for(itm in items) {
@@ -348,6 +352,7 @@ setMethod(
   signature(f = "UnaryFnList", x = "UnaryFnList"),
   function(f, x, env = parent.frame()) {
     new("UnaryFnList",
+        mutable_annotation_space = new.env(parent = emptyenv()),
         items =  concat_items_rev(f@items, x@items))
   })
 
@@ -358,6 +363,7 @@ setMethod(
   signature(f = "UnaryFnList", x = "UnaryFn"),
   function(f, x, env = parent.frame()) {
     new("UnaryFnList",
+        mutable_annotation_space = new.env(parent = emptyenv()),
         items =  concat_items_rev(f@items, list(x)))
   })
 
@@ -368,6 +374,7 @@ setMethod(
   signature(f = "UnaryFn", x = "UnaryFnList"),
   function(f, x, env = parent.frame()) {
     new("UnaryFnList",
+        mutable_annotation_space = new.env(parent = emptyenv()),
         items =  concat_items_rev(list(f), x@items))
   })
 
@@ -378,6 +385,7 @@ setMethod(
   signature(f = "UnaryFn", x = "UnaryFn"),
   function(f, x, env = parent.frame()) {
     new("UnaryFnList",
+        mutable_annotation_space = new.env(parent = emptyenv()),
         items =  concat_items_rev(list(f), list(x)))
   })
 
@@ -470,6 +478,7 @@ pkgfn <- function(fname, arg_name = ".", args = list()) {
   }
   new(
     "PartialNamedFn",
+    mutable_annotation_space = new.env(parent = emptyenv()),
     fn_name = parts[[2]],
     fn_package = parts[[1]],
     arg_name = arg_name,
@@ -501,6 +510,7 @@ setMethod(
   signature(f = "PartialNamedFn", x = "UnaryFnList"),
   function(f, x, env = parent.frame()) {
     new("UnaryFnList",
+        mutable_annotation_space = new.env(parent = emptyenv()),
         items =  concat_items_rev(list(f), x@items))
   })
 
@@ -511,6 +521,7 @@ setMethod(
   signature(f = "PartialNamedFn", x = "UnaryFn"),
   function(f, x, env = parent.frame()) {
     new("UnaryFnList",
+        mutable_annotation_space = new.env(parent = emptyenv()),
         items =  concat_items_rev(list(f), list(x)))
   })
 
@@ -584,6 +595,7 @@ wrapfn <- function(fn, arg_name = ".", args = list()) {
   }
   new(
     "PartialFunction",
+    mutable_annotation_space = new.env(parent = emptyenv()),
     fn = fn,
     fn_text = fn_text,
     arg_name = arg_name,
@@ -611,6 +623,7 @@ setMethod(
   signature(f = "PartialFunction", x = "UnaryFnList"),
   function(f, x, env = parent.frame()) {
     new("UnaryFnList",
+        mutable_annotation_space = new.env(parent = emptyenv()),
         items =  concat_items_rev(list(f), x@items))
   })
 
@@ -621,6 +634,7 @@ setMethod(
   signature(f = "PartialFunction", x = "UnaryFn"),
   function(f, x, env = parent.frame()) {
     new("UnaryFnList",
+        mutable_annotation_space = new.env(parent = emptyenv()),
         items =  concat_items_rev(list(f), list(x)))
   })
 
@@ -689,6 +703,7 @@ setClass(
 srcfn <- function(expr_src, arg_name = ".", args = list()) {
   new(
     "SrcFunction",
+    mutable_annotation_space = new.env(parent = emptyenv()),
     expr_src = expr_src,
     arg_name = arg_name,
     args = args
@@ -723,6 +738,7 @@ setMethod(
   signature(f = "SrcFunction", x = "UnaryFnList"),
   function(f, x, env = parent.frame()) {
     new("UnaryFnList",
+        mutable_annotation_space = new.env(parent = emptyenv()),
         items =  concat_items_rev(list(f), x@items))
   })
 
@@ -733,6 +749,7 @@ setMethod(
   signature(f = "SrcFunction", x = "UnaryFn"),
   function(f, x, env = parent.frame()) {
     new("UnaryFnList",
+        mutable_annotation_space = new.env(parent = emptyenv()),
         items =  concat_items_rev(list(f), list(x)))
   })
 

@@ -1,8 +1,9 @@
 
-# wrapr 1.8.3 2019-01-24
+# wrapr 1.8.3 2019-01-25
 
  * Add string strsplit_capture() and dotsubs().
  * better bquote_function() and evalb() examples.
+ * Add mutable environment tag to UnaryFns.
 
 # wrapr 1.8.2 2019-01-04
 
