@@ -32,7 +32,7 @@
 
 <meta property="og:title" content="Construct a formula. — mk_formula" />
 
-<meta property="og:description" content="Safely construct a formula from the outcome (dependent variable) name
+<meta property="og:description" content="Safely construct a simple Wilkinson notation formula from the outcome (dependent variable) name
 and vector of input (independent variable) names." />
 <meta name="twitter:card" content="summary" />
 
@@ -153,7 +153,7 @@ and vector of input (independent variable) names." />
 
     <div class="ref-description">
     
-    <p>Safely construct a formula from the outcome (dependent variable) name
+    <p>Safely construct a simple Wilkinson notation formula from the outcome (dependent variable) name
 and vector of input (independent variable) names.</p>
     
     </div>
@@ -226,18 +226,18 @@ Another reasonable way to do this is just <code>paste(outcome, paste(variables, 
 #&gt; (Intercept)          cyl         disp  
 #&gt;    34.66099     -1.58728     -0.02058  
 #&gt; </div><div class='input'><span class='fu'>format</span>(<span class='no'>model</span>$<span class='no'>terms</span>)</div><div class='output co'>#&gt; [1] "mpg ~ cyl + disp"</div><div class='input'>
-<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='fu'>mk_formula</span>(<span class='st'>"cyl"</span>, <span class='fu'>c</span>(<span class='st'>"hp"</span>, <span class='st'>"disp"</span>), <span class='kw'>outcome_target</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>outcome_comparator</span> <span class='kw'>=</span> <span class='st'>"&gt;="</span>)
-<span class='fu'>print</span>(<span class='no'>f</span>)</div><div class='output co'>#&gt; (cyl &gt;= 8) ~ hp + disp
-#&gt; &lt;environment: base&gt;</div><div class='input'>(<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(<span class='no'>f</span>, <span class='no'>mtcars</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='no'>binomial</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: glm.fit: algorithm did not converge</span></div><div class='output co'>#&gt; <span class='warning'>Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred</span></div><div class='output co'>#&gt; 
+<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='fu'>mk_formula</span>(<span class='st'>"cyl"</span>, <span class='fu'>c</span>(<span class='st'>"wt"</span>, <span class='st'>"gear"</span>), <span class='kw'>outcome_target</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>outcome_comparator</span> <span class='kw'>=</span> <span class='st'>"&gt;="</span>)
+<span class='fu'>print</span>(<span class='no'>f</span>)</div><div class='output co'>#&gt; (cyl &gt;= 8) ~ wt + gear
+#&gt; &lt;environment: base&gt;</div><div class='input'>(<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(<span class='no'>f</span>, <span class='no'>mtcars</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='no'>binomial</span>))</div><div class='output co'>#&gt; 
 #&gt; Call:  glm(formula = f, family = binomial, data = mtcars)
 #&gt; 
 #&gt; Coefficients:
-#&gt; (Intercept)           hp         disp  
-#&gt;   -192.6330       0.6459       0.3866  
+#&gt; (Intercept)           wt         gear  
+#&gt;    -33.9388       9.3992       0.5893  
 #&gt; 
 #&gt; Degrees of Freedom: 31 Total (i.e. Null);  29 Residual
 #&gt; Null Deviance:	    43.86 
-#&gt; Residual Deviance: 1.474e-09 	AIC: 6</div><div class='input'><span class='fu'>format</span>(<span class='no'>model</span>$<span class='no'>terms</span>)</div><div class='output co'>#&gt; [1] "(cyl &gt;= 8) ~ hp + disp"</div><div class='input'>
+#&gt; Residual Deviance: 14.21 	AIC: 20.21</div><div class='input'><span class='fu'>format</span>(<span class='no'>model</span>$<span class='no'>terms</span>)</div><div class='output co'>#&gt; [1] "(cyl &gt;= 8) ~ wt + gear"</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
