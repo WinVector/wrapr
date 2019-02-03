@@ -4,7 +4,8 @@
 \alias{clean_fit_glm}
 \title{Fit a stats::glm without carying back large structures.}
 \usage{
-clean_fit_glm(outcome, variables, data, ..., family, weights = NULL,
+clean_fit_glm(outcome, variables, data, ..., family, intercept = TRUE,
+  outcome_target = NULL, outcome_comparator = "==", weights = NULL,
   env = baseenv())
 }
 \arguments{
@@ -17,6 +18,12 @@ clean_fit_glm(outcome, variables, data, ..., family, weights = NULL,
 \item{...}{not used, force later arguments to be used by name}
 
 \item{family}{passed to stats::glm()}
+
+\item{intercept}{logical, if TRUE allow an intercept term.}
+
+\item{outcome_target}{scalar, if not NULL write outcome==outcome_target in formula.}
+
+\item{outcome_comparator}{one of "==", "!=", ">=", "<=", ">", "<", only use of outcome_target is not NULL.}
 
 \item{weights}{passed to stats::glm()}
 

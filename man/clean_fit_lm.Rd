@@ -4,8 +4,8 @@
 \alias{clean_fit_lm}
 \title{Fit a stats::lm without carying back large structures.}
 \usage{
-clean_fit_lm(outcome, variables, data, ..., weights = NULL,
-  env = baseenv())
+clean_fit_lm(outcome, variables, data, ..., intercept = TRUE,
+  weights = NULL, env = baseenv())
 }
 \arguments{
 \item{outcome}{character, name of outcome column.}
@@ -15,6 +15,8 @@ clean_fit_lm(outcome, variables, data, ..., weights = NULL,
 \item{data}{data.frame, training data.}
 
 \item{...}{not used, force later arguments to be used by name}
+
+\item{intercept}{logical, if TRUE allow an intercept term.}
 
 \item{weights}{passed to stats::glm()}
 

@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.8.3</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.8.4</span>
       </span>
     </div>
 
@@ -156,7 +156,8 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>clean_fit_glm</span>(<span class='no'>outcome</span>, <span class='no'>variables</span>, <span class='no'>data</span>, <span class='no'>...</span>, <span class='no'>family</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+    <pre class="usage"><span class='fu'>clean_fit_glm</span>(<span class='no'>outcome</span>, <span class='no'>variables</span>, <span class='no'>data</span>, <span class='no'>...</span>, <span class='no'>family</span>, <span class='kw'>intercept</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>outcome_target</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>outcome_comparator</span> <span class='kw'>=</span> <span class='st'>"=="</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'>baseenv</span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -181,6 +182,18 @@
     <tr>
       <th>family</th>
       <td><p>passed to stats::glm()</p></td>
+    </tr>
+    <tr>
+      <th>intercept</th>
+      <td><p>logical, if TRUE allow an intercept term.</p></td>
+    </tr>
+    <tr>
+      <th>outcome_target</th>
+      <td><p>scalar, if not NULL write outcome==outcome_target in formula.</p></td>
+    </tr>
+    <tr>
+      <th>outcome_comparator</th>
+      <td><p>one of "==", "!=", "&gt;=", "&lt;=", "&gt;", "&lt;", only use of outcome_target is not NULL.</p></td>
     </tr>
     <tr>
       <th>weights</th>

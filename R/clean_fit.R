@@ -10,6 +10,7 @@
 #' @param variables character, names of varaible columns.
 #' @param data data.frame, training data.
 #' @param ... not used, force later arguments to be used by name
+#' @param intercept logical, if TRUE allow an intercept term.
 #' @param weights passed to stats::glm()
 #' @param env environment to work in.
 #' @return list(model=model, summary=summary)
@@ -40,6 +41,7 @@
 #'
 clean_fit_lm <- function(outcome, variables, data,
                          ...,
+                         intercept = TRUE,
                          weights = NULL,
                          env = baseenv()) {
   force(env)
@@ -51,7 +53,9 @@ clean_fit_lm <- function(outcome, variables, data,
   # http://www.win-vector.com/blog/2018/12/very-non-standard-calling-in-r/
   wenv <- new.env(parent = env)
   assign("weights", weights, envir = wenv)
-  f <- wrapr::mk_formula(outcome, variables, env = wenv)
+  f <- wrapr::mk_formula(outcome, variables,
+                         intercept = intercept,
+                         env = wenv)
   m <- stats::lm(f, data,
                  weights = weights,
                  model = FALSE, x = FALSE, y = FALSE)
@@ -79,6 +83,9 @@ clean_fit_lm <- function(outcome, variables, data,
 #' @param ... not used, force later arguments to be used by name
 #' @param family passed to stats::glm()
 #' @param weights passed to stats::glm()
+#' @param intercept logical, if TRUE allow an intercept term.
+#' @param outcome_target scalar, if not NULL write outcome==outcome_target in formula.
+#' @param outcome_comparator one of "==", "!=", ">=", "<=", ">", "<", only use of outcome_target is not NULL.
 #' @param env environment to work in.
 #' @return list(model=model, summary=summary)
 #'
@@ -112,6 +119,9 @@ clean_fit_lm <- function(outcome, variables, data,
 clean_fit_glm <- function(outcome, variables, data,
                           ...,
                           family,
+                          intercept = TRUE,
+                          outcome_target = NULL,
+                          outcome_comparator = "==",
                           weights = NULL,
                           env = baseenv()) {
   force(env)
@@ -124,7 +134,11 @@ clean_fit_glm <- function(outcome, variables, data,
   # http://www.win-vector.com/blog/2018/12/very-non-standard-calling-in-r/
   wenv <- new.env(parent = env)
   assign("weights", weights, envir = wenv)
-  f <- wrapr::mk_formula(outcome, variables, env = wenv)
+  f <- wrapr::mk_formula(outcome, variables,
+                         intercept = intercept,
+                         outcome_target = outcome_target,
+                         outcome_comparator = outcome_comparator,
+                         env = wenv)
   m <- stats::glm(f, data,
                   family = family,
                   weights = weights)
