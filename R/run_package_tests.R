@@ -16,7 +16,7 @@
 #' @param test_dir directory to look for tests in, if not set looks in pacakge unit_tests.
 #' @param stop_on_issue logical, if TRUE stop after errors or failures.
 #' @param stop_if_no_tests logical, if TRUE stop if no tests were found.
-#' @return nothing
+#' @return RUnit test results (invisible).
 #'
 #' @export
 #'
@@ -72,5 +72,5 @@ run_package_tests <- function(pkg,
       stop(paste("found no package", pkg, "RUnit tests"))
     }
   }
-  invisible(NULL)
+  invisible(test_results)
 }

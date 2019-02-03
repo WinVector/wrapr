@@ -21,7 +21,7 @@ run_package_tests(pkg, ..., verbose = TRUE, test_dir = NULL,
 \item{stop_if_no_tests}{logical, if TRUE stop if no tests were found.}
 }
 \value{
-nothing
+RUnit test results (invisible).
 }
 \description{
 For all files with names of the form "^test_.+\\.R$" in the package directory unit_tests
