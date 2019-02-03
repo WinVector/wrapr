@@ -38,5 +38,6 @@ Attaches RUnit and pkg, requires RUnit.
 Stops on error.
 }
 \details{
-Based on \url{https://github.com/RcppCore/Rcpp/blob/master/tests/doRUnit.R}.
+Based on \url{https://github.com/RcppCore/Rcpp/blob/master/tests/doRUnit.R}.  This
+version is GPL-3, works derived from it must be distributed GPL-3.
 }
