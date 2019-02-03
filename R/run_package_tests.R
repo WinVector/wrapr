@@ -38,9 +38,9 @@ run_package_tests <- function(pkg,
     stop("run_package_tests requires RUnit to already be attached via library('RUnit')")
   }
   if(!(pkg %in% attached_packages)) {
-    stop(paste0("run_package_tests requires",
+    stop(paste0("run_package_tests requires ",
                 pkg,
-                "to already be attached via library('", pkg, "')"))
+                " to already be attached via library('", pkg, "')"))
   }
   if(is.null(test_dir)) {
     test_dir <- system.file("unit_tests", package = pkg, mustWork = TRUE)
