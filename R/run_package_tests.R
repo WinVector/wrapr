@@ -13,7 +13,8 @@
 #' @param pkg character, name of package to test.
 #' @param ... not used, force later arguments to bind by name.
 #' @param verbose logical, if TRUE print more.
-#' @param test_dir directory to look for tests in, if not set looks in pacakge unit_tests.
+#' @param package_test_dirs directory names to look for in the installed package.
+#' @param test_dirs paths to look for tests in.
 #' @param stop_on_issue logical, if TRUE stop after errors or failures.
 #' @param stop_if_no_tests logical, if TRUE stop if no tests were found.
 #' @return RUnit test results (invisible).
@@ -23,7 +24,8 @@
 run_package_tests <- function(pkg,
                               ...,
                               verbose = TRUE,
-                              test_dir = NULL,
+                              package_test_dirs = "unit_tests",
+                              test_dirs = character(0),
                               stop_on_issue = TRUE,
                               stop_if_no_tests = TRUE) {
   wrapr::stop_if_dot_args(substitute(list(...)), "wrapr::run_packages_tests")
@@ -42,13 +44,13 @@ run_package_tests <- function(pkg,
                 pkg,
                 " to already be attached via library('", pkg, "')"))
   }
-  if(is.null(test_dir)) {
-    test_dir <- system.file("unit_tests", package = pkg, mustWork = TRUE)
+  for(ptd in package_test_dirs) {
+    test_dirs <- c(test_dirs, system.file(ptd, package = pkg, mustWork = TRUE))
   }
   set.seed(2019)  # try to make things a bit more deterministic
   print(paste("RUnit testing package", pkg, "version", utils::packageVersion(pkg)))
   test_suite <- RUnit::defineTestSuite(name = paste(pkg, "unit tests"),
-                                       dirs = test_dir,
+                                       dirs = test_dirs,
                                        testFileRegexp = "^test_.+\\.R$",
                                        testFuncRegexp = "^test_.+$")
   test_results <- RUnit::runTestSuite(test_suite,

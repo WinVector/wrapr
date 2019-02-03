@@ -4,7 +4,8 @@
 \alias{run_package_tests}
 \title{Run package tests.}
 \usage{
-run_package_tests(pkg, ..., verbose = TRUE, test_dir = NULL,
+run_package_tests(pkg, ..., verbose = TRUE,
+  package_test_dirs = "unit_tests", test_dirs = character(0),
   stop_on_issue = TRUE, stop_if_no_tests = TRUE)
 }
 \arguments{
@@ -14,7 +15,9 @@ run_package_tests(pkg, ..., verbose = TRUE, test_dir = NULL,
 
 \item{verbose}{logical, if TRUE print more.}
 
-\item{test_dir}{directory to look for tests in, if not set looks in pacakge unit_tests.}
+\item{package_test_dirs}{directory names to look for in the installed package.}
+
+\item{test_dirs}{paths to look for tests in.}
 
 \item{stop_on_issue}{logical, if TRUE stop after errors or failures.}
 
