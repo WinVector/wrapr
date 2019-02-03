@@ -1,9 +1,5 @@
-library('wrapr')
 
-context("basic_pipe")
-
-
-test_that("test_pipe.R", {
+test_pipe <- function() {
   # adapted from
   # library("magrittr")
   # library("wrapr")
@@ -26,11 +22,11 @@ test_that("test_pipe.R", {
     transform(., kpl = mpg * 0.4251) %.>%
     aggregate(. ~ cyl, data = ., FUN = . := { mean(.) %.>% round(., 2) })
 
-  expect_equal(expect, res)
+  RUnit::checkEquals(expect, res)
 
   lst <- list(h = sin)
   res <- 5 %.>% lst$h
-  expect_equal(sin(5), res)
+  RUnit::checkEquals(sin(5), res)
   res <- 5 %.>% lst[['h']]
-  expect_equal(sin(5), res)
-})
+  RUnit::checkEquals(sin(5), res)
+}

@@ -36,7 +36,6 @@ Suggests:
     knitr,
     rmarkdown,
     RUnit,
-    R.rsp,
-    testthat
+    R.rsp
 VignetteBuilder: knitr, R.rsp
 ByteCompile: true

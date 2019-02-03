@@ -17,6 +17,8 @@
 #' @param test_dirs paths to look for tests in.
 #' @param stop_on_issue logical, if TRUE stop after errors or failures.
 #' @param stop_if_no_tests logical, if TRUE stop if no tests were found.
+#' @param require_RUnit_attached logical, if TRUE require RUnit be attached before testing.
+#' @param require_pkg_attached logical, if TRUE require pkg be attached before testing.
 #' @return RUnit test results (invisible).
 #'
 #' @export
@@ -27,7 +29,9 @@ run_package_tests <- function(pkg,
                               package_test_dirs = "unit_tests",
                               test_dirs = character(0),
                               stop_on_issue = TRUE,
-                              stop_if_no_tests = TRUE) {
+                              stop_if_no_tests = TRUE,
+                              require_RUnit_attached = FALSE,
+                              require_pkg_attached = TRUE) {
   wrapr::stop_if_dot_args(substitute(list(...)), "wrapr::run_packages_tests")
   if(!requireNamespace("RUnit", quietly = TRUE)) {
     stop("run_packages_tests requires RUnit package")
@@ -36,13 +40,17 @@ run_package_tests <- function(pkg,
     stop(paste("run_packages_tests requires", pkg, "package to test", pkg))
   }
   attached_packages <- .packages(all.available = FALSE)
-  if(!("RUnit" %in% attached_packages)) {
-    stop("run_package_tests requires RUnit to already be attached via library('RUnit')")
+  if(require_RUnit_attached) {
+    if(!("RUnit" %in% attached_packages)) {
+      stop("run_package_tests requires RUnit to already be attached via library('RUnit')")
+    }
   }
-  if(!(pkg %in% attached_packages)) {
-    stop(paste0("run_package_tests requires ",
-                pkg,
-                " to already be attached via library('", pkg, "')"))
+  if(require_pkg_attached) {
+    if(!(pkg %in% attached_packages)) {
+      stop(paste0("run_package_tests requires ",
+                  pkg,
+                  " to already be attached via library('", pkg, "')"))
+    }
   }
   for(ptd in package_test_dirs) {
     test_dirs <- c(test_dirs, system.file(ptd, package = pkg, mustWork = TRUE))

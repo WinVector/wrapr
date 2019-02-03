@@ -1,8 +1,6 @@
-library('wrapr')
 
-context("letc")
 
-test_that("testc.R", {
+test_c <- function() {
   ` X` <- 3
   y <- 7
   X <- 2
@@ -15,5 +13,6 @@ test_that("testc.R", {
                       stringsAsFactors = FALSE)
       X <- list(X = d$X, X2 = d$"X", v1 = `X`, v2 = ` X`, fX = F(1:3))
     })
-  expect_equal(y$X2, 'X')
-})
+  RUnit::checkEquals(y$X2, 'X')
+}
+

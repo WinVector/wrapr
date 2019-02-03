@@ -1,9 +1,6 @@
-library('wrapr')
-
-context("function_composition")
 
 
-test_that("test_fn_composition.R", {
+test_fn_composition <- function() {
 
   x <- c(1:5)
 
@@ -25,21 +22,21 @@ test_that("test_fn_composition.R", {
 
   v1 <- (x %.>% f1) %.>% f2
   v2 <- x %.>% f1 %.>% f2
-  testthat::expect_equal(v1, v2)
+  RUnit::checkEquals(v1, v2)
 
   f12 <- f1 %.>% f2
   v3 <- x %.>% f12
-  testthat::expect_equal(v1, v2)
+  RUnit::checkEquals(v1, v2)
 
   fa <- ApplyTo(f2, f1)
   va <- x %.>% fa
-  testthat::expect_equal(v1, va)
+  RUnit::checkEquals(v1, va)
 
   v4 <- ApplyTo(f2, ApplyTo(f1, x))
-  testthat::expect_equal(v1, v4)
+  RUnit::checkEquals(v1, v4)
 
   v5 <- x %.>% f3
-  testthat::expect_equal(v1, v5)
+  RUnit::checkEquals(v1, v5)
 
   # see composition doesn't have S4 warnings
   tryCatch({
@@ -67,4 +64,5 @@ test_that("test_fn_composition.R", {
         arg_name = "x",
         args = list())
   v <- x %.>% z
-})
+}
+

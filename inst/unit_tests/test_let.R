@@ -1,9 +1,5 @@
-library('wrapr')
 
-context("let")
-
-test_that("test_let.R", {
-
+test_let <- function() {
   d <- data.frame(
     Sepal_Length = c(5.8, 5.7),
     Sepal_Width = c(4.0, 4.4),
@@ -22,5 +18,5 @@ test_that("test_let.R", {
         dres <- d
         dres$RankColumn <- dres$RankColumn - 1
       })
-  expect_equal(dres$rank, c(0,1))
-})
+  RUnit::checkEquals(dres$rank, c(0,1))
+}

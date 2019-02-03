@@ -1,18 +1,15 @@
-library('wrapr')
 
-context("buildFrame")
-
-test_that("testBuildFrame.R", {
+test_build_frame <- function() {
   testBFRT <- function(d) {
     txt <- draw_frame(d)
     d2 <- eval(parse(text = txt))
-    testthat::expect_equivalent(d, d2)
+    RUnit::checkEquals(d, d2)
   }
 
   d <- data.frame(
     measure = c("minus binary cross entropy", "accuracy"),
     training = c(5, 0.8),
-    validataion = c(-7, 0.6),
+    validation = c(-7, 0.6),
     stringsAsFactors = FALSE)
   testBFRT(d)
 
@@ -32,9 +29,9 @@ test_that("testBuildFrame.R", {
   d2 <- data.frame(
     measure = c("minus binary cross entropy", "accuracy"),
     training = c("loss", "acc"),
-    validataion = c("val_loss", "val_acc"),
+    validation = c("val_loss", "val_acc"),
     stringsAsFactors = FALSE)
-  testthat::expect_equivalent(d1, d2)
+  RUnit::checkEquals(d1, d2)
 
   d1 <- qchar_frame(
     x |
@@ -43,7 +40,7 @@ test_that("testBuildFrame.R", {
   d2 <- data.frame(
     x = c("1", "2"),
     stringsAsFactors = FALSE)
-  testthat::expect_equivalent(d1, d2)
+  RUnit::checkEquals(d1, d2)
 
   d1 <- data.frame(
     idx = c(1L, 2L),
@@ -53,4 +50,4 @@ test_that("testBuildFrame.R", {
     lab = c("a", "b"),
     stringsAsFactors = FALSE)
   txt <- draw_frame(d1)
-})
+}

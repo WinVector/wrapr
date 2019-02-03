@@ -1,8 +1,6 @@
-library('wrapr')
 
-context("draw_frame")
 
-test_that("test_draw_frame.R", {
+test_draw_frame <- function() {
 
   ex <- data.frame(id = 1:3,
                    x = c(0, 1, NA),
@@ -13,9 +11,9 @@ test_that("test_draw_frame.R", {
     1L  , 0  , "not one" |
     2L  , 1  , "one"     |
     3L  , NA , NA        )
-  expect_equal(ex, f)
+  RUnit::checkEquals(ex, f)
 
   df <- draw_frame(ex)
   f2 <- eval(parse(text = df))
-  expect_equal(ex, f2)
-})
+  RUnit::checkEquals(ex, f2)
+}

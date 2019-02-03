@@ -1,8 +1,5 @@
-library('wrapr')
 
-context("letl")
-
-test_that("testl_let.R", {
+test_letl <- function() {
 
   d <- data.frame(
     year= c(2005, 2005),
@@ -19,6 +16,6 @@ test_that("testl_let.R", {
       dlan$NEWCOL <- 7,
       subsMethod= 'langsubs'
   )
-  #expect_equal(dsub, dstr)
-  expect_equal(dstr, dlan)
-})
+  #RUnit::checkEquals(dsub, dstr)
+  RUnit::checkEquals(dstr, dlan)
+}
