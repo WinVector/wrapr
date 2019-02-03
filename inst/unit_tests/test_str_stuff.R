@@ -18,5 +18,7 @@ test_str_stuff <- function() {
   RUnit::checkEquals(
     v3,
     c("x is 10, x+1 is 11", "10 is odd is FALSE"))
+
+  invisible(NULL)
 }
 

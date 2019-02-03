@@ -19,4 +19,5 @@ test_strict <- function() {
 
   RUnit::checkEquals(sin(5), 5 %.>% {sin(.)})
 
+  invisible(NULL)
 }

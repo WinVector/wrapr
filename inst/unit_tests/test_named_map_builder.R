@@ -15,4 +15,6 @@ test_named_map_builder <- function() {
 
   name <- "a"
   RUnit::checkEquals(name := "b", c(a = "b"))
+
+  invisible(NULL)
 }

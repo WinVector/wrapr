@@ -16,4 +16,6 @@ test_draw_frame <- function() {
   df <- draw_frame(ex)
   f2 <- eval(parse(text = df))
   RUnit::checkEquals(ex, f2)
+
+  invisible(NULL)
 }

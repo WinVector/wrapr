@@ -64,5 +64,7 @@ test_fn_composition <- function() {
         arg_name = "x",
         args = list())
   v <- x %.>% z
+
+  invisible(NULL)
 }
 

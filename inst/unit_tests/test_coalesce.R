@@ -16,4 +16,6 @@ test_coalesce <- function() {
   RUnit::checkEquals(c(a=1, b= NA) %?% list(3,4), c(a=1, b=4))
   RUnit::checkEquals(list(a=1, b= NA) %?% c(3,4), list(a=1, b=4))
   RUnit::checkEquals(NULL %?% 4, 4)
+
+  invisible(NULL)
 }

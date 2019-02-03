@@ -31,4 +31,5 @@ test_qc <- function() {
 
   RUnit::checkEquals(qc(x := a, qc(b, z := c)), c("x" = "a", qc("b", "z" = "c")))
 
+  invisible(NULL)
 }

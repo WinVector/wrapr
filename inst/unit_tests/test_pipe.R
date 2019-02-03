@@ -29,4 +29,6 @@ test_pipe <- function() {
   RUnit::checkEquals(sin(5), res)
   res <- 5 %.>% lst[['h']]
   RUnit::checkEquals(sin(5), res)
+
+  invisible(NULL)
 }

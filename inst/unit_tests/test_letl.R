@@ -18,4 +18,6 @@ test_letl <- function() {
   )
   #RUnit::checkEquals(dsub, dstr)
   RUnit::checkEquals(dstr, dlan)
+
+  invisible(NULL)
 }

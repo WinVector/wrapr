@@ -50,4 +50,6 @@ test_build_frame <- function() {
     lab = c("a", "b"),
     stringsAsFactors = FALSE)
   txt <- draw_frame(d1)
+
+  invisible(NULL)
 }

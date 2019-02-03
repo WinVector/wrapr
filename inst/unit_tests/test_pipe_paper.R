@@ -94,5 +94,5 @@ test_pipe_paper <- function() {
     rm(list = "apply_left.formula",  envir = .GlobalEnv)
   }
 
-
+  invisible(NULL)
 }

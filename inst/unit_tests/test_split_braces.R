@@ -49,4 +49,5 @@ test_split_braces <- function() {
     wrapr::split_at_brace_pairs(list(nm = "sqrt(.[v1])"), open_symbol = ".[", close_symbol = "]"),
     list(nm = c("sqrt(", ".[v1]", ")" )))
 
+  invisible(NULL)
 }

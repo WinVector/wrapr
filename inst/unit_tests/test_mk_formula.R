@@ -50,4 +50,5 @@ test_mk_formula <- function() {
   v <- format(model$terms)
   RUnit::checkEquals("(cyl >= 8) ~ wt + gear", v)
 
+  invisible(NULL)
 }

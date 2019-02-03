@@ -14,5 +14,7 @@ test_c <- function() {
       X <- list(X = d$X, X2 = d$"X", v1 = `X`, v2 = ` X`, fX = F(1:3))
     })
   RUnit::checkEquals(y$X2, 'X')
+
+  invisible(NULL)
 }
 
