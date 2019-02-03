@@ -1,4 +1,9 @@
 
+# wrapr 1.8.3 2019-02-02
+
+  * Add run_packages_tests().
+  * Start moving to RUnit tests.
+
 # wrapr 1.8.3 2019-01-29
 
  * Add string strsplit_capture() and dotsubs().
