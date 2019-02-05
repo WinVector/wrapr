@@ -18,11 +18,11 @@ By a combination of skimming the `R`-manuals ( [https://cran.r-project.org/manua
 
 ### Uses of tests
 
-Tests are used in different ways.  A lot of consusion is a failure to separate these ways. Some common ways tests are used include:
+Tests are used in different ways.  A lot of confusion is a failure to separate these ways. Some common ways tests are used include:
 
   1) Acceptance unit tests. These are test that must succeed for a package to be considered usable.  These are tests that cause the package to be rejected by CRAN or by end-users if they fail.
   2) Weak integration tests. Integration tests are different than unit tests, but there is some overlap. For packages that are tightly coupled a wrong version of one package can cause a related package to fail. In this case it make a lot of sense to expose the tests to the users, so they can run these tests.
-  3) Tests that represent development goals. These tests can be from test-drive development, or reproducible errors incorporated from submitted issues. These tests may be in a failing state for some time These tests are more private to the package developer and should not be distributed to CRAN or to the end users.
+  3) Tests that represent development goals. These tests can be from test-driven development, or reproducible errors incorporated from submitted issues. These tests may be in a failing state for some time. These tests are more private to the package developer and should not be distributed to CRAN or to the end users.
   
 Confusion between these (and additional) categories of use, or assuming there is only one use of tests is a source of many testing arguments.
 
@@ -32,7 +32,7 @@ Confusion between these (and additional) categories of use, or assuming there is
   1) `R` packaged developers do not need to use a test system such as `RUnit` or `testthat` to run tests.  The data.table package is a great example of this: a core package running thousands of tests, without needing an external testing package.  The "`R CMD check`" mechanism seems optimized to support case 1 from the "Uses of tests" section.
   2) If you wish to allow end-users to run tests for binary distributed packages, the package developer must place them somewhere other than in `tests`.  My suggestion is in `inst/unit_tests` which will get installed at the top-level of packages and is find-able with the system.file() command.  The `wrapr` adapter for `RUnit` is designed to support cases 1 and 2.
   3) Package developers need the ability to run tests from both their sources (which `RUnit` and `testthat` both supply) and also from installed copies of their package (which `RUnit` supplies as `RUnit` is path oriented not package oriented, and `testthat` supplies through the test_dir() command).  `RUnit` and `testthat::test_dir()` seem to support case 3.
-  4) The same package may be distributed to users either in binary or source fasion.  A user may recieve a binary package from CRAN if they are a non-unix using a current (or near-current) version of `R`.  They will recieve a source version if they are running an obsolete version of `R`, or if the package has not yet been built by CRAN for their version of `R`. Because tests in the `tests` directory are present in source versions of packages and not in binary versions of packages this means the user may or may not get tests.  This seems like needless variation. Any needless variation is a possible source of confusion and errors. In my opinion the user should never get tests, or always get tests.  Since there is no way to strip tests out after CRAN submission I suggest the user always get tests. 
+  4) The same package may be distributed to users either in binary or source fashion.  A user may receive a binary package from CRAN if they are on a non-unix system using a current (or near-current) version of `R`.  They will recieve a source version if they are running an obsolete version of `R`, or if the package has not yet been built by CRAN for their version of `R`. Because tests in the `tests` directory are present in source versions of packages and not in binary versions of packages this means the user may or may not get tests.  This seems like needless variation. Any needless variation is a possible source of confusion and errors. In my opinion the user should never get tests, or always get tests.  Since there is no way to strip tests out after CRAN submission I suggest the user always get tests. 
 
 
 ### Criticisms:
