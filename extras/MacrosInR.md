@@ -17,6 +17,7 @@ The `R` macro (or code control) facilities we will discuss include over 20 years
 -   `lazyeval` package: [Released October 1, 2014](https://cran.r-project.org/src/contrib/Archive/lazyeval/).
 -   `replyr::let()`/`wrapr::let()` [Released December 8th, 2016](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf) in the [`replyr`](https://github.com/WinVector/replyr) package, later extended and moved to the low-dependency [`wrapr`](https://github.com/WinVector/wrapr) package.
 -   `rlang::!!`: [Released May 5th, 2017](https://cran.r-project.org/src/contrib/Archive/rlang/).
+-   `oshka::expand()` [Released October 10th, 2017](https://CRAN.R-project.org/package=oshka).
 
 One of the goals of this note is to document differences between our own method `wrapr::let()` and the *later* system `rlang:!!` (as we recently had [a paper](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf) rejected for not having enough such comparisons, and therefore would benefit from a reference that does so).
 
@@ -372,7 +373,7 @@ suppressPackageStartupMessages(library("dplyr"))
 packageVersion("dplyr")
 ```
 
-    ## [1] '0.7.7'
+    ## [1] '0.7.8'
 
 ``` r
 NEWVAR <- as.name("y")
@@ -1085,7 +1086,7 @@ library("rlang")
 packageVersion("dplyr")
 ```
 
-    ## [1] '0.7.7'
+    ## [1] '0.7.8'
 
 ``` r
 packageVersion("rlang")
@@ -1105,9 +1106,6 @@ x <- "Species"
 # works
 iris %>% group_by(Species) %>% summarize(n = n())
 ```
-
-    ## Warning: The `printer` argument is soft-deprecated as of rlang 0.3.0.
-    ## This warning is displayed once per session.
 
     ## # A tibble: 3 x 2
     ##   Species        n
@@ -1297,6 +1295,10 @@ let(
 ### `nseval`
 
 `nseval`'s goal is to supply `quotation` and `dots` structures that correctly expose `R` quotation and evaluation facilities *without* having to go through the `S`-notation exposed to the user (as `S` notation does not properly represent full `R` semantics). The package [README](https://cran.r-project.org/web/packages/nseval/readme/README.html) explains this quite well.
+
+### `oshka::expand()`
+
+`oshka` has the brilliant idea that normal data processing steps never see quoted language objects, so an expander that substitutes quoted language objects (expressions, names) is compatible with normal scientific programming. This idea allows the very easy programatic buildup of complex expressions (example [here](https://cran.r-project.org/web/packages/oshka/README.html)).
 
 Conclusion
 ----------
