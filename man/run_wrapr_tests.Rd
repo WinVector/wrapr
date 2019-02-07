@@ -7,7 +7,8 @@
 run_wrapr_tests(..., verbose = TRUE, package_test_dirs = "unit_tests",
   test_dirs = character(0), stop_on_issue = TRUE,
   stop_if_no_tests = TRUE, require_RUnit_attached = FALSE,
-  require_pkg_attached = TRUE)
+  require_pkg_attached = TRUE, rngKind = "Mersenne-Twister",
+  rngNormalKind = "Inversion")
 }
 \arguments{
 \item{...}{not used, force later arguments to bind by name.}
@@ -25,6 +26,10 @@ run_wrapr_tests(..., verbose = TRUE, package_test_dirs = "unit_tests",
 \item{require_RUnit_attached}{logical, if TRUE require RUnit be attached before testing.}
 
 \item{require_pkg_attached}{logical, if TRUE require pkg be attached before testing.}
+
+\item{rngKind}{pseudo-random number generator method name.}
+
+\item{rngNormalKind}{pseudo-random normal generator method name.}
 }
 \value{
 RUnit test results (invisible).

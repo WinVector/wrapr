@@ -20,6 +20,8 @@
 #' @param stop_if_no_tests logical, if TRUE stop if no tests were found.
 #' @param require_RUnit_attached logical, if TRUE require RUnit be attached before testing.
 #' @param require_pkg_attached logical, if TRUE require pkg be attached before testing.
+#' @param rngKind pseudo-random number generator method name.
+#' @param rngNormalKind pseudo-random normal generator method name.
 #' @return RUnit test results (invisible).
 #'
 #' @export
@@ -32,7 +34,9 @@ run_package_tests <- function(pkg,
                               stop_on_issue = TRUE,
                               stop_if_no_tests = TRUE,
                               require_RUnit_attached = FALSE,
-                              require_pkg_attached = TRUE) {
+                              require_pkg_attached = TRUE,
+                              rngKind = "Mersenne-Twister",
+                              rngNormalKind = "Inversion") {
   wrapr::stop_if_dot_args(substitute(list(...)), "wrapr::run_packages_tests")
   if(!requireNamespace("RUnit", quietly = TRUE)) {
     stop("run_packages_tests requires RUnit package")
@@ -106,6 +110,8 @@ run_package_tests <- function(pkg,
 #' @param stop_if_no_tests logical, if TRUE stop if no tests were found.
 #' @param require_RUnit_attached logical, if TRUE require RUnit be attached before testing.
 #' @param require_pkg_attached logical, if TRUE require pkg be attached before testing.
+#' @param rngKind pseudo-random number generator method name.
+#' @param rngNormalKind pseudo-random normal generator method name.
 #' @return RUnit test results (invisible).
 #'
 #' @export
@@ -117,7 +123,9 @@ run_wrapr_tests <- function(...,
                             stop_on_issue = TRUE,
                             stop_if_no_tests = TRUE,
                             require_RUnit_attached = FALSE,
-                            require_pkg_attached = TRUE) {
+                            require_pkg_attached = TRUE,
+                            rngKind = "Mersenne-Twister",
+                            rngNormalKind = "Inversion") {
   wrapr::stop_if_dot_args(substitute(list(...)), "wrapr::run_wrapr_tests")
   run_package_tests(pkg = "wrapr",
                    ...,
@@ -127,5 +135,7 @@ run_wrapr_tests <- function(...,
                    stop_on_issue = stop_on_issue,
                    stop_if_no_tests = stop_if_no_tests,
                    require_RUnit_attached = require_RUnit_attached,
-                   require_pkg_attached = require_pkg_attached)
+                   require_pkg_attached = require_pkg_attached,
+                   rngKind = rngKind,
+                   rngNormalKind = rngNormalKind)
 }
