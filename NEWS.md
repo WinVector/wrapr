@@ -1,8 +1,8 @@
 
-# wrapr 1.8.4 2019-02-04
+# wrapr 1.8.4 2019-02-07
 
-  * Add run_packages_tests().
-  * Start moving to RUnit tests.
+  * Add run_packages_tests() and run_wrapr_tests().
+  * Move to RUnit tests.
   * More args to clean_fit.
 
 # wrapr 1.8.3 2019-01-29
