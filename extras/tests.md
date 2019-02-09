@@ -61,6 +61,6 @@ To conveniently provide test interfaces both to `R CMD check` and to end-users s
   * Place all tests in `inst/unit_tests` with files names of the form `test_.*\\.R` and zero argument test-functions with names 
   of the form `test_.*` (example [here](https://github.com/WinVector/wrapr/blob/master/inst/unit_tests/test_c.R)).
   * To integrate with `R CMD check`: include code such as [the following](https://github.com/WinVector/wrapr/blob/master/tests/package_test_runner.R) in the tests directory: `tests` (changing the package name to be that of your own package). Note for package developers using RStudio this also integrate the tests with the "Check" button in the Build Pane.
-  * To convenient user acceptance tests: add a function similar to [`run_wrapr_tests()`](https://github.com/WinVector/wrapr/blob/master/R/run_wrapr_tests.R) to your package.  Then tell your users that to accept your package all they have to do is install it (plus any dependencies) and then, from `R`, run `run_PKGNAME_tests()`.
+  * To provide convenient user acceptance tests: add a function similar to [`run_wrapr_tests()`](https://github.com/WinVector/wrapr/blob/master/R/run_wrapr_tests.R) to your package.  Then tell your users that to accept your package all they have to do is install it (plus any dependencies) and then, from `R`, run `run_PKGNAME_tests()`.
 
   
