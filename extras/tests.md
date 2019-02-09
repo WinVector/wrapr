@@ -54,7 +54,7 @@ For your package think a bit on what you want from testing, instead of uncritica
 
 ### My current R test setup
 
-To conveniently integrate `RUnit` tests to `R CMD check` and to end-users simultaneously I do the following.
+To conveniently provide test interfaces both to `R CMD check` and to end-users simultaneously, I now do the following.
 
   * Add `RUnit` and `wrapr` to the package `Suggests` fields in the package `DESCRIPTION`.
   * Place all tests in `inst/unit_tests` with files names of the form `test_.*\\.R` and zero argument test-functions with names 
