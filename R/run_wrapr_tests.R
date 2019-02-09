@@ -36,6 +36,9 @@ run_wrapr_tests <- function(...,
                             rngKind = "Mersenne-Twister",
                             rngNormalKind = "Inversion") {
   wrapr::stop_if_dot_args(substitute(list(...)), "run_PKG_tests()")
+  if(!requireNamespace("wrapr", quietly = TRUE)) {
+    stop("run_PKG_tests() requirese the wrapr package")
+  }
   wrapr::run_package_tests(pkg = "wrapr",
                     ...,
                     verbose = verbose,
