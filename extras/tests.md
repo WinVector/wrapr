@@ -48,9 +48,10 @@ For your package think a bit on what you want from testing, instead of uncritica
 
   * If you want absolute minimal dependencies, do not use any test runner, but instead use `R`'s built-in testing capabilities.
   * It is a good development practice to minimize the unnecessary differences between the developer's environment and the user's environment. To my mind this is an argument for distributing your basic tests.  `RUnit` makes distributing tests easy, `testthat` by default does not.
-
+  * Keep in mind end-users have different needs than package developers, so different test-entry points may be better for each.
   * If you want to emphasize test reporting you may want to consider `unitizer` or `tinytest` (when released).
   * I repeat, in current `R` many user-visible failures are due to environment and undeclared simultaneous package version details. Many users like to test a package before investing time coding against it.  Also, a failing user-run test is in fact a reproducible failure example which can be very valuable in filing issues.  Having tests present allows a package developer to ask "have you tried the tests?"
+  * Consider: why should a user start work with a package without an easy "start by running the standard tests" introduction?
 
 ### My current R test setup
 
@@ -59,7 +60,7 @@ To conveniently provide test interfaces both to `R CMD check` and to end-users s
   * Add `RUnit` and `wrapr` to the package `Suggests` fields in the package `DESCRIPTION`.
   * Place all tests in `inst/unit_tests` with files names of the form `test_.*\\.R` and zero argument test-functions with names 
   of the form `test_.*` (example [here](https://github.com/WinVector/wrapr/blob/master/inst/unit_tests/test_c.R)).
-  * To integrate with ``R CMD check`: include code such as [the following](https://github.com/WinVector/wrapr/blob/master/tests/package_test_runner.R) in the tests directory: `tests` (changing the package name to be that of your own package).
+  * To integrate with ``R CMD check`: include code such as [the following](https://github.com/WinVector/wrapr/blob/master/tests/package_test_runner.R) in the tests directory: `tests` (changing the package name to be that of your own package). Note for package developers using RStudio this also integrate the tests with the "Check" button in the Build Pane.
   * To convenient user acceptance tests: add a function similar to [`run_wrapr_tests()`](https://github.com/WinVector/wrapr/blob/master/R/run_wrapr_tests.R) to your package.  Then tell your users that to accept your package all they have to do is install it (plus any dependencies) and then, from `R`, run `run_PKGNAME_tests()`.
 
   
