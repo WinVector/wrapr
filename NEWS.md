@@ -1,5 +1,5 @@
 
-# wrapr 1.8.4 2019-02-07
+# wrapr 1.8.4 2019-02-13
 
   * Add run_packages_tests() and run_wrapr_tests().
   * Move to RUnit tests.
