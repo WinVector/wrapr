@@ -42,16 +42,4 @@
 
 ## Downstream dependencies
 
-    Checked all downstream dependencies.
-
-    devtools::revdep_check()
-    Checking 9 packages: cdata, RcppDynProg, replyr, rqdatatable, rquery, seplyr, sigr, vtreat, WVPlots
-    Checked cdata      : 0 errors | 0 warnings | 0 notes
-    Checked RcppDynProg: 0 errors | 0 warnings | 0 notes
-    Checked replyr     : 0 errors | 0 warnings | 0 notes
-    Checked rqdatatable: 0 errors | 0 warnings | 0 notes
-    Checked rquery     : 0 errors | 0 warnings | 0 notes
-    Checked seplyr     : 0 errors | 0 warnings | 0 notes
-    Checked sigr       : 0 errors | 0 warnings | 0 notes
-    Checked vtreat     : 0 errors | 0 warnings | 0 notes
-    Checked WVPlots    : 0 errors | 0 warnings | 0 notes
+    Checked all reverse dependencies https://github.com/WinVector/wrapr/blob/master/extras/check_reverse_dependencies.md .
