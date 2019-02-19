@@ -5,19 +5,7 @@
 ### Windows
 
     devtools::build_win()
-    * using R Under development (unstable) (2019-01-31 r76038)
-    * using platform: x86_64-w64-mingw32 (64-bit)
-    * using session charset: ISO8859-1
-    * checking for file 'wrapr/DESCRIPTION' ... OK
-    * checking extension type ... Package
-    * this is package 'wrapr' version '1.8.4'
-    * package encoding: UTF-8
-    * checking CRAN incoming feasibility ... NOTE
-    Maintainer: 'John Mount <jmount@win-vector.com>'
-    Days since last update: 5
-    Number of updates in past 6 months: 7
-    Status: 1 NOTE
-
+ 
 ### MacOS
 
     R CMD check --as-cran wrapr_1.8.4.tar.gz 
@@ -29,16 +17,14 @@
     * checking extension type ... Package
     * this is package ‘wrapr’ version ‘1.8.4’
     * package encoding: UTF-8
-    * checking CRAN incoming feasibility ... NOTE
+    * checking CRAN incoming feasibility ... Note_to_CRAN_maintainers
     Maintainer: ‘John Mount <jmount@win-vector.com>’
-    Days since last update: 5
-    Number of updates in past 6 months: 7
     * checking top-level files ... WARNING
     Conversion of ‘README.md’ failed:
     pandoc: Could not fetch https://www.r-pkg.org/badges/version/wrapr
     TlsException (HandshakeFailed (Error_Protocol ("expecting server hello, got alert : [(AlertLevel_Fatal,HandshakeFailure)]",True,HandshakeFailure)))
-    Status: 1 WARNING, 1 NOTE
-   pandoc alert is spurious, link is good.
+    Status: 1 WARNING
+    pandoc alert is spurious, link is good.
 
 ## Downstream dependencies
 
