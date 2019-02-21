@@ -1,4 +1,8 @@
 
+# wrapr 1.8.4 2019-02-21
+
+  * More tests.
+
 # wrapr 1.8.4 2019-02-19
 
   * Add run_packages_tests() and run_wrapr_tests().
