@@ -1,7 +1,9 @@
 
+I am collecting here some notes on testing in `R`.
+
 There seems to be a general (false) impression among non R-core developers that to run tests, `R` package developers need a test management system such as `RUnit` or `testthat`. And a further false impression that `testthat` is the only `R` test management system. This is in fact not true, as `R` itself has a capable testing facility in "`R CMD check`" (a command triggering `R` from outside of any given integrated development environment).
 
-By a combination of skimming the `R`-manuals ( [https://cran.r-project.org/manuals.html](https://cran.r-project.org/manuals.html) ) and running a few experiments I came up with a description of how `R`-testing actually works.
+By a combination of skimming the `R`-manuals ( [https://cran.r-project.org/manuals.html](https://cran.r-project.org/manuals.html) ) and running a few experiments I came up with a description of how `R`-testing actually works. And I have adapted the available tools to fit my current preferred workflow.  This may not be your preferred workflow, but I have and give my reasons below.
 
 
 
@@ -62,6 +64,7 @@ To conveniently provide test interfaces both to `R CMD check` and to end-users s
   * Place all tests in `inst/unit_tests` with files names of the form `test_.*\\.R` and zero argument test-functions with names 
   of the form `test_.*` (example [here](https://github.com/WinVector/wrapr/blob/master/inst/unit_tests/test_c.R)).
   * To integrate with `R CMD check`: include code such as [the following](https://github.com/WinVector/wrapr/blob/master/tests/package_test_runner.R) in the tests directory: `tests` (changing the package name to be that of your own package). Note for package developers using RStudio this also integrate the tests with the "Check" button in the Build Pane.
-  * To provide convenient user acceptance tests: add a function similar to [`run_wrapr_tests()`](https://github.com/WinVector/wrapr/blob/master/R/run_wrapr_tests.R) to your package.  Then tell your users that to accept your package all they have to do is install it (plus any dependencies) and then, from `R`, run `run_PKGNAME_tests()`.
+  * To provide convenient user acceptance tests: add a function similar to [`run_sigr_tests()`](https://github.com/WinVector/sigr/blob/master/R/run_sigr_tests.R) to your package.  Then tell your users that to accept your package all they have to do is install it (plus any dependencies) and then, from `R`, run `run_PKGNAME_tests()`. Notice the example we give here is for the [`sigr`]( https://CRAN.R-project.org/package=sigr) package (not the [`wrapr`](https://CRAN.R-project.org/package=wrapr) package).
+
 
   
