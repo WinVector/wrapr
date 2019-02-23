@@ -139,7 +139,7 @@ NULL
 #'
 bquote_function <- function(fn) {
   frmls <- formals(fn)
-  if(length(formals)<=0) {
+  if(length(frmls)<=0) {
     stop("wrapr::bquote_function function must have formals() not empty")
   }
   .wrapr_wrapped_function_ <- NULL # don't look unbound
