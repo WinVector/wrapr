@@ -1,7 +1,7 @@
 
 I am collecting here some notes on testing in `R`.
 
-There seems to be a general (false) impression among non R-core developers that to run tests, `R` package developers need a test management system such as `RUnit` or `testthat`. And a further false impression that `testthat` is the only `R` test management system. This is in fact not true, as `R` itself has a capable testing facility in "`R CMD check`" (a command triggering `R` from outside of any given integrated development environment).
+There seems to be a general (false) impression among non R-core developers that to run tests, `R` package developers need a test management system such as `RUnit` or `testthat`. And a further false impression that `testthat` is the only `R` test management system. This is in fact not true, as `R` itself has a capable testing facility in "`R CMD check`" (a command triggering `R` checks from outside of any given integrated development environment).
 
 By a combination of skimming the `R`-manuals ( [https://cran.r-project.org/manuals.html](https://cran.r-project.org/manuals.html) ) and running a few experiments I came up with a description of how `R`-testing actually works. And I have adapted the available tools to fit my current preferred workflow.  This may not be your preferred workflow, but I have and give my reasons below.
 
@@ -13,7 +13,7 @@ By a combination of skimming the `R`-manuals ( [https://cran.r-project.org/manua
   2) The contents of the `tests` directory are written into source-distribution packages, but not written into binary-distribution packages.
   3) The contents of the `inst` directory are copied into the root-level of package distributions.
   4) [`RUnit`](https://CRAN.R-project.org/package=RUnit) (released June 2004) itself collects test suites from directories and then runs them, recording user assertions in a JUnit-inspired report.  The idea is that once you have a bunch of tests you really want to track them some way.
-  5) [`testthat`](https://CRAN.R-project.org/package=testthat) (released November 2009) self-describes as integrating into a workflow. It runs tests found in the `tests/testthat` sub-directory and tracks user assertions. The related `devtools/usethis` package both writes a canonical test controlling file into the `tests` directory (allowing `testthat` to be triggered by "`R CMD check`"), and can also directly run tests.
+  5) [`testthat`](https://CRAN.R-project.org/package=testthat) (released November 2009) self-describes as integrating into a workflow. It runs tests found in the `tests/testthat` sub-directory (directory found relative to the package source, not relative to an installed package) and tracks user assertions. The related `devtools/usethis` package both writes a canonical test controlling file into the `tests` directory (allowing `testthat` to be triggered by "`R CMD check`"), and can also directly run tests.
   6) [`unitizer`](https://CRAN.R-project.org/package=unitizer) (released April 2017) bases its tests on comparisons of objects, rather than comparing text or requiring user assertions. It also aids in producing and updating reference objects.
   7) [`tinytest`](https://github.com/markvanderloo/tinytest) (pre-release) decouples the ideas of test failures from exceptions.
 
