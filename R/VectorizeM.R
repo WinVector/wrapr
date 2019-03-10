@@ -113,7 +113,7 @@ vapplym <- function(X, FUN, FUN.VALUE, ..., USE.NAMES = TRUE) {
 #'
 #'
 #'
-#' @param FUN	function to apply, found via match.fun.
+#' @param FUN	function to apply
 #' @param vectorize.args	a character vector of arguments which should be vectorized. Defaults to first argument of FUN.  If set must be length 1.
 #' @param SIMPLIFY logical or character string; attempt to reduce the result to a vector, matrix or higher dimensional array; see the simplify argument of sapply.
 #' @param USE.NAMES	logical; use names if the first ... argument has names, or if it is a character vector, use that character vector as the names.
@@ -130,12 +130,20 @@ vapplym <- function(X, FUN, FUN.VALUE, ..., USE.NAMES = TRUE) {
 #' @export
 #'
 VectorizeM <- function(FUN, vectorize.args = arg.names, SIMPLIFY = TRUE, USE.NAMES = TRUE, UNLIST = FALSE) {
-  arg.names <- as.list(formals(FUN))
+  if(!is.function(FUN)) {
+    stop("wrapr::VectorizeM FUN wasn't a function")
+  }
+  if(is.primitive(FUN)) {
+    stop("wrapr::VectorizeM can not wrap FUN as is.primitive(FUN) is TRUE")
+  }
+  frmls <- formals(FUN)
+  arg.names <- as.list(frmls)
   arg.names[["..."]] <- NULL
   arg.names <- names(arg.names)
   vectorize.args <- as.character(vectorize.args)
-  if (!length(vectorize.args))
+  if (length(vectorize.args)<=0) {
     return(FUN)
+  }
   vectorize.args <- vectorize.args[[1]]
   force(FUN)
   force(SIMPLIFY)

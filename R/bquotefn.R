@@ -138,9 +138,15 @@ NULL
 #' @export
 #'
 bquote_function <- function(fn) {
+  if(!is.function(fn)) {
+    stop("wrapr::bquote_function fn wasn't a function")
+  }
+  if(is.primitive(fn)) {
+    stop("wrapr::bquote_function can not wrap fn as is.primitive(fn) is TRUE")
+  }
   frmls <- formals(fn)
   if(length(frmls)<=0) {
-    stop("wrapr::bquote_function function must have formals() not empty")
+    return(fn) # take no args, nothing to do
   }
   .wrapr_wrapped_function_ <- NULL # don't look unbound
   f <- function() {

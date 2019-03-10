@@ -8,7 +8,7 @@ VectorizeM(FUN, vectorize.args = arg.names, SIMPLIFY = TRUE,
   USE.NAMES = TRUE, UNLIST = FALSE)
 }
 \arguments{
-\item{FUN}{function to apply, found via match.fun.}
+\item{FUN}{function to apply}
 
 \item{vectorize.args}{a character vector of arguments which should be vectorized. Defaults to first argument of FUN.  If set must be length 1.}
 

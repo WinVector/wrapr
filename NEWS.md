@@ -1,8 +1,8 @@
 
-# wrapr 1.8.5 2019-02-23
+# wrapr 1.8.5 2019-03-10
 
   * More tests.
-  * Fix bquote_function() formals check.
+  * Be more careful with formals().
 
 # wrapr 1.8.4 2019-02-19
 
