@@ -312,6 +312,14 @@ Checks and transforms are not performed on items inside braces (example: <code>5
 
 <span class="kw"><a href="reference/qc.html">qc</a></span>(one, two, three)
  <span class="co">#  [1] "one"   "two"   "three"</span></code></pre></div>
+<p><code><a href="reference/qc.html">qc()</a></code> also allows <code><a href="https://www.rdocumentation.org/packages/base/topics/bquote">bquote()</a></code> driven <code>.()</code>-style argument escaping.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">aname &lt;-<span class="st"> "I_am_a"</span>
+yvalue &lt;-<span class="st"> "six"</span>
+
+<span class="kw"><a href="reference/qc.html">qc</a></span>(.(aname) <span class="op">:</span><span class="er">=</span><span class="st"> </span>x, <span class="dt">b =</span> .(yvalue))
+ <span class="co">#  I_am_a      b </span>
+ <span class="co">#     "x"  "six"</span></code></pre></div>
+<p>Notice the <code>:=</code> notation is required for syntacitic reasons.</p>
 </div>
 <div id="named-map-builder" class="section level2">
 <h2 class="hasAnchor">

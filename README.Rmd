@@ -190,6 +190,18 @@ qc(a = x, b = y)
 qc(one, two, three)
 ```
 
+`qc()` also allows `bquote()` driven `.()`-style argument escaping.
+
+```{r qc3}
+aname <- "I_am_a"
+yvalue <- "six"
+
+qc(.(aname) := x, b = .(yvalue))
+```
+
+Notice the `:=` notation is required for syntacitic reasons.
+
+
 ## [`:=` (named map builder)](https://winvector.github.io/seplyr/articles/named_map_builder.html)
 
 `:=` is the "named map builder".  It allows code such as the following:
