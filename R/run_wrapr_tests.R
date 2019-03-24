@@ -2,14 +2,7 @@
 
 #' Run wrapr package tests.
 #'
-#'
-#' For all files with names of the form "^test_.+\\.R$" in the package directory unit_tests
-#' run all functions with names of the form "^test_.+$" as RUnit tests.
-#' Attaches RUnit and pkg, requires RUnit.
-#' Stops on error.
-#'
-#' Based on \url{https://github.com/RcppCore/Rcpp/blob/master/tests/doRUnit.R}.  This
-#' version is GPL-3, works derived from it must be distributed GPL-3.
+#' Run the tests included with the wrapr package (assumes wrapr attached).
 #'
 #' @param ... not used, force later arguments to bind by name.
 #' @param verbose logical, if TRUE print more.

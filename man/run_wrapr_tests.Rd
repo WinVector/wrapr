@@ -35,12 +35,5 @@ run_wrapr_tests(..., verbose = TRUE, package_test_dirs = "unit_tests",
 RUnit test results (invisible).
 }
 \description{
-For all files with names of the form "^test_.+\\.R$" in the package directory unit_tests
-run all functions with names of the form "^test_.+$" as RUnit tests.
-Attaches RUnit and pkg, requires RUnit.
-Stops on error.
-}
-\details{
-Based on \url{https://github.com/RcppCore/Rcpp/blob/master/tests/doRUnit.R}.  This
-version is GPL-3, works derived from it must be distributed GPL-3.
+Run the tests included with the wrapr package (assumes wrapr attached).
 }

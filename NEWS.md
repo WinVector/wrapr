@@ -1,8 +1,10 @@
 
-# wrapr 1.8.5 2019-03-10
+# wrapr 1.8.5 2019-03-24
 
   * More tests.
   * Be more careful with formals().
+  * Add frame checking utils.
+  * Doc fixes.
 
 # wrapr 1.8.4 2019-02-19
 
