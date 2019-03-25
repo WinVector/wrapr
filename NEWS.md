@@ -1,4 +1,8 @@
 
+# wrapr 1.8.6 2019-03-25
+
+  * Turn off radix sort.
+
 # wrapr 1.8.5 2019-03-24
 
   * More tests.

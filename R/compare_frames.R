@@ -14,7 +14,7 @@
 #'
 has_no_dup_rows <- function(data) {
   if(!is.data.frame(data)) {
-    stop("cdata:::has_no_dup_rows(data) data must be a data.frame")
+    stop("wrapr::has_no_dup_rows(data) data must be a data.frame")
   }
   ndata <- nrow(data)
   if(ndata<=1) {
@@ -25,7 +25,9 @@ has_no_dup_rows <- function(data) {
   if(nkey<=0) {
     return(FALSE)
   }
-  idxs <- do.call(order, c(as.list(data), list(method = "radix")))
+  ## radix errors out in knitr situations https://github.com/WinVector/wrapr/issues/9
+  # idxs <- do.call(order, c(as.list(data), list(method = "radix")))
+  idxs <- do.call(order, as.list(data))
   data <- data[idxs, , drop = FALSE]
   rownames(data) <- NULL
   new_value <- c(TRUE, rep(FALSE, ndata-1))
@@ -40,6 +42,7 @@ has_no_dup_rows <- function(data) {
   }
   return(isTRUE(all(new_value)))
 }
+# # timings back when we were using radix
 # n <- 1000
 # set.seed(2352)
 #
@@ -63,7 +66,7 @@ has_no_dup_rows <- function(data) {
 # print(anyDuplicated(d1)<=0)
 # microbenchmark::microbenchmark(
 #   any_dup = { anyDuplicated(d1)<=0 },
-#   has_no_dup = { cdata:::has_no_dup_rows(d1) },
+#   has_no_dup = { wrapr::has_no_dup_rows(d1) },
 #   check = my_check
 # )
 # # Unit: microseconds
@@ -75,7 +78,7 @@ has_no_dup_rows <- function(data) {
 # print(anyDuplicated(d2)<=0)
 # microbenchmark::microbenchmark(
 #   any_dup = { anyDuplicated(d2)<=0 },
-#   has_no_dup = { cdata:::has_no_dup_rows(d2) },
+#   has_no_dup = { wrapr::has_no_dup_rows(d2) },
 #   check = my_check
 # )
 # # Unit: microseconds
@@ -103,14 +106,14 @@ has_no_dup_rows <- function(data) {
 #'
 checkColsFormUniqueKeys <- function(data, keyColNames) {
   if(!is.data.frame(data)) {
-    stop("cdata:::checkColsFormUniqueKeys data should be a data.frame")
+    stop("wrapr::checkColsFormUniqueKeys data should be a data.frame")
   }
   if(length(keyColNames)!=length(unique(keyColNames, allowNAKeys=TRUE))) {
-    stop("cdata::checkColsFormUniqueKeys keyColNames must not have duplicates/NAs")
+    stop("wrapr::checkColsFormUniqueKeys keyColNames must not have duplicates/NAs")
   }
   cn <- colnames(data)
   if(length(setdiff(keyColNames, cn))>0) {
-    stop("cdata::checkColsFormUniqueKeys all keyColNames must be columns of data")
+    stop("wrapr::checkColsFormUniqueKeys all keyColNames must be columns of data")
   }
   # count the number of rows
   ndata <- nrow(data)
