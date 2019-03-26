@@ -1,7 +1,7 @@
 
-# wrapr 1.8.6 2019-03-25
+# wrapr 1.8.6 2019-03-26
 
-  * Turn off radix sort.
+  * Turn off radix sort to work around https://github.com/WinVector/wrapr/issues/9
 
 # wrapr 1.8.5 2019-03-24
 
