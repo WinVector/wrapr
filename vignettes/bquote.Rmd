@@ -95,8 +95,28 @@ plotb(x = .(variable),
       y = sin(.(variable)))
 ```
 
+The `wrapr` [dot arrow pipe](https://winvector.github.io/wrapr/reference/dot_arrow.html) also uses the `bquote`-style escape to specify "extra execution".  For example.
+
+```{r}
+f <- function() { 
+  sin
+}
+
+# pipe 5 to the value of f()
+# the .() says to evaluate f() before the
+# piping
+5 %.>% .(f())
+
+# evaluate "f()"" with . = 5
+# not interesting as "f()"" is "dot free" 
+5 %.>% f()
+```
+
+
+
+
 ## Conclusion
 
-When string-inerpolation and quasi-quotation use the same notation we can teach them quickly as simple related concepts.
+When string-interpolation and quasi-quotation use the same notation we can teach them quickly as simple related concepts.
 
 
