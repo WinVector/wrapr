@@ -159,7 +159,7 @@
     </div>
 
     <pre class="usage"><span class='fu'>draw_frame</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>time_format</span> <span class='kw'>=</span> <span class='st'>"%Y-%m-%d %H:%M:%S"</span>,
-  <span class='kw'>formatC_options</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>())</pre>
+  <span class='kw'>formatC_options</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='kw'>adjust_for_auto_indent</span> <span class='kw'>=</span> <span class='fl'>2</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -179,6 +179,10 @@
     <tr>
       <th>formatC_options</th>
       <td><p>named list, options for formatC()- used on numerics.</p></td>
+    </tr>
+    <tr>
+      <th>adjust_for_auto_indent</th>
+      <td><p>integer additional after first row padding</p></td>
     </tr>
     </table>
     
@@ -201,9 +205,9 @@
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>x</span>)</div><div class='output co'>#&gt;                      measure training validation idx
 #&gt; 1 minus binary cross entropy      5.0        7.0   1
 #&gt; 2                   accuracy      0.8        0.6   2</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cat'>cat</a></span>(<span class='fu'>draw_frame</span>(<span class='no'>x</span>))</div><div class='output co'>#&gt; x &lt;- wrapr::build_frame(
-#&gt;    "measure"                   , "training", "validation", "idx" |
-#&gt;    "minus binary cross entropy", 5         , 7           , 1L    |
-#&gt;    "accuracy"                  , 0.8       , 0.6         , 2L    )</div><div class='input'>
+#&gt;    "measure"                     , "training", "validation", "idx" |
+#&gt;      "minus binary cross entropy", 5         , 7           , 1L    |
+#&gt;      "accuracy"                  , 0.8       , 0.6         , 2L    )</div><div class='input'>
 
 </div></pre>
   </div>

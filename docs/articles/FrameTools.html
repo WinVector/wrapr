@@ -116,7 +116,7 @@
       <h1>Frame Tools</h1>
                         <h4 class="author">John Mount, Win-Vector LLC</h4>
             
-            <h4 class="date">2019-03-26</h4>
+            <h4 class="date">2019-03-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/FrameTools.Rmd"><code>vignettes/FrameTools.Rmd</code></a></small>
       <div class="hidden name"><code>FrameTools.Rmd</code></div>
@@ -150,11 +150,11 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"wrapr"</span>)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="kw"><a href="../reference/draw_frame.html">draw_frame</a></span>(d))</code></pre></div>
 <pre><code>d &lt;- wrapr::build_frame(
-   "names", "x", "y" |
-   "a"    , 1  , 1   |
-   "b"    , 2  , 4   |
-   "c"    , 3  , 9   |
-   "d"    , 4  , 16  )</code></pre>
+   "names"  , "x", "y" |
+     "a"    , 1  , 1   |
+     "b"    , 2  , 4   |
+     "c"    , 3  , 9   |
+     "d"    , 4  , 16  )</code></pre>
 <p>However, the above rendering is actually executable <code>R</code> code. If we run it, we re-create the original <code><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame()</a></code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/build_frame.html">build_frame</a></span>(
    <span class="st">"names"</span>, <span class="st">"x"</span>, <span class="st">"y"</span> <span class="op">|</span>
@@ -197,11 +197,11 @@ d</code></pre>
   <span class="st">"c"</span>, <span class="dv">3</span>,  <span class="dv">9</span>,
   <span class="st">"d"</span>, <span class="dv">4</span>, <span class="dv">16</span>)))</code></pre></div>
 <pre><code><a href="../reference/build_frame.html">wrapr::build_frame(
-   "names", "x", "y" |
-   "a"    , 1  , 1   |
-   "b"    , 2  , 4   |
-   "c"    , 3  , 9   |
-   "d"    , 4  , 16  )</a></code></pre>
+   "names"  , "x", "y" |
+     "a"    , 1  , 1   |
+     "b"    , 2  , 4   |
+     "c"    , 3  , 9   |
+     "d"    , 4  , 16  )</a></code></pre>
 <p><code><a href="../reference/build_frame.html">build_frame()</a></code> allows for simple substitutions of values. In contrast the method <code><a href="../reference/qchar_frame.html">qchar_frame()</a></code> builds <code>data.frame</code>s containing only <code>character</code> types and doesn’t require quoting (though it does allow it).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/qchar_frame.html">qchar_frame</a></span>(
   col_<span class="dv">1</span>, col_<span class="dv">2</span>, col_<span class="dv">3</span> <span class="op">|</span>
