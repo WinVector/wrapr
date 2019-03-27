@@ -253,10 +253,11 @@ draw_frame <- function(x,
                            "\")")
         xq[[ci]][is.na(x[[ci]])] <- "NA_real_"
       } else if("POSIXt" %in% class(x[[ci]])) {
+        # round tripping a time correctly through R is so unlikely, just fall back to string
         xq[[ci]] <- paste0("\"",
                            format(x[[ci]], time_format),
                            "\"")
-        xq[[ci]][is.na(x[[ci]])] <- "NA_real_"
+        xq[[ci]][is.na(x[[ci]])] <- "NA_character_"
       } else if(is.character(x[[ci]]) || is.factor(x[[ci]])) {
         xq[[ci]] <- qts(as.character(x[[ci]]))
         xq[[ci]][is.na(x[[ci]])] <- "NA_character_"
