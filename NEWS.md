@@ -1,7 +1,8 @@
 
-# wrapr 1.8.6 2019-03-26
+# wrapr 1.8.6 2019-03-27
 
   * Turn off radix sort to work around https://github.com/WinVector/wrapr/issues/9
+  * Make draw_frame() resistent to operator driven re-indentation.
 
 # wrapr 1.8.5 2019-03-24
 

@@ -169,6 +169,7 @@ build_frame <- function(..., cf_eval_environment = parent.frame()) {
 #' @param ... not used for values, forces later arguments to bind by name.
 #' @param time_format character, format for "POSIXt" classes.
 #' @param formatC_options named list, options for formatC()- used on numerics.
+#' @param adjust_for_auto_indent integer additional after first row padding
 #' @return character
 #'
 #' @seealso \code{\link{build_frame}},  \code{\link{qchar_frame}}
@@ -189,7 +190,8 @@ build_frame <- function(..., cf_eval_environment = parent.frame()) {
 draw_frame <- function(x,
                        ...,
                        time_format = "%Y-%m-%d %H:%M:%S",
-                       formatC_options = list()) {
+                       formatC_options = list(),
+                       adjust_for_auto_indent = 2) {
   wrapr::stop_if_dot_args(substitute(list(...)), "wrapr::draw_frame")
   formatC_args = list(digits = NULL,
                       width = NULL,
@@ -297,6 +299,13 @@ draw_frame <- function(x,
     # format
     fmt <- matrix(data = paste0(xm, pads, seps),
                   nrow = nrow+1, ncol = ncol)
+    if(adjust_for_auto_indent>0) {
+      pad <- paste(rep(" ", adjust_for_auto_indent), collapse = "")
+      fmt[1, 1] <- gsub(", $", paste0(pad, ", "), fmt[1, 1])
+      for(i in seqi(2, nrow(fmt))) {
+        fmt[i, 1] <- paste0(pad, fmt[i, 1])
+      }
+    }
     rlist <- vapply(seq_len(nrow+1),
                     function(i) {
                       paste(fmt[i, , drop=TRUE], collapse = '')
