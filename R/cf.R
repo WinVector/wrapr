@@ -247,7 +247,12 @@ draw_frame <- function(x,
     xq <- x
 
     for(ci in colnames(x)) {
-      if("POSIXt" %in% class(x[[ci]])) {
+      if("Date" %in% class(x[[ci]])) {
+        xq[[ci]] <- paste0("as.Date(\"",
+                           format(x[[ci]]),
+                           "\")")
+        xq[[ci]][is.na(x[[ci]])] <- "NA_real_"
+      } else if("POSIXt" %in% class(x[[ci]])) {
         xq[[ci]] <- paste0("\"",
                            format(x[[ci]], time_format),
                            "\"")
