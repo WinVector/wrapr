@@ -28,6 +28,20 @@ is_infix <- function(vi) {
   return(FALSE)
 }
 
+# convert a list to a vector without losing type/class info
+# lst is a list of scalars
+to_vector <- function(lst) {
+  n <- length(lst)
+  if(n<1) {
+    return(logical(0))
+  }
+  vec <- rep(lst[[1]], n)
+  for(i in seqi(2,n)) {
+    vec[[i]] <- lst[[i]]
+  }
+  vec
+}
+
 #' Build a data.frame from the user's description.
 #'
 #' A convenient way to build a data.frame in legible transposed form.  Position of
@@ -144,17 +158,13 @@ build_frame <- function(..., cf_eval_environment = parent.frame()) {
     }
   } else {
     seq <- seq_len(nrow)*ncol
-    fr <- data.frame(x = unlist(vu[seq + 1],
-                                recursive = FALSE,
-                                use.names = FALSE),
+    fr <- data.frame(x = to_vector(vu[seq + 1]),
                      stringsAsFactors = FALSE)
     colnames(fr) <- as.character(vu[[1]])
     if(ncol>1) {
       for(i in 2:ncol) {
         ci <- as.character(vu[[i]])
-        fr[[ci]] <-  unlist(vu[seq + i],
-                            recursive = FALSE,
-                            use.names = FALSE)
+        fr[[ci]] <-  to_vector(vu[seq + i])
       }
     }
   }
