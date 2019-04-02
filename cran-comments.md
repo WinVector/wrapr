@@ -27,7 +27,27 @@
 ### Windows
 
     devtools::build_win()
- 
+    * using R version 3.5.3 (2019-03-11)
+    * using platform: x86_64-w64-mingw32 (64-bit)
+    * using session charset: ISO8859-1
+    * checking for file 'wrapr/DESCRIPTION' ... OK
+    * checking extension type ... Package
+    * this is package 'wrapr' version '1.8.6'
+    * package encoding: UTF-8
+    * checking CRAN incoming feasibility ... Note_to_CRAN_maintainers
+    Maintainer: 'John Mount <jmount@win-vector.com>'
+    Status: OK
+    
+    devtools::build_win()
+    * using R version 3.6.0 alpha (2019-03-29 r76305)
+    * using platform: x86_64-w64-mingw32 (64-bit)
+    * using session charset: ISO8859-1
+    * checking for file 'wrapr/DESCRIPTION' ... OK
+    * checking extension type ... Package
+    * this is package 'wrapr' version '1.8.6'
+    * package encoding: UTF-8
+    * checking CRAN incoming feasibility ... Note_to_CRAN_maintainers
+    Maintainer: 'John Mount <jmount@win-vector.com>'
     Status: OK
 
 ### MacOS
