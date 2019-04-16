@@ -1,5 +1,5 @@
 
-# wrapr 1.8.7 2019-04-05
+# wrapr 1.8.7 2019-04-15
 
  * Looser checks on qchar_frame().
 

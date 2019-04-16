@@ -30,8 +30,22 @@ as_dot_fn <- function(pipeline, env = parent.frame()) {
   f_env = new.env(parent = env)
   assign("pipeline", pipeline, envir = f_env)
   environment(f) <- f_env
+  class(f) <- "wrapr_as_dot_fn"
   f
 }
+
+#' @export
+format.wrapr_as_dot_fn <- function(x, ...) {
+  format(get("pipeline", environment(x), inherits = FALSE))
+}
+
+#' @export
+print.wrapr_as_dot_fn <- function(x, ...) {
+  print(get("pipeline", environment(x), inherits = FALSE))
+}
+
+
+
 
 #' Convert a pipeable object into a function.
 #'
@@ -78,5 +92,17 @@ as_fn <- function(pipeable, env = parent.frame()) {
   assign("pipeable", pipeable, envir = f_env)
   assign("right_arg_name", right_arg_name, envir = f_env)
   environment(f) <- f_env
+  class(f) <- "wrapr_as_fn"
   f
 }
+
+#' @export
+format.wrapr_as_fn <- function(x, ...) {
+  format(get("pipeable", environment(x), inherits = FALSE))
+}
+
+#' @export
+print.wrapr_as_fn <- function(x, ...) {
+  print(get("pipeable", environment(x), inherits = FALSE))
+}
+
