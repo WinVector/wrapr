@@ -19,7 +19,8 @@ first "|" (or other infix operator) determines number of columns
 Names are treated as character types.
 }
 \details{
-qchar_frame() uses bquote() .() quasiquotation escaping notation.
+qchar_frame() uses bquote() .() quasiquotation escaping notation.  Because of this using dot
+as a name in some places may fail if the dot looks like a function call.
 }
 \examples{
 
