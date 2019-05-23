@@ -1,6 +1,7 @@
 
-# wrapr 1.8.7 2019-05-03
+# wrapr 1.8.7 2019-05-23
 
+ * Better sinterp semantics (vectorize over values, not template).
  * Looser checks on qchar_frame().
 
 # wrapr 1.8.6 2019-04-02

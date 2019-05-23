@@ -37,7 +37,7 @@ String interpolation is a common need, and there are many [<code>R</code>](https
   * [<code>rprintf::rprintf()</code>](https://CRAN.R-project.org/package=rprintf)
   * [<code>stringr::str_interp()</code>](https://CRAN.R-project.org/package=stringr)
   * [<code>glue::glue()</code>](https://CRAN.R-project.org/package=glue)
-  * [<code>wrapr::sinterp()</code>](https://winvector.github.io/wrapr/reference/sinterp.html) (requires version 1.8.3, or newer).
+  * [<code>wrapr::sinterp()</code>](https://winvector.github.io/wrapr/reference/sinterp.html).
   
   
 ## Quasi-quotation

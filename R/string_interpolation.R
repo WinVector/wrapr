@@ -65,7 +65,7 @@ strsplit_capture <- function(x, split,
 #' and \url{https://CRAN.R-project.org/package=glue}.
 #'
 #'
-#' @param str charater strings to be substituted into
+#' @param str charater string to be substituted into
 #' @param ... force later arguments to bind by name
 #' @param envir environemnt to look for values
 #' @param enclos enclosing evaluation environment
@@ -76,8 +76,7 @@ strsplit_capture <- function(x, split,
 #' @examples
 #'
 #' x <- 7
-#' sinterp(c("x is .(x), x+1 is .(x+1)",
-#'           ".(x) is odd is .(x%%2 == 1)"))
+#' sinterp("x is .(x), x+1 is .(x+1)\n.(x) is odd is .(x%%2 == 1)")
 #'
 #' # Because matching is done by a regular expression we
 #' # can not use arbitrary depths of nested parenthesis inside
@@ -88,8 +87,7 @@ strsplit_capture <- function(x, split,
 #'
 #' # We can also change the delimiters,
 #' # in this case to !! through the first whitespace.
-#' sinterp(c("x is !!x , x+1 is !!x+1",
-#'           "!!x  is odd is !!x%%2==1"),
+#' sinterp(c("x is !!x , x+1 is !!x+1\n!!x  is odd is !!x%%2==1"),
 #'         match_pattern = '!![^[:space:]]+[[:space:]]?',
 #'         removal_patterns = c("^!!", "[[:space:]]?$"))
 #'
@@ -104,29 +102,29 @@ sinterp <- function(str,
   force(envir)
   force(enclos)
   wrapr::stop_if_dot_args(substitute(list(...)), "wrapr::sinterp")
-  nstr <- length(str)
-  res <- character(nstr)
-  for(i in seq_len(nstr)) {
-    si <- str[[i]]
-    pi <- strsplit_capture(si, match_pattern)
-    npi <- length(pi)
-    xlated <- character(npi)
-    for(j in seq_len(npi)) {
-      pij <- pi[[j]]
-      if(!isTRUE(attr(pij, "is_sep", exact = TRUE))) {
-        xlated[[j]] <- as.character(pij) # strip attributes.
-      } else {
-        expr <- as.character(pij) # strip attributes.
-        for(rp in removal_patterns) {
-          expr <- as.character(gsub(rp, "", expr))
-        }
-        val <- eval(parse(text = expr), envir = envir, enclos = enclos)
-        val <- paste(as.character(val), collapse = " ")
-        xlated[[j]] <- val
-      }
-    }
-    res[[i]] <- paste(xlated, collapse = "")
+  if(!is.character(str)) {
+    stop("wrapr::sinterp str must be of class character")
   }
-  res
+  if(length(str)!=1) {
+    stop("wrapr::sinterp str length must be 1")
+  }
+  pi <- strsplit_capture(str, match_pattern)
+  npi <- length(pi)
+  xlated <- list()
+  for(j in seq_len(npi)) {
+    pij <- pi[[j]]
+    if(!isTRUE(attr(pij, "is_sep", exact = TRUE))) {
+      xlated <- c(xlated, list(as.character(pij))) # strip attributes.
+    } else {
+      expr <- as.character(pij) # strip attributes.
+      for(rp in removal_patterns) {
+        expr <- as.character(gsub(rp, "", expr))
+      }
+      val <- eval(parse(text = expr), envir = envir, enclos = enclos)
+      val <- as.character(val)
+      xlated <- c(xlated, list(val))
+    }
+  }
+  do.call(paste0, xlated)
 }
 
