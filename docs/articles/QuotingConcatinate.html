@@ -116,7 +116,7 @@
       <h1>Quoting Concatinate</h1>
                         <h4 class="author">John Mount</h4>
             
-            <h4 class="date">2019-04-15</h4>
+            <h4 class="date">2019-05-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/QuotingConcatinate.Rmd"><code>vignettes/QuotingConcatinate.Rmd</code></a></small>
       <div class="hidden name"><code>QuotingConcatinate.Rmd</code></div>
@@ -130,12 +130,12 @@
 <p>The primary place code capturing shows up in our <code>wrapr</code> <code>R</code> package is in the <a href="https://winvector.github.io/wrapr/reference/qc.html"><code><a href="../reference/qc.html">qc()</a></code></a> and <a href="https://winvector.github.io/wrapr/reference/qchar_frame.html"><code><a href="../reference/qchar_frame.html">qchar_frame()</a></code></a> methods.</p>
 <p><code><a href="../reference/qc.html">qc()</a></code> stands for “quoting concatenate” it is much like <code>R</code>’s <code><a href="https://www.rdocumentation.org/packages/base/topics/c">c()</a></code> (combine), but it quotes its arguments before concatenating vectors or lists.</p>
 <p>It lets you replace this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Petal.Width"</span>, <span class="st">"Petal.Length"</span>)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Petal.Width"</span>, <span class="st">"Petal.Length"</span>)</a></code></pre></div>
 <pre><code>## [1] "Petal.Width"  "Petal.Length"</code></pre>
 <p>with this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"wrapr"</span>)
-   
-<span class="kw"><a href="../reference/qc.html">qc</a></span>(Petal.Width, Petal.Length)</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"wrapr"</span>)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">   </a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw"><a href="../reference/qc.html">qc</a></span>(Petal.Width, Petal.Length)</a></code></pre></div>
 <pre><code>## [1] "Petal.Width"  "Petal.Length"</code></pre>
 <p>This, in turn, lets you replace this:</p>
 <pre><code><a href="https://www.rdocumentation.org/packages/base/topics/library">library("dplyr")
@@ -144,8 +144,8 @@ iris %&gt;%
   select(., Petal.Width, Petal.Length) %&gt;%
   head(.)</a></code></pre>
 <p>with this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iris[, <span class="kw"><a href="../reference/qc.html">qc</a></span>(Petal.Width, Petal.Length)] <span class="op">%.&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(.)</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">iris[, <span class="kw"><a href="../reference/qc.html">qc</a></span>(Petal.Width, Petal.Length)] <span class="op">%.&gt;%</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(.)</a></code></pre></div>
 <pre><code>##   Petal.Width Petal.Length
 ## 1         0.2          1.4
 ## 2         0.2          1.4
@@ -157,25 +157,25 @@ iris %&gt;%
 <p><code>wrapr</code> now incorporates <code><a href="https://www.rdocumentation.org/packages/base/topics/bquote">bquote()</a></code> based quasiquotation in a few of its interfaces.</p>
 <p>Quasiquotation was introduced into R by Thomas Lumley in 2003, and allows users to signal they want to turn off quotation for portions of their code. The user indicates they do not wish a portion of their code to be quoted (but instead want it evaluated for its value) by surrounding that portion with the function-notation “<code>.()</code>”.</p>
 <p>An example of this is given here.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">OTHER_SYMBOL &lt;-<span class="st"> "Petal.Length"</span>
-  
-<span class="kw"><a href="../reference/qc.html">qc</a></span>(Petal.Width, OTHER_SYMBOL)</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">OTHER_SYMBOL &lt;-<span class="st"> "Petal.Length"</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">  </a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="kw"><a href="../reference/qc.html">qc</a></span>(Petal.Width, OTHER_SYMBOL)</a></code></pre></div>
 <pre><code>## [1] "Petal.Width"  "OTHER_SYMBOL"</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/qc.html">qc</a></span>(Petal.Width, .(OTHER_SYMBOL))</code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="../reference/qc.html">qc</a></span>(Petal.Width, .(OTHER_SYMBOL))</a></code></pre></div>
 <pre><code>## [1] "Petal.Width"  "Petal.Length"</code></pre>
 <p>This should be familiar to <code>data.table</code> users, as <code>data.table</code> has supported related notations for quite some time.</p>
 <p>Also, <code><a href="../reference/qc.html">qc()</a></code> is designed to have a simple “mutually recursive” relationship with <code><a href="https://www.rdocumentation.org/packages/base/topics/c">c()</a></code> (i.e. they call each other when they see one another). This means <code><a href="https://www.rdocumentation.org/packages/base/topics/c">c()</a></code> is also a quasiquotation escape-notation for <code><a href="../reference/qc.html">qc()</a></code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/qc.html">qc</a></span>(Petal.Width, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(OTHER_SYMBOL))</code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="../reference/qc.html">qc</a></span>(Petal.Width, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(OTHER_SYMBOL))</a></code></pre></div>
 <pre><code>## [1] "Petal.Width"  "Petal.Length"</code></pre>
 <p>This escape notation arises as a natural consequence of a design of <code><a href="../reference/qc.html">qc()</a></code> that calls <code><a href="https://www.rdocumentation.org/packages/base/topics/c">c()</a></code> instead of quoting it (i.e. delegates <code><a href="https://www.rdocumentation.org/packages/base/topics/c">c()</a></code>-expressions to <code><a href="https://www.rdocumentation.org/packages/base/topics/c">c()</a></code>). The <code>bquote()-.()</code> should be the preferred notation for regularity, and to match any other <code><a href="https://www.rdocumentation.org/packages/base/topics/bquote">bquote()</a></code> quasiquotation interface (such as <code><a href="../reference/qchar_frame.html">qchar_frame()</a></code> or <a href="http://www.win-vector.com/blog/2018/10/quasiquotation-in-r-via-bquote/">even a variation of <code>dplyr</code></a>).</p>
 <p><code><a href="../reference/qc.html">qc()</a></code> also takes some trouble to work with named vectors:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/qc.html">qc</a></span>(<span class="dt">a =</span> b)</code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="../reference/qc.html">qc</a></span>(<span class="dt">a =</span> b)</a></code></pre></div>
 <pre><code>##   a 
 ## "b"</code></pre>
 <p>And we can even re-map left-hand sizes of (or names) if we use the alternate “<code>:=</code>” assignment notation.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">LEFT_NAME =<span class="st"> "a"</span>
-
-<span class="kw"><a href="../reference/qc.html">qc</a></span>(.(LEFT_NAME) <span class="op">:</span><span class="er">=</span><span class="st"> </span>b)</code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">LEFT_NAME =<span class="st"> "a"</span></a>
+<a class="sourceLine" id="cb16-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="kw"><a href="../reference/qc.html">qc</a></span>(.(LEFT_NAME) <span class="op">:</span><span class="er">=</span><span class="st"> </span>b)</a></code></pre></div>
 <pre><code>##   a 
 ## "b"</code></pre>
 <p>Notice syntactically <code><a href="../reference/qc.html">qc()</a></code> fills a general niche much like the specific function <code><a href="https://www.rdocumentation.org/packages/ggplot2/topics/aes">ggplot2::aes()</a></code> fits in the <code>ggplot2</code> package.</p>
