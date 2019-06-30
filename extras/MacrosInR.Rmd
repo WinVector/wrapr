@@ -1,7 +1,7 @@
 ---
 title: "Macro Substitution in R"
 author: John Mount
-date: 2018-09-14
+date: 2019-06-30
 output: github_document
 ---
 
@@ -21,6 +21,7 @@ The `R` macro (or code control) facilities we will discuss include over 20 years
  * `replyr::let()`/`wrapr::let()` [Released December 8th, 2016](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf) in the [`replyr`](https://github.com/WinVector/replyr) package, later extended and moved to the low-dependency [`wrapr`](https://github.com/WinVector/wrapr) package.
  * `rlang::!!`: [Released May 5th, 2017](https://cran.r-project.org/src/contrib/Archive/rlang/).
  * `oshka::expand()` [Released October 10th, 2017](https://CRAN.R-project.org/package=oshka).
+ * `rlang:{{}}` [Announced February 2019](https://twitter.com/romain_francois/status/1099234433612288001).
 
 
 One of the goals of this note is to document differences between our own method `wrapr::let()` and the *later* system `rlang:!!` (as we recently had [a paper](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf) rejected for not having enough such comparisons, and therefore would benefit from a reference that does so).
@@ -51,7 +52,7 @@ In `R` macros and metaprogramming are *not* urgent user-facing problems, until t
 
 Macros are a bit technical, but when you are painted into a programming corner (such as not having an interface you want), you look to macros.  So let's talk more about macros and metaprogramming from the concrete point of view of trying to code capturing interfaces (such as "`$`") into value oriented interfaces (such as "`[[]]`").  Again: the idea is code capturing interfaces may be convenient for interactive work (when we are typing in the code while looking at data), but are inconvenient for programming work (where we can't always see the data and must take details from other variables, such as `COLUMNNAME`).
 
-### Technical defintions
+### Technical definitions
 
 Some technical definitions (which we will expand on and use later).
 
@@ -929,7 +930,21 @@ let(
 
 ### `oshka::expand()`
 
-`oshka` has the brilliant idea that normal data processing steps never see quoted language objects, so an expander that substitutes quoted language objects (expressions, names) is compatible with normal scientific programming.  This idea allows the very easy programatic buildup of complex expressions (example [here](https://cran.r-project.org/web/packages/oshka/README.html)).
+`oshka` has the brilliant idea that normal data processing steps never see quoted language objects, so an expander that substitutes quoted language objects (expressions, names) is compatible with normal scientific programming.  This idea allows the very easy programmatic buildup of complex expressions (example [here](https://cran.r-project.org/web/packages/oshka/README.html)).
+
+### `rlang:{{}}`
+
+This notation is essential an uncredited copy of Thomas Lumley's `.()` notation (please see [here](http://www.win-vector.com/blog/2019/02/more-on-macros-in-r/) for some more notes).
+
+After arguing at great length the intuitiveness, teachability, and superiority of `rlang::!!` for quite some time the `rlang` team announced a "new" `{{}}` notation in February of 2019 ([ref](https://twitter.com/romain_francois/status/1099234433612288001)).  
+
+The [`{{}}` announcement](https://www.tidyverse.org/articles/2019/06/rlang-0-4-0/) says:
+
+> We have come to realise that this pattern is difficult to teach and to learn because it involves a new, unfamiliar syntax, and because it introduces two new programming concepts (quote and unquote) that are hard to understand intuitively. This complexity is not really justified because this pattern is overly flexible for basic programming needs.
+
+This is a fraction the criticism that was ignored when `!!` was introduced.  Also no mention is made of Thomas Lumley or `.()`/`bquote()`.
+
+
 
 ## Conclusion
 
