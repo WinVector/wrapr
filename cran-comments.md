@@ -6,8 +6,19 @@
 ### Windows
 
     devtools::check_win_devel()
+    * using R Under development (unstable) (2019-07-05 r76784)
+    * using platform: x86_64-w64-mingw32 (64-bit)
+    Status: OK
 
-
+    rhub::check_for_cran()
+    505#> * using R Under development (unstable) (2019-06-21 r76731)
+    506#> * using platform: x86_64-w64-mingw32 (64-bit)
+    507#> * using session charset: ISO8859-1
+    508#> * using option '--as-cran'
+    556#> * checking sizes of PDF files under 'inst/doc' ... NOTE
+    557#> Unable to find GhostScript executable to run checks on size reduction
+    571#> Status: 1 NOTE
+ 
 ### MacOS
 
     R CMD check --as-cran wrapr_1.8.8.tar.gz 
