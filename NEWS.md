@@ -1,5 +1,5 @@
 
-# wrapr 1.8.8 2019-07-05
+# wrapr 1.8.8 2019-07-06
 
  * More work with mk_formula().
 

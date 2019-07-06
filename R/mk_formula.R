@@ -41,9 +41,11 @@ r_plus <- function(vars, add_zero = FALSE) {
 #' (which appears to work over terms).
 #' Another reasonable way to do this is just \code{paste(outcome, paste(variables, collapse = " + "), sep = " ~ ")}.
 #'
-#' Care must be taken with later arguments to functions like \code{lm} whose help states:
+#' Care must be taken with later arguments to functions like \code{lm()} whose help states:
 #' "All of weights, subset and offset are evaluated in the same way as variables in formula, that is first in data and then in the environment of formula."
-#'
+#' Also note \code{env} defaults to \code{baseenv()} to try and minimize refence leaks produced by the environemnt
+#' captured by the formal ending up stored in the resulting model for \code{lm()} and \code{glm()}.  For
+#' behavior closer to \code{as.formula()} please set the \code{env} argument to \code{parent.frame()}.
 #'
 #' @param outcome character scalar, name of outcome or dependent variable.
 #' @param variables character vector, names of input or independent variables.
