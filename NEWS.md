@@ -1,4 +1,8 @@
 
+# wrapr 1.8.8 2019-07-05
+
+ * More work with mk_formula().
+
 # wrapr 1.8.7 2019-05-23
 
  * Better sinterp semantics (vectorize over values, not template).

@@ -5,7 +5,8 @@
 \title{Construct a formula.}
 \usage{
 mk_formula(outcome, variables, ..., intercept = TRUE,
-  outcome_target = NULL, outcome_comparator = "==", env = baseenv())
+  outcome_target = NULL, outcome_comparator = "==", env = baseenv(),
+  extra_values = NULL)
 }
 \arguments{
 \item{outcome}{character scalar, name of outcome or dependent variable.}
@@ -20,7 +21,9 @@ mk_formula(outcome, variables, ..., intercept = TRUE,
 
 \item{outcome_comparator}{one of "==", "!=", ">=", "<=", ">", "<", only use of outcome_target is not NULL.}
 
-\item{env}{environment to use in formula.}
+\item{env}{environment to use in formula (unless extra_values is non empty, then this is a parent environemnt).}
+
+\item{extra_values}{if not empty extra values to be added to a new formula environment containing env.}
 }
 \value{
 a formula object
@@ -38,6 +41,9 @@ Essentially the same effect as \code{\link[stats]{reformulate}}, but trying to a
 \code{paste} currently in \code{\link[stats]{reformulate}} by calling \code{\link[stats]{update.formula}}
 (which appears to work over terms).
 Another reasonable way to do this is just \code{paste(outcome, paste(variables, collapse = " + "), sep = " ~ ")}.
+
+Care must be taken with later arguments to functions like \code{lm} whose help states:
+"All of weights, subset and offset are evaluated in the same way as variables in formula, that is first in data and then in the environment of formula."
 }
 \examples{
 

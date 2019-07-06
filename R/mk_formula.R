@@ -41,13 +41,18 @@ r_plus <- function(vars, add_zero = FALSE) {
 #' (which appears to work over terms).
 #' Another reasonable way to do this is just \code{paste(outcome, paste(variables, collapse = " + "), sep = " ~ ")}.
 #'
+#' Care must be taken with later arguments to functions like \code{lm} whose help states:
+#' "All of weights, subset and offset are evaluated in the same way as variables in formula, that is first in data and then in the environment of formula."
+#'
+#'
 #' @param outcome character scalar, name of outcome or dependent variable.
 #' @param variables character vector, names of input or independent variables.
 #' @param ... not used, force later arguments to bind by name.
 #' @param intercept logical, if TRUE allow an intercept term.
 #' @param outcome_target scalar, if not NULL write outcome==outcome_target in formula.
 #' @param outcome_comparator one of "==", "!=", ">=", "<=", ">", "<", only use of outcome_target is not NULL.
-#' @param env environment to use in formula.
+#' @param env environment to use in formula (unless extra_values is non empty, then this is a parent environemnt).
+#' @param extra_values if not empty extra values to be added to a new formula environment containing env.
 #' @return a formula object
 #'
 #' @seealso \code{\link[stats]{reformulate}}, \code{\link[stats]{update.formula}}
@@ -71,7 +76,8 @@ mk_formula <- function(outcome, variables,
                        intercept = TRUE,
                        outcome_target = NULL,
                        outcome_comparator = "==",
-                       env = baseenv()) {
+                       env = baseenv(),
+                       extra_values = NULL) {
   force(env)
   wrapr::stop_if_dot_args(substitute(list(...)), "wrapr::mk_formula")
   if((!is.character(outcome)) || (length(outcome)!=1)) {
@@ -85,6 +91,12 @@ mk_formula <- function(outcome, variables,
   }
   outcome_name <- as.name(outcome)
   outcome_expr <- outcome_name
+  if(length(extra_values)>0) {
+    env <- new.env(parent = env)
+    for(ni in names(extra_values)) {
+      assign(ni, extra_values[[ni]], envir = env)
+    }
+  }
   if(!is.null(outcome_target)) {
     if(outcome_comparator=="==") {
       outcome_expr <- bquote((.(outcome_name) == .(outcome_target)))
