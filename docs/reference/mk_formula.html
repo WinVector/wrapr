@@ -64,7 +64,7 @@ and vector of input (independent variable) names." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.8</span>
       </span>
     </div>
 
@@ -161,7 +161,8 @@ and vector of input (independent variable) names.</p>
     </div>
 
     <pre class="usage"><span class='fu'>mk_formula</span>(<span class='no'>outcome</span>, <span class='no'>variables</span>, <span class='no'>...</span>, <span class='kw'>intercept</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>outcome_target</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>outcome_comparator</span> <span class='kw'>=</span> <span class='st'>"=="</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/environment'>baseenv</a></span>())</pre>
+  <span class='kw'>outcome_target</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>outcome_comparator</span> <span class='kw'>=</span> <span class='st'>"=="</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/environment'>baseenv</a></span>(),
+  <span class='kw'>extra_values</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -192,7 +193,11 @@ and vector of input (independent variable) names.</p>
     </tr>
     <tr>
       <th>env</th>
-      <td><p>environment to use in formula.</p></td>
+      <td><p>environment to use in formula (unless extra_values is non empty, then this is a parent environemnt).</p></td>
+    </tr>
+    <tr>
+      <th>extra_values</th>
+      <td><p>if not empty extra values to be added to a new formula environment containing env.</p></td>
     </tr>
     </table>
     
@@ -210,6 +215,11 @@ Essentially the same effect as <code><a href='https://www.rdocumentation.org/pac
 <code>paste</code> currently in <code><a href='https://www.rdocumentation.org/packages/stats/topics/delete.response'>reformulate</a></code> by calling <code><a href='https://www.rdocumentation.org/packages/stats/topics/update.formula'>update.formula</a></code>
 (which appears to work over terms).
 Another reasonable way to do this is just <code><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste(outcome, paste(variables, collapse = " + "), sep = " ~ ")</a></code>.</p>
+<p>Care must be taken with later arguments to functions like <code><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm()</a></code> whose help states:
+"All of weights, subset and offset are evaluated in the same way as variables in formula, that is first in data and then in the environment of formula."
+Also note <code>env</code> defaults to <code><a href='https://www.rdocumentation.org/packages/base/topics/environment'>baseenv()</a></code> to try and minimize refence leaks produced by the environemnt
+captured by the formal ending up stored in the resulting model for <code><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm()</a></code> and <code><a href='https://www.rdocumentation.org/packages/stats/topics/glm'>glm()</a></code>.  For
+behavior closer to <code><a href='https://www.rdocumentation.org/packages/stats/topics/formula'>as.formula()</a></code> please set the <code>env</code> argument to <code><a href='https://www.rdocumentation.org/packages/base/topics/sys.parent'>parent.frame()</a></code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
