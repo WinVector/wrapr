@@ -1,7 +1,8 @@
 
-# wrapr 1.8.9 2019-07-18
+# wrapr 1.8.9 2019-07-23
 
  * More unit tests.
+ * Adjust license.
 
 # wrapr 1.8.8 2019-07-06
 
