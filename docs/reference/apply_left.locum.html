@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Capture arguments of exception throwing function call for later debugging. — DebugFn • wrapr</title>
+<title>S3 dispatch on class of pipe_left_arg for a locum. — apply_left.locum • wrapr</title>
 
 
 <!-- jquery -->
@@ -33,9 +33,8 @@
 
 
 
-<meta property="og:title" content="Capture arguments of exception throwing function call for later debugging. — DebugFn" />
-<meta property="og:description" content="Run fn, save arguments on failure.
-Please see: vignette(&quot;DebugFnW&quot;, package=&quot;wrapr&quot;)." />
+<meta property="og:title" content="S3 dispatch on class of pipe_left_arg for a locum. — apply_left.locum" />
+<meta property="og:description" content="For formal documentation please see https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -150,74 +149,58 @@ Please see: vignette(&quot;DebugFnW&quot;, package=&quot;wrapr&quot;)." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Capture arguments of exception throwing function call for later debugging.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/DebugFn.R'><code>R/DebugFn.R</code></a></small>
-    <div class="hidden name"><code>DebugFn.Rd</code></div>
+    <h1>S3 dispatch on class of pipe_left_arg for a locum.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/locum.R'><code>R/locum.R</code></a></small>
+    <div class="hidden name"><code>apply_left.locum.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Run fn, save arguments on failure.
-Please see: <code><a href='../articles/DebugFnW.html'>vignette("DebugFnW", package="wrapr")</a></code>.</p>
+    <p>For formal documentation please see <a href='https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf'>https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>DebugFn</span>(<span class='no'>saveDest</span>, <span class='no'>fn</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='co'># S3 method for locum</span>
+<span class='fu'><a href='apply_left.html'>apply_left</a></span>(<span class='no'>pipe_left_arg</span>, <span class='no'>pipe_right_arg</span>, <span class='no'>pipe_environment</span>,
+  <span class='no'>left_arg_name</span>, <span class='no'>pipe_string</span>, <span class='no'>right_arg_name</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>saveDest</th>
-      <td><p>where to write captured state (determined by type): NULL random temp file, character temp file, name globalenv() variable, and function triggers callback.</p></td>
+      <th>pipe_left_arg</th>
+      <td><p>left argument.</p></td>
     </tr>
     <tr>
-      <th>fn</th>
-      <td><p>function to call</p></td>
+      <th>pipe_right_arg</th>
+      <td><p>substitute(pipe_right_arg) argument.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>arguments for fn</p></td>
+      <th>pipe_environment</th>
+      <td><p>environment to evaluate in.</p></td>
+    </tr>
+    <tr>
+      <th>left_arg_name</th>
+      <td><p>name, if not NULL name of left argument.</p></td>
+    </tr>
+    <tr>
+      <th>pipe_string</th>
+      <td><p>character, name of pipe operator.</p></td>
+    </tr>
+    <tr>
+      <th>right_arg_name</th>
+      <td><p>name, if not NULL name of right argument.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>fn(...) normally, but if fn(...) throws an exception save to saveDest RDS of list r such that do.call(r$fn,r$args) repeats the call to fn with args.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <p>result</p>
 
-    <div class='dont-index'><p><code><a href='https://www.rdocumentation.org/packages/utils/topics/debugger'>dump.frames</a></code>, <code>DebugFn</code>, <code><a href='DebugFnW.html'>DebugFnW</a></code>,  <code><a href='DebugFnWE.html'>DebugFnWE</a></code>, <code><a href='DebugPrintFn.html'>DebugPrintFn</a></code>, <code><a href='DebugFnE.html'>DebugFnE</a></code>, <code><a href='DebugPrintFnE.html'>DebugPrintFnE</a></code></p></div>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='no'>saveDest</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempfile</a></span>(<span class='st'>'debug'</span>),<span class='st'>'.RDS'</span>)
-<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>i</span>) { (<span class='fl'>1</span>:<span class='fl'>10</span>)<span class='kw'>[[</span><span class='no'>i</span>]] }
-<span class='co'># correct run</span>
-<span class='fu'>DebugFn</span>(<span class='no'>saveDest</span>, <span class='no'>f</span>, <span class='fl'>5</span>)</div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='co'># now re-run</span>
-<span class='co'># capture error on incorrect run</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/conditions'>tryCatch</a></span>(
-   <span class='fu'>DebugFn</span>(<span class='no'>saveDest</span>, <span class='no'>f</span>, <span class='fl'>12</span>),
-   <span class='kw'>error</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>e</span>) { <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>e</span>) })</div><div class='output co'>#&gt; &lt;simpleError in value[[3L]](cond): wrapr::DebugFn: wrote '/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//Rtmp6AWfnB/debug9d8632cbd48e.RDS' on catching 'Error in (1:10)[[i]]: subscript out of bounds'
-#&gt;  You can reproduce the error with:
-#&gt; 'p &lt;- readRDS('/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//Rtmp6AWfnB/debug9d8632cbd48e.RDS'); do.call(p$fn, p$args)'&gt;</div><div class='input'><span class='co'># examine details</span>
-<span class='no'>situation</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/readRDS'>readRDS</a></span>(<span class='no'>saveDest</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/str'>str</a></span>(<span class='no'>situation</span>)</div><div class='output co'>#&gt; List of 3
-#&gt;  $ fn     :function (i)  
-#&gt;   ..- attr(*, "srcref")= 'srcref' int [1:8] 3 6 3 32 6 32 3 3
-#&gt;   .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x7fb41b7cb928&gt; 
-#&gt;  $ args   :List of 1
-#&gt;   ..$ : num 12
-#&gt;  $ fn_name: chr "f"</div><div class='input'><span class='co'># fix and re-run</span>
-<span class='no'>situation</span>$<span class='no'>args</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='kw'>&lt;-</span> <span class='fl'>6</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/do.call'>do.call</a></span>(<span class='no'>situation</span>$<span class='no'>fn_name</span>,<span class='no'>situation</span>$<span class='no'>args</span>)</div><div class='output co'>#&gt; [1] 6</div><div class='input'><span class='co'># clean up</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/files'>file.remove</a></span>(<span class='no'>saveDest</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

@@ -1,4 +1,8 @@
 
+# wrapr 1.9.0 2019-09-28
+
+ * Add locum ( https://github.com/WinVector/wrapr/blob/master/Examples/Locum/Locum.md ).
+
 # wrapr 1.8.9 2019-07-24
 
  * More unit tests.

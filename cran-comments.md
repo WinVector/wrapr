@@ -5,30 +5,36 @@
 
 ### Windows
 
-    devtools::check_win_devel()
-    * using R Under development (unstable) (2019-07-05 r76784)
-    * using platform: x86_64-w64-mingw32 (64-bit)
-    Status: OK
-
+    rhub::check_for_cran()
+    507#> * using R Under development (unstable) (2019-09-18 r77193)
+    508#> * using platform: x86_64-w64-mingw32 (64-bit)
+    509#> * using session charset: ISO8859-1
+    510#> * using option '--as-cran'
+    511#> * checking for file 'wrapr/DESCRIPTION' ... OK
+    512#> * checking extension type ... Package
+    513#> * this is package 'wrapr' version '1.9.0'
+    514#> * package encoding: UTF-8
+    515#> * checking CRAN incoming feasibility ... Note_to_CRAN_maintainers
+    516#> Maintainer: 'John Mount '
+    558#> * checking sizes of PDF files under 'inst/doc' ... NOTE
+    559#> Unable to find GhostScript executable to run checks on size reduction
+    574#> Status: 1 NOTE
+    Note: is property of the check installation, not the package.
+ 
 ### MacOS
 
-    R CMD check --as-cran wrapr_1.8.9.tar.gz 
+    R CMD check --as-cran wrapr_1.9.0.tar.gz
     * using R version 3.6.0 (2019-04-26)
     * using platform: x86_64-apple-darwin15.6.0 (64-bit)
     * using session charset: UTF-8
     * using option ‘--as-cran’
     * checking for file ‘wrapr/DESCRIPTION’ ... OK
     * checking extension type ... Package
-    * this is package ‘wrapr’ version ‘1.8.9’
+    * this is package ‘wrapr’ version ‘1.9.0’
     * package encoding: UTF-8
     * checking CRAN incoming feasibility ... Note_to_CRAN_maintainers
     Maintainer: ‘John Mount <jmount@win-vector.com>’
-    * checking top-level files ... WARNING
-    Conversion of ‘README.md’ failed:
-    pandoc: Could not fetch https://www.r-pkg.org/badges/version/wrapr
-    TlsException (HandshakeFailed (Error_Protocol ("expecting server hello, got alert : [(AlertLevel_Fatal,HandshakeFailure)]",True,HandshakeFailure)))
-    Status: 1 WARNING
-    Link WARNING is spurious, URL https://www.r-pkg.org/badges/version/wrapr is correct and working.
+    Status: OK
 
 ## Downstream dependencies
 

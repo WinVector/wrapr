@@ -8,11 +8,13 @@
 
 <title>Apply a single argument function to its argument. — ApplyTo • wrapr</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -30,14 +32,15 @@
 
 
 
-<meta property="og:title" content="Apply a single argument function to its argument. — ApplyTo" />
 
+<meta property="og:title" content="Apply a single argument function to its argument. — ApplyTo" />
 <meta property="og:description" content="If x is a UnaryFn instance this function returns a new
 UnaryFnList representing the composite function c(f, x)
 which is interpreted as the function x(f(.)) (composition
 from left to right).  Otherwise evaluate f(x) (application
 from left to right)." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -67,7 +70,7 @@ from left to right)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.0</span>
       </span>
     </div>
 
@@ -134,7 +137,6 @@ from left to right)." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="http://www.win-vector.com/">Sponsor: Win-Vector LLC</a>
@@ -157,13 +159,11 @@ from left to right)." />
     </div>
 
     <div class="ref-description">
-    
     <p>If x is a UnaryFn instance this function returns a new
 UnaryFnList representing the composite function c(f, x)
 which is interpreted as the function x(f(.)) (composition
 from left to right).  Otherwise evaluate f(x) (application
 from left to right).</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>ApplyTo</span>(<span class='no'>f</span>, <span class='no'>x</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sys.parent'>parent.frame</a></span>())
@@ -211,7 +211,7 @@ from left to right).</p>
 
 <span class='co'># S4 method for SrcFunction,UnaryFn</span>
 <span class='fu'>ApplyTo</span>(<span class='no'>f</span>, <span class='no'>x</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sys.parent'>parent.frame</a></span>())</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -228,20 +228,18 @@ from left to right).</p>
       <td><p>environment to work in.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>f(x) if x is not a UnaryFn else f composed with x.</p>
-    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-          </ul>
+    </ul>
 
   </div>
 </div>

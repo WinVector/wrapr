@@ -10,76 +10,19 @@ effects.
 Let’s take a look at implementing a new effect from a user perspective.
 The idea we want to implement is delayed evaluation through a collecting
 object we call a “locum” or stand-in. The locum is intended to collect
-operations without executing them, for later use.
+operations without executing them, for later use. This is similar to a
+lambda or function abstraction. The [code is now in the `wrapr`
+package](https://github.com/WinVector/wrapr/blob/master/R/locum.R), but
+could be implemented by any user as it uses only public or semi-public
+`wrapr` interfaces.
 
-Let’s start loading the `wrapr` package and defining our new `locum`
-class and its display methods.
+Let’s start loading the `wrapr` package.
 
 ``` r
 library(wrapr)
-
-
-locum <- function() {
-  locum <- list(stages = list())
-  class(locum) <- 'locum'
-  return(locum)
-}
-
-
-format.locum <- function(x, ...) {
-  args <- list(...)
-  locum <- x
-  start_name <- 'locum()'
-  if('start' %in% names(args)) {
-    start_name <- format(args[['start']])
-  }
-  stage_strs <- vapply(
-    locum$stages,
-    function(si) {
-      format(si$pipe_right_arg)
-    }, character(1))
-  stage_strs <- c(list(start_name), 
-                  stage_strs)
-  return(paste(stage_strs, 
-               collapse = " %.>%\n   "))
-}
-
-
-as.character.locum <- function(x, ...) {
-  return(format(x, ...))
-}
-
-
-print.locum <- function(x, ...) {
-  cat(format(x, ...))
-}
 ```
 
-Using the `wrapr` `apply_left` interface we can define an object that
-collects pipe stages from the left.
-
-``` r
-apply_left.locum <- function(
-  pipe_left_arg,
-  pipe_right_arg,
-  pipe_environment,
-  left_arg_name,
-  pipe_string,
-  right_arg_name) {
-  locum <- pipe_left_arg
-  capture <- list(
-    pipe_right_arg = force(pipe_right_arg),
-    pipe_environment = force(pipe_environment),
-    left_arg_name = force(left_arg_name),
-    pipe_string = force(pipe_string),
-    right_arg_name = force(right_arg_name))
-  locum$stages <- c(locum$stages, list(capture))
-  return(locum)
-}
-```
-
-We can now use the `locum` to collect the operations, and then print
-them.
+We can use the `locum` to collect the operations, and then print them.
 
 ``` r
 y <- 4
@@ -96,31 +39,7 @@ print(p)
     ##    cos(.) %.>%
     ##    atan2(., y)
 
-We can use `wrapr`’s `apply_right` interface to define how the `locum`
-itself operates on values.
-
-``` r
-apply_right.locum <- function(
-  pipe_left_arg,
-  pipe_right_arg,
-  pipe_environment,
-  left_arg_name,
-  pipe_string,
-  right_arg_name) {
-  force(pipe_left_arg)
-  locum <- pipe_right_arg
-  for(s in locum$stages) {
-    pipe_left_arg <- pipe_impl(
-      pipe_left_arg,
-      s$pipe_right_arg,
-      s$pipe_environment,
-      pipe_string = s$pipe_string) 
-  }
-  return(pipe_left_arg)
-}
-```
-
-And we can now replace the `locum` with the value we want to apply the
+We can now replace the `locum` with the value we want to apply the
 pipeline to.
 
 ``` r
@@ -140,10 +59,10 @@ atan2(cos(sin(5)), 4)
 We can also add later intended arguments to the pipeline formatting.
 
 ``` r
-print(p, 'start' = 5)
+print(p, 'start' = 4)
 ```
 
-    ## 5 %.>%
+    ## 4 %.>%
     ##    sin(.) %.>%
     ##    cos(.) %.>%
     ##    atan2(., y)
@@ -154,12 +73,25 @@ We can do some fun things, such as combining `locum` pipelines.
 p1 <- locum() %.>% sin(.)
 p2 <- locum() %.>% cos(.)
 
-p1 %.>% p2
+p12 <- p1 %.>% p2
+p12
 ```
 
     ## locum() %.>%
     ##    sin(.) %.>%
     ##    cos(.)
+
+``` r
+4 %.>% p12
+```
+
+    ## [1] 0.7270351
+
+``` r
+cos(sin(4))
+```
+
+    ## [1] 0.7270351
 
 The idea is: `wrapr` dot arrow pipe is designed for expansion through
 the `apply_right`, `apply_left` `S3` interfaces, and the
