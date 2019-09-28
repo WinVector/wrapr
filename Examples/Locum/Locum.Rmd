@@ -16,7 +16,7 @@ Let's start loading the `wrapr` package and defining our new `locum` class and i
 library(wrapr)
 
 
-mk_locum <- function() {
+locum <- function() {
   locum <- list(stages = list())
   class(locum) <- 'locum'
   return(locum)
@@ -78,7 +78,7 @@ We can now use the `locum` to collect the operations, and then print them.
 
 ```{r}
 y <- 4
-p <- mk_locum() %.>% 
+p <- locum() %.>% 
   sin(.) %.>% 
   cos(.) %.>% 
   atan2(., y)
@@ -127,6 +127,16 @@ We can also add later intended arguments to the pipeline formatting.
 ```{r}
 print(p, 'start' = 5)
 ```
+
+We can do some fun things, such as combining `locum` pipelines.
+
+```{r}
+p1 <- locum() %.>% sin(.)
+p2 <- locum() %.>% cos(.)
+
+p1 %.>% p2
+```
+
 
 The idea is: `wrapr` dot arrow pipe is designed for expansion through the `apply_right`, `apply_left` `S3` interfaces, and the `apply_right_S4` `S4` interface.  And users can access the implementation through the `pipe_impl` function. [This example](https://github.com/WinVector/wrapr/blob/master/Examples/Locum/Locum.md) and [the formal article](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html) should give users a good place to start. [`rquery`](https://github.com/WinVector/rquery), [`rqdatatable`](https://github.com/WinVector/rqdatatable), and [`cdata`](https://github.com/WinVector/cdata) already use the extension interfaces to implement interesting features.
 

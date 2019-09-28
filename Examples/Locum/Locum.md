@@ -19,7 +19,7 @@ class and its display methods.
 library(wrapr)
 
 
-mk_locum <- function() {
+locum <- function() {
   locum <- list(stages = list())
   class(locum) <- 'locum'
   return(locum)
@@ -83,7 +83,7 @@ them.
 
 ``` r
 y <- 4
-p <- mk_locum() %.>% 
+p <- locum() %.>% 
   sin(.) %.>% 
   cos(.) %.>% 
   atan2(., y)
@@ -147,6 +147,19 @@ print(p, 'start' = 5)
     ##    sin(.) %.>%
     ##    cos(.) %.>%
     ##    atan2(., y)
+
+We can do some fun things, such as combining `locum` pipelines.
+
+``` r
+p1 <- locum() %.>% sin(.)
+p2 <- locum() %.>% cos(.)
+
+p1 %.>% p2
+```
+
+    ## locum() %.>%
+    ##    sin(.) %.>%
+    ##    cos(.)
 
 The idea is: `wrapr` dot arrow pipe is designed for expansion through
 the `apply_right`, `apply_left` `S3` interfaces, and the
