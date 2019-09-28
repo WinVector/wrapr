@@ -12,31 +12,34 @@ mk_locum <- function() {
 }
 
 
-apply_left.locum <- function(pipe_left_arg,
-                             pipe_right_arg,
-                             pipe_environment,
-                             left_arg_name,
-                             pipe_string,
-                             right_arg_name) {
+apply_left.locum <- function(
+  pipe_left_arg,
+  pipe_right_arg,
+  pipe_environment,
+  left_arg_name,
+  pipe_string,
+  right_arg_name) {
   locum <- pipe_left_arg
-  save <- list(pipe_right_arg = force(pipe_right_arg),
-               pipe_environment  = force(pipe_environment),
-               left_arg_name = force(left_arg_name),
-               pipe_string = force(pipe_string),
-               right_arg_name = force(right_arg_name))
-  locum$stages <- c(locum$stages, list(save))
+  capture <- list(
+    pipe_right_arg = force(pipe_right_arg),
+    pipe_environment = force(pipe_environment),
+    left_arg_name = force(left_arg_name),
+    pipe_string = force(pipe_string),
+    right_arg_name = force(right_arg_name))
+  locum$stages <- c(locum$stages, list(capture))
   return(locum)
 }
 
 
 
-apply_right.locum <- function(pipe_left_arg,
-                              pipe_right_arg,
-                              pipe_environment,
-                              left_arg_name,
-                              pipe_string,
-                              right_arg_name) {
-  force(pipe_environment)
+apply_right.locum <- function(
+  pipe_left_arg,
+  pipe_right_arg,
+  pipe_environment,
+  left_arg_name,
+  pipe_string,
+  right_arg_name) {
+  force(pipe_left_arg)
   locum <- pipe_right_arg
   for(s in locum$stages) {
     pipe_left_arg <- pipe_impl(
@@ -61,8 +64,10 @@ format.locum <- function(x, ...) {
     function(si) {
       format(si$pipe_right_arg)
     }, character(1))
-  stage_strs <- c(list(start_name), stage_strs)
-  return(paste(stage_strs, collapse = " %.>%\n   "))
+  stage_strs <- c(list(start_name), 
+                  stage_strs)
+  return(paste(stage_strs, 
+               collapse = " %.>%\n   "))
 }
 
 
@@ -79,8 +84,12 @@ print.locum <- function(x, ...) {
 
 z <- mk_locum()
 
+
 y <- 4
-p <- z %.>% sin(.) %.>% cos(.) %.>% atan2(., y)
+p <- z %.>% 
+  sin(.) %.>% 
+  cos(.) %.>% 
+  atan2(., y)
 
 print(p)
 ```
