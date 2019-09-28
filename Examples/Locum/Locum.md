@@ -1,0 +1,112 @@
+Locum
+================
+
+``` r
+library(wrapr)
+
+
+mk_locum <- function() {
+  locum <- list(stages = list())
+  class(locum) <- 'locum'
+  return(locum)
+}
+
+
+apply_left.locum <- function(pipe_left_arg,
+                             pipe_right_arg,
+                             pipe_environment,
+                             left_arg_name,
+                             pipe_string,
+                             right_arg_name) {
+  locum <- pipe_left_arg
+  save <- list(pipe_right_arg = force(pipe_right_arg),
+               pipe_environment  = force(pipe_environment),
+               left_arg_name = force(left_arg_name),
+               pipe_string = force(pipe_string),
+               right_arg_name = force(right_arg_name))
+  locum$stages <- c(locum$stages, list(save))
+  return(locum)
+}
+
+
+
+apply_right.locum <- function(pipe_left_arg,
+                              pipe_right_arg,
+                              pipe_environment,
+                              left_arg_name,
+                              pipe_string,
+                              right_arg_name) {
+  force(pipe_environment)
+  locum <- pipe_right_arg
+  for(s in locum$stages) {
+    pipe_left_arg <- pipe_impl(
+      pipe_left_arg,
+      s$pipe_right_arg,
+      s$pipe_environment,
+      pipe_string = s$pipe_string) 
+  }
+  return(pipe_left_arg)
+}
+
+
+format.locum <- function(x, ...) {
+  args <- list(...)
+  locum <- x
+  start_name <- 'locum()'
+  if('start' %in% names(args)) {
+    start_name <- format(args[['start']])
+  }
+  stage_strs <- vapply(
+    locum$stages,
+    function(si) {
+      format(si$pipe_right_arg)
+    }, character(1))
+  stage_strs <- c(list(start_name), stage_strs)
+  return(paste(stage_strs, collapse = " %.>%\n   "))
+}
+
+
+as.character.locum <- function(x, ...) {
+  return(format(x, ...))
+}
+
+
+print.locum <- function(x, ...) {
+  cat(format(x, ...))
+}
+
+
+
+z <- mk_locum()
+
+y <- 4
+p <- z %.>% sin(.) %.>% cos(.) %.>% atan2(., y)
+
+print(p)
+```
+
+    ## locum() %.>%
+    ##    sin(.) %.>%
+    ##    cos(.) %.>%
+    ##    atan2(., y)
+
+``` r
+5 %.>% p
+```
+
+    ## [1] 0.1426252
+
+``` r
+atan2(cos(sin(5)), 4)
+```
+
+    ## [1] 0.1426252
+
+``` r
+print(p, 'start' = 5)
+```
+
+    ## 5 %.>%
+    ##    sin(.) %.>%
+    ##    cos(.) %.>%
+    ##    atan2(., y)

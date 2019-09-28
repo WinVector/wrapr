@@ -13,3 +13,4 @@
 ^_pkgdown\.yml$
 ^revdep$
 ^\.travis\.yml$
+^Examples$
