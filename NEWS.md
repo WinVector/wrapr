@@ -1,4 +1,8 @@
 
+# wrapr 1.9.1 2019-09-29
+
+ * Fix locum composite line printing.
+
 # wrapr 1.9.0 2019-09-28
 
  * Add locum ( https://github.com/WinVector/wrapr/blob/master/Examples/Locum/Locum.md ).

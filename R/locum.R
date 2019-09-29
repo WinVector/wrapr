@@ -44,7 +44,7 @@ format.locum <- function(x, ...) {
   stage_strs <- vapply(
     locum$stages,
     function(si) {
-      format(si$pipe_right_arg)
+      paste(format(si$pipe_right_arg), collapse = "\n ")
     }, character(1))
   stage_strs <- c(list(start_name),
                   stage_strs)
