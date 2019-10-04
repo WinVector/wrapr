@@ -49,4 +49,9 @@ The notation is also very regular in that many variations of expression work as 
 
 Regularity can be a *big* advantage in teaching and comprehension. Please see ["In Praise of Syntactic Sugar"](http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/) for discussion.
 
-For more of the details on dot pipe please see [the package README](https://github.com/WinVector/wrapr) and the following [technical article](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf).
+The dot arrow pipe has S3/S4 dispatch (please see \url{https://journal.r-project.org/archive/2018/RJ-2018-042/index.html}).
+However as the right-hand side of the pipe is normally held unevaluated, we don't know the type except in special
+cases (such as the rigth-hand side being referred to by a name or variable).  To force the evaluation of a pipe term,
+simply wrap it in .().
+
+For more of the details on dot pipe please see [the package README](https://github.com/WinVector/wrapr) and the following [technical article](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html).

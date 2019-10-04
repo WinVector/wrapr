@@ -38,6 +38,11 @@ For some more examples, please see the package README \url{https://github.com/Wi
 For formal documentation please see \url{https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf}.
 For a base-R step-debuggable pipe please try the Bizarro Pipe \url{http://www.win-vector.com/blog/2017/01/using-the-bizarro-pipe-to-debug-magrittr-pipelines-in-r/}.
 \code{\%>.\%} and \code{\%.>\%} are synonyms.
+
+The dot arrow pipe has S3/S4 dispatch (please see \url{https://journal.r-project.org/archive/2018/RJ-2018-042/index.html}).
+However as the right-hand side of the pipe is normally held unevaluated, we don't know the type except in special
+cases (such as the rigth-hand side being referred to by a name or variable).  To force the evaluation of a pipe term,
+simply wrap it in .().
 }
 \section{Functions}{
 \itemize{

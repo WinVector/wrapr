@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>wrapr_applicable • wrapr</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="wrapr_applicable">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
@@ -38,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -110,13 +111,14 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>wrapr_applicable</h1>
                         <h4 class="author">John Mount, Win-Vector LLC</h4>
             
-            <h4 class="date">2019-09-29</h4>
+            <h4 class="date">2019-10-04</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/wrapr_applicable.Rmd"><code>vignettes/wrapr_applicable.Rmd</code></a></small>
       <div class="hidden name"><code>wrapr_applicable.Rmd</code></div>
@@ -130,10 +132,10 @@
 <h2 class="hasAnchor">
 <a href="#basic-wrapr" class="anchor"></a>Basic <code>wrapr</code>
 </h2>
-<p>The <code>wrapr</code> pipe operators (<code>%.&gt;%</code> and <code>%&gt;.%</code>) are roughly defined as: <code>a %&gt;.% b ~ { . &lt;- a; b };</code>. This works under the assumption that <code>b</code> is an expression with free-instances of “<code>.</code>”. A typical use is:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"wrapr"</span>)</a>
+<p>The <code>wrapr</code> pipe operators (<code><a href="../reference/dot_arrow.html">%.&gt;%</a></code> and <code><a href="../reference/dot_arrow.html">%&gt;.%</a></code>) are roughly defined as: <code>a %&gt;.% b ~ { . &lt;- a; b };</code>. This works under the assumption that <code>b</code> is an expression with free-instances of “<code>.</code>”. A typical use is:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"wrapr"</span>)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="dv">5</span> <span class="op">%.&gt;%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Trig">sin</a></span>(.)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="dv">5</span> <span class="op">%.&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span>(.)</a>
 <a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; [1] -0.9589243</span></a></code></pre></div>
 <p>The above is performed by standard <code>S3</code> dispatch on the left argument of an exported generic functions called <code><a href="../reference/apply_left.html">apply_left()</a></code> and <code><a href="../reference/apply_right.html">apply_right()</a></code>. A formal description of <code>wrapr</code> piping can be found <a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf">here</a>.</p>
 </div>
@@ -152,8 +154,8 @@
 </h2>
 <p>Arbitrary objects ask <code>wrapr</code> to treat them as special expressions by overriding one or more of <code><a href="../reference/apply_left.html">apply_left()</a></code> and <code><a href="../reference/apply_right.html">apply_right()</a></code> for the <code>S3</code> class they wish managed.</p>
 <p>For example:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">function_reference &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">f =</span> sin)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/class">class</a></span>(function_reference) &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"wrapr_applicable"</span>, <span class="st">"ourclass"</span>)</a>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">function_reference &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">f =</span> sin)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/class.html">class</a></span>(function_reference) &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"wrapr_applicable"</span>, <span class="st">"ourclass"</span>)</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb3-4" data-line-number="4">apply_right.ourclass &lt;-<span class="st"> </span><span class="cf">function</span>(pipe_left_arg,</a>
 <a class="sourceLine" id="cb3-5" data-line-number="5">                                 pipe_right_arg,</a>
@@ -200,18 +202,18 @@
 <a class="sourceLine" id="cb4-4" data-line-number="4">                                 left_arg_name,</a>
 <a class="sourceLine" id="cb4-5" data-line-number="5">                                 pipe_string,</a>
 <a class="sourceLine" id="cb4-6" data-line-number="6">                                 right_arg_name) {</a>
-<a class="sourceLine" id="cb4-7" data-line-number="7">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(<span class="st">"pipe_left_arg"</span>)</a>
-<a class="sourceLine" id="cb4-8" data-line-number="8">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(pipe_left_arg)</a>
-<a class="sourceLine" id="cb4-9" data-line-number="9">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(<span class="st">"pipe_right_arg"</span>)</a>
-<a class="sourceLine" id="cb4-10" data-line-number="10">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(pipe_right_arg)</a>
-<a class="sourceLine" id="cb4-11" data-line-number="11">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(<span class="st">"pipe_environment"</span>)</a>
-<a class="sourceLine" id="cb4-12" data-line-number="12">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(pipe_environment)</a>
-<a class="sourceLine" id="cb4-13" data-line-number="13">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(<span class="st">"left_arg_name"</span>)</a>
-<a class="sourceLine" id="cb4-14" data-line-number="14">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(left_arg_name)</a>
-<a class="sourceLine" id="cb4-15" data-line-number="15">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(<span class="st">"pipe_string"</span>)</a>
-<a class="sourceLine" id="cb4-16" data-line-number="16">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(pipe_string)</a>
-<a class="sourceLine" id="cb4-17" data-line-number="17">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(<span class="st">"right_arg_name"</span>)</a>
-<a class="sourceLine" id="cb4-18" data-line-number="18">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(right_arg_name)</a>
+<a class="sourceLine" id="cb4-7" data-line-number="7">  <span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="st">"pipe_left_arg"</span>)</a>
+<a class="sourceLine" id="cb4-8" data-line-number="8">  <span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(pipe_left_arg)</a>
+<a class="sourceLine" id="cb4-9" data-line-number="9">  <span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="st">"pipe_right_arg"</span>)</a>
+<a class="sourceLine" id="cb4-10" data-line-number="10">  <span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(pipe_right_arg)</a>
+<a class="sourceLine" id="cb4-11" data-line-number="11">  <span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="st">"pipe_environment"</span>)</a>
+<a class="sourceLine" id="cb4-12" data-line-number="12">  <span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(pipe_environment)</a>
+<a class="sourceLine" id="cb4-13" data-line-number="13">  <span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="st">"left_arg_name"</span>)</a>
+<a class="sourceLine" id="cb4-14" data-line-number="14">  <span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(left_arg_name)</a>
+<a class="sourceLine" id="cb4-15" data-line-number="15">  <span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="st">"pipe_string"</span>)</a>
+<a class="sourceLine" id="cb4-16" data-line-number="16">  <span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(pipe_string)</a>
+<a class="sourceLine" id="cb4-17" data-line-number="17">  <span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="st">"right_arg_name"</span>)</a>
+<a class="sourceLine" id="cb4-18" data-line-number="18">  <span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(right_arg_name)</a>
 <a class="sourceLine" id="cb4-19" data-line-number="19">  pipe_right_arg<span class="op">$</span><span class="kw">f</span>(pipe_left_arg)</a>
 <a class="sourceLine" id="cb4-20" data-line-number="20">}</a>
 <a class="sourceLine" id="cb4-21" data-line-number="21"></a>
@@ -279,17 +281,20 @@
 </div>
 
 
+
       <footer><div class="copyright">
   <p>Developed by John Mount, Nina Zumel.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

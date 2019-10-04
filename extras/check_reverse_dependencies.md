@@ -8,13 +8,13 @@ package = "wrapr"
 packageVersion(package)
 ```
 
-    ## [1] '1.9.0'
+    ## [1] '1.9.1'
 
 ``` r
 date()
 ```
 
-    ## [1] "Sat Sep 28 08:31:42 2019"
+    ## [1] "Fri Oct  4 07:59:54 2019"
 
 ``` r
 parallelCluster <- NULL
@@ -33,7 +33,7 @@ setwd(td)
 print(td)
 ```
 
-    ## [1] "/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//Rtmpy5qoHF"
+    ## [1] "/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//RtmpUslyEu"
 
 ``` r
 options(repos = c(CRAN="https://cloud.r-project.org"))
@@ -58,15 +58,15 @@ if(!is.null(parallelCluster)) {
 }
 ```
 
-    ## cdata_1.1.2 started at 2019-09-28 08:31:44 success at 2019-09-28 08:32:16 (1/0/0) 
-    ## RcppDynProg_0.1.3 started at 2019-09-28 08:32:16 success at 2019-09-28 08:33:33 (2/0/0) 
-    ## replyr_1.0.4 started at 2019-09-28 08:33:33 success at 2019-09-28 08:34:12 (3/0/0) 
-    ## rqdatatable_1.2.2 started at 2019-09-28 08:34:12 success at 2019-09-28 08:34:40 (4/0/0) 
-    ## rquery_1.3.8 started at 2019-09-28 08:34:40 success at 2019-09-28 08:35:25 (5/0/0) 
-    ## seplyr_0.8.4 started at 2019-09-28 08:35:25 success at 2019-09-28 08:35:54 (6/0/0) 
-    ## sigr_1.0.6 started at 2019-09-28 08:35:54 success at 2019-09-28 08:36:17 (7/0/0) 
-    ## vtreat_1.4.6 started at 2019-09-28 08:36:17 success at 2019-09-28 08:37:32 (8/0/0) 
-    ## WVPlots_1.1.2 started at 2019-09-28 08:37:32 success at 2019-09-28 08:38:41 (9/0/0)
+    ## cdata_1.1.2 started at 2019-10-04 07:59:56 success at 2019-10-04 08:00:29 (1/0/0) 
+    ## RcppDynProg_0.1.3 started at 2019-10-04 08:00:29 success at 2019-10-04 08:02:03 (2/0/0) 
+    ## replyr_1.0.4 started at 2019-10-04 08:02:04 success at 2019-10-04 08:02:41 (3/0/0) 
+    ## rqdatatable_1.2.2 started at 2019-10-04 08:02:41 success at 2019-10-04 08:03:24 (4/0/0) 
+    ## rquery_1.3.8 started at 2019-10-04 08:03:24 success at 2019-10-04 08:04:17 (5/0/0) 
+    ## seplyr_0.8.4 started at 2019-10-04 08:04:17 success at 2019-10-04 08:04:46 (6/0/0) 
+    ## sigr_1.0.6 started at 2019-10-04 08:04:46 success at 2019-10-04 08:05:14 (7/0/0) 
+    ## vtreat_1.4.7 started at 2019-10-04 08:05:14 success at 2019-10-04 08:06:34 (8/0/0) 
+    ## WVPlots_1.2.0 started at 2019-10-04 08:06:34 success at 2019-10-04 08:07:54 (9/0/0)
 
     ## [1] id     title  status
     ## <0 rows> (or 0-length row.names)
@@ -76,8 +76,8 @@ summariseQueue(package=package, directory=td)
 ```
 
     ## Test of wrapr had 9 successes, 0 failures, and 0 skipped packages. 
-    ## Ran from 2019-09-28 08:31:44 to 2019-09-28 08:38:41 for 6.95 mins 
-    ## Average of 46.333 secs relative to 46.255 secs using 1 runners
+    ## Ran from 2019-10-04 07:59:56 to 2019-10-04 08:07:54 for 7.967 mins 
+    ## Average of 53.111 secs relative to 53.076 secs using 1 runners
     ## 
     ## Failed packages:   
     ## 

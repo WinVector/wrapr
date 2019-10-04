@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Function Objects • wrapr</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Function Objects">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
@@ -38,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -110,13 +111,14 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Function Objects</h1>
                         <h4 class="author">John Mount</h4>
             
-            <h4 class="date">2019-09-29</h4>
+            <h4 class="date">2019-10-04</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/Function_Objects.Rmd"><code>vignettes/Function_Objects.Rmd</code></a></small>
       <div class="hidden name"><code>Function_Objects.Rmd</code></div>
@@ -128,13 +130,13 @@
 <p>Composing functions and sequencing operations are core programming concepts.</p>
 <p>Some notable realizations of sequencing or pipelining operations include:</p>
 <ul>
-<li>Unix’s <a href="https://en.wikipedia.org/wiki/Pipeline_(Unix)"><code>|</code>-pipe</a>
+<li>Unix’s <a href="https://en.wikipedia.org/wiki/Pipeline_(Unix)"><code><a href="https://rdrr.io/r/base/Logic.html">|</a></code>-pipe</a>
 </li>
 <li>
 <a href="https://en.wikipedia.org/wiki/CMS_Pipelines">CMS Pipelines</a>.</li>
 <li>
 <code>F#</code>’s forward pipe operator <code>|&gt;</code>.</li>
-<li>Haskel’s Data.Function <code>&amp;</code> operator.</li>
+<li>Haskel’s Data.Function <code><a href="https://rdrr.io/r/base/Logic.html">&amp;</a></code> operator.</li>
 <li>The <a href="https://www.r-project.org"><code>R</code></a> <a href="https://CRAN.R-project.org/package=magrittr"><code>magrittr</code></a> forward pipe.</li>
 <li>
 <a href="https://scikit-learn.org/stable/index.html">Scikit-learn</a>’s <a href="https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html"><code>sklearn.pipeline.Pipeline</code></a>.</li>
@@ -148,27 +150,27 @@
 </ul>
 <p>Or: pipe notation assumes a world data transforms are single argument functions (with other parameters already bound in), and the <code>UnaryFn</code> derived classes we discuss here help realize such a world.</p>
 <p>This can be made clearer with examples.</p>
-<p>Suppose we build a linear model of <code><a href="https://www.rdocumentation.org/packages/base/topics/Log">log(y)</a></code> as follows.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">d &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">  <span class="dt">x =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>), </a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">  <span class="dt">y =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">20</span>, <span class="dv">50</span>, <span class="dv">150</span>))</a>
+<p>Suppose we build a linear model of <code><a href="https://rdrr.io/r/base/Log.html">log(y)</a></code> as follows.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">d &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">  <span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>), </a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">  <span class="dt">y =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">20</span>, <span class="dv">50</span>, <span class="dv">150</span>))</a>
 <a class="sourceLine" id="cb1-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5">model &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/lm">lm</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log</a></span>(y) <span class="op">~</span><span class="st"> </span>x, <span class="dt">data =</span> d)</a></code></pre></div>
+<a class="sourceLine" id="cb1-5" data-line-number="5">model &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(y) <span class="op">~</span><span class="st"> </span>x, <span class="dt">data =</span> d)</a></code></pre></div>
 <p>We can see our predictions in original <code>y</code>-units by making the prediction and then exponentiation:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">exp</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(model, <span class="dt">newdata =</span> d))</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/Log.html">exp</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(model, <span class="dt">newdata =</span> d))</a></code></pre></div>
 <pre><code>##          1          2          3          4          5 
 ##   2.459509   6.770839  18.639596  51.313366 141.261725</code></pre>
 <p>It is natural to want to apply a model later to new data. This can be done as follows.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">d2 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">x =</span> <span class="dv">3</span><span class="op">:</span><span class="dv">7</span>)</a>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">d2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">x =</span> <span class="dv">3</span><span class="op">:</span><span class="dv">7</span>)</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">exp</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(model, <span class="dt">newdata =</span> d2))</a></code></pre></div>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/Log.html">exp</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(model, <span class="dt">newdata =</span> d2))</a></code></pre></div>
 <pre><code>##          1          2          3          4          5 
 ##   18.63960   51.31337  141.26173  388.88260 1070.56368</code></pre>
 <p>The <code>wrapr</code> package allows us to use a “piping into a function” notation as follows.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"wrapr"</span>)</a>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"wrapr"</span>)</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb6-3" data-line-number="3">model_f &lt;-<span class="st"> </span><span class="cf">function</span>(df) {</a>
-<a class="sourceLine" id="cb6-4" data-line-number="4">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">exp</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(model, <span class="dt">newdata =</span> df))</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">  <span class="kw"><a href="https://rdrr.io/r/base/Log.html">exp</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(model, <span class="dt">newdata =</span> df))</a>
 <a class="sourceLine" id="cb6-5" data-line-number="5">}</a>
 <a class="sourceLine" id="cb6-6" data-line-number="6"></a>
 <a class="sourceLine" id="cb6-7" data-line-number="7">d2 <span class="op">%.&gt;%</span><span class="st"> </span>model_f</a></code></pre></div>
@@ -181,13 +183,13 @@
 <a class="sourceLine" id="cb8-3" data-line-number="3">    <span class="kw"><a href="../reference/pkgfn.html">pkgfn</a></span>(</a>
 <a class="sourceLine" id="cb8-4" data-line-number="4">      <span class="st">"stats::predict.lm"</span>,</a>
 <a class="sourceLine" id="cb8-5" data-line-number="5">      <span class="dt">arg_name =</span> <span class="st">"newdata"</span>, </a>
-<a class="sourceLine" id="cb8-6" data-line-number="6">      <span class="dt">args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">object =</span> model)),</a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">      <span class="dt">args =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">object =</span> model)),</a>
 <a class="sourceLine" id="cb8-7" data-line-number="7">    <span class="kw"><a href="../reference/pkgfn.html">pkgfn</a></span>(</a>
 <a class="sourceLine" id="cb8-8" data-line-number="8">      <span class="st">"exp"</span>,</a>
 <a class="sourceLine" id="cb8-9" data-line-number="9">      <span class="dt">arg_name =</span> <span class="st">"x"</span>))</a>
 <a class="sourceLine" id="cb8-10" data-line-number="10">  </a>
 <a class="sourceLine" id="cb8-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/format">format</a></span>(model_o))</a></code></pre></div>
+<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/format.html">format</a></span>(model_o))</a></code></pre></div>
 <pre><code>## UnaryFnList(
 ##    stats::predict.lm(newdata=., object),
 ##    base::exp(x=., ))</code></pre>
@@ -200,13 +202,13 @@
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="../reference/ApplyTo.html">ApplyTo</a></span>(model_o, d2) </a></code></pre></div>
 <pre><code>##          1          2          3          4          5 
 ##   18.63960   51.31337  141.26173  388.88260 1070.56368</code></pre>
-<p>The above methods can be used to wrap substantial functions such as <a href="https://winvector.github.io/vtreat/reference/prepare.html"><code><a href="https://www.rdocumentation.org/packages/vtreat/topics/prepare">vtreat::prepare()</a></code></a> to create very powerful data processing pipelines. A more involved example of trying this technique can be found <a href="https://github.com/WinVector/vtreat/blob/master/extras/ModelingPipelines.md">here</a>.</p>
+<p>The above methods can be used to wrap substantial functions such as <a href="https://winvector.github.io/vtreat/reference/prepare.html"><code><a href="https://rdrr.io/pkg/vtreat/man/prepare.html">vtreat::prepare()</a></code></a> to create very powerful data processing pipelines. A more involved example of trying this technique can be found <a href="https://github.com/WinVector/vtreat/blob/master/extras/ModelingPipelines.md">here</a>.</p>
 <p>Note: the <code>wrapr</code> right-dispatch we are using is only triggered when the right-hand side of a pipeline is a symbol or name. This is consistent with pipelines such as “<code>5 %.&gt;% sin</code>” where we are not so much piping into the sin-function, but into a name that refers to the sin-function. However, piping into names covers most practical cases.</p>
 <p>We can apply processing pipelines piece by piece.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">pred_step &lt;-<span class="st"> </span><span class="kw"><a href="../reference/pkgfn.html">pkgfn</a></span>(</a>
 <a class="sourceLine" id="cb14-2" data-line-number="2">  <span class="st">"stats::predict.lm"</span>,</a>
 <a class="sourceLine" id="cb14-3" data-line-number="3">  <span class="dt">arg_name =</span> <span class="st">"newdata"</span>, </a>
-<a class="sourceLine" id="cb14-4" data-line-number="4">  <span class="dt">args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">object =</span> model))</a>
+<a class="sourceLine" id="cb14-4" data-line-number="4">  <span class="dt">args =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">object =</span> model))</a>
 <a class="sourceLine" id="cb14-5" data-line-number="5"></a>
 <a class="sourceLine" id="cb14-6" data-line-number="6">exp_step &lt;-<span class="st"> </span><span class="kw"><a href="../reference/pkgfn.html">pkgfn</a></span>(</a>
 <a class="sourceLine" id="cb14-7" data-line-number="7">  <span class="st">"base::exp"</span>,</a>
@@ -218,7 +220,7 @@
 <p>We can also build such a pipeline by piping pieces into each other.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">model_p &lt;-<span class="st"> </span>pred_step <span class="op">%.&gt;%</span><span class="st"> </span>exp_step</a>
 <a class="sourceLine" id="cb16-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/format">format</a></span>(model_p))</a></code></pre></div>
+<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/format.html">format</a></span>(model_p))</a></code></pre></div>
 <pre><code>## UnaryFnList(
 ##    stats::predict.lm(newdata=., object),
 ##    base::exp(x=., ))</code></pre>
@@ -248,15 +250,15 @@
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">s4 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/srcfn.html">srcfn</a></span>(</a>
 <a class="sourceLine" id="cb24-2" data-line-number="2">  <span class="kw"><a href="../reference/qe.html">qe</a></span>(. <span class="op">+</span><span class="st"> </span>y), </a>
 <a class="sourceLine" id="cb24-3" data-line-number="3">  <span class="dt">arg_name =</span> <span class="st">"."</span>, </a>
-<a class="sourceLine" id="cb24-4" data-line-number="4">  <span class="dt">args=</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">y=</span><span class="dv">13</span>))</a>
-<a class="sourceLine" id="cb24-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(s4)</a></code></pre></div>
+<a class="sourceLine" id="cb24-4" data-line-number="4">  <span class="dt">args=</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">y=</span><span class="dv">13</span>))</a>
+<a class="sourceLine" id="cb24-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(s4)</a></code></pre></div>
 <pre><code>## [1] "SrcFunction{ . + y }(.=., y)"</code></pre>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="dv">22</span> <span class="op">%.&gt;%</span><span class="st"> </span>s4</a></code></pre></div>
 <pre><code>## [1] 35</code></pre>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">s5 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/wrapfn.html">wrapfn</a></span>(</a>
 <a class="sourceLine" id="cb28-2" data-line-number="2">  tan, </a>
 <a class="sourceLine" id="cb28-3" data-line-number="3">  <span class="dt">arg_name =</span> <span class="st">"x"</span>)</a>
-<a class="sourceLine" id="cb28-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(s5)</a></code></pre></div>
+<a class="sourceLine" id="cb28-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(s5)</a></code></pre></div>
 <pre><code>## [1] "PartialFunction{tan}(x=., )"</code></pre>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="dv">1</span><span class="op">:</span><span class="dv">4</span> <span class="op">%.&gt;%</span><span class="st"> </span>s5</a></code></pre></div>
 <pre><code>## [1]  1.5574077 -2.1850399 -0.1425465  1.1578213</code></pre>
@@ -279,17 +281,20 @@
 </div>
 
 
+
       <footer><div class="copyright">
   <p>Developed by John Mount, Nina Zumel.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

@@ -7,17 +7,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Wrap R Tools for Debugging and Parametric Programming • wrapr</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Wrap R Tools for Debugging and Parametric Programming">
 <meta property="og:description" content="Tools for writing and debugging R code. Provides: 
-    '%.&gt;%' dot-pipe (an 'S3' configurable pipe),
-    'let()' 
+    %.&gt;% dot-pipe (an S3 configurable pipe),
+    let() 
     (converts non-standard evaluation interfaces to parametric standard
-    evaluation interfaces, inspired by 'gtools:strmacro()' and 'base::bquote()'), 
-    'build_frame()'/'draw_frame()' ('data.frame' example tools),
-    'qc()' (quoting concatenate), 
-    ':=' (named map builder),
+    evaluation interfaces, inspired by gtools:strmacro() and base::bquote()), 
+    build_frame()/draw_frame() (data.frame example tools),
+    qc() (quoting concatenate), 
+    := (named map builder),
     and more.">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -26,7 +27,7 @@
 <![endif]-->
 </head>
 <body>
-    <div class="container template-article">
+    <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -46,7 +47,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -118,12 +119,10 @@
 <!--/.navbar -->
 
       
-      </header><div class="row">
-  <div class="col-md-9 contents">
-    
 
-    
-    
+      </header><div class="row">
+  <div class="contents col-md-9">
+
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <p><a href="https://winvector.github.io/wrapr/"><code>wrapr</code></a> is an <a href="https://cran.r-project.org"><code>R</code></a> package that supplies powerful tools for writing and debugging <code>R</code> code.</p>
@@ -136,7 +135,7 @@
 <li>
 <a href="https://winvector.github.io/wrapr/reference/let.html"><code><a href="reference/let.html">let()</a></code></a> (let block)</li>
 <li>
-<a href="https://winvector.github.io/wrapr/reference/dot_arrow.html"><code>%.&gt;%</code></a> (dot arrow pipe)</li>
+<a href="https://winvector.github.io/wrapr/reference/dot_arrow.html"><code><a href="reference/dot_arrow.html">%.&gt;%</a></code></a> (dot arrow pipe)</li>
 <li>
 <a href="https://winvector.github.io/wrapr/reference/build_frame.html"><code><a href="reference/build_frame.html">build_frame()</a></code></a> / <a href="https://winvector.github.io/wrapr/reference/draw_frame.html"><code><a href="reference/draw_frame.html">draw_frame()</a></code></a> ( <code>data.frame</code> builders and formatters )</li>
 <li>
@@ -144,11 +143,11 @@
 <li>
 <a href="https://winvector.github.io/wrapr/reference/named_map_builder.html"><code>:=</code></a> (named map builder)</li>
 <li>
-<a href="https://winvector.github.io/wrapr/reference/coalesce.html"><code>%?%</code></a> (coalesce)</li>
+<a href="https://winvector.github.io/wrapr/reference/coalesce.html"><code><a href="reference/coalesce.html">%?%</a></code></a> (coalesce)</li>
 <li>
-<a href="https://winvector.github.io/wrapr/reference/reduceexpand.html"><code>%.|%</code></a> (reduce/expand args)</li>
+<a href="https://winvector.github.io/wrapr/reference/reduceexpand.html"><code><a href="reference/reduceexpand.html">%.|%</a></code></a> (reduce/expand args)</li>
 <li>
-<a href="https://winvector.github.io/wrapr/reference/uniques.html"><code><a href="reference/uniques.html">uniques()</a></code></a> (safe <code><a href="https://www.rdocumentation.org/packages/base/topics/unique">unique()</a></code> replacement)</li>
+<a href="https://winvector.github.io/wrapr/reference/uniques.html"><code><a href="reference/uniques.html">uniques()</a></code></a> (safe <code><a href="https://rdrr.io/r/base/unique.html">unique()</a></code> replacement)</li>
 <li>
 <a href="https://winvector.github.io/wrapr/reference/partition_tables.html"><code><a href="reference/partition_tables.html">partition_tables()</a></code></a> / <a href="https://winvector.github.io/wrapr/reference/execute_parallel.html"><code><a href="reference/execute_parallel.html">execute_parallel()</a></code></a>
 </li>
@@ -160,16 +159,16 @@
 </div>
 <div id="let" class="section level2">
 <h2 class="hasAnchor">
-<a href="#let" class="anchor"></a><a href="https://winvector.github.io/wrapr/articles/let.html"><code><a href="reference/let.html">let()</a></code></a>
+<a href="#let" class="anchor"></a><a href="https://winvector.github.io/wrapr/articles/let.html"><code>let()</code></a>
 </h2>
-<p><code><a href="reference/let.html">let()</a></code> allows execution of arbitrary code with substituted variable names (note this is subtly different than binding values for names as with <code><a href="https://www.rdocumentation.org/packages/base/topics/substitute">base::substitute()</a></code> or <code><a href="https://www.rdocumentation.org/packages/base/topics/with">base::with()</a></code>).</p>
+<p><code><a href="reference/let.html">let()</a></code> allows execution of arbitrary code with substituted variable names (note this is subtly different than binding values for names as with <code><a href="https://rdrr.io/r/base/substitute.html">base::substitute()</a></code> or <code><a href="https://rdrr.io/r/base/with.html">base::with()</a></code>).</p>
 <p>The function is simple and powerful. It treats strings as variable names and re-writes expressions as if you had used the denoted variables. For example the following block of code is equivalent to having written “a + a”.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"wrapr"</span>)</a>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"wrapr"</span>)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb1-3" data-line-number="3">a &lt;-<span class="st"> </span><span class="dv">7</span></a>
 <a class="sourceLine" id="cb1-4" data-line-number="4"></a>
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw"><a href="reference/let.html">let</a></span>(</a>
-<a class="sourceLine" id="cb1-6" data-line-number="6">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dt">VAR =</span> <span class="st">'a'</span>),</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">  <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dt">VAR =</span> <span class="st">'a'</span>),</a>
 <a class="sourceLine" id="cb1-7" data-line-number="7">  </a>
 <a class="sourceLine" id="cb1-8" data-line-number="8">  VAR <span class="op">+</span><span class="st"> </span>VAR</a>
 <a class="sourceLine" id="cb1-9" data-line-number="9">)</a>
@@ -177,7 +176,7 @@
 <p>This is useful in re-adapting non-standard evaluation interfaces (NSE interfaces) so one can script or program over them.</p>
 <p>We are trying to make <code><a href="reference/let.html">let()</a></code> self teaching and self documenting (to the extent that makes sense). For example try the arguments “<code>eval=FALSE</code>” prevent execution and see what <em>would</em> have been executed, or <code>debug=TRUE</code> to have the replaced code printed in addition to being executed:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="reference/let.html">let</a></span>(</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dt">VAR =</span> <span class="st">'a'</span>),</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">  <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dt">VAR =</span> <span class="st">'a'</span>),</a>
 <a class="sourceLine" id="cb2-3" data-line-number="3">  <span class="dt">eval =</span> <span class="ot">FALSE</span>,</a>
 <a class="sourceLine" id="cb2-4" data-line-number="4">  {</a>
 <a class="sourceLine" id="cb2-5" data-line-number="5">    VAR <span class="op">+</span><span class="st"> </span>VAR</a>
@@ -188,7 +187,7 @@
 <a class="sourceLine" id="cb2-10" data-line-number="10"> <span class="co">#  }</span></a>
 <a class="sourceLine" id="cb2-11" data-line-number="11"></a>
 <a class="sourceLine" id="cb2-12" data-line-number="12"><span class="kw"><a href="reference/let.html">let</a></span>(</a>
-<a class="sourceLine" id="cb2-13" data-line-number="13">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dt">VAR =</span> <span class="st">'a'</span>),</a>
+<a class="sourceLine" id="cb2-13" data-line-number="13">  <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dt">VAR =</span> <span class="st">'a'</span>),</a>
 <a class="sourceLine" id="cb2-14" data-line-number="14">  <span class="dt">debugPrint =</span> <span class="ot">TRUE</span>,</a>
 <a class="sourceLine" id="cb2-15" data-line-number="15">  {</a>
 <a class="sourceLine" id="cb2-16" data-line-number="16">    VAR <span class="op">+</span><span class="st"> </span>VAR</a>
@@ -201,23 +200,23 @@
 <a class="sourceLine" id="cb2-23" data-line-number="23"> <span class="co">#      a + a</span></a>
 <a class="sourceLine" id="cb2-24" data-line-number="24"> <span class="co">#  }</span></a>
 <a class="sourceLine" id="cb2-25" data-line-number="25"> <span class="co">#  [1] 14</span></a></code></pre></div>
-<p>Please see <code><a href="articles/let.html">vignette('let', package='wrapr')</a></code> for more examples. Some formal documentation can be found <a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf">here</a>. <code><a href="reference/let.html">wrapr::let()</a></code> was inspired by <code><a href="https://www.rdocumentation.org/packages/gtools/topics/defmacro">gtools::strmacro()</a></code> and <code><a href="https://www.rdocumentation.org/packages/base/topics/bquote">base::bquote()</a></code>, please see <a href="https://github.com/WinVector/wrapr/blob/master/extras/bquote.md">here</a> for some notes on macro methods in <code>R</code>.</p>
+<p>Please see <code><a href="articles/let.html">vignette('let', package='wrapr')</a></code> for more examples. Some formal documentation can be found <a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf">here</a>. <code><a href="reference/let.html">wrapr::let()</a></code> was inspired by <code><a href="https://rdrr.io/pkg/gtools/man/defmacro.html">gtools::strmacro()</a></code> and <code><a href="https://rdrr.io/r/base/bquote.html">base::bquote()</a></code>, please see <a href="https://github.com/WinVector/wrapr/blob/master/extras/bquote.md">here</a> for some notes on macro methods in <code>R</code>.</p>
 <p>For working with <code>dplyr</code> <code>0.7.*</code> we strongly suggest <code><a href="reference/let.html">wrapr::let()</a></code> (or even an alternate approach called <a href="https://github.com/WinVector/seplyr/blob/master/README.md"><code>seplyr</code></a>).</p>
 </div>
 <div id="dot-pipe-or-dot-arrow" class="section level2">
 <h2 class="hasAnchor">
 <a href="#dot-pipe-or-dot-arrow" class="anchor"></a><a href="https://winvector.github.io/wrapr/articles/dot_pipe.html"><code>%.&gt;%</code> (dot pipe or dot arrow)</a>
 </h2>
-<p><code>%.&gt;%</code> dot arrow pipe is a pipe with intended semantics:</p>
+<p><code><a href="reference/dot_arrow.html">%.&gt;%</a></code> dot arrow pipe is a pipe with intended semantics:</p>
 <blockquote>
-<p>“<code>a %.&gt;% b</code>” is to be treated <em>approximately</em> as if the user had written “<code>{ . &lt;- a; b };</code>” with “<code>%.&gt;%</code>” being treated as left-associative.</p>
+<p>“<code>a %.&gt;% b</code>” is to be treated <em>approximately</em> as if the user had written “<code>{ . &lt;- a; b };</code>” with “<code><a href="reference/dot_arrow.html">%.&gt;%</a></code>” being treated as left-associative.</p>
 </blockquote>
 <p>Other <code>R</code> pipes include <a href="https://CRAN.R-project.org/package=magrittr"><code>magrittr</code></a> and <a href="https://CRAN.R-project.org/package=pipeR"><code>pipeR</code></a>.</p>
 <p>The following two expressions should be equivalent:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Trig">cos</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">exp</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Trig">sin</a></span>(<span class="dv">4</span>)))</a>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/Trig.html">cos</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/Log.html">exp</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span>(<span class="dv">4</span>)))</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"> <span class="co">#  [1] 0.8919465</span></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="dv">4</span> <span class="op">%.&gt;%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Trig">sin</a></span>(.) <span class="op">%.&gt;%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">exp</a></span>(.) <span class="op">%.&gt;%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Trig">cos</a></span>(.)</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="dv">4</span> <span class="op">%.&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span>(.) <span class="op">%.&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/Log.html">exp</a></span>(.) <span class="op">%.&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/Trig.html">cos</a></span>(.)</a>
 <a class="sourceLine" id="cb3-5" data-line-number="5"> <span class="co">#  [1] 0.8919465</span></a></code></pre></div>
 <p>The notation is quite powerful as it treats pipe stages as expression parameterized over the variable “<code>.</code>”. This means you do not need to introduce functions to express stages. The following is a valid dot-pipe:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="dv">1</span><span class="op">:</span><span class="dv">4</span> <span class="op">%.&gt;%</span><span class="st"> </span>.<span class="op">^</span><span class="dv">2</span> </a>
@@ -225,11 +224,11 @@
 <p>The notation is also very regular as we show below.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="dv">1</span><span class="op">:</span><span class="dv">4</span> <span class="op">%.&gt;%</span><span class="st"> </span>sin</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"> <span class="co">#  [1]  0.8414710  0.9092974  0.1411200 -0.7568025</span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="dv">1</span><span class="op">:</span><span class="dv">4</span> <span class="op">%.&gt;%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Trig">sin</a></span>(.)</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="dv">1</span><span class="op">:</span><span class="dv">4</span> <span class="op">%.&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span>(.)</a>
 <a class="sourceLine" id="cb5-4" data-line-number="4"> <span class="co">#  [1]  0.8414710  0.9092974  0.1411200 -0.7568025</span></a>
 <a class="sourceLine" id="cb5-5" data-line-number="5"><span class="dv">1</span><span class="op">:</span><span class="dv">4</span> <span class="op">%.&gt;%</span><span class="st"> </span>base<span class="op">::</span>sin</a>
 <a class="sourceLine" id="cb5-6" data-line-number="6"> <span class="co">#  [1]  0.8414710  0.9092974  0.1411200 -0.7568025</span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="dv">1</span><span class="op">:</span><span class="dv">4</span> <span class="op">%.&gt;%</span><span class="st"> </span>base<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Trig">sin</a></span>(.)</a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="dv">1</span><span class="op">:</span><span class="dv">4</span> <span class="op">%.&gt;%</span><span class="st"> </span>base<span class="op">::</span><span class="kw"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span>(.)</a>
 <a class="sourceLine" id="cb5-8" data-line-number="8"> <span class="co">#  [1]  0.8414710  0.9092974  0.1411200 -0.7568025</span></a>
 <a class="sourceLine" id="cb5-9" data-line-number="9"></a>
 <a class="sourceLine" id="cb5-10" data-line-number="10"><span class="dv">1</span><span class="op">:</span><span class="dv">4</span> <span class="op">%.&gt;%</span><span class="st"> </span><span class="cf">function</span>(x) { x <span class="op">+</span><span class="st"> </span><span class="dv">1</span> }</a>
@@ -244,56 +243,94 @@
 <p>Regularity can be a <em>big</em> advantage in teaching and comprehension. Please see <a href="http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/">“In Praise of Syntactic Sugar”</a> for more details. Some formal documentation can be found <a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf">here</a>.</p>
 <ul>
 <li>
-Some obvious “dot-free”" right-hand sides are rejected. Pipelines are meant to move values through a sequence of transforms, and not just for side-effects. Example: <code>5 %.&gt;% 6</code> deliberately stops as <code>6</code> is a right-hand side that obviously does not use its incoming value. This check is only applied to values, not functions on the right-hand side.
+
+Some obvious “dot-free”" right-hand sides are rejected. Pipelines are
+meant to move values through a sequence of transforms, and not just for
+side-effects. Example: `5 %.&gt;% 6` deliberately stops as `6` is a
+right-hand side that obviously does not use its incoming value. This
+check is only applied to values, not functions on the right-hand side.
+
 </li>
+
 <li>
-Trying to pipe into a an “zero argument function evaluation expression” such as <code><a href="https://www.rdocumentation.org/packages/base/topics/Trig">sin()</a></code> is prohibited as it looks too much like the user declaring <code><a href="https://www.rdocumentation.org/packages/base/topics/Trig">sin()</a></code> takes no arguments. One must pipe into either a function, function name, or an non-trivial expression (such as <code><a href="https://www.rdocumentation.org/packages/base/topics/Trig">sin(.)</a></code>). A useful error message is returned to the user: <code>wrapr::pipe does not allow direct piping into a no-argument function call expression (such as "sin()" please use sin(.))</code>.
+
+Trying to pipe into a an “zero argument function evaluation expression”
+such as `sin()` is prohibited as it looks too much like the user
+declaring `sin()` takes no arguments. One must pipe into either a
+function, function name, or an non-trivial expression (such as
+`sin(.)`). A useful error message is returned to the user: `wrapr::pipe
+does not allow direct piping into a no-argument function call expression
+(such as "sin()" please use sin(.))`.
+
 </li>
+
 <li>
-Some reserved words can not be piped into. One example is <code>5 %.&gt;% return(.)</code> is prohibited as the obvious pipe implementation would not actually escape from user functions as users may intend.
+
+Some reserved words can not be piped into. One example is `5 %.&gt;%
+return(.)` is prohibited as the obvious pipe implementation would not
+actually escape from user functions as users may intend.
+
 </li>
+
 <li>
-Obvious de-references (such as <code>$</code>, <code>::</code>, <code>@</code>, and a few more) on the right-hand side are treated performed (example: <code>5 %.&gt;% base::sin(.)</code>).
+
+Obvious de-references (such as `$`, `::`, `@`, and a few more) on the
+right-hand side are treated performed (example: `5 %.&gt;% base::sin(.)`).
+
 </li>
+
 <li>
-Outer parenthesis on the right-hand side are removed (example: <code>5 %.&gt;% (sin(.))</code>).
+
+Outer parenthesis on the right-hand side are removed (example: `5 %.&gt;%
+(sin(.))`).
+
 </li>
+
 <li>
-Anonymous function constructions are evaluated so the function can be applied (example: <code>5 %.&gt;% function(x) {x+1}</code> returns 6, just as <code>5 %.&gt;% (function(x) {x+1})(.)</code> does).
+
+Anonymous function constructions are evaluated so the function can be
+applied (example: `5 %.&gt;% function(x) {x+1}` returns 6, just as `5 %.&gt;%
+(function(x) {x+1})(.)` does).
+
 </li>
+
 <li>
-Checks and transforms are not performed on items inside braces (example: <code>5 %.&gt;% { function(x) {x+1} }</code> returns <code>function(x) {x+1}</code>, not 6).
+
+Checks and transforms are not performed on items inside braces (example:
+`5 %.&gt;% { function(x) {x+1} }` returns `function(x) {x+1}`, not 6).
+
 </li>
+
 </ul>
 <p>The dot pipe is also user configurable through standard <code>S3</code>/<code>S4</code> methods.</p>
 <p>The dot pipe has been <a href="https://journal.r-project.org/archive/2018/RJ-2018-042/index.html">formally written up in the R Journal</a>.</p>
-<pre><code>@article{RJ-2018-042,
-  author = {John Mount and Nina Zumel},
-  title = {{Dot-Pipe: an S3 Extensible Pipe for R}},
-  year = {2018},
-  journal = {{The R Journal}},
-  url = {https://journal.r-project.org/archive/2018/RJ-2018-042/index.html}
-}</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="op">@</span>article{RJ<span class="dv">-2018-042</span>,</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">  author =<span class="st"> </span>{John Mount and Nina Zumel},</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">  title =<span class="st"> </span>{{Dot<span class="op">-</span>Pipe<span class="op">:</span><span class="st"> </span>an S3 Extensible Pipe <span class="cf">for</span> R}},</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">  year =<span class="st"> </span>{<span class="dv">2018</span>},</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">  journal =<span class="st"> </span>{{The R Journal}},</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">  url =<span class="st"> </span>{https<span class="op">:</span><span class="er">//</span>journal.r<span class="op">-</span>project.org<span class="op">/</span>archive<span class="op">/</span><span class="dv">2018</span><span class="op">/</span>RJ<span class="dv">-2018-042</span><span class="op">/</span>index.html}</a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">}</a></code></pre></div>
 </div>
 <div id="build_frame-draw_frame" class="section level2">
 <h2 class="hasAnchor">
-<a href="#build_frame-draw_frame" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/build_frame.html"><code><a href="reference/build_frame.html">build_frame()</a></code></a> / <a href="https://winvector.github.io/wrapr/reference/draw_frame.html"><code><a href="reference/draw_frame.html">draw_frame()</a></code></a>
+<a href="#build_frame-draw_frame" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/build_frame.html"><code>build_frame()</code></a> / <a href="https://winvector.github.io/wrapr/reference/draw_frame.html"><code>draw_frame()</code></a>
 </h2>
 <p><a href="https://winvector.github.io/wrapr/reference/build_frame.html"><code><a href="reference/build_frame.html">build_frame()</a></code></a> is a convenient way to type in a small example <code>data.frame</code> in natural row order. This can be very legible and saves having to perform a transpose in one’s head. <a href="https://winvector.github.io/wrapr/reference/draw_frame.html"><code><a href="reference/draw_frame.html">draw_frame()</a></code></a> is the complimentary function that formats a given <code>data.frame</code> (and is a great way to produce neatened examples).</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw"><a href="reference/build_frame.html">build_frame</a></span>(</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2">   <span class="st">"measure"</span>                   , <span class="st">"training"</span>, <span class="st">"validation"</span> <span class="op">|</span></a>
 <a class="sourceLine" id="cb7-3" data-line-number="3"><span class="st">   "minus binary cross entropy"</span>, <span class="dv">5</span>         , <span class="dv">-7</span>           <span class="op">|</span></a>
 <a class="sourceLine" id="cb7-4" data-line-number="4"><span class="st">   "accuracy"</span>                  , <span class="fl">0.8</span>       , <span class="fl">0.6</span>          )</a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(x)</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(x)</a>
 <a class="sourceLine" id="cb7-6" data-line-number="6"> <span class="co">#                       measure training validation</span></a>
 <a class="sourceLine" id="cb7-7" data-line-number="7"> <span class="co">#  1 minus binary cross entropy      5.0       -7.0</span></a>
 <a class="sourceLine" id="cb7-8" data-line-number="8"> <span class="co">#  2                   accuracy      0.8        0.6</span></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/str">str</a></span>(x)</a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="kw"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(x)</a>
 <a class="sourceLine" id="cb7-10" data-line-number="10"> <span class="co">#  'data.frame':   2 obs. of  3 variables:</span></a>
 <a class="sourceLine" id="cb7-11" data-line-number="11"> <span class="co">#   $ measure   : chr  "minus binary cross entropy" "accuracy"</span></a>
 <a class="sourceLine" id="cb7-12" data-line-number="12"> <span class="co">#   $ training  : num  5 0.8</span></a>
 <a class="sourceLine" id="cb7-13" data-line-number="13"> <span class="co">#   $ validation: num  -7 0.6</span></a>
-<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="kw"><a href="reference/draw_frame.html">draw_frame</a></span>(x))</a>
+<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="kw"><a href="reference/draw_frame.html">draw_frame</a></span>(x))</a>
 <a class="sourceLine" id="cb7-15" data-line-number="15"> <span class="co">#  x &lt;- wrapr::build_frame(</span></a>
 <a class="sourceLine" id="cb7-16" data-line-number="16"> <span class="co">#     "measure"                     , "training", "validation" |</span></a>
 <a class="sourceLine" id="cb7-17" data-line-number="17"> <span class="co">#       "minus binary cross entropy", 5         , -7           |</span></a>
@@ -301,16 +338,16 @@ Checks and transforms are not performed on items inside braces (example: <code>5
 </div>
 <div id="qc-quoting-concatenate" class="section level2">
 <h2 class="hasAnchor">
-<a href="#qc-quoting-concatenate" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/qc.html"><code><a href="reference/qc.html">qc()</a></code> (quoting concatenate)</a>
+<a href="#qc-quoting-concatenate" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/qc.html"><code>qc()</code> (quoting concatenate)</a>
 </h2>
-<p><code><a href="reference/qc.html">qc()</a></code> is a quoting variation on <code>R</code>’s concatenate operator <code><a href="https://www.rdocumentation.org/packages/base/topics/c">c()</a></code>. This code such as the following:</p>
+<p><code><a href="reference/qc.html">qc()</a></code> is a quoting variation on <code>R</code>’s concatenate operator <code><a href="https://rdrr.io/r/base/c.html">c()</a></code>. This code such as the following:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="reference/qc.html">qc</a></span>(<span class="dt">a =</span> x, <span class="dt">b =</span> y)</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"> <span class="co">#    a   b </span></a>
 <a class="sourceLine" id="cb8-3" data-line-number="3"> <span class="co">#  "x" "y"</span></a>
 <a class="sourceLine" id="cb8-4" data-line-number="4"></a>
 <a class="sourceLine" id="cb8-5" data-line-number="5"><span class="kw"><a href="reference/qc.html">qc</a></span>(one, two, three)</a>
 <a class="sourceLine" id="cb8-6" data-line-number="6"> <span class="co">#  [1] "one"   "two"   "three"</span></a></code></pre></div>
-<p><code><a href="reference/qc.html">qc()</a></code> also allows <code><a href="https://www.rdocumentation.org/packages/base/topics/bquote">bquote()</a></code> driven <code>.()</code>-style argument escaping.</p>
+<p><code><a href="reference/qc.html">qc()</a></code> also allows <code><a href="https://rdrr.io/r/base/bquote.html">bquote()</a></code> driven <code>.()</code>-style argument escaping.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">aname &lt;-<span class="st"> "I_am_a"</span></a>
 <a class="sourceLine" id="cb9-2" data-line-number="2">yvalue &lt;-<span class="st"> "six"</span></a>
 <a class="sourceLine" id="cb9-3" data-line-number="3"></a>
@@ -332,12 +369,12 @@ Checks and transforms are not performed on items inside braces (example: <code>5
 <a class="sourceLine" id="cb11-2" data-line-number="2">name <span class="op">:</span><span class="er">=</span><span class="st"> 'newBinding'</span></a>
 <a class="sourceLine" id="cb11-3" data-line-number="3"> <span class="co">#  variableNameFromElsewhere </span></a>
 <a class="sourceLine" id="cb11-4" data-line-number="4"> <span class="co">#               "newBinding"</span></a></code></pre></div>
-<p>A nice property is <code>:=</code> commutes (in the sense of algebra or category theory) with <code>R</code>’s concatenation function <code><a href="https://www.rdocumentation.org/packages/base/topics/c">c()</a></code>. That is the following two statements are equivalent:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">'a'</span>, <span class="st">'b'</span>) <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">'x'</span>, <span class="st">'y'</span>)</a>
+<p>A nice property is <code>:=</code> commutes (in the sense of algebra or category theory) with <code>R</code>’s concatenation function <code><a href="https://rdrr.io/r/base/c.html">c()</a></code>. That is the following two statements are equivalent:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'a'</span>, <span class="st">'b'</span>) <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'x'</span>, <span class="st">'y'</span>)</a>
 <a class="sourceLine" id="cb12-2" data-line-number="2"> <span class="co">#    a   b </span></a>
 <a class="sourceLine" id="cb12-3" data-line-number="3"> <span class="co">#  "x" "y"</span></a>
 <a class="sourceLine" id="cb12-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">'a'</span> <span class="op">:</span><span class="er">=</span><span class="st"> 'x'</span>, <span class="st">'b'</span> <span class="op">:</span><span class="er">=</span><span class="st"> 'y'</span>)</a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'a'</span> <span class="op">:</span><span class="er">=</span><span class="st"> 'x'</span>, <span class="st">'b'</span> <span class="op">:</span><span class="er">=</span><span class="st"> 'y'</span>)</a>
 <a class="sourceLine" id="cb12-6" data-line-number="6"> <span class="co">#    a   b </span></a>
 <a class="sourceLine" id="cb12-7" data-line-number="7"> <span class="co">#  "x" "y"</span></a></code></pre></div>
 <p>The named map builder is <a href="https://winvector.github.io/seplyr/articles/named_map_builder.html">designed to synergize with <code>seplyr</code></a>.</p>
@@ -346,25 +383,25 @@ Checks and transforms are not performed on items inside braces (example: <code>5
 <h2 class="hasAnchor">
 <a href="#coalesce" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/coalesce.html"><code>%?%</code> (coalesce)</a>
 </h2>
-<p>The coalesce operator tries to replace elements of its first argument with elements from its second argument. In particular <code>%?%</code> replaces NULL vectors and NULL/NA entries of vectors and lists.</p>
+<p>The coalesce operator tries to replace elements of its first argument with elements from its second argument. In particular <code><a href="reference/coalesce.html">%?%</a></code> replaces NULL vectors and NULL/NA entries of vectors and lists.</p>
 <p>Example:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="ot">NA</span>) <span class="op">%?%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="ot">NA</span>, <span class="dv">20</span>)</a>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="ot">NA</span>) <span class="op">%?%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="ot">NA</span>, <span class="dv">20</span>)</a>
 <a class="sourceLine" id="cb13-2" data-line-number="2"> <span class="co">#  [1]  1 20</span></a></code></pre></div>
 </div>
 <div id="reduceexpand-args" class="section level2">
 <h2 class="hasAnchor">
 <a href="#reduceexpand-args" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/reduceexpand.html"><code>%.|%</code> (reduce/expand args)</a>
 </h2>
-<p>The operators <code>%.|%</code> and <code>%|.%</code> are wrappers for <code><a href="https://www.rdocumentation.org/packages/base/topics/do.call">do.call()</a></code>. These functions are used to pass arguments from a list to variadic function (such as <code><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum()</a></code>). The operator symbols are meant to invoke non-tilted versions of APL’s reduce and expand operators.</p>
+<p>The operators <code><a href="reference/reduceexpand.html">%.|%</a></code> and <code><a href="reference/reduceexpand.html">%|.%</a></code> are wrappers for <code><a href="https://rdrr.io/r/base/do.call.html">do.call()</a></code>. These functions are used to pass arguments from a list to variadic function (such as <code><a href="https://rdrr.io/r/base/sum.html">sum()</a></code>). The operator symbols are meant to invoke non-tilted versions of APL’s reduce and expand operators.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="dv">1</span><span class="op">:</span><span class="dv">10</span> <span class="op">%.|%</span><span class="st"> </span>sum</a>
 <a class="sourceLine" id="cb14-2" data-line-number="2"> <span class="co">#  [1] 55</span></a>
 <a class="sourceLine" id="cb14-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb14-4" data-line-number="4"><span class="dv">1</span><span class="op">:</span><span class="dv">4</span> <span class="op">%.&gt;%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/do.call">do.call</a></span>(log, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(., <span class="dt">base =</span> <span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb14-4" data-line-number="4"><span class="dv">1</span><span class="op">:</span><span class="dv">4</span> <span class="op">%.&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span>(log, <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(., <span class="dt">base =</span> <span class="dv">2</span>))</a>
 <a class="sourceLine" id="cb14-5" data-line-number="5"> <span class="co">#  [1] 0.000000 1.000000 1.584963 2.000000</span></a></code></pre></div>
 </div>
 <div id="debugfnw" class="section level2">
 <h2 class="hasAnchor">
-<a href="#debugfnw" class="anchor"></a><a href="https://winvector.github.io/wrapr/articles/DebugFnW.html"><code><a href="reference/DebugFnW.html">DebugFnW()</a></code></a>
+<a href="#debugfnw" class="anchor"></a><a href="https://winvector.github.io/wrapr/articles/DebugFnW.html"><code>DebugFnW()</code></a>
 </h2>
 <p><code><a href="reference/DebugFnW.html">DebugFnW()</a></code> wraps a function for debugging. If the function throws an exception the execution context (function arguments, function name, and more) is captured and stored for the user. The function call can then be reconstituted, inspected and even re-run with a step-debugger. Please see our <a href="https://youtu.be/-P9UzQuJSH8?list=PLAKBwakacHbQT51nPHex1on3YNCCmggZA">free debugging video series</a> and <code><a href="articles/DebugFnW.html">vignette('DebugFnW', package='wrapr')</a></code> for examples.</p>
 </div>
@@ -375,21 +412,21 @@ Checks and transforms are not performed on items inside braces (example: <code>5
 <p><code>λ()</code> is a concise abstract function creator or “<a href="https://en.wikipedia.org/wiki/Lambda_calculus">lambda abstraction</a>”. It is a placeholder that allows the use of the -character for very concise function abstraction.</p>
 <p>Example:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="co"># Make sure lambda function builder is in our enironment.</span></a>
-<a class="sourceLine" id="cb15-2" data-line-number="2">wrapr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/wrapr/topics/defineLambda">defineLambda</a></span>()</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2">wrapr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/wrapr/man/defineLambda.html">defineLambda</a></span>()</a>
 <a class="sourceLine" id="cb15-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb15-4" data-line-number="4"><span class="co"># square numbers 1 through 4</span></a>
-<a class="sourceLine" id="cb15-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">sapply</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, λ(x, x<span class="op">^</span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb15-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, λ(x, x<span class="op">^</span><span class="dv">2</span>))</a>
 <a class="sourceLine" id="cb15-6" data-line-number="6"> <span class="co">#  [1]  1  4  9 16</span></a>
 <a class="sourceLine" id="cb15-7" data-line-number="7"></a>
 <a class="sourceLine" id="cb15-8" data-line-number="8"><span class="co"># alternate "colon equals with braces" function builder notation</span></a>
-<a class="sourceLine" id="cb15-9" data-line-number="9"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">sapply</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, x <span class="op">:</span><span class="er">=</span><span class="st"> </span>{ x<span class="op">^</span><span class="dv">2</span> })</a>
+<a class="sourceLine" id="cb15-9" data-line-number="9"><span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, x <span class="op">:</span><span class="er">=</span><span class="st"> </span>{ x<span class="op">^</span><span class="dv">2</span> })</a>
 <a class="sourceLine" id="cb15-10" data-line-number="10"> <span class="co">#  [1]  1  4  9 16</span></a></code></pre></div>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>Install with:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"wrapr"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"wrapr"</span>)</a></code></pre></div>
 </div>
 <div id="more-information" class="section level2">
 <h2 class="hasAnchor">
@@ -405,6 +442,7 @@ Checks and transforms are not performed on items inside braces (example: <code>5
 <a href="#note" class="anchor"></a>Note</h2>
 <p>Note: <code>wrapr</code> is meant only for “tame names”, that is: variables and column names that are also valid <em>simple</em> (without quotes) <code>R</code> variables names.</p>
 </div>
+
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -436,15 +474,13 @@ Checks and transforms are not performed on items inside braces (example: <code>5
 </ul>
 </div>
 
-
-      <div class="dev-status">
+  <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://cran.r-project.org/package=wrapr"><img src="https://www.r-pkg.org/badges/version/wrapr" alt="CRAN_Status_Badge"></a></li>
 </ul>
 </div>
 </div>
-
 </div>
 
 
@@ -453,12 +489,14 @@ Checks and transforms are not performed on items inside braces (example: <code>5
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

@@ -1,7 +1,8 @@
 
-# wrapr 1.9.1 2019-09-29
+# wrapr 1.9.1 2019-10-04
 
  * Fix locum composite line printing.
+ * Document .()-escaping in pipe.
 
 # wrapr 1.9.0 2019-09-28
 

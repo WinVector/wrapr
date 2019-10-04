@@ -490,6 +490,11 @@ pipe_impl <- function(pipe_left_arg,
 #' For a base-R step-debuggable pipe please try the Bizarro Pipe \url{http://www.win-vector.com/blog/2017/01/using-the-bizarro-pipe-to-debug-magrittr-pipelines-in-r/}.
 #' \code{\%>.\%} and \code{\%.>\%} are synonyms.
 #'
+#' The dot arrow pipe has S3/S4 dispatch (please see \url{https://journal.r-project.org/archive/2018/RJ-2018-042/index.html}).
+#' However as the right-hand side of the pipe is normally held unevaluated, we don't know the type except in special
+#' cases (such as the rigth-hand side being referred to by a name or variable).  To force the evaluation of a pipe term,
+#' simply wrap it in .().
+#'
 #' @param pipe_left_arg left argument expression (substituted into .)
 #' @param pipe_right_arg right argument expression (presumably including .)
 #' @return eval(\{ . <- pipe_left_arg; pipe_right_arg \};)
