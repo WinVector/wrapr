@@ -6,7 +6,20 @@
 ### Windows
 
     rhub::check_for_cran()
-    Note: is property of the check installation, not the package.
+    517#> * using R Under development (unstable) (2019-09-18 r77193)
+    518#> * using platform: x86_64-w64-mingw32 (64-bit)
+    519#> * using session charset: ISO8859-1
+    520#> * using option '--as-cran'
+    521#> * checking for file 'wrapr/DESCRIPTION' ... OK
+    522#> * checking extension type ... Package
+    523#> * this is package 'wrapr' version '1.9.1'
+    524#> * package encoding: UTF-8
+    525#> * checking CRAN incoming feasibility ... Note_to_CRAN_maintainers
+    526#> Maintainer: 'John Mount '
+    568#> * checking sizes of PDF files under 'inst/doc' ... NOTE
+    569#> Unable to find GhostScript executable to run checks on size reduction
+    584#> Status: 1 NOTE
+    Note is a property of the check installation, not the package.
  
 ### MacOS
 
@@ -19,10 +32,9 @@
     * checking extension type ... Package
     * this is package ‘wrapr’ version ‘1.9.1’
     * package encoding: UTF-8
-    * checking CRAN incoming feasibility ... NOTE
+    * checking CRAN incoming feasibility ... Note_to_CRAN_maintainers
     Maintainer: ‘John Mount <jmount@win-vector.com>’
-    Days since last update: 6
-    Status: 1 NOTE
+    Status: OK
 
 ## Downstream dependencies
 
