@@ -54,4 +54,15 @@ However as the right-hand side of the pipe is normally held unevaluated, we don'
 cases (such as the rigth-hand side being referred to by a name or variable).  To force the evaluation of a pipe term,
 simply wrap it in .().
 
-For more of the details on dot pipe please see [the package README](https://github.com/WinVector/wrapr) and the following [technical article](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html).
+A detail of R-style pipes is the right argument is held unevalauted (unless it is a name), so we can't always use the class of the right hand side to dispatch.  To work around this we suggest using `.()` notation, which in the context of the pipe means "evaluate early."  An example is given below:
+
+```{r peager}
+f <- function() { sin }
+
+# returns f() ignoring dot, not what we want
+5 %.>% f()
+
+# evaluates f() early then evaluates result with .-substitution rules
+5 %.>% .(f())
+```
+

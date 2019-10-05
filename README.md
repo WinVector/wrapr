@@ -239,6 +239,16 @@ Checks and transforms are not performed on items inside braces (example:
 
 </li>
 
+<li>
+
+The dot arrow pipe has S3/S4 dispatch (please see ). However as the
+right-hand side of the pipe is normally held unevaluated, we don’t know
+the type except in special cases (such as the rigth-hand side being
+referred to by a name or variable). To force the evaluation of a pipe
+term, simply wrap it in `.()`.
+
+</li>
+
 </ul>
 
 The dot pipe is also user configurable through standard `S3`/`S4`

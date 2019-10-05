@@ -118,7 +118,7 @@
       <h1>Dot Pipe</h1>
                         <h4 class="author">John Mount</h4>
             
-            <h4 class="date">2019-10-04</h4>
+            <h4 class="date">2019-10-05</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/dot_pipe.Rmd"><code>vignettes/dot_pipe.Rmd</code></a></small>
       <div class="hidden name"><code>dot_pipe.Rmd</code></div>
@@ -150,7 +150,15 @@
 <pre><code>## [1] -0.9589243</code></pre>
 <p>Regularity can be a <em>big</em> advantage in teaching and comprehension. Please see <a href="http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/">“In Praise of Syntactic Sugar”</a> for discussion.</p>
 <p>The dot arrow pipe has S3/S4 dispatch (please see ). However as the right-hand side of the pipe is normally held unevaluated, we don’t know the type except in special cases (such as the rigth-hand side being referred to by a name or variable). To force the evaluation of a pipe term, simply wrap it in .().</p>
-<p>For more of the details on dot pipe please see <a href="https://github.com/WinVector/wrapr">the package README</a> and the following <a href="https://journal.r-project.org/archive/2018/RJ-2018-042/index.html">technical article</a>.</p>
+<p>A detail of R-style pipes is the right argument is held unevalauted (unless it is a name), so we can’t always use the class of the right hand side to dispatch. To work around this we suggest using <code>.()</code> notation, which in the context of the pipe means “evaluate early.” An example is given below:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">f &lt;-<span class="st"> </span><span class="cf">function</span>() { sin }</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="co"># returns f() ignoring dot, not what we want</span></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="dv">5</span> <span class="op">%.&gt;%</span><span class="st"> </span><span class="kw">f</span>()</a></code></pre></div>
+<pre><code>## function (x)  .Primitive("sin")</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co"># evaluates f() early then evaluates result with .-substitution rules</span></a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="dv">5</span> <span class="op">%.&gt;%</span><span class="st"> </span>.(<span class="kw">f</span>())</a></code></pre></div>
+<pre><code>## [1] -0.9589243</code></pre>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

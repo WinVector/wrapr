@@ -505,6 +505,12 @@ pipe_impl <- function(pipe_left_arg,
 #' cos(exp(sin(4)))
 #' 4 %.>% sin(.) %.>% exp(.) %.>% cos(.)
 #'
+#' f <- function() { sin }
+#' # returns f() ignoring dot, not what we want
+#' 5 %.>% f()
+#' # evaluates f() early then evaluates result with .-substitution rules
+#' 5 %.>% .(f())
+#'
 #' @name dot_arrow
 NULL
 
