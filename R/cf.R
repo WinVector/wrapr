@@ -74,7 +74,8 @@ to_vector <- function(lst) {
 #' @export
 #'
 build_frame <- function(..., cf_eval_environment = parent.frame()) {
-  v <- as.list(substitute(list(...))[-1])
+  v <- as.list(substitute(list(...)))
+  v <- lapply(seqi(2, length(v)), function(i) {v[[i]]})
   force(cf_eval_environment)
   lv <- length(v)
   # inspect input
@@ -372,11 +373,11 @@ draw_frame <- function(x,
 #' @export
 #'
 qchar_frame <- function(...) {
-  # v <- as.list(substitute(list(...))[-1])
   env <- parent.frame()
-  v <- do.call(bquote, list(as.list(substitute(list(...))[-1]),
+  v <- do.call(bquote, list(substitute(alist(...)),
                             where = env),
                envir = env)
+  v <- lapply(seqi(2, length(v)), function(i) {v[[i]]})
   lv <- length(v)
   if(lv<1) {
     return(data.frame())

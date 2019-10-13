@@ -14,7 +14,7 @@ packageVersion(package)
 date()
 ```
 
-    ## [1] "Sun Oct 13 09:57:15 2019"
+    ## [1] "Sun Oct 13 10:12:16 2019"
 
 ``` r
 parallelCluster <- NULL
@@ -34,12 +34,33 @@ setwd(td)
 print(td)
 ```
 
-    ## [1] "/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//RtmpACdcPS"
+    ## [1] "/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//RtmpHERUQS"
 
 ``` r
 options(repos = c(CRAN="https://cloud.r-project.org"))
 jobsdfe <- enqueueJobs(package=package, directory=td)
 
+print("checking:")
+```
+
+    ## [1] "checking:"
+
+``` r
+print(jobsdfe)
+```
+
+    ##   id       title status
+    ## 1  1       cdata  READY
+    ## 2  2 RcppDynProg  READY
+    ## 3  3      replyr  READY
+    ## 4  4 rqdatatable  READY
+    ## 5  5      rquery  READY
+    ## 6  6      seplyr  READY
+    ## 7  7        sigr  READY
+    ## 8  8      vtreat  READY
+    ## 9  9     WVPlots  READY
+
+``` r
 mk_fn <- function(package, directory) {
   force(package)
   force(directory)
@@ -83,8 +104,8 @@ summariseQueue(package=package, directory=td)
 ```
 
     ## Test of wrapr had 9 successes, 0 failures, and 0 skipped packages. 
-    ## Ran from 2019-10-13 09:57:21 to 2019-10-13 10:00:54 for 3.55 mins 
-    ## Average of 23.667 secs relative to 77.117 secs using 4 runners
+    ## Ran from 2019-10-13 10:12:22 to 2019-10-13 10:15:39 for 3.283 mins 
+    ## Average of 21.889 secs relative to 72.012 secs using 4 runners
     ## 
     ## Failed packages:   
     ## 

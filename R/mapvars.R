@@ -18,7 +18,8 @@
 #'
 mapsyms <- function(...) {
   mapsyms_envir <- parent.frame()
-  mapsyms_args <- as.list(substitute(list(...))[-1])
+  mapsyms_args <- as.list(substitute(list(...)))
+  mapsyms_args <- lapply(seqi(2, length(mapsyms_args)), function(i) {mapsyms_args[[i]]})
   mapsyms_names <- vapply(mapsyms_args,
                           function(ai) {
                             ai <- as.character(ai)
@@ -64,7 +65,8 @@ mapsyms <- function(...) {
 #'
 map_upper <- function(...) {
   map_upper_envir <- parent.frame()
-  map_upper_args <- as.list(substitute(list(...))[-1])
+  map_upper_args <- as.list(substitute(list(...)))
+  map_upper_args <- lapply(seqi(2, length(map_upper_args)), function(i) {map_upper_args[[i]]})
   map_upper_names <- vapply(map_upper_args,
                             function(ai) {
                               ai <- as.character(ai)

@@ -1,4 +1,8 @@
 
+# wrapr 1.9.2 2019-10-13
+
+ * Fix dev version at request of CRAN, appears to be instability in capturing ... and passing to bquote(). https://github.com/WinVector/wrapr/blob/master/extras/wrapr_dev_CRAN_issue_2019_10_13.md
+
 # wrapr 1.9.1 2019-10-05
 
  * Fix locum composite line printing.

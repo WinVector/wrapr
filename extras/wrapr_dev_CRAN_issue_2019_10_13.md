@@ -6,6 +6,9 @@ wrapr\_CRAN\_dev\_issue\_2019\_10\_13
 > Please correct before 2019-10-27 to safely retain your package on
 > CRAN.
 
+Example from `help(qchar_frame)` was raising an
+exception.
+
 ``` r
 # It appears wrapr 1.9.1's issue on 2019-10-13 development R was wrapr was
 # improperly depending on correct performance of bquote() on a mal-formed
