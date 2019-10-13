@@ -8,19 +8,20 @@ package = "wrapr"
 packageVersion(package)
 ```
 
-    ## [1] '1.9.1'
+    ## [1] '1.9.2'
 
 ``` r
 date()
 ```
 
-    ## [1] "Sat Oct  5 14:59:04 2019"
+    ## [1] "Sun Oct 13 09:57:15 2019"
 
 ``` r
 parallelCluster <- NULL
+ncores <- 0
 # # parallel doesn't work due to https://github.com/r-lib/liteq/issues/22
-#ncores <- parallel::detectCores()
-#parallelCluster <- parallel::makeCluster(ncores)
+ncores <- parallel::detectCores()
+parallelCluster <- parallel::makeCluster(ncores)
 
 orig_dir <- getwd()
 print(orig_dir)
@@ -33,7 +34,7 @@ setwd(td)
 print(td)
 ```
 
-    ## [1] "/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//RtmpCxqeh7"
+    ## [1] "/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//RtmpACdcPS"
 
 ``` r
 options(repos = c(CRAN="https://cloud.r-project.org"))
@@ -58,26 +59,32 @@ if(!is.null(parallelCluster)) {
 }
 ```
 
-    ## cdata_1.1.2 started at 2019-10-05 14:59:07 success at 2019-10-05 14:59:39 (1/0/0) 
-    ## RcppDynProg_0.1.3 started at 2019-10-05 14:59:39 success at 2019-10-05 15:00:51 (2/0/0) 
-    ## replyr_1.0.4 started at 2019-10-05 15:00:51 success at 2019-10-05 15:01:26 (3/0/0) 
-    ## rqdatatable_1.2.2 started at 2019-10-05 15:01:26 success at 2019-10-05 15:01:53 (4/0/0) 
-    ## rquery_1.3.8 started at 2019-10-05 15:01:53 success at 2019-10-05 15:02:33 (5/0/0) 
-    ## seplyr_0.8.4 started at 2019-10-05 15:02:33 success at 2019-10-05 15:02:59 (6/0/0) 
-    ## sigr_1.0.6 started at 2019-10-05 15:02:59 success at 2019-10-05 15:03:21 (7/0/0) 
-    ## vtreat_1.4.7 started at 2019-10-05 15:03:21 success at 2019-10-05 15:04:29 (8/0/0) 
-    ## WVPlots_1.2.0 started at 2019-10-05 15:04:29 success at 2019-10-05 15:05:41 (9/0/0)
-
+    ## [[1]]
+    ##   id   title  status
+    ## 1  9 WVPlots WORKING
+    ## 
+    ## [[2]]
+    ##   id   title  status
+    ## 1  8  vtreat WORKING
+    ## 2  9 WVPlots WORKING
+    ## 
+    ## [[3]]
     ## [1] id     title  status
     ## <0 rows> (or 0-length row.names)
+    ## 
+    ## [[4]]
+    ##   id       title  status
+    ## 1  2 RcppDynProg WORKING
+    ## 2  8      vtreat WORKING
+    ## 3  9     WVPlots WORKING
 
 ``` r
 summariseQueue(package=package, directory=td)
 ```
 
     ## Test of wrapr had 9 successes, 0 failures, and 0 skipped packages. 
-    ## Ran from 2019-10-05 14:59:07 to 2019-10-05 15:05:41 for 6.567 mins 
-    ## Average of 43.778 secs relative to 43.741 secs using 1 runners
+    ## Ran from 2019-10-13 09:57:21 to 2019-10-13 10:00:54 for 3.55 mins 
+    ## Average of 23.667 secs relative to 77.117 secs using 4 runners
     ## 
     ## Failed packages:   
     ## 
