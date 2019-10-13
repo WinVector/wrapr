@@ -1,13 +1,12 @@
----
-title: "wrapr_CRAN_dev_issue_2019_10_13"
-output: github_document
----
+wrapr\_CRAN\_dev\_issue\_2019\_10\_13
+================
 
 `wrapr` fix in response to CRAN email requesting fix 2019-10-13 2:04 AM:
 
-> Please correct before 2019-10-27 to safely retain your package on CRAN.
+> Please correct before 2019-10-27 to safely retain your package on
+> CRAN.
 
-```{r}
+``` r
 # It appears wrapr 1.9.1's issue on 2019-10-13 development R was wrapr was
 # improperly depending on correct performance of bquote() on a mal-formed
 # language item.
@@ -25,10 +24,19 @@ f <- function(...) {
 
 f( x, training |
    y,  .(loss_name) )
+```
 
+    ## x(training | y, "loss")
+
+``` r
 f( training |
     .(loss_name) )
+```
 
+    ## [[1]]
+    ## training | .(loss_name)
+
+``` r
 # Notice how one of the above evaluations of f() replaced
 # .(loss_name) with "loss" and one did not. wrapr was
 # (incorrectly) assuming the substitution would always take
@@ -49,7 +57,21 @@ f2 <- function(...) {
 
 f2( x, training |
       y,  .(loss_name) )
+```
 
+    ## [[1]]
+    ## x
+    ## 
+    ## [[2]]
+    ## training | y
+    ## 
+    ## [[3]]
+    ## [1] "loss"
+
+``` r
 f2( training |
       .(loss_name) )
 ```
+
+    ## [[1]]
+    ## training | "loss"
