@@ -16,5 +16,8 @@ test_named_map_builder <- function() {
   name <- "a"
   RUnit::checkEquals(name := "b", c(a = "b"))
 
+  f <- factor(c('a', 'b'))
+  RUnit::checkEquals(f := c(1, 2), c('a' = 1, 'b' = 2))
+
   invisible(NULL)
 }
