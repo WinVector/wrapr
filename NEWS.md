@@ -1,7 +1,7 @@
 
-# wrapr 1.9.3 2019-11-01
+# wrapr 1.9.3 2019-11-03
 
- * := for factors
+ * := for factors and logical
 
 # wrapr 1.9.2 2019-10-13
 
