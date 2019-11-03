@@ -1,11 +1,8 @@
 
-
 ## Test environments
-
 
 ### Windows
 
-    
     rhub::check_for_cran()
      543#> * using R Under development (unstable) (2019-10-19 r77318)
      544#> * using platform: x86_64-w64-mingw32 (64-bit)
@@ -17,8 +14,6 @@
      550#> * package encoding: UTF-8
      551#> * checking CRAN incoming feasibility ... Note_to_CRAN_maintainers
      552#> Maintainer: 'John Mount '
-     594#> * checking sizes of PDF files under 'inst/doc' ... NOTE
-     595#> Unable to find GhostScript executable to run checks on size reduction
      610#> Status: 1 NOTE
     The GhostScript note is a property of the check installation, not the package.
  
