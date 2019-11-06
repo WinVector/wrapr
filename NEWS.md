@@ -1,4 +1,8 @@
 
+# wrapr 1.9.4 2019-11-06
+
+ * tolerance on check_equiv_frames
+
 # wrapr 1.9.3 2019-11-03
 
  * := for factors and logical

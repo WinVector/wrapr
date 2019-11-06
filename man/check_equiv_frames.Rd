@@ -4,12 +4,16 @@
 \alias{check_equiv_frames}
 \title{Check two data.frames are equivilent after sorting columns and rows.}
 \usage{
-check_equiv_frames(d1, d2)
+check_equiv_frames(d1, d2, ..., tolerance = sqrt(.Machine$double.eps))
 }
 \arguments{
 \item{d1}{data.frame 1}
 
 \item{d2}{data.frame 2}
+
+\item{...}{force later arguments to bind by name}
+
+\item{tolerance}{numeric comparision tolerance}
 }
 \value{
 logical TRUE if equivilent

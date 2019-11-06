@@ -140,12 +140,16 @@ checkColsFormUniqueKeys <- function(data, keyColNames) {
 #'
 #' @param d1 data.frame 1
 #' @param d2 data.frame 2
+#' @param ... force later arguments to bind by name
+#' @param tolerance numeric comparision tolerance
 #' @return logical TRUE if equivilent
 #'
 #' @export
 #'
-check_equiv_frames <- function(d1, d2) {
-  if( (!is.data.frame(d1)) || (!is.data.frame(d2)) ) {
+check_equiv_frames <- function(d1, d2,
+                               ...,
+                               tolerance = sqrt(.Machine$double.eps)) {
+  if( (!is.data.frame(d1)) != (!is.data.frame(d2)) ) {
     return(FALSE)
   }
   d1 <- data.frame(d1)
@@ -164,5 +168,21 @@ check_equiv_frames <- function(d1, d2) {
   d2 <- d2[, cols, drop=FALSE]
   d2 <- d2[orderv(d2), , drop=FALSE]
   rownames(d2) <- NULL
-  return(isTRUE(all.equal(d1, d2)))
+  for(c in cols) {
+    c1 <- d1[[c]]
+    c2 <- d2[[c]]
+    if(is.numeric(c1) != is.numeric(c2)) {
+      return(FALSE)
+    }
+    if(is.numeric(c1)) {
+      if(!isTRUE(all.equal(c1, c2, tolerance=tolerance))) {
+        return(FALSE)
+      }
+    } else {
+      if(!isTRUE(all.equal(c1, c2))) {
+        return(FALSE)
+      }
+    }
+  }
+  return(TRUE)
 }
