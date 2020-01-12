@@ -4,8 +4,15 @@
 \alias{clean_fit_lm}
 \title{Fit a stats::lm without carying back large structures.}
 \usage{
-clean_fit_lm(outcome, variables, data, ..., intercept = TRUE,
-  weights = NULL, env = baseenv())
+clean_fit_lm(
+  outcome,
+  variables,
+  data,
+  ...,
+  intercept = TRUE,
+  weights = NULL,
+  env = baseenv()
+)
 }
 \arguments{
 \item{outcome}{character, name of outcome column.}

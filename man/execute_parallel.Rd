@@ -4,8 +4,15 @@
 \alias{execute_parallel}
 \title{Execute f in parallel partitioned by partition_column.}
 \usage{
-execute_parallel(tables, f, partition_column, ..., cl = NULL,
-  debug = FALSE, env = parent.frame())
+execute_parallel(
+  tables,
+  f,
+  partition_column,
+  ...,
+  cl = NULL,
+  debug = FALSE,
+  env = parent.frame()
+)
 }
 \arguments{
 \item{tables}{named map of tables to use.}

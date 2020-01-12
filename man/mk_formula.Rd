@@ -4,9 +4,16 @@
 \alias{mk_formula}
 \title{Construct a formula.}
 \usage{
-mk_formula(outcome, variables, ..., intercept = TRUE,
-  outcome_target = NULL, outcome_comparator = "==", env = baseenv(),
-  extra_values = NULL)
+mk_formula(
+  outcome,
+  variables,
+  ...,
+  intercept = TRUE,
+  outcome_target = NULL,
+  outcome_comparator = "==",
+  env = baseenv(),
+  extra_values = NULL
+)
 }
 \arguments{
 \item{outcome}{character scalar, name of outcome or dependent variable.}

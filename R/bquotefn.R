@@ -102,9 +102,6 @@ bquote_call_args <- function(call, env = parent.frame()) {
 }
 
 
-#' @importFrom graphics plot
-NULL
-
 
 #' Adapt a function to use bquote on its arguments.
 #'
@@ -119,10 +116,10 @@ NULL
 #'
 #'
 #'
-#' angle = 1:10
-#' variable <- as.name("angle")
-#' plotb <- bquote_function(graphics::plot)
-#' plotb(x = .(variable), y = sin(.(variable)))
+#' # angle = 1:10
+#' # variable <- as.name("angle")
+#' # plotb <- bquote_function(graphics::plot)
+#' # plotb(x = .(variable), y = sin(.(variable)))
 #'
 #'
 #'

@@ -4,8 +4,15 @@
 \alias{partition_tables}
 \title{Partition as set of tables into a list.}
 \usage{
-partition_tables(tables_used, partition_column, ..., source_usage = NULL,
-  source_limit = NULL, tables = NULL, env = NULL)
+partition_tables(
+  tables_used,
+  partition_column,
+  ...,
+  source_usage = NULL,
+  source_limit = NULL,
+  tables = NULL,
+  env = NULL
+)
 }
 \arguments{
 \item{tables_used}{character, names of tables to look for.}

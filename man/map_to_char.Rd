@@ -4,8 +4,7 @@
 \alias{map_to_char}
 \title{format a map.}
 \usage{
-map_to_char(mp, ..., sep = " ", assignment = "=",
-  quote_fn = base::shQuote)
+map_to_char(mp, ..., sep = " ", assignment = "=", quote_fn = base::shQuote)
 }
 \arguments{
 \item{mp}{named vector or list}

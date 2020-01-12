@@ -4,8 +4,14 @@
 \alias{apply_right.default}
 \title{Default apply_right implementation.}
 \usage{
-\method{apply_right}{default}(pipe_left_arg, pipe_right_arg,
-  pipe_environment, left_arg_name, pipe_string, right_arg_name)
+\method{apply_right}{default}(
+  pipe_left_arg,
+  pipe_right_arg,
+  pipe_environment,
+  left_arg_name,
+  pipe_string,
+  right_arg_name
+)
 }
 \arguments{
 \item{pipe_left_arg}{left argument}

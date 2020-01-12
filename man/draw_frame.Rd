@@ -4,8 +4,13 @@
 \alias{draw_frame}
 \title{Render a simple data.frame in build_frame format.}
 \usage{
-draw_frame(x, ..., time_format = "\%Y-\%m-\%d \%H:\%M:\%S",
-  formatC_options = list(), adjust_for_auto_indent = 2)
+draw_frame(
+  x,
+  ...,
+  time_format = "\%Y-\%m-\%d \%H:\%M:\%S",
+  formatC_options = list(),
+  adjust_for_auto_indent = 2
+)
 }
 \arguments{
 \item{x}{data.frame (with atomic types).}

@@ -4,8 +4,14 @@
 \alias{apply_left_default}
 \title{S3 dispatch on class of pipe_left_arg.}
 \usage{
-apply_left_default(pipe_left_arg, pipe_right_arg, pipe_environment,
-  left_arg_name, pipe_string, right_arg_name)
+apply_left_default(
+  pipe_left_arg,
+  pipe_right_arg,
+  pipe_environment,
+  left_arg_name,
+  pipe_string,
+  right_arg_name
+)
 }
 \arguments{
 \item{pipe_left_arg}{left argument}

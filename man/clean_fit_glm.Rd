@@ -4,9 +4,18 @@
 \alias{clean_fit_glm}
 \title{Fit a stats::glm without carying back large structures.}
 \usage{
-clean_fit_glm(outcome, variables, data, ..., family, intercept = TRUE,
-  outcome_target = NULL, outcome_comparator = "==", weights = NULL,
-  env = baseenv())
+clean_fit_glm(
+  outcome,
+  variables,
+  data,
+  ...,
+  family,
+  intercept = TRUE,
+  outcome_target = NULL,
+  outcome_comparator = "==",
+  weights = NULL,
+  env = baseenv()
+)
 }
 \arguments{
 \item{outcome}{character, name of outcome column.}

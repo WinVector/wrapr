@@ -4,8 +4,14 @@
 \alias{sortv}
 \title{Sort a data.frame.}
 \usage{
-sortv(data, colnames, ..., na.last = TRUE, decreasing = FALSE,
-  method = c("auto", "shell", "radix"))
+sortv(
+  data,
+  colnames,
+  ...,
+  na.last = TRUE,
+  decreasing = FALSE,
+  method = c("auto", "shell", "radix")
+)
 }
 \arguments{
 \item{data}{data.frame to sort.}

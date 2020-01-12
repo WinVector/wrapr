@@ -24,6 +24,7 @@ of evaluating them, except in the case of a nested
 call to qc() or c().  Please see the examples for
 typical uses both for named and un-named character vectors.
 
+
 qc() uses bquote() .() quasiquotation escaping notation.
 }
 \examples{
@@ -36,7 +37,7 @@ qc(.(a)) # returns the string "x" (not "a")
 
 qc(.(a) := a) # returns c("x" = "a")
 
-qc("a") # return the string "a" (not "\\"a\\"")
+qc("a") # return the string "a" (not "\"a\"")
 
 qc(sin(x))  # returns the string "sin(x)"
 

@@ -4,8 +4,13 @@
 \alias{VectorizeM}
 \title{Memoizing wrapper to base::Vectorize()}
 \usage{
-VectorizeM(FUN, vectorize.args = arg.names, SIMPLIFY = TRUE,
-  USE.NAMES = TRUE, UNLIST = FALSE)
+VectorizeM(
+  FUN,
+  vectorize.args = arg.names,
+  SIMPLIFY = TRUE,
+  USE.NAMES = TRUE,
+  UNLIST = FALSE
+)
 }
 \arguments{
 \item{FUN}{function to apply}

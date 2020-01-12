@@ -4,8 +4,14 @@
 \alias{apply_left.locum}
 \title{S3 dispatch on class of pipe_left_arg for a locum.}
 \usage{
-\method{apply_left}{locum}(pipe_left_arg, pipe_right_arg, pipe_environment,
-  left_arg_name, pipe_string, right_arg_name)
+\method{apply_left}{locum}(
+  pipe_left_arg,
+  pipe_right_arg,
+  pipe_environment,
+  left_arg_name,
+  pipe_string,
+  right_arg_name
+)
 }
 \arguments{
 \item{pipe_left_arg}{left argument.}

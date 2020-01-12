@@ -4,8 +4,14 @@
 \alias{apply_right.UnaryFn}
 \title{Apply right wrapped function to argument on left.}
 \usage{
-\method{apply_right}{UnaryFn}(pipe_left_arg, pipe_right_arg,
-  pipe_environment, left_arg_name, pipe_string, right_arg_name)
+\method{apply_right}{UnaryFn}(
+  pipe_left_arg,
+  pipe_right_arg,
+  pipe_environment,
+  left_arg_name,
+  pipe_string,
+  right_arg_name
+)
 }
 \arguments{
 \item{pipe_left_arg}{left argument.}

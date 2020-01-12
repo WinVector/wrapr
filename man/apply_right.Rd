@@ -4,8 +4,14 @@
 \alias{apply_right}
 \title{S3 dispatch on class of pipe_right_argument.}
 \usage{
-apply_right(pipe_left_arg, pipe_right_arg, pipe_environment, left_arg_name,
-  pipe_string, right_arg_name)
+apply_right(
+  pipe_left_arg,
+  pipe_right_arg,
+  pipe_environment,
+  left_arg_name,
+  pipe_string,
+  right_arg_name
+)
 }
 \arguments{
 \item{pipe_left_arg}{left argument}

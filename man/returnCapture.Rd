@@ -4,8 +4,13 @@
 \alias{returnCapture}
 \title{Return an error to a file, environment (no names) or callback}
 \usage{
-returnCapture(e, saveDest, cap, wrapperName,
-  recallString = "do.call(p$fn, p$args)")
+returnCapture(
+  e,
+  saveDest,
+  cap,
+  wrapperName,
+  recallString = "do.call(p$fn, p$args)"
+)
 }
 \arguments{
 \item{e}{caught exception}

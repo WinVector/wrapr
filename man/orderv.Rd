@@ -4,8 +4,13 @@
 \alias{orderv}
 \title{Order by a list of vectors.}
 \usage{
-orderv(columns, ..., na.last = TRUE, decreasing = FALSE,
-  method = c("auto", "shell", "radix"))
+orderv(
+  columns,
+  ...,
+  na.last = TRUE,
+  decreasing = FALSE,
+  method = c("auto", "shell", "radix")
+)
 }
 \arguments{
 \item{columns}{list of atomic columns to order on, can be a \code{data.frame}.}

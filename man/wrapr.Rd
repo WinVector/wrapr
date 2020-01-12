@@ -3,7 +3,6 @@
 \docType{package}
 \name{wrapr}
 \alias{wrapr}
-\alias{wrapr-package}
 \title{\code{wrapr}: Wrap R Functions for Debugging and Parametric Programming}
 \description{
 Provides \code{DebugFnW()} to capture function context on error for

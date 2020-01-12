@@ -4,8 +4,16 @@
 \alias{let}
 \title{Execute expr with name substitutions specified in alias.}
 \usage{
-let(alias, expr, ..., envir = parent.frame(), subsMethod = "langsubs",
-  strict = TRUE, eval = TRUE, debugPrint = FALSE)
+let(
+  alias,
+  expr,
+  ...,
+  envir = parent.frame(),
+  subsMethod = "langsubs",
+  strict = TRUE,
+  eval = TRUE,
+  debugPrint = FALSE
+)
 }
 \arguments{
 \item{alias}{mapping from free names in expr to target names to use (mapping have both unique names and unique values).}
@@ -46,6 +54,7 @@ we can use a \code{let} helper.   \code{dplyr::mutate} is
 parameterized (in the sense it can work over user supplied columns and expressions), but column names are captured through non-standard evaluation
 (and it rapidly becomes unwieldy to use complex formulas with the standard evaluation equivalent \code{dplyr::mutate_}).
 \code{alias} can not include the symbol "\code{.}".
+
 
 The intent from is from the user perspective to have (if
 \code{a <- 1; b <- 2}):

@@ -4,8 +4,15 @@
 \alias{strsplit_capture}
 \title{Split a string, keeping separator regions}
 \usage{
-strsplit_capture(x, split, ..., ignore.case = FALSE, fixed = FALSE,
-  perl = FALSE, useBytes = FALSE)
+strsplit_capture(
+  x,
+  split,
+  ...,
+  ignore.case = FALSE,
+  fixed = FALSE,
+  perl = FALSE,
+  useBytes = FALSE
+)
 }
 \arguments{
 \item{x}{character string to split (length 1 vector)}

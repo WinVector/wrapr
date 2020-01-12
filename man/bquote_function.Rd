@@ -19,10 +19,10 @@ bquote_function is for adapting a function defined elsewhere for bquite-enabled 
 
 
 
-angle = 1:10
-variable <- as.name("angle")
-plotb <- bquote_function(graphics::plot)
-plotb(x = .(variable), y = sin(.(variable)))
+# angle = 1:10
+# variable <- as.name("angle")
+# plotb <- bquote_function(graphics::plot)
+# plotb(x = .(variable), y = sin(.(variable)))
 
 
 

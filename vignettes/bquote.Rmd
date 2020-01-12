@@ -67,12 +67,14 @@ print(evalb)
 All <code>evalb()</code> does is: call <code>bquote()</code> as intended.  A way to teach this is to just call `bqoute()` alone.
 
 ```{r}
+if(requireNamespace("graphics", quietly = TRUE)) {
 bquote(
   
   plot(x = .(variable), 
        y = sin(.(variable)))
   
   )
+}
 ```
 
 And we see the un-executed code with the substitutions performed.

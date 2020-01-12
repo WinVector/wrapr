@@ -4,8 +4,14 @@
 \alias{apply_right_S4}
 \title{S4 dispatch method for apply_right.}
 \usage{
-apply_right_S4(pipe_left_arg, pipe_right_arg, pipe_environment,
-  left_arg_name, pipe_string, right_arg_name)
+apply_right_S4(
+  pipe_left_arg,
+  pipe_right_arg,
+  pipe_environment,
+  left_arg_name,
+  pipe_string,
+  right_arg_name
+)
 }
 \arguments{
 \item{pipe_left_arg}{left argument}

@@ -4,8 +4,16 @@
 \alias{grepv}
 \title{Return a vector of matches.}
 \usage{
-grepv(pattern, x, ..., ignore.case = FALSE, perl = FALSE,
-  fixed = FALSE, useBytes = FALSE, invert = FALSE)
+grepv(
+  pattern,
+  x,
+  ...,
+  ignore.case = FALSE,
+  perl = FALSE,
+  fixed = FALSE,
+  useBytes = FALSE,
+  invert = FALSE
+)
 }
 \arguments{
 \item{pattern}{character scalar, pattern to match, passed to \code{\link[base]{grep}}.}

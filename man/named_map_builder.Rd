@@ -8,7 +8,7 @@
 \usage{
 named_map_builder(names, values)
 
-":="(names, values)
+`:=`(names, values)
 
 names \%:=\% values
 }

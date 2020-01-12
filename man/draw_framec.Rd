@@ -4,8 +4,7 @@
 \alias{draw_framec}
 \title{Render a simple data.frame in qchar_frame format.}
 \usage{
-draw_framec(x, ..., unquote_cols = character(0),
-  adjust_for_auto_indent = 2)
+draw_framec(x, ..., unquote_cols = character(0), adjust_for_auto_indent = 2)
 }
 \arguments{
 \item{x}{data.frame (with character types).}

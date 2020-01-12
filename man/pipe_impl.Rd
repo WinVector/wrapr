@@ -4,8 +4,7 @@
 \alias{pipe_impl}
 \title{Pipe dispatch implementation.}
 \usage{
-pipe_impl(pipe_left_arg, pipe_right_arg, pipe_environment,
-  pipe_string = NULL)
+pipe_impl(pipe_left_arg, pipe_right_arg, pipe_environment, pipe_string = NULL)
 }
 \arguments{
 \item{pipe_left_arg}{substitute(pipe_left_arg) argument.}

@@ -4,8 +4,13 @@
 \alias{mk_tmp_name_source}
 \title{Produce a temp name generator with a given prefix.}
 \usage{
-mk_tmp_name_source(prefix = "tmpnam", ...,
-  alphabet = as.character(0:9), size = 20, sep = "_")
+mk_tmp_name_source(
+  prefix = "tmpnam",
+  ...,
+  alphabet = as.character(0:9),
+  size = 20,
+  sep = "_"
+)
 }
 \arguments{
 \item{prefix}{character, string to prefix temp names with.}
