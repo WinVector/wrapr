@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.4</span>
       </span>
     </div>
 
@@ -118,7 +118,7 @@
       <h1>bquote</h1>
                         <h4 class="author">John Mount</h4>
             
-            <h4 class="date">2019-11-03</h4>
+            <h4 class="date">2020-01-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/bquote.Rmd"><code>vignettes/bquote.Rmd</code></a></small>
       <div class="hidden name"><code>bquote.Rmd</code></div>
@@ -175,15 +175,17 @@
 ##     exprq &lt;- bquote(..., where = where)
 ##     eval(exprq, envir = where, enclos = where)
 ## }
-## &lt;bytecode: 0x7f906ab76b60&gt;
+## &lt;bytecode: 0x7fa3bdcdb520&gt;
 ## &lt;environment: namespace:wrapr&gt;</code></pre>
 <p>All <code><a href="../reference/evalb.html">evalb()</a></code> does is: call <code><a href="https://rdrr.io/r/base/bquote.html">bquote()</a></code> as intended. A way to teach this is to just call <code>bqoute()</code> alone.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/bquote.html">bquote</a></span>(</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">  </a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">  <span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="dt">x =</span> .(variable), </a>
-<a class="sourceLine" id="cb6-4" data-line-number="4">       <span class="dt">y =</span> <span class="kw"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span>(.(variable)))</a>
-<a class="sourceLine" id="cb6-5" data-line-number="5">  </a>
-<a class="sourceLine" id="cb6-6" data-line-number="6">  )</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="cf">if</span>(<span class="kw"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span>(<span class="st">"graphics"</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)) {</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/bquote.html">bquote</a></span>(</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">  </a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">  <span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="dt">x =</span> .(variable), </a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">       <span class="dt">y =</span> <span class="kw"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span>(.(variable)))</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">  </a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">  )</a>
+<a class="sourceLine" id="cb6-8" data-line-number="8">}</a></code></pre></div>
 <pre><code>## plot(x = angle, y = sin(angle))</code></pre>
 <p>And we see the un-executed code with the substitutions performed.</p>
 <p>There are many <code>R</code> quasi-quotation systems including:</p>

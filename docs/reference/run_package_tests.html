@@ -72,7 +72,7 @@ Stops on error." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.4</span>
       </span>
     </div>
 
@@ -168,11 +168,19 @@ Attaches RUnit and pkg, requires RUnit.
 Stops on error.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>run_package_tests</span>(<span class='no'>pkg</span>, <span class='no'>...</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>package_test_dirs</span> <span class='kw'>=</span> <span class='st'>"unit_tests"</span>, <span class='kw'>test_dirs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(<span class='fl'>0</span>),
-  <span class='kw'>stop_on_issue</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>stop_if_no_tests</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>require_RUnit_attached</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>require_pkg_attached</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>rngKind</span> <span class='kw'>=</span> <span class='st'>"Mersenne-Twister"</span>, <span class='kw'>rngNormalKind</span> <span class='kw'>=</span> <span class='st'>"Inversion"</span>)</pre>
+    <pre class="usage"><span class='fu'>run_package_tests</span>(
+  <span class='no'>pkg</span>,
+  <span class='no'>...</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>package_test_dirs</span> <span class='kw'>=</span> <span class='st'>"unit_tests"</span>,
+  <span class='kw'>test_dirs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(<span class='fl'>0</span>),
+  <span class='kw'>stop_on_issue</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>stop_if_no_tests</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>require_RUnit_attached</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>require_pkg_attached</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>rngKind</span> <span class='kw'>=</span> <span class='st'>"Mersenne-Twister"</span>,
+  <span class='kw'>rngNormalKind</span> <span class='kw'>=</span> <span class='st'>"Inversion"</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -228,7 +236,7 @@ Stops on error.</p>
     <p>RUnit test results (invisible).</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Based on <a href='https://github.com/RcppCore/Rcpp/blob/master/tests/doRUnit.R'>https://github.com/RcppCore/Rcpp/blob/master/tests/doRUnit.R</a>.  This
+    <p>Based on <code>Rcpp/doRUnit.R</code>.  This
 version is GPL-3, works derived from it must be distributed GPL-3.</p>
 
   </div>

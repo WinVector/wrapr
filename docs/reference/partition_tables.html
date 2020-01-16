@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.4</span>
       </span>
     </div>
 
@@ -162,8 +162,15 @@
     <p>Partition a set of tables into a list of sets of tables.  Note: removes rownames.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>partition_tables</span>(<span class='no'>tables_used</span>, <span class='no'>partition_column</span>, <span class='no'>...</span>, <span class='kw'>source_usage</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>source_limit</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tables</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>partition_tables</span>(
+  <span class='no'>tables_used</span>,
+  <span class='no'>partition_column</span>,
+  <span class='no'>...</span>,
+  <span class='kw'>source_usage</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>source_limit</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>tables</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

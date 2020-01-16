@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.4</span>
       </span>
     </div>
 
@@ -162,9 +162,18 @@
     <p>Please see <a href='http://www.win-vector.com/blog/2014/05/trimming-the-fat-from-glm-models-in-r/'>http://www.win-vector.com/blog/2014/05/trimming-the-fat-from-glm-models-in-r/</a> for discussion.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>clean_fit_glm</span>(<span class='no'>outcome</span>, <span class='no'>variables</span>, <span class='no'>data</span>, <span class='no'>...</span>, <span class='no'>family</span>, <span class='kw'>intercept</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>outcome_target</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>outcome_comparator</span> <span class='kw'>=</span> <span class='st'>"=="</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>baseenv</a></span>())</pre>
+    <pre class="usage"><span class='fu'>clean_fit_glm</span>(
+  <span class='no'>outcome</span>,
+  <span class='no'>variables</span>,
+  <span class='no'>data</span>,
+  <span class='no'>...</span>,
+  <span class='no'>family</span>,
+  <span class='kw'>intercept</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>outcome_target</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>outcome_comparator</span> <span class='kw'>=</span> <span class='st'>"=="</span>,
+  <span class='kw'>weights</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>baseenv</a></span>()
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

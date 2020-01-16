@@ -1,5 +1,6 @@
 
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/wrapr)](https://cran.r-project.org/package=wrapr)
+[![status](https://tinyverse.netlify.com/badge/wrapr)](https://CRAN.R-project.org/package=wrapr)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
