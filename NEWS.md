@@ -1,8 +1,9 @@
 
-# wrapr 1.9.4 2020-01-11
+# wrapr 1.9.4 2020-01-16
 
  * tolerance on check_equiv_frames
  * remove graphics dependency
+ * improve ... check message.
 
 # wrapr 1.9.3 2019-11-03
 
