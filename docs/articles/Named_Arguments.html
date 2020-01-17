@@ -152,11 +152,11 @@
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/conditions.html">tryCatch</a></span>(</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2">  <span class="kw">f</span>(<span class="dv">7</span>, <span class="dt">q =</span> mtcars),</a>
 <a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="dt">error =</span> <span class="cf">function</span>(e) { <span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(e) })</a></code></pre></div>
-<pre><code>## &lt;simpleError: f unexpected arguments: q = mtcars&gt;</code></pre>
+<pre><code>## &lt;simpleError: f unexpected arguments: q = 'mtcars'&gt;</code></pre>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/conditions.html">tryCatch</a></span>(</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2">  <span class="kw">f</span>(<span class="dv">7</span>, <span class="dv">2</span>),</a>
 <a class="sourceLine" id="cb7-3" data-line-number="3">  <span class="dt">error =</span> <span class="cf">function</span>(e) { <span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(e) })</a></code></pre></div>
-<pre><code>## &lt;simpleError: f unexpected arguments: 2&gt;</code></pre>
+<pre><code>## &lt;simpleError: f unexpected arguments: '2'&gt;</code></pre>
 <p>By R function evaluation rules: any unexpected/undeclared arguments are captured by the “<code>…</code>” argument. Then “wrapr::stop_if_dot_args()” inspects for such values and reports an error if there are such. The “f” string is returned as part of the error, I chose the name of the function as in this case. The “substitute(list(…))” part is R’s way of making the contents of “…” available for inspection.</p>
 <p>You can also use the technique on required arguments. <a href="https://winvector.github.io/wrapr/reference/stop_if_dot_args.html">wrapr::stop_if_dot_args()</a> is a simple low-dependency helper function intended to make writing code such as the above easier. This is under the rubric that hidden errors are worse than thrown exceptions. It is best to find and signal problems early, and near the cause.</p>
 <p>The idea is that you should not expect a user to remember the positions of more than 1 to 3 arguments, the rest should only be referable by name. Do not make your users count along large sequences of arguments, <a href="https://en.wikipedia.org/wiki/Subitizing">the human brain may have special cases for small sequences</a>.</p>
