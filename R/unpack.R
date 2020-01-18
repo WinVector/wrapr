@@ -18,7 +18,9 @@
 #' print(b)  # now 10
 #'
 #' # bquote re-direct to value in variable using .()
-#' # plus quotes are allowed
+#' # Note: the bquote .() step is potentially confusing, as the user
+#' # can't immediately see where the value is being assigned to.
+#' # Also, quotes are allowed.
 #' a <- 'x'
 #' unpack[.(a), 'b'] <- list(20, 40)
 #' print(x)  # now 20
@@ -46,6 +48,7 @@
   return(self)
 }
 
+
 #' Unpack or bind values into the calling environment.
 #'
 #' Unpacks or binds values into the calling environment. Uses bquote escaping.
@@ -55,21 +58,54 @@
 #' @examples
 #'
 #' # name capture version
-#' unpack[a, b] <- list(5, 10)
+#' into[a, b] <- list(5, 10)
 #' print(a)  # now 5
 #' print(b)  # now 10
 #'
 #' # bquote re-direct to value in variable using .()
-#' # plus quotes are allowed
+#' # Note: the bquote .() step is potentially confusing, as the user
+#' # can't immediately see where the value is being assigned to.
+#' # Also, quotes are allowed.
 #' a <- 'x'
-#' unpack[.(a), 'b'] <- list(20, 40)
+#' into[.(a), 'b'] <- list(20, 40)
 #' print(x)  # now 20
 #' print(b)  # now 40
 #' print(a)  # still 'x'
 #'
 #' @export
 #'
-unpack <- (function() {
+into <- (function() {
   r <- list()
   class(r) <- 'unpacker'
   return(r)})()
+
+#' Unpack or bind values into the calling environment.
+#'
+#' Unpacks or binds values into the calling environment. Uses bquote escaping.
+#'
+#' Similar to \code{Python} tuple unpacking, \code{zeallot}'s arrow, and to \code{vadr::bind}.
+#'
+#' @examples
+#'
+#' # name capture version
+#' into[a, b] <- list(5, 10)
+#' print(a)  # now 5
+#' print(b)  # now 10
+#'
+#' # bquote re-direct to value in variable using .()
+#' # Note: the bquote .() step is potentially confusing, as the user
+#' # can't immediately see where the value is being assigned to.
+#' # Also, quotes are allowed.
+#' a <- 'x'
+#' into[.(a), 'b'] <- list(20, 40)
+#' print(x)  # now 20
+#' print(b)  # now 40
+#' print(a)  # still 'x'
+#'
+#' @export
+#'
+to <- (function() {
+  r <- list()
+  class(r) <- 'unpacker'
+  return(r)})()
+

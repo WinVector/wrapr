@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>S3 dispatch on class of pipe_left_arg. — apply_left • wrapr</title>
+<title>Unpack or bind values into the calling environment. — into • wrapr</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="S3 dispatch on class of pipe_left_arg. — apply_left" />
-<meta property="og:description" content="For formal documentation please see https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf." />
+<meta property="og:title" content="Unpack or bind values into the calling environment. — into" />
+<meta property="og:description" content="Unpacks or binds values into the calling environment. Uses bquote escaping." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -153,106 +153,44 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>S3 dispatch on class of pipe_left_arg.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/bpipe.R'><code>R/bpipe.R</code></a></small>
-    <div class="hidden name"><code>apply_left.Rd</code></div>
+    <h1>Unpack or bind values into the calling environment.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/unpack.R'><code>R/unpack.R</code></a></small>
+    <div class="hidden name"><code>into.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>For formal documentation please see <a href='https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf'>https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf</a>.</p>
+    <p>Unpacks or binds values into the calling environment. Uses bquote escaping.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>apply_left</span>(
-  <span class='no'>pipe_left_arg</span>,
-  <span class='no'>pipe_right_arg</span>,
-  <span class='no'>pipe_environment</span>,
-  <span class='no'>left_arg_name</span>,
-  <span class='no'>pipe_string</span>,
-  <span class='no'>right_arg_name</span>
-)</pre>
+    <pre class="usage"><span class='no'>into</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>pipe_left_arg</th>
-      <td><p>left argument.</p></td>
-    </tr>
-    <tr>
-      <th>pipe_right_arg</th>
-      <td><p>substitute(pipe_right_arg) argument.</p></td>
-    </tr>
-    <tr>
-      <th>pipe_environment</th>
-      <td><p>environment to evaluate in.</p></td>
-    </tr>
-    <tr>
-      <th>left_arg_name</th>
-      <td><p>name, if not NULL name of left argument.</p></td>
-    </tr>
-    <tr>
-      <th>pipe_string</th>
-      <td><p>character, name of pipe operator.</p></td>
-    </tr>
-    <tr>
-      <th>right_arg_name</th>
-      <td><p>name, if not NULL name of right argument.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>result</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <p>An object of class <code>unpacker</code> of length 0.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <div class='dont-index'><p><code><a href='apply_left.default.html'>apply_left.default</a></code></p></div>
+    <p>Similar to <code>Python</code> tuple unpacking, <code>zeallot</code>'s arrow, and to <code>vadr::bind</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>apply_left.character</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>pipe_left_arg</span>,
-                                 <span class='no'>pipe_right_arg</span>,
-                                 <span class='no'>pipe_environment</span>,
-                                 <span class='no'>left_arg_name</span>,
-                                 <span class='no'>pipe_string</span>,
-                                 <span class='no'>right_arg_name</span>) {
-  <span class='kw'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/is.language.html'>is.language</a></span>(<span class='no'>pipe_right_arg</span>)) {
-    <span class='kw pkg'>wrapr</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/wrapr/man/apply_left_default.html'>apply_left_default</a></span>(<span class='no'>pipe_left_arg</span>,
-                              <span class='no'>pipe_right_arg</span>,
-                              <span class='no'>pipe_environment</span>,
-                              <span class='no'>left_arg_name</span>,
-                              <span class='no'>pipe_string</span>,
-                              <span class='no'>right_arg_name</span>)
-  } <span class='kw'>else</span> {
-    <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='no'>pipe_left_arg</span>, <span class='no'>pipe_right_arg</span>)
-  }
-}
-<span class='fu'>setMethod</span>(
-  <span class='kw pkg'>wrapr</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/wrapr/man/apply_right_S4.html'>apply_right_S4</a></span>,
-  <span class='kw'>signature</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>pipe_left_arg</span> <span class='kw'>=</span> <span class='st'>"character"</span>, <span class='kw'>pipe_right_arg</span> <span class='kw'>=</span> <span class='st'>"character"</span>),
-  <span class='kw'>function</span>(<span class='no'>pipe_left_arg</span>,
-           <span class='no'>pipe_right_arg</span>,
-           <span class='no'>pipe_environment</span>,
-           <span class='no'>left_arg_name</span>,
-           <span class='no'>pipe_string</span>,
-           <span class='no'>right_arg_name</span>) {
-    <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='no'>pipe_left_arg</span>, <span class='no'>pipe_right_arg</span>)
-  })
-
-<span class='st'>"a"</span> <span class='kw'>%.&gt;%</span> <span class='fl'>5</span> <span class='kw'>%.&gt;%</span> <span class='fl'>7</span></div><div class='output co'>#&gt; <span class='error'>Error: wrapr::apply_left.default does not allow piping into obvious concrete right-argument (clearly can't depend on left argument):</span>
-#&gt; <span class='error'>  character </span>
-#&gt; <span class='error'>  numeric</span></div><div class='input'>
-<span class='st'>"a"</span> <span class='kw'>%.&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/chartr.html'>toupper</a></span>(<span class='no'>.</span>)</div><div class='output co'>#&gt; [1] "A"</div><div class='input'>
-<span class='no'>q</span> <span class='kw'>&lt;-</span> <span class='st'>"z"</span>
-<span class='st'>"a"</span> <span class='kw'>%.&gt;%</span> <span class='no'>q</span></div><div class='output co'>#&gt; [1] "a z"</div><div class='input'>
-
+<span class='co'># name capture version</span>
+<span class='no'>into</span>[<span class='no'>a</span>, <span class='no'>b</span>] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fl'>5</span>, <span class='fl'>10</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>)  <span class='co'># now 5</span></div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>b</span>)  <span class='co'># now 10</span></div><div class='output co'>#&gt; [1] 10</div><div class='input'>
+<span class='co'># bquote re-direct to value in variable using .()</span>
+<span class='co'># Note: the bquote .() step is potentially confusing, as the user</span>
+<span class='co'># can't immediately see where the value is being assigned to.</span>
+<span class='co'># Also, quotes are allowed.</span>
+<span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='st'>'x'</span>
+<span class='no'>into</span>[<span class='fu'>.</span>(<span class='no'>a</span>), <span class='st'>'b'</span>] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fl'>20</span>, <span class='fl'>40</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>)  <span class='co'># now 20</span></div><div class='output co'>#&gt; [1] 20</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>b</span>)  <span class='co'># now 40</span></div><div class='output co'>#&gt; [1] 40</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>)  <span class='co'># still 'x'</span></div><div class='output co'>#&gt; [1] "x"</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#see-also">See also</a></li>
+      <li><a href="#format">Format</a></li>
+      <li><a href="#details">Details</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 
