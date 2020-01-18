@@ -28,7 +28,7 @@ stop_if_dot_args <- function(dot_args, msg = "") {
     unams <- names(dot_args)[-1]
     uvals <- as.character(dot_args)[-1]
     saw_blank <- any(nchar(uvals)<=0)
-    uvals <- sQuote(uvals, q=FALSE)
+    uvals <- sQuote(uvals)
     unams[is.null(unams)] <- ""
     not_null <- nchar(unams)>0
     unams[not_null] <- paste0(unams[not_null], " = ")

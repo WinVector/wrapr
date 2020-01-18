@@ -1,4 +1,8 @@
 
+# wrapr 1.9.5 2020-01-18
+
+ * remove q= from sQuote to, as that feature wasn't added until newer Rs.
+
 # wrapr 1.9.4 2020-01-16
 
  * tolerance on check_equiv_frames
