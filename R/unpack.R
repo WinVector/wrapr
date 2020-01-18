@@ -13,7 +13,7 @@
 #' @examples
 #'
 #' # name capture version
-#' unpack[a, b] <- list(5, 10)
+#' into[a, b] <- list(5, 10)
 #' print(a)  # now 5
 #' print(b)  # now 10
 #'
@@ -22,7 +22,7 @@
 #' # can't immediately see where the value is being assigned to.
 #' # Also, quotes are allowed.
 #' a <- 'x'
-#' unpack[.(a), 'b'] <- list(20, 40)
+#' into[.(a), 'b'] <- list(20, 40)
 #' print(x)  # now 20
 #' print(b)  # now 40
 #' print(a)  # still 'x'
@@ -88,7 +88,7 @@ into <- (function() {
 #' @examples
 #'
 #' # name capture version
-#' into[a, b] <- list(5, 10)
+#' to[a, b] <- list(5, 10)
 #' print(a)  # now 5
 #' print(b)  # now 10
 #'
@@ -97,7 +97,7 @@ into <- (function() {
 #' # can't immediately see where the value is being assigned to.
 #' # Also, quotes are allowed.
 #' a <- 'x'
-#' into[.(a), 'b'] <- list(20, 40)
+#' to[.(a), 'b'] <- list(20, 40)
 #' print(x)  # now 20
 #' print(b)  # now 40
 #' print(a)  # still 'x'

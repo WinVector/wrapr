@@ -25,7 +25,7 @@ Similar to \code{Python} tuple unpacking, \code{zeallot}'s arrow, and to \code{v
 \examples{
 
 # name capture version
-unpack[a, b] <- list(5, 10)
+into[a, b] <- list(5, 10)
 print(a)  # now 5
 print(b)  # now 10
 
@@ -34,7 +34,7 @@ print(b)  # now 10
 # can't immediately see where the value is being assigned to.
 # Also, quotes are allowed.
 a <- 'x'
-unpack[.(a), 'b'] <- list(20, 40)
+into[.(a), 'b'] <- list(20, 40)
 print(x)  # now 20
 print(b)  # now 40
 print(a)  # still 'x'
