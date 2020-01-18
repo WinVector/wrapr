@@ -1,0 +1,75 @@
+
+#' Unpack or bind values into the calling environment.
+#'
+#' Unpacks or binds values into the calling environment. Uses \code{bquote} escaping.
+#'
+#' Similar to \code{Python} tuple unpacking, \code{zeallot}'s arrow, and to \code{vadr::bind}.
+#'
+#' @param self object implementing the feature, wrapr::unpack
+#' @param ... names of to unpack to (can be escaped with bquote \code{.()} notation).
+#' @param value list to unpack into values, must have a number of entries equal to number of \code{...} arguments
+#' @return self
+#'
+#' @examples
+#'
+#' # name capture version
+#' unpack[a, b] <- list(5, 10)
+#' print(a)  # now 5
+#' print(b)  # now 10
+#'
+#' # bquote re-direct to value in variable using .()
+#' # plus quotes are allowed
+#' a <- 'x'
+#' unpack[.(a), 'b'] <- list(20, 40)
+#' print(x)  # now 20
+#' print(b)  # now 40
+#' print(a)  # still 'x'
+#'
+#' @export
+#'
+`[<-.unpacker` <- function(self, ..., value) {
+  unpack_environment <- parent.frame(n = 1)
+  # capture the arguments unevaluted, and run through bquote
+  args <- as.list(do.call(bquote, list(substitute(list(...)), where = unpack_environment)))[-1]
+  nargs <- length(args)
+  if(nargs < 1) {
+    stop("no indices to wrapr::unpacker")
+  }
+  nvalue <- length(value)
+  if(nargs != nvalue) {
+    stop(paste0("wrapr::unpack number of returned values is ", nvalue, ", but expecting ", nargs, " values."))
+  }
+  for(i in 1:nargs) {
+    argi <- args[[i]]
+    assign(x = as.character(argi), value = value[[i]], envir = unpack_environment)
+  }
+  return(self)
+}
+
+#' Unpack or bind values into the calling environment.
+#'
+#' Unpacks or binds values into the calling environment. Uses bquote escaping.
+#'
+#' Similar to \code{Python} tuple unpacking, \code{zeallot}'s arrow, and to \code{vadr::bind}.
+#'
+#' @examples
+#'
+#' # name capture version
+#' unpack[a, b] <- list(5, 10)
+#' print(a)  # now 5
+#' print(b)  # now 10
+#'
+#' # bquote re-direct to value in variable using .()
+#' # plus quotes are allowed
+#' a <- 'x'
+#' unpack[.(a), 'b'] <- list(20, 40)
+#' print(x)  # now 20
+#' print(b)  # now 40
+#' print(a)  # still 'x'
+#'
+#' @export
+#'
+unpack <- (function() {
+  r <- list()
+  class(r) <- 'unpacker'
+  return(r)})()
