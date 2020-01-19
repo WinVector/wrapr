@@ -18,6 +18,7 @@ self
 }
 \description{
 Unpacks or binds values into the calling environment. Uses \code{bquote} escaping.
+NULL is a special case that is unpacked to all targets.
 }
 \details{
 Similar to \code{Python} tuple unpacking, \code{zeallot}'s arrow, and to \code{vadr::bind}.

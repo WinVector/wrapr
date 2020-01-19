@@ -2,6 +2,7 @@
 #' Unpack or bind values into the calling environment.
 #'
 #' Unpacks or binds values into the calling environment. Uses \code{bquote} escaping.
+#' NULL is a special case that is unpacked to all targets.
 #'
 #' Similar to \code{Python} tuple unpacking, \code{zeallot}'s arrow, and to \code{vadr::bind}.
 #'
@@ -58,6 +59,10 @@
     }
     str_args[[i]] <- cargi
   }
+  # up-cycling NULL case
+  if(is.null(value)) {
+    value <- vector(mode = 'list', length=nargs)  # list of NULLs
+  }
   nvalue <- length(value)
   if(nargs != nvalue) {
     stop(paste0("wrapr::unpack number of returned values is ", nvalue, ", but expecting ", nargs, " values."))
@@ -73,6 +78,7 @@
 #' Unpack or bind values into the calling environment.
 #'
 #' Unpacks or binds values into the calling environment. Uses bquote escaping.
+#' NULL is a special case that is unpacked to all targets.
 #'
 #' Similar to \code{Python} tuple unpacking, \code{zeallot}'s arrow, and to \code{vadr::bind}.
 #'
@@ -103,6 +109,7 @@ into <- (function() {
 #' Unpack or bind values into the calling environment.
 #'
 #' Unpacks or binds values into the calling environment. Uses bquote escaping.
+#' NULL is a special case that is unpacked to all targets.
 #'
 #' Similar to \code{Python} tuple unpacking, \code{zeallot}'s arrow, and to \code{vadr::bind}.
 #'
