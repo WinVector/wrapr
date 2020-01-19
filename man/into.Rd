@@ -38,4 +38,11 @@ print(x)  # now 20
 print(b)  # now 40
 print(a)  # still 'x'
 
+# into has the attribute dotpipe_eager_eval set to TRUE,
+# so they do not need to be written as .(intro(a, b)) to trigger
+# eager function eval in the pipeline
+list(55, 15) \%.>\% into(a, b)
+print(a)  # now 55
+print(b)  # now 15
+
 }

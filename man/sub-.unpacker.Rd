@@ -24,8 +24,8 @@ Similar to \code{Python} tuple unpacking, \code{zeallot}'s arrow, and to \code{v
 }
 \examples{
 
-# The outer .() is wrapr pipe notation for "early execute",
-# so into(a,b) is evaluated before piping the list into.
+# We must use wrapr dot-pipe .() notation to trigger
+# early evaluation of into[a, b].
 list(5, 10) \%.>\% .(into[a, b])
 print(a)  # now 5
 print(b)  # now 10

@@ -387,14 +387,27 @@ pipe_impl <- function(pipe_left_arg,
   is_function_decl <- is.call(pipe_right_arg) &&
     (length(as.character(pipe_right_arg[[1]]))==1) &&
     (as.character(pipe_right_arg[[1]])=="function")
-  # special-case .() on RHS
-  dot_paren <- is.call(pipe_right_arg) &&
-    (length(as.character(pipe_right_arg[[1]]))==1) &&
-    (as.character(pipe_right_arg[[1]])[[1]]==".")
+  dot_paren <- FALSE
+  eager_function_eval <- FALSE
+  if(is.call(pipe_right_arg) &&
+     (length(as.character(pipe_right_arg[[1]]))==1)) {
+    call_name <- as.character(pipe_right_arg[[1]])[[1]]
+    if(call_name == ".") {
+      # special-case .() on RHS
+      dot_paren <- TRUE
+    } else {
+      fn_found <- mget(call_name, envir = pipe_environment, mode = "function", inherits=TRUE, ifnotfound = list(NULL))[[1]]
+      if(!is.null(fn_found)) {
+        if(isTRUE(attr(fn_found, "dotpipe_eager_eval"))) {
+          eager_function_eval <- TRUE
+        }
+      }
+    }
+  }
   # check for right-apply situations
   if(is.function(pipe_right_arg) ||
      is_name || qualified_name ||
-     is_function_decl || dot_paren) {
+     is_function_decl || dot_paren || eager_function_eval) {
     if(is_name) {
       if(as.character(pipe_right_arg) %in% forbidden_pipe_destination_names) {
         stop(paste("to reduce surprising behavior wrapr::pipe does not allow direct piping into some names, such as",
@@ -412,6 +425,10 @@ pipe_impl <- function(pipe_left_arg,
       pipe_right_arg <- eval(pipe_right_arg[[2]],
                             envir = pipe_environment,
                             enclos = pipe_environment)
+    } else if(eager_function_eval) {
+      pipe_right_arg <- eval(pipe_right_arg,
+                             envir = pipe_environment,
+                             enclos = pipe_environment)
     }
     # pipe_right_arg is now a value (as far as we are concerned)
     # special case: functions

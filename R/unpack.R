@@ -120,6 +120,7 @@ define_unpacker <- function(object_name) {
     unpack_environment <- parent.frame(n = 1)
     return(unpacker_target(unpack_environment, ...))
   }
+  attr(f, "dotpipe_eager_eval") <- TRUE
   attr(f, 'object_name') <- object_name
   class(f) <- 'unpacker'
   return(f)
@@ -245,6 +246,13 @@ print.unpacker <- function(x, ...) {
 #' print(b)  # now 40
 #' print(a)  # still 'x'
 #'
+#' # into has the attribute dotpipe_eager_eval set to TRUE,
+#' # so they do not need to be written as .(intro(a, b)) to trigger
+#' # eager function eval in the pipeline
+#' list(55, 15) %.>% into(a, b)
+#' print(a)  # now 55
+#' print(b)  # now 15
+#'
 #' @export
 #'
 into <- define_unpacker("into")
@@ -280,6 +288,13 @@ into <- define_unpacker("into")
 #' print(b)  # now 40
 #' print(a)  # still 'x'
 #'
+#' # into and to have the attribute dotpipe_eager_eval set to TRUE,
+#' # so they do not need to be written as .(intro(a, b)) to trigger
+#' # eager function eval in the pipeline
+#' list(55, 15) %.>% to(a, b)
+#' print(a)  # now 55
+#' print(b)  # now 15
+#'
 #' @export
 #'
 to <- define_unpacker("to")
@@ -300,8 +315,8 @@ to <- define_unpacker("to")
 #'
 #' @examples
 #'
-#' # The outer .() is wrapr pipe notation for "early execute",
-#' # so into[a, b] is evaluated before piping the list into.
+#' # We must use wrapr dot-pipe .() notation to trigger
+#' # early evaluation of into[a, b].
 #' list(5, 10) %.>% .(into[a, b])
 #' print(a)  # now 5
 #' print(b)  # now 10
