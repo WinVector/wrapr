@@ -69,15 +69,15 @@ write_values_into_env <- function(unpack_environment, str_args, value) {
 
 
 #' create an argname carrier that is a function
+#' @param unpack_environment environment to look into
 #' @param ... names to capture for assignments
 #' @return an unpacking function
 #'
 #' @keywords internal
 #' @export
 #'
-unpacker_target <- function(...) {
-  # get environment to work in
-  unpack_environment <- parent.frame(n = 1)
+unpacker_target <- function(unpack_environment, ...) {
+  force(unpack_environment)
   str_args <- capture_and_validate_assignment_targets(unpack_environment, ...)
   f <- function(value) {
     unpack_environment <- parent.frame(n = 1)
@@ -116,8 +116,10 @@ print.unpacker_target <- function(x, ...) {
 define_unpacker <- function(object_name) {
   force(object_name)
   f <- function(...) {
+    # get environment to work in
+    unpack_environment <- parent.frame(n = 1)
     # need ::, as re-writing function environment
-    return(wrapr::unpacker_target(...))
+    return(wrapr::unpacker_target(unpack_environment, ...))
   }
   environment(f) <- new.env(parent = globalenv())
   assign('object_name', object_name, envir = environment(f))
@@ -285,3 +287,31 @@ into <- define_unpacker("into")
 to <- define_unpacker("to")
 
 
+#' Build an unpackign target.
+#'
+#' Unpacks or binds values into the calling environment. Uses \code{bquote} escaping.
+#' NULL is a special case that is unpacked to all targets. NA targets are skipped.
+#' All non-NA target names must be unique.
+#'
+#' Similar to \code{Python} tuple unpacking, \code{zeallot}'s arrow, and to \code{vadr::bind}.
+#'
+#'
+#' @param self object implementing the feature, wrapr::unpack
+#' @param ... names of to unpack to (can be escaped with bquote \code{.()} notation).
+#' @return self
+#'
+#' @examples
+#'
+#' # The outer .() is wrapr pipe notation for "early execute",
+#' # so into(a,b) is evaluated before piping the list into.
+#' list(5, 10) %.>% .(into[a, b])
+#' print(a)  # now 5
+#' print(b)  # now 10
+#'
+#' @export
+#'
+`[.unpacker` <- function(self, ...) {
+  # get environment to work in
+  unpack_environment <- parent.frame(n = 1)
+  return(unpacker_target(unpack_environment, ...))
+}

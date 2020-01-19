@@ -4,9 +4,11 @@
 \alias{unpacker_target}
 \title{create an argname carrier that is a function}
 \usage{
-unpacker_target(...)
+unpacker_target(unpack_environment, ...)
 }
 \arguments{
+\item{unpack_environment}{environment to look into}
+
 \item{...}{names to capture for assignments}
 }
 \value{
