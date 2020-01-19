@@ -4,16 +4,21 @@
 \name{to}
 \alias{to}
 \title{Unpack or bind values into the calling environment.}
-\format{An object of class \code{unpacker} of length 0.}
+\format{An object of class \code{unpacker} of length 1.}
 \usage{
 to
 }
 \description{
-Unpacks or binds values into the calling environment. Uses bquote escaping.
-NULL is a special case that is unpacked to all targets.
+Unpacks or binds values into the calling environment. Uses \code{bquote} escaping.
+NULL is a special case that is unpacked to all targets. NA targets are skipped.
+All non-NA target names must be unique.
 }
 \details{
 Similar to \code{Python} tuple unpacking, \code{zeallot}'s arrow, and to \code{vadr::bind}.
+
+Note: a reference to the unpacker object is written into the unpacking environment as a side-effect
+of the implied array assignment.  Also, can not unpack into a variable name same as the un-packer's
+original declared name (to).
 }
 \examples{
 

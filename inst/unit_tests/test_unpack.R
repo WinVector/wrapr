@@ -6,6 +6,8 @@ test_unpack <- function() {
   RUnit::checkEquals(a, 5)
   RUnit::checkEquals(b, 10)
 
+  # into is now in local namespace, 2nd check is also checking that still works
+
   # bquote re-direct to value in variable
   # plus quotes are allowed
   a <- 'x'
