@@ -74,6 +74,11 @@
   return(self)
 }
 
+define_unpacker <- function() {
+  r <- list()
+  class(r) <- 'unpacker'
+  return(r)
+}
 
 #' Unpack or bind values into the calling environment.
 #'
@@ -101,10 +106,7 @@
 #'
 #' @export
 #'
-into <- (function() {
-  r <- list()
-  class(r) <- 'unpacker'
-  return(r)})()
+into <- define_unpacker()
 
 #' Unpack or bind values into the calling environment.
 #'
@@ -132,8 +134,5 @@ into <- (function() {
 #'
 #' @export
 #'
-to <- (function() {
-  r <- list()
-  class(r) <- 'unpacker'
-  return(r)})()
+to <- into
 
