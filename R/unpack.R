@@ -118,11 +118,9 @@ define_unpacker <- function(object_name) {
   f <- function(...) {
     # get environment to work in
     unpack_environment <- parent.frame(n = 1)
-    # need ::, as re-writing function environment
-    return(wrapr::unpacker_target(unpack_environment, ...))
+    return(unpacker_target(unpack_environment, ...))
   }
-  environment(f) <- new.env(parent = globalenv())
-  assign('object_name', object_name, envir = environment(f))
+  attr(f, 'object_name') <- object_name
   class(f) <- 'unpacker'
   return(f)
 }
@@ -130,8 +128,8 @@ define_unpacker <- function(object_name) {
 
 #' @export
 format.unpacker <- function(x, ...) {
-  str_args <- get('object_name', envir = environment(x))
-  return(str_args)
+  object_name <- attr(x, 'object_name')
+  return(object_name)
 }
 
 
@@ -191,7 +189,7 @@ print.unpacker <- function(x, ...) {
   # destination environment after returning from this method,
   # try to ensure it is obvious it is the exact
   # object that was already there.
-  object_name <- get('object_name', envir = environment(self))
+  object_name <- attr(self, 'object_name')
   old_value <- base::mget(object_name,
                           envir = unpack_environment,
                           mode = "any",
@@ -303,7 +301,7 @@ to <- define_unpacker("to")
 #' @examples
 #'
 #' # The outer .() is wrapr pipe notation for "early execute",
-#' # so into(a,b) is evaluated before piping the list into.
+#' # so into[a, b] is evaluated before piping the list into.
 #' list(5, 10) %.>% .(into[a, b])
 #' print(a)  # now 5
 #' print(b)  # now 10
