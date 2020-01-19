@@ -1,6 +1,7 @@
 
-# wrapr 1.9.6 2020-01-18
+# wrapr 1.9.6 2020-01-19
 
+ * Add dotpipe_eager_eval.
  * Add on unpack method.
 
 # wrapr 1.9.5 2020-01-18

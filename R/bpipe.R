@@ -396,10 +396,25 @@ pipe_impl <- function(pipe_left_arg,
       # special-case .() on RHS
       dot_paren <- TRUE
     } else {
-      fn_found <- mget(call_name, envir = pipe_environment, mode = "function", inherits=TRUE, ifnotfound = list(NULL))[[1]]
-      if(!is.null(fn_found)) {
-        if(isTRUE(attr(fn_found, "dotpipe_eager_eval"))) {
-          eager_function_eval <- TRUE
+      if(call_name == '[') {
+        # special case [, treat 2nd argument as controller
+        if(length(pipe_right_arg) >= 2) {
+          obj_found_name <- as.character(pipe_right_arg[[2]])
+          if(length(obj_found_name)==1) {
+            obj_found <- mget(obj_found_name, envir = pipe_environment, mode = "any", inherits=TRUE, ifnotfound = list(NULL))[[1]]
+            if(!is.null(obj_found)) {
+              if(isTRUE(attr(obj_found, "dotpipe_eager_eval"))) {
+                eager_function_eval <- TRUE
+              }
+            }
+          }
+        }
+      } else {
+        fn_found <- mget(call_name, envir = pipe_environment, mode = "function", inherits=TRUE, ifnotfound = list(NULL))[[1]]
+        if(!is.null(fn_found)) {
+          if(isTRUE(attr(fn_found, "dotpipe_eager_eval"))) {
+            eager_function_eval <- TRUE
+          }
         }
       }
     }

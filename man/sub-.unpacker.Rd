@@ -24,9 +24,10 @@ Similar to \code{Python} tuple unpacking, \code{zeallot}'s arrow, and to \code{v
 }
 \examples{
 
-# We must use wrapr dot-pipe .() notation to trigger
-# early evaluation of into[a, b].
-list(5, 10) \%.>\% .(into[a, b])
+# into and to have the attribute dotpipe_eager_eval set to TRUE,
+# so they do not need to be written as .(intro(a, b)) to trigger
+# eager function eval in the pipeline
+list(5, 10) \%.>\% into[a, b]
 print(a)  # now 5
 print(b)  # now 10
 

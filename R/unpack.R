@@ -27,6 +27,13 @@ capture_and_validate_assignment_targets <- function(unpack_environment, ...) {
       if(nchar(cargi) < 1) {
         stop("wrapr::unpack expected all targets to be non-empty strings")
       }
+      tcargi <- trimws(cargi, which = "both")
+      if(tcargi != cargi) {
+        stop("wrapr::unpack expected all targets must not start or end with whitespace")
+      }
+      if(cargi == ".") {
+        stop("wrapr::unpack expected all targets must not be .")
+      }
     }
     str_args[[i]] <- cargi
   }
@@ -315,9 +322,10 @@ to <- define_unpacker("to")
 #'
 #' @examples
 #'
-#' # We must use wrapr dot-pipe .() notation to trigger
-#' # early evaluation of into[a, b].
-#' list(5, 10) %.>% .(into[a, b])
+#' # into and to have the attribute dotpipe_eager_eval set to TRUE,
+#' # so they do not need to be written as .(intro(a, b)) to trigger
+#' # eager function eval in the pipeline
+#' list(5, 10) %.>% into[a, b]
 #' print(a)  # now 5
 #' print(b)  # now 10
 #'

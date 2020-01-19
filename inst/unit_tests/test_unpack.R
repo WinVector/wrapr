@@ -16,5 +16,21 @@ test_unpack <- function() {
   RUnit::checkEquals(x, 20)
   RUnit::checkEquals(b, 40)
 
+  list(56, 106) %.>% into[a, b]
+  RUnit::checkEquals(a, 56)
+  RUnit::checkEquals(b, 106)
+
+  list(561, 1061) %.>% .(into[a, b])
+  RUnit::checkEquals(a, 561)
+  RUnit::checkEquals(b, 1061)
+
+  list(256, 2106) %.>% into(a, b)
+  RUnit::checkEquals(a, 256)
+  RUnit::checkEquals(b, 2106)
+
+  list(2561, 21061) %.>% .(into(a, b))
+  RUnit::checkEquals(a, 2561)
+  RUnit::checkEquals(b, 21061)
+
   invisible(NULL)
 }

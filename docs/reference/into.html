@@ -196,6 +196,11 @@ original declared name (into).</p>
 <span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='st'>'x'</span>
 <span class='no'>into</span>[<span class='fu'>.</span>(<span class='no'>a</span>), <span class='st'>'b'</span>] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fl'>20</span>, <span class='fl'>40</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>)  <span class='co'># now 20</span></div><div class='output co'>#&gt; [1] 20</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>b</span>)  <span class='co'># now 40</span></div><div class='output co'>#&gt; [1] 40</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>)  <span class='co'># still 'x'</span></div><div class='output co'>#&gt; [1] "x"</div><div class='input'>
+<span class='co'># into has the attribute dotpipe_eager_eval set to TRUE,</span>
+<span class='co'># so they do not need to be written as .(intro(a, b)) to trigger</span>
+<span class='co'># eager function eval in the pipeline</span>
+<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fl'>55</span>, <span class='fl'>15</span>) <span class='kw'>%.&gt;%</span> <span class='fu'>into</span>(<span class='no'>a</span>, <span class='no'>b</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>)  <span class='co'># now 55</span></div><div class='output co'>#&gt; [1] 55</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>b</span>)  <span class='co'># now 15</span></div><div class='output co'>#&gt; [1] 15</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
