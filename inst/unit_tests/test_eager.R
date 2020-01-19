@@ -1,0 +1,15 @@
+
+test_eager <- function() {
+
+  lst <- list(sin)
+  attr(lst, 'dotpipe_eager_eval') <- TRUE
+  res <- 4 %.>% lst[[1]]
+  RUnit::checkEqualsNumeric(sin(4), res)
+
+  f <- function() { sin }
+  attr(f, 'dotpipe_eager_eval') <- TRUE
+  res2 <- 4 %.>% f()
+  RUnit::checkEqualsNumeric(sin(4), res2)
+
+  invisible(NULL)
+}

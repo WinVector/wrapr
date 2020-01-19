@@ -396,7 +396,7 @@ pipe_impl <- function(pipe_left_arg,
       # special-case .() on RHS
       dot_paren <- TRUE
     } else {
-      if(call_name == '[') {
+      if(call_name %in% c('[', '[[')) {
         # special case [, treat 2nd argument as controller
         if(length(pipe_right_arg) >= 2) {
           obj_found_name <- as.character(pipe_right_arg[[2]])
