@@ -44,6 +44,7 @@ capture_and_validate_assignment_targets <- function(unpack_environment, ...) {
   return(str_args)
 }
 
+
 #' write values into environment
 #'
 #' @param unpack_environment environment to write into
@@ -51,7 +52,7 @@ capture_and_validate_assignment_targets <- function(unpack_environment, ...) {
 #' @param value values to write
 #'
 #' @keywords internal
-#' @export
+#' @noRd
 #'
 write_values_into_env <- function(unpack_environment, str_args, value) {
   force(unpack_environment)
@@ -74,60 +75,36 @@ write_values_into_env <- function(unpack_environment, str_args, value) {
 }
 
 
-
-#' create an argname carrier that is a function
-#' @param unpack_environment environment to look into
-#' @param ... names to capture for assignments
-#' @return an unpacking function
+#' Create a value unpacking object.
+#'
+#' Create a value unplacking object that records it is stored by name \code{object_name}.
+#'
+#' @param object_name character, name the object is stored as
+#' @return an unpacker
 #'
 #' @keywords internal
 #' @export
 #'
-unpacker_target <- function(unpack_environment, ...) {
-  force(unpack_environment)
-  str_args <- capture_and_validate_assignment_targets(unpack_environment, ...)
-  f <- function(value) {
-    unpack_environment <- parent.frame(n = 1)
-    force(value)
-    # need ::, as re-writing function environment
-    wrapr::write_values_into_env(unpack_environment = unpack_environment, str_args = str_args, value = value)
-  }
-  environment(f) <- new.env(parent = globalenv())
-  assign('str_args', str_args, envir = environment(f))
-  class(f) <- 'unpacker_target'
-  return(f)
-}
-
-
-#' @export
-format.unpacker_target <- function(x, ...) {
-  str_args <- get('str_args', envir = environment(x))
-  return(paste0("unpacker_target(", paste(str_args, collapse = ', '), ")"))
-}
-
-
-#' @export
-as.character.unpacker_target <- function(x, ...) {
-  format(x, ...)
-}
-
-
-#' @export
-print.unpacker_target <- function(x, ...) {
-  cat(format(x, ...))
-}
-
-
-
-# create the unpack object
 define_unpacker <- function(object_name) {
   force(object_name)
-  f <- function(...) {
+  if(!is.null(object_name)) {
+    if(!is.character(object_name)) {
+      stop("wrapr::define_unpacker object_name must be character when not NULL")
+    }
+    if(length(object_name) != 1) {
+      stop("wrapr::define_unpacker object_naem must be length 1 when not NULL")
+    }
+  }
+
+  f <- function(value, ...) {
     # get environment to work in
     unpack_environment <- parent.frame(n = 1)
-    return(unpacker_target(unpack_environment, ...))
+    # get the targets
+    str_args <- capture_and_validate_assignment_targets(unpack_environment, ...)
+    force(value)
+    write_values_into_env(unpack_environment = unpack_environment, str_args = str_args, value = value)
   }
-  attr(f, "dotpipe_eager_eval") <- TRUE
+
   attr(f, 'object_name') <- object_name
   class(f) <- 'unpacker'
   return(f)
@@ -161,7 +138,7 @@ print.unpacker <- function(x, ...) {
 #'
 #' Similar to \code{Python} tuple unpacking, \code{zeallot}'s arrow, and to \code{vadr::bind}.
 #'
-#' Note: a reference to the unpacker object is written into the unpacking environment as a side-effect
+#' Note: when using \code{[]<-} notation, a reference to the unpacker object is written into the unpacking environment as a side-effect
 #' of the implied array assignment.  Also, can not unpack into a variable name same as the un-packer's
 #' original declared name (to/into).
 #'
@@ -197,20 +174,26 @@ print.unpacker <- function(x, ...) {
   # destination environment after returning from this method,
   # try to ensure it is obvious it is the exact
   # object that was already there.
+  # arg name not passed this deep, the followign sees "*tmp*"
+  # object_name <- as.character(deparse(substitute(self)))[[1]]
   object_name <- attr(self, 'object_name')
-  old_value <- base::mget(object_name,
-                          envir = unpack_environment,
-                          mode = "any",
-                          ifnotfound = list(self),
-                          inherits = FALSE)[[1]]
-  if(!("unpacker" %in% class(old_value))) {
-    stop(paste0("running upacker would overwrite ", object_name, " which is not an unpacker"))
+  if(!is.null(object_name)) {
+    old_value <- base::mget(object_name,
+                            envir = unpack_environment,
+                            mode = "any",
+                            ifnotfound = list(self),
+                            inherits = FALSE)[[1]]
+    if(!("unpacker" %in% class(old_value))) {
+      stop(paste0("running upacker would overwrite ", object_name, " which is not an unpacker"))
+    }
   }
   str_args <- capture_and_validate_assignment_targets(unpack_environment, ...)
-  for(si in str_args) {
-    if(!is.na(si)) {
-      if(si == object_name) {
-        stop(paste0("wrapr::unpack, target collided with unpacker name: ", object_name))
+  if(!is.null(object_name)) {
+    for(si in str_args) {
+      if(!is.na(si)) {
+        if(si == object_name) {
+          stop(paste0("wrapr::unpack, target collided with unpacker name: ", object_name))
+        }
       }
     }
   }
@@ -234,6 +217,7 @@ print.unpacker <- function(x, ...) {
 #' of the implied array assignment.  Also, can not unpack into a variable name same as the un-packer's
 #' original declared name (into).
 #'
+#' @param value list of values to copy
 #' @param ... argument names to write to
 #'
 #' @examples
@@ -253,10 +237,8 @@ print.unpacker <- function(x, ...) {
 #' print(b)  # now 40
 #' print(a)  # still 'x'
 #'
-#' # into has the attribute dotpipe_eager_eval set to TRUE,
-#' # so they do not need to be written as .(intro(a, b)) to trigger
-#' # eager function eval in the pipeline
-#' list(55, 15) %.>% into(a, b)
+#' # pipe version
+#' list(55, 15) %.>% into(., a, b)
 #' print(a)  # now 55
 #' print(b)  # now 15
 #'
@@ -272,10 +254,11 @@ into <- define_unpacker("into")
 #'
 #' Similar to \code{Python} tuple unpacking, \code{zeallot}'s arrow, and to \code{vadr::bind}.
 #'
-#' Note: a reference to the unpacker object is written into the unpacking environment as a side-effect
+#' Note: when using \code{[]<-} notation, a reference to the unpacker object is written into the unpacking environment as a side-effect
 #' of the implied array assignment.  Also, can not unpack into a variable name same as the un-packer's
 #' original declared name (to).
 #'
+#' @param value list of values to copy
 #' @param ... argument names to write to
 #'
 #' @examples
@@ -295,10 +278,8 @@ into <- define_unpacker("into")
 #' print(b)  # now 40
 #' print(a)  # still 'x'
 #'
-#' # into and to have the attribute dotpipe_eager_eval set to TRUE,
-#' # so they do not need to be written as .(intro(a, b)) to trigger
-#' # eager function eval in the pipeline
-#' list(55, 15) %.>% to(a, b)
+#' # pipe version
+#' list(55, 15) %.>% to(., a, b)
 #' print(a)  # now 55
 #' print(b)  # now 15
 #'
@@ -306,8 +287,7 @@ into <- define_unpacker("into")
 #'
 to <- define_unpacker("to")
 
-
-#' Build an unpackign target.
+#' Unpack or bind values into the calling environment.
 #'
 #' Unpacks or binds values into the calling environment. Uses \code{bquote} escaping.
 #' NULL is a special case that is unpacked to all targets. NA targets are skipped.
@@ -315,49 +295,36 @@ to <- define_unpacker("to")
 #'
 #' Similar to \code{Python} tuple unpacking, \code{zeallot}'s arrow, and to \code{vadr::bind}.
 #'
+#' Note: a reference to the unpacker object is written into the unpacking environment as a side-effect
+#' of the implied array assignment.  Also, can not unpack into a variable name same as the un-packer's
+#' original declared name (unpack).
 #'
-#' @param self object implementing the feature, wrapr::unpack
-#' @param ... names of to unpack to (can be escaped with bquote \code{.()} notation).
-#' @return self
+#' @param value list of values to copy
+#' @param ... argument names to write to
 #'
 #' @examples
 #'
-#' # into and to have the attribute dotpipe_eager_eval set to TRUE,
-#' # so they do not need to be written as .(intro(a, b)) to trigger
-#' # eager function eval in the pipeline
-#' list(5, 10) %.>% into[a, b]
+#' # name capture version
+#' unpack[a, b] <- list(5, 10)
 #' print(a)  # now 5
 #' print(b)  # now 10
 #'
-#' @export
+#' # bquote re-direct to value in variable using .()
+#' # Note: the bquote .() step is potentially confusing, as the user
+#' # can't immediately see where the value is being assigned to.
+#' # Also, quotes are allowed.
+#' a <- 'x'
+#' unpack[.(a), 'b'] <- list(20, 40)
+#' print(x)  # now 20
+#' print(b)  # now 40
+#' print(a)  # still 'x'
 #'
-`[.unpacker` <- function(self, ...) {
-  # get environment to work in
-  unpack_environment <- parent.frame(n = 1)
-  return(unpacker_target(unpack_environment, ...))
-}
-
-
-#' Unpack values into current environment.
-#'
-#' Unpack the values in the \code{value} argument to names given in the \code{...} argument
-#'
-#' @param value list of values
-#' @param ... names to unpack to
-#'
-#' @examples
-#'
-#' list(7, 12) %.>% unpack_to(., a, b)
-#' print(a)  # now 7
-#' print(b)  # now 12
+#' # pipe version
+#' list(55, 15) %.>% unpack(., a, b)
+#' print(a)  # now 55
+#' print(b)  # now 15
 #'
 #' @export
 #'
-unpack_to <- function(value, ...) {
-  # get environment to work in
-  unpack_environment <- parent.frame(n = 1)
-  str_args <- capture_and_validate_assignment_targets(unpack_environment, ...)
-  force(value)
-  write_values_into_env(unpack_environment = unpack_environment, str_args = str_args, value = value)
-}
+unpack <- define_unpacker("unpack")
 

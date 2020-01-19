@@ -4,9 +4,11 @@
 \alias{to}
 \title{Unpack or bind values into the calling environment.}
 \usage{
-to(...)
+to(value, ...)
 }
 \arguments{
+\item{value}{list of values to copy}
+
 \item{...}{argument names to write to}
 }
 \description{
@@ -17,7 +19,7 @@ All non-NA target names must be unique.
 \details{
 Similar to \code{Python} tuple unpacking, \code{zeallot}'s arrow, and to \code{vadr::bind}.
 
-Note: a reference to the unpacker object is written into the unpacking environment as a side-effect
+Note: when using \code{[]<-} notation, a reference to the unpacker object is written into the unpacking environment as a side-effect
 of the implied array assignment.  Also, can not unpack into a variable name same as the un-packer's
 original declared name (to).
 }
@@ -38,10 +40,8 @@ print(x)  # now 20
 print(b)  # now 40
 print(a)  # still 'x'
 
-# into and to have the attribute dotpipe_eager_eval set to TRUE,
-# so they do not need to be written as .(intro(a, b)) to trigger
-# eager function eval in the pipeline
-list(55, 15) \%.>\% to(a, b)
+# pipe version
+list(55, 15) \%.>\% to(., a, b)
 print(a)  # now 55
 print(b)  # now 15
 

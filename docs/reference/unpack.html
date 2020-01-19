@@ -36,7 +36,9 @@
 
 
 <meta property="og:title" content="Unpack or bind values into the calling environment. — unpack" />
-<meta property="og:description" content="Unpacks or binds values into the calling environment. Uses bquote escaping." />
+<meta property="og:description" content="Unpacks or binds values into the calling environment. Uses bquote escaping.
+NULL is a special case that is unpacked to all targets. NA targets are skipped.
+All non-NA target names must be unique." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -159,18 +161,32 @@
     </div>
 
     <div class="ref-description">
-    <p>Unpacks or binds values into the calling environment. Uses bquote escaping.</p>
+    <p>Unpacks or binds values into the calling environment. Uses <code>bquote</code> escaping.
+NULL is a special case that is unpacked to all targets. NA targets are skipped.
+All non-NA target names must be unique.</p>
     </div>
 
-    <pre class="usage"><span class='no'>unpack</span></pre>
+    <pre class="usage"><span class='fu'>unpack</span>(<span class='no'>value</span>, <span class='no'>...</span>)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>value</th>
+      <td><p>list of values to copy</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>argument names to write to</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p>An object of class <code>unpacker</code> of length 0.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Similar to <code>Python</code> tuple unpacking, <code>zeallot</code>'s arrow, and to <code>vadr::bind</code>.</p>
+<p>Note: a reference to the unpacker object is written into the unpacking environment as a side-effect
+of the implied array assignment.  Also, can not unpack into a variable name same as the un-packer's
+original declared name (unpack).</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -184,12 +200,15 @@
 <span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='st'>'x'</span>
 <span class='no'>unpack</span>[<span class='fu'>.</span>(<span class='no'>a</span>), <span class='st'>'b'</span>] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fl'>20</span>, <span class='fl'>40</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>)  <span class='co'># now 20</span></div><div class='output co'>#&gt; [1] 20</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>b</span>)  <span class='co'># now 40</span></div><div class='output co'>#&gt; [1] 40</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>)  <span class='co'># still 'x'</span></div><div class='output co'>#&gt; [1] "x"</div><div class='input'>
+<span class='co'># pipe version</span>
+<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fl'>55</span>, <span class='fl'>15</span>) <span class='kw'>%.&gt;%</span> <span class='fu'>unpack</span>(<span class='no'>.</span>, <span class='no'>a</span>, <span class='no'>b</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>)  <span class='co'># now 55</span></div><div class='output co'>#&gt; [1] 55</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>b</span>)  <span class='co'># now 15</span></div><div class='output co'>#&gt; [1] 15</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#format">Format</a></li>
+      <li><a href="#arguments">Arguments</a></li>
       <li><a href="#details">Details</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
