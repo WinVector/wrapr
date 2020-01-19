@@ -41,9 +41,30 @@
   if(nargs != nvalue) {
     stop(paste0("wrapr::unpack number of returned values is ", nvalue, ", but expecting ", nargs, " values."))
   }
+  str_args <- character(nargs)
   for(i in 1:nargs) {
     argi <- args[[i]]
-    assign(x = as.character(argi), value = value[[i]], envir = unpack_environment)
+    if(is.null(argi)) {
+      stop("wrapr::unpack expected all targets to not be NULL")
+    }
+    if(!(is.name(argi) || is.character(argi))) {
+      stop("wrapr::unpack expected all targets to be names or strings.")
+    }
+    if(length(argi) != 1) {
+      stop("wrapr::unpack expected all targets to be length 1.")
+    }
+    cargi <- as.character(argi)
+    if(is.na(cargi)) {
+      stop("wrapr::unpack expected all targets to be not be NA.")
+    }
+    if(nchar(cargi) < 1) {
+      stop("wrapr::unpack expected all targets to be non-empty strings")
+    }
+    str_args[[i]] <- cargi
+  }
+  for(i in 1:nargs) {
+    argi <- str_args[[i]]
+    assign(x = argi, value = value[[i]], envir = unpack_environment)
   }
   return(self)
 }
