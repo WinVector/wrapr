@@ -32,5 +32,9 @@ test_unpack <- function() {
   RUnit::checkEquals(a, 2561)
   RUnit::checkEquals(b, 21061)
 
+  list(7, 12) %.>% unpack_to(., a, b)
+  RUnit::checkEquals(a, 7)
+  RUnit::checkEquals(b, 12)
+
   invisible(NULL)
 }

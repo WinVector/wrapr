@@ -336,3 +336,28 @@ to <- define_unpacker("to")
   unpack_environment <- parent.frame(n = 1)
   return(unpacker_target(unpack_environment, ...))
 }
+
+
+#' Unpack values into current environment.
+#'
+#' Unpack the values in the \code{value} argument to names given in the \code{...} argument
+#'
+#' @param value list of values
+#' @param ... names to unpack to
+#'
+#' @examples
+#'
+#' list(7, 12) %.>% unpack_to(., a, b)
+#' print(a)  # now 7
+#' print(b)  # now 12
+#'
+#' @export
+#'
+unpack_to <- function(value, ...) {
+  # get environment to work in
+  unpack_environment <- parent.frame(n = 1)
+  str_args <- capture_and_validate_assignment_targets(unpack_environment, ...)
+  force(value)
+  write_values_into_env(unpack_environment = unpack_environment, str_args = str_args, value = value)
+}
+
