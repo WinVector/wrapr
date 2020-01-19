@@ -37,10 +37,6 @@
   if(nargs < 1) {
     stop("no indices to wrapr::unpacker")
   }
-  nvalue <- length(value)
-  if(nargs != nvalue) {
-    stop(paste0("wrapr::unpack number of returned values is ", nvalue, ", but expecting ", nargs, " values."))
-  }
   str_args <- character(nargs)
   for(i in 1:nargs) {
     argi <- args[[i]]
@@ -61,6 +57,10 @@
       stop("wrapr::unpack expected all targets to be non-empty strings")
     }
     str_args[[i]] <- cargi
+  }
+  nvalue <- length(value)
+  if(nargs != nvalue) {
+    stop(paste0("wrapr::unpack number of returned values is ", nvalue, ", but expecting ", nargs, " values."))
   }
   for(i in 1:nargs) {
     argi <- str_args[[i]]
