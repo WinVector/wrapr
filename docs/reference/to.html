@@ -37,7 +37,8 @@
 
 <meta property="og:title" content="Unpack or bind values into the calling environment. — to" />
 <meta property="og:description" content="Unpacks or binds values into the calling environment. Uses bquote escaping.
-NULL is a special case that is unpacked to all targets." />
+NULL is a special case that is unpacked to all targets. NA targets are skipped.
+All non-NA target names must be unique." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -160,8 +161,9 @@ NULL is a special case that is unpacked to all targets." />
     </div>
 
     <div class="ref-description">
-    <p>Unpacks or binds values into the calling environment. Uses bquote escaping.
-NULL is a special case that is unpacked to all targets.</p>
+    <p>Unpacks or binds values into the calling environment. Uses <code>bquote</code> escaping.
+NULL is a special case that is unpacked to all targets. NA targets are skipped.
+All non-NA target names must be unique.</p>
     </div>
 
     <pre class="usage"><span class='no'>to</span></pre>
@@ -169,10 +171,13 @@ NULL is a special case that is unpacked to all targets.</p>
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>An object of class <code>unpacker</code> of length 0.</p>
+    <p>An object of class <code>unpacker</code> of length 1.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Similar to <code>Python</code> tuple unpacking, <code>zeallot</code>'s arrow, and to <code>vadr::bind</code>.</p>
+<p>Note: a reference to the unpacker object is written into the unpacking environment as a side-effect
+of the implied array assignment.  Also, can not unpack into a variable name same as the un-packer's
+original declared name (to).</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
