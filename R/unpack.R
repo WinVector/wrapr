@@ -50,7 +50,7 @@
                           ifnotfound = list(self),
                           inherits = FALSE)[[1]]
   if(!("unpacker" %in% class(old_value))) {
-    stop(paste0("running upackers would overwrite ", self$object_name, " which is not an unpacker"))
+    stop(paste0("running upacker would overwrite ", self$object_name, " which is not an unpacker"))
   }
   # extract and validate arguments as names of unpack targets
   nargs <- length(args)
@@ -101,7 +101,8 @@
     }
   }
   # the return value gets written into executing environment after return
-  return(old_value)
+  # R expects this to be self, so do that instead of returning old_value
+  return(self)
 }
 
 define_unpacker <- function(object_name) {
