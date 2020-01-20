@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Unpack or bind values into the calling environment. — into • wrapr</title>
+<title>Unpack or bind values by names into the calling environment. — into • wrapr</title>
 
 
 <!-- jquery -->
@@ -35,7 +35,7 @@
 
 
 
-<meta property="og:title" content="Unpack or bind values into the calling environment. — into" />
+<meta property="og:title" content="Unpack or bind values by names into the calling environment. — into" />
 <meta property="og:description" content="Unpacks or binds values into the calling environment. Uses bquote escaping.
 NULL is a special case that is unpacked to all targets. NA targets are skipped.
 All non-NA target names must be unique." />
@@ -155,7 +155,7 @@ All non-NA target names must be unique." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Unpack or bind values into the calling environment.</h1>
+    <h1>Unpack or bind values by names into the calling environment.</h1>
     <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/unpack.R'><code>R/unpack.R</code></a></small>
     <div class="hidden name"><code>into.Rd</code></div>
     </div>
@@ -192,7 +192,7 @@ Function form can not use the names: <code>.</code> or <code>wrapr_private_value
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># named unpacking</span>
-<span class='co'># looks like assignment: destination = where_from_in_value</span>
+<span class='co'># looks like assignment: DESTINATION = NAME_VALUE_USING</span>
 <span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>2</span>,
                 <span class='kw'>g</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'test'</span>, <span class='st'>'train'</span>),
                 <span class='kw'>stringsAsFactors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
@@ -200,24 +200,29 @@ Function form can not use the names: <code>.</code> or <code>wrapr_private_value
 <span class='co'># train_set and test_set now correctly split</span>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>train_set</span>)</div><div class='output co'>#&gt;   x     g
 #&gt; 2 2 train</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>test_set</span>)</div><div class='output co'>#&gt;   x    g
-#&gt; 1 1 test</div><div class='input'>
-<span class='co'># name capture version</span>
-<span class='no'>into</span>[<span class='no'>a</span>, <span class='no'>b</span>] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fl'>5</span>, <span class='fl'>10</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>)  <span class='co'># now 5</span></div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>b</span>)  <span class='co'># now 10</span></div><div class='output co'>#&gt; [1] 10</div><div class='input'>
-<span class='co'># bquote re-direct to value in variable using .()</span>
-<span class='co'># Note: the bquote .() step is potentially confusing, as the user</span>
-<span class='co'># can't immediately see where the value is being assigned to.</span>
-<span class='co'># Also, quotes are allowed.</span>
-<span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='st'>'x'</span>
-<span class='no'>into</span>[<span class='fu'>.</span>(<span class='no'>a</span>), <span class='st'>'b'</span>] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fl'>20</span>, <span class='fl'>40</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>)  <span class='co'># now 20</span></div><div class='output co'>#&gt; [1] 20</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>b</span>)  <span class='co'># now 40</span></div><div class='output co'>#&gt; [1] 40</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>)  <span class='co'># still 'x'</span></div><div class='output co'>#&gt; [1] "x"</div><div class='input'>
-<span class='co'># pipe version</span>
-<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fl'>55</span>, <span class='fl'>15</span>) <span class='kw'>%.&gt;%</span> <span class='fu'>into</span>(<span class='no'>.</span>, <span class='no'>a</span>, <span class='no'>b</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>)  <span class='co'># now 55</span></div><div class='output co'>#&gt; [1] 55</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>b</span>)  <span class='co'># now 15</span></div><div class='output co'>#&gt; [1] 15</div><div class='input'># Note: the above example will not work with magrittr pipe,
-# as in that case the values get written to an intermediate
-# environment and lost.
+#&gt; 1 1 test</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'train_set'</span>, <span class='st'>'test_set'</span>))
 
-</div></pre>
+<span class='co'># named unpacking NEWNAME = OLDNAME implicit form</span>
+<span class='co'># values are matched by name, not index</span>
+<span class='no'>into</span>[<span class='no'>train</span>, <span class='no'>test</span>] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span>(<span class='no'>d</span>, <span class='no'>d</span>$<span class='no'>g</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>train</span>)</div><div class='output co'>#&gt;   x     g
+#&gt; 2 2 train</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>test</span>)</div><div class='output co'>#&gt;   x    g
+#&gt; 1 1 test</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'train'</span>, <span class='st'>'test'</span>))
+
+<span class='co'># function version</span>
+<span class='fu'>into</span>(<span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span>(<span class='no'>d</span>, <span class='no'>d</span>$<span class='no'>g</span>), <span class='no'>train</span>, <span class='no'>test</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>train</span>)</div><div class='output co'>#&gt;   x     g
+#&gt; 2 2 train</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>test</span>)</div><div class='output co'>#&gt;   x    g
+#&gt; 1 1 test</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'train'</span>, <span class='st'>'test'</span>))
+
+<span class='co'># pipe version</span>
+<span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span>(<span class='no'>d</span>, <span class='no'>d</span>$<span class='no'>g</span>) <span class='kw'>%.&gt;%</span> <span class='fu'>into</span>(<span class='no'>.</span>, <span class='no'>train</span>, <span class='no'>test</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>train</span>)</div><div class='output co'>#&gt;   x     g
+#&gt; 2 2 train</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>test</span>)</div><div class='output co'>#&gt;   x    g
+#&gt; 1 1 test</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'train'</span>, <span class='st'>'test'</span>))
+<span class='co'># Note: above is wrapr dot-pipe, piping does not currently work with</span>
+<span class='co'># magrittr pipe due to magrittr's introduction of temporary</span>
+<span class='co'># intermediate environments during evaluation.</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

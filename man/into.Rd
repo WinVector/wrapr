@@ -2,7 +2,7 @@
 % Please edit documentation in R/unpack.R
 \name{into}
 \alias{into}
-\title{Unpack or bind values into the calling environment.}
+\title{Unpack or bind values by names into the calling environment.}
 \usage{
 into(wrapr_private_value, ...)
 }
@@ -27,7 +27,7 @@ Function form can not use the names: \code{.} or \code{wrapr_private_value}.
 \examples{
 
 # named unpacking
-# looks like assignment: destination = where_from_in_value
+# looks like assignment: DESTINATION = NAME_VALUE_USING
 d <- data.frame(x = 1:2,
                 g=c('test', 'train'),
                 stringsAsFactors = FALSE)
@@ -35,28 +35,29 @@ into[train_set = train, test_set = test] <- split(d, d$g)
 # train_set and test_set now correctly split
 print(train_set)
 print(test_set)
+rm(list = c('train_set', 'test_set'))
 
-# name capture version
-into[a, b] <- list(5, 10)
-print(a)  # now 5
-print(b)  # now 10
+# named unpacking NEWNAME = OLDNAME implicit form
+# values are matched by name, not index
+into[train, test] <- split(d, d$g)
+print(train)
+print(test)
+rm(list = c('train', 'test'))
 
-# bquote re-direct to value in variable using .()
-# Note: the bquote .() step is potentially confusing, as the user
-# can't immediately see where the value is being assigned to.
-# Also, quotes are allowed.
-a <- 'x'
-into[.(a), 'b'] <- list(20, 40)
-print(x)  # now 20
-print(b)  # now 40
-print(a)  # still 'x'
+# function version
+into(split(d, d$g), train, test)
+print(train)
+print(test)
+rm(list = c('train', 'test'))
 
 # pipe version
-list(55, 15) \%.>\% into(., a, b)
-print(a)  # now 55
-print(b)  # now 15
-# Note: the above example will not work with magrittr pipe,
-# as in that case the values get written to an intermediate
-# environment and lost.
+split(d, d$g) \%.>\% into(., train, test)
+print(train)
+print(test)
+rm(list = c('train', 'test'))
+# Note: above is wrapr dot-pipe, piping does not currently work with
+# magrittr pipe due to magrittr's introduction of temporary
+# intermediate environments during evaluation.
+
 
 }

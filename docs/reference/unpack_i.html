@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Unpack or bind values into the calling environment. — [&lt;-.Unpacker • wrapr</title>
+<title>Unpack or bind values by index or names into the calling environment. — unpack_i • wrapr</title>
 
 
 <!-- jquery -->
@@ -35,7 +35,7 @@
 
 
 
-<meta property="og:title" content="Unpack or bind values into the calling environment. — [&lt;-.Unpacker" />
+<meta property="og:title" content="Unpack or bind values by index or names into the calling environment. — unpack_i" />
 <meta property="og:description" content="Unpacks or binds values into the calling environment. Uses bquote escaping.
 NULL is a special case that is unpacked to all targets. NA targets are skipped.
 All non-NA target names must be unique." />
@@ -155,9 +155,9 @@ All non-NA target names must be unique." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Unpack or bind values into the calling environment.</h1>
+    <h1>Unpack or bind values by index or names into the calling environment.</h1>
     <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/unpack.R'><code>R/unpack.R</code></a></small>
-    <div class="hidden name"><code>subset-.Unpacker.Rd</code></div>
+    <div class="hidden name"><code>unpack_i.Rd</code></div>
     </div>
 
     <div class="ref-description">
@@ -166,61 +166,68 @@ NULL is a special case that is unpacked to all targets. NA targets are skipped.
 All non-NA target names must be unique.</p>
     </div>
 
-    <pre class="usage"># S3 method for Unpacker
-[(wrapr_private_self, ...) <- value</pre>
+    <pre class="usage"><span class='fu'>unpack_i</span>(<span class='no'>wrapr_private_value</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>wrapr_private_self</th>
-      <td><p>object implementing the feature, wrapr::unpack</p></td>
+      <th>wrapr_private_value</th>
+      <td><p>list of values to copy</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>names of to unpack to (can be escaped with bquote <code>.()</code> notation).</p></td>
-    </tr>
-    <tr>
-      <th>value</th>
-      <td><p>list to unpack into values, must have a number of entries equal to number of <code>...</code> arguments</p></td>
+      <td><p>argument names to write to</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>wrapr_private_self</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Similar to <code>Python</code> tuple unpacking, <code>zeallot</code>'s arrow, and to <code>vadr::bind</code>.</p>
-<p>Note: when using <code>[]&lt;-</code> notation, a reference to the unpacker object is written into the unpacking environment as a side-effect
+<p>Note: a reference to the unpacker object is written into the unpacking environment as a side-effect
 of the implied array assignment.
-Array-assign form can not use the names: <code>.</code>, <code>wrapr_private_self</code>, <code>value</code>, or the name of the unpacker itself.</p>
+Array-assign form can not use the names: <code>.</code>, <code>wrapr_private_self</code>, <code>value</code>, or <code>unpack</code>.
+Function form can not use the names: <code>.</code> or <code>wrapr_private_value</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># named unpacking</span>
-<span class='co'># looks like assignment: DESTINATION = NAME_VALUE_USING</span>
+<span class='co'># looks like assignment: destination = where_from_in_value</span>
 <span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>2</span>,
                 <span class='kw'>g</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'test'</span>, <span class='st'>'train'</span>),
                 <span class='kw'>stringsAsFactors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>to</span>[<span class='kw'>train_set</span> <span class='kw'>=</span> <span class='no'>train</span>, <span class='kw'>test_set</span> <span class='kw'>=</span> <span class='no'>test</span>] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span>(<span class='no'>d</span>, <span class='no'>d</span>$<span class='no'>g</span>)
+<span class='no'>unpack_i</span>[<span class='kw'>train_set</span> <span class='kw'>=</span> <span class='no'>train</span>, <span class='kw'>test_set</span> <span class='kw'>=</span> <span class='no'>test</span>] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span>(<span class='no'>d</span>, <span class='no'>d</span>$<span class='no'>g</span>)
 <span class='co'># train_set and test_set now correctly split</span>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>train_set</span>)</div><div class='output co'>#&gt;   x     g
 #&gt; 2 2 train</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>test_set</span>)</div><div class='output co'>#&gt;   x    g
-#&gt; 1 1 test</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'train_set'</span>, <span class='st'>'test_set'</span>))
+#&gt; 1 1 test</div><div class='input'>
+<span class='co'># un-named version</span>
+<span class='co'># values matchced by index</span>
+<span class='no'>unpack_i</span>[<span class='no'>a</span>, <span class='no'>b</span>] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fl'>5</span>, <span class='fl'>10</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>)  <span class='co'># now 5</span></div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>b</span>)  <span class='co'># now 10</span></div><div class='output co'>#&gt; [1] 10</div><div class='input'>
+<span class='co'># un-named version</span>
+<span class='co'>#' # values matchced by index</span>
+<span class='co'># bquote re-direct to value in variable using .()</span>
+<span class='co'># Note: the bquote .() step is potentially confusing, as the user</span>
+<span class='co'># can't immediately see where the value is being assigned to.</span>
+<span class='co'># Also, quotes are allowed.</span>
+<span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='st'>'x'</span>
+<span class='no'>unpack_i</span>[<span class='fu'>.</span>(<span class='no'>a</span>), <span class='st'>'b'</span>] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fl'>20</span>, <span class='fl'>40</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>)  <span class='co'># now 20</span></div><div class='output co'>#&gt; [1] 20</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>b</span>)  <span class='co'># now 40</span></div><div class='output co'>#&gt; [1] 40</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>)  <span class='co'># still 'x'</span></div><div class='output co'>#&gt; [1] "x"</div><div class='input'>
+<span class='co'># un-named version</span>
+<span class='co'>#' # values matchced by index</span>
+<span class='co'># piped example</span>
+<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fl'>55</span>, <span class='fl'>15</span>) <span class='kw'>%.&gt;%</span> <span class='fu'>unpack_i</span>(<span class='no'>.</span>, <span class='no'>a</span>, <span class='no'>b</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>)  <span class='co'># now 55</span></div><div class='output co'>#&gt; [1] 55</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>b</span>)  <span class='co'># now 15</span></div><div class='output co'>#&gt; [1] 15</div><div class='input'># Note: the above example will not work with magrittr pipe,
+# as in that case the values get written to an intermediate
+# environment and lost.
 
-<span class='co'># named unpacking NEWNAME = OLDNAME implicit form</span>
-<span class='co'># values are matched by name, not index</span>
-<span class='no'>to</span>[<span class='no'>train</span>, <span class='no'>test</span>] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span>(<span class='no'>d</span>, <span class='no'>d</span>$<span class='no'>g</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>train</span>)</div><div class='output co'>#&gt;   x     g
-#&gt; 2 2 train</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>test</span>)</div><div class='output co'>#&gt;   x    g
-#&gt; 1 1 test</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'train'</span>, <span class='st'>'test'</span>))</div></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
       <li><a href="#details">Details</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>

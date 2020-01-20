@@ -162,7 +162,7 @@
     <p>Create a value unplacking object that records it is stored by name <code>object_name</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>define_unpacker</span>(<span class='no'>object_name</span>)</pre>
+    <pre class="usage"><span class='fu'>define_unpacker</span>(<span class='kw'>object_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>allow_unnamed_case</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -170,6 +170,10 @@
     <tr>
       <th>object_name</th>
       <td><p>character, name the object is stored as</p></td>
+    </tr>
+    <tr>
+      <th>allow_unnamed_case</th>
+      <td><p>logical, if FALSE promote unnamed arguments to self-named</p></td>
     </tr>
     </table>
 
