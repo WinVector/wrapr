@@ -15,4 +15,9 @@ an unpacker
 \description{
 Create a value unplacking object that records it is stored by name \code{object_name}.
 }
+\details{
+Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or the name stored in \code{object_name}.
+function form can not use the names: \code{.} or \code{wrapr_private_value}. Array-form will wrong own name into working environment
+as a side-effect.
+}
 \keyword{internal}

@@ -167,13 +167,13 @@ All non-NA target names must be unique.</p>
     </div>
 
     <pre class="usage"># S3 method for unpacker
-[(self, ...) <- value</pre>
+[(wrapr_private_self, ...) <- value</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>self</th>
+      <th>wrapr_private_self</th>
       <td><p>object implementing the feature, wrapr::unpack</p></td>
     </tr>
     <tr>
@@ -188,13 +188,13 @@ All non-NA target names must be unique.</p>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>self</p>
+    <p>wrapr_private_self</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Similar to <code>Python</code> tuple unpacking, <code>zeallot</code>'s arrow, and to <code>vadr::bind</code>.</p>
 <p>Note: when using <code>[]&lt;-</code> notation, a reference to the unpacker object is written into the unpacking environment as a side-effect
-of the implied array assignment.  Also, can not unpack into a variable name same as the un-packer's
-original declared name (to/into).</p>
+of the implied array assignment.
+Array-assign form can not use the names: <code>.</code>, <code>wrapr_private_self</code>, <code>value</code>, or the name of the unpacker itself.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>

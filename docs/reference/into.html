@@ -166,13 +166,13 @@ NULL is a special case that is unpacked to all targets. NA targets are skipped.
 All non-NA target names must be unique.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>into</span>(<span class='no'>value</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>into</span>(<span class='no'>wrapr_private_value</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>value</th>
+      <th>wrapr_private_value</th>
       <td><p>list of values to copy</p></td>
     </tr>
     <tr>
@@ -185,8 +185,9 @@ All non-NA target names must be unique.</p>
 
     <p>Similar to <code>Python</code> tuple unpacking, <code>zeallot</code>'s arrow, and to <code>vadr::bind</code>.</p>
 <p>Note: a reference to the unpacker object is written into the unpacking environment as a side-effect
-of the implied array assignment.  Also, can not unpack into a variable name same as the un-packer's
-original declared name (into).</p>
+of the implied array assignment.
+Array-assign form can not use the names: <code>.</code>, <code>wrapr_private_self</code>, <code>value</code>, or <code>into</code>.
+Function form can not use the names: <code>.</code> or <code>wrapr_private_value</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>

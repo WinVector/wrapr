@@ -4,17 +4,17 @@
 \alias{[<-.unpacker}
 \title{Unpack or bind values into the calling environment.}
 \usage{
-\method{[}{unpacker}(self, ...) <- value
+\method{[}{unpacker}(wrapr_private_self, ...) <- value
 }
 \arguments{
-\item{self}{object implementing the feature, wrapr::unpack}
+\item{wrapr_private_self}{object implementing the feature, wrapr::unpack}
 
 \item{...}{names of to unpack to (can be escaped with bquote \code{.()} notation).}
 
 \item{value}{list to unpack into values, must have a number of entries equal to number of \code{...} arguments}
 }
 \value{
-self
+wrapr_private_self
 }
 \description{
 Unpacks or binds values into the calling environment. Uses \code{bquote} escaping.
@@ -25,8 +25,8 @@ All non-NA target names must be unique.
 Similar to \code{Python} tuple unpacking, \code{zeallot}'s arrow, and to \code{vadr::bind}.
 
 Note: when using \code{[]<-} notation, a reference to the unpacker object is written into the unpacking environment as a side-effect
-of the implied array assignment.  Also, can not unpack into a variable name same as the un-packer's
-original declared name (to/into).
+of the implied array assignment.
+Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or the name of the unpacker itself.
 }
 \examples{
 

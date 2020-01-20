@@ -141,6 +141,10 @@ write_values_into_env <- function(wrapr_private_unpack_environment, str_args, va
 #'
 #' Create a value unplacking object that records it is stored by name \code{object_name}.
 #'
+#' Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or the name stored in \code{object_name}.
+#' function form can not use the names: \code{.} or \code{wrapr_private_value}. Array-form will wrong own name into working environment
+#' as a side-effect.
+#'
 #' @param object_name character, name the object is stored as
 #' @return an unpacker
 #'
@@ -165,6 +169,7 @@ define_unpacker <- function(object_name) {
     str_args <- capture_and_validate_assignment_targets(wrapr_private_unpack_environment, ...)
     force(wrapr_private_value)
     write_values_into_env(wrapr_private_unpack_environment = wrapr_private_unpack_environment, str_args = str_args, value = wrapr_private_value)
+    invisible(wrapr_private_value)
   }
 
   attr(f, 'object_name') <- object_name
@@ -201,8 +206,8 @@ print.unpacker <- function(x, ...) {
 #' Similar to \code{Python} tuple unpacking, \code{zeallot}'s arrow, and to \code{vadr::bind}.
 #'
 #' Note: when using \code{[]<-} notation, a reference to the unpacker object is written into the unpacking environment as a side-effect
-#' of the implied array assignment.  Also, can not unpack into a variable name same as the un-packer's
-#' original declared name (to/into).
+#' of the implied array assignment.
+#' Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or the name of the unpacker itself.
 #'
 #' @param wrapr_private_self object implementing the feature, wrapr::unpack
 #' @param ... names of to unpack to (can be escaped with bquote \code{.()} notation).
@@ -295,10 +300,11 @@ print.unpacker <- function(x, ...) {
 #' Similar to \code{Python} tuple unpacking, \code{zeallot}'s arrow, and to \code{vadr::bind}.
 #'
 #' Note: a reference to the unpacker object is written into the unpacking environment as a side-effect
-#' of the implied array assignment.  Also, can not unpack into a variable name same as the un-packer's
-#' original declared name (into).
+#' of the implied array assignment.
+#' Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or \code{into}.
+#' Function form can not use the names: \code{.} or \code{wrapr_private_value}.
 #'
-#' @param value list of values to copy
+#' @param wrapr_private_value list of values to copy
 #' @param ... argument names to write to
 #'
 #' @examples
@@ -349,10 +355,11 @@ into <- define_unpacker("into")
 #' Similar to \code{Python} tuple unpacking, \code{zeallot}'s arrow, and to \code{vadr::bind}.
 #'
 #' Note: when using \code{[]<-} notation, a reference to the unpacker object is written into the unpacking environment as a side-effect
-#' of the implied array assignment.  Also, can not unpack into a variable name same as the un-packer's
-#' original declared name (to).
+#' of the implied array assignment.
+#' Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or \code{to}.
+#' function form can not use the names: \code{.} or \code{wrapr_private_value}.
 #'
-#' @param value list of values to copy
+#' @param wrapr_private_value list of values to copy
 #' @param ... argument names to write to
 #'
 #' @examples
@@ -403,10 +410,11 @@ to <- define_unpacker("to")
 #' Similar to \code{Python} tuple unpacking, \code{zeallot}'s arrow, and to \code{vadr::bind}.
 #'
 #' Note: a reference to the unpacker object is written into the unpacking environment as a side-effect
-#' of the implied array assignment.  Also, can not unpack into a variable name same as the un-packer's
-#' original declared name (unpack).
+#' of the implied array assignment.
+#' Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or \code{unpack}.
+#' Function form can not use the names: \code{.} or \code{wrapr_private_value}.
 #'
-#' @param value list of values to copy
+#' @param wrapr_private_value list of values to copy
 #' @param ... argument names to write to
 #'
 #' @examples

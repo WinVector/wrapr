@@ -4,10 +4,10 @@
 \alias{into}
 \title{Unpack or bind values into the calling environment.}
 \usage{
-into(value, ...)
+into(wrapr_private_value, ...)
 }
 \arguments{
-\item{value}{list of values to copy}
+\item{wrapr_private_value}{list of values to copy}
 
 \item{...}{argument names to write to}
 }
@@ -20,8 +20,9 @@ All non-NA target names must be unique.
 Similar to \code{Python} tuple unpacking, \code{zeallot}'s arrow, and to \code{vadr::bind}.
 
 Note: a reference to the unpacker object is written into the unpacking environment as a side-effect
-of the implied array assignment.  Also, can not unpack into a variable name same as the un-packer's
-original declared name (into).
+of the implied array assignment.
+Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or \code{into}.
+Function form can not use the names: \code{.} or \code{wrapr_private_value}.
 }
 \examples{
 
