@@ -95,7 +95,7 @@ write_values_into_env <- function(unpack_environment, str_args, value) {
     unique_sources <- unique_sources[!is.na(unique_sources)]
     # up-cycling NULL values case
     if(is.null(value)) {
-      value <- vector(mode = 'list', length = lenth(unique_sources))  # list of NULLs
+      value <- vector(mode = 'list', length = length(unique_sources))  # list of NULLs
       names(value) <- unique_sources
     }
     for(source_i in str_args) {
@@ -211,6 +211,16 @@ print.unpacker <- function(x, ...) {
 #'
 #' @examples
 #'
+#' # named unpacking
+#' # looks like assignment: destination = where_from_in_value
+#' d <- data.frame(x = 1:2,
+#'                 g=c('test', 'train'),
+#'                 stringsAsFactors = FALSE)
+#' into[train_set = train, test_set = test] <- split(d, d$g)
+#' # train_set and test_set now correctly split
+#' print(train_set)
+#' print(test_set)
+#'
 #' # name capture version
 #' into[a, b] <- list(5, 10)
 #' print(a)  # now 5
@@ -250,7 +260,6 @@ print.unpacker <- function(x, ...) {
     }
   }
   str_args <- capture_and_validate_assignment_targets(unpack_environment, ...)
-  force(value)
   if(!is.null(object_name)) {
     named_case <- length(names(str_args)) > 0
     if(named_case) {
@@ -269,6 +278,7 @@ print.unpacker <- function(x, ...) {
       }
     }
   }
+  force(value)
   write_values_into_env(unpack_environment = unpack_environment, str_args = str_args, value = value)
   # the return value gets written into executing environment after return
   # R expects this to be self, so do that instead of returning old_value
@@ -292,6 +302,16 @@ print.unpacker <- function(x, ...) {
 #' @param ... argument names to write to
 #'
 #' @examples
+#'
+#' # named unpacking
+#' # looks like assignment: destination = where_from_in_value
+#' d <- data.frame(x = 1:2,
+#'                 g=c('test', 'train'),
+#'                 stringsAsFactors = FALSE)
+#' into[train_set = train, test_set = test] <- split(d, d$g)
+#' # train_set and test_set now correctly split
+#' print(train_set)
+#' print(test_set)
 #'
 #' # name capture version
 #' into[a, b] <- list(5, 10)
@@ -334,6 +354,16 @@ into <- define_unpacker("into")
 #'
 #' @examples
 #'
+#' # named unpacking
+#' # looks like assignment: destination = where_from_in_value
+#' d <- data.frame(x = 1:2,
+#'                 g=c('test', 'train'),
+#'                 stringsAsFactors = FALSE)
+#' to[train_set = train, test_set = test] <- split(d, d$g)
+#' # train_set and test_set now correctly split
+#' print(train_set)
+#' print(test_set)
+#'
 #' # name capture version
 #' to[a, b] <- list(5, 10)
 #' print(a)  # now 5
@@ -374,6 +404,16 @@ to <- define_unpacker("to")
 #' @param ... argument names to write to
 #'
 #' @examples
+#'
+#' # named unpacking
+#' # looks like assignment: destination = where_from_in_value
+#' d <- data.frame(x = 1:2,
+#'                 g=c('test', 'train'),
+#'                 stringsAsFactors = FALSE)
+#' unpack[train_set = train, test_set = test] <- split(d, d$g)
+#' # train_set and test_set now correctly split
+#' print(train_set)
+#' print(test_set)
 #'
 #' # name capture version
 #' unpack[a, b] <- list(5, 10)

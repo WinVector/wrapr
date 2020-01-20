@@ -25,6 +25,16 @@ original declared name (into).
 }
 \examples{
 
+# named unpacking
+# looks like assignment: destination = where_from_in_value
+d <- data.frame(x = 1:2,
+                g=c('test', 'train'),
+                stringsAsFactors = FALSE)
+into[train_set = train, test_set = test] <- split(d, d$g)
+# train_set and test_set now correctly split
+print(train_set)
+print(test_set)
+
 # name capture version
 into[a, b] <- list(5, 10)
 print(a)  # now 5
