@@ -9,46 +9,78 @@ capture_and_validate_assignment_targets <- function(unpack_environment, ...) {
   if(nargs < 1) {
     stop("no indices to wrapr::unpacker")
   }
-  str_args <- character(nargs)
+  named_case <- length(names(args)) > 0
+  if(named_case) {
+    # named targets case
+    if(length(names(args)) != nargs) {
+      stop("if using names, all arguments must be named")
+    }
+    target_names = names(args)
+  } else {
+    # value targets case
+    target_names = args
+  }
+  str_targets <- character(nargs)
   for(i in 1:nargs) {
-    argi <- args[[i]]
-    cargi <- NA_character_
-    if(is.null(argi)) {
+    target_i <- target_names[[i]]
+    char_target_i <- NA_character_
+    if(is.null(target_i)) {
       stop("wrapr::unpack expected all targets to not be NULL")
     }
-    if(!(is.name(argi) || is.character(argi) || is.na(argi))) {
+    if(!(is.name(target_i) || is.character(target_i) || is.na(target_i))) {
       stop("wrapr::unpack expected all targets to be character, name, or NA")
     }
-    cargi <- as.character(argi)
-    if(length(cargi) != 1) {
+    char_target_i <- as.character(target_i)
+    if(length(char_target_i) != 1) {
       stop("wrapr::unpack expected all targets to be length 1.")
     }
-    if(!is.na(cargi)) {
-      if(nchar(cargi) < 1) {
+    if(!is.na(char_target_i)) {
+      if(nchar(char_target_i) < 1) {
         stop("wrapr::unpack expected all targets to be non-empty strings")
       }
-      tcargi <- trimws(cargi, which = "both")
-      if(tcargi != cargi) {
+      tcargi <- trimws(char_target_i, which = "both")
+      if(tcargi != char_target_i) {
         stop("wrapr::unpack expected all targets must not start or end with whitespace")
       }
-      if(cargi == ".") {
+      if(char_target_i == ".") {
         stop("wrapr::unpack expected all targets must not be .")
       }
     }
-    str_args[[i]] <- cargi
+    str_targets[[i]] <- char_target_i
   }
-  non_nas <- str_args[!is.na(str_args)]
+  non_nas <- str_targets[!is.na(str_targets)]
   if(length(non_nas) != length(unique(non_nas))) {
     stop("wrapr::unpack expected all non-NA targets must be unique")
   }
-  return(str_args)
+  if(named_case) {
+    na_posns <- is.na(args)
+    values <- as.character(args)  # be less picky on sources, convert them
+    values[na_posns] <- NA_character_
+    for(i in 1:nargs) {
+      source_i <- values[[i]]
+      if(is.null(source_i)) {
+        stop("wrapr::unpack expected all source names to not be NULL")
+      }
+      if(length(source_i) != 1) {
+        stop("wrapr::unpack expected all source names to be length 1.")
+      }
+      if(!is.na(source_i)) {
+        if(nchar(source_i) < 1) {
+          stop("wrapr::unpack expected all source_names to be non-empty strings")
+        }
+      }
+    }
+    names(values) <- str_targets
+    str_targets <- values
+  }
+  return(str_targets)
 }
 
 
 #' write values into environment
 #'
 #' @param unpack_environment environment to write into
-#' @param str_args array of string-names to write to
+#' @param str_args array of string-names to write to (either without names, or names as targets)
 #' @param value values to write
 #'
 #' @keywords internal
@@ -57,19 +89,49 @@ capture_and_validate_assignment_targets <- function(unpack_environment, ...) {
 write_values_into_env <- function(unpack_environment, str_args, value) {
   force(unpack_environment)
   nargs <- length(str_args)
-  nvalue <- length(value)
-  if(nargs != nvalue) {
-    stop(paste0("wrapr::unpack number of returned values is ", nvalue, ", but expecting ", nargs, " values."))
-  }
-  # up-cycling NULL values case
-  if(is.null(value)) {
-    value <- vector(mode = 'list', length = nargs)  # list of NULLs
-  }
-  # write values
-  for(i in 1:nargs) {
-    argi <- str_args[[i]]
-    if(!is.na(argi)) {
-      assign(x = argi, value = value[[i]], envir = unpack_environment)
+  named_case <- length(names(str_args)) > 0
+  if(named_case) {
+    unique_sources <- unique(str_args) # names lost here
+    unique_sources <- unique_sources[!is.na(unique_sources)]
+    # up-cycling NULL values case
+    if(is.null(value)) {
+      value <- vector(mode = 'list', length = lenth(unique_sources))  # list of NULLs
+      names(value) <- unique_sources
+    }
+    for(source_i in str_args) {
+      if(!is.na(source_i)) {
+        if(!isTRUE(source_i %in% names(value))) {
+          stop(paste0("wrapr::unpack all source names must be in value, ", sQuote(source_i), " is missing"))
+        }
+      }
+    }
+    # write values
+    for(i in 1:nargs) {
+      dest_i <- names(str_args)[[i]]
+      source_i <- str_args[[i]]
+      value_i <- NA
+      if(!is.na(source_i)) {
+        value_i <-value[[source_i]]
+      }
+      assign(x = dest_i, value = value_i, envir = unpack_environment)
+    }
+  } else {
+    nvalue <- length(value)
+    if(nargs != nvalue) {
+      stop(paste0("wrapr::unpack number of returned values is ", nvalue, ", but expecting ", nargs, " values."))
+    }
+    # up-cycling NULL values case
+    if(is.null(value)) {
+      value <- vector(mode = 'list', length = nargs)  # list of NULLs
+    }
+    # write values
+    for(i in 1:nargs) {
+      dest_i <- str_args[[i]]
+      source_i <- i
+      value_i <- value[[source_i]]
+      if(!is.na(dest_i)) {
+        assign(x = dest_i, value = value_i, envir = unpack_environment)
+      }
     }
   }
 }
@@ -188,16 +250,25 @@ print.unpacker <- function(x, ...) {
     }
   }
   str_args <- capture_and_validate_assignment_targets(unpack_environment, ...)
+  force(value)
   if(!is.null(object_name)) {
-    for(si in str_args) {
-      if(!is.na(si)) {
+    named_case <- length(names(str_args)) > 0
+    if(named_case) {
+      for(si in names(str_args)) {
         if(si == object_name) {
           stop(paste0("wrapr::unpack, target collided with unpacker name: ", object_name))
         }
       }
+    } else {
+      for(si in str_args) {
+        if(!is.na(si)) {
+          if(si == object_name) {
+            stop(paste0("wrapr::unpack, target collided with unpacker name: ", object_name))
+          }
+        }
+      }
     }
   }
-  force(value)
   write_values_into_env(unpack_environment = unpack_environment, str_args = str_args, value = value)
   # the return value gets written into executing environment after return
   # R expects this to be self, so do that instead of returning old_value

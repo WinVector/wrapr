@@ -1,5 +1,10 @@
 test_unpack <- function() {
 
+  d <- data.frame(x = 1:2, g=c('test', 'train'))
+  split(d, d$g) -> into[test_set = test, train_set = train]
+  RUnit::checkTrue(test_set$g[[1]] == 'test')
+  RUnit::checkTrue(train_set$g[[1]] == 'train')
+
   a <- 'x'
   # name capture version
   into[a, b] <- list(5, 10)
