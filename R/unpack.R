@@ -1,9 +1,9 @@
 
-# get character argument names out of ... with bquote .() evaluaiton in unpack_environment
-capture_and_validate_assignment_targets <- function(unpack_environment, ...) {
-  force(unpack_environment)
+# get character argument names out of ... with bquote .() evaluaiton in wrapr_private_unpack_environment
+capture_and_validate_assignment_targets <- function(wrapr_private_unpack_environment, ...) {
+  force(wrapr_private_unpack_environment)
   # capture the arguments unevaluted, and run through bquote
-  args <- as.list(do.call(bquote, list(substitute(list(...)), where = unpack_environment)))[-1]
+  args <- as.list(do.call(bquote, list(substitute(list(...)), where = wrapr_private_unpack_environment)))[-1]
   # extract and validate arguments as names of unpack targets
   nargs <- length(args)
   if(nargs < 1) {
@@ -79,15 +79,15 @@ capture_and_validate_assignment_targets <- function(unpack_environment, ...) {
 
 #' write values into environment
 #'
-#' @param unpack_environment environment to write into
+#' @param wrapr_private_unpack_environment environment to write into
 #' @param str_args array of string-names to write to (either without names, or names as targets)
 #' @param value values to write
 #'
 #' @keywords internal
 #' @noRd
 #'
-write_values_into_env <- function(unpack_environment, str_args, value) {
-  force(unpack_environment)
+write_values_into_env <- function(wrapr_private_unpack_environment, str_args, value) {
+  force(wrapr_private_unpack_environment)
   nargs <- length(str_args)
   named_case <- length(names(str_args)) > 0
   if(named_case) {
@@ -113,7 +113,7 @@ write_values_into_env <- function(unpack_environment, str_args, value) {
       if(!is.na(source_i)) {
         value_i <-value[[source_i]]
       }
-      assign(x = dest_i, value = value_i, envir = unpack_environment)
+      assign(x = dest_i, value = value_i, envir = wrapr_private_unpack_environment)
     }
   } else {
     nvalue <- length(value)
@@ -130,7 +130,7 @@ write_values_into_env <- function(unpack_environment, str_args, value) {
       source_i <- i
       value_i <- value[[source_i]]
       if(!is.na(dest_i)) {
-        assign(x = dest_i, value = value_i, envir = unpack_environment)
+        assign(x = dest_i, value = value_i, envir = wrapr_private_unpack_environment)
       }
     }
   }
@@ -158,13 +158,13 @@ define_unpacker <- function(object_name) {
     }
   }
 
-  f <- function(value, ...) {
+  f <- function(wrapr_private_value, ...) {
     # get environment to work in
-    unpack_environment <- parent.frame(n = 1)
+    wrapr_private_unpack_environment <- parent.frame(n = 1)
     # get the targets
-    str_args <- capture_and_validate_assignment_targets(unpack_environment, ...)
-    force(value)
-    write_values_into_env(unpack_environment = unpack_environment, str_args = str_args, value = value)
+    str_args <- capture_and_validate_assignment_targets(wrapr_private_unpack_environment, ...)
+    force(wrapr_private_value)
+    write_values_into_env(wrapr_private_unpack_environment = wrapr_private_unpack_environment, str_args = str_args, value = wrapr_private_value)
   }
 
   attr(f, 'object_name') <- object_name
@@ -204,10 +204,10 @@ print.unpacker <- function(x, ...) {
 #' of the implied array assignment.  Also, can not unpack into a variable name same as the un-packer's
 #' original declared name (to/into).
 #'
-#' @param self object implementing the feature, wrapr::unpack
+#' @param wrapr_private_self object implementing the feature, wrapr::unpack
 #' @param ... names of to unpack to (can be escaped with bquote \code{.()} notation).
 #' @param value list to unpack into values, must have a number of entries equal to number of \code{...} arguments
-#' @return self
+#' @return wrapr_private_self
 #'
 #' @examples
 #'
@@ -238,28 +238,28 @@ print.unpacker <- function(x, ...) {
 #'
 #' @export
 #'
-`[<-.unpacker` <- function(self, ..., value) {
-  force(self)
+`[<-.unpacker` <- function(wrapr_private_self, ..., value) {
+  force(wrapr_private_self)
   # get environment to work in
-  unpack_environment <- parent.frame(n = 1)
+  wrapr_private_unpack_environment <- parent.frame(n = 1)
   # the array update is going to write an object into the
   # destination environment after returning from this method,
   # try to ensure it is obvious it is the exact
   # object that was already there.
   # arg name not passed this deep, the followign sees "*tmp*"
-  # object_name <- as.character(deparse(substitute(self)))[[1]]
-  object_name <- attr(self, 'object_name')
+  # object_name <- as.character(deparse(substitute(wrapr_private_self)))[[1]]
+  object_name <- attr(wrapr_private_self, 'object_name')
   if(!is.null(object_name)) {
     old_value <- base::mget(object_name,
-                            envir = unpack_environment,
+                            envir = wrapr_private_unpack_environment,
                             mode = "any",
-                            ifnotfound = list(self),
+                            ifnotfound = list(wrapr_private_self),
                             inherits = FALSE)[[1]]
     if(!("unpacker" %in% class(old_value))) {
       stop(paste0("running upacker would overwrite ", object_name, " which is not an unpacker"))
     }
   }
-  str_args <- capture_and_validate_assignment_targets(unpack_environment, ...)
+  str_args <- capture_and_validate_assignment_targets(wrapr_private_unpack_environment, ...)
   if(!is.null(object_name)) {
     named_case <- length(names(str_args)) > 0
     if(named_case) {
@@ -279,10 +279,10 @@ print.unpacker <- function(x, ...) {
     }
   }
   force(value)
-  write_values_into_env(unpack_environment = unpack_environment, str_args = str_args, value = value)
+  write_values_into_env(wrapr_private_unpack_environment = wrapr_private_unpack_environment, str_args = str_args, value = value)
   # the return value gets written into executing environment after return
-  # R expects this to be self, so do that instead of returning old_value
-  return(self)
+  # R expects this to be wrapr_private_self, so do that instead of returning old_value
+  return(wrapr_private_self)
 }
 
 
