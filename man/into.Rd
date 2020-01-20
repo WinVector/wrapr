@@ -54,5 +54,8 @@ print(a)  # still 'x'
 list(55, 15) \%.>\% into(., a, b)
 print(a)  # now 55
 print(b)  # now 15
+# Note: the above example will not work with magrittr pipe,
+# as in that case the values get written to an intermediate
+# environment and lost.
 
 }

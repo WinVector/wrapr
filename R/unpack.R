@@ -332,6 +332,9 @@ print.unpacker <- function(x, ...) {
 #' list(55, 15) %.>% into(., a, b)
 #' print(a)  # now 55
 #' print(b)  # now 15
+#' # Note: the above example will not work with magrittr pipe,
+#' # as in that case the values get written to an intermediate
+#' # environment and lost.
 #'
 #' @export
 #'
@@ -383,6 +386,9 @@ into <- define_unpacker("into")
 #' list(55, 15) %.>% to(., a, b)
 #' print(a)  # now 55
 #' print(b)  # now 15
+#' # Note: the above example will not work with magrittr pipe,
+#' # as in that case the values get written to an intermediate
+#' # environment and lost.
 #'
 #' @export
 #'
@@ -434,6 +440,9 @@ to <- define_unpacker("to")
 #' list(55, 15) %.>% unpack(., a, b)
 #' print(a)  # now 55
 #' print(b)  # now 15
+#' # Note: the above example will not work with magrittr pipe,
+#' # as in that case the values get written to an intermediate
+#' # environment and lost.
 #'
 #' @export
 #'

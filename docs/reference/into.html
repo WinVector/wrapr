@@ -212,7 +212,10 @@ original declared name (into).</p>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>)  <span class='co'># now 20</span></div><div class='output co'>#&gt; [1] 20</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>b</span>)  <span class='co'># now 40</span></div><div class='output co'>#&gt; [1] 40</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>)  <span class='co'># still 'x'</span></div><div class='output co'>#&gt; [1] "x"</div><div class='input'>
 <span class='co'># pipe version</span>
 <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fl'>55</span>, <span class='fl'>15</span>) <span class='kw'>%.&gt;%</span> <span class='fu'>into</span>(<span class='no'>.</span>, <span class='no'>a</span>, <span class='no'>b</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>)  <span class='co'># now 55</span></div><div class='output co'>#&gt; [1] 55</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>b</span>)  <span class='co'># now 15</span></div><div class='output co'>#&gt; [1] 15</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>)  <span class='co'># now 55</span></div><div class='output co'>#&gt; [1] 55</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>b</span>)  <span class='co'># now 15</span></div><div class='output co'>#&gt; [1] 15</div><div class='input'># Note: the above example will not work with magrittr pipe,
+# as in that case the values get written to an intermediate
+# environment and lost.
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
