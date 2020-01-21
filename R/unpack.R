@@ -403,7 +403,7 @@ format.UnpackTarget <- function(x, ...) {
   }
   return(paste0("wrapr::UnpackTarget(object_name = ", q_name,
                 ", unnamed_case = ", unnamed_case,
-                ", str_args= ", map_to_char(str_args),
+                ", str_args = ", map_to_char(str_args),
                 ")"))
 }
 
