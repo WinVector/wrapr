@@ -326,7 +326,7 @@ print.Unpacker <- function(x, ...) {
   force(wrapr_private_self)
   # get environment to work in
   unpack_environment <- parent.frame(n = 1)
-  # capture .. args
+  # capture ... args
   str_args <- as.list(do.call(bquote, list(substitute(list(...)), where = unpack_environment)))[-1]
   # the array update is going to write an object into the
   # destination environment after returning from this method,
