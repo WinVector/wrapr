@@ -403,7 +403,7 @@ pipe_impl <- function(pipe_left_arg,
           if(length(obj_found_name)==1) {
             obj_found <- mget(obj_found_name, envir = pipe_environment, mode = "any", inherits=TRUE, ifnotfound = list(NULL))[[1]]
             if(!is.null(obj_found)) {
-              if(isTRUE(attr(obj_found, "dotpipe_eager_eval"))) {
+              if(isTRUE(attr(obj_found, "dotpipe_eager_eval_bracket"))) {
                 eager_function_eval <- TRUE
               }
             }
@@ -412,7 +412,7 @@ pipe_impl <- function(pipe_left_arg,
       } else {
         fn_found <- mget(call_name, envir = pipe_environment, mode = "function", inherits=TRUE, ifnotfound = list(NULL))[[1]]
         if(!is.null(fn_found)) {
-          if(isTRUE(attr(fn_found, "dotpipe_eager_eval"))) {
+          if(isTRUE(attr(fn_found, "dotpipe_eager_eval_call"))) {
             eager_function_eval <- TRUE
           }
         }
