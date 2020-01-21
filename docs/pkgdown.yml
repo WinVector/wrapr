@@ -14,5 +14,6 @@ articles:
   lambda: lambda.html
   let: let.html
   named_map_builder: named_map_builder.html
+  wrapr_Eager: wrapr_Eager.html
   wrapr_applicable: wrapr_applicable.html
 
