@@ -1,5 +1,5 @@
 
-validate_positional_targets <- function(target_names) {
+validate_positional_targets <- function(target_names, extra_forbidden_names = NULL) {
   # extract and validate arguments as names of unpack targets
   nargs <- length(target_names)
   if(nargs < 1) {
@@ -32,6 +32,9 @@ validate_positional_targets <- function(target_names) {
       }
       if(char_target_i == ".") {
         stop("wrapr::unpack expected all targets must not be .")
+      }
+      if(char_target_i %in% extra_forbidden_names) {
+        stop(paste0("wrapr::unpack expected all targets must not be ", char_target_i))
       }
     }
     str_targets[[i]] <- char_target_i
@@ -88,7 +91,7 @@ validate_source_names <- function(source_names) {
 }
 
 # validate source and target naming
-validate_assignment_named_map <- function(args) {
+validate_assignment_named_map <- function(args, extra_forbidden_names = NULL) {
   if(length(args) < 1) {
     stop("no mapping indices to wrapr::unpacker")
   }
@@ -108,7 +111,7 @@ validate_assignment_named_map <- function(args) {
       }
     }
   }
-  target_names <- validate_positional_targets(target_names)
+  target_names <- validate_positional_targets(target_names, extra_forbidden_names = extra_forbidden_names)
   if(any(is.na(target_names))) {  # not checked for positional targets
     stop("all target names must not be NA")
   }
@@ -177,6 +180,32 @@ write_values_into_env <- function(unpack_environment, str_args, value) {
 }
 
 
+unpack_impl <- function(..., unpack_environment, value, str_args, unnamed_case, object_name = NULL, our_class = "Unpacker") {
+  wrapr::stop_if_dot_args(substitute(list(...)), "wrapr:::unpack_impl")
+  force(unpack_environment)
+  if(!is.null(object_name)) {
+    old_value <- base::mget(object_name,
+                            envir = unpack_environment,
+                            mode = "any",
+                            ifnotfound = list(NULL),
+                            inherits = FALSE)[[1]]
+    if(!is.null(old_value)) {
+      if(!(our_class %in% class(old_value))) {
+        stop(paste0("wrapr:::unpack_impl running upacker would overwrite ", object_name, " which is not an Unpacker"))
+      }
+    }
+    old_value <- NULL
+  }
+  if(unnamed_case) {
+    str_args <- validate_positional_targets(str_args, extra_forbidden_names = object_name)
+  } else {
+    str_args <- validate_assignment_named_map(str_args, extra_forbidden_names = object_name)
+  }
+  force(value)
+  write_values_into_env(unpack_environment = unpack_environment, str_args = str_args, value = value)
+}
+
+
 #' Create a value unpacking object.
 #'
 #' Create a value unplacking object that records it is stored by name \code{object_name}.
@@ -210,18 +239,17 @@ Unpacker <- function(object_name = NULL, unnamed_case = FALSE) {
     # get the targets
     # capture the arguments unevaluted, and run through bquote
     str_args <- as.list(do.call(bquote, list(substitute(list(...)), where = unpack_environment)))[-1]
-    if(unnamed_case) {
-      str_args <- validate_positional_targets(str_args)
-    } else {
-      str_args <- validate_assignment_named_map(str_args)
-    }
-    force(wrapr_private_value)
-    write_values_into_env(unpack_environment = unpack_environment, str_args = str_args, value = wrapr_private_value)
+    unpack_impl(unpack_environment = unpack_environment,
+                value = wrapr_private_value,
+                str_args = str_args,
+                unnamed_case = unnamed_case,
+                object_name = NULL,   # this path doesn't cause an over-write
+                our_class = "Unpacker")
     invisible(wrapr_private_value)
   }
 
   attr(f, 'object_name') <- object_name
-  attr(f, 'unnamed_case') <- unnamed_case
+  attr(f, 'unnamed_case') <- isTRUE(unnamed_case)
   class(f) <- "Unpacker"
   return(f)
 }
@@ -230,7 +258,7 @@ Unpacker <- function(object_name = NULL, unnamed_case = FALSE) {
 #' @export
 format.Unpacker <- function(x, ...) {
   object_name <- attr(x, 'object_name')
-  unnamed_case <- attr(x, 'unnamed_case')
+  unnamed_case <- isTRUE(attr(x, 'unnamed_case'))
   q_name <- "NULL"
   if(!is.null(object_name)) {
     q_name <- sQuote(object_name)
@@ -304,45 +332,13 @@ print.Unpacker <- function(x, ...) {
   # arg name not passed this deep, the followign sees "*tmp*"
   # object_name <- as.character(deparse(substitute(wrapr_private_self)))[[1]]
   object_name <- attr(wrapr_private_self, 'object_name')
-  if(!is.null(object_name)) {
-    old_value <- base::mget(object_name,
-                            envir = unpack_environment,
-                            mode = "any",
-                            ifnotfound = list(NULL),
-                            inherits = FALSE)[[1]]
-    if(!is.null(old_value)) {
-      if(!("Unpacker" %in% class(old_value))) {
-        stop(paste0("running upacker would overwrite ", object_name, " which is not an unpacker"))
-      }
-    }
-    old_value <- NULL
-  }
   unnamed_case <- isTRUE(attr(wrapr_private_self, 'unnamed_case'))
-  if(unnamed_case) {
-    str_args <- validate_positional_targets(str_args)
-  } else {
-    str_args <- validate_assignment_named_map(str_args)
-  }
-  if(!is.null(object_name)) {
-    named_case <- length(names(str_args)) > 0
-    if(named_case) {
-      for(si in names(str_args)) {
-        if(si == object_name) {
-          stop(paste0("wrapr::unpack, target collided with unpacker name: ", object_name))
-        }
-      }
-    } else {
-      for(si in str_args) {
-        if(!is.na(si)) {
-          if(si == object_name) {
-            stop(paste0("wrapr::unpack, target collided with unpacker name: ", object_name))
-          }
-        }
-      }
-    }
-  }
-  force(value)
-  write_values_into_env(unpack_environment = unpack_environment, str_args = str_args, value = value)
+  unpack_impl(unpack_environment = unpack_environment,
+              value = value,
+              str_args = str_args,
+              unnamed_case = unnamed_case,
+              object_name = object_name,
+              our_class = "Unpacker")
   # the return value gets written into executing environment after return
   # R expects this to be wrapr_private_self, so do that instead of returning old_value
   return(wrapr_private_self)
@@ -565,3 +561,104 @@ unpack <- Unpacker(object_name = "unpack", unnamed_case = FALSE)
 #'
 unpack_i <- Unpacker(object_name = "unpack", unnamed_case = TRUE)
 
+
+
+
+
+
+
+
+
+# below just for completeness.  if we hear of an interesting use case we will update docs.
+
+
+#' Create a value unpacking object (standard evaluation variant).
+#'
+#' Create a value unplacking object that records it is stored by name \code{object_name}.
+#' This is included merely for completeness.
+#'
+#'
+#' @param object_name character, name the object is stored as
+#' @param unnamed_case logical, if TRUE use positional- not name based matching
+#' @return an unpacker
+#'
+#' @keywords internal
+#' @export
+#'
+UnpackerSE <- function(object_name = NULL, unnamed_case = FALSE) {
+  force(object_name)
+  force(unnamed_case)
+  if(!is.null(object_name)) {
+    if(!is.character(object_name)) {
+      stop("wrapr::UnpackerSE object_name must be character when not NULL")
+    }
+    if(length(object_name) != 1) {
+      stop("wrapr::UnpackerSE object_naem must be length 1 when not NULL")
+    }
+  }
+
+  f <- function(wrapr_private_value, str_args) {
+    # get environment to work in
+    unpack_environment <- parent.frame(n = 1)
+    unpack_impl(unpack_environment = unpack_environment,
+                value = wrapr_private_value,
+                str_args = str_args,
+                unnamed_case = unnamed_case,
+                object_name = NULL,   # this path doesn't cause an over-write
+                our_class = "UnpackerSE")
+    invisible(wrapr_private_value)
+  }
+
+  attr(f, 'object_name') <- object_name
+  attr(f, 'unnamed_case') <- isTRUE(unnamed_case)
+  class(f) <- "UnpackerSE"
+  return(f)
+}
+
+
+#' @export
+format.UnpackerSE <- function(x, ...) {
+  object_name <- attr(x, 'object_name')
+  unnamed_case <- isTRUE(attr(x, 'unnamed_case'))
+  q_name <- "NULL"
+  if(!is.null(object_name)) {
+    q_name <- sQuote(object_name)
+  }
+  return(paste0("wrapr::UnpackerSE(object_name = ", q_name, ", unnamed_case = ", unnamed_case, ")"))
+}
+
+
+#' @export
+as.character.UnpackerSE <- function(x, ...) {
+  format(x, ...)
+}
+
+
+#' @export
+print.UnpackerSE <- function(x, ...) {
+  cat(format(x, ...))
+}
+
+
+#' Standard evaluation version of unpack.
+#'
+#' Standard evaluation version of unpack, takes mapping as a character vector.
+#'
+#' @param wrapr_private_value list of values to copy
+#' @param str_args unpack mapping as a named character vector
+#'
+#' @export
+#'
+unpack_se <- UnpackerSE(object_name = "unpack", unnamed_case = FALSE)
+
+
+#' Standard evaluation version of unpack_i.
+#'
+#' Standard evaluation version of unpack_i, takes mapping as a character vector.
+#'
+#' @param wrapr_private_value list of values to copy
+#' @param str_args unpack mapping as a named character vector
+#'
+#' @export
+#'
+unpack_se_i <- UnpackerSE(object_name = "unpack", unnamed_case = TRUE)
