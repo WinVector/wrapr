@@ -233,6 +233,7 @@ Unpacker <- function(object_name = NULL, unnamed_case = FALSE) {
     }
   }
 
+  # build function return
   f <- function(wrapr_private_value, ...) {
     # get environment to work in
     unpack_environment <- parent.frame(n = 1)
@@ -347,6 +348,36 @@ print.Unpacker <- function(x, ...) {
 }
 
 
+mk_unpack_single_arg_fn <- function(str_args, unnamed_case, object_name, our_class) {
+  force(str_args)
+  force(unnamed_case)
+  force(object_name)
+  force(our_class)
+  if(unnamed_case) {
+    str_args <- validate_positional_targets(str_args, extra_forbidden_names = object_name)
+  } else {
+    str_args <- validate_assignment_named_map(str_args, extra_forbidden_names = object_name)
+  }
+
+  # build function return in a fairly clean environment
+  f <- function(.) {
+    # get environment to work in
+    unpack_environment <- parent.frame(n = 1)
+    unpack_impl(unpack_environment = unpack_environment,
+                value = .,
+                str_args = str_args,
+                unnamed_case = unnamed_case,
+                object_name = NULL,  # this path doesn't write self
+                our_class = our_class)
+    invisible(.)
+  }
+
+  attr(f, 'object_name') <- object_name
+  attr(f, 'unnamed_case') <- unnamed_case
+  attr(f, 'str_args') <- str_args
+  class(f) <- our_class
+  return(f)
+}
 
 #' Prepare for unpack or bind values into the calling environment.
 #'
@@ -367,28 +398,10 @@ print.Unpacker <- function(x, ...) {
   str_args <- as.list(do.call(bquote, list(substitute(list(...)), where = unpack_environment)))[-1]
   object_name <- attr(wrapr_private_self, 'object_name')
   unnamed_case <- isTRUE(attr(wrapr_private_self, 'unnamed_case'))
-  if(unnamed_case) {
-    str_args <- validate_positional_targets(str_args, extra_forbidden_names = object_name)
-  } else {
-    str_args <- validate_assignment_named_map(str_args, extra_forbidden_names = object_name)
-  }
-  unpack_environment <- NULL
-  f <- function(.) {
-    # get environment to work in
-    unpack_environment <- parent.frame(n = 1)
-    unpack_impl(unpack_environment = unpack_environment,
-                value = .,
-                str_args = str_args,
-                unnamed_case = unnamed_case,
-                object_name = NULL,  # this path doesn't write self
-                our_class = "UnpackTarget")
-    invisible(.)
-  }
-  attr(f, 'object_name') <- object_name
-  attr(f, 'unnamed_case') <- unnamed_case
-  attr(f, 'str_args') <- str_args
-  class(f) <- "UnpackTarget"
-  return(f)
+  return(mk_unpack_single_arg_fn(str_args = str_args,
+                                 unnamed_case = unnamed_case,
+                                 object_name = object_name,
+                                 our_class = "UnpackTarget"))
 }
 
 
@@ -677,6 +690,7 @@ UnpackerSE <- function(object_name = NULL, unnamed_case = FALSE) {
     }
   }
 
+  # build function return
   f <- function(wrapr_private_value, str_args) {
     # get environment to work in
     unpack_environment <- parent.frame(n = 1)
