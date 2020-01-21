@@ -290,6 +290,7 @@ print.Unpacker <- function(x, ...) {
 #' Note: when using \code{[]<-} notation, a reference to the unpacker object is written into the unpacking environment as a side-effect
 #' of the implied array assignment.
 #' Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or the name of the unpacker itself.
+#' For related work please see here \url{http://www.win-vector.com/blog/2020/01/unpack-your-values-in-r/}.
 #'
 #' @param wrapr_private_self object implementing the feature, wrapr::unpack
 #' @param ... names of to unpack to (can be escaped with bquote \code{.()} notation).
@@ -357,6 +358,7 @@ print.Unpacker <- function(x, ...) {
 #' of the implied array assignment.
 #' Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or \code{into}.
 #' Function form can not use the names: \code{.} or \code{wrapr_private_value}.
+#' For related work please see here \url{http://www.win-vector.com/blog/2020/01/unpack-your-values-in-r/}.
 #'
 #' @param wrapr_private_value list of values to copy
 #' @param ... argument names to write to
@@ -413,6 +415,7 @@ into <- Unpacker(object_name = "into", unnamed_case = FALSE)
 #' of the implied array assignment.
 #' Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or \code{to}.
 #' function form can not use the names: \code{.} or \code{wrapr_private_value}.
+#' For related work please see here \url{http://www.win-vector.com/blog/2020/01/unpack-your-values-in-r/}.
 #'
 #' @param wrapr_private_value list of values to copy
 #' @param ... argument names to write to
@@ -468,6 +471,7 @@ to <- Unpacker(object_name = "to", unnamed_case = FALSE)
 #' of the implied array assignment.
 #' Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or \code{unpack}.
 #' Function form can not use the names: \code{.} or \code{wrapr_private_value}.
+#' For related work please see here \url{http://www.win-vector.com/blog/2020/01/unpack-your-values-in-r/}.
 #'
 #' @param wrapr_private_value list of values to copy
 #' @param ... argument names to write to
@@ -523,6 +527,7 @@ unpack <- Unpacker(object_name = "unpack", unnamed_case = FALSE)
 #' of the implied array assignment.
 #' Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or \code{unpack}.
 #' Function form can not use the names: \code{.} or \code{wrapr_private_value}.
+#' For related work please see here \url{http://www.win-vector.com/blog/2020/01/unpack-your-values-in-r/}.
 #'
 #' @param wrapr_private_value list of values to copy
 #' @param ... argument names to write to

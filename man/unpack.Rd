@@ -23,6 +23,7 @@ Note: a reference to the unpacker object is written into the unpacking environme
 of the implied array assignment.
 Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or \code{unpack}.
 Function form can not use the names: \code{.} or \code{wrapr_private_value}.
+For related work please see here \url{http://www.win-vector.com/blog/2020/01/unpack-your-values-in-r/}.
 }
 \examples{
 
