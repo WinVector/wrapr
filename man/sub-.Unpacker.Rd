@@ -15,5 +15,6 @@
 prepared unpacking object
 }
 \description{
-Prepare for unpack or bind values into the calling environment.
+Prepare for unpack or bind values into the calling environment.  This makes pipe to behavior very
+close to assign to behavior for the Unpacker class.
 }

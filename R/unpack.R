@@ -350,6 +350,9 @@ print.Unpacker <- function(x, ...) {
 
 #' Prepare for unpack or bind values into the calling environment.
 #'
+#' Prepare for unpack or bind values into the calling environment.  This makes pipe to behavior very
+#' close to assign to behavior for the Unpacker class.
+#'
 #' @param wrapr_private_self object implementing the feature, wrapr::unpack
 #' @param ... names of to unpack to (can be escaped with bquote \code{.()} notation).
 #' @return prepared unpacking object

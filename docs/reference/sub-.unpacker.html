@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Build an unpackign target. — [.unpacker • wrapr</title>
+<title>Prepare for unpack or bind values into the calling environment. — [.Unpacker • wrapr</title>
 
 
 <!-- jquery -->
@@ -35,10 +35,9 @@
 
 
 
-<meta property="og:title" content="Build an unpackign target. — [.unpacker" />
-<meta property="og:description" content="Unpacks or binds values into the calling environment. Uses bquote escaping.
-NULL is a special case that is unpacked to all targets. NA targets are skipped.
-All non-NA target names must be unique." />
+<meta property="og:title" content="Prepare for unpack or bind values into the calling environment. — [.Unpacker" />
+<meta property="og:description" content="Prepare for unpack or bind values into the calling environment.  This makes pipe to behavior very
+close to assign to behavior for the Unpacker class." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -155,25 +154,24 @@ All non-NA target names must be unique." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Build an unpackign target.</h1>
+    <h1>Prepare for unpack or bind values into the calling environment.</h1>
     <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/unpack.R'><code>R/unpack.R</code></a></small>
-    <div class="hidden name"><code>sub-.unpacker.Rd</code></div>
+    <div class="hidden name"><code>sub-.Unpacker.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Unpacks or binds values into the calling environment. Uses <code>bquote</code> escaping.
-NULL is a special case that is unpacked to all targets. NA targets are skipped.
-All non-NA target names must be unique.</p>
+    <p>Prepare for unpack or bind values into the calling environment.  This makes pipe to behavior very
+close to assign to behavior for the Unpacker class.</p>
     </div>
 
-    <pre class="usage"># S3 method for unpacker
-[(self, ...)</pre>
+    <pre class="usage"># S3 method for Unpacker
+[(wrapr_private_self, ...)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>self</th>
+      <th>wrapr_private_self</th>
       <td><p>object implementing the feature, wrapr::unpack</p></td>
     </tr>
     <tr>
@@ -184,27 +182,14 @@ All non-NA target names must be unique.</p>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>self</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <p>prepared unpacking object</p>
 
-    <p>Similar to <code>Python</code> tuple unpacking, <code>zeallot</code>'s arrow, and to <code>vadr::bind</code>.</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='co'># into and to have the attribute dotpipe_eager_eval set to TRUE,</span>
-<span class='co'># so they do not need to be written as .(intro(a, b)) to trigger</span>
-<span class='co'># eager function eval in the pipeline</span>
-<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fl'>5</span>, <span class='fl'>10</span>) <span class='kw'>%.&gt;%</span> <span class='no'>into</span>[<span class='no'>a</span>, <span class='no'>b</span>]
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>)  <span class='co'># now 5</span></div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>b</span>)  <span class='co'># now 10</span></div><div class='output co'>#&gt; [1] 10</div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
