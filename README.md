@@ -43,9 +43,13 @@ Primary `wrapr` services include:
     (function debug
     wrappers)
   - [`λ()`](https://winvector.github.io/wrapr/reference/defineLambda.html)
-    (anonymous function builder)
-  - [`into`/`to`](https://winvector.github.io/wrapr/reference/into.html)
-    (assign to multiple values)
+    (anonymous function
+    builder)
+  - [`unpack`/`into`/`to`](https://winvector.github.io/wrapr/reference/into.html)
+    (assign to multiple
+    values)
+  - [`as_named_list`](https://winvector.github.io/wrapr/reference/as_named_list.html)
+    (build up a named list quickly)
 
 ## [`let()`](https://winvector.github.io/wrapr/articles/let.html)
 

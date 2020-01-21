@@ -15,9 +15,9 @@
 #' # an example application for this function is managing saving and
 #' # loading values into the workspace.
 #' if(FALSE) {
+#'   # remotes::install_github("WinVector/wrapr")
 #'   library(wrapr)
 #'
-#'   # example values
 #'   a <- 5
 #'   b <- 7
 #'   do_not_want <- 13
@@ -28,16 +28,20 @@
 #'   # clear values out of our workspace for the example
 #'   rm(list = ls())
 #'   ls()
+#'   # notice workspace environemnt now empty
 #'
 #'   # read back while documenting what we expect to
 #'   # read in
-#'   readRDS('example_data.RDS') -> unpack[a, b]
+#'   unpack[a, b] <- readRDS('example_data.RDS')
 #'
 #'   # confirm what we have, the extra unpack is a side
-#'   # effect of the -> notation. To avoid this write
-#'   # instead:
-#'   # readRDS('example_data.RDS') %.>% unpack[a, b]
+#'   # effect of the []<- notation. To avoid this instead
+#'   # use one of:
+#'   #   unpack(readRDS('example_data.RDS'), a, b)
+#'   #   readRDS('example_data.RDS') %.>% unpack(., a, b)
+#'   #   readRDS('example_data.RDS') %.>% unpack[a, b]
 #'   ls()
+#'   # notice do_not_want is not present
 #'
 #'   print(a)
 #'

@@ -188,9 +188,9 @@
 <span class='co'># an example application for this function is managing saving and</span>
 <span class='co'># loading values into the workspace.</span>
 <span class='kw'>if</span>(<span class='fl'>FALSE</span>) {
+  <span class='co'># remotes::install_github("WinVector/wrapr")</span>
   <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>wrapr</span>)
 
-  <span class='co'># example values</span>
   <span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fl'>5</span>
   <span class='no'>b</span> <span class='kw'>&lt;-</span> <span class='fl'>7</span>
   <span class='no'>do_not_want</span> <span class='kw'>&lt;-</span> <span class='fl'>13</span>
@@ -201,16 +201,20 @@
   <span class='co'># clear values out of our workspace for the example</span>
   <span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ls.html'>ls</a></span>())
   <span class='fu'><a href='https://rdrr.io/r/base/ls.html'>ls</a></span>()
+  <span class='co'># notice workspace environemnt now empty</span>
 
   <span class='co'># read back while documenting what we expect to</span>
   <span class='co'># read in</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span>(<span class='st'>'example_data.RDS'</span>) <span class='kw'>-&gt;</span> <span class='no'>unpack</span>[<span class='no'>a</span>, <span class='no'>b</span>]
+  <span class='no'>unpack</span>[<span class='no'>a</span>, <span class='no'>b</span>] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span>(<span class='st'>'example_data.RDS'</span>)
 
   <span class='co'># confirm what we have, the extra unpack is a side</span>
-  <span class='co'># effect of the -&gt; notation. To avoid this write</span>
-  <span class='co'># instead:</span>
-  <span class='co'># readRDS('example_data.RDS') %.&gt;% unpack[a, b]</span>
+  <span class='co'># effect of the []&lt;- notation. To avoid this instead</span>
+  <span class='co'># use one of:</span>
+  <span class='co'>#   unpack(readRDS('example_data.RDS'), a, b)</span>
+  <span class='co'>#   readRDS('example_data.RDS') %.&gt;% unpack(., a, b)</span>
+  <span class='co'>#   readRDS('example_data.RDS') %.&gt;% unpack[a, b]</span>
   <span class='fu'><a href='https://rdrr.io/r/base/ls.html'>ls</a></span>()
+  <span class='co'># notice do_not_want is not present</span>
 
   <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>)
 
