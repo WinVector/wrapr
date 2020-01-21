@@ -1,44 +1,4 @@
 
-test_unpack_unpack_i <- function() {
-
-  d <- data.frame(x = 1:2, g=c('test', 'train'))
-  split(d, d$g) -> unpack_i[test_set = test, train_set = train]
-  RUnit::checkTrue(test_set$g[[1]] == 'test')
-  RUnit::checkTrue(train_set$g[[1]] == 'train')
-  rm(list = c('test_set', 'train_set'))
-
-  # again with self in local environment
-  d <- data.frame(x = 1:2, g=c('test', 'train'))
-  split(d, d$g) -> unpack_i[test_set = test, train_set = train]
-  RUnit::checkTrue(test_set$g[[1]] == 'test')
-  RUnit::checkTrue(train_set$g[[1]] == 'train')
-  rm(list = c('test_set', 'train_set'))
-
-
-  a <- 'x'
-  # name capture version
-  unpack_i[a, b] <- list(5, 10)
-  RUnit::checkEquals(a, 5)
-  RUnit::checkEquals(b, 10)
-
-  # bquote re-direct to value in variable
-  # plus quotes are allowed
-  a <- 'x'
-  unpack_i[.(a), 'b'] <- list(20, 40)
-  RUnit::checkEquals(a, 'x')
-  RUnit::checkEquals(x, 20)
-  RUnit::checkEquals(b, 40)
-
-  list(256, 2106) %.>% unpack_i(., a, b)
-  RUnit::checkEquals(a, 256)
-  RUnit::checkEquals(b, 2106)
-
-  list(2567, 21067) %.>% wrapr::unpack_i(., a, b)
-  RUnit::checkEquals(a, 2567)
-  RUnit::checkEquals(b, 21067)
-
-  invisible(NULL)
-}
 
 test_unpack_unpack <- function() {
   # named unpacking
@@ -172,3 +132,38 @@ test_unpack_to <- function() {
   RUnit::checkTrue(train$g[[1]] == 'train')
   rm(list = c('train', 'test'))
 }
+
+
+test_unpack_unpack_i <- function() {
+  a <- 'x'
+  # name capture version
+  unpack_i[a, b] <- list(5, 10)
+  RUnit::checkEquals(a, 5)
+  RUnit::checkEquals(b, 10)
+
+  # bquote re-direct to value in variable
+  # plus quotes are allowed
+  a <- 'x'
+  unpack_i[.(a), 'b'] <- list(20, 40)
+  RUnit::checkEquals(a, 'x')
+  RUnit::checkEquals(x, 20)
+  RUnit::checkEquals(b, 40)
+
+  list(256, 2106) %.>% unpack_i(., a, b)
+  RUnit::checkEquals(a, 256)
+  RUnit::checkEquals(b, 2106)
+
+  list(2567, 21067) %.>% wrapr::unpack_i(., a, b)
+  RUnit::checkEquals(a, 2567)
+  RUnit::checkEquals(b, 21067)
+
+  invisible(NULL)
+}
+
+test_partial_unpack_specification <- function() {
+  list(a = 1, b = 2) -> to[e = a, b]
+  RUnit::checkEquals(e, 1)
+  RUnit::checkEquals(b, 2)
+  invisible(NULL)
+}
+

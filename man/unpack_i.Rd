@@ -26,23 +26,13 @@ Function form can not use the names: \code{.} or \code{wrapr_private_value}.
 }
 \examples{
 
-# named unpacking
-# looks like assignment: destination = where_from_in_value
-d <- data.frame(x = 1:2,
-                g=c('test', 'train'),
-                stringsAsFactors = FALSE)
-unpack_i[train_set = train, test_set = test] <- split(d, d$g)
-# train_set and test_set now correctly split
-print(train_set)
-print(test_set)
-
-# un-named version
+# un-named unpacking
 # values matchced by index
 unpack_i[a, b] <- list(5, 10)
 print(a)  # now 5
 print(b)  # now 10
 
-# un-named version
+# un-named unpacking
 #' # values matchced by index
 # bquote re-direct to value in variable using .()
 # Note: the bquote .() step is potentially confusing, as the user
@@ -54,7 +44,7 @@ print(x)  # now 20
 print(b)  # now 40
 print(a)  # still 'x'
 
-# un-named version
+# un-named unpacking
 #' # values matchced by index
 # piped example
 list(55, 15) \%.>\% unpack_i(., a, b)

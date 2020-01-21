@@ -4,12 +4,12 @@
 \alias{Unpacker}
 \title{Create a value unpacking object.}
 \usage{
-Unpacker(object_name = NULL, allow_unnamed_case = FALSE)
+Unpacker(object_name = NULL, unnamed_case = FALSE)
 }
 \arguments{
 \item{object_name}{character, name the object is stored as}
 
-\item{allow_unnamed_case}{logical, if FALSE promote unnamed arguments to self-named}
+\item{unnamed_case}{logical, if TRUE use positional- not name based matching}
 }
 \value{
 an unpacker

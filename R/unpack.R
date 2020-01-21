@@ -1,22 +1,12 @@
 
-# validate source and target naming
-validate_assignment_targets <- function(args,
-                                        allow_unnamed_case) {
+validate_positional_targets <- function(target_names) {
   # extract and validate arguments as names of unpack targets
-  nargs <- length(args)
+  nargs <- length(target_names)
   if(nargs < 1) {
     stop("no indices to wrapr::unpacker")
   }
-  named_case <- length(names(args)) > 0
-  if(named_case) {
-    # named targets case
-    if(length(names(args)) != nargs) {
-      stop("if using names, all arguments must be named")
-    }
-    target_names = names(args)
-  } else {
-    # value targets case
-    target_names = args
+  if(length(names(target_names)) > 0) {
+    stop("unexpected names")
   }
   str_targets <- character(nargs)
   for(i in 1:nargs) {
@@ -47,35 +37,83 @@ validate_assignment_targets <- function(args,
     str_targets[[i]] <- char_target_i
   }
   non_nas <- str_targets[!is.na(str_targets)]
+  if(length(non_nas) <= 0) {
+    stop("wrapr::unpack expected some non-NA targets")
+  }
   if(length(non_nas) != length(unique(non_nas))) {
     stop("wrapr::unpack expected all non-NA targets must be unique")
   }
-  if(named_case) {
-    na_posns <- is.na(args)
-    values <- as.character(args)  # be less picky on sources, convert them
-    values[na_posns] <- NA_character_
-    for(i in 1:nargs) {
-      source_i <- values[[i]]
-      if(is.null(source_i)) {
-        stop("wrapr::unpack expected all source names to not be NULL")
-      }
-      if(length(source_i) != 1) {
-        stop("wrapr::unpack expected all source names to be length 1.")
-      }
-      if(!is.na(source_i)) {
-        if(nchar(source_i) < 1) {
-          stop("wrapr::unpack expected all source_names to be non-empty strings")
-        }
+  return(str_targets)
+}
+
+validate_source_names <- function(source_names) {
+  # extract and validate arguments as names of unpack sources
+  nargs <- length(source_names)
+  if(nargs < 1) {
+    stop("no indices to wrapr::unpacker")
+  }
+  if(length(names(source_names)) > 0) {
+    stop("unexpected names")
+  }
+  str_names <- character(nargs)
+  for(i in 1:nargs) {
+    source_i <- source_names[[i]]
+    char_source_i <- NA_character_
+    if(is.null(source_i)) {
+      stop("wrapr::unpack expected all sources to not be NULL")
+    }
+    if(!(is.name(source_i) || is.character(source_i) || is.na(source_i))) {
+      stop("wrapr::unpack expected all sources to be character, name, or NA")
+    }
+    char_source_i <- as.character(source_i)
+    if(length(char_source_i) != 1) {
+      stop("wrapr::unpack expected all sources to be length 1.")
+    }
+    if(is.na(char_source_i)) {
+      stop("wrapr::unpack expected all sources to not be NA.")
+    }
+    if(nchar(char_source_i) < 1) {
+      stop("wrapr::unpack expected all sources to be non-empty strings")
+    }
+    tcargi <- trimws(char_source_i, which = "both")
+    if(tcargi != char_source_i) {
+      stop("wrapr::unpack expected all sources must not start or end with whitespace")
+    }
+    if(char_source_i == ".") {
+      stop("wrapr::unpack expected all sources must not be .")
+    }
+    str_names[[i]] <- char_source_i
+  }
+  return(str_names)
+}
+
+# validate source and target naming
+validate_assignment_named_map <- function(args) {
+  if(length(args) < 1) {
+    stop("no mapping indices to wrapr::unpacker")
+  }
+  target_names <- names(args)
+  source_names <- args
+  names(source_names) <- NULL
+  source_names <- validate_source_names(source_names)
+  if(length(target_names) <= 0) {
+    target_names <- source_names
+  } else {
+    if(length(target_names) != length(source_names)) {
+      stop("expect same number of targets as sources")   # should be unreachable, establish a local invarient
+    }
+    for(i in 1:length(source_names)) {
+      if( is.null(target_names[[i]]) || (!is.character(target_names[i])) || is.na(target_names[[i]])  || (length(target_names[[i]]) != 1) || (nchar(target_names[[i]]) <= 0) ) {
+        target_names[[i]] <- source_names[[i]]
       }
     }
-    names(values) <- str_targets
-    str_targets <- values
   }
-  # promote up to named case
-  if((length(names(str_targets)) <= 0) && (!allow_unnamed_case)) {
-    names(str_targets) <- str_targets
+  target_names <- validate_positional_targets(target_names)
+  if(any(is.na(target_names))) {  # not checked for positional targets
+    stop("all target names must not be NA")
   }
-  return(str_targets)
+  names(source_names) <- target_names
+  return(source_names)
 }
 
 
@@ -148,15 +186,15 @@ write_values_into_env <- function(unpack_environment, str_args, value) {
 #' as a side-effect.
 #'
 #' @param object_name character, name the object is stored as
-#' @param allow_unnamed_case logical, if FALSE promote unnamed arguments to self-named
+#' @param unnamed_case logical, if TRUE use positional- not name based matching
 #' @return an unpacker
 #'
 #' @keywords internal
 #' @export
 #'
-Unpacker <- function(object_name = NULL, allow_unnamed_case = FALSE) {
+Unpacker <- function(object_name = NULL, unnamed_case = FALSE) {
   force(object_name)
-  force(allow_unnamed_case)
+  force(unnamed_case)
   if(!is.null(object_name)) {
     if(!is.character(object_name)) {
       stop("wrapr::Unpacker object_name must be character when not NULL")
@@ -172,14 +210,18 @@ Unpacker <- function(object_name = NULL, allow_unnamed_case = FALSE) {
     # get the targets
     # capture the arguments unevaluted, and run through bquote
     str_args <- as.list(do.call(bquote, list(substitute(list(...)), where = unpack_environment)))[-1]
-    str_args <- validate_assignment_targets(args = str_args, allow_unnamed_case = allow_unnamed_case)
+    if(unnamed_case) {
+      str_args <- validate_positional_targets(str_args)
+    } else {
+      str_args <- validate_assignment_named_map(str_args)
+    }
     force(wrapr_private_value)
     write_values_into_env(unpack_environment = unpack_environment, str_args = str_args, value = wrapr_private_value)
     invisible(wrapr_private_value)
   }
 
   attr(f, 'object_name') <- object_name
-  attr(f, 'allow_unnamed_case') <- allow_unnamed_case
+  attr(f, 'unnamed_case') <- unnamed_case
   class(f) <- "Unpacker"
   return(f)
 }
@@ -188,12 +230,12 @@ Unpacker <- function(object_name = NULL, allow_unnamed_case = FALSE) {
 #' @export
 format.Unpacker <- function(x, ...) {
   object_name <- attr(x, 'object_name')
-  allow_unnamed_case <- attr(x, 'allow_unnamed_case')
+  unnamed_case <- attr(x, 'unnamed_case')
   q_name <- "NULL"
   if(!is.null(object_name)) {
     q_name <- sQuote(object_name)
   }
-  return(paste0("wrapr::Unpacker(object_name = ", q_name, ", allow_unnamed_case = ", allow_unnamed_case, ")"))
+  return(paste0("wrapr::Unpacker(object_name = ", q_name, ", unnamed_case = ", unnamed_case, ")"))
 }
 
 
@@ -275,8 +317,12 @@ print.Unpacker <- function(x, ...) {
     }
     old_value <- NULL
   }
-  allow_unnamed_case <- isTRUE(attr(wrapr_private_self, 'allow_unnamed_case'))
-  str_args <- validate_assignment_targets(args = str_args, allow_unnamed_case = allow_unnamed_case)
+  unnamed_case <- isTRUE(attr(wrapr_private_self, 'unnamed_case'))
+  if(unnamed_case) {
+    str_args <- validate_positional_targets(str_args)
+  } else {
+    str_args <- validate_assignment_named_map(str_args)
+  }
   if(!is.null(object_name)) {
     named_case <- length(names(str_args)) > 0
     if(named_case) {
@@ -357,7 +403,7 @@ print.Unpacker <- function(x, ...) {
 #'
 #' @export
 #'
-into <- Unpacker(object_name = "into", allow_unnamed_case = FALSE)
+into <- Unpacker(object_name = "into", unnamed_case = FALSE)
 
 #' Unpack or bind values by names into the calling environment.
 #'
@@ -412,7 +458,7 @@ into <- Unpacker(object_name = "into", allow_unnamed_case = FALSE)
 #'
 #' @export
 #'
-to <- Unpacker(object_name = "to", allow_unnamed_case = FALSE)
+to <- Unpacker(object_name = "to", unnamed_case = FALSE)
 
 #' Unpack or bind values by names into the calling environment.
 #'
@@ -467,7 +513,7 @@ to <- Unpacker(object_name = "to", allow_unnamed_case = FALSE)
 #'
 #' @export
 #'
-unpack <- Unpacker(object_name = "unpack", allow_unnamed_case = FALSE)
+unpack <- Unpacker(object_name = "unpack", unnamed_case = FALSE)
 
 #' Unpack or bind values by index or names into the calling environment.
 #'
@@ -487,23 +533,13 @@ unpack <- Unpacker(object_name = "unpack", allow_unnamed_case = FALSE)
 #'
 #' @examples
 #'
-#' # named unpacking
-#' # looks like assignment: destination = where_from_in_value
-#' d <- data.frame(x = 1:2,
-#'                 g=c('test', 'train'),
-#'                 stringsAsFactors = FALSE)
-#' unpack_i[train_set = train, test_set = test] <- split(d, d$g)
-#' # train_set and test_set now correctly split
-#' print(train_set)
-#' print(test_set)
-#'
-#' # un-named version
+#' # un-named unpacking
 #' # values matchced by index
 #' unpack_i[a, b] <- list(5, 10)
 #' print(a)  # now 5
 #' print(b)  # now 10
 #'
-#' # un-named version
+#' # un-named unpacking
 #' #' # values matchced by index
 #' # bquote re-direct to value in variable using .()
 #' # Note: the bquote .() step is potentially confusing, as the user
@@ -515,7 +551,7 @@ unpack <- Unpacker(object_name = "unpack", allow_unnamed_case = FALSE)
 #' print(b)  # now 40
 #' print(a)  # still 'x'
 #'
-#' # un-named version
+#' # un-named unpacking
 #' #' # values matchced by index
 #' # piped example
 #' list(55, 15) %.>% unpack_i(., a, b)
@@ -527,5 +563,5 @@ unpack <- Unpacker(object_name = "unpack", allow_unnamed_case = FALSE)
 #'
 #' @export
 #'
-unpack_i <- Unpacker(object_name = "unpack", allow_unnamed_case = TRUE)
+unpack_i <- Unpacker(object_name = "unpack", unnamed_case = TRUE)
 
