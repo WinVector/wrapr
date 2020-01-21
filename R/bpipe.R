@@ -388,7 +388,7 @@ pipe_impl <- function(pipe_left_arg,
     (length(as.character(pipe_right_arg[[1]]))==1) &&
     (as.character(pipe_right_arg[[1]])=="function")
   dot_paren <- FALSE
-  eager_function_eval <- FALSE
+  eager_expression_eval <- FALSE
   if(is.call(pipe_right_arg) &&
      (length(as.character(pipe_right_arg[[1]]))==1)) {
     call_name <- as.character(pipe_right_arg[[1]])[[1]]
@@ -404,7 +404,7 @@ pipe_impl <- function(pipe_left_arg,
             obj_found <- mget(obj_found_name, envir = pipe_environment, mode = "any", inherits=TRUE, ifnotfound = list(NULL))[[1]]
             if(!is.null(obj_found)) {
               if(isTRUE(attr(obj_found, "dotpipe_eager_eval_bracket"))) {
-                eager_function_eval <- TRUE
+                eager_expression_eval <- TRUE
               }
             }
           }
@@ -412,8 +412,8 @@ pipe_impl <- function(pipe_left_arg,
       } else {
         fn_found <- mget(call_name, envir = pipe_environment, mode = "function", inherits=TRUE, ifnotfound = list(NULL))[[1]]
         if(!is.null(fn_found)) {
-          if(isTRUE(attr(fn_found, "dotpipe_eager_eval_call"))) {
-            eager_function_eval <- TRUE
+          if(isTRUE(attr(fn_found, "dotpipe_eager_eval_function"))) {
+            eager_expression_eval <- TRUE
           }
         }
       }
@@ -422,7 +422,7 @@ pipe_impl <- function(pipe_left_arg,
   # check for right-apply situations
   if(is.function(pipe_right_arg) ||
      is_name || qualified_name ||
-     is_function_decl || dot_paren || eager_function_eval) {
+     is_function_decl || dot_paren || eager_expression_eval) {
     if(is_name) {
       if(as.character(pipe_right_arg) %in% forbidden_pipe_destination_names) {
         stop(paste("to reduce surprising behavior wrapr::pipe does not allow direct piping into some names, such as",
@@ -440,7 +440,7 @@ pipe_impl <- function(pipe_left_arg,
       pipe_right_arg <- eval(pipe_right_arg[[2]],
                             envir = pipe_environment,
                             enclos = pipe_environment)
-    } else if(eager_function_eval) {
+    } else if(eager_expression_eval) {
       pipe_right_arg <- eval(pipe_right_arg,
                              envir = pipe_environment,
                              enclos = pipe_environment)

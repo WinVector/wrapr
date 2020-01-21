@@ -6,6 +6,7 @@ test_unpack_unpack <- function() {
   d <- data.frame(x = 1:2,
                   g=c('test', 'train'),
                   stringsAsFactors = FALSE)
+
   unpack[train_set = train, test_set = test] <- split(d, d$g)
   # train_set and test_set now correctly split
   RUnit::checkTrue(test_set$g[[1]] == 'test')
@@ -19,6 +20,12 @@ test_unpack_unpack <- function() {
                   g=c('test', 'train'),
                   stringsAsFactors = FALSE)
   unpack[train_set = train, test_set = test] <- split(d, d$g)
+  # train_set and test_set now correctly split
+  RUnit::checkTrue(test_set$g[[1]] == 'test')
+  RUnit::checkTrue(train_set$g[[1]] == 'train')
+  rm(list = c('train_set', 'test_set'))
+
+  split(d, d$g) %.>% unpack[train_set = train, test_set = test]
   # train_set and test_set now correctly split
   RUnit::checkTrue(test_set$g[[1]] == 'test')
   RUnit::checkTrue(train_set$g[[1]] == 'train')
@@ -50,6 +57,7 @@ test_unpack_into <- function() {
   d <- data.frame(x = 1:2,
                   g=c('test', 'train'),
                   stringsAsFactors = FALSE)
+
   into[train_set = train, test_set = test] <- split(d, d$g)
   # train_set and test_set now correctly split
   RUnit::checkTrue(test_set$g[[1]] == 'test')
@@ -63,6 +71,12 @@ test_unpack_into <- function() {
                   g=c('test', 'train'),
                   stringsAsFactors = FALSE)
   into[train_set = train, test_set = test] <- split(d, d$g)
+  # train_set and test_set now correctly split
+  RUnit::checkTrue(test_set$g[[1]] == 'test')
+  RUnit::checkTrue(train_set$g[[1]] == 'train')
+  rm(list = c('train_set', 'test_set'))
+
+  split(d, d$g) %.>% into[train_set = train, test_set = test]
   # train_set and test_set now correctly split
   RUnit::checkTrue(test_set$g[[1]] == 'test')
   RUnit::checkTrue(train_set$g[[1]] == 'train')
@@ -95,6 +109,7 @@ test_unpack_to <- function() {
   d <- data.frame(x = 1:2,
                   g=c('test', 'train'),
                   stringsAsFactors = FALSE)
+
   to[train_set = train, test_set = test] <- split(d, d$g)
   # train_set and test_set now correctly split
   RUnit::checkTrue(test_set$g[[1]] == 'test')
@@ -108,6 +123,12 @@ test_unpack_to <- function() {
                   g=c('test', 'train'),
                   stringsAsFactors = FALSE)
   to[train_set = train, test_set = test] <- split(d, d$g)
+  # train_set and test_set now correctly split
+  RUnit::checkTrue(test_set$g[[1]] == 'test')
+  RUnit::checkTrue(train_set$g[[1]] == 'train')
+  rm(list = c('train_set', 'test_set'))
+
+  split(d, d$g) %.>% to[train_set = train, test_set = test]
   # train_set and test_set now correctly split
   RUnit::checkTrue(test_set$g[[1]] == 'test')
   RUnit::checkTrue(train_set$g[[1]] == 'train')

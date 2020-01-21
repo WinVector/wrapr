@@ -250,6 +250,7 @@ Unpacker <- function(object_name = NULL, unnamed_case = FALSE) {
 
   attr(f, 'object_name') <- object_name
   attr(f, 'unnamed_case') <- isTRUE(unnamed_case)
+  attr(f, 'dotpipe_eager_eval_bracket') <- TRUE
   class(f) <- "Unpacker"
   return(f)
 }
@@ -344,6 +345,77 @@ print.Unpacker <- function(x, ...) {
   # R expects this to be wrapr_private_self, so do that instead of returning old_value
   return(wrapr_private_self)
 }
+
+
+
+#' Prepare for unpack or bind values into the calling environment.
+#'
+#' @param wrapr_private_self object implementing the feature, wrapr::unpack
+#' @param ... names of to unpack to (can be escaped with bquote \code{.()} notation).
+#' @return prepared unpacking object
+#'
+#' @export
+#'
+`[.Unpacker` <- function(wrapr_private_self, ...) {
+  force(wrapr_private_self)
+  # get environment to work in
+  unpack_environment <- parent.frame(n = 1)
+  # capture .. args
+  str_args <- as.list(do.call(bquote, list(substitute(list(...)), where = unpack_environment)))[-1]
+  object_name <- attr(wrapr_private_self, 'object_name')
+  unnamed_case <- isTRUE(attr(wrapr_private_self, 'unnamed_case'))
+  if(unnamed_case) {
+    str_args <- validate_positional_targets(str_args, extra_forbidden_names = object_name)
+  } else {
+    str_args <- validate_assignment_named_map(str_args, extra_forbidden_names = object_name)
+  }
+  unpack_environment <- NULL
+  f <- function(.) {
+    # get environment to work in
+    unpack_environment <- parent.frame(n = 1)
+    unpack_impl(unpack_environment = unpack_environment,
+                value = .,
+                str_args = str_args,
+                unnamed_case = unnamed_case,
+                object_name = NULL,  # this path doesn't write self
+                our_class = "Unpacker")
+    invisible(.)
+  }
+  attr(f, 'object_name') <- object_name
+  attr(f, 'unnamed_case') <- unnamed_case
+  attr(f, 'str_args') <- str_args
+  class(f) <- "UnpackTarget"
+  return(f)
+}
+
+
+#' @export
+format.UnpackTarget <- function(x, ...) {
+  object_name <- attr(x, 'object_name')
+  unnamed_case <- isTRUE(attr(x, 'unnamed_case'))
+  str_args <- attr(x, 'str_args')
+  q_name <- "NULL"
+  if(!is.null(object_name)) {
+    q_name <- sQuote(object_name)
+  }
+  return(paste0("wrapr::UnpackTarget(object_name = ", q_name,
+                ", unnamed_case = ", unnamed_case,
+                ", str_args= ", map_to_char(str_args),
+                ")"))
+}
+
+
+#' @export
+as.character.UnpackTarget <- function(x, ...) {
+  format(x, ...)
+}
+
+
+#' @export
+print.UnpackTarget <- function(x, ...) {
+  cat(format(x, ...))
+}
+
 
 
 #' Unpack or bind values by names into the calling environment.
