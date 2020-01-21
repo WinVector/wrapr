@@ -44,7 +44,6 @@ lst <- list(sin)
 
 
 ```{r}
-lst <- list(sin)
 # with the attribute, the array is always de-referenced
 # before the pipe execution allowing the function
 # to be evaluated using the piped-in value.
