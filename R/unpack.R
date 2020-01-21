@@ -381,7 +381,7 @@ print.Unpacker <- function(x, ...) {
                 str_args = str_args,
                 unnamed_case = unnamed_case,
                 object_name = NULL,  # this path doesn't write self
-                our_class = "Unpacker")
+                our_class = "UnpackTarget")
     invisible(.)
   }
   attr(f, 'object_name') <- object_name
