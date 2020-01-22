@@ -141,12 +141,18 @@ write_values_into_env <- function(unpack_environment, str_args, value) {
       value <- vector(mode = 'list', length = length(unique_sources))  # list of NULLs
       names(value) <- unique_sources
     }
+    missing_items <- c()
     for(source_i in str_args) {
       if(!is.na(source_i)) {
         if(!isTRUE(source_i %in% names(value))) {
-          stop(paste0("wrapr::unpack all source names must be in value, ", sQuote(source_i), " is missing"))
+          missing_items <- c(missing_items, source_i)
         }
       }
+    }
+    if(length(missing_items) > 0) {
+      stop(paste0("wrapr::unpack all source names must be in value, missing: ",
+                  paste(sQuote(missing_items), collapse = ', '),
+                  '.'))
     }
     # write values
     for(i in 1:nargs) {
