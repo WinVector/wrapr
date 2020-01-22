@@ -10,7 +10,7 @@ vignette: >
 ---
 
 
-[`wrapr`](https://github.com/WinVector/wrapr) now supplies a name based multiple assignment notation for [`R`](https://www.r-project.org) (for a positional based multiple assignment operator please see [`zeallot`](https://CRAN.R-project.org/package=zeallot)).
+[`wrapr`](https://github.com/WinVector/wrapr) now supplies a name based multiple assignment notation for [`R`](https://www.r-project.org) (for a positional based multiple assignment operator please see [`zeallot`](https://CRAN.R-project.org/package=zeallot), for another named base multiple assigment please see [`vadr::bind`](https://github.com/crowding/vadr/blob/master/R/bind.R)).
 
 In `R` there are many functions that return named lists or other structures keyed by names. Let's start with a simple example: `base::split()`.
 
