@@ -1,4 +1,6 @@
 
+
+
 validate_positional_targets <- function(target_names, extra_forbidden_names = NULL) {
   # extract and validate arguments as names of unpack targets
   nargs <- length(target_names)
@@ -245,7 +247,10 @@ Unpacker <- function(object_name = NULL, unnamed_case = FALSE) {
     unpack_environment <- parent.frame(n = 1)
     # get the targets
     # capture the arguments unevaluted, and run through bquote
-    str_args <- as.list(do.call(bquote, list(substitute(list(...)), where = unpack_environment)))[-1]
+    str_args <- as.list(do.call(bquote,
+                                list(substitute(list(...)),
+                                     where = unpack_environment),
+                                envir = unpack_environment))[-1]
     unpack_impl(unpack_environment = unpack_environment,
                 value = wrapr_private_value,
                 str_args = str_args,
@@ -333,7 +338,10 @@ print.Unpacker <- function(x, ...) {
   # get environment to work in
   unpack_environment <- parent.frame(n = 1)
   # capture ... args
-  str_args <- as.list(do.call(bquote, list(substitute(list(...)), where = unpack_environment)))[-1]
+  str_args <- as.list(do.call(bquote,
+                              list(substitute(list(...)),
+                                   where = unpack_environment),
+                              envir = unpack_environment))[-1]
   # the array update is going to write an object into the
   # destination environment after returning from this method,
   # try to ensure it is obvious it is the exact
@@ -401,7 +409,10 @@ mk_unpack_single_arg_fn <- function(str_args, unnamed_case, object_name, our_cla
   # get environment to work in
   unpack_environment <- parent.frame(n = 1)
   # capture .. args
-  str_args <- as.list(do.call(bquote, list(substitute(list(...)), where = unpack_environment)))[-1]
+  str_args <- as.list(do.call(bquote,
+                              list(substitute(list(...)),
+                                   where = unpack_environment),
+                              envir = unpack_environment))[-1]
   object_name <- attr(wrapr_private_self, 'object_name')
   unnamed_case <- isTRUE(attr(wrapr_private_self, 'unnamed_case'))
   return(mk_unpack_single_arg_fn(str_args = str_args,
