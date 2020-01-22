@@ -35,7 +35,6 @@ Suggests:
     knitr,
     graphics,
     rmarkdown,
-    RUnit,
-    R.rsp
+    RUnit
 VignetteBuilder: knitr, R.rsp
 ByteCompile: true

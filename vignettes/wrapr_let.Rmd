@@ -1,0 +1,8 @@
+\documentclass{article}
+\usepackage{pdfpages}
+%\VignetteIndexEntry{wrapr let}
+
+\begin{document}
+\includepdf[pages=-, fitpaper=true]{wrapr_let.pdf}
+\end{document}
+
