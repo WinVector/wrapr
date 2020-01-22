@@ -188,3 +188,24 @@ test_partial_unpack_specification <- function() {
   invisible(NULL)
 }
 
+test_grab_rewrite <- function() {
+  f <- function(...) {
+    unpack_environment <- parent.frame(n = 1)
+    captured_dots <- as.list(do.call(bquote,
+                                     list(substitute(list(...)),
+                                          where = unpack_environment),
+                                     envir = unpack_environment))[-1]
+    grab_assignments_from_dots(captured_dots)
+  }
+  v <- f(a, c = d, e := f, g <- h, i -> j)
+  RUnit::checkTrue(identical(v, c('a', 'c' = 'd', 'e' = 'f', 'g' = 'h', 'j' = 'i')))
+}
+
+
+test_partial_unpack_specification2 <- function() {
+  list(a = 1, b = 2) -> to[e <- a, b]
+  RUnit::checkEquals(e, 1)
+  RUnit::checkEquals(b, 2)
+  invisible(NULL)
+}
+

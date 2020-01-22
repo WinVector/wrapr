@@ -1,5 +1,97 @@
 
 
+#' Re-write captured \code{...} arguments as assignments.
+#'
+#' Re-write captured \code{...} arguments as a \code{c(DESTINATION = TARGET)} character vector.
+#' Suggested capture code is: \code{as.list(do.call(bquote, list(substitute(list(...)))))[-1]}
+#'
+#' @param captured_dots captured \code{...}.
+#'
+#' @examples
+#'
+#' f <- function(...) {
+#'   unpack_environment <- parent.frame(n = 1)
+#'   captured_dots <- as.list(do.call(bquote,
+#'                                    list(substitute(list(...)),
+#'                                         where = unpack_environment),
+#'                                    envir = unpack_environment))[-1]
+#'   grab_assignments_from_dots(captured_dots)
+#' }
+#' f(a, c = d, e := f, g <- h, i -> j)
+#' # should equal c('a', 'c' = 'd', 'e' = 'f', 'g' = 'h', 'j' = 'i')
+#'
+#' @keywords internal
+#' @export
+#'
+grab_assignments_from_dots <- function(captured_dots) {
+  nargs <- length(captured_dots)
+  if(nargs <= 0) {
+    return(character(0))
+  }
+  names <- names(captured_dots)
+  if(length(names) <= 0) {
+    names <- character(nargs)
+    names[seq_len(nargs)] <- ""
+  }
+  values <- character(nargs)
+  for(i in seq_len(nargs)) {
+    ni <- names[[i]]
+    vi <- captured_dots[[i]]
+    if(is.call(vi)) {
+      if(nchar(ni) > 0) {
+        stop("wrapr::grab_assignments_from_dots call-position can not also have a name")
+      }
+      if(length(vi) != 3) {
+        stop("wrapr::grab_assignments_from_dots call-position must be length 3")
+      }
+      if(!(as.character(vi[[1]]) %in% c(':=', '=', '<-', '->'))) {
+        stop("wrapr::grab_assignments_from_dots call must be one of ':=', '=', '<-', '->'.")
+      }
+      ni <- vi[[2]]
+      vi <- vi[[3]]
+    }
+    if(length(ni) != 1) {
+      stop("wrapr::grab_assignments_from_dots, names must be length 1")
+    }
+    if(is.name(ni)) {
+      ni <- as.character(ni)[[1]]
+    }
+    if(is.na(ni)) {
+      stop("wrapr::grab_assignments_from_dots, names must not be NA")
+    }
+    if(!is.character(ni)) {
+      stop("wrapr::grab_assignments_from_dots, names must names or character")
+    }
+    if(length(vi) != 1) {
+      stop("wrapr::grab_assignments_from_dots, values must be length 1")
+    }
+    if(is.name(vi)) {
+      vi <- as.character(vi)[[1]]
+    }
+    if(is.na(vi)) {
+      vi <- NA_character_
+    }
+    if(!is.character(vi)) {
+      stop("wrapr::grab_assignments_from_dots, values must names or character")
+    }
+    if(nchar(vi) < 1) {
+      stop("wrapr::grab_assignments_from_dots, values must not be empty (can happen with if an extra comma is present in call)")
+    }
+    names[[i]] <- ni
+    values[[i]] <- vi
+  }
+  if(all(nchar(names) <= 0)) {
+    names <- NULL
+  } else {
+    non_empty_names <- names[nchar(names)>0]
+    if(length(unique(non_empty_names)) != length(non_empty_names)) {
+      stop("wrapr::grab_assignments_from_dots, non-empty names must be unique")
+    }
+  }
+  names(values) <- names
+  return(values)
+}
+
 
 validate_positional_targets <- function(target_names, extra_forbidden_names = NULL) {
   # extract and validate arguments as names of unpack targets
@@ -251,6 +343,7 @@ Unpacker <- function(object_name = NULL, unnamed_case = FALSE) {
                                 list(substitute(list(...)),
                                      where = unpack_environment),
                                 envir = unpack_environment))[-1]
+    str_args <- grab_assignments_from_dots(str_args)
     unpack_impl(unpack_environment = unpack_environment,
                 value = wrapr_private_value,
                 str_args = str_args,
@@ -342,6 +435,7 @@ print.Unpacker <- function(x, ...) {
                               list(substitute(list(...)),
                                    where = unpack_environment),
                               envir = unpack_environment))[-1]
+  str_args <- grab_assignments_from_dots(str_args)
   # the array update is going to write an object into the
   # destination environment after returning from this method,
   # try to ensure it is obvious it is the exact
@@ -413,6 +507,7 @@ mk_unpack_single_arg_fn <- function(str_args, unnamed_case, object_name, our_cla
                               list(substitute(list(...)),
                                    where = unpack_environment),
                               envir = unpack_environment))[-1]
+  str_args <- grab_assignments_from_dots(str_args)
   object_name <- attr(wrapr_private_self, 'object_name')
   unnamed_case <- isTRUE(attr(wrapr_private_self, 'unnamed_case'))
   return(mk_unpack_single_arg_fn(str_args = str_args,
