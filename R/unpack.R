@@ -307,9 +307,41 @@ unpack_impl <- function(..., unpack_environment, value, str_args, unnamed_case, 
 }
 
 
-#' Create a value unpacking object.
+mk_unpack_single_arg_fn <- function(str_args, unnamed_case, object_name, our_class) {
+  force(str_args)
+  force(unnamed_case)
+  force(object_name)
+  force(our_class)
+  if(unnamed_case) {
+    str_args <- validate_positional_targets(str_args, extra_forbidden_names = object_name)
+  } else {
+    str_args <- validate_assignment_named_map(str_args, extra_forbidden_names = object_name)
+  }
+
+  # build function return in a fairly clean environment
+  f <- function(.) {
+    # get environment to work in
+    unpack_environment <- parent.frame(n = 1)
+    unpack_impl(unpack_environment = unpack_environment,
+                value = .,
+                str_args = str_args,
+                unnamed_case = unnamed_case,
+                object_name = NULL,  # this path doesn't write self
+                our_class = our_class)
+    invisible(.)
+  }
+
+  attr(f, 'object_name') <- object_name
+  attr(f, 'unnamed_case') <- unnamed_case
+  attr(f, 'str_args') <- str_args
+  class(f) <- our_class
+  return(f)
+}
+
+
+#' Create a value unpacking object (function version).
 #'
-#' Create a value unplacking object that records it is stored by name \code{object_name}.
+#' Create a value unplacking object that records it is stored by name \code{object_name} (function version).
 #'
 #' Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or the name stored in \code{object_name}.
 #' function form can not use the names: \code{.} or \code{wrapr_private_value}. Array-form will wrong own name into working environment
@@ -323,15 +355,15 @@ unpack_impl <- function(..., unpack_environment, value, str_args, unnamed_case, 
 #' @keywords internal
 #' @export
 #'
-Unpacker <- function(object_name = NULL, unnamed_case = FALSE) {
+UnpackerF <- function(object_name = NULL, unnamed_case = FALSE) {
   force(object_name)
   force(unnamed_case)
   if(!is.null(object_name)) {
     if(!is.character(object_name)) {
-      stop("wrapr::Unpacker object_name must be character when not NULL")
+      stop("wrapr::UnpackerF object_name must be character when not NULL")
     }
     if(length(object_name) != 1) {
-      stop("wrapr::Unpacker object_naem must be length 1 when not NULL")
+      stop("wrapr::UnpackerF object_name must be length 1 when not NULL")
     }
   }
 
@@ -358,6 +390,61 @@ Unpacker <- function(object_name = NULL, unnamed_case = FALSE) {
   attr(f, 'object_name') <- object_name
   attr(f, 'unnamed_case') <- isTRUE(unnamed_case)
   attr(f, 'dotpipe_eager_eval_bracket') <- TRUE
+  attr(f, 'dotpipe_eager_eval_function') <- FALSE
+  class(f) <- "Unpacker"
+  return(f)
+}
+
+
+#' Create a value unpacking object (eager pipe version).
+#'
+#' Create a value unplacking object that records it is stored by name \code{object_name} (eager pipe version).
+#'
+#' Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or the name stored in \code{object_name}.
+#' function form can not use the names: \code{.} or \code{wrapr_private_value}. Array-form will wrong own name into working environment
+#' as a side-effect.
+#'
+#'
+#' @param object_name character, name the object is stored as
+#' @param unnamed_case logical, if TRUE use positional- not name based matching
+#' @return an unpacker
+#'
+#' @keywords internal
+#' @export
+#'
+UnpackerP <- function(object_name = NULL, unnamed_case = FALSE) {
+  force(object_name)
+  force(unnamed_case)
+  if(!is.null(object_name)) {
+    if(!is.character(object_name)) {
+      stop("wrapr::UnpackerP object_name must be character when not NULL")
+    }
+    if(length(object_name) != 1) {
+      stop("wrapr::UnpackerP object_name must be length 1 when not NULL")
+    }
+  }
+
+  # build function return
+  f <- function(...) {
+    # get environment to work in
+    unpack_environment <- parent.frame(n = 1)
+    # get the targets
+    # capture the arguments unevaluted, and run through bquote
+    str_args <- as.list(do.call(bquote,
+                                list(substitute(list(...)),
+                                     where = unpack_environment),
+                                envir = unpack_environment))[-1]
+    str_args <- grab_assignments_from_dots(str_args)
+    bound_f <- mk_unpack_single_arg_fn(str_args = str_args,
+                                       unnamed_case = unnamed_case,
+                                       object_name = object_name,
+                                       our_class = "UnpackTarget")
+    return(bound_f)
+  }
+  attr(f, 'object_name') <- object_name
+  attr(f, 'unnamed_case') <- isTRUE(unnamed_case)
+  attr(f, 'dotpipe_eager_eval_bracket') <- TRUE
+  attr(f, 'dotpipe_eager_eval_function') <- TRUE
   class(f) <- "Unpacker"
   return(f)
 }
@@ -371,7 +458,8 @@ format.Unpacker <- function(x, ...) {
   if(!is.null(object_name)) {
     q_name <- sQuote(object_name)
   }
-  return(paste0("wrapr::Unpacker(object_name = ", q_name, ", unnamed_case = ", unnamed_case, ")"))
+  dotpipe_eager_eval_function <- isTRUE(attr(x, 'dotpipe_eager_eval_function'))
+  return(paste0("wrapr::Unpacker(object_name = ", q_name, ", unnamed_case = ", unnamed_case, ", dotpipe_eager_eval_function = ", dotpipe_eager_eval_function ,")"))
 }
 
 
@@ -458,36 +546,6 @@ print.Unpacker <- function(x, ...) {
 }
 
 
-mk_unpack_single_arg_fn <- function(str_args, unnamed_case, object_name, our_class) {
-  force(str_args)
-  force(unnamed_case)
-  force(object_name)
-  force(our_class)
-  if(unnamed_case) {
-    str_args <- validate_positional_targets(str_args, extra_forbidden_names = object_name)
-  } else {
-    str_args <- validate_assignment_named_map(str_args, extra_forbidden_names = object_name)
-  }
-
-  # build function return in a fairly clean environment
-  f <- function(.) {
-    # get environment to work in
-    unpack_environment <- parent.frame(n = 1)
-    unpack_impl(unpack_environment = unpack_environment,
-                value = .,
-                str_args = str_args,
-                unnamed_case = unnamed_case,
-                object_name = NULL,  # this path doesn't write self
-                our_class = our_class)
-    invisible(.)
-  }
-
-  attr(f, 'object_name') <- object_name
-  attr(f, 'unnamed_case') <- unnamed_case
-  attr(f, 'str_args') <- str_args
-  class(f) <- our_class
-  return(f)
-}
 
 #' Prepare for unpack or bind values into the calling environment.
 #'
@@ -564,6 +622,7 @@ print.UnpackTarget <- function(x, ...) {
 #'
 #' @param wrapr_private_value list of values to copy
 #' @param ... argument names to write to
+#' @return value passed in (invisible)
 #'
 #' @examples
 #'
@@ -603,7 +662,7 @@ print.UnpackTarget <- function(x, ...) {
 #'
 #' @export
 #'
-into <- Unpacker(object_name = "into", unnamed_case = FALSE)
+into <- UnpackerF(object_name = "into", unnamed_case = FALSE)
 
 #' Unpack or bind values by names into the calling environment.
 #'
@@ -621,6 +680,7 @@ into <- Unpacker(object_name = "into", unnamed_case = FALSE)
 #'
 #' @param wrapr_private_value list of values to copy
 #' @param ... argument names to write to
+#' @return value passed in (invisible)
 #'
 #' @examples
 #'
@@ -659,7 +719,7 @@ into <- Unpacker(object_name = "into", unnamed_case = FALSE)
 #'
 #' @export
 #'
-to <- Unpacker(object_name = "to", unnamed_case = FALSE)
+to <- UnpackerF(object_name = "to", unnamed_case = FALSE)
 
 #' Unpack or bind values by names into the calling environment.
 #'
@@ -677,6 +737,7 @@ to <- Unpacker(object_name = "to", unnamed_case = FALSE)
 #'
 #' @param wrapr_private_value list of values to copy
 #' @param ... argument names to write to
+#' @return value passed in (invisible)
 #'
 #' @examples
 #'
@@ -715,7 +776,60 @@ to <- Unpacker(object_name = "to", unnamed_case = FALSE)
 #'
 #' @export
 #'
-unpack <- Unpacker(object_name = "unpack", unnamed_case = FALSE)
+unpack <- UnpackerF(object_name = "unpack", unnamed_case = FALSE)
+
+
+#' Unpack or bind values by names into the calling environment, eager eval (no-dot) variation.
+#'
+#' Unpacks or binds values into the calling environment (eager eval (no-dot) variation). Uses \code{bquote} escaping.
+#' NULL is a special case that is unpacked to all targets. NA targets are skipped.
+#' All non-NA target names must be unique.
+#'
+#' Note: a reference to the unpacker_p object is written into the unpacking environment as a side-effect
+#' of the implied array assignment.
+#' Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or \code{unpack}.
+#' Function form can not use the names: \code{.} or \code{wrapr_private_value}.
+#' For more details please see here \url{http://www.win-vector.com/blog/2020/01/unpack-your-values-in-r/}.
+#'
+#' Related work includes \code{Python} tuple unpacking, \code{zeallot}'s arrow, and \code{vadr::bind}.
+#'
+#' @param ... argument names to write to
+#' @return value passed in (invisible)
+#'
+#' @examples
+#'
+#' # named unpacking
+#' # looks like assignment: DESTINATION = NAME_VALUE_USING
+#' d <- data.frame(x = 1:2,
+#'                 g=c('test', 'train'),
+#'                 stringsAsFactors = FALSE)
+#' unpacker_p[train_set = train, test_set = test] <- split(d, d$g)
+#' # train_set and test_set now correctly split
+#' print(train_set)
+#' print(test_set)
+#' rm(list = c('train_set', 'test_set'))
+#'
+#' # named unpacking NEWNAME = OLDNAME implicit form
+#' # values are matched by name, not index
+#' unpacker_p[train, test] <- split(d, d$g)
+#' print(train)
+#' print(test)
+#' rm(list = c('train', 'test'))
+#'
+#' # pipe version (notice no dot)
+#' split(d, d$g) %.>% unpacker_p(train, test)
+#' print(train)
+#' print(test)
+#' rm(list = c('train', 'test'))
+#' # Note: above is wrapr dot-pipe, piping does not currently work with
+#' # magrittr pipe due to magrittr's introduction of temporary
+#' # intermediate environments during evaluation.
+#'
+#' @export
+#'
+unpacker_p <- UnpackerP(object_name = "unpacker_p", unnamed_case = FALSE)
+
+
 
 #' Unpack or bind values by index or names into the calling environment.
 #'
@@ -733,6 +847,7 @@ unpack <- Unpacker(object_name = "unpack", unnamed_case = FALSE)
 #'
 #' @param wrapr_private_value list of values to copy
 #' @param ... argument names to write to
+#' @return value passed in (invisible)
 #'
 #' @examples
 #'
@@ -766,7 +881,7 @@ unpack <- Unpacker(object_name = "unpack", unnamed_case = FALSE)
 #'
 #' @export
 #'
-unpack_i <- Unpacker(object_name = "unpack", unnamed_case = TRUE)
+unpack_i <- UnpackerF(object_name = "unpack", unnamed_case = TRUE)
 
 
 
@@ -800,7 +915,7 @@ UnpackerSE <- function(object_name = NULL, unnamed_case = FALSE) {
       stop("wrapr::UnpackerSE object_name must be character when not NULL")
     }
     if(length(object_name) != 1) {
-      stop("wrapr::UnpackerSE object_naem must be length 1 when not NULL")
+      stop("wrapr::UnpackerSE object_name must be length 1 when not NULL")
     }
   }
 

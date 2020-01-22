@@ -212,5 +212,11 @@ ls()
 
 In all cases the user explicitly documents the intended data sources and data destinations at the place of assignment.  This meas a later reader of the source code can see what the operation does, without having to know values of additional variables.
 
+There is a variation of the unpack pattern that doesn't need an explict dot in a wrapr pipeline.  It is called "`unpacker`" and works as follows.
+
+```{r}
+
+```
+
 
 

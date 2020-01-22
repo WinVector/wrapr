@@ -11,6 +11,9 @@ into(wrapr_private_value, ...)
 
 \item{...}{argument names to write to}
 }
+\value{
+value passed in (invisible)
+}
 \description{
 Unpacks or binds values into the calling environment. Uses \code{bquote} escaping.
 NULL is a special case that is unpacked to all targets. NA targets are skipped.
