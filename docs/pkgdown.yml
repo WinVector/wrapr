@@ -16,4 +16,6 @@ articles:
   named_map_builder: named_map_builder.html
   wrapr_Eager: wrapr_Eager.html
   wrapr_applicable: wrapr_applicable.html
+  wrapr_let: wrapr_let.html
+  wrapr_pipe: wrapr_pipe.html
 
