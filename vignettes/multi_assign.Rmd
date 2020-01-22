@@ -1,0 +1,216 @@
+---
+title: "Multiple Assignment"
+author: "John Mount"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Multiple Assignment}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+[`wrapr`](https://github.com/WinVector/wrapr) now supplies a name based multiple assignment notation for [`R`](https://www.r-project.org) (for a positional based multiple assignment operator please see [`zeallot`](https://CRAN.R-project.org/package=zeallot)).
+
+In `R` there are many functions that return named lists or other structures keyed by names. Let's start with a simple example: `base::split()`.
+
+First some example data.
+
+```{r}
+d <- data.frame(
+  x = 1:9,
+  group = c('train', 'calibrate', 'test'),
+  stringsAsFactors = FALSE)
+
+knitr::kable(d)
+```
+
+One way to use `base::split()` is to call it on a `data.frame` and then unpack the desired portions from the returned value.
+
+```{r}
+parts <- split(d, d$group)
+train_data <- parts$train
+calibrate_data <- parts$calibrate
+test_data <- parts$test
+```
+
+```{r}
+knitr::kable(train_data)
+
+knitr::kable(calibrate_data)
+
+knitr::kable(test_data)
+```
+
+If we use a multiple assignment notation we can collect some steps together, and avoid possibly leaving a possibly large temporary variable such as `parts` in our environment.
+
+Let's clear out our earlier results.
+
+```{r}
+rm(list = c('train_data', 'calibrate_data', 'test_data', 'parts'))
+```
+
+And now let's apply `split()` and unpack the results in one step.
+
+```{r}
+library(wrapr)
+
+to[
+  train_data <- train,
+  calibrate_data <- calibrate,
+  test_data <- test
+  ] <- split(d, d$group)
+```
+
+```{r}
+knitr::kable(train_data)
+
+knitr::kable(calibrate_data)
+
+knitr::kable(test_data)
+```
+
+The semantics of `[]<-` imply that an object named "`to`" is left in our workspace as a side effect.  However, this object is small and if there is already an object name `to` in the workspace that is not of class `Unpacker` the unpacking is aborted prior to overwriting anything.  The unpacker has synonyms `unpack`, `to`, and `into`.  Also the side-effect can be avoided by using alternate non-array update notations.
+
+We will demonstrate a few of these.
+
+```{r}
+rm(list = c('train_data', 'calibrate_data', 'test_data', 'to'))
+```
+
+```{r}
+split(d, d$group) %.>% to[
+  train_data <- train,
+  calibrate_data <- calibrate,
+  test_data <- test
+  ]
+
+ls()
+```
+
+Note the above is the [`wrapr` dot arrow pipe](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html) (which requires explicit dots to denote pipe targets).  In this case it is dispatching on the class of the right-hand side argument to get the effect.  This is a common feature of the wrapr dot arrow pipe.
+
+We could use a pipe function notation.
+
+```{r}
+rm(list = c('train_data', 'calibrate_data', 'test_data'))
+```
+
+```{r}
+split(d, d$group) %.>% to(
+  .,
+  train_data <- train,
+  calibrate_data <- calibrate,
+  test_data <- test
+)
+
+ls()
+```
+
+We can not currently use the `magrittr` pipe in the above as in that case the unpacked results are lost in a temporary intermediate environment `magrittr` uses during execution.
+
+Or we could use a conventional function notation (here we are switching to the synonym `unpack` for clarity).
+
+```{r}
+rm(list = c('train_data', 'calibrate_data', 'test_data'))
+```
+
+```{r}
+unpack(
+  split(d, d$group),
+  train_data <- train,
+  calibrate_data <- calibrate,
+  test_data <- test
+)
+
+ls()
+```
+
+Also the assignments in the unpacking block can be any of `<-`, `=`, `:=`, or even `->` (though the last one assigns right to left).
+
+```{r}
+rm(list = c('train_data', 'calibrate_data', 'test_data'))
+```
+
+```{r}
+unpack(
+  split(d, d$group),
+  train_data = train,
+  calibrate_data = calibrate,
+  test_data = test
+)
+
+ls()
+```
+
+```{r}
+rm(list = c('train_data', 'calibrate_data', 'test_data'))
+```
+
+
+```{r}
+unpack(
+  split(d, d$group),
+  train -> train_data,
+  calibrate -> calibrate_data,
+  test -> test_data
+)
+
+ls()
+```
+
+It is a caught and signaled error to attempt to unpack an item that is not there.
+
+```{r}
+rm(list = c('train_data', 'calibrate_data', 'test_data'))
+```
+
+```{r, error=TRUE}
+unpack(
+  split(d, d$group),
+  train_data <- train,
+  calibrate_data <- calibrate_misspelled,
+  test_data <- test
+)
+```
+
+```{r}
+ls()
+```
+
+The unpack attempts to be atomic: preferring to unpack all values or no values.
+
+Also, one does not have to unpack all slots.
+
+```{r}
+unpack(
+  split(d, d$group),
+  train_data <- train,
+  test_data <- test
+)
+
+ls()
+```
+
+
+And we can use a name alone as shorthand for `name <- name` (i.e. unpacking to the same name as in the incoming object).
+
+
+```{r}
+rm(list = c('train_data', 'test_data'))
+```
+
+```{r}
+split(d, d$group) %.>%
+  to[
+     train,
+     test
+     ]
+
+ls()
+```
+
+In all cases the user explicitly documents the intended data sources and data destinations at the place of assignment.  This meas a later reader of the source code can see what the operation does, without having to know values of additional variables.
+
+
+
