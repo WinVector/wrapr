@@ -17,13 +17,13 @@ NULL is a special case that is unpacked to all targets. NA targets are skipped.
 All non-NA target names must be unique.
 }
 \details{
-Similar to \code{Python} tuple unpacking, \code{zeallot}'s arrow, and to \code{vadr::bind}.
-
 Note: a reference to the unpacker object is written into the unpacking environment as a side-effect
 of the implied array assignment.
 Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or \code{unpack}.
 Function form can not use the names: \code{.} or \code{wrapr_private_value}.
-For related work please see here \url{http://www.win-vector.com/blog/2020/01/unpack-your-values-in-r/}.
+For more details please see here \url{http://www.win-vector.com/blog/2020/01/unpack-your-values-in-r/}.
+
+Related work includes \code{Python} tuple unpacking, \code{zeallot}'s arrow, and \code{vadr::bind}.
 }
 \examples{
 

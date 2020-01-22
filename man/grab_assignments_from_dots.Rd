@@ -9,6 +9,9 @@ grab_assignments_from_dots(captured_dots)
 \arguments{
 \item{captured_dots}{captured \code{...}.}
 }
+\value{
+named character vector describing the desired mapping.
+}
 \description{
 Re-write captured \code{...} arguments as a \code{c(DESTINATION = TARGET)} character vector.
 Suggested capture code is: \code{as.list(do.call(bquote, list(substitute(list(...)))))[-1]}

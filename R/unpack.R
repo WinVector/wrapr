@@ -6,6 +6,7 @@
 #' Suggested capture code is: \code{as.list(do.call(bquote, list(substitute(list(...)))))[-1]}
 #'
 #' @param captured_dots captured \code{...}.
+#' @returns named character vector describing the desired mapping.
 #'
 #' @examples
 #'
@@ -314,6 +315,7 @@ unpack_impl <- function(..., unpack_environment, value, str_args, unnamed_case, 
 #' function form can not use the names: \code{.} or \code{wrapr_private_value}. Array-form will wrong own name into working environment
 #' as a side-effect.
 #'
+#'
 #' @param object_name character, name the object is stored as
 #' @param unnamed_case logical, if TRUE use positional- not name based matching
 #' @return an unpacker
@@ -391,12 +393,12 @@ print.Unpacker <- function(x, ...) {
 #' NULL is a special case that is unpacked to all targets. NA targets are skipped.
 #' All non-NA target names must be unique.
 #'
-#' Similar to \code{Python} tuple unpacking, \code{zeallot}'s arrow, and to \code{vadr::bind}.
-#'
 #' Note: when using \code{[]<-} notation, a reference to the unpacker object is written into the unpacking environment as a side-effect
 #' of the implied array assignment.
 #' Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or the name of the unpacker itself.
-#' For related work please see here \url{http://www.win-vector.com/blog/2020/01/unpack-your-values-in-r/}.
+#' For more details please see here \url{http://www.win-vector.com/blog/2020/01/unpack-your-values-in-r/}.
+#'
+#' Related work includes \code{Python} tuple unpacking, \code{zeallot}'s arrow, and \code{vadr::bind}.
 #'
 #' @param wrapr_private_self object implementing the feature, wrapr::unpack
 #' @param ... names of to unpack to (can be escaped with bquote \code{.()} notation).
@@ -552,13 +554,13 @@ print.UnpackTarget <- function(x, ...) {
 #' NULL is a special case that is unpacked to all targets. NA targets are skipped.
 #' All non-NA target names must be unique.
 #'
-#' Similar to \code{Python} tuple unpacking, \code{zeallot}'s arrow, and to \code{vadr::bind}.
-#'
 #' Note: a reference to the unpacker object is written into the unpacking environment as a side-effect
 #' of the implied array assignment.
 #' Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or \code{into}.
 #' Function form can not use the names: \code{.} or \code{wrapr_private_value}.
-#' For related work please see here \url{http://www.win-vector.com/blog/2020/01/unpack-your-values-in-r/}.
+#' For more details please see here \url{http://www.win-vector.com/blog/2020/01/unpack-your-values-in-r/}.
+#'
+#' Related work includes \code{Python} tuple unpacking, \code{zeallot}'s arrow, and \code{vadr::bind}.
 #'
 #' @param wrapr_private_value list of values to copy
 #' @param ... argument names to write to
@@ -609,13 +611,13 @@ into <- Unpacker(object_name = "into", unnamed_case = FALSE)
 #' NULL is a special case that is unpacked to all targets. NA targets are skipped.
 #' All non-NA target names must be unique.
 #'
-#' Similar to \code{Python} tuple unpacking, \code{zeallot}'s arrow, and to \code{vadr::bind}.
-#'
 #' Note: when using \code{[]<-} notation, a reference to the unpacker object is written into the unpacking environment as a side-effect
 #' of the implied array assignment.
 #' Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or \code{to}.
 #' function form can not use the names: \code{.} or \code{wrapr_private_value}.
-#' For related work please see here \url{http://www.win-vector.com/blog/2020/01/unpack-your-values-in-r/}.
+#' For more detials please see here \url{http://www.win-vector.com/blog/2020/01/unpack-your-values-in-r/}.
+#'
+#' Related work includes \code{Python} tuple unpacking, \code{zeallot}'s arrow, and \code{vadr::bind}.
 #'
 #' @param wrapr_private_value list of values to copy
 #' @param ... argument names to write to
@@ -665,13 +667,13 @@ to <- Unpacker(object_name = "to", unnamed_case = FALSE)
 #' NULL is a special case that is unpacked to all targets. NA targets are skipped.
 #' All non-NA target names must be unique.
 #'
-#' Similar to \code{Python} tuple unpacking, \code{zeallot}'s arrow, and to \code{vadr::bind}.
-#'
 #' Note: a reference to the unpacker object is written into the unpacking environment as a side-effect
 #' of the implied array assignment.
 #' Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or \code{unpack}.
 #' Function form can not use the names: \code{.} or \code{wrapr_private_value}.
-#' For related work please see here \url{http://www.win-vector.com/blog/2020/01/unpack-your-values-in-r/}.
+#' For more details please see here \url{http://www.win-vector.com/blog/2020/01/unpack-your-values-in-r/}.
+#'
+#' Related work includes \code{Python} tuple unpacking, \code{zeallot}'s arrow, and \code{vadr::bind}.
 #'
 #' @param wrapr_private_value list of values to copy
 #' @param ... argument names to write to
@@ -721,13 +723,13 @@ unpack <- Unpacker(object_name = "unpack", unnamed_case = FALSE)
 #' NULL is a special case that is unpacked to all targets. NA targets are skipped.
 #' All non-NA target names must be unique.
 #'
-#' Similar to \code{Python} tuple unpacking, \code{zeallot}'s arrow, and to \code{vadr::bind}.
-#'
 #' Note: a reference to the unpacker object is written into the unpacking environment as a side-effect
 #' of the implied array assignment.
 #' Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or \code{unpack}.
 #' Function form can not use the names: \code{.} or \code{wrapr_private_value}.
-#' For related work please see here \url{http://www.win-vector.com/blog/2020/01/unpack-your-values-in-r/}.
+#' For more details please see here \url{http://www.win-vector.com/blog/2020/01/unpack-your-values-in-r/}.
+#'
+#' Related work includes \code{Python} tuple unpacking, \code{zeallot}'s arrow, and \code{vadr::bind}.
 #'
 #' @param wrapr_private_value list of values to copy
 #' @param ... argument names to write to
