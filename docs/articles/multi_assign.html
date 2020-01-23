@@ -353,7 +353,7 @@
 </tbody>
 </table>
 <p>The semantics of <code>[]&lt;-</code> imply that an object named “<code>to</code>” is left in our workspace as a side effect. However, this object is small and if there is already an object name <code>to</code> in the workspace that is not of class <code>Unpacker</code> the unpacking is aborted prior to overwriting anything. The unpacker two modes: <code>unpack</code> (a function that needs a dot in pipes) and <code>to</code> (an eager function factory that does not require a dot in pipes). Also the side-effect can be avoided by using alternate non-array update notations.</p>
-<p>We will demonstrate a few of these.</p>
+<p>We will demonstrate a few of these. First is pipe to array notation.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/rm.html">rm</a></span>(<span class="dt">list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span>, <span class="st">'to'</span>))</a></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(d, d<span class="op">$</span>group) <span class="op">%.&gt;%</span><span class="st"> </span>to[</a>
 <a class="sourceLine" id="cb12-2" data-line-number="2">  train_data &lt;-<span class="st"> </span>train,</a>
@@ -363,8 +363,8 @@
 <a class="sourceLine" id="cb12-6" data-line-number="6"></a>
 <a class="sourceLine" id="cb12-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/r/base/ls.html">ls</a></span>()</a></code></pre></div>
 <pre><code>## [1] "calibrate_data" "d"              "test_data"      "train_data"</code></pre>
-<p>Note the above is the <a href="https://journal.r-project.org/archive/2018/RJ-2018-042/index.html"><code>wrapr</code> dot arrow pipe</a> (which requires explicit dots to denote pipe targets). In this case it is dispatching on the class of the right-hand side argument to get the effect. This is a common feature of the wrapr dot arrow pipe.</p>
-<p>We could use a pipe function notation.</p>
+<p>Note the above is the <a href="https://journal.r-project.org/archive/2018/RJ-2018-042/index.html"><code>wrapr</code> dot arrow pipe</a> (which requires explicit dots to denote pipe targets). In this case it is dispatching on the class of the right-hand side argument to get the effect. This is a common feature of the wrapr dot arrow pipe. We could get a similar effect by using right-assigment “<code>-&gt;</code>” instead of the pipe.</p>
+<p>We can also use a pipe function notation.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/rm.html">rm</a></span>(<span class="dt">list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span>))</a></code></pre></div>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(d, d<span class="op">$</span>group) <span class="op">%.&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/to.html">to</a></span>(</a>
 <a class="sourceLine" id="cb15-2" data-line-number="2">  train_data &lt;-<span class="st"> </span>train,</a>
@@ -387,7 +387,7 @@
 <a class="sourceLine" id="cb18-7" data-line-number="7"></a>
 <a class="sourceLine" id="cb18-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/r/base/ls.html">ls</a></span>()</a></code></pre></div>
 <pre><code>## [1] "calibrate_data" "d"              "test_data"      "train_data"</code></pre>
-<p>With <code>unpack</code> we could also use the conventional function notation.</p>
+<p>Unpack also support the pipe to array and assign to array notations. In addition, with <code><a href="../reference/unpack.html">unpack()</a></code> we could also use the conventional function notation.</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/rm.html">rm</a></span>(<span class="dt">list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span>))</a></code></pre></div>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw"><a href="../reference/unpack.html">unpack</a></span>(</a>
 <a class="sourceLine" id="cb21-2" data-line-number="2">  <span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(d, d<span class="op">$</span>group),</a>

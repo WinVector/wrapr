@@ -72,7 +72,7 @@ knitr::kable(test_data)
 
 The semantics of `[]<-` imply that an object named "`to`" is left in our workspace as a side effect.  However, this object is small and if there is already an object name `to` in the workspace that is not of class `Unpacker` the unpacking is aborted prior to overwriting anything.  The unpacker two modes: `unpack` (a function that needs a dot in pipes) and `to` (an eager function factory that does not require a dot in pipes).  Also the side-effect can be avoided by using alternate non-array update notations.
 
-We will demonstrate a few of these.
+We will demonstrate a few of these.  First is pipe to array notation.
 
 ```{r}
 rm(list = c('train_data', 'calibrate_data', 'test_data', 'to'))
@@ -88,9 +88,9 @@ split(d, d$group) %.>% to[
 ls()
 ```
 
-Note the above is the [`wrapr` dot arrow pipe](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html) (which requires explicit dots to denote pipe targets).  In this case it is dispatching on the class of the right-hand side argument to get the effect.  This is a common feature of the wrapr dot arrow pipe.
+Note the above is the [`wrapr` dot arrow pipe](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html) (which requires explicit dots to denote pipe targets).  In this case it is dispatching on the class of the right-hand side argument to get the effect.  This is a common feature of the wrapr dot arrow pipe.  We could get a similar effect by using right-assigment "`->`" instead of the pipe.
 
-We could use a pipe function notation.
+We can also use a pipe function notation.
 
 ```{r}
 rm(list = c('train_data', 'calibrate_data', 'test_data'))
@@ -128,8 +128,7 @@ split(d, d$group) %.>% unpack(
 ls()
 ```
 
-
-With `unpack` we could also use the conventional function notation.
+Unpack also support the pipe to array and assign to array notations.  In addition, with `unpack()` we could also use the conventional function notation.
 
 ```{r}
 rm(list = c('train_data', 'calibrate_data', 'test_data'))
