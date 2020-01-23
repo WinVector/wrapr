@@ -39,7 +39,7 @@ run_package_tests <- function(pkg,
                               rngNormalKind = "Inversion") {
   wrapr::stop_if_dot_args(substitute(list(...)), "wrapr::run_packages_tests")
   if(!requireNamespace("RUnit", quietly = TRUE)) {
-    stop("run_packages_tests requires RUnit package")
+    return("run_packages_tests requires RUnit package")  # skip tests if test runner not installed
   }
   if(!requireNamespace(pkg, quietly = TRUE)) {
     stop(paste("run_packages_tests requires", pkg, "package to test", pkg))
@@ -47,14 +47,14 @@ run_package_tests <- function(pkg,
   attached_packages <- .packages(all.available = FALSE)
   if(require_RUnit_attached) {
     if(!("RUnit" %in% attached_packages)) {
-      stop("run_package_tests requires RUnit to already be attached via library('RUnit')")
+      stop("run_package_tests requires RUnit to already be attached")
     }
   }
   if(require_pkg_attached) {
     if(!(pkg %in% attached_packages)) {
       stop(paste0("run_package_tests requires ",
                   pkg,
-                  " to already be attached via library('", pkg, "')"))
+                  " to already be attached"))
     }
   }
   for(ptd in package_test_dirs) {
