@@ -133,7 +133,7 @@
 
     
     
-<p><a href="https://github.com/WinVector/wrapr"><code>wrapr</code></a> now supplies a name based multiple assignment notation for <a href="https://www.r-project.org"><code>R</code></a> (for a positional based multiple assignment operator please see <a href="https://CRAN.R-project.org/package=zeallot"><code>zeallot</code></a>, for another named base multiple assigment please see <a href="https://github.com/crowding/vadr/blob/master/R/bind.R"><code>vadr::bind</code></a>).</p>
+<p><a href="https://github.com/WinVector/wrapr"><code>wrapr</code></a> now supplies a name based multiple assignment notation for <a href="https://www.r-project.org"><code>R</code></a>.</p>
 <p>In <code>R</code> there are many functions that return named lists or other structures keyed by names. Let’s start with a simple example: <code><a href="https://rdrr.io/r/base/split.html">base::split()</a></code>.</p>
 <p>First some example data.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">d &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(</a>
@@ -452,8 +452,25 @@
 <a class="sourceLine" id="cb37-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/r/base/ls.html">ls</a></span>()</a></code></pre></div>
 <pre><code>## [1] "d"     "test"  "train"</code></pre>
 <p>In all cases the user explicitly documents the intended data sources and data destinations at the place of assignment. This meas a later reader of the source code can see what the operation does, without having to know values of additional variables.</p>
-<p>There is a variation of the unpack pattern that doesn’t need an explict dot in a wrapr pipeline. It is called “<code>unpacker</code>” and works as follows.</p>
-  </div>
+<p>Related work includes:</p>
+<ul>
+<li>
+The <a href="https://CRAN.R-project.org/package=zeallot"><code>zeallot::%&lt;-%</code></a> arrow already supplies excellent positional or ordered unpacking. But we feel that style may be more appropriate in the Python world where many functions return un-named tuples of results. Python functions tend to have positional tuple return values <em>because</em> the Python language has had positional tuple unpacking as a core language feature for a very long time (thus positional structures have become “Pythonic”). R has not emphasized positional unpacking, so R functions tend to return named lists or named structures. For named lists or named structures it may not be safe to rely on value positions. So I feel it is more “R-like” to use named unpacking.
+</li>
+<li>
+<a href="https://github.com/crowding/vadr/blob/master/R/bind.R"><code>vadr::bind</code></a> supplies named unpacking, but appears to use a “<code>SOURCE = DESTINATION</code>” notation. That is the reverse of a “<code>DESTINATION = SOURCE</code>” which is how both R assignments and argument binding are already written.
+</li>
+<li>
+<code><a href="https://rdrr.io/r/base/attach.html">base::attach</a></code>. <code><a href="https://rdrr.io/r/base/attach.html">base::attach</a></code> adds items to the search path with names controlled by the object being attached (instead of by the user).
+</li>
+<li>
+<code><a href="https://rdrr.io/r/base/with.html">base::with()</a></code>. <code><a href="../reference/unpack.html">unpack(list(a = 1, b = 2), x &lt;- a, y &lt;- b) </a></code> works a lot like <code><a href="https://rdrr.io/r/base/with.html"> with(list(a = 1, b = 2), { x &lt;&lt;- a; y &lt;&lt;-b })</a></code>.
+</li>
+<li>
+<a href="https://winvector.github.io/wrapr/articles/let.html"><code><a href="../reference/let.html">wrapr::let()</a></code></a>. <code><a href="../reference/let.html">wrapr::let()</a></code> re-maps names during code execution using a “<code>TARGET = NEWNAME</code>” target replacement scheme, where <code>TARGET</code> acts as if it had the name stored in <code>NEWNAME</code> for the duration of the let-block.
+</li>
+</ul>
+</div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
 

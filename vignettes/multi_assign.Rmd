@@ -10,7 +10,7 @@ vignette: >
 ---
 
 
-[`wrapr`](https://github.com/WinVector/wrapr) now supplies a name based multiple assignment notation for [`R`](https://www.r-project.org) (for a positional based multiple assignment operator please see [`zeallot`](https://CRAN.R-project.org/package=zeallot), for another named base multiple assigment please see [`vadr::bind`](https://github.com/crowding/vadr/blob/master/R/bind.R)).
+[`wrapr`](https://github.com/WinVector/wrapr) now supplies a name based multiple assignment notation for [`R`](https://www.r-project.org).
 
 In `R` there are many functions that return named lists or other structures keyed by names. Let's start with a simple example: `base::split()`.
 
@@ -233,11 +233,20 @@ ls()
 
 In all cases the user explicitly documents the intended data sources and data destinations at the place of assignment.  This meas a later reader of the source code can see what the operation does, without having to know values of additional variables.
 
-There is a variation of the unpack pattern that doesn't need an explict dot in a wrapr pipeline.  It is called "`unpacker`" and works as follows.
-
-```{r}
-
-```
 
 
+Related work includes:
 
+<ul>
+<li>
+The <a href="https://CRAN.R-project.org/package=zeallot"><code>zeallot::%&lt;-%</code></a> arrow already supplies excellent positional or ordered unpacking. But we feel that style may be more appropriate in the Python world where many functions return un-named tuples of results.  Python functions tend to have positional tuple return values <em>because</em> the Python language has had positional tuple unpacking as a core language feature for a very long time (thus positional structures have become "Pythonic").  R has not emphasized positional unpacking, so R functions tend to return named lists or named structures.  For named lists or named structures it may not be safe to rely on value positions.  So I feel it is more "R-like" to use named unpacking.</li>
+<li>
+<a href="https://github.com/crowding/vadr/blob/master/R/bind.R"><code>vadr::bind</code></a> supplies named unpacking, but appears to use a "<code>SOURCE = DESTINATION</code>" notation. That is the reverse of a "<code>DESTINATION = SOURCE</code>" which is how both R assignments and argument binding are already written.</li>
+<li><code>base::attach</code>.  <code>base::attach</code> adds items to the search path with names controlled by the object being attached (instead of by the user).</li>
+<li><code>base::with()</code>.  <code>unpack(list(a = 1, b = 2), x &lt;- a, y &lt;- b)
+</code> works a lot like <code>
+with(list(a = 1, b = 2), { x &lt;&lt;- a; y &lt;&lt;-b })</code>.
+</li>
+<li><a href="https://winvector.github.io/wrapr/articles/let.html"><code>wrapr::let()</code></a>.  <code>wrapr::let()</code> re-maps names during code execution using a "<code>TARGET = NEWNAME</code>" target replacement scheme, where <code>TARGET</code> acts as if it had the name stored in <code>NEWNAME</code> for the duration of the let-block.
+</li>
+</ul>
