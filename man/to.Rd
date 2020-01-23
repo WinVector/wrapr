@@ -2,20 +2,18 @@
 % Please edit documentation in R/unpack.R
 \name{to}
 \alias{to}
-\title{Unpack or bind values by names into the calling environment.}
+\title{Unpack or bind values by names into the calling environment, eager eval (no-dot) variation.}
 \usage{
-to(wrapr_private_value, ...)
+to(...)
 }
 \arguments{
-\item{wrapr_private_value}{list of values to copy}
-
 \item{...}{argument names to write to}
 }
 \value{
-value passed in (invisible)
+a UnpackTarget
 }
 \description{
-Unpacks or binds values into the calling environment. Uses \code{bquote} escaping.
+Unpacks or binds values into the calling environment, eager eval (no-dot) variation. Uses \code{bquote} escaping.
 NULL is a special case that is unpacked to all targets. NA targets are skipped.
 All non-NA target names must be unique.
 }
@@ -48,14 +46,8 @@ print(train)
 print(test)
 rm(list = c('train', 'test'))
 
-# function version
-to(split(d, d$g), train, test)
-print(train)
-print(test)
-rm(list = c('train', 'test'))
-
-# pipe version
-split(d, d$g) \%.>\% to(., train, test)
+# pipe version (notice no dot)
+split(d, d$g) \%.>\% to(train, test)
 print(train)
 print(test)
 rm(list = c('train', 'test'))

@@ -4,12 +4,10 @@
 \alias{UnpackerF}
 \title{Create a value unpacking object (function version).}
 \usage{
-UnpackerF(object_name = NULL, unnamed_case = FALSE)
+UnpackerF(object_name = NULL)
 }
 \arguments{
 \item{object_name}{character, name the object is stored as}
-
-\item{unnamed_case}{logical, if TRUE use positional- not name based matching}
 }
 \value{
 an unpacker

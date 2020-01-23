@@ -70,7 +70,7 @@ knitr::kable(calibrate_data)
 knitr::kable(test_data)
 ```
 
-The semantics of `[]<-` imply that an object named "`to`" is left in our workspace as a side effect.  However, this object is small and if there is already an object name `to` in the workspace that is not of class `Unpacker` the unpacking is aborted prior to overwriting anything.  The unpacker has synonyms `unpack`, `to`, and `into`.  Also the side-effect can be avoided by using alternate non-array update notations.
+The semantics of `[]<-` imply that an object named "`to`" is left in our workspace as a side effect.  However, this object is small and if there is already an object name `to` in the workspace that is not of class `Unpacker` the unpacking is aborted prior to overwriting anything.  The unpacker two modes: `unpack` (a function that needs a dot in pipes) and `to` (an eager function factory that does not require a dot in pipes).  Also the side-effect can be avoided by using alternate non-array update notations.
 
 We will demonstrate a few of these.
 
@@ -98,6 +98,27 @@ rm(list = c('train_data', 'calibrate_data', 'test_data'))
 
 ```{r}
 split(d, d$group) %.>% to(
+  train_data <- train,
+  calibrate_data <- calibrate,
+  test_data <- test
+)
+
+ls()
+```
+
+Notice piping to `to()` is like piping to `to[]`, no dot is needed.
+
+We can not currently use the `magrittr` pipe in the above as in that case the unpacked results are lost in a temporary intermediate environment `magrittr` uses during execution.
+
+A more conventional functional form is given in `unpack()`.  `unpack()` requires a dot in `wrapr` pipelines.
+
+
+```{r}
+rm(list = c('train_data', 'calibrate_data', 'test_data'))
+```
+
+```{r}
+split(d, d$group) %.>% unpack(
   .,
   train_data <- train,
   calibrate_data <- calibrate,
@@ -107,9 +128,8 @@ split(d, d$group) %.>% to(
 ls()
 ```
 
-We can not currently use the `magrittr` pipe in the above as in that case the unpacked results are lost in a temporary intermediate environment `magrittr` uses during execution.
 
-Or we could use a conventional function notation (here we are switching to the synonym `unpack` for clarity).
+With `unpack` we could also use the conventional function notation.
 
 ```{r}
 rm(list = c('train_data', 'calibrate_data', 'test_data'))
@@ -126,7 +146,9 @@ unpack(
 ls()
 ```
 
-Also the assignments in the unpacking block can be any of `<-`, `=`, `:=`, or even `->` (though the last one assigns right to left).
+`to()` can not be directly used as a function.  It is *strongly* suggested that the objects returned by `to[]`, `to()`, and `unpack[]` *not ever* be stored in variables, but instead only produced, used, and discarded.  The issue these are objects of class `"UnpackTarget"` and have the upack destination names already bound in. This means if one of these is used in code: a user reading the code can not tell where the side-effects are going without examining the contents of the object.
+
+The assignments in the unpacking block can be any of `<-`, `=`, `:=`, or even `->` (though the last one assigns right to left).
 
 ```{r}
 rm(list = c('train_data', 'calibrate_data', 'test_data'))

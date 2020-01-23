@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Unpack or bind values by names into the calling environment. — to • wrapr</title>
+<title>Unpack or bind values by names into the calling environment, eager eval (no-dot) variation. — to • wrapr</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Unpack or bind values by names into the calling environment. — to" />
-<meta property="og:description" content="Unpacks or binds values into the calling environment. Uses bquote escaping.
+<meta property="og:title" content="Unpack or bind values by names into the calling environment, eager eval (no-dot) variation. — to" />
+<meta property="og:description" content="Unpacks or binds values into the calling environment, eager eval (no-dot) variation. Uses bquote escaping.
 NULL is a special case that is unpacked to all targets. NA targets are skipped.
 All non-NA target names must be unique." />
 <meta name="twitter:card" content="summary" />
@@ -161,32 +161,31 @@ All non-NA target names must be unique." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Unpack or bind values by names into the calling environment.</h1>
+    <h1>Unpack or bind values by names into the calling environment, eager eval (no-dot) variation.</h1>
     <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/unpack.R'><code>R/unpack.R</code></a></small>
     <div class="hidden name"><code>to.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Unpacks or binds values into the calling environment. Uses <code>bquote</code> escaping.
+    <p>Unpacks or binds values into the calling environment, eager eval (no-dot) variation. Uses <code>bquote</code> escaping.
 NULL is a special case that is unpacked to all targets. NA targets are skipped.
 All non-NA target names must be unique.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>to</span>(<span class='no'>wrapr_private_value</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>to</span>(<span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>wrapr_private_value</th>
-      <td><p>list of values to copy</p></td>
-    </tr>
     <tr>
       <th>...</th>
       <td><p>argument names to write to</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>a UnpackTarget</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Note: when using <code>[]&lt;-</code> notation, a reference to the unpacker object is written into the unpacking environment as a side-effect
@@ -216,14 +215,8 @@ For more detials please see here <a href='http://www.win-vector.com/blog/2020/01
 #&gt; 2 2 train</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>test</span>)</div><div class='output co'>#&gt;   x    g
 #&gt; 1 1 test</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'train'</span>, <span class='st'>'test'</span>))
 
-<span class='co'># function version</span>
-<span class='fu'>to</span>(<span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span>(<span class='no'>d</span>, <span class='no'>d</span>$<span class='no'>g</span>), <span class='no'>train</span>, <span class='no'>test</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>train</span>)</div><div class='output co'>#&gt;   x     g
-#&gt; 2 2 train</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>test</span>)</div><div class='output co'>#&gt;   x    g
-#&gt; 1 1 test</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'train'</span>, <span class='st'>'test'</span>))
-
-<span class='co'># pipe version</span>
-<span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span>(<span class='no'>d</span>, <span class='no'>d</span>$<span class='no'>g</span>) <span class='kw'>%.&gt;%</span> <span class='fu'>to</span>(<span class='no'>.</span>, <span class='no'>train</span>, <span class='no'>test</span>)
+<span class='co'># pipe version (notice no dot)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span>(<span class='no'>d</span>, <span class='no'>d</span>$<span class='no'>g</span>) <span class='kw'>%.&gt;%</span> <span class='fu'>to</span>(<span class='no'>train</span>, <span class='no'>test</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>train</span>)</div><div class='output co'>#&gt;   x     g
 #&gt; 2 2 train</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>test</span>)</div><div class='output co'>#&gt;   x    g
 #&gt; 1 1 test</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'train'</span>, <span class='st'>'test'</span>))
@@ -235,6 +228,7 @@ For more detials please see here <a href='http://www.win-vector.com/blog/2020/01
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
       <li><a href="#details">Details</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>

@@ -14,11 +14,15 @@ for writing and debugging `R` code.
 
 Primary `wrapr` services include:
 
-  - [`let()`](https://winvector.github.io/wrapr/reference/let.html) (let
-    block)
   - [`%.>%`](https://winvector.github.io/wrapr/reference/dot_arrow.html)
     (dot arrow
     pipe)
+  - [`unpack`](https://winvector.github.io/wrapr/reference/unpack.html)/[`to`](https://winvector.github.io/wrapr/reference/to.html)
+    (assign to multiple
+    values)
+  - [`as_named_list`](https://winvector.github.io/wrapr/reference/as_named_list.html)
+    (build up a named list
+    quickly)
   - [`build_frame()`](https://winvector.github.io/wrapr/reference/build_frame.html)
     /
     [`draw_frame()`](https://winvector.github.io/wrapr/reference/draw_frame.html)
@@ -43,86 +47,19 @@ Primary `wrapr` services include:
     (function debug
     wrappers)
   - [`λ()`](https://winvector.github.io/wrapr/reference/defineLambda.html)
-    (anonymous function
-    builder)
-  - [`unpack`/`into`/`to`](https://winvector.github.io/wrapr/reference/into.html)
-    (assign to multiple
-    values)
-  - [`as_named_list`](https://winvector.github.io/wrapr/reference/as_named_list.html)
-    (build up a named list quickly)
+    (anonymous function builder)
+  - [`let()`](https://winvector.github.io/wrapr/reference/let.html) (let
+    block)
 
-## [`let()`](https://winvector.github.io/wrapr/articles/let.html)
-
-`let()` allows execution of arbitrary code with substituted variable
-names (note this is subtly different than binding values for names as
-with `base::substitute()` or `base::with()`).
-
-The function is simple and powerful. It treats strings as variable names
-and re-writes expressions as if you had used the denoted variables. For
-example the following block of code is equivalent to having written “a +
-a”.
+<!-- end list -->
 
 ``` r
-library("wrapr")
-
-a <- 7
-
-let(
-  c(VAR = 'a'),
-  
-  VAR + VAR
-)
- #  [1] 14
+library(wrapr)
+packageVersion("wrapr")
+ #  [1] '1.9.6'
+date()
+ #  [1] "Wed Jan 22 16:05:49 2020"
 ```
-
-This is useful in re-adapting non-standard evaluation interfaces (NSE
-interfaces) so one can script or program over them.
-
-We are trying to make `let()` self teaching and self documenting (to the
-extent that makes sense). For example try the arguments “`eval=FALSE`”
-prevent execution and see what *would* have been executed, or
-`debug=TRUE` to have the replaced code printed in addition to being
-executed:
-
-``` r
-let(
-  c(VAR = 'a'),
-  eval = FALSE,
-  {
-    VAR + VAR
-  }
-)
- #  {
- #      a + a
- #  }
-
-let(
-  c(VAR = 'a'),
-  debugPrint = TRUE,
-  {
-    VAR + VAR
-  }
-)
- #  $VAR
- #  [1] "a"
- #  
- #  {
- #      a + a
- #  }
- #  [1] 14
-```
-
-Please see `vignette('let', package='wrapr')` for more examples. Some
-formal documentation can be found
-[here](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf).
-`wrapr::let()` was inspired by `gtools::strmacro()` and
-`base::bquote()`, please see
-[here](https://github.com/WinVector/wrapr/blob/master/extras/bquote.md)
-for some notes on macro methods in `R`.
-
-For working with `dplyr` `0.7.*` we strongly suggest `wrapr::let()` (or
-even an alternate approach called
-[`seplyr`](https://github.com/WinVector/seplyr/blob/master/README.md)).
 
 ## [`%.>%` (dot pipe or dot arrow)](https://winvector.github.io/wrapr/articles/dot_pipe.html)
 
@@ -271,6 +208,62 @@ Journal](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html).
       journal = {{The R Journal}},
       url = {https://journal.r-project.org/archive/2018/RJ-2018-042/index.html}
     }
+
+## [`unpack`](https://winvector.github.io/wrapr/reference/unpack.html)/[`to`](https://winvector.github.io/wrapr/reference/to.html) multiple assignments
+
+Unpack a named list into the current environment by name (for a
+positional based multiple assignment operator please see
+[`zeallot`](https://CRAN.R-project.org/package=zeallot), for another
+named base multiple assigment please see
+[`vadr::bind`](https://github.com/crowding/vadr/blob/master/R/bind.R)).
+
+``` r
+d <- data.frame(
+  x = 1:9,
+  group = c('train', 'calibrate', 'test'),
+  stringsAsFactors = FALSE)
+
+to[
+  train_data <- train,
+  calibrate_data <- calibrate,
+  test_data <- test
+  ] <- split(d, d$group)
+
+knitr::kable(train_data)
+```
+
+|   | x | group |
+| - | -: | :---- |
+| 1 | 1 | train |
+| 4 | 4 | train |
+| 7 | 7 | train |
+
+## [`as_named_list`](https://winvector.github.io/wrapr/reference/as_named_list.html)
+
+Build up named lists. [Very convenient for managing workspaces when used
+with used with
+`unpack`/`to`.](http://www.win-vector.com/blog/2020/01/using-unpack-to-manage-your-r-environment/)
+
+``` r
+as_named_list(train_data, calibrate_data, test_data)
+ #  $train_data
+ #    x group
+ #  1 1 train
+ #  4 4 train
+ #  7 7 train
+ #  
+ #  $calibrate_data
+ #    x     group
+ #  2 2 calibrate
+ #  5 5 calibrate
+ #  8 8 calibrate
+ #  
+ #  $test_data
+ #    x group
+ #  3 3  test
+ #  6 6  test
+ #  9 9  test
+```
 
 ## [`build_frame()`](https://winvector.github.io/wrapr/reference/build_frame.html) / [`draw_frame()`](https://winvector.github.io/wrapr/reference/draw_frame.html)
 
@@ -428,6 +421,77 @@ sapply(1:4, λ(x, x^2))
 sapply(1:4, x := { x^2 })
  #  [1]  1  4  9 16
 ```
+
+## [`let()`](https://winvector.github.io/wrapr/articles/let.html)
+
+`let()` allows execution of arbitrary code with substituted variable
+names (note this is subtly different than binding values for names as
+with `base::substitute()` or `base::with()`).
+
+The function is simple and powerful. It treats strings as variable names
+and re-writes expressions as if you had used the denoted variables. For
+example the following block of code is equivalent to having written “a +
+a”.
+
+``` r
+a <- 7
+
+let(
+  c(VAR = 'a'),
+  
+  VAR + VAR
+)
+ #  [1] 14
+```
+
+This is useful in re-adapting non-standard evaluation interfaces (NSE
+interfaces) so one can script or program over them.
+
+We are trying to make `let()` self teaching and self documenting (to the
+extent that makes sense). For example try the arguments “`eval=FALSE`”
+prevent execution and see what *would* have been executed, or
+`debug=TRUE` to have the replaced code printed in addition to being
+executed:
+
+``` r
+let(
+  c(VAR = 'a'),
+  eval = FALSE,
+  {
+    VAR + VAR
+  }
+)
+ #  {
+ #      a + a
+ #  }
+
+let(
+  c(VAR = 'a'),
+  debugPrint = TRUE,
+  {
+    VAR + VAR
+  }
+)
+ #  $VAR
+ #  [1] "a"
+ #  
+ #  {
+ #      a + a
+ #  }
+ #  [1] 14
+```
+
+Please see `vignette('let', package='wrapr')` for more examples. Some
+formal documentation can be found
+[here](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf).
+`wrapr::let()` was inspired by `gtools::strmacro()` and
+`base::bquote()`, please see
+[here](https://github.com/WinVector/wrapr/blob/master/extras/bquote.md)
+for some notes on macro methods in `R`.
+
+For working with `dplyr` `0.7.*` we strongly suggest `wrapr::let()` (or
+even an alternate approach called
+[`seplyr`](https://github.com/WinVector/seplyr/blob/master/README.md)).
 
 ## Installation
 
