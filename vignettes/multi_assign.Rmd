@@ -147,7 +147,7 @@ ls()
 
 `to()` can not be directly used as a function.  It is *strongly* suggested that the objects returned by `to[]`, `to()`, and `unpack[]` *not ever* be stored in variables, but instead only produced, used, and discarded.  The issue these are objects of class `"UnpackTarget"` and have the upack destination names already bound in. This means if one of these is used in code: a user reading the code can not tell where the side-effects are going without examining the contents of the object.
 
-The assignments in the unpacking block can be any of `<-`, `=`, `:=`, or even `->` (though the last one assigns right to left).
+The assignments in the unpacking block can be any of `<-`, `=`, `:=`, or even `->` (though the last one assigns left to right).
 
 ```{r}
 rm(list = c('train_data', 'calibrate_data', 'test_data'))
