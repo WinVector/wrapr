@@ -1,0 +1,161 @@
+---
+title: "Multiple Assignment with unpack"
+author: "Nina Zumel and John Mount"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Multiple Assignment}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+In `R` there are many functions that return named lists or other structures keyed by names. Often, you want to unpack the elements of such a list into separate variables, for ease of use. One example is the use of `split()` to partition a larger data frame into a named list of smaller data frames, each corresponding to some grouping.
+
+```{r}
+library(wrapr)
+# example data
+d <- data.frame(
+  x = 1:9,
+  group = c('train', 'calibrate', 'test'),
+  stringsAsFactors = FALSE)
+
+knitr::kable(d)
+
+# split the d by group
+(parts <- split(d, d$group))
+train_data <- parts$train
+calibrate_data <- parts$calibrate
+test_data <- parts$test
+
+knitr::kable(train_data)
+
+knitr::kable(calibrate_data)
+
+knitr::kable(test_data)
+```
+
+A multiple assignment notation allows us to assign all the smaller data frames to variables in one step, and avoid leaving a possibly large temporary variable such as `parts` in our environment. One such notation is `unpack()`.
+
+## Basic `unpack()` example
+
+```{r}
+# clear out the earlier results
+rm(list = c('train_data', 'calibrate_data', 'test_data', 'parts'))
+
+# split d and unpack the smaller data frames into separate variables
+unpack(split(d, d$group),
+       train_data = train,
+       test_data = test,
+       calibrate_data = calibrate)
+
+knitr::kable(train_data)
+
+knitr::kable(calibrate_data)
+
+knitr::kable(test_data)
+```
+
+You can also use `unpack` with an assignment notation similar to the notation used with the  
+<a href="https://CRAN.R-project.org/package=zeallot"><code>zeallot::%&lt;-%</code></a> pipe:
+
+```{r}
+# split d and unpack the smaller data frames into separate variables
+unpack[traind = train, testd = test, cald = calibrate] <- split(d, d$group)
+
+knitr::kable(traind)
+
+knitr::kable(cald)
+
+knitr::kable(testd)
+```
+
+### Reusing the list names as variables
+
+If you are willing to assign the elements of the list into variables with the same names, you can just use the names:
+
+```{r}
+unpack(split(d, d$group), train, test, calibrate)
+
+knitr::kable(train)
+
+knitr::kable(calibrate)
+
+knitr::kable(test)
+
+# try the unpack[]<- notation
+
+rm(list = c('train', 'test', 'calibrate'))
+
+unpack[test, train, calibrate] <- split(d, d$group)
+
+knitr::kable(train)
+
+knitr::kable(calibrate)
+
+knitr::kable(test)
+```
+
+Mixed notation is allowed:
+
+```{r}
+rm(list = c('train', 'test', 'calibrate'))
+unpack(split(d, d$group), train, holdout=test, calibrate)
+
+knitr::kable(train)
+
+knitr::kable(calibrate)
+
+knitr::kable(holdout)
+```
+
+
+### Unpacking only parts of a list
+
+You can also unpack only a subset of the list's elements:
+
+```{r error=TRUE}
+rm(list = c('train', 'holdout', 'calibrate'))
+
+unpack(split(d, d$group), train, test)
+
+knitr::kable(train)
+
+knitr::kable(test)
+
+# we didn't unpack the calibrate set
+calibrate
+
+```
+
+### `unpack` checks for unknown elements
+
+If `unpack` is asked to unpack an element it doesn't recognize, it throws an error. In this case, none of the elements are unpacked, as `unpack` is deliberately an atomic operation.
+
+```{r error=TRUE}
+
+# the split call will not return an element called "holdout"
+unpack(split(d, d$group), training = train, testing = holdout)
+
+# train was not unpacked either
+training
+
+```
+
+
+## Other multiple assignment packages
+
+### `zeallot`
+
+The [`zeallot`](https://cran.r-project.org/web/packages/zeallot/index.html) package already supplies excellent positional or ordered unpacking. 
+
+The primary difference between `zeallot`'s <a href="https://CRAN.R-project.org/package=zeallot"><code>%&lt;-%</code></a> pipe and `unpack` is that `%<-%` is a *positional* unpacker: you must unpack the list based on the *order* of the elements in the list. This style may be more appropriate in the Python world where many functions return un-named tuples of results.  
+
+`unpack` is a *named* unpacker: assignments are based on the *names* of elements in the list, and the assignments can be in any order. We feel this is more appropriate for R, as R has not emphasized positional unpacking; R functions tend to return named lists or named structures. For named lists or named structures it may not be safe to rely on value positions.
+
+For unpacking named lists, we recommend `unpack`. For unpacking unnamed lists, use `%<-%`.
+
+### `vadr`
+
+<a href="https://github.com/crowding/vadr/blob/master/R/bind.R"><code>vadr::bind</code></a> supplies named unpacking, but appears to use a "<code>SOURCE = DESTINATION</code>" notation. That is the reverse of a "<code>DESTINATION = SOURCE</code>" which is how both R assignments and argument binding are already written.
+
+
