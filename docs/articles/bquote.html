@@ -93,6 +93,9 @@
       <a href="../articles/named_map_builder.html">Named Map Builder</a>
     </li>
     <li>
+      <a href="../articles/unpack_multiple_assignment.html">Multiple Assignment with unpack</a>
+    </li>
+    <li>
       <a href="../articles/wrapr_Eager.html">wrapr Eager Evaluation</a>
     </li>
     <li>
@@ -124,7 +127,7 @@
       <h1>bquote</h1>
                         <h4 class="author">John Mount</h4>
             
-            <h4 class="date">2020-01-22</h4>
+            <h4 class="date">2020-01-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/bquote.Rmd"><code>vignettes/bquote.Rmd</code></a></small>
       <div class="hidden name"><code>bquote.Rmd</code></div>
@@ -181,7 +184,7 @@
 ##     exprq &lt;- bquote(..., where = where)
 ##     eval(exprq, envir = where, enclos = where)
 ## }
-## &lt;bytecode: 0x7ffa41883a90&gt;
+## &lt;bytecode: 0x7fb5d42a3830&gt;
 ## &lt;environment: namespace:wrapr&gt;</code></pre>
 <p>All <code><a href="../reference/evalb.html">evalb()</a></code> does is: call <code><a href="https://rdrr.io/r/base/bquote.html">bquote()</a></code> as intended. A way to teach this is to just call <code>bqoute()</code> alone.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="cf">if</span>(<span class="kw"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span>(<span class="st">"graphics"</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)) {</a>

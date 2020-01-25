@@ -15,6 +15,7 @@ articles:
   let: let.html
   multi_assign: multi_assign.html
   named_map_builder: named_map_builder.html
+  unpack_multiple_assignment: unpack_multiple_assignment.html
   wrapr_Eager: wrapr_Eager.html
   wrapr_applicable: wrapr_applicable.html
 

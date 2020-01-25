@@ -4,7 +4,7 @@ author: "Nina Zumel and John Mount"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Multiple Assignment}
+  %\VignetteIndexEntry{Multiple Assignment with unpack}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
