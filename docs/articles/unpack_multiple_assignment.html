@@ -127,7 +127,7 @@
       <h1>Multiple Assignment with unpack</h1>
                         <h4 class="author">Nina Zumel and John Mount</h4>
             
-            <h4 class="date">2020-01-24</h4>
+            <h4 class="date">2020-01-25</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/unpack_multiple_assignment.Rmd"><code>vignettes/unpack_multiple_assignment.Rmd</code></a></small>
       <div class="hidden name"><code>unpack_multiple_assignment.Rmd</code></div>
@@ -454,6 +454,7 @@
 </tr>
 </tbody>
 </table>
+<p>Note: the <code>&lt;-</code> array assignment has the minor side-effect of writing a value for <code>unpack</code> into the working environment. This object is small, and the operation is blocked if there is an existing <code>unpack</code> object that is not such a side effect in your workspace (so it will not overwrite something else).</p>
 <div id="reusing-the-list-names-as-variables" class="section level3">
 <h3 class="hasAnchor">
 <a href="#reusing-the-list-names-as-variables" class="anchor"></a>Reusing the list names as variables</h3>
@@ -777,7 +778,7 @@
 <h3 class="hasAnchor">
 <a href="#zeallot" class="anchor"></a><code>zeallot</code>
 </h3>
-<p>The <a href="https://cran.r-project.org/web/packages/zeallot/index.html"><code>zeallot</code></a> package already supplies excellent positional or ordered unpacking.</p>
+<p>The <a href="https://CRAN.R-project.org/package=zeallot"><code>zeallot</code></a> package already supplies excellent positional or ordered unpacking.</p>
 <p>The primary difference between <code>zeallot</code>’s <a href="https://CRAN.R-project.org/package=zeallot"><code>%&lt;-%</code></a> pipe and <code>unpack</code> is that <code>%&lt;-%</code> is a <em>positional</em> unpacker: you must unpack the list based on the <em>order</em> of the elements in the list. This style may be more appropriate in the Python world where many functions return un-named tuples of results.</p>
 <p><code>unpack</code> is a <em>named</em> unpacker: assignments are based on the <em>names</em> of elements in the list, and the assignments can be in any order. We feel this is more appropriate for R, as R has not emphasized positional unpacking; R functions tend to return named lists or named structures. For named lists or named structures it may not be safe to rely on value positions.</p>
 <p>For unpacking named lists, we recommend <code>unpack</code>. For unpacking unnamed lists, use <code>%&lt;-%</code>.</p>

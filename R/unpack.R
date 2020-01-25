@@ -439,7 +439,11 @@ format.Unpacker <- function(x, ...) {
     q_name <- sQuote(object_name)
   }
   dotpipe_eager_eval_function <- isTRUE(attr(x, 'dotpipe_eager_eval_function'))
-  return(paste0("wrapr::Unpacker(object_name = ", q_name, ", dotpipe_eager_eval_function = ", dotpipe_eager_eval_function ,")"))
+  return(paste0("wrapr::Unpacker(object_name = ", q_name, ", dotpipe_eager_eval_function = ", dotpipe_eager_eval_function ,")",
+                "\n # May have been written into your environment as a side-effect of ",
+                "\n # ", object_name, '[...]<-',
+                "\n # For details, please see:",
+                "\n # https://winvector.github.io/wrapr/articles/multi_assign.html"))
 }
 
 

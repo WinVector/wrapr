@@ -69,6 +69,8 @@ knitr::kable(cald)
 knitr::kable(testd)
 ```
 
+Note: the `<-` array assignment has the minor side-effect of writing a value for `unpack` into the working environment.  This object is small, and the operation is blocked if there is an existing `unpack` object that is not such a side effect in your workspace (so it will not overwrite something else).
+
 ### Reusing the list names as variables
 
 If you are willing to assign the elements of the list into variables with the same names, you can just use the names:
