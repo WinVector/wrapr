@@ -146,7 +146,7 @@ training
 
 ### `zeallot`
 
-The [`zeallot`](https://cran.r-project.org/web/packages/zeallot/index.html) package already supplies excellent positional or ordered unpacking. 
+The [`zeallot`](https://CRAN.R-project.org/package=zeallot) package already supplies excellent positional or ordered unpacking. 
 
 The primary difference between `zeallot`'s <a href="https://CRAN.R-project.org/package=zeallot"><code>%&lt;-%</code></a> pipe and `unpack` is that `%<-%` is a *positional* unpacker: you must unpack the list based on the *order* of the elements in the list. This style may be more appropriate in the Python world where many functions return un-named tuples of results.  
 
