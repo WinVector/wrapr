@@ -1,4 +1,8 @@
 
+# wrapr 1.9.7 2020-01-27
+
+ * Update references.
+
 # wrapr 1.9.6 2020-01-26
 
  * Add dotpipe_eager_eval_*.

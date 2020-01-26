@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.7</span>
       </span>
     </div>
 
@@ -184,7 +184,7 @@
 ##     exprq &lt;- bquote(..., where = where)
 ##     eval(exprq, envir = where, enclos = where)
 ## }
-## &lt;bytecode: 0x7fef2337e060&gt;
+## &lt;bytecode: 0x7fa9220c8828&gt;
 ## &lt;environment: namespace:wrapr&gt;</code></pre>
 <p>All <code><a href="../reference/evalb.html">evalb()</a></code> does is: call <code><a href="https://rdrr.io/r/base/bquote.html">bquote()</a></code> as intended. A way to teach this is to just call <code>bqoute()</code> alone.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="cf">if</span>(<span class="kw"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span>(<span class="st">"graphics"</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)) {</a>

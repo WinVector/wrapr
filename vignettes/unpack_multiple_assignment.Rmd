@@ -160,4 +160,9 @@ For unpacking named lists, we recommend `unpack`. For unpacking unnamed lists, u
 
 <a href="https://github.com/crowding/vadr/blob/master/R/bind.R"><code>vadr::bind</code></a> supplies named unpacking, but appears to use a "<code>SOURCE = DESTINATION</code>" notation. That is the reverse of a "<code>DESTINATION = SOURCE</code>" which is how both R assignments and argument binding are already written.
 
+### `tidytidbits`
+
+<a href="https://CRAN.R-project.org/package=tidytidbits"><code>tidytidbits</a> supplies positional unpacking with a <code>%=%</code> notation.
+
+
 

@@ -247,6 +247,9 @@ The <a href="https://CRAN.R-project.org/package=zeallot"><code>zeallot::%&lt;-%<
 </code> works a lot like <code>
 with(list(a = 1, b = 2), { x &lt;&lt;- a; y &lt;&lt;-b })</code>.
 </li>
+<li>
+<a href="https://CRAN.R-project.org/package=tidytidbits"><code>tidytidbits</code></a> supplies positional unpacking with a <code>%=%</code> notation.
+</li>
 <li><a href="https://winvector.github.io/wrapr/articles/let.html"><code>wrapr::let()</code></a>.  <code>wrapr::let()</code> re-maps names during code execution using a "<code>TARGET = NEWNAME</code>" target replacement scheme, where <code>TARGET</code> acts as if it had the name stored in <code>NEWNAME</code> for the duration of the let-block.
 </li>
 </ul>
