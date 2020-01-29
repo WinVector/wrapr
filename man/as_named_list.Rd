@@ -21,6 +21,8 @@ a <- data.frame(x = 1)
 b <- 2
 str(as_named_list(a, b))
 
+as_named_list(a, x = b)
+
 # an example application for this function is managing saving and
 # loading values into the workspace.
 if(FALSE) {
