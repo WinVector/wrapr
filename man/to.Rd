@@ -55,4 +55,12 @@ rm(list = c('train', 'test'))
 # magrittr pipe due to magrittr's introduction of temporary
 # intermediate environments during evaluation.
 
+# bquote example
+train_col_name <- 'train'
+test_col_name <- 'test'
+to[train = .(train_col_name), test = .(test_col_name)] <- split(d, d$g)
+print(train)
+print(test)
+rm(list = c('train', 'test'))
+
 }

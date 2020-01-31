@@ -127,7 +127,7 @@
       <h1>Multiple Assignment</h1>
                         <h4 class="author">John Mount</h4>
             
-            <h4 class="date">2020-01-26</h4>
+            <h4 class="date">2020-01-30</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/multi_assign.Rmd"><code>vignettes/multi_assign.Rmd</code></a></small>
       <div class="hidden name"><code>multi_assign.Rmd</code></div>
@@ -444,7 +444,7 @@
 <a class="sourceLine" id="cb34-6" data-line-number="6"></a>
 <a class="sourceLine" id="cb34-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/r/base/ls.html">ls</a></span>()</a></code></pre></div>
 <pre><code>## [1] "d"          "test_data"  "train_data"</code></pre>
-<p>And we can use a name alone as shorthand for <code>name &lt;- name</code> (i.e. unpacking to the same name as in the incoming object).</p>
+<p>We can use a name alone as shorthand for <code>name &lt;- name</code> (i.e. unpacking to the same name as in the incoming object).</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/rm.html">rm</a></span>(<span class="dt">list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'train_data'</span>, <span class="st">'test_data'</span>))</a></code></pre></div>
 <div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(d, d<span class="op">$</span>group) <span class="op">%.&gt;%</span></a>
 <a class="sourceLine" id="cb37-2" data-line-number="2"><span class="st">  </span>to[</a>
@@ -454,6 +454,18 @@
 <a class="sourceLine" id="cb37-6" data-line-number="6"></a>
 <a class="sourceLine" id="cb37-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/r/base/ls.html">ls</a></span>()</a></code></pre></div>
 <pre><code>## [1] "d"     "test"  "train"</code></pre>
+<p>We can also use <code>bquote</code> <code>.()</code> notation to use variables to specify where data is coming from.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/rm.html">rm</a></span>(<span class="dt">list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'train'</span>, <span class="st">'test'</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">train_source &lt;-<span class="st"> 'train'</span></a>
+<a class="sourceLine" id="cb40-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb40-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(d, d<span class="op">$</span>group) <span class="op">%.&gt;%</span></a>
+<a class="sourceLine" id="cb40-4" data-line-number="4"><span class="st">  </span>to[</a>
+<a class="sourceLine" id="cb40-5" data-line-number="5">     train_result =<span class="st"> </span>.(train_source),</a>
+<a class="sourceLine" id="cb40-6" data-line-number="6">     test</a>
+<a class="sourceLine" id="cb40-7" data-line-number="7">     ]</a>
+<a class="sourceLine" id="cb40-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb40-9" data-line-number="9"><span class="kw"><a href="https://rdrr.io/r/base/ls.html">ls</a></span>()</a></code></pre></div>
+<pre><code>## [1] "d"            "test"         "train_result" "train_source"</code></pre>
 <p>In all cases the user explicitly documents the intended data sources and data destinations at the place of assignment. This meas a later reader of the source code can see what the operation does, without having to know values of additional variables.</p>
 <p>Related work includes:</p>
 <ul>

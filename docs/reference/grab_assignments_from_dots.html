@@ -36,8 +36,9 @@
 
 
 <meta property="og:title" content="Re-write captured <code>...</code> arguments as assignments. — grab_assignments_from_dots" />
-<meta property="og:description" content="Re-write captured ... arguments as a c(DESTINATION = TARGET) character vector.
-Suggested capture code is: as.list(do.call(bquote, list(substitute(list(...)))))[-1]" />
+<meta property="og:description" content="
+
+" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -169,15 +170,28 @@ Suggested capture code is: as.list(do.call(bquote, list(substitute(list(...)))))
     </div>
 
     <div class="ref-description">
-    <p>Re-write captured <code>...</code> arguments as a <code><a href='https://rdrr.io/r/base/c.html'>c(DESTINATION = TARGET)</a></code> character vector.
-Suggested capture code is: <code>as.list(do.call(bquote, list(substitute(list(...)))))[-1]</code></p>
+    
+
+
     </div>
 
-    <pre class="usage"><span class='fu'>grab_assignments_from_dots</span>(<span class='no'>captured_dots</span>)</pre>
+    <pre class="usage"><span class='fu'>grab_assignments_from_dots</span>(
+  <span class='no'>captured_args</span>,
+  <span class='kw'>unpack_environment</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>(),
+  <span class='kw'>allow_dot_on_left</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>unpack_environment</th>
+      <td><p>environment to look in</p></td>
+    </tr>
+    <tr>
+      <th>allow_dot_on_left</th>
+      <td><p>logical if TRUE allow forms like <code>.(a) = a</code> and <code>.(a)</code>.</p></td>
+    </tr>
     <tr>
       <th>captured_dots</th>
       <td><p>captured <code>...</code>.</p></td>
@@ -192,11 +206,8 @@ Suggested capture code is: <code>as.list(do.call(bquote, list(substitute(list(..
     <pre class="examples"><div class='input'>
 <span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>...</span>) {
   <span class='no'>unpack_environment</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1</span>)
-  <span class='no'>captured_dots</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>as.list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></span>(<span class='no'>bquote</span>,
-                                   <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>...</span>)),
-                                        <span class='kw'>where</span> <span class='kw'>=</span> <span class='no'>unpack_environment</span>),
-                                   <span class='kw'>envir</span> <span class='kw'>=</span> <span class='no'>unpack_environment</span>))[-<span class='fl'>1</span>]
-  <span class='fu'>grab_assignments_from_dots</span>(<span class='no'>captured_dots</span>)
+  <span class='no'>orig_args</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>...</span>))
+  <span class='fu'>grab_assignments_from_dots</span>(<span class='no'>orig_args</span>, <span class='no'>unpack_environment</span>)
 }
 <span class='fu'>f</span>(<span class='no'>a</span>, <span class='kw'>c</span> <span class='kw'>=</span> <span class='no'>d</span>, <span class='no'>e</span> <span class='kw'>:=</span> <span class='no'>f</span>, <span class='no'>g</span> <span class='kw'>&lt;-</span> <span class='no'>h</span>, <span class='no'>i</span> <span class='kw'>-&gt;</span> <span class='no'>j</span>)</div><div class='output co'>#&gt;       c   e   g   j 
 #&gt; "a" "d" "f" "h" "i" </div><div class='input'># should equal c('a', 'c' = 'd', 'e' = 'f', 'g' = 'h', 'j' = 'i')

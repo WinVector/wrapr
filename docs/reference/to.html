@@ -225,7 +225,15 @@ For more detials please see here <a href='http://www.win-vector.com/blog/2020/01
 #&gt; 1 1 test</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'train'</span>, <span class='st'>'test'</span>))
 <span class='co'># Note: above is wrapr dot-pipe, piping does not currently work with</span>
 <span class='co'># magrittr pipe due to magrittr's introduction of temporary</span>
-<span class='co'># intermediate environments during evaluation.</span></div></pre>
+<span class='co'># intermediate environments during evaluation.</span>
+
+<span class='co'># bquote example</span>
+<span class='no'>train_col_name</span> <span class='kw'>&lt;-</span> <span class='st'>'train'</span>
+<span class='no'>test_col_name</span> <span class='kw'>&lt;-</span> <span class='st'>'test'</span>
+<span class='no'>to</span>[<span class='kw'>train</span> <span class='kw'>=</span> <span class='fu'>.</span>(<span class='no'>train_col_name</span>), <span class='kw'>test</span> <span class='kw'>=</span> <span class='fu'>.</span>(<span class='no'>test_col_name</span>)] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span>(<span class='no'>d</span>, <span class='no'>d</span>$<span class='no'>g</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>train</span>)</div><div class='output co'>#&gt;   x     g
+#&gt; 2 2 train</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>test</span>)</div><div class='output co'>#&gt;   x    g
+#&gt; 1 1 test</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'train'</span>, <span class='st'>'test'</span>))</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

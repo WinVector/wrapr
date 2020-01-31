@@ -3,7 +3,7 @@
 #' Re-write captured \code{...} arguments as assignments.
 #'
 #' Re-write captured \code{...} arguments as a \code{c(DESTINATION = TARGET)} character vector.
-#' Suggested capture code is: \code{as.list(do.call(bquote, list(substitute(list(...)))))[-1]}
+#' Suggested capture code is: \code{substitute(list(...))}. Allows \code{bquote} \code{.()} substitution.
 #'
 #' @param captured_dots captured \code{...}.
 #' @param unpack_environment environment to look in
@@ -15,12 +15,13 @@
 #' f <- function(...) {
 #'   unpack_environment <- parent.frame(n = 1)
 #'   orig_args <- substitute(list(...))
-#'   grab_assignments_from_dots(captured_dots)
+#'   grab_assignments_from_dots(orig_args, unpack_environment)
 #' }
 #' f(a, c = d, e := f, g <- h, i -> j)
 #' # should equal c('a', 'c' = 'd', 'e' = 'f', 'g' = 'h', 'j' = 'i')
 #'
 #' @keywords internal
+#'
 #' @export
 #'
 grab_assignments_from_dots <- function(captured_args, unpack_environment = parent.frame(), allow_dot_on_left = FALSE) {
@@ -513,6 +514,13 @@ print.Unpacker <- function(x, ...) {
 #' print(test)
 #' rm(list = c('train', 'test'))
 #'
+#' # bquote example
+#' train_col_name <- 'train'
+#' test_col_name <- 'test'
+#' to[train = .(train_col_name), test = .(test_col_name)] <- split(d, d$g)
+#' print(train)
+#' print(test)
+#' rm(list = c('train', 'test'))
 #'
 #' @export
 #'
@@ -641,6 +649,14 @@ print.UnpackTarget <- function(x, ...) {
 #' # magrittr pipe due to magrittr's introduction of temporary
 #' # intermediate environments during evaluation.
 #'
+#' # bquote example
+#' train_col_name <- 'train'
+#' test_col_name <- 'test'
+#' to[train = .(train_col_name), test = .(test_col_name)] <- split(d, d$g)
+#' print(train)
+#' print(test)
+#' rm(list = c('train', 'test'))
+#'
 #' @export
 #'
 to <- UnpackerP(object_name = "to")
@@ -697,6 +713,14 @@ to <- UnpackerP(object_name = "to")
 #' # Note: above is wrapr dot-pipe, piping does not currently work with
 #' # magrittr pipe due to magrittr's introduction of temporary
 #' # intermediate environments during evaluation.
+#'
+#' # bquote example
+#' train_col_name <- 'train'
+#' test_col_name <- 'test'
+#' unpack(split(d, d$g), train = .(train_col_name), test = .(test_col_name))
+#' print(train)
+#' print(test)
+#' rm(list = c('train', 'test'))
 #'
 #' @export
 #'

@@ -14,7 +14,7 @@ packageVersion(package)
 date()
 ```
 
-    ## [1] "Sun Jan 26 12:10:05 2020"
+    ## [1] "Thu Jan 30 16:52:48 2020"
 
 ``` r
 parallelCluster <- NULL
@@ -34,7 +34,7 @@ setwd(td)
 print(td)
 ```
 
-    ## [1] "/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//RtmpUGHzJE"
+    ## [1] "/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//RtmpZ2ICP3"
 
 ``` r
 options(repos = c(CRAN="https://cloud.r-project.org"))
@@ -79,14 +79,14 @@ if(!is.null(parallelCluster)) {
 }
 ```
 
-    ## cdata_1.1.5 started at 2020-01-26 12:10:07 success at 2020-01-26 12:10:39 (1/0/0) 
-    ## RcppDynProg_0.1.3 started at 2020-01-26 12:10:39 success at 2020-01-26 12:11:49 (2/0/0) 
-    ## rqdatatable_1.2.5 started at 2020-01-26 12:11:49 success at 2020-01-26 12:12:12 (3/0/0) 
-    ## rquery_1.4.2 started at 2020-01-26 12:12:12 success at 2020-01-26 12:12:52 (4/0/0) 
-    ## seplyr_0.8.5 started at 2020-01-26 12:12:52 success at 2020-01-26 12:13:18 (5/0/0) 
-    ## sigr_1.0.6 started at 2020-01-26 12:13:18 success at 2020-01-26 12:13:39 (6/0/0) 
-    ## vtreat_1.5.1 started at 2020-01-26 12:13:39 success at 2020-01-26 12:14:48 (7/0/0) 
-    ## WVPlots_1.2.3 started at 2020-01-26 12:14:48 success at 2020-01-26 12:15:57 (8/0/0)
+    ## cdata_1.1.5 started at 2020-01-30 16:52:51 success at 2020-01-30 16:53:20 (1/0/0) 
+    ## RcppDynProg_0.1.3 started at 2020-01-30 16:53:20 success at 2020-01-30 16:54:32 (2/0/0) 
+    ## rqdatatable_1.2.6 started at 2020-01-30 16:54:32 success at 2020-01-30 16:55:02 (3/0/0) 
+    ## rquery_1.4.2 started at 2020-01-30 16:55:02 success at 2020-01-30 16:55:45 (4/0/0) 
+    ## seplyr_0.8.5 started at 2020-01-30 16:55:45 success at 2020-01-30 16:56:13 (5/0/0) 
+    ## sigr_1.0.6 started at 2020-01-30 16:56:13 success at 2020-01-30 16:56:36 (6/0/0) 
+    ## vtreat_1.5.1 started at 2020-01-30 16:56:36 success at 2020-01-30 16:57:51 (7/0/0) 
+    ## WVPlots_1.2.3 started at 2020-01-30 16:57:51 success at 2020-01-30 16:59:12 (8/0/0)
 
     ## [1] id     title  status
     ## <0 rows> (or 0-length row.names)
@@ -96,8 +96,8 @@ summariseQueue(package=package, directory=td)
 ```
 
     ## Test of wrapr had 8 successes, 0 failures, and 0 skipped packages. 
-    ## Ran from 2020-01-26 12:10:07 to 2020-01-26 12:15:57 for 5.833 mins 
-    ## Average of 43.75 secs relative to 43.668 secs using 1 runners
+    ## Ran from 2020-01-30 16:52:51 to 2020-01-30 16:59:12 for 6.35 mins 
+    ## Average of 47.625 secs relative to 47.572 secs using 1 runners
     ## 
     ## Failed packages:   
     ## 

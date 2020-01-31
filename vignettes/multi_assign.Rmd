@@ -214,7 +214,7 @@ ls()
 ```
 
 
-And we can use a name alone as shorthand for `name <- name` (i.e. unpacking to the same name as in the incoming object).
+We can use a name alone as shorthand for `name <- name` (i.e. unpacking to the same name as in the incoming object).
 
 
 ```{r}
@@ -230,6 +230,26 @@ split(d, d$group) %.>%
 
 ls()
 ```
+
+We can also use `bquote` `.()` notation to use variables to specify where data is coming from.
+
+
+```{r}
+rm(list = c('train', 'test'))
+```
+
+```{r}
+train_source <- 'train'
+
+split(d, d$group) %.>%
+  to[
+     train_result = .(train_source),
+     test
+     ]
+
+ls()
+```
+
 
 In all cases the user explicitly documents the intended data sources and data destinations at the place of assignment.  This meas a later reader of the source code can see what the operation does, without having to know values of additional variables.
 

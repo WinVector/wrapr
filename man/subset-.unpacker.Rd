@@ -49,5 +49,12 @@ print(train)
 print(test)
 rm(list = c('train', 'test'))
 
+# bquote example
+train_col_name <- 'train'
+test_col_name <- 'test'
+to[train = .(train_col_name), test = .(test_col_name)] <- split(d, d$g)
+print(train)
+print(test)
+rm(list = c('train', 'test'))
 
 }

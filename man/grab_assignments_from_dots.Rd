@@ -22,14 +22,14 @@ named character vector describing the desired mapping.
 }
 \description{
 Re-write captured \code{...} arguments as a \code{c(DESTINATION = TARGET)} character vector.
-Suggested capture code is: \code{as.list(do.call(bquote, list(substitute(list(...)))))[-1]}
+Suggested capture code is: \code{substitute(list(...))}. Allows \code{bquote} \code{.()} substitution.
 }
 \examples{
 
 f <- function(...) {
   unpack_environment <- parent.frame(n = 1)
   orig_args <- substitute(list(...))
-  grab_assignments_from_dots(captured_dots)
+  grab_assignments_from_dots(orig_args, unpack_environment)
 }
 f(a, c = d, e := f, g <- h, i -> j)
 # should equal c('a', 'c' = 'd', 'e' = 'f', 'g' = 'h', 'j' = 'i')
