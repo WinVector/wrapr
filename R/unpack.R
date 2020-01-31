@@ -6,16 +6,15 @@
 #' Suggested capture code is: \code{as.list(do.call(bquote, list(substitute(list(...)))))[-1]}
 #'
 #' @param captured_dots captured \code{...}.
+#' @param unpack_environment environment to look in
+#' @param allow_dot_on_left logical if TRUE allow forms like \code{.(a) = a} and \code{.(a)}.
 #' @returns named character vector describing the desired mapping.
 #'
 #' @examples
 #'
 #' f <- function(...) {
 #'   unpack_environment <- parent.frame(n = 1)
-#'   captured_dots <- as.list(do.call(bquote,
-#'                                    list(substitute(list(...)),
-#'                                         where = unpack_environment),
-#'                                    envir = unpack_environment))[-1]
+#'   orig_args <- substitute(list(...))
 #'   grab_assignments_from_dots(captured_dots)
 #' }
 #' f(a, c = d, e := f, g <- h, i -> j)
@@ -24,7 +23,30 @@
 #' @keywords internal
 #' @export
 #'
-grab_assignments_from_dots <- function(captured_dots) {
+grab_assignments_from_dots <- function(captured_args, unpack_environment = parent.frame(), allow_dot_on_left = FALSE) {
+  force(unpack_environment)
+  if(!allow_dot_on_left) {
+    nms <- names(captured_args)
+    for(i in seqi(2, length(captured_args))) {
+      ai <- captured_args[[i]]
+      # .(a) := a case
+      if(is.call(ai) && (as.character(ai[[1]])[[1]] == ':=')) {
+        if((length(ai) >= 2) && is.call(ai[[2]]) && (as.character(ai[[2]])[[1]] == '.')) {
+          stop("bquote .() notation not allowed on left side of expressions")
+        }
+      }
+      # .(a) case
+      if(is.call(ai) && (as.character(ai[[1]])[[1]] == '.')) {
+        if((i > length(nms)) || (nchar(nms[[i]]) == 0)) {
+          stop("bquote .() notation allowed as whole expression")
+        }
+      }
+    }
+  }
+  captured_dots <- as.list(do.call(bquote,
+                                   list(captured_args,
+                                        where = unpack_environment),
+                                   envir = unpack_environment))[-1]
   nargs <- length(captured_dots)
   if(nargs <= 0) {
     return(character(0))
@@ -360,11 +382,8 @@ UnpackerF <- function(object_name = NULL) {
     unpack_environment <- parent.frame(n = 1)
     # get the targets
     # capture the arguments unevaluted, and run through bquote
-    str_args <- as.list(do.call(bquote,
-                                list(substitute(list(...)),
-                                     where = unpack_environment),
-                                envir = unpack_environment))[-1]
-    str_args <- grab_assignments_from_dots(str_args)
+    orig_args <- substitute(list(...))
+    str_args <- grab_assignments_from_dots(orig_args, unpack_environment)
     unpack_impl(unpack_environment = unpack_environment,
                 value = wrapr_private_value,
                 str_args = str_args,
@@ -413,11 +432,8 @@ UnpackerP <- function(object_name = NULL) {
     unpack_environment <- parent.frame(n = 1)
     # get the targets
     # capture the arguments unevaluted, and run through bquote
-    str_args <- as.list(do.call(bquote,
-                                list(substitute(list(...)),
-                                     where = unpack_environment),
-                                envir = unpack_environment))[-1]
-    str_args <- grab_assignments_from_dots(str_args)
+    orig_args <- substitute(list(...))
+    str_args <- grab_assignments_from_dots(orig_args, unpack_environment)
     bound_f <- mk_unpack_single_arg_fn(str_args = str_args,
                                        object_name = object_name,
                                        our_class = "UnpackTarget")
@@ -505,11 +521,8 @@ print.Unpacker <- function(x, ...) {
   # get environment to work in
   unpack_environment <- parent.frame(n = 1)
   # capture ... args
-  str_args <- as.list(do.call(bquote,
-                              list(substitute(list(...)),
-                                   where = unpack_environment),
-                              envir = unpack_environment))[-1]
-  str_args <- grab_assignments_from_dots(str_args)
+  orig_args <- substitute(list(...))
+  str_args <- grab_assignments_from_dots(orig_args, unpack_environment)
   # the array update is going to write an object into the
   # destination environment after returning from this method,
   # try to ensure it is obvious it is the exact
@@ -545,11 +558,8 @@ print.Unpacker <- function(x, ...) {
   # get environment to work in
   unpack_environment <- parent.frame(n = 1)
   # capture .. args
-  str_args <- as.list(do.call(bquote,
-                              list(substitute(list(...)),
-                                   where = unpack_environment),
-                              envir = unpack_environment))[-1]
-  str_args <- grab_assignments_from_dots(str_args)
+  orig_args <- substitute(list(...))
+  str_args <- grab_assignments_from_dots(orig_args, unpack_environment)
   object_name <- attr(wrapr_private_self, 'object_name')
   return(mk_unpack_single_arg_fn(str_args = str_args,
                                  object_name = object_name,

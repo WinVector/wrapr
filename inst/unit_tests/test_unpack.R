@@ -107,11 +107,8 @@ test_partial_unpack_specification <- function() {
 test_grab_rewrite <- function() {
   f <- function(...) {
     unpack_environment <- parent.frame(n = 1)
-    captured_dots <- as.list(do.call(bquote,
-                                     list(substitute(list(...)),
-                                          where = unpack_environment),
-                                     envir = unpack_environment))[-1]
-    grab_assignments_from_dots(captured_dots)
+    args <- substitute(list(...))
+    grab_assignments_from_dots(args)
   }
   v <- f(a, c = d, e := f, g <- h, i -> j)
   RUnit::checkTrue(identical(v, c('a', 'c' = 'd', 'e' = 'f', 'g' = 'h', 'j' = 'i')))
@@ -124,4 +121,20 @@ test_partial_unpack_specification2 <- function() {
   RUnit::checkEquals(b, 2)
   invisible(NULL)
 }
+
+test_unpack_bquote_position <- function() {
+  aname <- 'a'
+  bname <- 'b'
+  # allowed
+  unpack(data.frame(a = 1, b = 2), a, b = b)
+  # allowed
+  unpack(data.frame(a = 1, b = 2), a = .(aname), b)
+  # not allowed
+  RUnit::checkException(unpack(data.frame(a = 1, b = 2), .(aname), b), silent = TRUE)
+  # not allowed
+  RUnit::checkException(unpack(data.frame(a = 1, b = 2), .(aname) := a, b), silent = TRUE)
+  # not allowed
+  RUnit::checkException(unpack(data.frame(a = 1, b = 2), x = .(aname) := a, b), silent = TRUE)
+}
+
 
