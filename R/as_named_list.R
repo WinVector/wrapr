@@ -1,18 +1,20 @@
 
 #' Capture named objects as a named list.
 #'
-#' Build a named list from a sequence of named argumetn of the form NAME = VALUE.
+#' Build a named list from a sequence of named arguments of the form NAME, or NAME = VALUE.
+#' This is intended to shorten forms such as \code{list(a = a, b = b)} to \code{as_named_list(a, b)}.
 #'
-#' @param ... argument names (must be names, not strings or values).
+#' @param ... argument names (must be names, not strings or values) plus possible assigned values.
 #' @return a named list mapping argument names to argument values
 #'
 #' @examples
 #'
 #' a <- data.frame(x = 1)
 #' b <- 2
+#'
 #' str(as_named_list(a, b))
 #'
-#' as_named_list(a, x = b)
+#' as_named_list(a, x = b, c = 1 + 1)
 #'
 #' # an example application for this function is managing saving and
 #' # loading values into the workspace.
@@ -56,7 +58,7 @@ as_named_list <- function(...) {
   # get environment to work in
   unpack_environment <- parent.frame(n = 1)
   # capture ... args
-  dot_args <- as.list(do.call(bquote, list(substitute(list(...)), where = unpack_environment)))[-1]
+  dot_args <- as.list(substitute(list(...)))[-1]
   n_args <- length(dot_args)
   if(n_args <= 0) {
     stop("wrapr::as_named_list expected arguments")

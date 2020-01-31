@@ -36,7 +36,8 @@
 
 
 <meta property="og:title" content="Capture named objects as a named list. — as_named_list" />
-<meta property="og:description" content="Build a named list from a sequence of named argumetn of the form NAME = VALUE." />
+<meta property="og:description" content="Build a named list from a sequence of named arguments of the form NAME, or NAME = VALUE.
+This is intended to shorten forms such as list(a = a, b = b) to as_named_list(a, b)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -168,7 +169,8 @@
     </div>
 
     <div class="ref-description">
-    <p>Build a named list from a sequence of named argumetn of the form NAME = VALUE.</p>
+    <p>Build a named list from a sequence of named arguments of the form NAME, or NAME = VALUE.
+This is intended to shorten forms such as <code><a href='https://rdrr.io/r/base/list.html'>list(a = a, b = b)</a></code> to <code>as_named_list(a, b)</code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>as_named_list</span>(<span class='no'>...</span>)</pre>
@@ -178,7 +180,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>...</th>
-      <td><p>argument names (must be names, not strings or values).</p></td>
+      <td><p>argument names (must be names, not strings or values) plus possible assigned values.</p></td>
     </tr>
     </table>
 
@@ -190,15 +192,19 @@
     <pre class="examples"><div class='input'>
 <span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>)
 <span class='no'>b</span> <span class='kw'>&lt;-</span> <span class='fl'>2</span>
+
 <span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='fu'>as_named_list</span>(<span class='no'>a</span>, <span class='no'>b</span>))</div><div class='output co'>#&gt; List of 2
 #&gt;  $ a:'data.frame':	1 obs. of  1 variable:
 #&gt;   ..$ x: num 1
 #&gt;  $ b: num 2</div><div class='input'>
-<span class='fu'>as_named_list</span>(<span class='no'>a</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>b</span>)</div><div class='output co'>#&gt; $a
+<span class='fu'>as_named_list</span>(<span class='no'>a</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>b</span>, <span class='kw'>c</span> <span class='kw'>=</span> <span class='fl'>1</span> + <span class='fl'>1</span>)</div><div class='output co'>#&gt; $a
 #&gt;   x
 #&gt; 1 1
 #&gt; 
 #&gt; $x
+#&gt; [1] 2
+#&gt; 
+#&gt; $c
 #&gt; [1] 2
 #&gt; </div><div class='input'>
 <span class='co'># an example application for this function is managing saving and</span>

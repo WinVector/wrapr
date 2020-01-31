@@ -36,9 +36,8 @@
 
 
 <meta property="og:title" content="Re-write captured <code>...</code> arguments as assignments. — grab_assignments_from_dots" />
-<meta property="og:description" content="
-
-" />
+<meta property="og:description" content="Re-write captured ... arguments as a c(DESTINATION = TARGET) character vector.
+Suggested capture code is: substitute(list(...)). Allows bquote .() substitution." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -170,9 +169,8 @@
     </div>
 
     <div class="ref-description">
-    
-
-
+    <p>Re-write captured <code>...</code> arguments as a <code><a href='https://rdrr.io/r/base/c.html'>c(DESTINATION = TARGET)</a></code> character vector.
+Suggested capture code is: <code><a href='https://rdrr.io/r/base/substitute.html'>substitute(list(...))</a></code>. Allows <code>bquote</code> <code>.()</code> substitution.</p>
     </div>
 
     <pre class="usage"><span class='fu'>grab_assignments_from_dots</span>(

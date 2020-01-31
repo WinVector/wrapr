@@ -7,21 +7,23 @@
 as_named_list(...)
 }
 \arguments{
-\item{...}{argument names (must be names, not strings or values).}
+\item{...}{argument names (must be names, not strings or values) plus possible assigned values.}
 }
 \value{
 a named list mapping argument names to argument values
 }
 \description{
-Build a named list from a sequence of named argumetn of the form NAME = VALUE.
+Build a named list from a sequence of named arguments of the form NAME, or NAME = VALUE.
+This is intended to shorten forms such as \code{list(a = a, b = b)} to \code{as_named_list(a, b)}.
 }
 \examples{
 
 a <- data.frame(x = 1)
 b <- 2
+
 str(as_named_list(a, b))
 
-as_named_list(a, x = b)
+as_named_list(a, x = b, c = 1 + 1)
 
 # an example application for this function is managing saving and
 # loading values into the workspace.
