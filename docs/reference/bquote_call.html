@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Treat ... call argument as bquoted-values. — bquote_call • wrapr</title>
+<title>Treat call argument as bquoted-values. — bquote_call • wrapr</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,11 @@
 
 
 
-<meta property="og:title" content="Treat ... call argument as bquoted-values. — bquote_call" />
-<meta property="og:description" content="bquote_call re-writes calls." />
+<meta property="og:title" content="Treat call argument as bquoted-values. — bquote_call" />
+<meta property="og:description" content="Re-write call to evaluate expr with bquote .() substitution.
+Uses convetion that := is considered a alias for =.
+Including .(-x) promoting x's value from character to a name,
+which is called &quot;quote negation&quot; (hence the minus-sign)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -162,13 +165,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Treat ... call argument as bquoted-values.</h1>
+    <h1>Treat call argument as bquoted-values.</h1>
     <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/bquotefn.R'><code>R/bquotefn.R</code></a></small>
     <div class="hidden name"><code>bquote_call.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>bquote_call re-writes calls.</p>
+    <p>Re-write call to evaluate <code>expr</code> with <code>bquote</code> <code>.()</code> substitution.
+Uses convetion that := is considered a alias for =.
+Including <code>.(-x)</code> promoting <code>x</code>'s value from character to a name,
+which is called "quote negation" (hence the minus-sign).</p>
     </div>
 
     <pre class="usage"><span class='fu'>bquote_call</span>(<span class='no'>call</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())</pre>

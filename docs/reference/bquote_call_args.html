@@ -37,7 +37,10 @@
 
 <meta property="og:title" content="Treat ... argument as bquoted-values. — bquote_call_args" />
 <meta property="og:description" content="bquote_call_args is a helper to allow the user to write functions with bquote-enabled argument substitution.
-Uses convetion that := is considered a alias for =." />
+Uses convetion that := is considered a alias for =.
+Re-writes call args to evaluate expr with bquote .() substitution.
+Including .(-x) promoting x's value from character to a name,
+which is called &quot;quote negation&quot; (hence the minus-sign)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -170,7 +173,10 @@ Uses convetion that := is considered a alias for =." />
 
     <div class="ref-description">
     <p>bquote_call_args is a helper to allow the user to write functions with bquote-enabled argument substitution.
-Uses convetion that := is considered a alias for =.</p>
+Uses convetion that := is considered a alias for =.
+Re-writes call args to evaluate <code>expr</code> with <code>bquote</code> <code>.()</code> substitution.
+Including <code>.(-x)</code> promoting <code>x</code>'s value from character to a name,
+which is called "quote negation" (hence the minus-sign).</p>
     </div>
 
     <pre class="usage"><span class='fu'>bquote_call_args</span>(<span class='no'>call</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())</pre>
@@ -217,15 +223,20 @@ executing environment.</p>
 <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fl'>5</span>
 <span class='no'>qv</span> <span class='kw'>&lt;-</span> <span class='fl'>3</span>
 
-<span class='co'># equivilent to f(3, x = 5)</span>
-<span class='no'>args</span> <span class='kw'>&lt;-</span> <span class='fu'>f</span>(<span class='kw'>q</span> <span class='kw'>=</span> <span class='fu'>.</span>(<span class='no'>qv</span>), <span class='fu'>.</span>(<span class='no'>z</span>) <span class='kw'>:=</span> <span class='fu'>.</span>(<span class='no'>y</span>))</div><div class='output co'>#&gt; [1] "q 3"
-#&gt; [1] "x 5"</div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>args</span>)</div><div class='output co'>#&gt; $q
+<span class='co'># equivalent to f(3, x = 5)</span>
+<span class='fu'>f</span>(<span class='kw'>q</span> <span class='kw'>=</span> <span class='fu'>.</span>(<span class='no'>qv</span>), <span class='fu'>.</span>(<span class='no'>z</span>) <span class='kw'>:=</span> <span class='fu'>.</span>(<span class='no'>y</span>))</div><div class='output co'>#&gt; [1] "q 3"
+#&gt; [1] "x 5"</div><div class='output co'>#&gt; $q
 #&gt; [1] 3
 #&gt; 
 #&gt; $x
 #&gt; [1] 5
 #&gt; </div><div class='input'>
+<span class='co'># equivalent to f(q = 7)</span>
+<span class='no'>qname</span> <span class='kw'>&lt;-</span> <span class='st'>'q'</span>
+<span class='fu'>f</span>(<span class='fu'>.</span>(<span class='no'>qname</span>) <span class='kw'>:=</span> <span class='fl'>7</span>)</div><div class='output co'>#&gt; [1] "q 7"</div><div class='output co'>#&gt; $q
+#&gt; [1] 7
+#&gt; </div><div class='input'>
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

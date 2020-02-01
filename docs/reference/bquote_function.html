@@ -36,7 +36,11 @@
 
 
 <meta property="og:title" content="Adapt a function to use bquote on its arguments. — bquote_function" />
-<meta property="og:description" content="bquote_function is for adapting a function defined elsewhere for bquite-enabled argument substitution." />
+<meta property="og:description" content="bquote_function is for adapting a function defined elsewhere for bquote-enabled argument substitution.
+Re-write call to evaluate expr with bquote .() substitution.
+Uses convetion that := is considered a alias for =.
+Including .(-x) promoting x's value from character to a name,
+which is called &quot;quote negation&quot; (hence the minus-sign)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -168,7 +172,11 @@
     </div>
 
     <div class="ref-description">
-    <p>bquote_function is for adapting a function defined elsewhere for bquite-enabled argument substitution.</p>
+    <p>bquote_function is for adapting a function defined elsewhere for bquote-enabled argument substitution.
+Re-write call to evaluate <code>expr</code> with <code>bquote</code> <code>.()</code> substitution.
+Uses convetion that := is considered a alias for =.
+Including <code>.(-x)</code> promoting <code>x</code>'s value from character to a name,
+which is called "quote negation" (hence the minus-sign).</p>
     </div>
 
     <pre class="usage"><span class='fu'>bquote_function</span>(<span class='no'>fn</span>)</pre>
@@ -192,20 +200,18 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 
-
-<span class='co'># angle = 1:10</span>
-<span class='co'># variable &lt;- as.name("angle")</span>
-<span class='co'># plotb &lt;- bquote_function(graphics::plot)</span>
-<span class='co'># plotb(x = .(variable), y = sin(.(variable)))</span>
-
+<span class='kw'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>'graphics'</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
+  <span class='no'>angle</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>10</span>
+  <span class='no'>variable</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/name.html'>as.name</a></span>(<span class='st'>"angle"</span>)
+  <span class='no'>plotb</span> <span class='kw'>&lt;-</span> <span class='fu'>bquote_function</span>(<span class='kw pkg'>graphics</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>)
+  <span class='fu'>plotb</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'>.</span>(<span class='no'>variable</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>sin</a></span>(<span class='fu'>.</span>(<span class='no'>variable</span>)))
+}</div><div class='img'><img src='bquote_function-1.png' alt='' width='700' height='433' /></div><div class='input'>
 
 
 <span class='no'>f1</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) { <span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span>(<span class='no'>x</span>) }
 <span class='no'>f2</span> <span class='kw'>&lt;-</span> <span class='fu'>bquote_function</span>(<span class='no'>f1</span>)
-<span class='no'>arg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/name.html'>as.name</a></span>(<span class='st'>"USER_ARG"</span>)
-<span class='fu'>f2</span>(<span class='no'>arg</span>)    <span class='co'># returns arg</span></div><div class='output co'>#&gt; arg</div><div class='input'><span class='fu'>f2</span>(<span class='fu'>.</span>(<span class='no'>arg</span>)) <span class='co'># returns USER_ARG</span></div><div class='output co'>#&gt; USER_ARG</div><div class='input'>
-
-
+<span class='no'>arg</span> <span class='kw'>&lt;-</span> <span class='st'>"USER_ARG"</span>
+<span class='fu'>f2</span>(<span class='no'>arg</span>)    <span class='co'># returns arg</span></div><div class='output co'>#&gt; arg</div><div class='input'><span class='fu'>f2</span>(<span class='fu'>.</span>(<span class='no'>arg</span>)) <span class='co'># returns "USER_ARG" (character)</span></div><div class='output co'>#&gt; [1] "USER_ARG"</div><div class='input'><span class='fu'>f2</span>(<span class='fu'>.</span>(-<span class='no'>arg</span>)) <span class='co'># returns USER_ARG (name)</span></div><div class='output co'>#&gt; USER_ARG</div><div class='input'>
 
 </div></pre>
   </div>

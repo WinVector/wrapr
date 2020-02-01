@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>eval(bquote(expr)) shortcut. — evalb • wrapr</title>
+<title>Near <code>eval(bquote(expr))</code> shortcut. — evalb • wrapr</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,10 @@
 
 
 
-<meta property="og:title" content="eval(bquote(expr)) shortcut. — evalb" />
-<meta property="og:description" content="eval(bquote(expr)) shortcut." />
+<meta property="og:title" content="Near <code>eval(bquote(expr))</code> shortcut. — evalb" />
+<meta property="og:description" content="Evaluate expr with bquote .() substitution.
+Including .(-x) promoting x's value from character to a name,
+which is called &quot;quote negation&quot; (hence the minus-sign)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -162,23 +164,29 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>eval(bquote(expr)) shortcut.</h1>
+    <h1>Near <code>eval(bquote(expr))</code> shortcut.</h1>
     <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/bquotefn.R'><code>R/bquotefn.R</code></a></small>
     <div class="hidden name"><code>evalb.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>eval(bquote(expr)) shortcut.</p>
+    <p>Evaluate <code>expr</code> with <code>bquote</code> <code>.()</code> substitution.
+Including <code>.(-x)</code> promoting <code>x</code>'s value from character to a name,
+which is called "quote negation" (hence the minus-sign).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>evalb</span>(<span class='no'>...</span>, <span class='kw'>where</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())</pre>
+    <pre class="usage"><span class='fu'>evalb</span>(<span class='no'>expr</span>, <span class='no'>...</span>, <span class='kw'>where</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>expr</th>
+      <td><p>expression to evaluate.</p></td>
+    </tr>
+    <tr>
       <th>...</th>
-      <td><p>expression to evaluate (one argument).</p></td>
+      <td><p>not used, force later arguments to bind by name.</p></td>
     </tr>
     <tr>
       <th>where</th>
@@ -188,13 +196,15 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>eval(bquote(expr))</p>
+    <p>evaluated substituted expression.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>angle</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>10</span>
-<span class='no'>variable</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/name.html'>as.name</a></span>(<span class='st'>"angle"</span>)
-<span class='fu'>evalb</span>(<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'>.</span>(<span class='no'>variable</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>sin</a></span>(<span class='fu'>.</span>(<span class='no'>variable</span>))))</div><div class='img'><img src='evalb-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>'graphics'</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
+   <span class='no'>angle</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>10</span>
+   <span class='no'>variable</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/name.html'>as.name</a></span>(<span class='st'>"angle"</span>)
+   <span class='fu'>evalb</span>(<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'>.</span>(<span class='no'>variable</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>sin</a></span>(<span class='fu'>.</span>(<span class='no'>variable</span>))))
+}</div><div class='img'><img src='evalb-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

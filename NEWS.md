@@ -5,6 +5,7 @@
  * Update references.
  * Stricter tests on unpack/to.
  * := for names.
+ * Update evalb, including adding .(-) notation.
 
 # wrapr 1.9.6 2020-01-26
 

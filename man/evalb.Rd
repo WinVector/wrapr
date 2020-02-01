@@ -2,25 +2,31 @@
 % Please edit documentation in R/bquotefn.R
 \name{evalb}
 \alias{evalb}
-\title{eval(bquote(expr)) shortcut.}
+\title{Near \code{eval(bquote(expr))} shortcut.}
 \usage{
-evalb(..., where = parent.frame())
+evalb(expr, ..., where = parent.frame())
 }
 \arguments{
-\item{...}{expression to evaluate (one argument).}
+\item{expr}{expression to evaluate.}
+
+\item{...}{not used, force later arguments to bind by name.}
 
 \item{where}{environment to work in.}
 }
 \value{
-eval(bquote(expr))
+evaluated substituted expression.
 }
 \description{
-eval(bquote(expr)) shortcut.
+Evaluate \code{expr} with \code{bquote} \code{.()} substitution.
+Including \code{.(-x)} promoting \code{x}'s value from character to a name,
+which is called "quote negation" (hence the minus-sign).
 }
 \examples{
 
-angle = 1:10
-variable <- as.name("angle")
-evalb(plot(x = .(variable), y = sin(.(variable))))
+if(requireNamespace('graphics', quietly = TRUE)) {
+   angle = 1:10
+   variable <- as.name("angle")
+   evalb(plot(x = .(variable), y = sin(.(variable))))
+}
 
 }

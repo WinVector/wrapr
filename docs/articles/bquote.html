@@ -178,13 +178,17 @@
 <p>Notice how in the above plot the actual variable name “<code>angle</code>” was substituted into the <code><a href="https://rdrr.io/r/graphics/plot.html">graphics::plot()</a></code> arguments, allowing this name to appear on the axis labels.</p>
 <p><code><a href="../reference/evalb.html">evalb()</a></code> is a very simple function built on top of <code><a href="https://rdrr.io/r/base/bquote.html">base::bquote()</a></code>:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(evalb)</a></code></pre></div>
-<pre><code>## function (..., where = parent.frame()) 
+<pre><code>## function (expr, ..., where = parent.frame()) 
 ## {
 ##     force(where)
-##     exprq &lt;- bquote(..., where = where)
-##     eval(exprq, envir = where, enclos = where)
+##     expr &lt;- substitute(expr)
+##     wrapr::stop_if_dot_args(substitute(list(...)), "wrapr::evalb")
+##     env2 &lt;- new.env(parent = where)
+##     assign("-", minus_fn_to_name, envir = env2)
+##     exprq &lt;- do.call(bquote, list(expr, where = env2))
+##     eval(exprq, envir = env2, enclos = env2)
 ## }
-## &lt;bytecode: 0x7fa38f039b98&gt;
+## &lt;bytecode: 0x7fcf74f7aa20&gt;
 ## &lt;environment: namespace:wrapr&gt;</code></pre>
 <p>All <code><a href="../reference/evalb.html">evalb()</a></code> does is: call <code><a href="https://rdrr.io/r/base/bquote.html">bquote()</a></code> as intended. A way to teach this is to just call <code>bqoute()</code> alone.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="cf">if</span>(<span class="kw"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span>(<span class="st">"graphics"</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)) {</a>

@@ -2,7 +2,7 @@
 % Please edit documentation in R/bquotefn.R
 \name{bquote_call}
 \alias{bquote_call}
-\title{Treat ... call argument as bquoted-values.}
+\title{Treat call argument as bquoted-values.}
 \usage{
 bquote_call(call, env = parent.frame())
 }
@@ -15,7 +15,10 @@ bquote_call(call, env = parent.frame())
 altered call
 }
 \description{
-bquote_call re-writes calls.
+Re-write call to evaluate \code{expr} with \code{bquote} \code{.()} substitution.
+Uses convetion that := is considered a alias for =.
+Including \code{.(-x)} promoting \code{x}'s value from character to a name,
+which is called "quote negation" (hence the minus-sign).
 }
 \details{
 Note: eagerly evalutes argument and writes them into the function's
@@ -24,3 +27,4 @@ executing environment.
 \seealso{
 \code{\link{bquote_function}}, \code{\link{bquote_call_args}}
 }
+\keyword{internal}

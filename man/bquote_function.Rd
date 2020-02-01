@@ -13,26 +13,30 @@ bquote_function(fn)
 new function.
 }
 \description{
-bquote_function is for adapting a function defined elsewhere for bquite-enabled argument substitution.
+bquote_function is for adapting a function defined elsewhere for bquote-enabled argument substitution.
+Re-write call to evaluate \code{expr} with \code{bquote} \code{.()} substitution.
+Uses convetion that := is considered a alias for =.
+Including \code{.(-x)} promoting \code{x}'s value from character to a name,
+which is called "quote negation" (hence the minus-sign).
 }
 \examples{
 
 
-
-# angle = 1:10
-# variable <- as.name("angle")
-# plotb <- bquote_function(graphics::plot)
-# plotb(x = .(variable), y = sin(.(variable)))
+if(requireNamespace('graphics', quietly = TRUE)) {
+  angle = 1:10
+  variable <- as.name("angle")
+  plotb <- bquote_function(graphics::plot)
+  plotb(x = .(variable), y = sin(.(variable)))
+}
 
 
 
 f1 <- function(x) { substitute(x) }
 f2 <- bquote_function(f1)
-arg <- as.name("USER_ARG")
+arg <- "USER_ARG"
 f2(arg)    # returns arg
-f2(.(arg)) # returns USER_ARG
-
-
+f2(.(arg)) # returns "USER_ARG" (character)
+f2(.(-arg)) # returns USER_ARG (name)
 
 
 }

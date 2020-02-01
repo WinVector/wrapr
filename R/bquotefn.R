@@ -1,7 +1,64 @@
 
-#' Treat ... call argument as bquoted-values.
+
+
+# convert unary -char (length1) to a name
+minus_fn_to_name <- function(e1, e2) {
+  if(is.name(e1)) {
+    return(e1)
+  }
+  if(is.character(e1) && (length(e1)==1)) {
+    return(as.name(e1))
+  }
+  if(missing(e2)) {
+    base::`-`(e1)
+  } else {
+    base::`-`(e1, e2)
+  }
+}
+
+
+#' Near \code{eval(bquote(expr))} shortcut.
 #'
-#' bquote_call re-writes calls.
+#' Evaluate \code{expr} with \code{bquote} \code{.()} substitution.
+#' Including \code{.(-x)} promoting \code{x}'s value from character to a name,
+#' which is called "quote negation" (hence the minus-sign).
+#'
+#' @param expr expression to evaluate.
+#' @param ... not used, force later arguments to bind by name.
+#' @param where environment to work in.
+#' @return evaluated substituted expression.
+#'
+#' @examples
+#'
+#' if(requireNamespace('graphics', quietly = TRUE)) {
+#'    angle = 1:10
+#'    variable <- as.name("angle")
+#'    evalb(plot(x = .(variable), y = sin(.(variable))))
+#' }
+#'
+#' @export
+#'
+evalb <- function(expr, ..., where = parent.frame()) {
+  force(where)
+  expr <- substitute(expr)  # can't set env, as that changes substitute's behavior
+  wrapr::stop_if_dot_args(substitute(list(...)), "wrapr::evalb")
+  env2 <- new.env(parent = where)
+  assign('-', minus_fn_to_name, envir = env2)
+  exprq <- do.call(bquote, list(expr, where = env2))
+  eval(exprq,
+       envir = env2,
+       enclos = env2)
+}
+
+
+
+
+#' Treat call argument as bquoted-values.
+#'
+#' Re-write call to evaluate \code{expr} with \code{bquote} \code{.()} substitution.
+#' Uses convetion that := is considered a alias for =.
+#' Including \code{.(-x)} promoting \code{x}'s value from character to a name,
+#' which is called "quote negation" (hence the minus-sign).
 #'
 #' Note: eagerly evalutes argument and writes them into the function's
 #' executing environment.
@@ -12,6 +69,7 @@
 #'
 #' @seealso \code{\link{bquote_function}}, \code{\link{bquote_call_args}}
 #'
+#' @keywords internal
 #'
 #' @export
 #'
@@ -19,7 +77,9 @@
 bquote_call <- function(call, env = parent.frame()) {
   force(env)
   # perform bquote transform
-  mc <- do.call(bquote, list(call, where = env), envir = env)
+  env2 <- new.env(parent = env)
+  assign('-', minus_fn_to_name, envir = env2)
+  mc <- do.call(bquote, list(call, where = env2), envir = env2)
   # map a := b to name(a) = b
   fixpos <- which(vapply(mc[-1],
                          function(ai) {
@@ -49,6 +109,9 @@ bquote_call <- function(call, env = parent.frame()) {
 #'
 #' bquote_call_args is a helper to allow the user to write functions with bquote-enabled argument substitution.
 #' Uses convetion that := is considered a alias for =.
+#' Re-writes call args to evaluate \code{expr} with \code{bquote} \code{.()} substitution.
+#' Including \code{.(-x)} promoting \code{x}'s value from character to a name,
+#' which is called "quote negation" (hence the minus-sign).
 #'
 #' Note: eagerly evalutes argument and writes them into the function's
 #' executing environment.
@@ -58,6 +121,7 @@ bquote_call <- function(call, env = parent.frame()) {
 #' @return name list of values
 #'
 #' @seealso \code{\link{bquote_function}}
+#'
 #'
 #' @examples
 #'
@@ -77,12 +141,13 @@ bquote_call <- function(call, env = parent.frame()) {
 #' y <- 5
 #' qv <- 3
 #'
-#' # equivilent to f(3, x = 5)
-#' args <- f(q = .(qv), .(z) := .(y))
+#' # equivalent to f(3, x = 5)
+#' f(q = .(qv), .(z) := .(y))
 #'
-#' print(args)
+#' # equivalent to f(q = 7)
+#' qname <- 'q'
+#' f(.(qname) := 7)
 #'
-#' @keywords internal
 #'
 #' @export
 #'
@@ -105,7 +170,11 @@ bquote_call_args <- function(call, env = parent.frame()) {
 
 #' Adapt a function to use bquote on its arguments.
 #'
-#' bquote_function is for adapting a function defined elsewhere for bquite-enabled argument substitution.
+#' bquote_function is for adapting a function defined elsewhere for bquote-enabled argument substitution.
+#' Re-write call to evaluate \code{expr} with \code{bquote} \code{.()} substitution.
+#' Uses convetion that := is considered a alias for =.
+#' Including \code{.(-x)} promoting \code{x}'s value from character to a name,
+#' which is called "quote negation" (hence the minus-sign).
 #'
 #' @param fn function to adapt, must have non-empty formals().
 #' @return new function.
@@ -115,21 +184,21 @@ bquote_call_args <- function(call, env = parent.frame()) {
 #' @examples
 #'
 #'
-#'
-#' # angle = 1:10
-#' # variable <- as.name("angle")
-#' # plotb <- bquote_function(graphics::plot)
-#' # plotb(x = .(variable), y = sin(.(variable)))
+#' if(requireNamespace('graphics', quietly = TRUE)) {
+#'   angle = 1:10
+#'   variable <- as.name("angle")
+#'   plotb <- bquote_function(graphics::plot)
+#'   plotb(x = .(variable), y = sin(.(variable)))
+#' }
 #'
 #'
 #'
 #' f1 <- function(x) { substitute(x) }
 #' f2 <- bquote_function(f1)
-#' arg <- as.name("USER_ARG")
+#' arg <- "USER_ARG"
 #' f2(arg)    # returns arg
-#' f2(.(arg)) # returns USER_ARG
-#'
-#'
+#' f2(.(arg)) # returns "USER_ARG" (character)
+#' f2(.(-arg)) # returns USER_ARG (name)
 #'
 #'
 #' @export
@@ -158,27 +227,5 @@ bquote_function <- function(fn) {
   assign('.wrapr_wrapped_function_', fn, envir = newenv)
   environment(f) <- newenv
   f
-}
-
-#' eval(bquote(expr)) shortcut.
-#'
-#' @param ... expression to evaluate (one argument).
-#' @param where environment to work in.
-#' @return eval(bquote(expr))
-#'
-#' @examples
-#'
-#' angle = 1:10
-#' variable <- as.name("angle")
-#' evalb(plot(x = .(variable), y = sin(.(variable))))
-#'
-#' @export
-#'
-evalb <- function(..., where = parent.frame()) {
-  force(where)
-  exprq <- bquote(..., where = where)
-  eval(exprq,
-       envir = where,
-       enclos = where)
 }
 
