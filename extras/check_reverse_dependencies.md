@@ -14,14 +14,14 @@ packageVersion(package)
 date()
 ```
 
-    ## [1] "Sat Feb  1 11:44:15 2020"
+    ## [1] "Sat Feb  1 15:13:45 2020"
 
 ``` r
 parallelCluster <- NULL
-ncores <- 0
-# # parallel doesn't work due to https://github.com/r-lib/liteq/issues/22
-# ncores <- parallel::detectCores()
-# parallelCluster <- parallel::makeCluster(ncores)
+ncores <- parallel::detectCores()
+if(ncores > 1) {
+  parallelCluster <- parallel::makeCluster(ncores)
+}
 
 orig_dir <- getwd()
 print(orig_dir)
@@ -34,7 +34,7 @@ setwd(td)
 print(td)
 ```
 
-    ## [1] "/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//RtmpJAkOIX"
+    ## [1] "/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//Rtmpv5GCx9"
 
 ``` r
 options(repos = c(CRAN="https://cloud.r-project.org"))
@@ -79,25 +79,32 @@ if(!is.null(parallelCluster)) {
 }
 ```
 
-    ## cdata_1.1.6 started at 2020-02-01 11:44:18 success at 2020-02-01 11:45:01 (1/0/0) 
-    ## RcppDynProg_0.1.3 started at 2020-02-01 11:45:01 success at 2020-02-01 11:46:35 (2/0/0) 
-    ## rqdatatable_1.2.6 started at 2020-02-01 11:46:36 success at 2020-02-01 11:47:03 (3/0/0) 
-    ## rquery_1.4.3 started at 2020-02-01 11:47:03 success at 2020-02-01 11:47:44 (4/0/0) 
-    ## seplyr_0.8.5 started at 2020-02-01 11:47:44 success at 2020-02-01 11:48:10 (5/0/0) 
-    ## sigr_1.0.6 started at 2020-02-01 11:48:10 success at 2020-02-01 11:48:31 (6/0/0) 
-    ## vtreat_1.5.1 started at 2020-02-01 11:48:31 success at 2020-02-01 11:49:41 (7/0/0) 
-    ## WVPlots_1.2.3 started at 2020-02-01 11:49:41 success at 2020-02-01 11:50:57 (8/0/0)
-
+    ## [[1]]
     ## [1] id     title  status
     ## <0 rows> (or 0-length row.names)
+    ## 
+    ## [[2]]
+    ##   id   title  status
+    ## 1  7  vtreat WORKING
+    ## 2  8 WVPlots WORKING
+    ## 
+    ## [[3]]
+    ##   id       title  status
+    ## 1  2 RcppDynProg WORKING
+    ## 2  7      vtreat WORKING
+    ## 3  8     WVPlots WORKING
+    ## 
+    ## [[4]]
+    ##   id   title  status
+    ## 1  8 WVPlots WORKING
 
 ``` r
 summariseQueue(package=package, directory=td)
 ```
 
     ## Test of wrapr had 8 successes, 0 failures, and 0 skipped packages. 
-    ## Ran from 2020-02-01 11:44:18 to 2020-02-01 11:50:57 for 6.65 mins 
-    ## Average of 49.875 secs relative to 49.856 secs using 1 runners
+    ## Ran from 2020-02-01 15:13:51 to 2020-02-01 15:17:54 for 4.05 mins 
+    ## Average of 30.375 secs relative to 94.099 secs using 4 runners
     ## 
     ## Failed packages:   
     ## 

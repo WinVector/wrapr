@@ -175,7 +175,7 @@ Including <code>.(-x)</code> promoting <code>x</code>'s value from character to 
 which is called "quote negation" (hence the minus-sign).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>evalb</span>(<span class='no'>expr</span>, <span class='no'>...</span>, <span class='kw'>where</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())</pre>
+    <pre class="usage"><span class='fu'>evalb</span>(<span class='no'>expr</span>, <span class='kw'>where</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -183,10 +183,6 @@ which is called "quote negation" (hence the minus-sign).</p>
     <tr>
       <th>expr</th>
       <td><p>expression to evaluate.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>not used, force later arguments to bind by name.</p></td>
     </tr>
     <tr>
       <th>where</th>
@@ -203,7 +199,8 @@ which is called "quote negation" (hence the minus-sign).</p>
 <span class='kw'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>'graphics'</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
    <span class='no'>angle</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>10</span>
    <span class='no'>variable</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/name.html'>as.name</a></span>(<span class='st'>"angle"</span>)
-   <span class='fu'>evalb</span>(<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'>.</span>(<span class='no'>variable</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>sin</a></span>(<span class='fu'>.</span>(<span class='no'>variable</span>))))
+   <span class='no'>fn_name</span> <span class='kw'>&lt;-</span> <span class='st'>'sin'</span>
+   <span class='fu'>evalb</span>(  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'>.</span>(<span class='no'>variable</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'>.</span>(-<span class='no'>fn_name</span>)(<span class='fu'>.</span>(<span class='no'>variable</span>))) )
 }</div><div class='img'><img src='evalb-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>

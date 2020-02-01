@@ -4,12 +4,10 @@
 \alias{evalb}
 \title{Near \code{eval(bquote(expr))} shortcut.}
 \usage{
-evalb(expr, ..., where = parent.frame())
+evalb(expr, where = parent.frame())
 }
 \arguments{
 \item{expr}{expression to evaluate.}
-
-\item{...}{not used, force later arguments to bind by name.}
 
 \item{where}{environment to work in.}
 }
@@ -26,7 +24,8 @@ which is called "quote negation" (hence the minus-sign).
 if(requireNamespace('graphics', quietly = TRUE)) {
    angle = 1:10
    variable <- as.name("angle")
-   evalb(plot(x = .(variable), y = sin(.(variable))))
+   fn_name <- 'sin'
+   evalb(  plot(x = .(variable), y = .(-fn_name)(.(variable))) )
 }
 
 }

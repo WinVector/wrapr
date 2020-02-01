@@ -24,7 +24,6 @@ minus_fn_to_name <- function(e1, e2) {
 #' which is called "quote negation" (hence the minus-sign).
 #'
 #' @param expr expression to evaluate.
-#' @param ... not used, force later arguments to bind by name.
 #' @param where environment to work in.
 #' @return evaluated substituted expression.
 #'
@@ -33,17 +32,17 @@ minus_fn_to_name <- function(e1, e2) {
 #' if(requireNamespace('graphics', quietly = TRUE)) {
 #'    angle = 1:10
 #'    variable <- as.name("angle")
-#'    evalb(plot(x = .(variable), y = sin(.(variable))))
+#'    fn_name <- 'sin'
+#'    evalb(  plot(x = .(variable), y = .(-fn_name)(.(variable))) )
 #' }
 #'
 #' @export
 #'
-evalb <- function(expr, ..., where = parent.frame()) {
+evalb <- function(expr, where = parent.frame()) {
   force(where)
-  expr <- substitute(expr)  # can't set env, as that changes substitute's behavior
-  wrapr::stop_if_dot_args(substitute(list(...)), "wrapr::evalb")
   env2 <- new.env(parent = where)
   assign('-', minus_fn_to_name, envir = env2)
+  expr <- substitute(expr)  # can't set env, as that changes substitute's behavior
   exprq <- do.call(bquote, list(expr, where = env2))
   eval(exprq,
        envir = env2,
