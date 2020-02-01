@@ -1,9 +1,10 @@
 
-# wrapr 1.9.7 2020-01-30
+# wrapr 1.9.7 2020-02-01
 
  * Allow as_named_list to choose new names.
  * Update references.
  * Stricter tests on unpack/to.
+ * := for names.
 
 # wrapr 1.9.6 2020-01-26
 

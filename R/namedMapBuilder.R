@@ -93,8 +93,15 @@ early_tries <- function(nm, vl, values) {
   UseMethod(":=")
 }
 
+
 #' @export
 `:=.character` <- named_map_builder
+
+#' @export
+`:=.name` <- named_map_builder
+
+#' @export
+`:=.symbol` <- named_map_builder
 
 #' @export
 `:=.numeric` <- named_map_builder
@@ -126,8 +133,15 @@ early_tries <- function(nm, vl, values) {
   UseMethod("%:=%")
 }
 
+
 #' @export
 `%:=%.character` <- named_map_builder
+
+#' @export
+`%:=%.name` <- named_map_builder
+
+#' @export
+`%:=%.symbol` <- named_map_builder
 
 #' @export
 `%:=%.numeric` <- named_map_builder
