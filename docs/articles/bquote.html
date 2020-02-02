@@ -127,7 +127,7 @@
       <h1>bquote</h1>
                         <h4 class="author">John Mount</h4>
             
-            <h4 class="date">2020-02-01</h4>
+            <h4 class="date">2020-02-02</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/bquote.Rmd"><code>vignettes/bquote.Rmd</code></a></small>
       <div class="hidden name"><code>bquote.Rmd</code></div>
@@ -181,13 +181,26 @@
 <pre><code>## function (expr, where = parent.frame()) 
 ## {
 ##     force(where)
+##     orig_minus &lt;- get("-", mode = "function", envir = where)
+##     minus_fn_to_name &lt;- function(e1, e2) {
+##         if (!missing(e2)) {
+##             return(orig_minus(e1, e2))
+##         }
+##         if (is.name(e1)) {
+##             return(e1)
+##         }
+##         if (is.character(e1) &amp;&amp; (length(e1) == 1)) {
+##             return(as.name(e1))
+##         }
+##         orig_minus(e1)
+##     }
 ##     env2 &lt;- new.env(parent = where)
 ##     assign("-", minus_fn_to_name, envir = env2)
 ##     expr &lt;- substitute(expr)
 ##     exprq &lt;- do.call(bquote, list(expr, where = env2))
 ##     eval(exprq, envir = env2, enclos = env2)
 ## }
-## &lt;bytecode: 0x7faa77c432f8&gt;
+## &lt;bytecode: 0x7fa38bf99108&gt;
 ## &lt;environment: namespace:wrapr&gt;</code></pre>
 <p>All <code><a href="../reference/evalb.html">evalb()</a></code> does is: call <code><a href="https://rdrr.io/r/base/bquote.html">bquote()</a></code> as intended. A way to teach this is to just call <code>bqoute()</code> alone.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="cf">if</span>(<span class="kw"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span>(<span class="st">"graphics"</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)) {</a>

@@ -55,9 +55,6 @@ evalb <- function(expr, where = parent.frame()) {
 #' Including \code{.(-x)} promoting \code{x}'s value from character to a name,
 #' which is called "quote negation" (hence the minus-sign).
 #'
-#' Note: eagerly evalutes argument and writes them into the function's
-#' executing environment.
-#'
 #' @param call result of match.call()
 #' @param env environment to perform lookups in.
 #' @return altered call
@@ -121,9 +118,6 @@ bquote_call <- function(call, env = parent.frame()) {
 #' Including \code{.(-x)} promoting \code{x}'s value from character to a name,
 #' which is called "quote negation" (hence the minus-sign).
 #'
-#' Note: eagerly evalutes argument and writes them into the function's
-#' executing environment.
-#'
 #' @param call result of match.call()
 #' @param env environment to perform lookups in.
 #' @return name list of values
@@ -138,10 +132,6 @@ bquote_call <- function(call, env = parent.frame()) {
 #'   # match.call() best called in function context.
 #'   captured_call <- match.call()
 #'   captured_args <- bquote_call_args(captured_call, env)
-#'   for(nmi in setdiff(ls(),
-#'                      c("captured_call", "captured_args", "env"))) {
-#'     print(paste(nmi, get(nmi)))
-#'   }
 #'   captured_args
 #' }
 #'
@@ -150,7 +140,7 @@ bquote_call <- function(call, env = parent.frame()) {
 #' qv <- 3
 #'
 #' # equivalent to f(3, x = 5)
-#' f(q = .(qv), .(z) := .(y))
+#' f(.(qv), .(z) := .(y))
 #'
 #' # equivalent to f(q = 7)
 #' qname <- 'q'

@@ -21,10 +21,6 @@ Re-writes call args to evaluate \code{expr} with \code{bquote} \code{.()} substi
 Including \code{.(-x)} promoting \code{x}'s value from character to a name,
 which is called "quote negation" (hence the minus-sign).
 }
-\details{
-Note: eagerly evalutes argument and writes them into the function's
-executing environment.
-}
 \examples{
 
 f <- function(q, ...) {
@@ -32,10 +28,6 @@ f <- function(q, ...) {
   # match.call() best called in function context.
   captured_call <- match.call()
   captured_args <- bquote_call_args(captured_call, env)
-  for(nmi in setdiff(ls(),
-                     c("captured_call", "captured_args", "env"))) {
-    print(paste(nmi, get(nmi)))
-  }
   captured_args
 }
 
@@ -44,7 +36,7 @@ y <- 5
 qv <- 3
 
 # equivalent to f(3, x = 5)
-f(q = .(qv), .(z) := .(y))
+f(.(qv), .(z) := .(y))
 
 # equivalent to f(q = 7)
 qname <- 'q'

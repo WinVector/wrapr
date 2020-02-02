@@ -197,10 +197,6 @@ which is called "quote negation" (hence the minus-sign).</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>name list of values</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Note: eagerly evalutes argument and writes them into the function's
-executing environment.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='bquote_function.html'>bquote_function</a></code></p></div>
@@ -212,10 +208,6 @@ executing environment.</p>
   <span class='co'># match.call() best called in function context.</span>
   <span class='no'>captured_call</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/match.call.html'>match.call</a></span>()
   <span class='no'>captured_args</span> <span class='kw'>&lt;-</span> <span class='fu'>bquote_call_args</span>(<span class='no'>captured_call</span>, <span class='no'>env</span>)
-  <span class='kw'>for</span>(<span class='no'>nmi</span> <span class='kw'>in</span> <span class='fu'><a href='https://rdrr.io/r/base/sets.html'>setdiff</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/ls.html'>ls</a></span>(),
-                     <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"captured_call"</span>, <span class='st'>"captured_args"</span>, <span class='st'>"env"</span>))) {
-    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='no'>nmi</span>, <span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='no'>nmi</span>)))
-  }
   <span class='no'>captured_args</span>
 }
 
@@ -224,8 +216,7 @@ executing environment.</p>
 <span class='no'>qv</span> <span class='kw'>&lt;-</span> <span class='fl'>3</span>
 
 <span class='co'># equivalent to f(3, x = 5)</span>
-<span class='fu'>f</span>(<span class='kw'>q</span> <span class='kw'>=</span> <span class='fu'>.</span>(<span class='no'>qv</span>), <span class='fu'>.</span>(<span class='no'>z</span>) <span class='kw'>:=</span> <span class='fu'>.</span>(<span class='no'>y</span>))</div><div class='output co'>#&gt; [1] "q 3"
-#&gt; [1] "x 5"</div><div class='output co'>#&gt; $q
+<span class='fu'>f</span>(<span class='fu'>.</span>(<span class='no'>qv</span>), <span class='fu'>.</span>(<span class='no'>z</span>) <span class='kw'>:=</span> <span class='fu'>.</span>(<span class='no'>y</span>))</div><div class='output co'>#&gt; $q
 #&gt; [1] 3
 #&gt; 
 #&gt; $x
@@ -233,7 +224,7 @@ executing environment.</p>
 #&gt; </div><div class='input'>
 <span class='co'># equivalent to f(q = 7)</span>
 <span class='no'>qname</span> <span class='kw'>&lt;-</span> <span class='st'>'q'</span>
-<span class='fu'>f</span>(<span class='fu'>.</span>(<span class='no'>qname</span>) <span class='kw'>:=</span> <span class='fl'>7</span>)</div><div class='output co'>#&gt; [1] "q 7"</div><div class='output co'>#&gt; $q
+<span class='fu'>f</span>(<span class='fu'>.</span>(<span class='no'>qname</span>) <span class='kw'>:=</span> <span class='fl'>7</span>)</div><div class='output co'>#&gt; $q
 #&gt; [1] 7
 #&gt; </div><div class='input'>
 
@@ -244,7 +235,6 @@ executing environment.</p>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
       <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>

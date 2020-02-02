@@ -20,10 +20,6 @@ Uses convetion that := is considered a alias for =.
 Including \code{.(-x)} promoting \code{x}'s value from character to a name,
 which is called "quote negation" (hence the minus-sign).
 }
-\details{
-Note: eagerly evalutes argument and writes them into the function's
-executing environment.
-}
 \seealso{
 \code{\link{bquote_function}}, \code{\link{bquote_call_args}}
 }
