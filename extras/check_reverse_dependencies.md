@@ -14,7 +14,7 @@ packageVersion(package)
 date()
 ```
 
-    ## [1] "Sat Feb  1 15:13:45 2020"
+    ## [1] "Sat Feb  1 16:50:43 2020"
 
 ``` r
 parallelCluster <- NULL
@@ -34,7 +34,7 @@ setwd(td)
 print(td)
 ```
 
-    ## [1] "/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//Rtmpv5GCx9"
+    ## [1] "/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//Rtmp9Etgpj"
 
 ``` r
 options(repos = c(CRAN="https://cloud.r-project.org"))
@@ -103,8 +103,8 @@ summariseQueue(package=package, directory=td)
 ```
 
     ## Test of wrapr had 8 successes, 0 failures, and 0 skipped packages. 
-    ## Ran from 2020-02-01 15:13:51 to 2020-02-01 15:17:54 for 4.05 mins 
-    ## Average of 30.375 secs relative to 94.099 secs using 4 runners
+    ## Ran from 2020-02-01 16:50:50 to 2020-02-01 16:55:11 for 4.35 mins 
+    ## Average of 32.625 secs relative to 103.182 secs using 4 runners
     ## 
     ## Failed packages:   
     ## 

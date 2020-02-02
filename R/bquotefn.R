@@ -1,22 +1,5 @@
 
 
-
-# convert unary -char (length1) to a name
-minus_fn_to_name <- function(e1, e2) {
-  if(is.name(e1)) {
-    return(e1)
-  }
-  if(is.character(e1) && (length(e1)==1)) {
-    return(as.name(e1))
-  }
-  if(missing(e2)) {
-    base::`-`(e1)
-  } else {
-    base::`-`(e1, e2)
-  }
-}
-
-
 #' Near \code{eval(bquote(expr))} shortcut.
 #'
 #' Evaluate \code{expr} with \code{bquote} \code{.()} substitution.
@@ -40,6 +23,19 @@ minus_fn_to_name <- function(e1, e2) {
 #'
 evalb <- function(expr, where = parent.frame()) {
   force(where)
+  orig_minus <- get('-', mode = 'function', envir = where)
+  minus_fn_to_name <- function(e1, e2) {
+    if(!missing(e2)) {
+      return(orig_minus(e1, e2))
+    }
+    if(is.name(e1)) {
+      return(e1)
+    }
+    if(is.character(e1) && (length(e1)==1)) {
+      return(as.name(e1))
+    }
+    orig_minus(e1)
+  }
   env2 <- new.env(parent = where)
   assign('-', minus_fn_to_name, envir = env2)
   expr <- substitute(expr)  # can't set env, as that changes substitute's behavior
@@ -76,6 +72,19 @@ evalb <- function(expr, where = parent.frame()) {
 bquote_call <- function(call, env = parent.frame()) {
   force(env)
   # perform bquote transform
+  orig_minus <- get('-', mode = 'function', envir = env)
+  minus_fn_to_name <- function(e1, e2) {
+    if(!missing(e2)) {
+      return(orig_minus(e1, e2))
+    }
+    if(is.name(e1)) {
+      return(e1)
+    }
+    if(is.character(e1) && (length(e1)==1)) {
+      return(as.name(e1))
+    }
+    orig_minus(e1)
+  }
   env2 <- new.env(parent = env)
   assign('-', minus_fn_to_name, envir = env2)
   mc <- do.call(bquote, list(call, where = env2), envir = env2)
