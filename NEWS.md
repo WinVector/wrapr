@@ -1,11 +1,12 @@
 
-# wrapr 1.9.7 2020-02-02
+# wrapr 2.0.0 2020-02-04
 
  * Allow as_named_list to choose new names.
  * Update references.
  * Stricter tests on unpack/to.
  * := for names.
- * Update evalb, including adding .(-) notation.
+ * Update evalb, and bquote uses including adding .(-) notation.
+ * Remove some obsolete methods such as CapturePipeine, UnaryFunctions, as_dot_fn, and locum.
 
 # wrapr 1.9.6 2020-01-26
 

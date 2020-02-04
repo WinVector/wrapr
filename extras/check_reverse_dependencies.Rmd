@@ -4,6 +4,7 @@ output: github_document
 ---
 
 ```{r, error=TRUE}
+repos <- c(CRAN="https://cloud.r-project.org")
 library("prrd")
 td <- tempdir()
 package = "wrapr"
@@ -21,23 +22,25 @@ print(orig_dir)
 setwd(td)
 print(td)
 
-options(repos = c(CRAN="https://cloud.r-project.org"))
+options(repos = repos)
 jobsdfe <- enqueueJobs(package=package, directory=td)
 
 print("checking:")
 print(jobsdfe)
 
-mk_fn <- function(package, directory) {
+mk_fn <- function(package, directory, repos) {
   force(package)
   force(directory)
+  force(repos)
   function(i) {
     library("prrd")
+    options(repos = repos)
     setwd(directory)
     Sys.sleep(1*i)
     dequeueJobs(package=package, directory=directory)
   }
 }
-f <- mk_fn(package=package, directory=td)
+f <- mk_fn(package=package, directory=td, repos=repos)
 
 if(!is.null(parallelCluster)) {
   parallel::parLapply(parallelCluster, seq_len(ncores), f)

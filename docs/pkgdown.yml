@@ -5,7 +5,6 @@ articles:
   CornerCases: CornerCases.html
   DebugFnW: DebugFnW.html
   FrameTools: FrameTools.html
-  Function_Objects: Function_Objects.html
   Named_Arguments: Named_Arguments.html
   QuotingConcatinate: QuotingConcatinate.html
   SubstitutionModes: SubstitutionModes.html

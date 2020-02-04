@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
       </span>
     </div>
 
@@ -61,9 +61,6 @@
     </li>
     <li>
       <a href="../articles/FrameTools.html">Frame Tools</a>
-    </li>
-    <li>
-      <a href="../articles/Function_Objects.html">Function Objects</a>
     </li>
     <li>
       <a href="../articles/Named_Arguments.html">Named Arguments</a>
@@ -127,7 +124,7 @@
       <h1>bquote</h1>
                         <h4 class="author">John Mount</h4>
             
-            <h4 class="date">2020-02-02</h4>
+            <h4 class="date">2020-02-04</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/bquote.Rmd"><code>vignettes/bquote.Rmd</code></a></small>
       <div class="hidden name"><code>bquote.Rmd</code></div>
@@ -200,7 +197,7 @@
 ##     exprq &lt;- do.call(bquote, list(expr, where = env2))
 ##     eval(exprq, envir = env2, enclos = env2)
 ## }
-## &lt;bytecode: 0x7fa38bf99108&gt;
+## &lt;bytecode: 0x7f997519b4d0&gt;
 ## &lt;environment: namespace:wrapr&gt;</code></pre>
 <p>All <code><a href="../reference/evalb.html">evalb()</a></code> does is: call <code><a href="https://rdrr.io/r/base/bquote.html">bquote()</a></code> as intended. A way to teach this is to just call <code>bqoute()</code> alone.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="cf">if</span>(<span class="kw"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span>(<span class="st">"graphics"</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)) {</a>
@@ -216,7 +213,7 @@
 <p>There are many <code>R</code> quasi-quotation systems including:</p>
 <ul>
 <li><code><a href="https://rdrr.io/r/base/bquote.html">base::bquote()</a></code></li>
-<li><a href="https://CRAN.R-project.org/package=gtools"><code><a href="https://rdrr.io/pkg/gtools/man/defmacro.html">gtools::strmacro()</a></code></a></li>
+<li><a href="https://CRAN.R-project.org/package=gtools"><code>gtools::strmacro()</code></a></li>
 <li><a href="https://CRAN.R-project.org/package=lazyeval"><code>lazyeval</code></a></li>
 <li><a href="https://winvector.github.io/wrapr/reference/let.html"><code><a href="../reference/let.html">wrapr::let()</a></code></a></li>
 <li><a href="https://rlang.r-lib.org/reference/as_quosure.html"><code><a href="https://rlang.r-lib.org/reference/as_quosure.html">rlang::as_quosure()</a></code></a></li>
