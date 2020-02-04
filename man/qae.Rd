@@ -19,7 +19,9 @@ assignments to allow forms such as "Sepal_Long := Sepal.Length >= 2 * Sepal.Widt
 Terms are expressions of the form "lhs := rhs", "lhs = rhs", "lhs \%:=\% rhs".
 }
 \details{
-qae() uses bquote() .() quasiquotation escaping notation.
+\code{qae()} uses
+\code{bquote()} \code{.()} quasiquotation escaping notation,
+and \code{.(-)} "string quotes, string to name" notation.
 }
 \examples{
 

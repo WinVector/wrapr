@@ -1,5 +1,27 @@
 
 
+build_minus_fn_env <- function(env) {
+  force(env)
+  orig_minus <- get('-', mode = 'function', envir = env)
+  minus_fn_to_name <- function(e1, e2) {
+    if(!missing(e2)) {
+      return(orig_minus(e1, e2))
+    }
+    if(is.name(e1)) {
+      return(e1)
+    }
+    if(is.character(e1) && (length(e1)==1)) {
+      return(as.name(e1))
+    }
+    orig_minus(e1)
+  }
+  env2 <- new.env(parent = env)
+  assign('-', minus_fn_to_name, envir = env2)
+  return(env2)
+}
+
+
+
 #' Near \code{eval(bquote(expr))} shortcut.
 #'
 #' Evaluate \code{expr} with \code{bquote} \code{.()} substitution.
@@ -23,21 +45,7 @@
 #'
 evalb <- function(expr, where = parent.frame()) {
   force(where)
-  orig_minus <- get('-', mode = 'function', envir = where)
-  minus_fn_to_name <- function(e1, e2) {
-    if(!missing(e2)) {
-      return(orig_minus(e1, e2))
-    }
-    if(is.name(e1)) {
-      return(e1)
-    }
-    if(is.character(e1) && (length(e1)==1)) {
-      return(as.name(e1))
-    }
-    orig_minus(e1)
-  }
-  env2 <- new.env(parent = where)
-  assign('-', minus_fn_to_name, envir = env2)
+  env2 <- build_minus_fn_env(where)
   expr <- substitute(expr)  # can't set env, as that changes substitute's behavior
   exprq <- do.call(bquote, list(expr, where = env2))
   eval(exprq,
@@ -69,21 +77,7 @@ evalb <- function(expr, where = parent.frame()) {
 bquote_call <- function(call, env = parent.frame()) {
   force(env)
   # perform bquote transform
-  orig_minus <- get('-', mode = 'function', envir = env)
-  minus_fn_to_name <- function(e1, e2) {
-    if(!missing(e2)) {
-      return(orig_minus(e1, e2))
-    }
-    if(is.name(e1)) {
-      return(e1)
-    }
-    if(is.character(e1) && (length(e1)==1)) {
-      return(as.name(e1))
-    }
-    orig_minus(e1)
-  }
-  env2 <- new.env(parent = env)
-  assign('-', minus_fn_to_name, envir = env2)
+  env2 <- build_minus_fn_env(env)
   mc <- do.call(bquote, list(call, where = env2), envir = env2)
   # map a := b to name(a) = b
   fixpos <- which(vapply(mc[-1],

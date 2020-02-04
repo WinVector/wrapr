@@ -58,7 +58,7 @@ library(wrapr)
 packageVersion("wrapr")
  #  [1] '2.0.0'
 date()
- #  [1] "Tue Feb  4 09:10:15 2020"
+ #  [1] "Tue Feb  4 09:35:14 2020"
 ```
 
 ## [`%.>%` (dot pipe or dot arrow)](https://winvector.github.io/wrapr/articles/dot_pipe.html)

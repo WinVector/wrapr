@@ -46,23 +46,33 @@ A related idea is ["quasi-quotation"](https://en.wikipedia.org/wiki/Grave_accent
 
 ```{r}
 angle = 1:10
-variable <- as.name("angle")
+variable_name <- as.name("angle")
 
 evalb(
   
-  plot(x = .(variable), 
-       y = sin(.(variable)))
+  plot(x = .(variable_name), 
+       y = sin(.(variable_name)))
   
   )
 ```
 
 Notice how in the above plot the actual variable name "<code>angle</code>" was substituted into the <code>graphics::plot()</code> arguments, allowing this name to appear on the axis labels.
 
-<code>evalb()</code> is a very simple function built on top of <code>base::bquote()</code>:
+We can also use strings in place of names by using the `.(-)` "strip quotes to convert strings to name notation."
 
 ```{r}
-print(evalb)
+angle = 1:10
+variable_string <- "angle"
+
+evalb(
+  
+  plot(x = .(-variable_string), 
+       y = sin(.(-variable_string)))
+  
+  )
 ```
+
+<code>evalb()</code> is a very simple function built on top of <code>base::bquote()</code>.
 
 All <code>evalb()</code> does is: call <code>bquote()</code> as intended.  A way to teach this is to just call `bqoute()` alone.
 

@@ -202,14 +202,14 @@ Please see: <code><a href='../articles/DebugFnW.html'>vignette("DebugFnW", packa
 <span class='co'># capture error on incorrect run</span>
 <span class='fu'><a href='https://rdrr.io/r/base/conditions.html'>tryCatch</a></span>(
    <span class='fu'><a href='https://rdrr.io/r/stats/Fdist.html'>df</a></span>(<span class='fl'>12</span>),
-   <span class='kw'>error</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>e</span>) { <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>e</span>) })</div><div class='output co'>#&gt; &lt;simpleError in value[[3L]](cond): wrapr::DebugFnW: wrote '/var/folders/6t/x_r4km317f3gdmnvlcwb349w0000gn/T//Rtmp2AjOxo/debug14a05733b8ee2.RDS' on catching 'Error in (1:10)[[i]]: subscript out of bounds'
+   <span class='kw'>error</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>e</span>) { <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>e</span>) })</div><div class='output co'>#&gt; &lt;simpleError in value[[3L]](cond): wrapr::DebugFnW: wrote '/var/folders/6t/x_r4km317f3gdmnvlcwb349w0000gn/T//RtmpFWJWDx/debug17d3f73c5517d.RDS' on catching 'Error in (1:10)[[i]]: subscript out of bounds'
 #&gt;  You can reproduce the error with:
-#&gt; 'p &lt;- readRDS('/var/folders/6t/x_r4km317f3gdmnvlcwb349w0000gn/T//Rtmp2AjOxo/debug14a05733b8ee2.RDS'); do.call(p$fn, p$args)'&gt;</div><div class='input'><span class='co'># examine details</span>
+#&gt; 'p &lt;- readRDS('/var/folders/6t/x_r4km317f3gdmnvlcwb349w0000gn/T//RtmpFWJWDx/debug17d3f73c5517d.RDS'); do.call(p$fn, p$args)'&gt;</div><div class='input'><span class='co'># examine details</span>
 <span class='no'>situation</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span>(<span class='no'>saveDest</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='no'>situation</span>)</div><div class='output co'>#&gt; List of 4
 #&gt;  $ fn       :function (i)  
 #&gt;   ..- attr(*, "srcref")= 'srcref' int [1:8] 3 6 3 32 6 32 3 3
-#&gt;   .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x7f8b9db05f08&gt; 
+#&gt;   .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x7f81dbcfe120&gt; 
 #&gt;  $ args     :List of 1
 #&gt;   ..$ : num 12
 #&gt;  $ namedargs: language df(12)
@@ -232,7 +232,7 @@ Please see: <code><a href='../articles/DebugFnW.html'>vignette("DebugFnW", packa
 #&gt;  'do.call(p$fn, p$args)' (replace 'p' with actual variable name)&gt;</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='no'>lastError</span>)</div><div class='output co'>#&gt; List of 4
 #&gt;  $ fn       :function (i)  
 #&gt;   ..- attr(*, "srcref")= 'srcref' int [1:8] 22 6 22 32 6 32 22 22
-#&gt;   .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x7f8b9d8606b8&gt; 
+#&gt;   .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x7f81def82b60&gt; 
 #&gt;  $ args     :List of 1
 #&gt;   ..$ : num 12
 #&gt;  $ namedargs: language df(12)

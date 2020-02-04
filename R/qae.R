@@ -5,7 +5,9 @@
 #' to allow forms such as "Sepal.Length >= 2 * Sepal.Width".
 #' (without the quotes).
 #'
-#' qe() uses bquote() .() quasiquotation escaping notation.
+#' \code{qe()} uses
+#' \code{bquote()} \code{.()} quasiquotation escaping notation,
+#' and \code{.(-)} "string quotes, string to name" notation.
 #'
 #' @param ... assignment expressions.
 #' @return array of quoted assignment expressions.
@@ -23,13 +25,13 @@
 #' exprs <- qe(Sepal.Length >= .(ratio) * Sepal.Width,
 #'              Petal.Length <= 3.5)
 #' print(exprs)
-
 #'
 #' @export
 #'
 qe <- function(...) {
   #e_terms <- substitute(list(...))
   .wrapr_private_var_env <- parent.frame()
+  .wrapr_private_var_env <- build_minus_fn_env(.wrapr_private_var_env)
   e_terms <- do.call(bquote, list(substitute(list(...)),
                                    where = .wrapr_private_var_env),
                      envir = .wrapr_private_var_env)
@@ -57,7 +59,9 @@ qe <- function(...) {
 #' (without the quotes).
 #' Terms are expressions of the form "lhs := rhs", "lhs = rhs", "lhs \%:=\% rhs".
 #'
-#' qae() uses bquote() .() quasiquotation escaping notation.
+#' \code{qae()} uses
+#' \code{bquote()} \code{.()} quasiquotation escaping notation,
+#' and \code{.(-)} "string quotes, string to name" notation.
 #'
 #' @param ... assignment expressions.
 #' @return array of quoted assignment expressions.
@@ -88,6 +92,7 @@ qae <- function(...) {
   # from: https://github.com/tidyverse/rlang/issues/116
   #ae_terms <- substitute(list(...))
   .wrapr_private_var_env <- parent.frame()
+  .wrapr_private_var_env <- build_minus_fn_env(.wrapr_private_var_env)
   ae_terms <- do.call(bquote, list(substitute(list(...)),
                                    where = .wrapr_private_var_env),
                       envir = .wrapr_private_var_env)

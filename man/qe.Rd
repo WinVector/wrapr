@@ -18,7 +18,9 @@ to allow forms such as "Sepal.Length >= 2 * Sepal.Width".
 (without the quotes).
 }
 \details{
-qe() uses bquote() .() quasiquotation escaping notation.
+\code{qe()} uses
+\code{bquote()} \code{.()} quasiquotation escaping notation,
+and \code{.(-)} "string quotes, string to name" notation.
 }
 \examples{
 
