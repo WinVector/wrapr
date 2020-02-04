@@ -18,8 +18,6 @@ vignette: >
 
 That is: `%.>%` does not alter any function arguments that are not explicitly named.  `%.>%` is designed to be explicit and simple.
 
-The effect looks is show below.
-
 The following two expressions should be equivalent:
 
 ```{r pipe1s}
