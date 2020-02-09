@@ -68,8 +68,8 @@ grab_assignments_from_dots <- function(captured_args, unpack_environment = paren
       if(length(vi) != 3) {
         stop("wrapr::grab_assignments_from_dots call-position must be length 3")
       }
-      if(!(as.character(vi[[1]]) %in% c(':=', '=', '<-', '->'))) {
-        stop("wrapr::grab_assignments_from_dots call must be one of ':=', '=', '<-', '->'.")
+      if(!(as.character(vi[[1]]) %in% c('=', '<-', '->', ':=', '%:=%'))) {
+        stop("wrapr::grab_assignments_from_dots call must be one of '=', '<-', '->', ':=', or '%:=%'.")
       }
       ni <- vi[[2]]
       vi <- vi[[3]]
