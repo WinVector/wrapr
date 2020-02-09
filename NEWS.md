@@ -6,7 +6,7 @@
  * Stricter tests on unpack/to.
  * := for names.
  * Update evalb, and bquote uses including adding .(-) notation.
- * Remove some obsolete methods such as CapturePipeine, UnaryFunctions, as_dot_fn, and locum.
+ * Remove some obsolete methods such as CapturePipeine, as_dot_fn, and locum.
 
 # wrapr 1.9.6 2020-01-26
 
