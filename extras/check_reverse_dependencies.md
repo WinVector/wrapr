@@ -15,7 +15,7 @@ packageVersion(package)
 date()
 ```
 
-    ## [1] "Tue Feb  4 09:47:58 2020"
+    ## [1] "Sun Feb  9 15:28:21 2020"
 
 ``` r
 parallelCluster <- NULL
@@ -35,7 +35,7 @@ setwd(td)
 print(td)
 ```
 
-    ## [1] "/var/folders/6t/x_r4km317f3gdmnvlcwb349w0000gn/T//Rtmpif7hAJ"
+    ## [1] "/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//RtmpNUfK5x"
 
 ``` r
 options(repos = repos)
@@ -83,10 +83,8 @@ if(!is.null(parallelCluster)) {
 ```
 
     ## [[1]]
-    ##   id       title  status
-    ## 1  2 RcppDynProg WORKING
-    ## 2  7      vtreat WORKING
-    ## 3  8     WVPlots WORKING
+    ## [1] id     title  status
+    ## <0 rows> (or 0-length row.names)
     ## 
     ## [[2]]
     ##   id   title  status
@@ -94,8 +92,10 @@ if(!is.null(parallelCluster)) {
     ## 2  8 WVPlots WORKING
     ## 
     ## [[3]]
-    ## [1] id     title  status
-    ## <0 rows> (or 0-length row.names)
+    ##   id       title  status
+    ## 1  2 RcppDynProg WORKING
+    ## 2  7      vtreat WORKING
+    ## 3  8     WVPlots WORKING
     ## 
     ## [[4]]
     ##   id   title  status
@@ -106,8 +106,8 @@ summariseQueue(package=package, directory=td)
 ```
 
     ## Test of wrapr had 8 successes, 0 failures, and 0 skipped packages. 
-    ## Ran from 2020-02-04 09:48:07 to 2020-02-04 09:53:53 for 5.767 mins 
-    ## Average of 43.25 secs relative to 137.02 secs using 4 runners
+    ## Ran from 2020-02-09 15:28:28 to 2020-02-09 15:32:49 for 4.35 mins 
+    ## Average of 32.625 secs relative to 101.271 secs using 4 runners
     ## 
     ## Failed packages:   
     ## 
