@@ -1,5 +1,5 @@
 
-# wrapr 2.0.0 2020-02-09
+# wrapr 2.0.0 2020-02-10
 
  * Allow as_named_list to choose new names.
  * Update references.
@@ -7,6 +7,7 @@
  * := for names.
  * Update evalb, and bquote uses including adding .(-) notation.
  * Remove some obsolete methods such as CapturePipeine, as_dot_fn, and locum.
+ * Fix description.
 
 # wrapr 1.9.6 2020-01-26
 
