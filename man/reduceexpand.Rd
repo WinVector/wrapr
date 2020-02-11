@@ -19,13 +19,10 @@ args \%.|\% f
 f(args) where args elements become individual arguments of f.
 }
 \description{
-The operators \code{\%.|\%} and \code{\%|.\%} are wrappers for \code{\link[base]{do.call}}.
-These functions are used to pass arguments from a list to variadic
-function (such as \code{\link[base]{sum}}). The operator symbols are meant to invoke non-tilted
-versions of APL's reduce and expand operators. Unevaluated expressions containing
-\code{\%.|\%}, \code{\%|.\%}, or \code{\link[base]{do.call}} can be used simulate partial function
-application or simulate function Currying.  The take-away is one can delegate all
-variadic argument construction to \code{\link[base]{list}}, and manipulation to \code{\link[base]{c}}.
+\code{x \%.|\% f} stands for \code{f(x[1], x[2], ..., x[length(x)])}.
+\code{v \%|.\% x} also stands for \code{f(x[1], x[2], ..., x[length(x)])}.
+The two operators are the same, the variation just allowing the user to choose the order they write things.
+The mnemonic is: "data goes on the dot-side of the operator."
 }
 \section{Functions}{
 \itemize{
@@ -36,19 +33,11 @@ variadic argument construction to \code{\link[base]{list}}, and manipulation to 
 
 \examples{
 
-# basic examples
-1:10 \%.|\% sum
-1:10 \%.|\% base::sum
-1:10 \%.|\% function(...) { sum(...) }
-
-# simulate partial application of log(., base=2)
-1:4 \%.>\% do.call(log, list(., base = 2))
-
-# # simulate partial application with dplyr
-# # can be used with dplyr/rlang as follows
-# d <- data.frame(x=1, y=2, z=3)
-# syms <- rlang::syms(c("x", "y"))
-# d \%.>\% do.call(dplyr::select, c(list(.), syms))
+args <- list('prefix_', c(1:3), '_suffix')
+args \%.|\% paste0
+# prefix_1_suffix" "prefix_2_suffix" "prefix_3_suffix"
+paste0 \%|.\% args
+# prefix_1_suffix" "prefix_2_suffix" "prefix_3_suffix"
 
 }
 \seealso{
