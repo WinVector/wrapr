@@ -58,7 +58,7 @@ library(wrapr)
 packageVersion("wrapr")
  #  [1] '2.0.0'
 date()
- #  [1] "Tue Feb  4 09:35:14 2020"
+ #  [1] "Wed Feb 12 06:18:16 2020"
 ```
 
 ## [`%.>%` (dot pipe or dot arrow)](https://winvector.github.io/wrapr/articles/dot_pipe.html)
@@ -376,17 +376,22 @@ c(1, NA) %?% list(NA, 20)
 
 ## [`%.|%` (reduce/expand args)](https://winvector.github.io/wrapr/reference/reduceexpand.html)
 
-The operators `%.|%` and `%|.%` are wrappers for `do.call()`. These
-functions are used to pass arguments from a list to variadic function
-(such as `sum()`). The operator symbols are meant to invoke non-tilted
-versions of APL’s reduce and expand operators.
+`x %.|% f` stands for `f(x[[1]], x[[2]], ..., x[[length(x)]])`. `v %|.%
+x` also stands for `f(x[[1]], x[[2]], ..., x[[length(x)]])`. The two
+operators are the same, the variation just allowing the user to choose
+the order they write things. The mnemonic is: “data goes on the dot-side
+of the operator.”
 
 ``` r
-1:10 %.|% sum
- #  [1] 55
+args <- list('prefix_', c(1:3), '_suffix')
 
-1:4 %.>% do.call(log, list(., base = 2))
- #  [1] 0.000000 1.000000 1.584963 2.000000
+args %.|% paste0
+ #  [1] "prefix_1_suffix" "prefix_2_suffix" "prefix_3_suffix"
+# prefix_1_suffix" "prefix_2_suffix" "prefix_3_suffix"
+
+paste0 %|.% args
+ #  [1] "prefix_1_suffix" "prefix_2_suffix" "prefix_3_suffix"
+# prefix_1_suffix" "prefix_2_suffix" "prefix_3_suffix"
 ```
 
 ## [`DebugFnW()`](https://winvector.github.io/wrapr/articles/DebugFnW.html)
@@ -488,10 +493,6 @@ formal documentation can be found
 `base::bquote()`, please see
 [here](https://github.com/WinVector/wrapr/blob/master/extras/bquote.md)
 for some notes on macro methods in `R`.
-
-For working with `dplyr` `0.7.*` we strongly suggest `wrapr::let()` (or
-even an alternate approach called
-[`seplyr`](https://github.com/WinVector/seplyr/blob/master/README.md)).
 
 ## Installation
 

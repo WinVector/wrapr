@@ -1,8 +1,8 @@
 
 #' Use function to reduce or expand arguments.
 #'
-#' \code{x \%.|\% f} stands for \code{f(x[1], x[2], ..., x[length(x)])}.
-#' \code{v \%|.\% x} also stands for \code{f(x[1], x[2], ..., x[length(x)])}.
+#' \code{x \%.|\% f} stands for \code{f(x[[1]], x[[2]], ..., x[[length(x)]])}.
+#' \code{v \%|.\% x} also stands for \code{f(x[[1]], x[[2]], ..., x[[length(x)]])}.
 #' The two operators are the same, the variation just allowing the user to choose the order they write things.
 #' The mnemonic is: "data goes on the dot-side of the operator."
 #'
