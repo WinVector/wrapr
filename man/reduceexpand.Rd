@@ -24,6 +24,10 @@ f(args) where args elements become individual arguments of f.
 The two operators are the same, the variation just allowing the user to choose the order they write things.
 The mnemonic is: "data goes on the dot-side of the operator."
 }
+\details{
+Note: the reduce operation is implemented by \code{do.call()}, so has
+standard R named argument semantics.
+}
 \section{Functions}{
 \itemize{
 \item \code{\%|.\%}: f reduce args
