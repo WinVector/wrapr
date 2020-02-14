@@ -20,7 +20,7 @@ For example:
 ```{r}
 library("wrapr")
 
-variable <- as.name("angle")
+variable <- "angle"
 
 sinterp(
   'variable name is .(variable)'
@@ -48,12 +48,14 @@ A related idea is ["quasi-quotation"](https://en.wikipedia.org/wiki/Grave_accent
 angle = 1:10
 variable_name <- as.name("angle")
 
-evalb(
-  
-  plot(x = .(variable_name), 
-       y = sin(.(variable_name)))
-  
+if(requireNamespace("graphics", quietly = TRUE)) {
+  evalb(
+    
+    plot(x = .(-variable_name), 
+         y = sin(.(-variable_name)))
+    
   )
+}
 ```
 
 Notice how in the above plot the actual variable name "<code>angle</code>" was substituted into the <code>graphics::plot()</code> arguments, allowing this name to appear on the axis labels.
@@ -64,28 +66,19 @@ We can also use strings in place of names by using the `.(-)` "strip quotes to c
 angle = 1:10
 variable_string <- "angle"
 
-evalb(
-  
-  plot(x = .(-variable_string), 
-       y = sin(.(-variable_string)))
-  
+if(requireNamespace("graphics", quietly = TRUE)) {
+  evalb(
+    
+    plot(x = .(-variable_string), 
+         y = sin(.(-variable_string)))
+    
   )
+}
 ```
 
 <code>evalb()</code> is a very simple function built on top of <code>base::bquote()</code>.
 
-All <code>evalb()</code> does is: call <code>bquote()</code> as intended.  A way to teach this is to just call `bqoute()` alone.
-
-```{r}
-if(requireNamespace("graphics", quietly = TRUE)) {
-bquote(
-  
-  plot(x = .(variable), 
-       y = sin(.(variable)))
-  
-  )
-}
-```
+All <code>evalb()</code> does is: call <code>bquote()</code> as intended, with the extension that `.(-x)` is shorthand for `.(as.name(x))`.
 
 And we see the un-executed code with the substitutions performed.
 
@@ -103,8 +96,10 @@ If you don't want to wrap your <code>plot()</code> call in <code>evalb()</code> 
 ```{r}
 plotb <- bquote_function(graphics::plot)
 
-plotb(x = .(variable), 
-      y = sin(.(variable)))
+if(requireNamespace("graphics", quietly = TRUE)) {
+  plotb(x = .(-variable), 
+        y = sin(.(-variable)))
+}
 ```
 
 The `wrapr` [dot arrow pipe](https://winvector.github.io/wrapr/reference/dot_arrow.html) also uses the `bquote`-style escape to specify "extra execution".  For example.
@@ -124,6 +119,15 @@ f <- function() {
 5 %.>% f()
 ```
 
+We can annotate any function as "eager eval" as follows.
+
+
+```{r}
+attr(f, 'dotpipe_eager_eval_function') <- TRUE
+
+# now evalutates pipe on f() result.
+5 %.>% f()
+```
 
 
 
