@@ -50,6 +50,8 @@ Primary `wrapr` services include:
     (anonymous function builder)
   - [`let()`](https://winvector.github.io/wrapr/reference/let.html) (let
     block)
+  - [`evalb()`/`si()`](https://winvector.github.io/wrapr/articles/bquote.html)
+    (evaluate with `bquote` / string interpolation).
 
 <!-- end list -->
 
@@ -58,7 +60,7 @@ library(wrapr)
 packageVersion("wrapr")
  #  [1] '2.0.0'
 date()
- #  [1] "Thu Feb 13 18:35:44 2020"
+ #  [1] "Thu Feb 13 18:57:46 2020"
 ```
 
 ## [`%.>%` (dot pipe or dot arrow)](https://winvector.github.io/wrapr/articles/dot_pipe.html)
@@ -492,7 +494,34 @@ formal documentation can be found
 `wrapr::let()` was inspired by `gtools::strmacro()` and
 `base::bquote()`, please see
 [here](https://github.com/WinVector/wrapr/blob/master/extras/bquote.md)
-for some notes on macro methods in `R`.
+for some notes on macro methods in
+`R`.
+
+# [`evalb()`/`si()`](https://winvector.github.io/wrapr/articles/bquote.html) (evaluate with `bquote` / string interpolation).
+
+`wrapr` supplies unified notation for quasi-quotation and string
+interpolation.
+
+``` r
+angle = 1:10
+variable <- "angle"
+
+# execute code
+evalb(
+  plot(x = .(-variable), y = sin(.(-variable)))
+)
+```
+
+![](tools/README-unnamed-chunk-3-1.png)<!-- -->
+
+``` r
+
+# alter string
+si("plot(x = .(variable), y = .(variable))")
+ #  [1] "plot(x = angle, y = angle)"
+```
+
+The extra `.(-x)` form is a shortcut for `.(as.name(x))`.
 
 ## Installation
 

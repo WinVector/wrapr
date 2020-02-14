@@ -162,12 +162,14 @@
 <a href="https://winvector.github.io/wrapr/reference/defineLambda.html"><code>λ()</code></a> (anonymous function builder)</li>
 <li>
 <a href="https://winvector.github.io/wrapr/reference/let.html"><code><a href="reference/let.html">let()</a></code></a> (let block)</li>
+<li>
+<a href="https://winvector.github.io/wrapr/articles/bquote.html"><code><a href="reference/evalb.html">evalb()</a></code>/<code><a href="reference/si.html">si()</a></code></a> (evaluate with <code>bquote</code> / string interpolation).</li>
 </ul>
 <!-- end list --><div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(wrapr)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/utils/packageDescription.html">packageVersion</a></span>(<span class="st">"wrapr"</span>)</a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"> <span class="co">#  [1] '2.0.0'</span></a>
 <a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/date.html">date</a></span>()</a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"> <span class="co">#  [1] "Thu Feb 13 18:35:44 2020"</span></a></code></pre></div>
+<a class="sourceLine" id="cb1-5" data-line-number="5"> <span class="co">#  [1] "Thu Feb 13 18:57:46 2020"</span></a></code></pre></div>
 </div>
 <div id="dot-pipe-or-dot-arrow" class="section level2">
 <h2 class="hasAnchor">
@@ -510,11 +512,28 @@ term, simply wrap it in `.()`.
 <a class="sourceLine" id="cb18-25" data-line-number="25"> <span class="co">#  [1] 14</span></a></code></pre></div>
 <p>Please see <code><a href="articles/let.html">vignette('let', package='wrapr')</a></code> for more examples. Some formal documentation can be found <a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf">here</a>. <code><a href="reference/let.html">wrapr::let()</a></code> was inspired by <code><a href="https://rdrr.io/pkg/gtools/man/defmacro.html">gtools::strmacro()</a></code> and <code><a href="https://rdrr.io/r/base/bquote.html">base::bquote()</a></code>, please see <a href="https://github.com/WinVector/wrapr/blob/master/extras/bquote.md">here</a> for some notes on macro methods in <code>R</code>.</p>
 </div>
+<div id="evalbsi-evaluate-with-bquote-string-interpolation-" class="section level1">
+<div class="page-header"><h1 class="hasAnchor">
+<a href="#evalbsi-evaluate-with-bquote-string-interpolation-" class="anchor"></a><a href="https://winvector.github.io/wrapr/articles/bquote.html"><code>evalb()</code>/<code>si()</code></a> (evaluate with <code>bquote</code> / string interpolation).</h1></div>
+<p><code>wrapr</code> supplies unified notation for quasi-quotation and string interpolation.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">angle =<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span></a>
+<a class="sourceLine" id="cb19-2" data-line-number="2">variable &lt;-<span class="st"> "angle"</span></a>
+<a class="sourceLine" id="cb19-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb19-4" data-line-number="4"><span class="co"># execute code</span></a>
+<a class="sourceLine" id="cb19-5" data-line-number="5"><span class="kw"><a href="reference/evalb.html">evalb</a></span>(</a>
+<a class="sourceLine" id="cb19-6" data-line-number="6">  <span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="dt">x =</span> .(<span class="op">-</span>variable), <span class="dt">y =</span> <span class="kw"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span>(.(<span class="op">-</span>variable)))</a>
+<a class="sourceLine" id="cb19-7" data-line-number="7">)</a></code></pre></div>
+<p><img src="tools/README-unnamed-chunk-3-1.png"><!-- --></p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb20-2" data-line-number="2"><span class="co"># alter string</span></a>
+<a class="sourceLine" id="cb20-3" data-line-number="3"><span class="kw"><a href="reference/si.html">si</a></span>(<span class="st">"plot(x = .(variable), y = .(variable))"</span>)</a>
+<a class="sourceLine" id="cb20-4" data-line-number="4"> <span class="co">#  [1] "plot(x = angle, y = angle)"</span></a></code></pre></div>
+<p>The extra <code>.(-x)</code> form is a shortcut for <code>.(as.name(x))</code>.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>Install with:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"wrapr"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"wrapr"</span>)</a></code></pre></div>
 </div>
 <div id="more-information" class="section level2">
 <h2 class="hasAnchor">
@@ -529,6 +548,7 @@ term, simply wrap it in `.()`.
 <h2 class="hasAnchor">
 <a href="#note" class="anchor"></a>Note</h2>
 <p>Note: <code>wrapr</code> is meant only for “tame names”, that is: variables and column names that are also valid <em>simple</em> (without quotes) <code>R</code> variables names.</p>
+</div>
 </div>
 
   </div>

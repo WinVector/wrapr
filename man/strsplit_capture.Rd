@@ -40,3 +40,6 @@ Split a string, keeping separator regions
 strsplit_capture("x is .(x) and x+1 is .(x+1)", "\\\\.\\\\([^()]+\\\\)")
 
 }
+\seealso{
+\code{\link{sinterp}}, \code{\link{si}}
+}

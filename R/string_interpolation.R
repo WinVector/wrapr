@@ -11,6 +11,8 @@
 #' @param useBytes passed to gregexpr
 #' @return list of string segments annotated with is_sep.
 #'
+#' @seealso \code{\link{sinterp}}, \code{\link{si}}
+#'
 #' @examples
 #'
 #' strsplit_capture("x is .(x) and x+1 is .(x+1)", "\\.\\([^()]+\\)")
@@ -73,6 +75,8 @@ strsplit_capture <- function(x, split,
 #' @param removal_patterns regexps to remove markers from substitution targets.
 #' @return modified strings
 #'
+#' @seealso \code{\link{strsplit_capture}}, \code{\link{si}}
+#'
 #' @examples
 #'
 #' x <- 7
@@ -128,3 +132,46 @@ sinterp <- function(str,
   do.call(paste0, xlated)
 }
 
+
+#' Dot substitution.
+#'
+#' String interpolation using \code{bquote}-stype .() notation. Pure R, no C/C++ code called.
+#' \code{sinterp} and \code{si} are synonyms.
+#'
+#' See also
+#' \url{https://CRAN.R-project.org/package=R.utils},
+#' \url{https://CRAN.R-project.org/package=rprintf},
+#' and \url{https://CRAN.R-project.org/package=glue}.
+#'
+#'
+#' @param str charater string to be substituted into
+#' @param ... force later arguments to bind by name
+#' @param envir environemnt to look for values
+#' @param enclos enclosing evaluation environment
+#' @param match_pattern regexp to find substitution targets.
+#' @param removal_patterns regexps to remove markers from substitution targets.
+#' @return modified strings
+#'
+#' @seealso \code{\link{strsplit_capture}}, \code{\link{sinterp}}
+#'
+#' @examples
+#'
+#' x <- 7
+#' si("x is .(x), x+1 is .(x+1)\n.(x) is odd is .(x%%2 == 1)")
+#'
+#' # Because matching is done by a regular expression we
+#' # can not use arbitrary depths of nested parenthesis inside
+#' # the interpolation region.  The default regexp allows
+#' # one level of nesting (and one can use {} in place
+#' # of parens in many places).
+#' si("sin(x*(x+1)) is .(sin(x*{x+1}))")
+#'
+#' # We can also change the delimiters,
+#' # in this case to !! through the first whitespace.
+#' si(c("x is !!x , x+1 is !!x+1\n!!x  is odd is !!x%%2==1"),
+#'       match_pattern = '!![^[:space:]]+[[:space:]]?',
+#'       removal_patterns = c("^!!", "[[:space:]]?$"))
+#'
+#' @export
+#'
+si <- sinterp
