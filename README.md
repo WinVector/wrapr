@@ -51,7 +51,9 @@ Primary `wrapr` services include:
   - [`let()`](https://winvector.github.io/wrapr/reference/let.html) (let
     block)
   - [`evalb()`/`si()`](https://winvector.github.io/wrapr/articles/bquote.html)
-    (evaluate with `bquote` / string interpolation).
+    (evaluate with `bquote` / string interpolation)
+  - [`sortv()`](https://winvector.github.io/wrapr/reference/sortv.html)
+    (sort a data.frame by a set of columns).
 
 <!-- end list -->
 
@@ -60,7 +62,7 @@ library(wrapr)
 packageVersion("wrapr")
  #  [1] '2.0.0'
 date()
- #  [1] "Thu Feb 13 18:57:46 2020"
+ #  [1] "Fri Feb 14 07:50:05 2020"
 ```
 
 ## [`%.>%` (dot pipe or dot arrow)](https://winvector.github.io/wrapr/articles/dot_pipe.html)
@@ -497,7 +499,7 @@ formal documentation can be found
 for some notes on macro methods in
 `R`.
 
-# [`evalb()`/`si()`](https://winvector.github.io/wrapr/articles/bquote.html) (evaluate with `bquote` / string interpolation).
+# [`evalb()`/`si()`](https://winvector.github.io/wrapr/articles/bquote.html) (evaluate with `bquote` / string interpolation)
 
 `wrapr` supplies unified notation for quasi-quotation and string
 interpolation.
@@ -521,7 +523,30 @@ si("plot(x = .(variable), y = .(variable))")
  #  [1] "plot(x = angle, y = angle)"
 ```
 
-The extra `.(-x)` form is a shortcut for `.(as.name(x))`.
+The extra `.(-x)` form is a shortcut for
+`.(as.name(x))`.
+
+# [`sortv()`](https://winvector.github.io/wrapr/reference/sortv.html) (sort a data.frame by a set of columns)
+
+This is the sort command that is missing from `R`: sort a `data.frame`
+by a chosen set of columns specified in a variable.
+
+``` r
+d <- data.frame(
+  x = c(2, 2, 3, 3, 1, 1), 
+  y = 6:1,
+  z = 1:6)
+order_cols <- c('x', 'y')
+
+sortv(d, order_cols)
+ #    x y z
+ #  6 1 1 6
+ #  5 1 2 5
+ #  2 2 5 2
+ #  1 2 6 1
+ #  4 3 3 4
+ #  3 3 4 3
+```
 
 ## Installation
 

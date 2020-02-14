@@ -1,5 +1,5 @@
 
-# wrapr 2.0.0 2020-02-13
+# wrapr 2.0.0 2020-02-14
 
  * Allow as_named_list to choose new names.
  * Update references.

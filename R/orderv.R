@@ -1,7 +1,7 @@
 
 #' Order by a list of vectors.
 #'
-#' Preduce an ordering permutation from a list of vectors.  Essentially a non-\code{...} interface to \code{\link[base]{order}}.
+#' Produce an ordering permutation from a list of vectors.  Essentially a non-\code{...} interface to \code{\link[base]{order}}.
 #'
 #' @param columns list of atomic columns to order on, can be a \code{data.frame}.
 #' @param ... not used, force later arguments to bind by name.

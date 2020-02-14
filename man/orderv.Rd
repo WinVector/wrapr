@@ -27,7 +27,7 @@ orderv(
 ordering permutation
 }
 \description{
-Preduce an ordering permutation from a list of vectors.  Essentially a non-\code{...} interface to \code{\link[base]{order}}.
+Produce an ordering permutation from a list of vectors.  Essentially a non-\code{...} interface to \code{\link[base]{order}}.
 }
 \examples{
 

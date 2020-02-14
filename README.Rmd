@@ -44,8 +44,8 @@ Primary `wrapr` services include:
  * [`DebugFnW()`](https://winvector.github.io/wrapr/reference/DebugFnW.html) (function debug wrappers)
  * [`λ()`](https://winvector.github.io/wrapr/reference/defineLambda.html) (anonymous function builder)
  * [`let()`](https://winvector.github.io/wrapr/reference/let.html) (let block)
- * [`evalb()`/`si()`](https://winvector.github.io/wrapr/articles/bquote.html) (evaluate with `bquote` / string interpolation).
-
+ * [`evalb()`/`si()`](https://winvector.github.io/wrapr/articles/bquote.html) (evaluate with `bquote` / string interpolation)
+ * [`sortv()`](https://winvector.github.io/wrapr/reference/sortv.html) (sort a data.frame by a set of columns).
 
 ```{r}
 library(wrapr)
@@ -318,7 +318,7 @@ Some formal documentation can be found [here](https://github.com/WinVector/wrapr
 `wrapr::let()` was inspired by `gtools::strmacro()` and `base::bquote()`, please
 see [here](https://github.com/WinVector/wrapr/blob/master/extras/bquote.md) for some notes on macro methods in `R`.
 
-#  [`evalb()`/`si()`](https://winvector.github.io/wrapr/articles/bquote.html) (evaluate with `bquote` / string interpolation).
+#  [`evalb()`/`si()`](https://winvector.github.io/wrapr/articles/bquote.html) (evaluate with `bquote` / string interpolation)
 
 `wrapr` supplies unified notation for quasi-quotation and string interpolation.
 
@@ -336,6 +336,20 @@ si("plot(x = .(variable), y = .(variable))")
 ```
 
 The extra `.(-x)` form is a shortcut for `.(as.name(x))`.
+
+# [`sortv()`](https://winvector.github.io/wrapr/reference/sortv.html) (sort a data.frame by a set of columns)
+
+This is the sort command that is missing from `R`: sort a `data.frame` by a chosen set of columns specified in a variable.
+
+```{r}
+d <- data.frame(
+  x = c(2, 2, 3, 3, 1, 1), 
+  y = 6:1,
+  z = 1:6)
+order_cols <- c('x', 'y')
+
+sortv(d, order_cols)
+```
 
 
 
