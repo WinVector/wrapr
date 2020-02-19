@@ -1,0 +1,27 @@
+---
+title: "CapturePipeline.Rmd"
+output: github_document
+---
+
+Example showing how to build an object that captures pipeline stages, instead of executing them.
+
+
+```{r}
+library(wrapr)
+source("CapturePipeline.R")
+```
+
+
+```{r}
+seq <- Collector() %.>% paste("a", .) %.>% paste(., "b")
+f <- sequence_as_function(seq)
+```
+
+```{r}
+f("x")
+```
+
+```{r}
+"z" %.>% f
+```
+
