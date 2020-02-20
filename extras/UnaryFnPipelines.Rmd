@@ -136,6 +136,8 @@ Now let's adapt our above example into a re-usable `wrapr` function object pipel
 
 ```{r}
 library("wrapr")
+source("../Examples/UnaryFunctions/as_dot_fn.R")
+source("../Examples/UnaryFunctions/UnaryFunctions.R")
 
 threshold <- 0
 
@@ -225,6 +227,8 @@ And simulate using it in a fresh environment (i.e. simulate sharing it).
 ```{r}
 # simulate a fresh environment
 rm(list = setdiff(ls(), "d"))
+source("../Examples/UnaryFunctions/as_dot_fn.R")
+source("../Examples/UnaryFunctions/UnaryFunctions.R")
 
 library("wrapr")
 

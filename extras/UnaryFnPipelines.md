@@ -65,6 +65,8 @@ d <- data.frame(
 library("rqdatatable")
 ```
 
+    ## Loading required package: wrapr
+
     ## Loading required package: rquery
 
 ``` r
@@ -89,14 +91,17 @@ ops <-
 cat(format(ops))
 ```
 
-    ## table(d; 
-    ##   group,
-    ##   value) %.>%
+    ## mk_td("d", c(
+    ##   "group",
+    ##   "value")) %.>%
     ##  select_rows(.,
     ##    value >= 0) %.>%
     ##  project(., mean_value := mean(value),
-    ##   g= group) %.>%
-    ##  orderby(., desc(mean_value))
+    ##   groupby = c('group')) %.>%
+    ##  order_rows(.,
+    ##   c('mean_value'),
+    ##   reverse = c('mean_value'),
+    ##   limit = NULL)
 
 Of course the purpose of such a pipeline is to be able to apply it to
 data. This is done simply with the [`wrapr` dot arrow
@@ -106,9 +111,9 @@ pipe](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html):
 d %.>% ops
 ```
 
-    ##    group mean_value
-    ## 1:     b        2.0
-    ## 2:     a        1.5
+    ##   group mean_value
+    ## 1     b        2.0
+    ## 2     a        1.5
 
 `rquery` pipelines are designed to specify and execute data wrangling
 tasks. An important feature of `rquery` pipelines is: they are designed
@@ -131,23 +136,26 @@ ops <- readRDS('rquery_optree.RDS')
 cat(format(ops))
 ```
 
-    ## table(d; 
-    ##   group,
-    ##   value) %.>%
+    ## mk_td("d", c(
+    ##   "group",
+    ##   "value")) %.>%
     ##  select_rows(.,
     ##    value >= 0) %.>%
     ##  project(., mean_value := mean(value),
-    ##   g= group) %.>%
-    ##  orderby(., desc(mean_value))
+    ##   groupby = c('group')) %.>%
+    ##  order_rows(.,
+    ##   c('mean_value'),
+    ##   reverse = c('mean_value'),
+    ##   limit = NULL)
 
 ``` r
 # use it again
 d %.>% ops
 ```
 
-    ##    group mean_value
-    ## 1:     b        2.0
-    ## 2:     a        1.5
+    ##   group mean_value
+    ## 1     b        2.0
+    ## 2     a        1.5
 
 ``` r
 # clean up
@@ -171,9 +179,9 @@ d %.>%
           reverse = "mean_value")
 ```
 
-    ##    group mean_value
-    ## 1:     b        2.0
-    ## 2:     a        1.5
+    ##   group mean_value
+    ## 1     b        2.0
+    ## 2     a        1.5
 
 ## `wrapr` function objects
 
@@ -223,6 +231,8 @@ object pipeline.
 
 ``` r
 library("wrapr")
+source("../Examples/UnaryFunctions/as_dot_fn.R")
+source("../Examples/UnaryFunctions/UnaryFunctions.R")
 
 threshold <- 0
 
@@ -355,6 +365,8 @@ And simulate using it in a fresh environment (i.e. simulate sharing it).
 ``` r
 # simulate a fresh environment
 rm(list = setdiff(ls(), "d"))
+source("../Examples/UnaryFunctions/as_dot_fn.R")
+source("../Examples/UnaryFunctions/UnaryFunctions.R")
 
 library("wrapr")
 
