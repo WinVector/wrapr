@@ -7,9 +7,9 @@
 pipe_impl(pipe_left_arg, pipe_right_arg, pipe_environment, pipe_string = NULL)
 }
 \arguments{
-\item{pipe_left_arg}{substitute(pipe_left_arg) argument.}
+\item{pipe_left_arg}{possibily unevaluated left argument.}
 
-\item{pipe_right_arg}{substitute(pipe_right_arg) argument.}
+\item{pipe_right_arg}{possibly unevaluated right argument.}
 
 \item{pipe_environment}{environment to evaluate in.}
 
@@ -21,4 +21,53 @@ result
 \description{
 This is a helper for implementing additional pipes.
 }
-\keyword{internal}
+\examples{
+
+# Example: how wrapr pipe is implemented
+
+print(`\%>.\%`)
+
+
+
+
+# Example: create a value that causes pipelines to record steps.
+
+# inject raw values into wrapped/annotated world
+unit_recording <- function(x, recording = paste(as.expression(substitute(x)), collapse = '\n')) {
+  res <- list(value = x, recording = recording)
+  class(res) <- "recording_value"
+  res
+}
+
+# similar to bind or >>=
+# (takes U, f:U -> V to M(f(U)), instead of
+#        U, f:U -> M(V) to M(f(U)))
+apply_left.recording_value <- function(
+  pipe_left_arg,
+  pipe_right_arg,
+  pipe_environment,
+  left_arg_name,
+  pipe_string,
+  right_arg_name) {
+  force(pipe_environment)
+  tmp <- wrapr::pipe_impl(
+    pipe_left_arg = pipe_left_arg$value,
+    pipe_right_arg = pipe_right_arg,
+    pipe_environment = pipe_environment,
+    pipe_string = pipe_string)
+  unit_recording(
+    tmp,
+    paste0(pipe_left_arg$recording,
+           ' \%.>\% ',
+           paste(as.expression(pipe_right_arg), collapse = '\n')))
+}
+
+unpack[value, recording] <- 3 \%.>\%
+  unit_recording(.) \%.>\%
+  sin(.) \%.>\%
+  cos(.)
+
+print(value)
+print(recording)
+
+}
