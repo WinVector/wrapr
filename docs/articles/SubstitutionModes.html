@@ -224,7 +224,7 @@
 ##         y + 1
 ##     }
 ## }</code></pre>
-<p>Notice <code><a href="https://rdrr.io/r/base/substitute.html">base::substitute()</a></code> doesn’t re-write left-hand-sides of argument bindings. This is why I originally didn’t consider using this implementation. Re-writing left-hand-sides of assignments is critical in expressions such as <code>dplyr::mutate( RESULTCOL = INPUTCOL + 1)</code>. Also <code><a href="https://rdrr.io/r/base/substitute.html">base::substitute()</a></code> doesn’t special case the <code>d$"X"</code> situation (but that really isn’t very important).</p>
+<p>Notice <code><a href="https://rdrr.io/r/base/substitute.html">base::substitute()</a></code> doesn’t re-write left-hand-sides of argument bindings. This is why I originally didn’t consider using this implementation. Re-writing left-hand-sides of assignments is critical in expressions such as <code><a href="https://dplyr.tidyverse.org/reference/mutate.html">dplyr::mutate( RESULTCOL = INPUTCOL + 1)</a></code>. Also <code><a href="https://rdrr.io/r/base/substitute.html">base::substitute()</a></code> doesn’t special case the <code>d$"X"</code> situation (but that really isn’t very important).</p>
 </div>
 </div>
 <div id="conclusion" class="section level2">

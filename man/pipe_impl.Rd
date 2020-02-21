@@ -25,7 +25,7 @@ This is a helper for implementing additional pipes.
 
 # Example: how wrapr pipe is implemented
 
-print(`\%>.\%`)
+print(`\%.>\%`)
 
 
 

@@ -350,7 +350,7 @@ methods::setGeneric(
 #'
 #' # Example: how wrapr pipe is implemented
 #'
-#' print(`%>.%`)
+#' print(`%.>%`)
 #'
 #'
 #'

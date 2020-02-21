@@ -199,7 +199,7 @@
     <pre class="examples"><div class='input'>
 <span class='co'># Example: how wrapr pipe is implemented</span>
 
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>`%&gt;.%`</span>)</div><div class='output co'>#&gt; function (pipe_left_arg, pipe_right_arg) 
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>`%.&gt;%`</span>)</div><div class='output co'>#&gt; function (pipe_left_arg, pipe_right_arg) 
 #&gt; {
 #&gt;     pipe_left_arg &lt;- substitute(pipe_left_arg)
 #&gt;     pipe_right_arg &lt;- substitute(pipe_right_arg)
@@ -208,7 +208,7 @@
 #&gt;     pipe_impl(pipe_left_arg, pipe_right_arg, pipe_environment, 
 #&gt;         pipe_string)
 #&gt; }
-#&gt; &lt;bytecode: 0x7fc2685364c0&gt;
+#&gt; &lt;bytecode: 0x7f8467696d80&gt;
 #&gt; &lt;environment: namespace:wrapr&gt;</div><div class='input'>
 
 
