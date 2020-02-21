@@ -387,6 +387,11 @@ methods::setGeneric(
 #'            paste(as.expression(pipe_right_arg), collapse = '\n')))
 #' }
 #'
+#' # make available on standard S3 search path
+#' assign('apply_left.recording_value',
+#'        apply_left.recording_value,
+#'        envir = .GlobalEnv)
+#'
 #' unpack[value, recording] <- 3 %.>%
 #'   unit_recording(.) %.>%
 #'   sin(.) %.>%
@@ -394,6 +399,9 @@ methods::setGeneric(
 #'
 #' print(value)
 #' print(recording)
+#'
+#' # clean up
+#' rm(envir = .GlobalEnv, list = 'apply_left.recording_value')
 #'
 #' @export
 #'

@@ -133,7 +133,7 @@
 
     
     
-<p><a href="https://winvector.github.io/wrapr/"><code>wrapr</code></a> supplies a few tools for creating example <code>data.frame</code>s. An important use case is: building the control table for <code><a href="https://rdrr.io/pkg/cdata/man/rowrecs_to_blocks.html">cdata::rowrecs_to_blocks()</a></code> and <code><a href="https://rdrr.io/pkg/cdata/man/blocks_to_rowrecs.html">cdata::blocks_to_rowrecs()</a></code> (example <a href="https://winvector.github.io/cdata/articles/cdata.html">here</a>).</p>
+<p><a href="https://winvector.github.io/wrapr/"><code>wrapr</code></a> supplies a few tools for creating example <code>data.frame</code>s. An important use case is: building the control table for <code>cdata::rowrecs_to_blocks()</code> and <code>cdata::blocks_to_rowrecs()</code> (example <a href="https://winvector.github.io/cdata/articles/cdata.html">here</a>).</p>
 <p>Lets see how to create an example data frame. The idea is similar to that found in <a href="http://tibble.tidyverse.org/reference/tribble.html"><code><a href="https://tibble.tidyverse.org/reference/tribble.html">tibble::tribble()</a></code></a>: for small tables a row oriented constructor can be quite legible, and avoids the cognitive load of taking a transpose.</p>
 <p>For example we can create a typical <code>data.frame</code> as follows:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">d &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(</a>

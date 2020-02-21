@@ -231,10 +231,10 @@ Transformation is performed by substitution, so please be wary of unintended nam
 non-standard evaluation argument name capture, and not as simple variables or parameters).  So  <code>wrapr:let</code> is not
 useful for non-parameterized functions (functions that work only over values such as <code><a href='https://rdrr.io/r/base/sum.html'>base::sum</a></code>),
 and not useful for functions take parameters in straightforward way (such as <code><a href='https://rdrr.io/r/base/merge.html'>base::merge</a></code>'s "<code>by</code>" argument).
-<code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>dplyr::mutate</a></code> is an example where
-we can use a <code>let</code> helper.   <code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>dplyr::mutate</a></code> is
+<code>dplyr::mutate</code> is an example where
+we can use a <code>let</code> helper.   <code>dplyr::mutate</code> is
 parameterized (in the sense it can work over user supplied columns and expressions), but column names are captured through non-standard evaluation
-(and it rapidly becomes unwieldy to use complex formulas with the standard evaluation equivalent <code><a href='https://dplyr.tidyverse.org/reference/se-deprecated.html'>dplyr::mutate_</a></code>).
+(and it rapidly becomes unwieldy to use complex formulas with the standard evaluation equivalent <code>dplyr::mutate_</code>).
 <code>alias</code> can not include the symbol "<code>.</code>".</p>
 
 <p>The intent from is from the user perspective to have (if
