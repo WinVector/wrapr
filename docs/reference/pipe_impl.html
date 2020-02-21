@@ -208,7 +208,7 @@
 #&gt;     pipe_impl(pipe_left_arg, pipe_right_arg, pipe_environment, 
 #&gt;         pipe_string)
 #&gt; }
-#&gt; &lt;bytecode: 0x7f8846fbed00&gt;
+#&gt; &lt;bytecode: 0x7fc2685364c0&gt;
 #&gt; &lt;environment: namespace:wrapr&gt;</div><div class='input'>
 
 
@@ -225,6 +225,9 @@
 <span class='co'># similar to bind or &gt;&gt;=</span>
 <span class='co'># (takes U, f:U -&gt; V to M(f(U)), instead of</span>
 <span class='co'>#        U, f:U -&gt; M(V) to M(f(U)))</span>
+<span class='co'># so similar to a functor taking</span>
+<span class='co'>#   f:U -&gt; V to f':M(U) -&gt; M(V)</span>
+<span class='co'># followed by application.</span>
 <span class='no'>apply_left.recording_value</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(
   <span class='no'>pipe_left_arg</span>,
   <span class='no'>pipe_right_arg</span>,

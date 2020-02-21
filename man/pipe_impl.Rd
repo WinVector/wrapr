@@ -42,6 +42,9 @@ unit_recording <- function(x, recording = paste(as.expression(substitute(x)), co
 # similar to bind or >>=
 # (takes U, f:U -> V to M(f(U)), instead of
 #        U, f:U -> M(V) to M(f(U)))
+# so similar to a functor taking
+#   f:U -> V to f':M(U) -> M(V)
+# followed by application.
 apply_left.recording_value <- function(
   pipe_left_arg,
   pipe_right_arg,
