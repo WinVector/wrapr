@@ -395,7 +395,7 @@ methods::setGeneric(
 #'        apply_left.recording_value,
 #'        envir = .GlobalEnv)
 #'
-#' unpack[value, recording] <- 3 %.>%
+#' unpack[value, recording] := 3 %.>%
 #'   unit_recording(.) %.>%
 #'   sin(.) %.>%
 #'   cos(.)
