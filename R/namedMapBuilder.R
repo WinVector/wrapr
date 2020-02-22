@@ -25,19 +25,6 @@
 #' name := '5'
 #' # equivalent to: c('a' = '5')
 #'
-#' # fn version:
-#' #  applied when right side is {}
-#' #  or when left side is of class formula.
-#'
-#' g <- x~y := { x + 3*y }
-#' g(1,100)
-#'
-#' f <- ~x := x^2
-#' f(7)
-#'
-#' f <- x := { sqrt(x) }
-#' f(7)
-#'
 #' @export
 named_map_builder <- function(targets, values) {
   names <- as.character(targets)
@@ -49,47 +36,11 @@ named_map_builder <- function(targets, values) {
 }
 
 
-# pretty much assume vector name assignment, or function definiton
-# need this to grab unevaluated cases
-early_tries <- function(nm, vl, values) {
-  # see if we should force function def mode
-  couldBeFn <-
-    (is.name(nm) && (length(nm)==1)) ||
-    (is.character(nm) && (length(nm)==1)) ||
-    (is.call(nm) && (as.character(nm[[1]]) %in% c("~", "c", "list")))
-  # our stated rule: formula on left or brace on right
-  shouldBeFn <-
-    (is.call(nm) && (as.character(nm[[1]])=="~")) ||
-    (is.call(vl) && (as.character(vl[[1]])=="{"))
-  if(couldBeFn && shouldBeFn) {
-    if(is.call(nm) && (as.character(nm[[1]]) %in% c("c", "list"))) {
-      vars <- as.character(nm[seq_len(length(nm)-1)+1])
-    } else if(is.name(nm) || is.character(nm)) {
-      vars <- as.character(nm)
-    } else {
-      # assume formula
-      vars <- setdiff(as.character(all.vars(nm)), "~")
-    }
-    env <- parent.frame()
-    return(makeFunction_se(vars, vl, env))
-  }
-  NULL # continue in the normal way
-}
-
-
 
 
 #' @rdname named_map_builder
 #' @export
 `:=` <- function(targets, values) {
-  # check if this was a lambda assignment in disguise
-  # only consider so at this checkif if RHS is {}
-  # else let S3 disptach on formula pick this up
-  res <- early_tries(substitute(targets), substitute(values), values)
-  if(!is.null(res)) {
-    return(res)
-  }
-  # use standard S3 dispatch
   UseMethod(":=")
 }
 
@@ -122,14 +73,6 @@ early_tries <- function(nm, vl, values) {
 #' @rdname named_map_builder
 #' @export
 `%:=%` <- function(targets, values) {
-  # check if this was a lambda assignment in disguise
-  # only consider so at this checkif if RHS is {}
-  # else let S3 disptach on formula pick this up
-  res <- early_tries(substitute(targets), substitute(values), values)
-  if(!is.null(res)) {
-    return(res)
-  }
-  # use standard S3 dispatch
   UseMethod("%:=%")
 }
 

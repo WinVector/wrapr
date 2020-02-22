@@ -62,7 +62,7 @@ library(wrapr)
 packageVersion("wrapr")
  #  [1] '2.0.0'
 date()
- #  [1] "Sat Feb 22 07:46:52 2020"
+ #  [1] "Sat Feb 22 08:10:44 2020"
 ```
 
 ## [`%.>%` (dot pipe or dot arrow)](https://winvector.github.io/wrapr/articles/dot_pipe.html)
@@ -424,10 +424,6 @@ wrapr::defineLambda()
 
 # square numbers 1 through 4
 sapply(1:4, λ(x, x^2))
- #  [1]  1  4  9 16
-
-# alternate "colon equals with braces" function builder notation
-sapply(1:4, x := { x^2 })
  #  [1]  1  4  9 16
 ```
 

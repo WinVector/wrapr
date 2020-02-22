@@ -6,6 +6,7 @@
  * Stricter tests on unpack/to.
  * := for names.
  * := for to/unpack.
+ * Don't use := for anonymous function construction.
  * Update evalb, and bquote uses including adding .(-) notation.
  * Remove some obsolete methods such as CapturePipeine, as_dot_fn, UnaryFunctions/ApplyTo, and locum.
  * Make pipe_impl not internal and document more.

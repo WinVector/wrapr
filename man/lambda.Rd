@@ -30,13 +30,6 @@ sapply(1:4, lambda(x, x^2))
 f <- lambda(x, y, x+y)
 f(2,4)
 
-# brace interface syntax
-f <- x := { x^2 }
-f(5)
-
-# formula interface syntax: [~arg|arg(~arg)+] := { body }
-f <- x~y := { x + 3 * y }
-f(5, 47)
 
 }
 \seealso{

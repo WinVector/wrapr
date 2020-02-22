@@ -38,19 +38,6 @@ name <- 'a'
 name := '5'
 # equivalent to: c('a' = '5')
 
-# fn version:
-#  applied when right side is {}
-#  or when left side is of class formula.
-
-g <- x~y := { x + 3*y }
-g(1,100)
-
-f <- ~x := x^2
-f(7)
-
-f <- x := { sqrt(x) }
-f(7)
-
 }
 \seealso{
 \code{\link{lambda}}, \code{\link{defineLambda}}, \code{\link{makeFunction_se}}

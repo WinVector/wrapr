@@ -20,7 +20,7 @@ test_pipe <- function() {
     mtcars %.>%
     subset(., hp > 100) %.>%
     transform(., kpl = mpg * 0.4251) %.>%
-    aggregate(. ~ cyl, data = ., FUN = . := { mean(.) %.>% round(., 2) })
+    aggregate(. ~ cyl, data = ., FUN = function(.) { mean(.) %.>% round(., 2) })
 
   RUnit::checkEquals(expect, res)
 

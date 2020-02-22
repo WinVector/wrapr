@@ -201,12 +201,7 @@
 <span class='co'># example more than one argument</span>
 <span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='fu'>lambda</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>x</span>+<span class='no'>y</span>)
 <span class='fu'>f</span>(<span class='fl'>2</span>,<span class='fl'>4</span>)</div><div class='output co'>#&gt; [1] 6</div><div class='input'>
-<span class='co'># brace interface syntax</span>
-<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='no'>x</span> <span class='kw'>:=</span> { <span class='no'>x</span>^<span class='fl'>2</span> }
-<span class='fu'>f</span>(<span class='fl'>5</span>)</div><div class='output co'>#&gt; [1] 25</div><div class='input'>
-<span class='co'># formula interface syntax: [~arg|arg(~arg)+] := { body }</span>
-<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='no'>x</span>~<span class='no'>y</span> <span class='kw'>:=</span> { <span class='no'>x</span> + <span class='fl'>3</span> * <span class='no'>y</span> }
-<span class='fu'>f</span>(<span class='fl'>5</span>, <span class='fl'>47</span>)</div><div class='output co'>#&gt; [1] 146</div><div class='input'>
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

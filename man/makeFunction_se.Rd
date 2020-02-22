@@ -9,7 +9,7 @@ makeFunction_se(params, body, env = parent.frame())
 \arguments{
 \item{params}{formal parameters of function, unbound names.}
 
-\item{body}{substituted body of function to map arguments into (braces required for ":=" notation).}
+\item{body}{substituted body of function to map arguments into.}
 
 \item{env}{environment to work in.}
 }
@@ -17,25 +17,17 @@ makeFunction_se(params, body, env = parent.frame())
 user defined function.
 }
 \description{
-Developed from:
-\url{http://www.win-vector.com/blog/2016/12/the-case-for-using-in-r/comment-page-1/#comment-66399},
- \url{https://github.com/klmr/functional#a-concise-lambda-syntax},
- \url{https://github.com/klmr/functional/blob/master/lambda.r}
-Called from \code{:=} operator.
+Build an anonymous function.
 }
 \examples{
 
 f <- makeFunction_se(as.name('x'), substitute({x*x}))
 f(7)
 
-f <- x := { x*x }
-f(7)
 
 g <- makeFunction_se(c(as.name('x'), as.name('y')), substitute({ x + 3*y }))
 g(1,100)
 
-g <- c(x,y) := { x + 3*y }
-g(1,100)
 
 }
 \seealso{
