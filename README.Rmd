@@ -138,11 +138,11 @@ d <- data.frame(
   group = c('train', 'calibrate', 'test'),
   stringsAsFactors = FALSE)
 
-to[
-  train_data <- train,
-  calibrate_data <- calibrate,
-  test_data <- test
-  ] <- split(d, d$group)
+unpack[
+  train_data = train,
+  calibrate_data = calibrate,
+  test_data = test
+  ] := split(d, d$group)
 
 knitr::kable(train_data)
 ```

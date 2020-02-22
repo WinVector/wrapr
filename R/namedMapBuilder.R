@@ -5,8 +5,8 @@
 #' Set names of right-argument to be left-argument, and return right argument.
 #' Called from \code{:=} operator.
 #'
-#' @param names names to set.
-#' @param values values to assign names to (and return).
+#' @param targets names to set.
+#' @param values values to assign to names (and return).
 #' @return values with names set.
 #'
 #' @seealso \code{\link{lambda}}, \code{\link{defineLambda}}, \code{\link{makeFunction_se}}
@@ -39,8 +39,8 @@
 #' f(7)
 #'
 #' @export
-named_map_builder <- function(names, values) {
-  names <- as.character(names)
+named_map_builder <- function(targets, values) {
+  names <- as.character(targets)
   if(length(names)!=length(values)) {
     stop("wrapr::named_map_builder() names/values length mismatch")
   }
@@ -81,11 +81,11 @@ early_tries <- function(nm, vl, values) {
 
 #' @rdname named_map_builder
 #' @export
-`:=` <- function(names, values) {
+`:=` <- function(targets, values) {
   # check if this was a lambda assignment in disguise
   # only consider so at this checkif if RHS is {}
   # else let S3 disptach on formula pick this up
-  res <- early_tries(substitute(names), substitute(values), values)
+  res <- early_tries(substitute(targets), substitute(values), values)
   if(!is.null(res)) {
     return(res)
   }
@@ -121,11 +121,11 @@ early_tries <- function(nm, vl, values) {
 
 #' @rdname named_map_builder
 #' @export
-`%:=%` <- function(names, values) {
+`%:=%` <- function(targets, values) {
   # check if this was a lambda assignment in disguise
   # only consider so at this checkif if RHS is {}
   # else let S3 disptach on formula pick this up
-  res <- early_tries(substitute(names), substitute(values), values)
+  res <- early_tries(substitute(targets), substitute(values), values)
   if(!is.null(res)) {
     return(res)
   }

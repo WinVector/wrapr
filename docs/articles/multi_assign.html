@@ -124,7 +124,7 @@
       <h1>Multiple Assignment</h1>
                         <h4 class="author">John Mount</h4>
             
-            <h4 class="date">2020-02-20</h4>
+            <h4 class="date">2020-02-22</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/multi_assign.Rmd"><code>vignettes/multi_assign.Rmd</code></a></small>
       <div class="hidden name"><code>multi_assign.Rmd</code></div>
@@ -352,116 +352,127 @@
 </tr>
 </tbody>
 </table>
-<p>The semantics of <code>[]&lt;-</code> imply that an object named “<code>to</code>” is left in our workspace as a side effect. However, this object is small and if there is already an object name <code>to</code> in the workspace that is not of class <code>Unpacker</code> the unpacking is aborted prior to overwriting anything. The unpacker two modes: <code>unpack</code> (a function that needs a dot in pipes) and <code>to</code> (an eager function factory that does not require a dot in pipes). Also the side-effect can be avoided by using alternate non-array update notations.</p>
+<p>The semantics of <code>[]&lt;-</code> imply that an object named “<code>to</code>” is left in our workspace as a side effect. However, this object is small and if there is already an object name <code>to</code> in the workspace that is not of class <code>Unpacker</code> the unpacking is aborted prior to overwriting anything. The unpacker two modes: <code>unpack</code> (a function that needs a dot in pipes) and <code>to</code> (an eager function factory that does not require a dot in pipes). The side-effect can be avoided by using <code>:=</code> for assigment.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/rm.html">rm</a></span>(<span class="dt">list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span>, <span class="st">'to'</span>))</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">to[</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4">  train_data &lt;-<span class="st"> </span>train,</a>
+<a class="sourceLine" id="cb11-5" data-line-number="5">  calibrate_data &lt;-<span class="st"> </span>calibrate,</a>
+<a class="sourceLine" id="cb11-6" data-line-number="6">  test_data &lt;-<span class="st"> </span>test</a>
+<a class="sourceLine" id="cb11-7" data-line-number="7">  ] <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(d, d<span class="op">$</span>group)</a>
+<a class="sourceLine" id="cb11-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="kw"><a href="https://rdrr.io/r/base/ls.html">ls</a></span>()</a></code></pre></div>
+<pre><code>## [1] "calibrate_data" "d"              "test_data"      "train_data"</code></pre>
+<p>Also the side-effect can be avoided by using alternate non-array update notations.</p>
 <p>We will demonstrate a few of these. First is pipe to array notation.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/rm.html">rm</a></span>(<span class="dt">list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span>, <span class="st">'to'</span>))</a></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(d, d<span class="op">$</span>group) <span class="op">%.&gt;%</span><span class="st"> </span>to[</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2">  train_data &lt;-<span class="st"> </span>train,</a>
-<a class="sourceLine" id="cb12-3" data-line-number="3">  calibrate_data &lt;-<span class="st"> </span>calibrate,</a>
-<a class="sourceLine" id="cb12-4" data-line-number="4">  test_data &lt;-<span class="st"> </span>test</a>
-<a class="sourceLine" id="cb12-5" data-line-number="5">  ]</a>
-<a class="sourceLine" id="cb12-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/r/base/ls.html">ls</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/rm.html">rm</a></span>(<span class="dt">list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(d, d<span class="op">$</span>group) <span class="op">%.&gt;%</span><span class="st"> </span>to[</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">  train_data &lt;-<span class="st"> </span>train,</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3">  calibrate_data &lt;-<span class="st"> </span>calibrate,</a>
+<a class="sourceLine" id="cb14-4" data-line-number="4">  test_data &lt;-<span class="st"> </span>test</a>
+<a class="sourceLine" id="cb14-5" data-line-number="5">  ]</a>
+<a class="sourceLine" id="cb14-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/r/base/ls.html">ls</a></span>()</a></code></pre></div>
 <pre><code>## [1] "calibrate_data" "d"              "test_data"      "train_data"</code></pre>
 <p>Note the above is the <a href="https://journal.r-project.org/archive/2018/RJ-2018-042/index.html"><code>wrapr</code> dot arrow pipe</a> (which requires explicit dots to denote pipe targets). In this case it is dispatching on the class of the right-hand side argument to get the effect. This is a common feature of the wrapr dot arrow pipe. We could get a similar effect by using right-assigment “<code>-&gt;</code>” instead of the pipe.</p>
 <p>We can also use a pipe function notation.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/rm.html">rm</a></span>(<span class="dt">list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span>))</a></code></pre></div>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(d, d<span class="op">$</span>group) <span class="op">%.&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/to.html">to</a></span>(</a>
-<a class="sourceLine" id="cb15-2" data-line-number="2">  train_data &lt;-<span class="st"> </span>train,</a>
-<a class="sourceLine" id="cb15-3" data-line-number="3">  calibrate_data &lt;-<span class="st"> </span>calibrate,</a>
-<a class="sourceLine" id="cb15-4" data-line-number="4">  test_data &lt;-<span class="st"> </span>test</a>
-<a class="sourceLine" id="cb15-5" data-line-number="5">)</a>
-<a class="sourceLine" id="cb15-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb15-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/r/base/ls.html">ls</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/rm.html">rm</a></span>(<span class="dt">list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(d, d<span class="op">$</span>group) <span class="op">%.&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/to.html">to</a></span>(</a>
+<a class="sourceLine" id="cb17-2" data-line-number="2">  train_data &lt;-<span class="st"> </span>train,</a>
+<a class="sourceLine" id="cb17-3" data-line-number="3">  calibrate_data &lt;-<span class="st"> </span>calibrate,</a>
+<a class="sourceLine" id="cb17-4" data-line-number="4">  test_data &lt;-<span class="st"> </span>test</a>
+<a class="sourceLine" id="cb17-5" data-line-number="5">)</a>
+<a class="sourceLine" id="cb17-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb17-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/r/base/ls.html">ls</a></span>()</a></code></pre></div>
 <pre><code>## [1] "calibrate_data" "d"              "test_data"      "train_data"</code></pre>
 <p>Notice piping to <code><a href="../reference/to.html">to()</a></code> is like piping to <code>to[]</code>, no dot is needed.</p>
 <p>We can not currently use the <code>magrittr</code> pipe in the above as in that case the unpacked results are lost in a temporary intermediate environment <code>magrittr</code> uses during execution.</p>
 <p>A more conventional functional form is given in <code><a href="../reference/unpack.html">unpack()</a></code>. <code><a href="../reference/unpack.html">unpack()</a></code> requires a dot in <code>wrapr</code> pipelines.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/rm.html">rm</a></span>(<span class="dt">list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span>))</a></code></pre></div>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(d, d<span class="op">$</span>group) <span class="op">%.&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/unpack.html">unpack</a></span>(</a>
-<a class="sourceLine" id="cb18-2" data-line-number="2">  .,</a>
-<a class="sourceLine" id="cb18-3" data-line-number="3">  train_data &lt;-<span class="st"> </span>train,</a>
-<a class="sourceLine" id="cb18-4" data-line-number="4">  calibrate_data &lt;-<span class="st"> </span>calibrate,</a>
-<a class="sourceLine" id="cb18-5" data-line-number="5">  test_data &lt;-<span class="st"> </span>test</a>
-<a class="sourceLine" id="cb18-6" data-line-number="6">)</a>
-<a class="sourceLine" id="cb18-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb18-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/r/base/ls.html">ls</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/rm.html">rm</a></span>(<span class="dt">list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(d, d<span class="op">$</span>group) <span class="op">%.&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/unpack.html">unpack</a></span>(</a>
+<a class="sourceLine" id="cb20-2" data-line-number="2">  .,</a>
+<a class="sourceLine" id="cb20-3" data-line-number="3">  train_data &lt;-<span class="st"> </span>train,</a>
+<a class="sourceLine" id="cb20-4" data-line-number="4">  calibrate_data &lt;-<span class="st"> </span>calibrate,</a>
+<a class="sourceLine" id="cb20-5" data-line-number="5">  test_data &lt;-<span class="st"> </span>test</a>
+<a class="sourceLine" id="cb20-6" data-line-number="6">)</a>
+<a class="sourceLine" id="cb20-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb20-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/r/base/ls.html">ls</a></span>()</a></code></pre></div>
 <pre><code>## [1] "calibrate_data" "d"              "test_data"      "train_data"</code></pre>
 <p>Unpack also support the pipe to array and assign to array notations. In addition, with <code><a href="../reference/unpack.html">unpack()</a></code> we could also use the conventional function notation.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/rm.html">rm</a></span>(<span class="dt">list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span>))</a></code></pre></div>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw"><a href="../reference/unpack.html">unpack</a></span>(</a>
-<a class="sourceLine" id="cb21-2" data-line-number="2">  <span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(d, d<span class="op">$</span>group),</a>
-<a class="sourceLine" id="cb21-3" data-line-number="3">  train_data &lt;-<span class="st"> </span>train,</a>
-<a class="sourceLine" id="cb21-4" data-line-number="4">  calibrate_data &lt;-<span class="st"> </span>calibrate,</a>
-<a class="sourceLine" id="cb21-5" data-line-number="5">  test_data &lt;-<span class="st"> </span>test</a>
-<a class="sourceLine" id="cb21-6" data-line-number="6">)</a>
-<a class="sourceLine" id="cb21-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb21-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/r/base/ls.html">ls</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/rm.html">rm</a></span>(<span class="dt">list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw"><a href="../reference/unpack.html">unpack</a></span>(</a>
+<a class="sourceLine" id="cb23-2" data-line-number="2">  <span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(d, d<span class="op">$</span>group),</a>
+<a class="sourceLine" id="cb23-3" data-line-number="3">  train_data &lt;-<span class="st"> </span>train,</a>
+<a class="sourceLine" id="cb23-4" data-line-number="4">  calibrate_data &lt;-<span class="st"> </span>calibrate,</a>
+<a class="sourceLine" id="cb23-5" data-line-number="5">  test_data &lt;-<span class="st"> </span>test</a>
+<a class="sourceLine" id="cb23-6" data-line-number="6">)</a>
+<a class="sourceLine" id="cb23-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb23-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/r/base/ls.html">ls</a></span>()</a></code></pre></div>
 <pre><code>## [1] "calibrate_data" "d"              "test_data"      "train_data"</code></pre>
 <p><code><a href="../reference/to.html">to()</a></code> can not be directly used as a function. It is <em>strongly</em> suggested that the objects returned by <code>to[]</code>, <code><a href="../reference/to.html">to()</a></code>, and <code>unpack[]</code> <em>not ever</em> be stored in variables, but instead only produced, used, and discarded. The issue these are objects of class <code>"UnpackTarget"</code> and have the upack destination names already bound in. This means if one of these is used in code: a user reading the code can not tell where the side-effects are going without examining the contents of the object.</p>
 <p>The assignments in the unpacking block can be any of <code>&lt;-</code>, <code>=</code>, <code>:=</code>, or even <code>-&gt;</code> (though the last one assigns left to right).</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/rm.html">rm</a></span>(<span class="dt">list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span>))</a></code></pre></div>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw"><a href="../reference/unpack.html">unpack</a></span>(</a>
-<a class="sourceLine" id="cb24-2" data-line-number="2">  <span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(d, d<span class="op">$</span>group),</a>
-<a class="sourceLine" id="cb24-3" data-line-number="3">  <span class="dt">train_data =</span> train,</a>
-<a class="sourceLine" id="cb24-4" data-line-number="4">  <span class="dt">calibrate_data =</span> calibrate,</a>
-<a class="sourceLine" id="cb24-5" data-line-number="5">  <span class="dt">test_data =</span> test</a>
-<a class="sourceLine" id="cb24-6" data-line-number="6">)</a>
-<a class="sourceLine" id="cb24-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb24-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/r/base/ls.html">ls</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/rm.html">rm</a></span>(<span class="dt">list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw"><a href="../reference/unpack.html">unpack</a></span>(</a>
+<a class="sourceLine" id="cb26-2" data-line-number="2">  <span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(d, d<span class="op">$</span>group),</a>
+<a class="sourceLine" id="cb26-3" data-line-number="3">  <span class="dt">train_data =</span> train,</a>
+<a class="sourceLine" id="cb26-4" data-line-number="4">  <span class="dt">calibrate_data =</span> calibrate,</a>
+<a class="sourceLine" id="cb26-5" data-line-number="5">  <span class="dt">test_data =</span> test</a>
+<a class="sourceLine" id="cb26-6" data-line-number="6">)</a>
+<a class="sourceLine" id="cb26-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb26-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/r/base/ls.html">ls</a></span>()</a></code></pre></div>
 <pre><code>## [1] "calibrate_data" "d"              "test_data"      "train_data"</code></pre>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/rm.html">rm</a></span>(<span class="dt">list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span>))</a></code></pre></div>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw"><a href="../reference/unpack.html">unpack</a></span>(</a>
-<a class="sourceLine" id="cb27-2" data-line-number="2">  <span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(d, d<span class="op">$</span>group),</a>
-<a class="sourceLine" id="cb27-3" data-line-number="3">  train -&gt;<span class="st"> </span>train_data,</a>
-<a class="sourceLine" id="cb27-4" data-line-number="4">  calibrate -&gt;<span class="st"> </span>calibrate_data,</a>
-<a class="sourceLine" id="cb27-5" data-line-number="5">  test -&gt;<span class="st"> </span>test_data</a>
-<a class="sourceLine" id="cb27-6" data-line-number="6">)</a>
-<a class="sourceLine" id="cb27-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb27-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/r/base/ls.html">ls</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/rm.html">rm</a></span>(<span class="dt">list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw"><a href="../reference/unpack.html">unpack</a></span>(</a>
+<a class="sourceLine" id="cb29-2" data-line-number="2">  <span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(d, d<span class="op">$</span>group),</a>
+<a class="sourceLine" id="cb29-3" data-line-number="3">  train -&gt;<span class="st"> </span>train_data,</a>
+<a class="sourceLine" id="cb29-4" data-line-number="4">  calibrate -&gt;<span class="st"> </span>calibrate_data,</a>
+<a class="sourceLine" id="cb29-5" data-line-number="5">  test -&gt;<span class="st"> </span>test_data</a>
+<a class="sourceLine" id="cb29-6" data-line-number="6">)</a>
+<a class="sourceLine" id="cb29-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb29-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/r/base/ls.html">ls</a></span>()</a></code></pre></div>
 <pre><code>## [1] "calibrate_data" "d"              "test_data"      "train_data"</code></pre>
 <p>It is a caught and signaled error to attempt to unpack an item that is not there.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/rm.html">rm</a></span>(<span class="dt">list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span>))</a></code></pre></div>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="kw"><a href="../reference/unpack.html">unpack</a></span>(</a>
-<a class="sourceLine" id="cb30-2" data-line-number="2">  <span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(d, d<span class="op">$</span>group),</a>
-<a class="sourceLine" id="cb30-3" data-line-number="3">  train_data &lt;-<span class="st"> </span>train,</a>
-<a class="sourceLine" id="cb30-4" data-line-number="4">  calibrate_data &lt;-<span class="st"> </span>calibrate_misspelled,</a>
-<a class="sourceLine" id="cb30-5" data-line-number="5">  test_data &lt;-<span class="st"> </span>test</a>
-<a class="sourceLine" id="cb30-6" data-line-number="6">)</a></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/rm.html">rm</a></span>(<span class="dt">list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="kw"><a href="../reference/unpack.html">unpack</a></span>(</a>
+<a class="sourceLine" id="cb32-2" data-line-number="2">  <span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(d, d<span class="op">$</span>group),</a>
+<a class="sourceLine" id="cb32-3" data-line-number="3">  train_data &lt;-<span class="st"> </span>train,</a>
+<a class="sourceLine" id="cb32-4" data-line-number="4">  calibrate_data &lt;-<span class="st"> </span>calibrate_misspelled,</a>
+<a class="sourceLine" id="cb32-5" data-line-number="5">  test_data &lt;-<span class="st"> </span>test</a>
+<a class="sourceLine" id="cb32-6" data-line-number="6">)</a></code></pre></div>
 <pre><code>## Error in write_values_into_env(unpack_environment = unpack_environment, : wrapr::unpack all source names must be in value, missing: 'calibrate_misspelled'.</code></pre>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/ls.html">ls</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/ls.html">ls</a></span>()</a></code></pre></div>
 <pre><code>## [1] "d"</code></pre>
 <p>The unpack attempts to be atomic: preferring to unpack all values or no values.</p>
 <p>Also, one does not have to unpack all slots.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw"><a href="../reference/unpack.html">unpack</a></span>(</a>
-<a class="sourceLine" id="cb34-2" data-line-number="2">  <span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(d, d<span class="op">$</span>group),</a>
-<a class="sourceLine" id="cb34-3" data-line-number="3">  train_data &lt;-<span class="st"> </span>train,</a>
-<a class="sourceLine" id="cb34-4" data-line-number="4">  test_data &lt;-<span class="st"> </span>test</a>
-<a class="sourceLine" id="cb34-5" data-line-number="5">)</a>
-<a class="sourceLine" id="cb34-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb34-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/r/base/ls.html">ls</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="kw"><a href="../reference/unpack.html">unpack</a></span>(</a>
+<a class="sourceLine" id="cb36-2" data-line-number="2">  <span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(d, d<span class="op">$</span>group),</a>
+<a class="sourceLine" id="cb36-3" data-line-number="3">  train_data &lt;-<span class="st"> </span>train,</a>
+<a class="sourceLine" id="cb36-4" data-line-number="4">  test_data &lt;-<span class="st"> </span>test</a>
+<a class="sourceLine" id="cb36-5" data-line-number="5">)</a>
+<a class="sourceLine" id="cb36-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb36-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/r/base/ls.html">ls</a></span>()</a></code></pre></div>
 <pre><code>## [1] "d"          "test_data"  "train_data"</code></pre>
 <p>We can use a name alone as shorthand for <code>name &lt;- name</code> (i.e. unpacking to the same name as in the incoming object).</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/rm.html">rm</a></span>(<span class="dt">list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'train_data'</span>, <span class="st">'test_data'</span>))</a></code></pre></div>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(d, d<span class="op">$</span>group) <span class="op">%.&gt;%</span></a>
-<a class="sourceLine" id="cb37-2" data-line-number="2"><span class="st">  </span>to[</a>
-<a class="sourceLine" id="cb37-3" data-line-number="3">     train,</a>
-<a class="sourceLine" id="cb37-4" data-line-number="4">     test</a>
-<a class="sourceLine" id="cb37-5" data-line-number="5">     ]</a>
-<a class="sourceLine" id="cb37-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb37-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/r/base/ls.html">ls</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/rm.html">rm</a></span>(<span class="dt">list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'train_data'</span>, <span class="st">'test_data'</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(d, d<span class="op">$</span>group) <span class="op">%.&gt;%</span></a>
+<a class="sourceLine" id="cb39-2" data-line-number="2"><span class="st">  </span>to[</a>
+<a class="sourceLine" id="cb39-3" data-line-number="3">     train,</a>
+<a class="sourceLine" id="cb39-4" data-line-number="4">     test</a>
+<a class="sourceLine" id="cb39-5" data-line-number="5">     ]</a>
+<a class="sourceLine" id="cb39-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb39-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/r/base/ls.html">ls</a></span>()</a></code></pre></div>
 <pre><code>## [1] "d"     "test"  "train"</code></pre>
 <p>We can also use <code>bquote</code> <code>.()</code> notation to use variables to specify where data is coming from.</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/rm.html">rm</a></span>(<span class="dt">list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'train'</span>, <span class="st">'test'</span>))</a></code></pre></div>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">train_source &lt;-<span class="st"> 'train'</span></a>
-<a class="sourceLine" id="cb40-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb40-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(d, d<span class="op">$</span>group) <span class="op">%.&gt;%</span></a>
-<a class="sourceLine" id="cb40-4" data-line-number="4"><span class="st">  </span>to[</a>
-<a class="sourceLine" id="cb40-5" data-line-number="5">     train_result =<span class="st"> </span>.(train_source),</a>
-<a class="sourceLine" id="cb40-6" data-line-number="6">     test</a>
-<a class="sourceLine" id="cb40-7" data-line-number="7">     ]</a>
-<a class="sourceLine" id="cb40-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb40-9" data-line-number="9"><span class="kw"><a href="https://rdrr.io/r/base/ls.html">ls</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/rm.html">rm</a></span>(<span class="dt">list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'train'</span>, <span class="st">'test'</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">train_source &lt;-<span class="st"> 'train'</span></a>
+<a class="sourceLine" id="cb42-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb42-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(d, d<span class="op">$</span>group) <span class="op">%.&gt;%</span></a>
+<a class="sourceLine" id="cb42-4" data-line-number="4"><span class="st">  </span>to[</a>
+<a class="sourceLine" id="cb42-5" data-line-number="5">     train_result =<span class="st"> </span>.(train_source),</a>
+<a class="sourceLine" id="cb42-6" data-line-number="6">     test</a>
+<a class="sourceLine" id="cb42-7" data-line-number="7">     ]</a>
+<a class="sourceLine" id="cb42-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb42-9" data-line-number="9"><span class="kw"><a href="https://rdrr.io/r/base/ls.html">ls</a></span>()</a></code></pre></div>
 <pre><code>## [1] "d"            "test"         "train_result" "train_source"</code></pre>
 <p>In all cases the user explicitly documents the intended data sources and data destinations at the place of assignment. This meas a later reader of the source code can see what the operation does, without having to know values of additional variables.</p>
 <p>Related work includes:</p>

@@ -62,7 +62,7 @@ library(wrapr)
 packageVersion("wrapr")
  #  [1] '2.0.0'
 date()
- #  [1] "Thu Feb 20 20:26:57 2020"
+ #  [1] "Sat Feb 22 07:46:52 2020"
 ```
 
 ## [`%.>%` (dot pipe or dot arrow)](https://winvector.github.io/wrapr/articles/dot_pipe.html)
@@ -227,11 +227,11 @@ d <- data.frame(
   group = c('train', 'calibrate', 'test'),
   stringsAsFactors = FALSE)
 
-to[
-  train_data <- train,
-  calibrate_data <- calibrate,
-  test_data <- test
-  ] <- split(d, d$group)
+unpack[
+  train_data = train,
+  calibrate_data = calibrate,
+  test_data = test
+  ] := split(d, d$group)
 
 knitr::kable(train_data)
 ```

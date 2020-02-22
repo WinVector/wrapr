@@ -185,8 +185,9 @@
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Array-assign form can not use the names: <code>.</code>, <code>wrapr_private_self</code>, <code>value</code>, or the name stored in <code>object_name</code>.
-function form can not use the names: <code>.</code> or <code>wrapr_private_value</code>. Array-form will wrong own name into working environment
-as a side-effect.</p>
+function form can not use the names: <code>.</code> or <code>wrapr_private_value</code>.
+Array-form with <code>=</code>, <code>&lt;-</code>, <code>-&gt;</code> will write own name into working environment
+as a side-effect. Array-form with <code>:=</code> does not have the side-effect.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

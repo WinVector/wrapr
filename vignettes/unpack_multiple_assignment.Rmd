@@ -60,7 +60,7 @@ You can also use `unpack` with an assignment notation similar to the notation us
 
 ```{r}
 # split d and unpack the smaller data frames into separate variables
-unpack[traind = train, testd = test, cald = calibrate] <- split(d, d$group)
+unpack[traind = train, testd = test, cald = calibrate] := split(d, d$group)
 
 knitr::kable(traind)
 
@@ -68,8 +68,6 @@ knitr::kable(cald)
 
 knitr::kable(testd)
 ```
-
-Note: the `<-` array assignment has the minor side-effect of writing a value for `unpack` into the working environment.  This object is small, and the operation is blocked if there is an existing `unpack` object that is not such a side effect in your workspace (so it will not overwrite something else).
 
 ### Reusing the list names as variables
 
@@ -84,11 +82,11 @@ knitr::kable(calibrate)
 
 knitr::kable(test)
 
-# try the unpack[]<- notation
+# try the unpack[] assignment notation
 
 rm(list = c('train', 'test', 'calibrate'))
 
-unpack[test, train, calibrate] <- split(d, d$group)
+unpack[test, train, calibrate] := split(d, d$group)
 
 knitr::kable(train)
 

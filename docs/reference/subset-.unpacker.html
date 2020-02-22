@@ -198,7 +198,7 @@ All non-NA target names must be unique.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Note: when using <code>[]&lt;-</code> notation, a reference to the unpacker object is written into the unpacking environment as a side-effect
-of the implied array assignment.
+of the implied array assignment. <code>:=</code> assigment does not have this side-effect.
 Array-assign form can not use the names: <code>.</code>, <code>wrapr_private_self</code>, <code>value</code>, or the name of the unpacker itself.
 For more details please see here <a href='http://www.win-vector.com/blog/2020/01/unpack-your-values-in-r/'>http://www.win-vector.com/blog/2020/01/unpack-your-values-in-r/</a>.</p>
 <p>Related work includes <code>Python</code> tuple unpacking, <code>zeallot</code>'s arrow, and <code>vadr::bind</code>.</p>
@@ -210,7 +210,7 @@ For more details please see here <a href='http://www.win-vector.com/blog/2020/01
 <span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>2</span>,
                 <span class='kw'>g</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'test'</span>, <span class='st'>'train'</span>),
                 <span class='kw'>stringsAsFactors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>to</span>[<span class='kw'>train_set</span> <span class='kw'>=</span> <span class='no'>train</span>, <span class='kw'>test_set</span> <span class='kw'>=</span> <span class='no'>test</span>] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span>(<span class='no'>d</span>, <span class='no'>d</span>$<span class='no'>g</span>)
+<span class='no'>to</span>[<span class='kw'>train_set</span> <span class='kw'>=</span> <span class='no'>train</span>, <span class='kw'>test_set</span> <span class='kw'>=</span> <span class='no'>test</span>] <span class='kw'>:=</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span>(<span class='no'>d</span>, <span class='no'>d</span>$<span class='no'>g</span>)
 <span class='co'># train_set and test_set now correctly split</span>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>train_set</span>)</div><div class='output co'>#&gt;   x     g
 #&gt; 2 2 train</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>test_set</span>)</div><div class='output co'>#&gt;   x    g
@@ -218,7 +218,7 @@ For more details please see here <a href='http://www.win-vector.com/blog/2020/01
 
 <span class='co'># named unpacking NEWNAME = OLDNAME implicit form</span>
 <span class='co'># values are matched by name, not index</span>
-<span class='no'>to</span>[<span class='no'>train</span>, <span class='no'>test</span>] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span>(<span class='no'>d</span>, <span class='no'>d</span>$<span class='no'>g</span>)
+<span class='no'>to</span>[<span class='no'>train</span>, <span class='no'>test</span>] <span class='kw'>:=</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span>(<span class='no'>d</span>, <span class='no'>d</span>$<span class='no'>g</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>train</span>)</div><div class='output co'>#&gt;   x     g
 #&gt; 2 2 train</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>test</span>)</div><div class='output co'>#&gt;   x    g
 #&gt; 1 1 test</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'train'</span>, <span class='st'>'test'</span>))
@@ -226,7 +226,7 @@ For more details please see here <a href='http://www.win-vector.com/blog/2020/01
 <span class='co'># bquote example</span>
 <span class='no'>train_col_name</span> <span class='kw'>&lt;-</span> <span class='st'>'train'</span>
 <span class='no'>test_col_name</span> <span class='kw'>&lt;-</span> <span class='st'>'test'</span>
-<span class='no'>to</span>[<span class='kw'>train</span> <span class='kw'>=</span> <span class='fu'>.</span>(<span class='no'>train_col_name</span>), <span class='kw'>test</span> <span class='kw'>=</span> <span class='fu'>.</span>(<span class='no'>test_col_name</span>)] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span>(<span class='no'>d</span>, <span class='no'>d</span>$<span class='no'>g</span>)
+<span class='no'>to</span>[<span class='kw'>train</span> <span class='kw'>=</span> <span class='fu'>.</span>(<span class='no'>train_col_name</span>), <span class='kw'>test</span> <span class='kw'>=</span> <span class='fu'>.</span>(<span class='no'>test_col_name</span>)] <span class='kw'>:=</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span>(<span class='no'>d</span>, <span class='no'>d</span>$<span class='no'>g</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>train</span>)</div><div class='output co'>#&gt;   x     g
 #&gt; 2 2 train</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>test</span>)</div><div class='output co'>#&gt;   x    g
 #&gt; 1 1 test</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'train'</span>, <span class='st'>'test'</span>))</div></pre>

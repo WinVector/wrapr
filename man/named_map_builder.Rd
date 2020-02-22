@@ -6,16 +6,16 @@
 \alias{\%:=\%}
 \title{Named map builder.}
 \usage{
-named_map_builder(names, values)
+named_map_builder(targets, values)
 
-`:=`(names, values)
+`:=`(targets, values)
 
-names \%:=\% values
+targets \%:=\% values
 }
 \arguments{
-\item{names}{names to set.}
+\item{targets}{names to set.}
 
-\item{values}{values to assign names to (and return).}
+\item{values}{values to assign to names (and return).}
 }
 \value{
 values with names set.

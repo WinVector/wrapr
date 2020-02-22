@@ -124,7 +124,7 @@
       <h1>Multiple Assignment with unpack</h1>
                         <h4 class="author">Nina Zumel and John Mount</h4>
             
-            <h4 class="date">2020-02-20</h4>
+            <h4 class="date">2020-02-22</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/unpack_multiple_assignment.Rmd"><code>vignettes/unpack_multiple_assignment.Rmd</code></a></small>
       <div class="hidden name"><code>unpack_multiple_assignment.Rmd</code></div>
@@ -374,7 +374,7 @@
 </table>
 <p>You can also use <code>unpack</code> with an assignment notation similar to the notation used with the<br><a href="https://CRAN.R-project.org/package=zeallot"><code>zeallot::%&lt;-%</code></a> pipe:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co"># split d and unpack the smaller data frames into separate variables</span></a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">unpack[traind =<span class="st"> </span>train, testd =<span class="st"> </span>test, cald =<span class="st"> </span>calibrate] &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(d, d<span class="op">$</span>group)</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">unpack[traind =<span class="st"> </span>train, testd =<span class="st"> </span>test, cald =<span class="st"> </span>calibrate] <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(d, d<span class="op">$</span>group)</a>
 <a class="sourceLine" id="cb10-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb10-4" data-line-number="4">knitr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(traind)</a></code></pre></div>
 <table class="table">
@@ -451,7 +451,6 @@
 </tr>
 </tbody>
 </table>
-<p>Note: the <code>&lt;-</code> array assignment has the minor side-effect of writing a value for <code>unpack</code> into the working environment. This object is small, and the operation is blocked if there is an existing <code>unpack</code> object that is not such a side effect in your workspace (so it will not overwrite something else).</p>
 <div id="reusing-the-list-names-as-variables" class="section level3">
 <h3 class="hasAnchor">
 <a href="#reusing-the-list-names-as-variables" class="anchor"></a>Reusing the list names as variables</h3>
@@ -533,11 +532,11 @@
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="co"># try the unpack[]&lt;- notation</span></a>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="co"># try the unpack[] assignment notation</span></a>
 <a class="sourceLine" id="cb16-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb16-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/rm.html">rm</a></span>(<span class="dt">list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'train'</span>, <span class="st">'test'</span>, <span class="st">'calibrate'</span>))</a>
 <a class="sourceLine" id="cb16-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb16-5" data-line-number="5">unpack[test, train, calibrate] &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(d, d<span class="op">$</span>group)</a>
+<a class="sourceLine" id="cb16-5" data-line-number="5">unpack[test, train, calibrate] <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(d, d<span class="op">$</span>group)</a>
 <a class="sourceLine" id="cb16-6" data-line-number="6"></a>
 <a class="sourceLine" id="cb16-7" data-line-number="7">knitr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(train)</a></code></pre></div>
 <table class="table">

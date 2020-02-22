@@ -326,16 +326,15 @@ unpack_impl <- function(..., unpack_environment, value, str_args, object_name = 
 }
 
 
-mk_unpack_single_arg_fn <- function(str_args, object_name, our_class) {
+mk_unpack_single_arg_fn <- function(str_args, object_name, our_class, unpack_environment) {
   force(str_args)
   force(object_name)
   force(our_class)
+  force(unpack_environment)
   str_args <- validate_assignment_named_map(str_args, extra_forbidden_names = object_name)
 
   # build function return in a fairly clean environment
   f <- function(.) {
-    # get environment to work in
-    unpack_environment <- parent.frame(n = 1)
     unpack_impl(unpack_environment = unpack_environment,
                 value = .,
                 str_args = str_args,
@@ -346,6 +345,7 @@ mk_unpack_single_arg_fn <- function(str_args, object_name, our_class) {
 
   attr(f, 'object_name') <- object_name
   attr(f, 'str_args') <- str_args
+  attr(f, 'unpack_environment') <- unpack_environment
   class(f) <- our_class
   return(f)
 }
@@ -356,8 +356,9 @@ mk_unpack_single_arg_fn <- function(str_args, object_name, our_class) {
 #' Create a value unplacking object that records it is stored by name \code{object_name} (function version).
 #'
 #' Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or the name stored in \code{object_name}.
-#' function form can not use the names: \code{.} or \code{wrapr_private_value}. Array-form will wrong own name into working environment
-#' as a side-effect.
+#' function form can not use the names: \code{.} or \code{wrapr_private_value}.
+#' Array-form with \code{=}, \code{<-}, \code{->} will write own name into working environment
+#' as a side-effect. Array-form with \code{:=} does not have the side-effect.
 #'
 #'
 #' @param object_name character, name the object is stored as
@@ -406,8 +407,9 @@ UnpackerF <- function(object_name = NULL) {
 #' Create a value unplacking object that records it is stored by name \code{object_name} (eager pipe version).
 #'
 #' Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or the name stored in \code{object_name}.
-#' function form can not use the names: \code{.} or \code{wrapr_private_value}. Array-form will wrong own name into working environment
-#' as a side-effect.
+#' function form can not use the names: \code{.} or \code{wrapr_private_value}.
+#' Array-form with \code{=}, \code{<-}, \code{->} will write own name into working environment
+#' as a side-effect. Array-form with \code{:=} does not have the side-effect.
 #'
 #'
 #' @param object_name character, name the object is stored as
@@ -437,7 +439,8 @@ UnpackerP <- function(object_name = NULL) {
     str_args <- grab_assignments_from_dots(orig_args, unpack_environment)
     bound_f <- mk_unpack_single_arg_fn(str_args = str_args,
                                        object_name = object_name,
-                                       our_class = "UnpackTarget")
+                                       our_class = "UnpackTarget",
+                                       unpack_environment = unpack_environment)
     return(bound_f)
   }
   attr(f, 'object_name') <- object_name
@@ -483,7 +486,7 @@ print.Unpacker <- function(x, ...) {
 #' All non-NA target names must be unique.
 #'
 #' Note: when using \code{[]<-} notation, a reference to the unpacker object is written into the unpacking environment as a side-effect
-#' of the implied array assignment.
+#' of the implied array assignment. \code{:=} assigment does not have this side-effect.
 #' Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or the name of the unpacker itself.
 #' For more details please see here \url{http://www.win-vector.com/blog/2020/01/unpack-your-values-in-r/}.
 #'
@@ -501,7 +504,7 @@ print.Unpacker <- function(x, ...) {
 #' d <- data.frame(x = 1:2,
 #'                 g=c('test', 'train'),
 #'                 stringsAsFactors = FALSE)
-#' to[train_set = train, test_set = test] <- split(d, d$g)
+#' to[train_set = train, test_set = test] := split(d, d$g)
 #' # train_set and test_set now correctly split
 #' print(train_set)
 #' print(test_set)
@@ -509,7 +512,7 @@ print.Unpacker <- function(x, ...) {
 #'
 #' # named unpacking NEWNAME = OLDNAME implicit form
 #' # values are matched by name, not index
-#' to[train, test] <- split(d, d$g)
+#' to[train, test] := split(d, d$g)
 #' print(train)
 #' print(test)
 #' rm(list = c('train', 'test'))
@@ -517,7 +520,7 @@ print.Unpacker <- function(x, ...) {
 #' # bquote example
 #' train_col_name <- 'train'
 #' test_col_name <- 'test'
-#' to[train = .(train_col_name), test = .(test_col_name)] <- split(d, d$g)
+#' to[train = .(train_col_name), test = .(test_col_name)] := split(d, d$g)
 #' print(train)
 #' print(test)
 #' rm(list = c('train', 'test'))
@@ -571,7 +574,8 @@ print.Unpacker <- function(x, ...) {
   object_name <- attr(wrapr_private_self, 'object_name')
   return(mk_unpack_single_arg_fn(str_args = str_args,
                                  object_name = object_name,
-                                 our_class = "UnpackTarget"))
+                                 our_class = "UnpackTarget",
+                                 unpack_environment = unpack_environment))
 }
 
 
@@ -579,12 +583,15 @@ print.Unpacker <- function(x, ...) {
 format.UnpackTarget <- function(x, ...) {
   object_name <- attr(x, 'object_name')
   str_args <- attr(x, 'str_args')
+  unpack_environment <- attr(x, 'unpack_environment')
   q_name <- "NULL"
   if(!is.null(object_name)) {
     q_name <- sQuote(object_name)
   }
-  return(paste0("wrapr::UnpackTarget(object_name = ", q_name,
-                ", str_args = ", map_to_char(str_args),
+  return(paste0("wrapr::UnpackTarget(",
+                "\n\tobject_name = ", q_name,
+                ",\n\tstr_args = ", map_to_char(str_args),
+                ",\n\tunpack_environment = ", format(unpack_environment),
                 ")"))
 }
 
@@ -610,7 +617,7 @@ print.UnpackTarget <- function(x, ...) {
 #' All non-NA target names must be unique.
 #'
 #' Note: when using \code{[]<-} notation, a reference to the unpacker object is written into the unpacking environment as a side-effect
-#' of the implied array assignment.
+#' of the implied array assignment. \code{:=} assigment does not have this side-effect.
 #' Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or \code{to}.
 #' function form can not use the names: \code{.} or \code{wrapr_private_value}.
 #' For more detials please see here \url{http://www.win-vector.com/blog/2020/01/unpack-your-values-in-r/}.
@@ -627,7 +634,7 @@ print.UnpackTarget <- function(x, ...) {
 #' d <- data.frame(x = 1:2,
 #'                 g=c('test', 'train'),
 #'                 stringsAsFactors = FALSE)
-#' to[train_set = train, test_set = test] <- split(d, d$g)
+#' to[train_set = train, test_set = test] := split(d, d$g)
 #' # train_set and test_set now correctly split
 #' print(train_set)
 #' print(test_set)
@@ -635,7 +642,7 @@ print.UnpackTarget <- function(x, ...) {
 #'
 #' # named unpacking NEWNAME = OLDNAME implicit form
 #' # values are matched by name, not index
-#' to[train, test] <- split(d, d$g)
+#' to[train, test] := split(d, d$g)
 #' print(train)
 #' print(test)
 #' rm(list = c('train', 'test'))
@@ -652,7 +659,7 @@ print.UnpackTarget <- function(x, ...) {
 #' # bquote example
 #' train_col_name <- 'train'
 #' test_col_name <- 'test'
-#' to[train = .(train_col_name), test = .(test_col_name)] <- split(d, d$g)
+#' to[train = .(train_col_name), test = .(test_col_name)] := split(d, d$g)
 #' print(train)
 #' print(test)
 #' rm(list = c('train', 'test'))
@@ -667,8 +674,8 @@ to <- UnpackerP(object_name = "to")
 #' NULL is a special case that is unpacked to all targets. NA targets are skipped.
 #' All non-NA target names must be unique.
 #'
-#' Note: a reference to the unpacker object is written into the unpacking environment as a side-effect
-#' of the implied array assignment.
+#' Note: when using \code{[]<-} notation, a reference to the unpacker object is written into the unpacking environment as a side-effect
+#' of the implied array assignment. \code{:=} assigment does not have this side-effect.
 #' Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or \code{unpack}.
 #' Function form can not use the names: \code{.} or \code{wrapr_private_value}.
 #' For more details please see here \url{http://www.win-vector.com/blog/2020/01/unpack-your-values-in-r/}.
@@ -686,7 +693,7 @@ to <- UnpackerP(object_name = "to")
 #' d <- data.frame(x = 1:2,
 #'                 g=c('test', 'train'),
 #'                 stringsAsFactors = FALSE)
-#' unpack[train_set = train, test_set = test] <- split(d, d$g)
+#' unpack[train_set = train, test_set = test] := split(d, d$g)
 #' # train_set and test_set now correctly split
 #' print(train_set)
 #' print(test_set)
@@ -694,7 +701,7 @@ to <- UnpackerP(object_name = "to")
 #'
 #' # named unpacking NEWNAME = OLDNAME implicit form
 #' # values are matched by name, not index
-#' unpack[train, test] <- split(d, d$g)
+#' unpack[train, test] := split(d, d$g)
 #' print(train)
 #' print(test)
 #' rm(list = c('train', 'test'))
@@ -725,4 +732,15 @@ to <- UnpackerP(object_name = "to")
 #' @export
 #'
 unpack <- UnpackerF(object_name = "unpack")
+
+
+#' @export
+`:=.UnpackTarget` <- function(targets, values) {
+  targets(values)
+}
+
+#' @export
+`%:=%.UnpackTarget` <- function(targets, values) {
+  targets(values)
+}
 

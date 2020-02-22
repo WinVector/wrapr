@@ -17,7 +17,8 @@ Create a value unplacking object that records it is stored by name \code{object_
 }
 \details{
 Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or the name stored in \code{object_name}.
-function form can not use the names: \code{.} or \code{wrapr_private_value}. Array-form will wrong own name into working environment
-as a side-effect.
+function form can not use the names: \code{.} or \code{wrapr_private_value}.
+Array-form with \code{=}, \code{<-}, \code{->} will write own name into working environment
+as a side-effect. Array-form with \code{:=} does not have the side-effect.
 }
 \keyword{internal}

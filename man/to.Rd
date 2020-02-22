@@ -19,7 +19,7 @@ All non-NA target names must be unique.
 }
 \details{
 Note: when using \code{[]<-} notation, a reference to the unpacker object is written into the unpacking environment as a side-effect
-of the implied array assignment.
+of the implied array assignment. \code{:=} assigment does not have this side-effect.
 Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or \code{to}.
 function form can not use the names: \code{.} or \code{wrapr_private_value}.
 For more detials please see here \url{http://www.win-vector.com/blog/2020/01/unpack-your-values-in-r/}.
@@ -33,7 +33,7 @@ Related work includes \code{Python} tuple unpacking, \code{zeallot}'s arrow, and
 d <- data.frame(x = 1:2,
                 g=c('test', 'train'),
                 stringsAsFactors = FALSE)
-to[train_set = train, test_set = test] <- split(d, d$g)
+to[train_set = train, test_set = test] := split(d, d$g)
 # train_set and test_set now correctly split
 print(train_set)
 print(test_set)
@@ -41,7 +41,7 @@ rm(list = c('train_set', 'test_set'))
 
 # named unpacking NEWNAME = OLDNAME implicit form
 # values are matched by name, not index
-to[train, test] <- split(d, d$g)
+to[train, test] := split(d, d$g)
 print(train)
 print(test)
 rm(list = c('train', 'test'))
@@ -58,7 +58,7 @@ rm(list = c('train', 'test'))
 # bquote example
 train_col_name <- 'train'
 test_col_name <- 'test'
-to[train = .(train_col_name), test = .(test_col_name)] <- split(d, d$g)
+to[train = .(train_col_name), test = .(test_col_name)] := split(d, d$g)
 print(train)
 print(test)
 rm(list = c('train', 'test'))

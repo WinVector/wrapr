@@ -70,12 +70,29 @@ knitr::kable(calibrate_data)
 knitr::kable(test_data)
 ```
 
-The semantics of `[]<-` imply that an object named "`to`" is left in our workspace as a side effect.  However, this object is small and if there is already an object name `to` in the workspace that is not of class `Unpacker` the unpacking is aborted prior to overwriting anything.  The unpacker two modes: `unpack` (a function that needs a dot in pipes) and `to` (an eager function factory that does not require a dot in pipes).  Also the side-effect can be avoided by using alternate non-array update notations.
+The semantics of `[]<-` imply that an object named "`to`" is left in our workspace as a side effect.  However, this object is small and if there is already an object name `to` in the workspace that is not of class `Unpacker` the unpacking is aborted prior to overwriting anything.  The unpacker two modes: `unpack` (a function that needs a dot in pipes) and `to` (an eager function factory that does not require a dot in pipes).  The side-effect can be avoided by using `:=` for assigment.
+
+```{r}
+rm(list = c('train_data', 'calibrate_data', 'test_data', 'to'))
+
+to[
+  train_data <- train,
+  calibrate_data <- calibrate,
+  test_data <- test
+  ] := split(d, d$group)
+
+ls()
+```
+
+
+
+
+Also the side-effect can be avoided by using alternate non-array update notations.
 
 We will demonstrate a few of these.  First is pipe to array notation.
 
 ```{r}
-rm(list = c('train_data', 'calibrate_data', 'test_data', 'to'))
+rm(list = c('train_data', 'calibrate_data', 'test_data'))
 ```
 
 ```{r}
