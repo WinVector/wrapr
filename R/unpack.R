@@ -109,7 +109,7 @@ grab_assignments_from_dots <- function(captured_args, unpack_environment = paren
   } else {
     non_empty_names <- names[nchar(names)>0]
     if(length(unique(non_empty_names)) != length(non_empty_names)) {
-      stop("wrapr::grab_assignments_from_dots, non-empty names must be unique")
+      stop("wrapr::grab_assignments_from_dots, target names must be unique")
     }
   }
   names(values) <- names
