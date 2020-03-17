@@ -57,7 +57,7 @@ strsplit_capture <- function(x, split,
   pieces
 }
 
-#' Dot substitution.
+#' Dot substitution string interpolation.
 #'
 #' String interpolation using \code{bquote}-stype .() notation. Pure R, no C/C++ code called.
 #'
@@ -104,7 +104,13 @@ sinterp <- function(str,
                     match_pattern = "\\.\\((([^()]+)|(\\([^()]*\\)))+\\)",
                     removal_patterns = c("^\\.\\(", "\\)$")) {
   force(envir)
+  if(!is.environment(envir)) {
+    envir <- list2env(as.list(envir), parent = parent.frame())
+  }
   force(enclos)
+  if(!is.environment(enclos)) {
+    enclos <- list2env(as.list(enclos), parent = parent.frame())
+  }
   wrapr::stop_if_dot_args(substitute(list(...)), "wrapr::sinterp")
   if(!is.character(str)) {
     stop("wrapr::sinterp str must be of class character")
@@ -133,7 +139,7 @@ sinterp <- function(str,
 }
 
 
-#' Dot substitution.
+#' Dot substitution string interpolation.
 #'
 #' String interpolation using \code{bquote}-stype .() notation. Pure R, no C/C++ code called.
 #' \code{sinterp} and \code{si} are synonyms.
@@ -175,3 +181,31 @@ sinterp <- function(str,
 #' @export
 #'
 si <- sinterp
+
+#' Dot substitution string interpolation.
+#'
+#' String interpolation using \code{bquote}-stype .() notation. Pure R, no C/C++ code called.
+#'
+#' See also
+#' \url{https://CRAN.R-project.org/package=R.utils},
+#' \url{https://CRAN.R-project.org/package=rprintf},
+#' and \url{https://CRAN.R-project.org/package=glue}.
+#'
+#'
+#' @param str charater string to be substituted into
+#' @param envir environemnt to look for values
+#' @return modified strings
+#'
+#' @seealso \code{\link{strsplit_capture}}, \code{\link{si}}
+#'
+#' @examples
+#'
+#' "x is .(x), x+1 is .(x+1)\n.(x) is odd is .(x%%2 == 1)" %s% list(x = 7)
+#'
+#'
+#' @export
+#'
+`%s%` <- function(str, envir) {
+  force(envir)
+  sinterp(str, envir = envir, enclos = envir)
+}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/string_interpolation.R
 \name{sinterp}
 \alias{sinterp}
-\title{Dot substitution.}
+\title{Dot substitution string interpolation.}
 \usage{
 sinterp(
   str,

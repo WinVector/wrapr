@@ -2,7 +2,7 @@
 % Please edit documentation in R/string_interpolation.R
 \name{si}
 \alias{si}
-\title{Dot substitution.}
+\title{Dot substitution string interpolation.}
 \usage{
 si(
   str,
