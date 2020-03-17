@@ -182,7 +182,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>str</th>
-      <td><p>charater string to be substituted into</p></td>
+      <td><p>charater string(s) to be substituted into</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -231,9 +231,9 @@ and <a href='https://CRAN.R-project.org/package=glue'>https://CRAN.R-project.org
 <span class='fu'>sinterp</span>(<span class='st'>"sin(x*(x+1)) is .(sin(x*{x+1}))"</span>)</div><div class='output co'>#&gt; [1] "sin(x*(x+1)) is -0.521551002086912"</div><div class='input'>
 <span class='co'># We can also change the delimiters,</span>
 <span class='co'># in this case to !! through the first whitespace.</span>
-<span class='fu'>sinterp</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"x is !!x , x+1 is !!x+1\n!!x  is odd is !!x%%2==1"</span>),
+<span class='fu'>sinterp</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"x is !!x , x+1 is !!x+1 \n!!x  is odd is !!x%%2==1"</span>),
         <span class='kw'>match_pattern</span> <span class='kw'>=</span> <span class='st'>'!![^[:space:]]+[[:space:]]?'</span>,
-        <span class='kw'>removal_patterns</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"^!!"</span>, <span class='st'>"[[:space:]]?$"</span>))</div><div class='output co'>#&gt; [1] "x is 7, x+1 is 87 is odd is TRUE"</div><div class='input'>
+        <span class='kw'>removal_patterns</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"^!!"</span>, <span class='st'>"[[:space:]]?$"</span>))</div><div class='output co'>#&gt; [1] "x is 7, x+1 is 8\n7 is odd is TRUE"</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

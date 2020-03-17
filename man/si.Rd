@@ -53,9 +53,10 @@ si("sin(x*(x+1)) is .(sin(x*{x+1}))")
 
 # We can also change the delimiters,
 # in this case to !! through the first whitespace.
-si(c("x is !!x , x+1 is !!x+1\n!!x  is odd is !!x\%\%2==1"),
-      match_pattern = '!![^[:space:]]+[[:space:]]?',
-      removal_patterns = c("^!!", "[[:space:]]?$"))
+si(c("x is !!x , x+1 is !!x+1 \n!!x  is odd is !!x\%\%2==1"),
+   match_pattern = '!![^[:space:]]+[[:space:]]?',
+   removal_patterns = c("^!!", "[[:space:]]?$"))
+
 
 }
 \seealso{

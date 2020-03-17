@@ -62,7 +62,7 @@ library(wrapr)
 packageVersion("wrapr")
  #  [1] '2.0.0'
 date()
- #  [1] "Mon Mar 16 22:01:15 2020"
+ #  [1] "Tue Mar 17 05:47:19 2020"
 ```
 
 ## [`%.>%` (dot pipe or dot arrow)](https://winvector.github.io/wrapr/articles/dot_pipe.html)
@@ -516,7 +516,7 @@ evalb(
 
 # alter string
 si("plot(x = .(variable), y = .(variable))")
- #  [1] "plot(x = angle, y = angle)"
+ #  [1] "plot(x = \"angle\", y = \"angle\")"
 ```
 
 The extra `.(-x)` form is a shortcut for

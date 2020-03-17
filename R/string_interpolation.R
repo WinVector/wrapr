@@ -67,7 +67,7 @@ strsplit_capture <- function(x, split,
 #' and \url{https://CRAN.R-project.org/package=glue}.
 #'
 #'
-#' @param str charater string to be substituted into
+#' @param str charater string(s) to be substituted into
 #' @param ... force later arguments to bind by name
 #' @param envir environemnt to look for values
 #' @param enclos enclosing evaluation environment
@@ -91,7 +91,7 @@ strsplit_capture <- function(x, split,
 #'
 #' # We can also change the delimiters,
 #' # in this case to !! through the first whitespace.
-#' sinterp(c("x is !!x , x+1 is !!x+1\n!!x  is odd is !!x%%2==1"),
+#' sinterp(c("x is !!x , x+1 is !!x+1 \n!!x  is odd is !!x%%2==1"),
 #'         match_pattern = '!![^[:space:]]+[[:space:]]?',
 #'         removal_patterns = c("^!!", "[[:space:]]?$"))
 #'
@@ -115,27 +115,37 @@ sinterp <- function(str,
   if(!is.character(str)) {
     stop("wrapr::sinterp str must be of class character")
   }
-  if(length(str)!=1) {
-    stop("wrapr::sinterp str length must be 1")
+  if(length(str) <= 0) {
+    stop("wrapr::sinterp str must be of length at least 1")
   }
-  pi <- strsplit_capture(str, match_pattern)
-  npi <- length(pi)
-  xlated <- list()
-  for(j in seq_len(npi)) {
-    pij <- pi[[j]]
-    if(!isTRUE(attr(pij, "is_sep", exact = TRUE))) {
-      xlated <- c(xlated, list(as.character(pij))) # strip attributes.
-    } else {
-      expr <- as.character(pij) # strip attributes.
-      for(rp in removal_patterns) {
-        expr <- as.character(gsub(rp, "", expr))
+  orig_names <- names(str)
+  res <- vapply(
+    str,
+    function(stri) {
+      pi <- strsplit_capture(stri, match_pattern)
+      npi <- length(pi)
+      xlated <- list()
+      for(j in seq_len(npi)) {
+        pij <- pi[[j]]
+        if(!isTRUE(attr(pij, "is_sep", exact = TRUE))) {
+          xlated <- c(xlated, list(as.character(pij))) # strip attributes.
+        } else {
+          expr <- as.character(pij) # strip attributes.
+          for(rp in removal_patterns) {
+            expr <- as.character(gsub(rp, "", expr))
+          }
+          val <- eval(parse(text = expr), envir = envir, enclos = enclos)
+          val <- deparse(val)
+          xlated <- c(xlated, list(val))
+        }
       }
-      val <- eval(parse(text = expr), envir = envir, enclos = enclos)
-      val <- as.character(val)
-      xlated <- c(xlated, list(val))
-    }
+      do.call(paste0, xlated)
+    },
+    character(1))
+  if(length(orig_names) <= 0) {
+    names(res) <- NULL
   }
-  do.call(paste0, xlated)
+  return(res)
 }
 
 
@@ -174,13 +184,15 @@ sinterp <- function(str,
 #'
 #' # We can also change the delimiters,
 #' # in this case to !! through the first whitespace.
-#' si(c("x is !!x , x+1 is !!x+1\n!!x  is odd is !!x%%2==1"),
-#'       match_pattern = '!![^[:space:]]+[[:space:]]?',
-#'       removal_patterns = c("^!!", "[[:space:]]?$"))
+#' si(c("x is !!x , x+1 is !!x+1 \n!!x  is odd is !!x%%2==1"),
+#'    match_pattern = '!![^[:space:]]+[[:space:]]?',
+#'    removal_patterns = c("^!!", "[[:space:]]?$"))
+#'
 #'
 #' @export
 #'
 si <- sinterp
+
 
 #' Dot substitution string interpolation.
 #'
@@ -200,12 +212,41 @@ si <- sinterp
 #'
 #' @examples
 #'
-#' "x is .(x), x+1 is .(x+1)\n.(x) is odd is .(x%%2 == 1)" %s% list(x = 7)
+#' "x is .(x)" %<s% list(x = 7)
 #'
 #'
 #' @export
 #'
-`%s%` <- function(str, envir) {
+`%<s%` <- function(str, envir) {
   force(envir)
   sinterp(str, envir = envir, enclos = envir)
 }
+
+#' Dot substitution string interpolation.
+#'
+#' String interpolation using \code{bquote}-stype .() notation. Pure R, no C/C++ code called.
+#'
+#' See also
+#' \url{https://CRAN.R-project.org/package=R.utils},
+#' \url{https://CRAN.R-project.org/package=rprintf},
+#' and \url{https://CRAN.R-project.org/package=glue}.
+#'
+#'
+#' @param envir environemnt to look for values
+#' @param str charater string to be substituted into
+#' @return modified strings
+#'
+#' @seealso \code{\link{strsplit_capture}}, \code{\link{si}}
+#'
+#' @examples
+#'
+#' list(x = 7) %s>% "x is .(x)"
+#'
+#'
+#' @export
+#'
+`%s>%` <- function(envir, str) {
+  force(envir)
+  sinterp(str, envir = envir, enclos = envir)
+}
+

@@ -124,7 +124,7 @@
       <h1>bquote</h1>
                         <h4 class="author">John Mount</h4>
             
-            <h4 class="date">2020-03-16</h4>
+            <h4 class="date">2020-03-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/bquote.Rmd"><code>vignettes/bquote.Rmd</code></a></small>
       <div class="hidden name"><code>bquote.Rmd</code></div>
@@ -145,7 +145,7 @@
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw"><a href="../reference/sinterp.html">sinterp</a></span>(</a>
 <a class="sourceLine" id="cb1-6" data-line-number="6">  <span class="st">'variable name is .(variable)'</span></a>
 <a class="sourceLine" id="cb1-7" data-line-number="7">)</a></code></pre></div>
-<pre><code>## [1] "variable name is angle"</code></pre>
+<pre><code>## [1] "variable name is \"angle\""</code></pre>
 <p>Notice the “<code>.(variable)</code>” portion was replaced with the actual variable name “<code>angle</code>”. For string interpolation we are intentionally using the “<code>.()</code>” notation that Thomas Lumley’s picked in 2003 when he introduced quasi-quotation into <code>R</code> (a different concept than string-interpolation, but the topic of our next section).</p>
 <p>String interpolation is a common need, and there are many <a href="https://www.r-project.org"><code>R</code></a> packages that supply variations of such functionality:</p>
 <ul>

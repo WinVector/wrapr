@@ -14,7 +14,7 @@ sinterp(
 )
 }
 \arguments{
-\item{str}{charater string to be substituted into}
+\item{str}{charater string(s) to be substituted into}
 
 \item{...}{force later arguments to bind by name}
 
@@ -52,7 +52,7 @@ sinterp("sin(x*(x+1)) is .(sin(x*{x+1}))")
 
 # We can also change the delimiters,
 # in this case to !! through the first whitespace.
-sinterp(c("x is !!x , x+1 is !!x+1\n!!x  is odd is !!x\%\%2==1"),
+sinterp(c("x is !!x , x+1 is !!x+1 \n!!x  is odd is !!x\%\%2==1"),
         match_pattern = '!![^[:space:]]+[[:space:]]?',
         removal_patterns = c("^!!", "[[:space:]]?$"))
 

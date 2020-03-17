@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Dot substitution string interpolation. — si • wrapr</title>
+<title>Dot substitution string interpolation. — %s&gt;% • wrapr</title>
 
 
 <!-- jquery -->
@@ -35,9 +35,8 @@
 
 
 
-<meta property="og:title" content="Dot substitution string interpolation. — si" />
-<meta property="og:description" content="String interpolation using bquote-stype .() notation. Pure R, no C/C++ code called.
-sinterp and si are synonyms." />
+<meta property="og:title" content="Dot substitution string interpolation. — %s&gt;%" />
+<meta property="og:description" content="String interpolation using bquote-stype .() notation. Pure R, no C/C++ code called." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -162,49 +161,25 @@ sinterp and si are synonyms." />
     <div class="page-header">
     <h1>Dot substitution string interpolation.</h1>
     <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/string_interpolation.R'><code>R/string_interpolation.R</code></a></small>
-    <div class="hidden name"><code>si.Rd</code></div>
+    <div class="hidden name"><code>grapes-s-greater-than-grapes.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>String interpolation using <code>bquote</code>-stype .() notation. Pure R, no C/C++ code called.
-<code>sinterp</code> and <code>si</code> are synonyms.</p>
+    <p>String interpolation using <code>bquote</code>-stype .() notation. Pure R, no C/C++ code called.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>si</span>(
-  <span class='no'>str</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>(),
-  <span class='kw'>enclos</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>(),
-  <span class='kw'>match_pattern</span> <span class='kw'>=</span> <span class='st'>"\\.\\((([^()]+)|(\\([^()]*\\)))+\\)"</span>,
-  <span class='kw'>removal_patterns</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"^\\.\\("</span>, <span class='st'>"\\)$"</span>)
-)</pre>
+    <pre class="usage"><span class='no'>envir</span> <span class='kw'>%s&gt;%</span> <span class='no'>str</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>str</th>
-      <td><p>charater string to be substituted into</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>force later arguments to bind by name</p></td>
-    </tr>
-    <tr>
       <th>envir</th>
       <td><p>environemnt to look for values</p></td>
     </tr>
     <tr>
-      <th>enclos</th>
-      <td><p>enclosing evaluation environment</p></td>
-    </tr>
-    <tr>
-      <th>match_pattern</th>
-      <td><p>regexp to find substitution targets.</p></td>
-    </tr>
-    <tr>
-      <th>removal_patterns</th>
-      <td><p>regexps to remove markers from substitution targets.</p></td>
+      <th>str</th>
+      <td><p>charater string to be substituted into</p></td>
     </tr>
     </table>
 
@@ -219,23 +194,11 @@ sinterp and si are synonyms." />
 and <a href='https://CRAN.R-project.org/package=glue'>https://CRAN.R-project.org/package=glue</a>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='strsplit_capture.html'>strsplit_capture</a></code>, <code><a href='sinterp.html'>sinterp</a></code></p></div>
+    <div class='dont-index'><p><code><a href='strsplit_capture.html'>strsplit_capture</a></code>, <code><a href='si.html'>si</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fl'>7</span>
-<span class='fu'>si</span>(<span class='st'>"x is .(x), x+1 is .(x+1)\n.(x) is odd is .(x%%2 == 1)"</span>)</div><div class='output co'>#&gt; [1] "x is 7, x+1 is 8\n7 is odd is TRUE"</div><div class='input'>
-<span class='co'># Because matching is done by a regular expression we</span>
-<span class='co'># can not use arbitrary depths of nested parenthesis inside</span>
-<span class='co'># the interpolation region.  The default regexp allows</span>
-<span class='co'># one level of nesting (and one can use {} in place</span>
-<span class='co'># of parens in many places).</span>
-<span class='fu'>si</span>(<span class='st'>"sin(x*(x+1)) is .(sin(x*{x+1}))"</span>)</div><div class='output co'>#&gt; [1] "sin(x*(x+1)) is -0.521551002086912"</div><div class='input'>
-<span class='co'># We can also change the delimiters,</span>
-<span class='co'># in this case to !! through the first whitespace.</span>
-<span class='fu'>si</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"x is !!x , x+1 is !!x+1 \n!!x  is odd is !!x%%2==1"</span>),
-   <span class='kw'>match_pattern</span> <span class='kw'>=</span> <span class='st'>'!![^[:space:]]+[[:space:]]?'</span>,
-   <span class='kw'>removal_patterns</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"^!!"</span>, <span class='st'>"[[:space:]]?$"</span>))</div><div class='output co'>#&gt; [1] "x is 7, x+1 is 8\n7 is odd is TRUE"</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>7</span>) <span class='kw'>%s&gt;%</span> <span class='st'>"x is .(x)"</span></div><div class='output co'>#&gt; [1] "x is 7"</div><div class='input'>
 
 </div></pre>
   </div>

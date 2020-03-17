@@ -76,7 +76,9 @@ forbidden_pipe_destination_names <- c("else",
                                       "?",
                                       "...",
                                       ".",
-                                      ";", ",")
+                                      ";", ",",
+                                      "list", "c", ":",
+                                      "for")
 
 #' S3 dispatch on class of pipe_left_arg.
 #'
