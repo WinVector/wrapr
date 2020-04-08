@@ -634,7 +634,7 @@ suppressPackageStartupMessages(library("dplyr"))
 packageVersion("dplyr")
 ```
 
-    ## [1] '0.8.1'
+    ## [1] '0.8.4'
 
 ``` r
 NEWVAR <- as.name("y")
@@ -1590,19 +1590,19 @@ library("rlang")
 packageVersion("dplyr")
 ```
 
-    ## [1] '0.8.1'
+    ## [1] '0.8.4'
 
 ``` r
 packageVersion("rlang")
 ```
 
-    ## [1] '0.4.0'
+    ## [1] '0.4.4'
 
 ``` r
 packageVersion("tidyselect")
 ```
 
-    ## [1] '0.2.5'
+    ## [1] '1.0.0'
 
 ``` r
 x <- "Species"
@@ -1721,7 +1721,7 @@ iris %>% group_by(.data[[!!x]]) %>% summarize(n = n())
 iris %>% group_by(.data[[!!sym(x)]]) %>% summarize(n = n())
 ```
 
-    ## Must subset the data pronoun with a string
+    ## Error: Must subset the data pronoun with a string
 
 </small>
 
@@ -1873,7 +1873,10 @@ Some of our take-aways include:
     evaluation rules and taking direct control, so after that things
     become somewhat your own fault.
   - For fine control of the arguments of a single function call I
-    recommend using `base::do.call()`.
+    recommend using `base::do.call()`. Jan Gorecki
+    [notes](https://github.com/WinVector/wrapr/issues/11) that
+    `eval(as.call(c(as.name("fun"), ...)))` may have less overhead than
+    `do.call()`.
   - For composing code-aware methods with each other the are the
     base-`R` fundamental tools are: `substitute()`, `quote()`, `eval()`,
     and `unquote()` .
