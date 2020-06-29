@@ -6,19 +6,19 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Frame Tools • wrapr</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Frame Tools">
-<meta property="og:description" content="">
-<meta name="twitter:card" content="summary">
+<meta property="og:description" content="wrapr">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.1</span>
       </span>
     </div>
 
@@ -121,10 +121,10 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Frame Tools</h1>
+      <h1 data-toc-skip>Frame Tools</h1>
                         <h4 class="author">John Mount, Win-Vector LLC</h4>
             
-            <h4 class="date">2020-03-17</h4>
+            <h4 class="date">2020-06-29</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/FrameTools.Rmd"><code>vignettes/FrameTools.Rmd</code></a></small>
       <div class="hidden name"><code>FrameTools.Rmd</code></div>
@@ -136,27 +136,27 @@
 <p><a href="https://winvector.github.io/wrapr/"><code>wrapr</code></a> supplies a few tools for creating example <code>data.frame</code>s. An important use case is: building the control table for <code><a href="https://rdrr.io/pkg/cdata/man/rowrecs_to_blocks.html">cdata::rowrecs_to_blocks()</a></code> and <code><a href="https://rdrr.io/pkg/cdata/man/blocks_to_rowrecs.html">cdata::blocks_to_rowrecs()</a></code> (example <a href="https://winvector.github.io/cdata/articles/cdata.html">here</a>).</p>
 <p>Lets see how to create an example data frame. The idea is similar to that found in <a href="http://tibble.tidyverse.org/reference/tribble.html"><code><a href="https://tibble.tidyverse.org/reference/tribble.html">tibble::tribble()</a></code></a>: for small tables a row oriented constructor can be quite legible, and avoids the cognitive load of taking a transpose.</p>
 <p>For example we can create a typical <code>data.frame</code> as follows:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">d &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">  <span class="dt">names =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"d"</span>),</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">  <span class="dt">x =</span>     <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>,   <span class="dv">2</span>,   <span class="dv">3</span>,   <span class="dv">4</span>  ),</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">  <span class="dt">y =</span>     <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>,   <span class="dv">4</span>,   <span class="dv">9</span>,   <span class="dv">16</span> ),</a>
-<a class="sourceLine" id="cb1-5" data-line-number="5">  <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(d)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="no">d</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(
+  <span class="kw">names</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"d"</span>),
+  <span class="kw">x</span> <span class="kw">=</span>     <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,   <span class="fl">2</span>,   <span class="fl">3</span>,   <span class="fl">4</span>  ),
+  <span class="kw">y</span> <span class="kw">=</span>     <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,   <span class="fl">4</span>,   <span class="fl">9</span>,   <span class="fl">16</span> ),
+  <span class="kw">stringsAsFactors</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">d</span>)</pre></body></html></div>
 <pre><code>##   names x  y
 ## 1     a 1  1
 ## 2     b 2  4
 ## 3     c 3  9
 ## 4     d 4 16</code></pre>
 <p>Notice how the table is specified by columns (which is close to how <code>data.frame</code>s are implemented), but printed by rows. <code><a href="https://rdrr.io/r/utils/str.html">utils::str()</a></code> and <code><a href="https://tibble.tidyverse.org/reference/glimpse.html">tibble::glimpse()</a></code> both print by columns.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(d)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(<span class="no">d</span>)</pre></body></html></div>
 <pre><code>## 'data.frame':    4 obs. of  3 variables:
 ##  $ names: chr  "a" "b" "c" "d"
 ##  $ x    : num  1 2 3 4
 ##  $ y    : num  1 4 9 16</code></pre>
 <p><code>wrapr</code> supplies the method <a href="https://winvector.github.io/wrapr/articles/FrameTools.html"><code>draw_frame</code></a> which at first glance appears to be a mere pretty-printer:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"wrapr"</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="kw"><a href="../reference/draw_frame.html">draw_frame</a></span>(d))</a></code></pre></div>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"wrapr"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="fu"><a href="../reference/draw_frame.html">draw_frame</a></span>(<span class="no">d</span>))</pre></body></html></div>
 <pre><code>d &lt;- wrapr::build_frame(
    "names"  , "x", "y" |
      "a"    , 1  , 1   |
@@ -164,14 +164,14 @@
      "c"    , 3  , 9   |
      "d"    , 4  , 16  )</code></pre>
 <p>However, the above rendering is actually executable <code>R</code> code. If we run it, we re-create the original <code><a href="https://rdrr.io/r/base/data.frame.html">data.frame()</a></code>.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">d2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/build_frame.html">build_frame</a></span>(</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">   <span class="st">"names"</span>, <span class="st">"x"</span>, <span class="st">"y"</span> <span class="op">|</span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="st">   "a"</span>    , <span class="dv">1</span>  ,  <span class="dv">1</span>  <span class="op">|</span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="st">   "b"</span>    , <span class="dv">2</span>  ,  <span class="dv">4</span>  <span class="op">|</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="st">   "c"</span>    , <span class="dv">3</span>  ,  <span class="dv">9</span>  <span class="op">|</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="st">   "d"</span>    , <span class="dv">4</span>  , <span class="dv">16</span>  )</a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(d2)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">d2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/build_frame.html">build_frame</a></span>(
+   <span class="st">"names"</span>, <span class="st">"x"</span>, <span class="st">"y"</span> <span class="kw">|</span>
+   <span class="st">"a"</span>    , <span class="fl">1</span>  ,  <span class="fl">1</span>  <span class="kw">|</span>
+   <span class="st">"b"</span>    , <span class="fl">2</span>  ,  <span class="fl">4</span>  <span class="kw">|</span>
+   <span class="st">"c"</span>    , <span class="fl">3</span>  ,  <span class="fl">9</span>  <span class="kw">|</span>
+   <span class="st">"d"</span>    , <span class="fl">4</span>  , <span class="fl">16</span>  )
+
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">d2</span>)</pre></body></html></div>
 <pre><code>##   names x  y
 ## 1     a 1  1
 ## 2     b 2  4
@@ -179,31 +179,31 @@
 ## 4     d 4 16</code></pre>
 <p>The merit is: the above input is how it looks when printed.</p>
 <p>The technique is intended for typing small examples (or <a href="https://github.com/WinVector/cdata"><code>cdata</code></a> control tables) and only builds <code>data.frame</code>s with atomic types (characters, numerics, and logicals; no times, factors or list columns). The specification rule is the first appearance of an infix 2-argument function call (in this case the infix “or symbol” “<code><a href="https://rdrr.io/r/base/Logic.html">|</a></code>”) is taken to mean the earlier arguments are part of the header or column names and later arguments are values. The other appearances of “<code><a href="https://rdrr.io/r/base/Arithmetic.html">/</a></code>” are ignored. This means we could also write the frame as follows:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="../reference/build_frame.html">build_frame</a></span>(</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">   <span class="st">"names"</span>, <span class="st">"x"</span>, <span class="st">"y"</span> <span class="op">|</span></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="st">   "a"</span>    , <span class="dv">1</span>  ,  <span class="dv">1</span>  ,</a>
-<a class="sourceLine" id="cb10-4" data-line-number="4">   <span class="st">"b"</span>    , <span class="dv">2</span>  ,  <span class="dv">4</span>  ,</a>
-<a class="sourceLine" id="cb10-5" data-line-number="5">   <span class="st">"c"</span>    , <span class="dv">3</span>  ,  <span class="dv">9</span>  ,</a>
-<a class="sourceLine" id="cb10-6" data-line-number="6">   <span class="st">"d"</span>    , <span class="dv">4</span>  , <span class="dv">16</span>  )</a></code></pre></div>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="../reference/build_frame.html">build_frame</a></span>(
+   <span class="st">"names"</span>, <span class="st">"x"</span>, <span class="st">"y"</span> <span class="kw">|</span>
+   <span class="st">"a"</span>    , <span class="fl">1</span>  ,  <span class="fl">1</span>  ,
+   <span class="st">"b"</span>    , <span class="fl">2</span>  ,  <span class="fl">4</span>  ,
+   <span class="st">"c"</span>    , <span class="fl">3</span>  ,  <span class="fl">9</span>  ,
+   <span class="st">"d"</span>    , <span class="fl">4</span>  , <span class="fl">16</span>  )</pre></body></html></div>
 <pre><code>##   names x  y
 ## 1     a 1  1
 ## 2     b 2  4
 ## 3     c 3  9
 ## 4     d 4 16</code></pre>
 <p>This is more limited than <code><a href="https://rdrr.io/r/base/dump.html">base::dump()</a></code>, but also more legible.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/dump.html">dump</a></span>(<span class="st">"d"</span>, <span class="st">""</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/dump.html">dump</a></span>(<span class="st">"d"</span>, <span class="st">""</span>))</pre></body></html></div>
 <pre><code>d &lt;-
 structure(list(names = c("a", "b", "c", "d"), x = c(1, 2, 3, 
 4), y = c(1, 4, 9, 16)), class = "data.frame", row.names = c(NA, 
 -4L))
 d</code></pre>
 <p>One can use the combination of <code><a href="../reference/build_frame.html">build_frame()</a></code> and <code><a href="../reference/draw_frame.html">draw_frame()</a></code> to neaten up by-hand examples for later use (via copy and paste):</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="kw"><a href="../reference/draw_frame.html">draw_frame</a></span>(<span class="kw"><a href="../reference/build_frame.html">build_frame</a></span>(</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2"> <span class="st">"names"</span>, <span class="st">"x"</span>, <span class="st">"y"</span> <span class="op">|</span></a>
-<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="st">  "a"</span>, <span class="dv">1</span>,  <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb14-4" data-line-number="4">  <span class="st">"b"</span>, <span class="dv">2</span>,  <span class="dv">4</span>,</a>
-<a class="sourceLine" id="cb14-5" data-line-number="5">  <span class="st">"c"</span>, <span class="dv">3</span>,  <span class="dv">9</span>,</a>
-<a class="sourceLine" id="cb14-6" data-line-number="6">  <span class="st">"d"</span>, <span class="dv">4</span>, <span class="dv">16</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="fu"><a href="../reference/draw_frame.html">draw_frame</a></span>(<span class="fu"><a href="../reference/build_frame.html">build_frame</a></span>(
+ <span class="st">"names"</span>, <span class="st">"x"</span>, <span class="st">"y"</span> <span class="kw">|</span>
+  <span class="st">"a"</span>, <span class="fl">1</span>,  <span class="fl">1</span>,
+  <span class="st">"b"</span>, <span class="fl">2</span>,  <span class="fl">4</span>,
+  <span class="st">"c"</span>, <span class="fl">3</span>,  <span class="fl">9</span>,
+  <span class="st">"d"</span>, <span class="fl">4</span>, <span class="fl">16</span>)))</pre></body></html></div>
 <pre><code><a href="../reference/build_frame.html">wrapr::build_frame(
    "names"  , "x", "y" |
      "a"    , 1  , 1   |
@@ -211,20 +211,20 @@ d</code></pre>
      "c"    , 3  , 9   |
      "d"    , 4  , 16  )</a></code></pre>
 <p><code><a href="../reference/build_frame.html">build_frame()</a></code> allows for simple substitutions of values. In contrast the method <code><a href="../reference/qchar_frame.html">qchar_frame()</a></code> builds <code>data.frame</code>s containing only <code>character</code> types and doesn’t require quoting (though it does allow it).</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="../reference/qchar_frame.html">qchar_frame</a></span>(</a>
-<a class="sourceLine" id="cb16-2" data-line-number="2">  col_<span class="dv">1</span>, col_<span class="dv">2</span>, col_<span class="dv">3</span> <span class="op">|</span></a>
-<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="st">  </span>a    , b    , c     <span class="op">|</span></a>
-<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="st">  </span>d    , e    , <span class="st">"f g"</span> )</a></code></pre></div>
+<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="../reference/qchar_frame.html">qchar_frame</a></span>(
+  <span class="no">col_1</span>, <span class="no">col_2</span>, <span class="no">col_3</span> <span class="kw">|</span>
+  <span class="no">a</span>    , <span class="no">b</span>    , <span class="no">c</span>     <span class="kw">|</span>
+  <span class="no">d</span>    , <span class="no">e</span>    , <span class="st">"f g"</span> )</pre></body></html></div>
 <pre><code>##   col_1 col_2 col_3
 ## 1     a     b     c
 ## 2     d     e   f g</code></pre>
 <p><code><a href="../reference/build_frame.html">build_frame()</a></code> is intended to capture typed-in examples, and is only compatible with very limited in-place calculation and substitution, and that <em>must</em> be in parenthesis:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw"><a href="../reference/build_frame.html">build_frame</a></span>(</a>
-<a class="sourceLine" id="cb18-2" data-line-number="2">   <span class="st">"names"</span>, <span class="st">"x"</span>     , <span class="st">"y"</span> <span class="op">|</span></a>
-<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="st">   "a"</span>    , <span class="dv">1</span>       ,  <span class="dv">1</span>  <span class="op">|</span></a>
-<a class="sourceLine" id="cb18-4" data-line-number="4"><span class="st">   "b"</span>    , <span class="kw"><a href="https://rdrr.io/r/base/Trig.html">cos</a></span>(<span class="dv">2</span>)  ,  <span class="dv">4</span>  <span class="op">|</span></a>
-<a class="sourceLine" id="cb18-5" data-line-number="5"><span class="st">   "c"</span>    , (<span class="dv">3</span><span class="op">+</span><span class="dv">2</span>)   ,  <span class="dv">9</span>  <span class="op">|</span></a>
-<a class="sourceLine" id="cb18-6" data-line-number="6"><span class="st">   "d"</span>    , <span class="dv">4</span>       , <span class="dv">16</span>  )</a></code></pre></div>
+<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="fu"><a href="../reference/build_frame.html">build_frame</a></span>(
+   <span class="st">"names"</span>, <span class="st">"x"</span>     , <span class="st">"y"</span> <span class="kw">|</span>
+   <span class="st">"a"</span>    , <span class="fl">1</span>       ,  <span class="fl">1</span>  <span class="kw">|</span>
+   <span class="st">"b"</span>    , <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">cos</a></span>(<span class="fl">2</span>)  ,  <span class="fl">4</span>  <span class="kw">|</span>
+   <span class="st">"c"</span>    , (<span class="fl">3</span>+<span class="fl">2</span>)   ,  <span class="fl">9</span>  <span class="kw">|</span>
+   <span class="st">"d"</span>    , <span class="fl">4</span>       , <span class="fl">16</span>  )</pre></body></html></div>
 <pre><code>##   names          x  y
 ## 1     a  1.0000000  1
 ## 2     b -0.4161468  4
@@ -233,7 +233,7 @@ d</code></pre>
 <p>Expressions not in parenthesis (such as “<code>3 + 2</code>”) will confuse the language transform <code><a href="../reference/build_frame.html">build_frame()</a></code> uses to detect cell boundaries.</p>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
       </div>
 
@@ -246,7 +246,7 @@ d</code></pre>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

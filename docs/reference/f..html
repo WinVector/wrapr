@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Check two data.frames are equivilent after sorting columns and rows. — check_equiv_frames • wrapr</title>
+<title>Build an anonymous function of dot. — f. • wrapr</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Check two data.frames are equivilent after sorting columns and rows. — check_equiv_frames" />
-<meta property="og:description" content="Confirm two dataframes are equivilent after reordering columns and rows." />
+<meta property="og:title" content="Build an anonymous function of dot. — f." />
+<meta property="og:description" content="Build an anonymous function of dot." />
 
 
 
@@ -162,42 +162,43 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Check two data.frames are equivilent after sorting columns and rows.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/compare_frames.R'><code>R/compare_frames.R</code></a></small>
-    <div class="hidden name"><code>check_equiv_frames.Rd</code></div>
+    <h1>Build an anonymous function of dot.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/lambda.R'><code>R/lambda.R</code></a></small>
+    <div class="hidden name"><code>f..Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Confirm two dataframes are equivilent after reordering columns and rows.</p>
+    <p>Build an anonymous function of dot.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>check_equiv_frames</span>(<span class='no'>d1</span>, <span class='no'>d2</span>, <span class='no'>...</span>, <span class='kw'>tolerance</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(<span class='no'>.Machine</span>$<span class='no'>double.eps</span>))</pre>
+    <pre class="usage"><span class='fu'><a href='f..html'>f.</a></span>(<span class='no'>body</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>d1</th>
-      <td><p>data.frame 1</p></td>
+      <th>body</th>
+      <td><p>function body</p></td>
     </tr>
     <tr>
-      <th>d2</th>
-      <td><p>data.frame 2</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>force later arguments to bind by name</p></td>
-    </tr>
-    <tr>
-      <th>tolerance</th>
-      <td><p>numeric comparision tolerance</p></td>
+      <th>env</th>
+      <td><p>environment to work in.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>logical TRUE if equivilent</p>
+    <p>user defined function.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
+    <div class='dont-index'><p><code><a href='lambda.html'>lambda</a></code>, <code><a href='defineLambda.html'>defineLambda</a></code>, <code><a href='named_map_builder.html'>named_map_builder</a></code>, <code><a href='makeFunction_se.html'>makeFunction_se</a></code></p></div>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='f..html'>f.</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>sin</a></span>(<span class='no'>.</span>) <span class='kw'>%.&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>cos</a></span>(<span class='no'>.</span>))
+<span class='fl'>7</span> <span class='kw'>%.&gt;%</span> <span class='no'>f</span></div><div class='output co'>#&gt; [1] 0.7918362</div><div class='input'>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

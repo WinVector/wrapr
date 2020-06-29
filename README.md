@@ -60,9 +60,9 @@ Primary `wrapr` services include:
 ``` r
 library(wrapr)
 packageVersion("wrapr")
- #  [1] '2.0.0'
+ #  [1] '2.0.1'
 date()
- #  [1] "Fri Mar 27 14:05:56 2020"
+ #  [1] "Mon Jun 29 09:52:10 2020"
 ```
 
 ## [`%.>%` (dot pipe or dot arrow)](https://winvector.github.io/wrapr/articles/dot_pipe.html)

@@ -33,6 +33,29 @@ makeFunction_se <- function(params, body, env = parent.frame()) {
 }
 
 
+#' Build an anonymous function of dot.
+#'
+#' @param body function body
+#' @param env environment to work in.
+#' @return user defined function.
+#'
+#' @seealso \code{\link{lambda}}, \code{\link{defineLambda}}, \code{\link{named_map_builder}}, \code{\link{makeFunction_se}}
+#'
+#' @examples
+#'
+#' f <- f.(sin(.) %.>% cos(.))
+#' 7 %.>% f
+#'
+#'
+#' @export
+#'
+f. <- function(body, env = parent.frame()) {
+  force(env)
+  body <- substitute(body)
+  wrapr::makeFunction_se('.', body, env)
+}
+
+
 
 #' Build an anonymous function.
 #'
