@@ -55,6 +55,7 @@ r_plus <- function(vars, add_zero = FALSE) {
 #' @param outcome_comparator one of "==", "!=", ">=", "<=", ">", "<", only use of outcome_target is not NULL.
 #' @param env environment to use in formula (unless extra_values is non empty, then this is a parent environemnt).
 #' @param extra_values if not empty extra values to be added to a new formula environment containing env.
+#' @param as_character if TRUE return formula as a character string.
 #' @return a formula object
 #'
 #' @seealso \code{\link[stats]{reformulate}}, \code{\link[stats]{update.formula}}
@@ -79,7 +80,8 @@ mk_formula <- function(outcome, variables,
                        outcome_target = NULL,
                        outcome_comparator = "==",
                        env = baseenv(),
-                       extra_values = NULL) {
+                       extra_values = NULL,
+                       as_character = FALSE) {
   force(env)
   wrapr::stop_if_dot_args(substitute(list(...)), "wrapr::mk_formula")
   if((!is.character(outcome)) || (length(outcome)!=1)) {
@@ -138,5 +140,8 @@ mk_formula <- function(outcome, variables,
     list(outcome_expr,
          rhs_expr),
     envir = env)
+  if(as_character) {
+    f <- paste(trimws(format(f)), collapse = ' ')
+  }
   f
 }

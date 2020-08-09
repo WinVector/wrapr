@@ -12,7 +12,8 @@ mk_formula(
   outcome_target = NULL,
   outcome_comparator = "==",
   env = baseenv(),
-  extra_values = NULL
+  extra_values = NULL,
+  as_character = FALSE
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ mk_formula(
 \item{env}{environment to use in formula (unless extra_values is non empty, then this is a parent environemnt).}
 
 \item{extra_values}{if not empty extra values to be added to a new formula environment containing env.}
+
+\item{as_character}{if TRUE return formula as a character string.}
 }
 \value{
 a formula object

@@ -1,4 +1,9 @@
 
+# wrapr 2.0.1 2020-08-09
+
+ * dot-function (f.).
+ * character-mode for mk_formula.
+
 # wrapr 2.0.0 2020-03-27
 
  * Allow as_named_list to choose new names.
