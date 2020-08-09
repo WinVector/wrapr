@@ -3,7 +3,7 @@
 #' Memoizing wrapper for parLapplyLB
 #'
 #'
-#' @seealso \code{\link[parallel]{parLapplyLB}}, \code{\link{lapplym}}, \code{\link{VectorizeM}}, \code{\link{vapplym}}
+#' @seealso \code{\link[parallel:clusterApply]{parLapplyLB}}, \code{\link{lapplym}}, \code{\link{VectorizeM}}, \code{\link{vapplym}}
 #'
 #' @param cl cluster object
 #' @param X list or vector of inputs

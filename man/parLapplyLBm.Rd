@@ -35,5 +35,5 @@ if(requireNamespace("parallel", quietly = TRUE)) {
 
 }
 \seealso{
-\code{\link[parallel]{parLapplyLB}}, \code{\link{lapplym}}, \code{\link{VectorizeM}}, \code{\link{vapplym}}
+\code{\link[parallel:clusterApply]{parLapplyLB}}, \code{\link{lapplym}}, \code{\link{VectorizeM}}, \code{\link{vapplym}}
 }

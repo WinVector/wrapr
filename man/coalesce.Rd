@@ -36,7 +36,7 @@ the first argument's structure (vector versus list).  The order of
 operations has been chosen to be safe, convenient, and useful.  Length zero
 lists are not treated as NULL (which is consistent with R in general).
 Note for non-vector operations on conditions we recommend looking into
-\code{\link[base]{isTRUE}}, which solves some problems even faster
+\code{\link[base:Logic]{isTRUE}}, which solves some problems even faster
 than coalesce style operators.
 
 When length(coalesce_left_arg)<=0 then

@@ -10,7 +10,7 @@ buildNameCallback(varName)
 \item{varName}{character where to write captured state}
 }
 \value{
-writeback function for use with functions such as  \code{\link{DebugFnW}}
+writeback function for use with functions such as \code{\link{DebugFnW}}
 }
 \description{
 Build a custom writeback function that writes state into a user named variable.
