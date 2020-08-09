@@ -9,13 +9,13 @@ package = "wrapr"
 packageVersion(package)
 ```
 
-    ## [1] '2.0.0'
+    ## [1] '2.0.1'
 
 ``` r
 date()
 ```
 
-    ## [1] "Sat Feb 22 08:14:01 2020"
+    ## [1] "Sun Aug  9 13:00:05 2020"
 
 ``` r
 parallelCluster <- NULL
@@ -35,7 +35,7 @@ setwd(td)
 print(td)
 ```
 
-    ## [1] "/var/folders/7q/h_jp2vj131g5799gfnpzhdp80000gn/T//RtmpzsCnUM"
+    ## [1] "/var/folders/7f/sdjycp_d08n8wwytsbgwqgsw0000gn/T//RtmpA2zz3n"
 
 ``` r
 options(repos = repos)
@@ -85,29 +85,44 @@ if(!is.null(parallelCluster)) {
     ## [[1]]
     ##   id       title  status
     ## 1  2 RcppDynProg WORKING
-    ## 2  7      vtreat WORKING
-    ## 3  8     WVPlots WORKING
+    ## 2  4      rquery WORKING
+    ## 3  5      seplyr WORKING
+    ## 4  7      vtreat WORKING
+    ## 5  8     WVPlots WORKING
     ## 
     ## [[2]]
-    ##   id   title  status
-    ## 1  7  vtreat WORKING
-    ## 2  8 WVPlots WORKING
+    ##   id  title  status
+    ## 1  4 rquery WORKING
+    ## 2  5 seplyr WORKING
     ## 
     ## [[3]]
+    ##   id       title  status
+    ## 1  2 RcppDynProg WORKING
+    ## 2  4      rquery WORKING
+    ## 3  5      seplyr WORKING
+    ## 4  8     WVPlots WORKING
+    ## 
+    ## [[4]]
+    ##   id  title  status
+    ## 1  5 seplyr WORKING
+    ## 
+    ## [[5]]
     ## [1] id     title  status
     ## <0 rows> (or 0-length row.names)
     ## 
-    ## [[4]]
-    ##   id   title  status
-    ## 1  8 WVPlots WORKING
+    ## [[6]]
+    ##   id       title  status
+    ## 1  2 RcppDynProg WORKING
+    ## 2  4      rquery WORKING
+    ## 3  5      seplyr WORKING
 
 ``` r
 summariseQueue(package=package, directory=td)
 ```
 
-    ## Test of wrapr had 8 successes, 0 failures, and 0 skipped packages. 
-    ## Ran from 2020-02-22 08:14:08 to 2020-02-22 08:18:04 for 3.933 mins 
-    ## Average of 29.5 secs relative to 94.789 secs using 4 runners
+    ## Test of wrapr 2.0.1 had 8 successes, 0 failures, and 0 skipped packages. 
+    ## Ran from 2020-08-09 13:00:10 to 2020-08-09 13:01:25 for 1.25 mins 
+    ## Average of 9.375 secs relative to 36.13 secs using 6 runners
     ## 
     ## Failed packages:   
     ## 
