@@ -181,7 +181,8 @@ and vector of input (independent variable) names.</p>
   <span class='kw'>outcome_target</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>outcome_comparator</span> <span class='kw'>=</span> <span class='st'>"=="</span>,
   <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>baseenv</a></span>(),
-  <span class='kw'>extra_values</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+  <span class='kw'>extra_values</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>as_character</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -218,6 +219,10 @@ and vector of input (independent variable) names.</p>
     <tr>
       <th>extra_values</th>
       <td><p>if not empty extra values to be added to a new formula environment containing env.</p></td>
+    </tr>
+    <tr>
+      <th>as_character</th>
+      <td><p>if TRUE return formula as a character string.</p></td>
     </tr>
     </table>
 
