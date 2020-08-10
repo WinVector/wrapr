@@ -62,7 +62,7 @@ library(wrapr)
 packageVersion("wrapr")
  #  [1] '2.0.1'
 date()
- #  [1] "Mon Jun 29 09:52:10 2020"
+ #  [1] "Mon Aug 10 12:13:57 2020"
 ```
 
 ## [`%.>%` (dot pipe or dot arrow)](https://winvector.github.io/wrapr/articles/dot_pipe.html)
@@ -122,7 +122,7 @@ The notation is also very regular as we show below.
 
 Regularity can be a *big* advantage in teaching and comprehension.
 Please see [“In Praise of Syntactic
-Sugar”](http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/)
+Sugar”](https://win-vector.com/2017/07/07/in-praise-of-syntactic-sugar/)
 for more details. Some formal documentation can be found
 [here](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf).
 
@@ -246,7 +246,7 @@ knitr::kable(train_data)
 
 Build up named lists. [Very convenient for managing workspaces when used
 with used with
-`unpack`/`to`.](http://www.win-vector.com/blog/2020/01/using-unpack-to-manage-your-r-environment/)
+`unpack`/`to`.](https://win-vector.com/2020/01/21/using-unpack-to-manage-your-r-environment/)
 
 ``` r
 as_named_list(train_data, calibrate_data, test_data)

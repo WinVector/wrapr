@@ -488,7 +488,7 @@ print.Unpacker <- function(x, ...) {
 #' Note: when using \code{[]<-} notation, a reference to the unpacker object is written into the unpacking environment as a side-effect
 #' of the implied array assignment. \code{:=} assigment does not have this side-effect.
 #' Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or the name of the unpacker itself.
-#' For more details please see here \url{http://www.win-vector.com/blog/2020/01/unpack-your-values-in-r/}.
+#' For more details please see here \url{https://win-vector.com/2020/01/20/unpack-your-values-in-r/}.
 #'
 #' Related work includes \code{Python} tuple unpacking, \code{zeallot}'s arrow, and \code{vadr::bind}.
 #'
@@ -620,7 +620,7 @@ print.UnpackTarget <- function(x, ...) {
 #' of the implied array assignment. \code{:=} assigment does not have this side-effect.
 #' Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or \code{to}.
 #' function form can not use the names: \code{.} or \code{wrapr_private_value}.
-#' For more detials please see here \url{http://www.win-vector.com/blog/2020/01/unpack-your-values-in-r/}.
+#' For more detials please see here \url{https://win-vector.com/2020/01/20/unpack-your-values-in-r/}.
 #'
 #' Related work includes \code{Python} tuple unpacking, \code{zeallot}'s arrow, and \code{vadr::bind}.
 #'
@@ -678,7 +678,7 @@ to <- UnpackerP(object_name = "to")
 #' of the implied array assignment. \code{:=} assigment does not have this side-effect.
 #' Array-assign form can not use the names: \code{.}, \code{wrapr_private_self}, \code{value}, or \code{unpack}.
 #' Function form can not use the names: \code{.} or \code{wrapr_private_value}.
-#' For more details please see here \url{http://www.win-vector.com/blog/2020/01/unpack-your-values-in-r/}.
+#' For more details please see here \url{https://win-vector.com/2020/01/20/unpack-your-values-in-r/}.
 #'
 #' Related work includes \code{Python} tuple unpacking, \code{zeallot}'s arrow, and \code{vadr::bind}.
 #'

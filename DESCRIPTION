@@ -1,14 +1,14 @@
 Package: wrapr
 Type: Package
 Title: Wrap R Tools for Debugging and Parametric Programming
-Version: 2.0.1
-Date: 2020-08-09
+Version: 2.0.2
+Date: 2020-08-10
 Authors@R: c(
     person("John", "Mount", email = "jmount@win-vector.com", role = c("aut", "cre")),
     person("Nina", "Zumel", email = "nzumel@win-vector.com", role = c("aut")),
     person(family = "Win-Vector LLC", role = c("cph"))
     )
-URL: https://github.com/WinVector/wrapr, http://winvector.github.io/wrapr/
+URL: https://github.com/WinVector/wrapr, https://winvector.github.io/wrapr/
 Maintainer: John Mount <jmount@win-vector.com>
 BugReports: https://github.com/WinVector/wrapr/issues
 Description: Tools for writing and debugging R code. Provides: 

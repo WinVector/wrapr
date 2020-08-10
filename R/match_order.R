@@ -3,8 +3,8 @@
 #' Invert a permutation.
 #'
 #' For a permutation p build q such that p[q] == q[p] == seq_len(length(p)).
-#' Please see \url{http://www.win-vector.com/blog/2017/05/on-indexing-operators-and-composition/}
-#' and \url{http://www.win-vector.com/blog/2017/09/permutation-theory-in-action/}.
+#' Please see \url{https://win-vector.com/2017/05/18/on-indexing-operators-and-composition/}
+#' and \url{https://win-vector.com/2017/09/02/permutation-theory-in-action/}.
 #'
 #' @param p vector of length n containing each of seq_len(n) exactly once.
 #' @return vector q such that p[q] == q[p] == seq_len(length(p))
@@ -21,7 +21,7 @@
 #' @export
 #'
 invert_perm <- function(p) {
-  # see: http://www.win-vector.com/blog/2017/05/on-indexing-operators-and-composition/
+  # see: https://win-vector.com/2017/05/18/on-indexing-operators-and-composition/
   pinv <- seq_len(length(p))
   pinv[p] <- seq_len(length(p))
   pinv
@@ -30,7 +30,7 @@ invert_perm <- function(p) {
 
 #' Match one order to another.
 #'
-#' Build a permutation p such that ids1[p] == ids2.  See \url{http://www.win-vector.com/blog/2017/09/permutation-theory-in-action/}.
+#' Build a permutation p such that ids1[p] == ids2.  See \url{https://win-vector.com/2017/09/02/permutation-theory-in-action/}.
 #'
 #' @param ids1 unique vector of ids.
 #' @param ids2 unique vector of ids with sort(ids1)==sort(ids2).
@@ -53,7 +53,7 @@ match_order <- function(ids1, ids2) {
   # invert p2
   p2inv <- invert_perm(p2)
   # composition rule: (o1[p1])[p2inv] == o1[p1[p2inv]]
-  # see: http://www.win-vector.com/blog/2017/05/on-indexing-operators-and-composition/
+  # see: https://win-vector.com/2017/05/18/on-indexing-operators-and-composition/
   p <- p1[p2inv]
   p
 }

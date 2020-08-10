@@ -4,7 +4,7 @@
 
 #' Fit a stats::lm without carying back large structures.
 #'
-#' Please see \url{http://www.win-vector.com/blog/2014/05/trimming-the-fat-from-glm-models-in-r/} for discussion.
+#' Please see \url{https://win-vector.com/2014/05/30/trimming-the-fat-from-glm-models-in-r/} for discussion.
 #'
 #' @param outcome character, name of outcome column.
 #' @param variables character, names of varaible columns.
@@ -50,7 +50,7 @@ clean_fit_lm <- function(outcome, variables, data,
     weights <- numeric(nrow(data)) + 1
   }
   # work around this issue:
-  # http://www.win-vector.com/blog/2018/12/very-non-standard-calling-in-r/
+  # https://win-vector.com/2018/12/03/very-non-standard-calling-in-r/
   wenv <- new.env(parent = env)
   assign("weights", weights, envir = wenv)
   f <- wrapr::mk_formula(outcome, variables,
@@ -75,7 +75,7 @@ clean_fit_lm <- function(outcome, variables, data,
 
 #' Fit a stats::glm without carying back large structures.
 #'
-#' Please see \url{http://www.win-vector.com/blog/2014/05/trimming-the-fat-from-glm-models-in-r/} for discussion.
+#' Please see \url{https://win-vector.com/2014/05/30/trimming-the-fat-from-glm-models-in-r/} for discussion.
 #'
 #' @param outcome character, name of outcome column.
 #' @param variables character, names of varaible columns.
@@ -131,7 +131,7 @@ clean_fit_glm <- function(outcome, variables, data,
     weights <- numeric(nrow(data)) + 1
   }
   # work around this issue:
-  # http://www.win-vector.com/blog/2018/12/very-non-standard-calling-in-r/
+  # https://win-vector.com/2018/12/03/very-non-standard-calling-in-r/
   wenv <- new.env(parent = env)
   assign("weights", weights, envir = wenv)
   f <- wrapr::mk_formula(outcome, variables,

@@ -12,7 +12,7 @@ vignette: >
 [`wrapr`](https://winvector.github.io/wrapr/) supplies a few tools for creating example 
 `data.frame`s.  An important use case is: building the control table for `cdata::rowrecs_to_blocks()` and `cdata::blocks_to_rowrecs()` (example [here](https://winvector.github.io/cdata/articles/cdata.html)).
 
-Lets see how to create an example data frame.  The idea is similar to that found in [`tibble::tribble()`](http://tibble.tidyverse.org/reference/tribble.html): for small tables a 
+Lets see how to create an example data frame.  The idea is similar to that found in [`tibble::tribble()`](https://tibble.tidyverse.org/reference/tribble.html): for small tables a 
 row oriented constructor can be quite legible, and avoids the cognitive load of taking a transpose.
 
 For example we can create a typical `data.frame` as follows:

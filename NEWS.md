@@ -1,9 +1,10 @@
 
-# wrapr 2.0.1 2020-08-09
+# wrapr 2.0.2 2020-08-10
 
  * dot-function (f.).
  * character-mode for mk_formula.
  * work around refs such as \link[utils]{dump.frames} no longer working with Ben Boker's suggestion \link[utils:debugger]{dump.frames} on R-pkg-devel
+ * URLs to https where possible.
 
 # wrapr 2.0.0 2020-03-27
 

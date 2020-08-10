@@ -40,8 +40,6 @@ d$x
 
 Issues arise when you want to use functions that use non-standard evaluation -- for brevity, I'll call these *NSE expressions* --  but you don't know the name of the variable, as might happen when you are calling these expression from within another function. Generally in these situations, you are taking the name of the desired variable from a string. But how do you pass it to the NSE expression?
 
-You need mapping power when, for example, trying to write parameterized `dplyr` transformations (or wrap `dplyr` pipelines in functions). See [this blog post](http://www.win-vector.com/blog/2016/12/using-replyrlet-to-parameterize-dplyr-expressions/) for an example of using `let` to parameterize `dplyr` expressions, and [this post](http://www.win-vector.com/blog/2016/12/comparative-examples-using-replyrlet/) for a discussion of alternative solutions (as of this writing and version 0.5.0 of `dplyr`).
-
 For this discussion, we will demonstrate `let` to standardize calling `plot` with unknown variables.
 `let` takes two arguments:
 
@@ -89,8 +87,7 @@ see [here](https://github.com/WinVector/wrapr/blob/master/extras/bquote.md) for 
 For more discussion please see:
 
   * [our video on non-standard evaluation and `let`](https://youtu.be/iKLGxzzm9Hk?list=PLAKBwakacHbQp_Z66asDnjn-0qttTO-o9).
-  * [Advanced R NSE](http://adv-r.had.co.nz/Computing-on-the-language.html).
-  * [Standard nonstandard evaluation rules](http://developer.r-project.org/nonstandard-eval.pdf).
+  * [Standard nonstandard evaluation rules](https://developer.r-project.org/nonstandard-eval.pdf).
   * [technical article on let](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf).
 
 

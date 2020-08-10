@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 
 There are some special rules around things like names.  For example `5 %.>% sin` is *not* valued as `sin`, which would be the strict interpretation of `{. <- 5; sin}`.  Instead it is expanded to something closer `{. <- 5; sin(.)}`, which intentionally looks very much like `sin(5)`. In more complicated cases the user can signal they wish for an eager evaluation of this style by writing on outer `.()` container.
 
-And `wrapr` now also exposes an "eager" annotation such that function evaluations or array indexing operations so-annotated are interpreted as `a %.>% f(...)` is interpreted roughly as `{. <- a; _f <- eval(f(...)); _f(.)}`, where `_f` is a notional temporary variable (not visible or produces as a side-effect).  This effect is used in `wrapr`'s "pipe to array" variation of the `unpack` notation (example [here](http://www.win-vector.com/blog/2020/01/using-unpack-to-manage-your-r-environment/)).
+And `wrapr` now also exposes an "eager" annotation such that function evaluations or array indexing operations so-annotated are interpreted as `a %.>% f(...)` is interpreted roughly as `{. <- a; _f <- eval(f(...)); _f(.)}`, where `_f` is a notional temporary variable (not visible or produces as a side-effect).  This effect is used in `wrapr`'s "pipe to array" variation of the `unpack` notation (example [here](https://win-vector.com/2020/01/21/using-unpack-to-manage-your-r-environment/)).
 
 This eager effect can be gotten by setting the appropriate attribute as we see below.
 

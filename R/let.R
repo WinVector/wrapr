@@ -5,7 +5,7 @@
 # this one is not vectorized
 # also don't allow dot to be used here as remapping that is problem in magrittr pipelines
 #  this is essentially treating "." as reserved (which is more compatible with magrittr)
-# from: http://stackoverflow.com/questions/8396577/check-if-character-value-is-a-valid-r-object-name
+# from: https://stackoverflow.com/questions/8396577/check-if-character-value-is-a-valid-r-object-name
 isValidAndUnreservedName <- function(string) {
   if(is.null(string)) {
     return(FALSE)

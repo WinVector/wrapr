@@ -18,7 +18,7 @@ add_name_column <- function(dlist, destinationColumn) {
   res <- dlist
   # since res list is pre-allocated, re-assigning into it
   # should be fast.
-  # Please see: http://www.win-vector.com/blog/2015/07/efficient-accumulation-in-r/
+  # Please see: https://win-vector.com/2015/07/27/efficient-accumulation-in-r/
   for(ni in names(dlist)) {
     vi <- dlist[[ni]]
     vi[[destinationColumn]] <- ni

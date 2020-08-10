@@ -95,7 +95,7 @@ The notation is also very regular as we show below.
 1:4 %.>% ( .^2 )
 ```
 
-Regularity can be a *big* advantage in teaching and comprehension. Please see ["In Praise of Syntactic Sugar"](http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/) for more details.
+Regularity can be a *big* advantage in teaching and comprehension. Please see ["In Praise of Syntactic Sugar"](https://win-vector.com/2017/07/07/in-praise-of-syntactic-sugar/) for more details.
 Some formal documentation can be found [here](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf).
 
 <ul>
@@ -149,7 +149,7 @@ knitr::kable(train_data)
 
 ## [`as_named_list`](https://winvector.github.io/wrapr/reference/as_named_list.html)
 
-Build up named lists.  [Very convenient for managing workspaces when used with used with `unpack`/`to`.](http://www.win-vector.com/blog/2020/01/using-unpack-to-manage-your-r-environment/)
+Build up named lists.  [Very convenient for managing workspaces when used with used with `unpack`/`to`.](https://win-vector.com/2020/01/21/using-unpack-to-manage-your-r-environment/)
 
 ```{r as_named_list}
 as_named_list(train_data, calibrate_data, test_data)

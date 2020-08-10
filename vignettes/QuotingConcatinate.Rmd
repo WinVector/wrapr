@@ -76,7 +76,7 @@ Also, `qc()` is designed to have a simple "mutually recursive" relationship with
 qc(Petal.Width, c(OTHER_SYMBOL))
 ```
 
-This escape notation arises as a natural consequence of a design of `qc()` that calls `c()` instead of quoting it (i.e. delegates `c()`-expressions to `c()`). The `bquote()-.()` should be the preferred notation for regularity, and to match any other `bquote()` quasiquotation interface (such as `qchar_frame()` or [even a variation of `dplyr`](http://www.win-vector.com/blog/2018/10/quasiquotation-in-r-via-bquote/)).
+This escape notation arises as a natural consequence of a design of `qc()` that calls `c()` instead of quoting it (i.e. delegates `c()`-expressions to `c()`). The `bquote()-.()` should be the preferred notation for regularity, and to match any other `bquote()` quasiquotation interface (such as `qchar_frame()` or [even a variation of `dplyr`](https://win-vector.com/2018/10/16/quasiquotation-in-r-via-bquote/)).
 
 `qc()` also takes some trouble to work with named vectors:
 
