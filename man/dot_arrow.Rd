@@ -33,10 +33,10 @@ The pipe operator checks for and throws an exception for a number of "piped into
 nothing cases" such as \code{5 \%.>\% sin()}, many of these checks can be turned
 off by adding braces.
 
-For some discussion, please see \url{http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/}.
+For some discussion, please see \url{https://win-vector.com/2017/07/07/in-praise-of-syntactic-sugar/}.
 For some more examples, please see the package README \url{https://github.com/WinVector/wrapr}.
 For formal documentation please see \url{https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf}.
-For a base-R step-debuggable pipe please try the Bizarro Pipe \url{http://www.win-vector.com/blog/2017/01/using-the-bizarro-pipe-to-debug-magrittr-pipelines-in-r/}.
+For a base-R step-debuggable pipe please try the Bizarro Pipe \url{https://win-vector.com/2017/01/29/using-the-bizarro-pipe-to-debug-magrittr-pipelines-in-r/}.
 \code{\%>.\%} and \code{\%.>\%} are synonyms.
 
 The dot arrow pipe has S3/S4 dispatch (please see \url{https://journal.r-project.org/archive/2018/RJ-2018-042/index.html}).

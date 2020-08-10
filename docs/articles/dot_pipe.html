@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.2</span>
       </span>
     </div>
 
@@ -106,7 +106,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="http://www.win-vector.com/">Sponsor: Win-Vector LLC</a>
+  <a href="https://win-vector.com">Sponsor: Win-Vector LLC</a>
 </li>
       </ul>
 </div>
@@ -124,7 +124,7 @@
       <h1 data-toc-skip>Dot Pipe</h1>
                         <h4 class="author">John Mount</h4>
             
-            <h4 class="date">2020-08-09</h4>
+            <h4 class="date">2020-08-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/dot_pipe.Rmd"><code>vignettes/dot_pipe.Rmd</code></a></small>
       <div class="hidden name"><code>dot_pipe.Rmd</code></div>
@@ -153,7 +153,7 @@
 <pre><code>## [1] -0.9589243</code></pre>
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fl">5</span> <span class="kw">%.&gt;%</span> <span class="kw pkg">base</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span>(<span class="no">.</span>)</pre></body></html></div>
 <pre><code>## [1] -0.9589243</code></pre>
-<p>Regularity can be a <em>big</em> advantage in teaching and comprehension. Please see <a href="http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/">“In Praise of Syntactic Sugar”</a> for discussion.</p>
+<p>Regularity can be a <em>big</em> advantage in teaching and comprehension. Please see <a href="https://win-vector.com/2017/07/07/in-praise-of-syntactic-sugar/">“In Praise of Syntactic Sugar”</a> for discussion.</p>
 <p>The dot arrow pipe has S3/S4 dispatch (please see ). However as the right-hand side of the pipe is normally held unevaluated, we don’t know the type except in special cases (such as the rigth-hand side being referred to by a name or variable). To force the evaluation of a pipe term, simply wrap it in .().</p>
 <p>A detail of R-style pipes is the right argument is held unevalauted (unless it is a name), so we can’t always use the class of the right hand side to dispatch. To work around this we suggest using <code>.()</code> notation, which in the context of the pipe means “evaluate early.” An example is given below:</p>
 <div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">f</span> <span class="kw">&lt;-</span> <span class="kw">function</span>() { <span class="no">sin</span> }

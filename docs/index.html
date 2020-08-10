@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.2</span>
       </span>
     </div>
 
@@ -111,7 +111,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="http://www.win-vector.com/">Sponsor: Win-Vector LLC</a>
+  <a href="https://win-vector.com">Sponsor: Win-Vector LLC</a>
 </li>
       </ul>
 </div>
@@ -171,7 +171,7 @@
 <span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html">packageVersion</a></span>(<span class="st">"wrapr"</span>)
  <span class="co">#  [1] '2.0.1'</span>
 <span class="fu"><a href="https://rdrr.io/r/base/date.html">date</a></span>()
- <span class="co">#  [1] "Mon Jun 29 09:52:10 2020"</span></pre></div>
+ <span class="co">#  [1] "Mon Aug 10 12:13:57 2020"</span></pre></div>
 </div>
 <div id="dot-pipe-or-dot-arrow" class="section level2">
 <h2 class="hasAnchor">
@@ -210,7 +210,7 @@
  <span class="co">#  [1]  1  4  9 16</span>
 <span class="fl">1</span>:<span class="fl">4</span> <span class="kw">%.&gt;%</span> ( <span class="no">.</span>^<span class="fl">2</span> )
  <span class="co">#  [1]  1  4  9 16</span></pre></div>
-<p>Regularity can be a <em>big</em> advantage in teaching and comprehension. Please see <a href="http://www.win-vector.com/blog/2017/07/in-praise-of-syntactic-sugar/">“In Praise of Syntactic Sugar”</a> for more details. Some formal documentation can be found <a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf">here</a>.</p>
+<p>Regularity can be a <em>big</em> advantage in teaching and comprehension. Please see <a href="https://win-vector.com/2017/07/07/in-praise-of-syntactic-sugar/">“In Praise of Syntactic Sugar”</a> for more details. Some formal documentation can be found <a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf">here</a>.</p>
 <ul>
 <li>
 <p>Some obvious “dot-free”" right-hand sides are rejected. Pipelines are meant to move values through a sequence of transforms, and not just for side-effects. Example: <code>5 %.&gt;% 6</code> deliberately stops as <code>6</code> is a right-hand side that obviously does not use its incoming value. This check is only applied to values, not functions on the right-hand side.</p>
@@ -292,7 +292,7 @@
 <h2 class="hasAnchor">
 <a href="#as_named_list" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/as_named_list.html"><code>as_named_list</code></a>
 </h2>
-<p>Build up named lists. <a href="http://www.win-vector.com/blog/2020/01/using-unpack-to-manage-your-r-environment/">Very convenient for managing workspaces when used with used with <code>unpack</code>/<code>to</code>.</a></p>
+<p>Build up named lists. <a href="https://win-vector.com/2020/01/21/using-unpack-to-manage-your-r-environment/">Very convenient for managing workspaces when used with used with <code>unpack</code>/<code>to</code>.</a></p>
 <div class="sourceCode" id="cb7"><pre class="r"><span class="fu"><a href="reference/as_named_list.html">as_named_list</a></span>(<span class="no">train_data</span>, <span class="no">calibrate_data</span>, <span class="no">test_data</span>)
  <span class="co">#  $train_data</span>
  <span class="co">#    x group</span>

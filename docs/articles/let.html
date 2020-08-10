@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.2</span>
       </span>
     </div>
 
@@ -106,7 +106,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="http://www.win-vector.com/">Sponsor: Win-Vector LLC</a>
+  <a href="https://win-vector.com">Sponsor: Win-Vector LLC</a>
 </li>
       </ul>
 </div>
@@ -124,7 +124,7 @@
       <h1 data-toc-skip>Let</h1>
                         <h4 class="author">Nina Zumel, John Mount</h4>
             
-            <h4 class="date">2020-08-09</h4>
+            <h4 class="date">2020-08-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/let.Rmd"><code>vignettes/let.Rmd</code></a></small>
       <div class="hidden name"><code>let.Rmd</code></div>
@@ -153,7 +153,6 @@
 <span class="no">d</span>$<span class="no">x</span></pre></body></html></div>
 <pre><code>## [1]  1 NA</code></pre>
 <p>Issues arise when you want to use functions that use non-standard evaluation – for brevity, I’ll call these <em>NSE expressions</em> – but you don’t know the name of the variable, as might happen when you are calling these expression from within another function. Generally in these situations, you are taking the name of the desired variable from a string. But how do you pass it to the NSE expression?</p>
-<p>You need mapping power when, for example, trying to write parameterized <code>dplyr</code> transformations (or wrap <code>dplyr</code> pipelines in functions). See <a href="http://www.win-vector.com/blog/2016/12/using-replyrlet-to-parameterize-dplyr-expressions/">this blog post</a> for an example of using <code>let</code> to parameterize <code>dplyr</code> expressions, and <a href="http://www.win-vector.com/blog/2016/12/comparative-examples-using-replyrlet/">this post</a> for a discussion of alternative solutions (as of this writing and version 0.5.0 of <code>dplyr</code>).</p>
 <p>For this discussion, we will demonstrate <code>let</code> to standardize calling <code>plot</code> with unknown variables. <code>let</code> takes two arguments:</p>
 <ul>
 <li>A list of assignments <em>symname=varname</em>, where <em>symname</em> is the name used in the NSE expression, and <em>varname</em> is the name (as a string) of the desired variable.</li>
@@ -194,9 +193,7 @@
 <li>
 <a href="https://youtu.be/iKLGxzzm9Hk?list=PLAKBwakacHbQp_Z66asDnjn-0qttTO-o9">our video on non-standard evaluation and <code>let</code></a>.</li>
 <li>
-<a href="http://adv-r.had.co.nz/Computing-on-the-language.html">Advanced R NSE</a>.</li>
-<li>
-<a href="http://developer.r-project.org/nonstandard-eval.pdf">Standard nonstandard evaluation rules</a>.</li>
+<a href="https://developer.r-project.org/nonstandard-eval.pdf">Standard nonstandard evaluation rules</a>.</li>
 <li>
 <a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf">technical article on let</a>.</li>
 </ul>

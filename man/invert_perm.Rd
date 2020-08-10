@@ -14,8 +14,8 @@ vector q such that p[q] == q[p] == seq_len(length(p))
 }
 \description{
 For a permutation p build q such that p[q] == q[p] == seq_len(length(p)).
-Please see \url{http://www.win-vector.com/blog/2017/05/on-indexing-operators-and-composition/}
-and \url{http://www.win-vector.com/blog/2017/09/permutation-theory-in-action/}.
+Please see \url{https://win-vector.com/2017/05/18/on-indexing-operators-and-composition/}
+and \url{https://win-vector.com/2017/09/02/permutation-theory-in-action/}.
 }
 \examples{
 

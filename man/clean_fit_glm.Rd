@@ -42,7 +42,7 @@ clean_fit_glm(
 list(model=model, summary=summary)
 }
 \description{
-Please see \url{http://www.win-vector.com/blog/2014/05/trimming-the-fat-from-glm-models-in-r/} for discussion.
+Please see \url{https://win-vector.com/2014/05/30/trimming-the-fat-from-glm-models-in-r/} for discussion.
 }
 \examples{
 
