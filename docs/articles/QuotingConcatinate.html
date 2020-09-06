@@ -118,13 +118,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="QuotingConcatinate_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Quoting Concatinate</h1>
                         <h4 class="author">John Mount</h4>
             
-            <h4 class="date">2020-08-10</h4>
+            <h4 class="date">2020-09-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/QuotingConcatinate.Rmd"><code>vignettes/QuotingConcatinate.Rmd</code></a></small>
       <div class="hidden name"><code>QuotingConcatinate.Rmd</code></div>
@@ -135,25 +135,28 @@
     
 <p>In <a href="https://www.r-project.org"><code>R</code></a> data analysis code-capturing interfaces (or non-standard-evaluation/NSE interfaces are considered a fun convenience. These allow users to type column names in directly when working. However in functions and packages there can be a large interface price or code safety risk to pay for supplying the user the minor convenience of eliding a few quotation marks.</p>
 <p>Our package <a href="https://CRAN.R-project.org/package=wrapr"><code>wrapr</code></a> has the sensible design principle: NSE can be convenient to the user, but we are going to isolate it to a few methods (for safe and simple code). Users then pass the objects that those methods create as <em>values</em> to other methods. Computation is meant to be over values, so this is a good trade-off.</p>
-<p>The primary place code capturing shows up in our <code>wrapr</code> <code>R</code> package is in the <a href="https://winvector.github.io/wrapr/reference/qc.html"><code><a href="../reference/qc.html">qc()</a></code></a> and <a href="https://winvector.github.io/wrapr/reference/qchar_frame.html"><code><a href="../reference/qchar_frame.html">qchar_frame()</a></code></a> methods.</p>
-<p><code><a href="../reference/qc.html">qc()</a></code> stands for “quoting concatenate” it is much like <code>R</code>’s <code><a href="https://rdrr.io/r/base/c.html">c()</a></code> (combine), but it quotes its arguments before concatenating vectors or lists.</p>
+<p>The primary place code capturing shows up in our <code>wrapr</code> <code>R</code> package is in the <a href="https://winvector.github.io/wrapr/reference/qc.html"><code>qc()</code></a> and <a href="https://winvector.github.io/wrapr/reference/qchar_frame.html"><code>qchar_frame()</code></a> methods.</p>
+<p><code><a href="../reference/qc.html">qc()</a></code> stands for “quoting concatenate” it is much like <code>R</code>’s <code><a href="#base/c.html">c()</a></code> (combine), but it quotes its arguments before concatenating vectors or lists.</p>
 <p>It lets you replace this:</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Petal.Width"</span>, <span class="st">"Petal.Length"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="#base/c.html">c</a></span>(<span class="st">"Petal.Width"</span>, <span class="st">"Petal.Length"</span>)</pre></div>
 <pre><code>## [1] "Petal.Width"  "Petal.Length"</code></pre>
 <p>with this:</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"wrapr"</span>)
-
-<span class="fu"><a href="../reference/qc.html">qc</a></span>(<span class="no">Petal.Width</span>, <span class="no">Petal.Length</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="fu"><a href="#base/library.html">library</a></span>(<span class="st"><a href="https://github.com/WinVector/wrapr">"wrapr"</a></span>)
+   
+<span class="fu"><a href="../reference/qc.html">qc</a></span>(<span class="kw">Petal.Width</span>, <span class="kw">Petal.Length</span>)</pre></div>
 <pre><code>## [1] "Petal.Width"  "Petal.Length"</code></pre>
 <p>This, in turn, lets you replace this:</p>
-<pre><code><a href="https://dplyr.tidyverse.org/reference">library("dplyr")
+<pre><code><a href="https://dplyr.tidyverse.org">library("dplyr")
 
 iris %&gt;%
   select(., Petal.Width, Petal.Length) %&gt;%
   head(.)</a></code></pre>
 <p>with this:</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">iris</span>[, <span class="fu"><a href="../reference/qc.html">qc</a></span>(<span class="no">Petal.Width</span>, <span class="no">Petal.Length</span>)] <span class="kw">%.&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">.</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="kw">iris</span>[, <span class="fu"><a href="../reference/qc.html">qc</a></span>(<span class="kw">Petal.Width</span>, <span class="kw">Petal.Length</span>)] <span class="op">%.&gt;%</span>
+  <span class="fu"><a href="#utils/head.html">head</a></span>(<span class="kw">.</span>)</pre></div>
 <pre><code>##   Petal.Width Petal.Length
 ## 1         0.2          1.4
 ## 2         0.2          1.4
@@ -162,28 +165,33 @@ iris %&gt;%
 ## 5         0.2          1.4
 ## 6         0.4          1.7</code></pre>
 <p>We still skipped the quotes, and the NSE stuff is safely isolated from the rest of the system.</p>
-<p><code>wrapr</code> now incorporates <code><a href="https://rdrr.io/r/base/bquote.html">bquote()</a></code> based quasiquotation in a few of its interfaces.</p>
+<p><code>wrapr</code> now incorporates <code><a href="#base/bquote.html">bquote()</a></code> based quasiquotation in a few of its interfaces.</p>
 <p>Quasiquotation was introduced into R by Thomas Lumley in 2003, and allows users to signal they want to turn off quotation for portions of their code. The user indicates they do not wish a portion of their code to be quoted (but instead want it evaluated for its value) by surrounding that portion with the function-notation “<code>.()</code>”.</p>
 <p>An example of this is given here.</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">OTHER_SYMBOL</span> <span class="kw">&lt;-</span> <span class="st">"Petal.Length"</span>
-
-<span class="fu"><a href="../reference/qc.html">qc</a></span>(<span class="no">Petal.Width</span>, <span class="no">OTHER_SYMBOL</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="kw">OTHER_SYMBOL</span> <span class="op">&lt;-</span> <span class="st">"Petal.Length"</span>
+  
+<span class="fu"><a href="../reference/qc.html">qc</a></span>(<span class="kw">Petal.Width</span>, <span class="kw">OTHER_SYMBOL</span>)</pre></div>
 <pre><code>## [1] "Petal.Width"  "OTHER_SYMBOL"</code></pre>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="../reference/qc.html">qc</a></span>(<span class="no">Petal.Width</span>, <span class="fu">.</span>(<span class="no">OTHER_SYMBOL</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb10"><pre class="downlit">
+<span class="fu"><a href="../reference/qc.html">qc</a></span>(<span class="kw">Petal.Width</span>, <span class="fu">.</span>(<span class="kw">OTHER_SYMBOL</span>))</pre></div>
 <pre><code>## [1] "Petal.Width"  "Petal.Length"</code></pre>
 <p>This should be familiar to <code>data.table</code> users, as <code>data.table</code> has supported related notations for quite some time.</p>
-<p>Also, <code><a href="../reference/qc.html">qc()</a></code> is designed to have a simple “mutually recursive” relationship with <code><a href="https://rdrr.io/r/base/c.html">c()</a></code> (i.e. they call each other when they see one another). This means <code><a href="https://rdrr.io/r/base/c.html">c()</a></code> is also a quasiquotation escape-notation for <code><a href="../reference/qc.html">qc()</a></code>:</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="../reference/qc.html">qc</a></span>(<span class="no">Petal.Width</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">OTHER_SYMBOL</span>))</pre></body></html></div>
+<p>Also, <code><a href="../reference/qc.html">qc()</a></code> is designed to have a simple “mutually recursive” relationship with <code><a href="#base/c.html">c()</a></code> (i.e. they call each other when they see one another). This means <code><a href="#base/c.html">c()</a></code> is also a quasiquotation escape-notation for <code><a href="../reference/qc.html">qc()</a></code>:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit">
+<span class="fu"><a href="../reference/qc.html">qc</a></span>(<span class="kw">Petal.Width</span>, <span class="fu"><a href="#base/c.html">c</a></span>(<span class="kw">OTHER_SYMBOL</span>))</pre></div>
 <pre><code>## [1] "Petal.Width"  "Petal.Length"</code></pre>
-<p>This escape notation arises as a natural consequence of a design of <code><a href="../reference/qc.html">qc()</a></code> that calls <code><a href="https://rdrr.io/r/base/c.html">c()</a></code> instead of quoting it (i.e. delegates <code><a href="https://rdrr.io/r/base/c.html">c()</a></code>-expressions to <code><a href="https://rdrr.io/r/base/c.html">c()</a></code>). The <code>bquote()-.()</code> should be the preferred notation for regularity, and to match any other <code><a href="https://rdrr.io/r/base/bquote.html">bquote()</a></code> quasiquotation interface (such as <code><a href="../reference/qchar_frame.html">qchar_frame()</a></code> or <a href="https://win-vector.com/2018/10/16/quasiquotation-in-r-via-bquote/">even a variation of <code>dplyr</code></a>).</p>
+<p>This escape notation arises as a natural consequence of a design of <code><a href="../reference/qc.html">qc()</a></code> that calls <code><a href="#base/c.html">c()</a></code> instead of quoting it (i.e. delegates <code><a href="#base/c.html">c()</a></code>-expressions to <code><a href="#base/c.html">c()</a></code>). The <code>bquote()-.()</code> should be the preferred notation for regularity, and to match any other <code><a href="#base/bquote.html">bquote()</a></code> quasiquotation interface (such as <code><a href="../reference/qchar_frame.html">qchar_frame()</a></code> or <a href="https://win-vector.com/2018/10/16/quasiquotation-in-r-via-bquote/">even a variation of <code>dplyr</code></a>).</p>
 <p><code><a href="../reference/qc.html">qc()</a></code> also takes some trouble to work with named vectors:</p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="../reference/qc.html">qc</a></span>(<span class="kw">a</span> <span class="kw">=</span> <span class="no">b</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb14"><pre class="downlit">
+<span class="fu"><a href="../reference/qc.html">qc</a></span>(a = <span class="kw">b</span>)</pre></div>
 <pre><code>##   a 
 ## "b"</code></pre>
 <p>And we can even re-map left-hand sizes of (or names) if we use the alternate “<code>:=</code>” assignment notation.</p>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">LEFT_NAME</span> <span class="kw">=</span> <span class="st">"a"</span>
+<div class="sourceCode" id="cb16"><pre class="downlit">
+<span class="kw">LEFT_NAME</span> <span class="op">=</span> <span class="st">"a"</span>
 
-<span class="fu"><a href="../reference/qc.html">qc</a></span>(<span class="fu">.</span>(<span class="no">LEFT_NAME</span>) <span class="kw">:=</span> <span class="no">b</span>)</pre></body></html></div>
+<span class="fu"><a href="../reference/qc.html">qc</a></span>(<span class="fu">.</span>(<span class="kw">LEFT_NAME</span>) <span class="op">:=</span> <span class="kw">b</span>)</pre></div>
 <pre><code>##   a 
 ## "b"</code></pre>
 <p>Notice syntactically <code><a href="../reference/qc.html">qc()</a></code> fills a general niche much like the specific function <code><a href="https://ggplot2.tidyverse.org/reference/aes.html">ggplot2::aes()</a></code> fits in the <code>ggplot2</code> package.</p>
@@ -203,7 +211,7 @@ iris %&gt;%
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

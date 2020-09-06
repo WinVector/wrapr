@@ -136,46 +136,47 @@
 <p>Primary <code>wrapr</code> services include:</p>
 <ul>
 <li>
-<a href="https://winvector.github.io/wrapr/reference/dot_arrow.html"><code><a href="reference/dot_arrow.html">%.&gt;%</a></code></a> (dot arrow pipe)</li>
+<a href="https://winvector.github.io/wrapr/reference/dot_arrow.html"><code>%.&gt;%</code></a> (dot arrow pipe)</li>
 <li>
 <a href="https://winvector.github.io/wrapr/reference/unpack.html"><code>unpack</code></a>/<a href="https://winvector.github.io/wrapr/reference/to.html"><code>to</code></a> (assign to multiple values)</li>
 <li>
 <a href="https://winvector.github.io/wrapr/reference/as_named_list.html"><code>as_named_list</code></a> (build up a named list quickly)</li>
 <li>
-<a href="https://winvector.github.io/wrapr/reference/build_frame.html"><code><a href="reference/build_frame.html">build_frame()</a></code></a> / <a href="https://winvector.github.io/wrapr/reference/draw_frame.html"><code><a href="reference/draw_frame.html">draw_frame()</a></code></a> ( <code>data.frame</code> builders and formatters )</li>
+<a href="https://winvector.github.io/wrapr/reference/build_frame.html"><code>build_frame()</code></a> / <a href="https://winvector.github.io/wrapr/reference/draw_frame.html"><code>draw_frame()</code></a> ( <code>data.frame</code> builders and formatters )</li>
 <li>
-<a href="https://winvector.github.io/wrapr/reference/qc.html"><code><a href="reference/qc.html">qc()</a></code></a> (quoting concatenate)</li>
+<a href="https://winvector.github.io/wrapr/reference/qc.html"><code>qc()</code></a> (quoting concatenate)</li>
 <li>
 <a href="https://winvector.github.io/wrapr/reference/named_map_builder.html"><code>:=</code></a> (named map builder)</li>
 <li>
-<a href="https://winvector.github.io/wrapr/reference/coalesce.html"><code><a href="reference/coalesce.html">%?%</a></code></a> (coalesce)</li>
+<a href="https://winvector.github.io/wrapr/reference/coalesce.html"><code>%?%</code></a> (coalesce)</li>
 <li>
-<a href="https://winvector.github.io/wrapr/reference/reduceexpand.html"><code><a href="reference/reduceexpand.html">%.|%</a></code></a> (reduce/expand args)</li>
+<a href="https://winvector.github.io/wrapr/reference/reduceexpand.html"><code>%.|%</code></a> (reduce/expand args)</li>
 <li>
-<a href="https://winvector.github.io/wrapr/reference/uniques.html"><code><a href="reference/uniques.html">uniques()</a></code></a> (safe <code><a href="https://rdrr.io/r/base/unique.html">unique()</a></code> replacement)</li>
+<a href="https://winvector.github.io/wrapr/reference/uniques.html"><code>uniques()</code></a> (safe <code><a href="#base/unique.html">unique()</a></code> replacement)</li>
 <li>
-<a href="https://winvector.github.io/wrapr/reference/partition_tables.html"><code><a href="reference/partition_tables.html">partition_tables()</a></code></a> / <a href="https://winvector.github.io/wrapr/reference/execute_parallel.html"><code><a href="reference/execute_parallel.html">execute_parallel()</a></code></a>
+<a href="https://winvector.github.io/wrapr/reference/partition_tables.html"><code>partition_tables()</code></a> / <a href="https://winvector.github.io/wrapr/reference/execute_parallel.html"><code>execute_parallel()</code></a>
 </li>
 <li>
-<a href="https://winvector.github.io/wrapr/reference/DebugFnW.html"><code><a href="reference/DebugFnW.html">DebugFnW()</a></code></a> (function debug wrappers)</li>
+<a href="https://winvector.github.io/wrapr/reference/DebugFnW.html"><code>DebugFnW()</code></a> (function debug wrappers)</li>
 <li>
 <a href="https://winvector.github.io/wrapr/reference/defineLambda.html"><code>λ()</code></a> (anonymous function builder)</li>
 <li>
-<a href="https://winvector.github.io/wrapr/reference/let.html"><code><a href="reference/let.html">let()</a></code></a> (let block)</li>
+<a href="https://winvector.github.io/wrapr/reference/let.html"><code>let()</code></a> (let block)</li>
 <li>
-<a href="https://winvector.github.io/wrapr/articles/bquote.html"><code><a href="reference/evalb.html">evalb()</a></code>/<code><a href="reference/si.html">si()</a></code></a> (evaluate with <code>bquote</code> / string interpolation)</li>
+<a href="https://winvector.github.io/wrapr/articles/bquote.html"><code>evalb()</code>/<code>si()</code></a> (evaluate with <code>bquote</code> / string interpolation)</li>
 <li>
-<a href="https://winvector.github.io/wrapr/reference/sortv.html"><code><a href="reference/sortv.html">sortv()</a></code></a> (sort a data.frame by a set of columns).</li>
+<a href="https://winvector.github.io/wrapr/reference/sortv.html"><code>sortv()</code></a> (sort a data.frame by a set of columns).</li>
 </ul>
-<!-- end list --><div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">wrapr</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html">packageVersion</a></span>(<span class="st">"wrapr"</span>)
+<!-- end list --><div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="#base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/WinVector/wrapr">wrapr</a></span>)
+<span class="fu"><a href="#utils/packageDescription.html">packageVersion</a></span>(<span class="st">"wrapr"</span>)
  <span class="co">#  [1] '2.0.2'</span>
-<span class="fu"><a href="https://rdrr.io/r/base/date.html">date</a></span>()
+<span class="fu"><a href="#base/date.html">date</a></span>()
  <span class="co">#  [1] "Mon Aug 10 15:24:46 2020"</span></pre></div>
 </div>
-<div id="dot-pipe-or-dot-arrow" class="section level2">
+<div id="-dot-pipe-or-dot-arrow" class="section level2">
 <h2 class="hasAnchor">
-<a href="#dot-pipe-or-dot-arrow" class="anchor"></a><a href="https://winvector.github.io/wrapr/articles/dot_pipe.html"><code>%.&gt;%</code> (dot pipe or dot arrow)</a>
+<a href="#-dot-pipe-or-dot-arrow" class="anchor"></a><a href="https://winvector.github.io/wrapr/articles/dot_pipe.html"><code>%.&gt;%</code> (dot pipe or dot arrow)</a>
 </h2>
 <p><code><a href="reference/dot_arrow.html">%.&gt;%</a></code> dot arrow pipe is a pipe with intended semantics:</p>
 <blockquote>
@@ -183,32 +184,35 @@
 </blockquote>
 <p>Other <code>R</code> pipes include <a href="https://CRAN.R-project.org/package=magrittr"><code>magrittr</code></a> and <a href="https://CRAN.R-project.org/package=pipeR"><code>pipeR</code></a>.</p>
 <p>The following two expressions should be equivalent:</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Trig.html">cos</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span>(<span class="fl">4</span>)))
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="fu"><a href="#base/Trig.html">cos</a></span>(<span class="fu"><a href="#base/Log.html">exp</a></span>(<span class="fu"><a href="#base/Trig.html">sin</a></span>(<span class="fl">4</span>)))
  <span class="co">#  [1] 0.8919465</span>
 
-<span class="fl">4</span> <span class="kw">%.&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span>(<span class="no">.</span>) <span class="kw">%.&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span>(<span class="no">.</span>) <span class="kw">%.&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">cos</a></span>(<span class="no">.</span>)
+<span class="fl">4</span> <span class="op">%.&gt;%</span> <span class="fu"><a href="#base/Trig.html">sin</a></span>(<span class="kw">.</span>) <span class="op">%.&gt;%</span> <span class="fu"><a href="#base/Log.html">exp</a></span>(<span class="kw">.</span>) <span class="op">%.&gt;%</span> <span class="fu"><a href="#base/Trig.html">cos</a></span>(<span class="kw">.</span>)
  <span class="co">#  [1] 0.8919465</span></pre></div>
 <p>The notation is quite powerful as it treats pipe stages as expression parameterized over the variable “<code>.</code>”. This means you do not need to introduce functions to express stages. The following is a valid dot-pipe:</p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="fl">1</span>:<span class="fl">4</span> <span class="kw">%.&gt;%</span> <span class="no">.</span>^<span class="fl">2</span>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="fl">1</span><span class="op">:</span><span class="fl">4</span> <span class="op">%.&gt;%</span> <span class="kw">.</span><span class="op">^</span><span class="fl">2</span> 
  <span class="co">#  [1]  1  4  9 16</span></pre></div>
 <p>The notation is also very regular as we show below.</p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="fl">1</span>:<span class="fl">4</span> <span class="kw">%.&gt;%</span> <span class="no">sin</span>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="fl">1</span><span class="op">:</span><span class="fl">4</span> <span class="op">%.&gt;%</span> <span class="kw">sin</span>
  <span class="co">#  [1]  0.8414710  0.9092974  0.1411200 -0.7568025</span>
-<span class="fl">1</span>:<span class="fl">4</span> <span class="kw">%.&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span>(<span class="no">.</span>)
+<span class="fl">1</span><span class="op">:</span><span class="fl">4</span> <span class="op">%.&gt;%</span> <span class="fu"><a href="#base/Trig.html">sin</a></span>(<span class="kw">.</span>)
  <span class="co">#  [1]  0.8414710  0.9092974  0.1411200 -0.7568025</span>
-<span class="fl">1</span>:<span class="fl">4</span> <span class="kw">%.&gt;%</span> <span class="kw pkg">base</span><span class="kw ns">::</span><span class="no"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span>
+<span class="fl">1</span><span class="op">:</span><span class="fl">4</span> <span class="op">%.&gt;%</span> <span class="kw">base</span>::<span class="kw"><a href="#base/Trig.html">sin</a></span>
  <span class="co">#  [1]  0.8414710  0.9092974  0.1411200 -0.7568025</span>
-<span class="fl">1</span>:<span class="fl">4</span> <span class="kw">%.&gt;%</span> <span class="kw pkg">base</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span>(<span class="no">.</span>)
+<span class="fl">1</span><span class="op">:</span><span class="fl">4</span> <span class="op">%.&gt;%</span> <span class="kw">base</span>::<span class="fu"><a href="#base/Trig.html">sin</a></span>(<span class="kw">.</span>)
  <span class="co">#  [1]  0.8414710  0.9092974  0.1411200 -0.7568025</span>
 
-<span class="fl">1</span>:<span class="fl">4</span> <span class="kw">%.&gt;%</span> <span class="kw">function</span>(<span class="no">x</span>) { <span class="no">x</span> + <span class="fl">1</span> }
+<span class="fl">1</span><span class="op">:</span><span class="fl">4</span> <span class="op">%.&gt;%</span> <span class="fu">function</span>(<span class="kw">x</span>) { <span class="kw">x</span> <span class="op">+</span> <span class="fl">1</span> }
  <span class="co">#  [1] 2 3 4 5</span>
-<span class="fl">1</span>:<span class="fl">4</span> <span class="kw">%.&gt;%</span> (<span class="kw">function</span>(<span class="no">x</span>) { <span class="no">x</span> + <span class="fl">1</span> })
+<span class="fl">1</span><span class="op">:</span><span class="fl">4</span> <span class="op">%.&gt;%</span> (<span class="fu">function</span>(<span class="kw">x</span>) { <span class="kw">x</span> <span class="op">+</span> <span class="fl">1</span> })
  <span class="co">#  [1] 2 3 4 5</span>
 
-<span class="fl">1</span>:<span class="fl">4</span> <span class="kw">%.&gt;%</span> { <span class="no">.</span>^<span class="fl">2</span> }
+<span class="fl">1</span><span class="op">:</span><span class="fl">4</span> <span class="op">%.&gt;%</span> { <span class="kw">.</span><span class="op">^</span><span class="fl">2</span> } 
  <span class="co">#  [1]  1  4  9 16</span>
-<span class="fl">1</span>:<span class="fl">4</span> <span class="kw">%.&gt;%</span> ( <span class="no">.</span>^<span class="fl">2</span> )
+<span class="fl">1</span><span class="op">:</span><span class="fl">4</span> <span class="op">%.&gt;%</span> ( <span class="kw">.</span><span class="op">^</span><span class="fl">2</span> )
  <span class="co">#  [1]  1  4  9 16</span></pre></div>
 <p>Regularity can be a <em>big</em> advantage in teaching and comprehension. Please see <a href="https://win-vector.com/2017/07/07/in-praise-of-syntactic-sugar/">“In Praise of Syntactic Sugar”</a> for more details. Some formal documentation can be found <a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf">here</a>.</p>
 <ul>
@@ -216,13 +220,13 @@
 <p>Some obvious “dot-free”" right-hand sides are rejected. Pipelines are meant to move values through a sequence of transforms, and not just for side-effects. Example: <code>5 %.&gt;% 6</code> deliberately stops as <code>6</code> is a right-hand side that obviously does not use its incoming value. This check is only applied to values, not functions on the right-hand side.</p>
 </li>
 <li>
-<p>Trying to pipe into a an “zero argument function evaluation expression” such as <code><a href="https://rdrr.io/r/base/Trig.html">sin()</a></code> is prohibited as it looks too much like the user declaring <code><a href="https://rdrr.io/r/base/Trig.html">sin()</a></code> takes no arguments. One must pipe into either a function, function name, or an non-trivial expression (such as <code><a href="https://rdrr.io/r/base/Trig.html">sin(.)</a></code>). A useful error message is returned to the user: <code>wrapr::pipe does not allow direct piping into a no-argument function call expression (such as "sin()" please use sin(.))</code>.</p>
+<p>Trying to pipe into a an “zero argument function evaluation expression” such as <code><a href="#base/Trig.html">sin()</a></code> is prohibited as it looks too much like the user declaring <code><a href="#base/Trig.html">sin()</a></code> takes no arguments. One must pipe into either a function, function name, or an non-trivial expression (such as <code><a href="#base/Trig.html">sin(.)</a></code>). A useful error message is returned to the user: <code>wrapr::pipe does not allow direct piping into a no-argument function call expression (such as "sin()" please use sin(.))</code>.</p>
 </li>
 <li>
 <p>Some reserved words can not be piped into. One example is <code>5 %.&gt;% return(.)</code> is prohibited as the obvious pipe implementation would not actually escape from user functions as users may intend.</p>
 </li>
 <li>
-<p>Obvious de-references (such as <code><a href="https://rdrr.io/r/base/Extract.html">$</a></code>, <code>::</code>, <code>@</code>, and a few more) on the right-hand side are treated performed (example: <code>5 %.&gt;% base::sin(.)</code>).</p>
+<p>Obvious de-references (such as <code><a href="#base/Extract.html">$</a></code>, <code><a href="#base/ns-dblcolon.html">::</a></code>, <code><a href="#base/slotOp.html">@</a></code>, and a few more) on the right-hand side are treated performed (example: <code>5 %.&gt;% base::sin(.)</code>).</p>
 </li>
 <li>
 <p>Outer parenthesis on the right-hand side are removed (example: <code>5 %.&gt;% (sin(.))</code>).</p>
@@ -239,30 +243,31 @@
 </ul>
 <p>The dot pipe is also user configurable through standard <code>S3</code>/<code>S4</code> methods.</p>
 <p>The dot pipe has been <a href="https://journal.r-project.org/archive/2018/RJ-2018-042/index.html">formally written up in the R Journal</a>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="op">@</span>article{RJ<span class="dv">-2018-042</span>,</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">  author =<span class="st"> </span>{John Mount and Nina Zumel},</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">  title =<span class="st"> </span>{{Dot<span class="op">-</span>Pipe<span class="op">:</span><span class="st"> </span>an S3 Extensible Pipe <span class="cf">for</span> R}},</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">  year =<span class="st"> </span>{<span class="dv">2018</span>},</a>
-<a class="sourceLine" id="cb5-5" data-line-number="5">  journal =<span class="st"> </span>{{The R Journal}},</a>
-<a class="sourceLine" id="cb5-6" data-line-number="6">  url =<span class="st"> </span>{https<span class="op">:</span><span class="er">//</span>journal.r<span class="op">-</span>project.org<span class="op">/</span>archive<span class="op">/</span><span class="dv">2018</span><span class="op">/</span>RJ<span class="dv">-2018-042</span><span class="op">/</span>index.html}</a>
-<a class="sourceLine" id="cb5-7" data-line-number="7">}</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="op">@</span>article{RJ<span class="dv">-2018-042</span>,</span>
+<span id="cb5-2"><a href="#cb5-2"></a>  author =<span class="st"> </span>{John Mount and Nina Zumel},</span>
+<span id="cb5-3"><a href="#cb5-3"></a>  title =<span class="st"> </span>{{Dot<span class="op">-</span>Pipe<span class="op">:</span><span class="st"> </span>an S3 Extensible Pipe <span class="cf">for</span> R}},</span>
+<span id="cb5-4"><a href="#cb5-4"></a>  year =<span class="st"> </span>{<span class="dv">2018</span>},</span>
+<span id="cb5-5"><a href="#cb5-5"></a>  journal =<span class="st"> </span>{{The R Journal}},</span>
+<span id="cb5-6"><a href="#cb5-6"></a>  url =<span class="st"> </span>{https<span class="op">:</span><span class="er">//</span>journal.r<span class="op">-</span>project.org<span class="op">/</span>archive<span class="op">/</span><span class="dv">2018</span><span class="op">/</span>RJ<span class="dv">-2018-042</span><span class="op">/</span>index.html}</span>
+<span id="cb5-7"><a href="#cb5-7"></a>}</span></code></pre></div>
 </div>
 <div id="unpackto-multiple-assignments" class="section level2">
 <h2 class="hasAnchor">
 <a href="#unpackto-multiple-assignments" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/unpack.html"><code>unpack</code></a>/<a href="https://winvector.github.io/wrapr/reference/to.html"><code>to</code></a> multiple assignments</h2>
 <p>Unpack a named list into the current environment by name (for a positional based multiple assignment operator please see <a href="https://CRAN.R-project.org/package=zeallot"><code>zeallot</code></a>, for another named base multiple assigment please see <a href="https://github.com/crowding/vadr/blob/master/R/bind.R"><code>vadr::bind</code></a>).</p>
-<div class="sourceCode" id="cb6"><pre class="r"><span class="no">d</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(
-  <span class="kw">x</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fl">9</span>,
-  <span class="kw">group</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'train'</span>, <span class="st">'calibrate'</span>, <span class="st">'test'</span>),
-  <span class="kw">stringsAsFactors</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="kw">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="#base/data.frame.html">data.frame</a></span>(
+  x = <span class="fl">1</span><span class="op">:</span><span class="fl">9</span>,
+  group = <span class="fu"><a href="#base/c.html">c</a></span>(<span class="st">'train'</span>, <span class="st">'calibrate'</span>, <span class="st">'test'</span>),
+  stringsAsFactors = <span class="fl">FALSE</span>)
 
-<span class="no">unpack</span>[
-  <span class="kw">train_data</span> <span class="kw">=</span> <span class="no">train</span>,
-  <span class="kw">calibrate_data</span> <span class="kw">=</span> <span class="no">calibrate</span>,
-  <span class="kw">test_data</span> <span class="kw">=</span> <span class="no">test</span>
-  ] <span class="kw">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span>(<span class="no">d</span>, <span class="no">d</span>$<span class="no">group</span>)
+<span class="kw">unpack</span>[
+  train_data = <span class="kw">train</span>,
+  calibrate_data = <span class="kw">calibrate</span>,
+  test_data = <span class="kw">test</span>
+  ] <span class="op">:=</span> <span class="fu"><a href="#base/split.html">split</a></span>(<span class="kw">d</span>, <span class="kw">d</span><span class="op">$</span><span class="kw">group</span>)
 
-<span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="no">train_data</span>)</pre></div>
+<span class="kw">knitr</span>::<span class="fu"><a href="#knitr/kable.html">kable</a></span>(<span class="kw">train_data</span>)</pre></div>
 <table class="table">
 <thead><tr class="header">
 <th></th>
@@ -293,7 +298,8 @@
 <a href="#as_named_list" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/as_named_list.html"><code>as_named_list</code></a>
 </h2>
 <p>Build up named lists. <a href="https://win-vector.com/2020/01/21/using-unpack-to-manage-your-r-environment/">Very convenient for managing workspaces when used with used with <code>unpack</code>/<code>to</code>.</a></p>
-<div class="sourceCode" id="cb7"><pre class="r"><span class="fu"><a href="reference/as_named_list.html">as_named_list</a></span>(<span class="no">train_data</span>, <span class="no">calibrate_data</span>, <span class="no">test_data</span>)
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="fu"><a href="reference/as_named_list.html">as_named_list</a></span>(<span class="kw">train_data</span>, <span class="kw">calibrate_data</span>, <span class="kw">test_data</span>)
  <span class="co">#  $train_data</span>
  <span class="co">#    x group</span>
  <span class="co">#  1 1 train</span>
@@ -312,25 +318,26 @@
  <span class="co">#  6 6  test</span>
  <span class="co">#  9 9  test</span></pre></div>
 </div>
-<div id="build_frame-draw_frame" class="section level2">
+<div id="build_frame--draw_frame" class="section level2">
 <h2 class="hasAnchor">
-<a href="#build_frame-draw_frame" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/build_frame.html"><code>build_frame()</code></a> / <a href="https://winvector.github.io/wrapr/reference/draw_frame.html"><code>draw_frame()</code></a>
+<a href="#build_frame--draw_frame" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/build_frame.html"><code>build_frame()</code></a> / <a href="https://winvector.github.io/wrapr/reference/draw_frame.html"><code>draw_frame()</code></a>
 </h2>
-<p><a href="https://winvector.github.io/wrapr/reference/build_frame.html"><code><a href="reference/build_frame.html">build_frame()</a></code></a> is a convenient way to type in a small example <code>data.frame</code> in natural row order. This can be very legible and saves having to perform a transpose in one’s head. <a href="https://winvector.github.io/wrapr/reference/draw_frame.html"><code><a href="reference/draw_frame.html">draw_frame()</a></code></a> is the complimentary function that formats a given <code>data.frame</code> (and is a great way to produce neatened examples).</p>
-<div class="sourceCode" id="cb8"><pre class="r"><span class="no">x</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/build_frame.html">build_frame</a></span>(
-   <span class="st">"measure"</span>                   , <span class="st">"training"</span>, <span class="st">"validation"</span> <span class="kw">|</span>
-   <span class="st">"minus binary cross entropy"</span>, <span class="fl">5</span>         , -<span class="fl">7</span>           <span class="kw">|</span>
+<p><a href="https://winvector.github.io/wrapr/reference/build_frame.html"><code>build_frame()</code></a> is a convenient way to type in a small example <code>data.frame</code> in natural row order. This can be very legible and saves having to perform a transpose in one’s head. <a href="https://winvector.github.io/wrapr/reference/draw_frame.html"><code>draw_frame()</code></a> is the complimentary function that formats a given <code>data.frame</code> (and is a great way to produce neatened examples).</p>
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="kw">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/build_frame.html">build_frame</a></span>(
+   <span class="st">"measure"</span>                   , <span class="st">"training"</span>, <span class="st">"validation"</span> <span class="op">|</span>
+   <span class="st">"minus binary cross entropy"</span>, <span class="fl">5</span>         , <span class="op">-</span><span class="fl">7</span>           <span class="op">|</span>
    <span class="st">"accuracy"</span>                  , <span class="fl">0.8</span>       , <span class="fl">0.6</span>          )
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">x</span>)
+<span class="fu"><a href="#base/print.html">print</a></span>(<span class="kw">x</span>)
  <span class="co">#                       measure training validation</span>
  <span class="co">#  1 minus binary cross entropy      5.0       -7.0</span>
  <span class="co">#  2                   accuracy      0.8        0.6</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(<span class="no">x</span>)
+<span class="fu"><a href="#utils/str.html">str</a></span>(<span class="kw">x</span>)
  <span class="co">#  'data.frame':   2 obs. of  3 variables:</span>
  <span class="co">#   $ measure   : chr  "minus binary cross entropy" "accuracy"</span>
  <span class="co">#   $ training  : num  5 0.8</span>
  <span class="co">#   $ validation: num  -7 0.6</span>
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="fu"><a href="reference/draw_frame.html">draw_frame</a></span>(<span class="no">x</span>))
+<span class="fu"><a href="#base/cat.html">cat</a></span>(<span class="fu"><a href="reference/draw_frame.html">draw_frame</a></span>(<span class="kw">x</span>))
  <span class="co">#  x &lt;- wrapr::build_frame(</span>
  <span class="co">#     "measure"                     , "training", "validation" |</span>
  <span class="co">#       "minus binary cross entropy", 5         , -7           |</span>
@@ -340,66 +347,73 @@
 <h2 class="hasAnchor">
 <a href="#qc-quoting-concatenate" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/qc.html"><code>qc()</code> (quoting concatenate)</a>
 </h2>
-<p><code><a href="reference/qc.html">qc()</a></code> is a quoting variation on <code>R</code>’s concatenate operator <code><a href="https://rdrr.io/r/base/c.html">c()</a></code>. This code such as the following:</p>
-<div class="sourceCode" id="cb9"><pre class="r"><span class="fu"><a href="reference/qc.html">qc</a></span>(<span class="kw">a</span> <span class="kw">=</span> <span class="no">x</span>, <span class="kw">b</span> <span class="kw">=</span> <span class="no">y</span>)
+<p><code><a href="reference/qc.html">qc()</a></code> is a quoting variation on <code>R</code>’s concatenate operator <code><a href="#base/c.html">c()</a></code>. This code such as the following:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit">
+<span class="fu"><a href="reference/qc.html">qc</a></span>(a = <span class="kw">x</span>, b = <span class="kw">y</span>)
  <span class="co">#    a   b </span>
  <span class="co">#  "x" "y"</span>
 
-<span class="fu"><a href="reference/qc.html">qc</a></span>(<span class="no">one</span>, <span class="no">two</span>, <span class="no">three</span>)
+<span class="fu"><a href="reference/qc.html">qc</a></span>(<span class="kw">one</span>, <span class="kw">two</span>, <span class="kw">three</span>)
  <span class="co">#  [1] "one"   "two"   "three"</span></pre></div>
-<p><code><a href="reference/qc.html">qc()</a></code> also allows <code><a href="https://rdrr.io/r/base/bquote.html">bquote()</a></code> driven <code>.()</code>-style argument escaping.</p>
-<div class="sourceCode" id="cb10"><pre class="r"><span class="no">aname</span> <span class="kw">&lt;-</span> <span class="st">"I_am_a"</span>
-<span class="no">yvalue</span> <span class="kw">&lt;-</span> <span class="st">"six"</span>
+<p><code><a href="reference/qc.html">qc()</a></code> also allows <code><a href="#base/bquote.html">bquote()</a></code> driven <code>.()</code>-style argument escaping.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit">
+<span class="kw">aname</span> <span class="op">&lt;-</span> <span class="st">"I_am_a"</span>
+<span class="kw">yvalue</span> <span class="op">&lt;-</span> <span class="st">"six"</span>
 
-<span class="fu"><a href="reference/qc.html">qc</a></span>(<span class="fu">.</span>(<span class="no">aname</span>) <span class="kw">:=</span> <span class="no">x</span>, <span class="kw">b</span> <span class="kw">=</span> <span class="fu">.</span>(<span class="no">yvalue</span>))
+<span class="fu"><a href="reference/qc.html">qc</a></span>(<span class="fu">.</span>(<span class="kw">aname</span>) <span class="op">:=</span> <span class="kw">x</span>, b = <span class="fu">.</span>(<span class="kw">yvalue</span>))
  <span class="co">#  I_am_a      b </span>
  <span class="co">#     "x"  "six"</span></pre></div>
 <p>Notice the <code>:=</code> notation is required for syntacitic reasons.</p>
 </div>
-<div id="named-map-builder" class="section level2">
+<div id="-named-map-builder" class="section level2">
 <h2 class="hasAnchor">
-<a href="#named-map-builder" class="anchor"></a><a href="https://winvector.github.io/seplyr/articles/named_map_builder.html"><code>:=</code> (named map builder)</a>
+<a href="#-named-map-builder" class="anchor"></a><a href="https://winvector.github.io/seplyr/articles/named_map_builder.html"><code>:=</code> (named map builder)</a>
 </h2>
 <p><code>:=</code> is the “named map builder”. It allows code such as the following:</p>
-<div class="sourceCode" id="cb11"><pre class="r"><span class="st">'a'</span> <span class="kw">:=</span> <span class="st">'x'</span>
+<div class="sourceCode" id="cb11"><pre class="downlit">
+<span class="st">'a'</span> <span class="op">:=</span> <span class="st">'x'</span>
  <span class="co">#    a </span>
  <span class="co">#  "x"</span></pre></div>
 <p>The important property of named map builder is it accepts values on the left-hand side allowing the following:</p>
-<div class="sourceCode" id="cb12"><pre class="r"><span class="no">name</span> <span class="kw">&lt;-</span> <span class="st">'variableNameFromElsewhere'</span>
-<span class="no">name</span> <span class="kw">:=</span> <span class="st">'newBinding'</span>
+<div class="sourceCode" id="cb12"><pre class="downlit">
+<span class="kw">name</span> <span class="op">&lt;-</span> <span class="st">'variableNameFromElsewhere'</span>
+<span class="kw">name</span> <span class="op">:=</span> <span class="st">'newBinding'</span>
  <span class="co">#  variableNameFromElsewhere </span>
  <span class="co">#               "newBinding"</span></pre></div>
-<p>A nice property is <code>:=</code> commutes (in the sense of algebra or category theory) with <code>R</code>’s concatenation function <code><a href="https://rdrr.io/r/base/c.html">c()</a></code>. That is the following two statements are equivalent:</p>
-<div class="sourceCode" id="cb13"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'a'</span>, <span class="st">'b'</span>) <span class="kw">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'x'</span>, <span class="st">'y'</span>)
+<p>A nice property is <code>:=</code> commutes (in the sense of algebra or category theory) with <code>R</code>’s concatenation function <code><a href="#base/c.html">c()</a></code>. That is the following two statements are equivalent:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit">
+<span class="fu"><a href="#base/c.html">c</a></span>(<span class="st">'a'</span>, <span class="st">'b'</span>) <span class="op">:=</span> <span class="fu"><a href="#base/c.html">c</a></span>(<span class="st">'x'</span>, <span class="st">'y'</span>)
  <span class="co">#    a   b </span>
  <span class="co">#  "x" "y"</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'a'</span> <span class="kw">:=</span> <span class="st">'x'</span>, <span class="st">'b'</span> <span class="kw">:=</span> <span class="st">'y'</span>)
+<span class="fu"><a href="#base/c.html">c</a></span>(<span class="st">'a'</span> <span class="op">:=</span> <span class="st">'x'</span>, <span class="st">'b'</span> <span class="op">:=</span> <span class="st">'y'</span>)
  <span class="co">#    a   b </span>
  <span class="co">#  "x" "y"</span></pre></div>
 <p>The named map builder is <a href="https://winvector.github.io/seplyr/articles/named_map_builder.html">designed to synergize with <code>seplyr</code></a>.</p>
 </div>
-<div id="coalesce" class="section level2">
+<div id="-coalesce" class="section level2">
 <h2 class="hasAnchor">
-<a href="#coalesce" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/coalesce.html"><code>%?%</code> (coalesce)</a>
+<a href="#-coalesce" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/coalesce.html"><code>%?%</code> (coalesce)</a>
 </h2>
 <p>The coalesce operator tries to replace elements of its first argument with elements from its second argument. In particular <code><a href="reference/coalesce.html">%?%</a></code> replaces NULL vectors and NULL/NA entries of vectors and lists.</p>
 <p>Example:</p>
-<div class="sourceCode" id="cb14"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">NA</span>) <span class="kw">%?%</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="fl">NA</span>, <span class="fl">20</span>)
+<div class="sourceCode" id="cb14"><pre class="downlit">
+<span class="fu"><a href="#base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">NA</span>) <span class="op">%?%</span> <span class="fu"><a href="#base/list.html">list</a></span>(<span class="fl">NA</span>, <span class="fl">20</span>)
  <span class="co">#  [1]  1 20</span></pre></div>
 </div>
-<div id="reduceexpand-args" class="section level2">
+<div id="-reduceexpand-args" class="section level2">
 <h2 class="hasAnchor">
-<a href="#reduceexpand-args" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/reduceexpand.html"><code>%.|%</code> (reduce/expand args)</a>
+<a href="#-reduceexpand-args" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/reduceexpand.html"><code>%.|%</code> (reduce/expand args)</a>
 </h2>
 <p><code>x %.|% f</code> stands for <code>f(x[[1]], x[[2]], ..., x[[length(x)]])</code>. <code>v %|.% x</code> also stands for <code>f(x[[1]], x[[2]], ..., x[[length(x)]])</code>. The two operators are the same, the variation just allowing the user to choose the order they write things. The mnemonic is: “data goes on the dot-side of the operator.”</p>
-<div class="sourceCode" id="cb15"><pre class="r"><span class="no">args</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="st">'prefix_'</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>:<span class="fl">3</span>), <span class="st">'_suffix'</span>)
+<div class="sourceCode" id="cb15"><pre class="downlit">
+<span class="kw">args</span> <span class="op">&lt;-</span> <span class="fu"><a href="#base/list.html">list</a></span>(<span class="st">'prefix_'</span>, <span class="fu"><a href="#base/c.html">c</a></span>(<span class="fl">1</span><span class="op">:</span><span class="fl">3</span>), <span class="st">'_suffix'</span>)
 
-<span class="no">args</span> <span class="kw">%.|%</span> <span class="no">paste0</span>
+<span class="kw">args</span> <span class="op">%.|%</span> <span class="kw">paste0</span>
  <span class="co">#  [1] "prefix_1_suffix" "prefix_2_suffix" "prefix_3_suffix"</span>
 <span class="co"># prefix_1_suffix" "prefix_2_suffix" "prefix_3_suffix"</span>
 
-<span class="no">paste0</span> <span class="kw">%|.%</span> <span class="no">args</span>
+<span class="kw">paste0</span> <span class="op">%|.%</span> <span class="kw">args</span>
  <span class="co">#  [1] "prefix_1_suffix" "prefix_2_suffix" "prefix_3_suffix"</span>
 <span class="co"># prefix_1_suffix" "prefix_2_suffix" "prefix_3_suffix"</span></pre></div>
 </div>
@@ -409,40 +423,43 @@
 </h2>
 <p><code><a href="reference/DebugFnW.html">DebugFnW()</a></code> wraps a function for debugging. If the function throws an exception the execution context (function arguments, function name, and more) is captured and stored for the user. The function call can then be reconstituted, inspected and even re-run with a step-debugger. Please see our <a href="https://youtu.be/-P9UzQuJSH8?list=PLAKBwakacHbQT51nPHex1on3YNCCmggZA">free debugging video series</a> and <code><a href="articles/DebugFnW.html">vignette('DebugFnW', package='wrapr')</a></code> for examples.</p>
 </div>
-<div id="-anonymous-function-builder" class="section level2">
+<div id="λ-anonymous-function-builder" class="section level2">
 <h2 class="hasAnchor">
-<a href="#-anonymous-function-builder" class="anchor"></a><a href="https://winvector.github.io/wrapr/articles/lambda.html"><code>λ()</code> (anonymous function builder)</a>
+<a href="#%CE%BB-anonymous-function-builder" class="anchor"></a><a href="https://winvector.github.io/wrapr/articles/lambda.html"><code>λ()</code> (anonymous function builder)</a>
 </h2>
 <p><code>λ()</code> is a concise abstract function creator or “<a href="https://en.wikipedia.org/wiki/Lambda_calculus">lambda abstraction</a>”. It is a placeholder that allows the use of the -character for very concise function abstraction.</p>
 <p>Example:</p>
-<div class="sourceCode" id="cb16"><pre class="r"><span class="co"># Make sure lambda function builder is in our enironment.</span>
-<span class="kw pkg">wrapr</span><span class="kw ns">::</span><span class="fu"><a href="reference/defineLambda.html">defineLambda</a></span>()
+<div class="sourceCode" id="cb16"><pre class="downlit">
+<span class="co"># Make sure lambda function builder is in our enironment.</span>
+<span class="kw">wrapr</span>::<span class="fu"><a href="reference/defineLambda.html">defineLambda</a></span>()
 
 <span class="co"># square numbers 1 through 4</span>
-<span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(<span class="fl">1</span>:<span class="fl">4</span>, <span class="fu">λ</span>(<span class="no">x</span>, <span class="no">x</span>^<span class="fl">2</span>))
+<span class="fu"><a href="#base/lapply.html">sapply</a></span>(<span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fu">λ</span>(<span class="kw">x</span>, <span class="kw">x</span><span class="op">^</span><span class="fl">2</span>))
  <span class="co">#  [1]  1  4  9 16</span></pre></div>
 </div>
 <div id="let" class="section level2">
 <h2 class="hasAnchor">
 <a href="#let" class="anchor"></a><a href="https://winvector.github.io/wrapr/articles/let.html"><code>let()</code></a>
 </h2>
-<p><code><a href="reference/let.html">let()</a></code> allows execution of arbitrary code with substituted variable names (note this is subtly different than binding values for names as with <code><a href="https://rdrr.io/r/base/substitute.html">base::substitute()</a></code> or <code><a href="https://rdrr.io/r/base/with.html">base::with()</a></code>).</p>
+<p><code><a href="reference/let.html">let()</a></code> allows execution of arbitrary code with substituted variable names (note this is subtly different than binding values for names as with <code><a href="#base/substitute.html">base::substitute()</a></code> or <code><a href="#base/with.html">base::with()</a></code>).</p>
 <p>The function is simple and powerful. It treats strings as variable names and re-writes expressions as if you had used the denoted variables. For example the following block of code is equivalent to having written “a + a”.</p>
-<div class="sourceCode" id="cb17"><pre class="r"><span class="no">a</span> <span class="kw">&lt;-</span> <span class="fl">7</span>
+<div class="sourceCode" id="cb17"><pre class="downlit">
+<span class="kw">a</span> <span class="op">&lt;-</span> <span class="fl">7</span>
 
 <span class="fu"><a href="reference/let.html">let</a></span>(
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">VAR</span> <span class="kw">=</span> <span class="st">'a'</span>),
-
-  <span class="no">VAR</span> + <span class="no">VAR</span>
+  <span class="fu"><a href="#base/c.html">c</a></span>(VAR = <span class="st">'a'</span>),
+  
+  <span class="kw">VAR</span> <span class="op">+</span> <span class="kw">VAR</span>
 )
  <span class="co">#  [1] 14</span></pre></div>
 <p>This is useful in re-adapting non-standard evaluation interfaces (NSE interfaces) so one can script or program over them.</p>
 <p>We are trying to make <code><a href="reference/let.html">let()</a></code> self teaching and self documenting (to the extent that makes sense). For example try the arguments “<code>eval=FALSE</code>” prevent execution and see what <em>would</em> have been executed, or <code>debug=TRUE</code> to have the replaced code printed in addition to being executed:</p>
-<div class="sourceCode" id="cb18"><pre class="r"><span class="fu"><a href="reference/let.html">let</a></span>(
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">VAR</span> <span class="kw">=</span> <span class="st">'a'</span>),
-  <span class="kw">eval</span> <span class="kw">=</span> <span class="fl">FALSE</span>,
+<div class="sourceCode" id="cb18"><pre class="downlit">
+<span class="fu"><a href="reference/let.html">let</a></span>(
+  <span class="fu"><a href="#base/c.html">c</a></span>(VAR = <span class="st">'a'</span>),
+  eval = <span class="fl">FALSE</span>,
   {
-    <span class="no">VAR</span> + <span class="no">VAR</span>
+    <span class="kw">VAR</span> <span class="op">+</span> <span class="kw">VAR</span>
   }
 )
  <span class="co">#  {</span>
@@ -450,10 +467,10 @@
  <span class="co">#  }</span>
 
 <span class="fu"><a href="reference/let.html">let</a></span>(
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">VAR</span> <span class="kw">=</span> <span class="st">'a'</span>),
-  <span class="kw">debugPrint</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
+  <span class="fu"><a href="#base/c.html">c</a></span>(VAR = <span class="st">'a'</span>),
+  debugPrint = <span class="fl">TRUE</span>,
   {
-    <span class="no">VAR</span> + <span class="no">VAR</span>
+    <span class="kw">VAR</span> <span class="op">+</span> <span class="kw">VAR</span>
   }
 )
  <span class="co">#  $VAR</span>
@@ -463,37 +480,40 @@
  <span class="co">#      a + a</span>
  <span class="co">#  }</span>
  <span class="co">#  [1] 14</span></pre></div>
-<p>Please see <code><a href="articles/let.html">vignette('let', package='wrapr')</a></code> for more examples. Some formal documentation can be found <a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf">here</a>. <code><a href="reference/let.html">wrapr::let()</a></code> was inspired by <code>gtools::strmacro()</code> and <code><a href="https://rdrr.io/r/base/bquote.html">base::bquote()</a></code>, please see <a href="https://github.com/WinVector/wrapr/blob/master/extras/bquote.md">here</a> for some notes on macro methods in <code>R</code>.</p>
+<p>Please see <code><a href="articles/let.html">vignette('let', package='wrapr')</a></code> for more examples. Some formal documentation can be found <a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf">here</a>. <code><a href="reference/let.html">wrapr::let()</a></code> was inspired by <code>gtools::strmacro()</code> and <code><a href="#base/bquote.html">base::bquote()</a></code>, please see <a href="https://github.com/WinVector/wrapr/blob/master/extras/bquote.md">here</a> for some notes on macro methods in <code>R</code>.</p>
 </div>
-<div id="evalbsi-evaluate-with-bquote-string-interpolation" class="section level1">
+<div id="evalbsi-evaluate-with-bquote--string-interpolation" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#evalbsi-evaluate-with-bquote-string-interpolation" class="anchor"></a><a href="https://winvector.github.io/wrapr/articles/bquote.html"><code>evalb()</code>/<code>si()</code></a> (evaluate with <code>bquote</code> / string interpolation)</h1></div>
+<a href="#evalbsi-evaluate-with-bquote--string-interpolation" class="anchor"></a><a href="https://winvector.github.io/wrapr/articles/bquote.html"><code>evalb()</code>/<code>si()</code></a> (evaluate with <code>bquote</code> / string interpolation)</h1></div>
 <p><code>wrapr</code> supplies unified notation for quasi-quotation and string interpolation.</p>
-<div class="sourceCode" id="cb19"><pre class="r"><span class="no">angle</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fl">10</span>
-<span class="no">variable</span> <span class="kw">&lt;-</span> <span class="st">"angle"</span>
+<div class="sourceCode" id="cb19"><pre class="downlit">
+<span class="kw">angle</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>
+<span class="kw">variable</span> <span class="op">&lt;-</span> <span class="st">"angle"</span>
 
 <span class="co"># execute code</span>
 <span class="fu"><a href="reference/evalb.html">evalb</a></span>(
-  <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fu">.</span>(-<span class="no">variable</span>), <span class="kw">y</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span>(<span class="fu">.</span>(-<span class="no">variable</span>)))
+  <span class="fu"><a href="#graphics/plot.default.html">plot</a></span>(x = <span class="fu">.</span>(<span class="op">-</span><span class="kw">variable</span>), y = <span class="fu"><a href="#base/Trig.html">sin</a></span>(<span class="fu">.</span>(<span class="op">-</span><span class="kw">variable</span>)))
 )</pre></div>
 <p><img src="tools/README-unnamed-chunk-3-1.png"><!-- --></p>
-<div class="sourceCode" id="cb20"><pre class="r">
+<div class="sourceCode" id="cb20"><pre class="downlit">
+
 <span class="co"># alter string</span>
 <span class="fu"><a href="reference/si.html">si</a></span>(<span class="st">"plot(x = .(variable), y = .(variable))"</span>)
  <span class="co">#  [1] "plot(x = \"angle\", y = \"angle\")"</span></pre></div>
 <p>The extra <code>.(-x)</code> form is a shortcut for <code>.(as.name(x))</code>.</p>
 </div>
-<div id="sortv-sort-a-data-frame-by-a-set-of-columns" class="section level1">
+<div id="sortv-sort-a-dataframe-by-a-set-of-columns" class="section level1">
 <h1 class="hasAnchor">
-<a href="#sortv-sort-a-data-frame-by-a-set-of-columns" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/sortv.html"><code>sortv()</code></a> (sort a data.frame by a set of columns)</h1>
+<a href="#sortv-sort-a-dataframe-by-a-set-of-columns" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/sortv.html"><code>sortv()</code></a> (sort a data.frame by a set of columns)</h1>
 <p>This is the sort command that is missing from <code>R</code>: sort a <code>data.frame</code> by a chosen set of columns specified in a variable.</p>
-<div class="sourceCode" id="cb21"><pre class="r"><span class="no">d</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(
-  <span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">3</span>, <span class="fl">1</span>, <span class="fl">1</span>),
-  <span class="kw">y</span> <span class="kw">=</span> <span class="fl">6</span>:<span class="fl">1</span>,
-  <span class="kw">z</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fl">6</span>)
-<span class="no">order_cols</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'x'</span>, <span class="st">'y'</span>)
+<div class="sourceCode" id="cb21"><pre class="downlit">
+<span class="kw">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="#base/data.frame.html">data.frame</a></span>(
+  x = <span class="fu"><a href="#base/c.html">c</a></span>(<span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">3</span>, <span class="fl">1</span>, <span class="fl">1</span>), 
+  y = <span class="fl">6</span><span class="op">:</span><span class="fl">1</span>,
+  z = <span class="fl">1</span><span class="op">:</span><span class="fl">6</span>)
+<span class="kw">order_cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="#base/c.html">c</a></span>(<span class="st">'x'</span>, <span class="st">'y'</span>)
 
-<span class="fu"><a href="reference/sortv.html">sortv</a></span>(<span class="no">d</span>, <span class="no">order_cols</span>)
+<span class="fu"><a href="reference/sortv.html">sortv</a></span>(<span class="kw">d</span>, <span class="kw">order_cols</span>)
  <span class="co">#    x y z</span>
  <span class="co">#  6 1 1 6</span>
  <span class="co">#  5 1 2 5</span>
@@ -505,7 +525,8 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>Install with:</p>
-<div class="sourceCode" id="cb22"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"wrapr"</span>)</pre></div>
+<div class="sourceCode" id="cb22"><pre class="downlit">
+<span class="fu"><a href="#utils/install.packages.html">install.packages</a></span>(<span class="st">"wrapr"</span>)</pre></div>
 </div>
 <div id="more-information" class="section level2">
 <h2 class="hasAnchor">
@@ -570,7 +591,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

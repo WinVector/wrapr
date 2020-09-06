@@ -178,11 +178,11 @@ f(peek=TRUE) returns the list without altering anything.</p>
     </div>
 
     <pre class="usage"><span class='fu'>mk_tmp_name_source</span>(
-  <span class='kw'>prefix</span> <span class='kw'>=</span> <span class='st'>"tmpnam"</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>alphabet</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span>(<span class='fl'>0</span>:<span class='fl'>9</span>),
-  <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>20</span>,
-  <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>"_"</span>
+  prefix = <span class='st'>"tmpnam"</span>,
+  <span class='kw'>...</span>,
+  alphabet = <span class='fu'><a href='#base/character.html'>as.character</a></span>(<span class='fl'>0</span><span class='op'>:</span><span class='fl'>9</span>),
+  size = <span class='fl'>20</span>,
+  sep = <span class='st'>"_"</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -216,9 +216,13 @@ f(peek=TRUE) returns the list without altering anything.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='fu'>mk_tmp_name_source</span>(<span class='st'>'ex'</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'>f</span>())</div><div class='output co'>#&gt; [1] "ex_64535844716441531285_0000000000"</div><div class='input'><span class='no'>nm2</span> <span class='kw'>&lt;-</span> <span class='fu'>f</span>()
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>nm2</span>)</div><div class='output co'>#&gt; [1] "ex_64535844716441531285_0000000001"</div><div class='input'><span class='fu'>f</span>(<span class='kw'>remove</span><span class='kw'>=</span><span class='no'>nm2</span>)</div><div class='output co'>#&gt; [1] "ex_64535844716441531285_0000000001"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'>f</span>(<span class='kw'>dumpList</span><span class='kw'>=</span><span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; [1] "ex_64535844716441531285_0000000000"</div><div class='input'>
+<span class='kw'>f</span> <span class='op'>&lt;-</span> <span class='fu'>mk_tmp_name_source</span>(<span class='st'>'ex'</span>)
+<span class='fu'><a href='#base/print.html'>print</a></span>(<span class='fu'>f</span>())
+</div><div class='output co'>#&gt; [1] "ex_64535844716441531285_0000000000"</div><div class='input'><span class='kw'>nm2</span> <span class='op'>&lt;-</span> <span class='fu'>f</span>()
+<span class='fu'><a href='#base/print.html'>print</a></span>(<span class='kw'>nm2</span>)
+</div><div class='output co'>#&gt; [1] "ex_64535844716441531285_0000000001"</div><div class='input'><span class='fu'>f</span>(remove=<span class='kw'>nm2</span>)
+</div><div class='output co'>#&gt; [1] "ex_64535844716441531285_0000000001"</div><div class='input'><span class='fu'><a href='#base/print.html'>print</a></span>(<span class='fu'>f</span>(dumpList=<span class='fl'>TRUE</span>))
+</div><div class='output co'>#&gt; [1] "ex_64535844716441531285_0000000000"</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -235,7 +239,7 @@ f(peek=TRUE) returns the list without altering anything.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

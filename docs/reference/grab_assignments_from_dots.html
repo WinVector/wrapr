@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Re-write captured <code>...</code> arguments as assignments. — grab_assignments_from_dots • wrapr</title>
+<title>Re-write captured ... arguments as assignments. — grab_assignments_from_dots • wrapr</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Re-write captured <code>...</code> arguments as assignments. — grab_assignments_from_dots" />
+<meta property="og:title" content="Re-write captured ... arguments as assignments. — grab_assignments_from_dots" />
 <meta property="og:description" content="Re-write captured ... arguments as a c(DESTINATION = TARGET) character vector.
 Suggested capture code is: substitute(list(...)). Allows bquote .() substitution." />
 
@@ -169,14 +169,14 @@ Suggested capture code is: substitute(list(...)). Allows bquote .() substitution
     </div>
 
     <div class="ref-description">
-    <p>Re-write captured <code>...</code> arguments as a <code><a href='https://rdrr.io/r/base/c.html'>c(DESTINATION = TARGET)</a></code> character vector.
-Suggested capture code is: <code><a href='https://rdrr.io/r/base/substitute.html'>substitute(list(...))</a></code>. Allows <code>bquote</code> <code>.()</code> substitution.</p>
+    <p>Re-write captured <code>...</code> arguments as a <code><a href='#base/c.html'>c(DESTINATION = TARGET)</a></code> character vector.
+Suggested capture code is: <code><a href='#base/substitute.html'>substitute(list(...))</a></code>. Allows <code>bquote</code> <code>.()</code> substitution.</p>
     </div>
 
     <pre class="usage"><span class='fu'>grab_assignments_from_dots</span>(
-  <span class='no'>captured_args</span>,
-  <span class='kw'>unpack_environment</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>(),
-  <span class='kw'>allow_dot_on_left</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  <span class='kw'>captured_args</span>,
+  unpack_environment = <span class='fu'><a href='#base/sys.parent.html'>parent.frame</a></span>(),
+  allow_dot_on_left = <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -202,13 +202,14 @@ Suggested capture code is: <code><a href='https://rdrr.io/r/base/substitute.html
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>...</span>) {
-  <span class='no'>unpack_environment</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1</span>)
-  <span class='no'>orig_args</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>...</span>))
-  <span class='fu'>grab_assignments_from_dots</span>(<span class='no'>orig_args</span>, <span class='no'>unpack_environment</span>)
+<span class='kw'>f</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>...</span>) {
+  <span class='kw'>unpack_environment</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#base/sys.parent.html'>parent.frame</a></span>(n = <span class='fl'>1</span>)
+  <span class='kw'>orig_args</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#base/substitute.html'>substitute</a></span>(<span class='fu'><a href='#base/list.html'>list</a></span>(<span class='kw'>...</span>))
+  <span class='fu'>grab_assignments_from_dots</span>(<span class='kw'>orig_args</span>, <span class='kw'>unpack_environment</span>)
 }
-<span class='fu'>f</span>(<span class='no'>a</span>, <span class='kw'>c</span> <span class='kw'>=</span> <span class='no'>d</span>, <span class='no'>e</span> <span class='kw'>:=</span> <span class='no'>f</span>, <span class='no'>g</span> <span class='kw'>&lt;-</span> <span class='no'>h</span>, <span class='no'>i</span> <span class='kw'>-&gt;</span> <span class='no'>j</span>)</div><div class='output co'>#&gt;       c   e   g   j 
-#&gt; "a" "d" "f" "h" "i" </div><div class='input'># should equal c('a', 'c' = 'd', 'e' = 'f', 'g' = 'h', 'j' = 'i')
+<span class='fu'>f</span>(<span class='kw'>a</span>, c = <span class='kw'>d</span>, <span class='kw'>e</span> <span class='op'>:=</span> <span class='kw'>f</span>, <span class='kw'>g</span> <span class='op'>&lt;-</span> <span class='kw'>h</span>, <span class='kw'>i</span> <span class='op'>-&gt;</span> <span class='kw'>j</span>)
+</div><div class='output co'>#&gt;       c   e   g   j 
+#&gt; "a" "d" "f" "h" "i" </div><div class='input'><span class='co'># should equal c('a', 'c' = 'd', 'e' = 'f', 'g' = 'h', 'j' = 'i')</span>
 
 </div></pre>
   </div>
@@ -226,7 +227,7 @@ Suggested capture code is: <code><a href='https://rdrr.io/r/base/substitute.html
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

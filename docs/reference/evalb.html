@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Near <code>eval(bquote(expr))</code> shortcut. — evalb • wrapr</title>
+<title>Near eval(bquote(expr)) shortcut. — evalb • wrapr</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Near <code>eval(bquote(expr))</code> shortcut. — evalb" />
+<meta property="og:title" content="Near eval(bquote(expr)) shortcut. — evalb" />
 <meta property="og:description" content="Evaluate expr with bquote .() substitution.
 Including .(-x) promoting x's value from character to a name,
 which is called &quot;quote negation&quot; (hence the minus-sign)." />
@@ -175,7 +175,7 @@ Including <code>.(-x)</code> promoting <code>x</code>'s value from character to 
 which is called "quote negation" (hence the minus-sign).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>evalb</span>(<span class='no'>expr</span>, <span class='kw'>where</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())</pre>
+    <pre class="usage"><span class='fu'>evalb</span>(<span class='kw'>expr</span>, where = <span class='fu'><a href='#base/sys.parent.html'>parent.frame</a></span>())</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -196,12 +196,13 @@ which is called "quote negation" (hence the minus-sign).</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='kw'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>'graphics'</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
-   <span class='no'>angle</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>10</span>
-   <span class='no'>variable</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/name.html'>as.name</a></span>(<span class='st'>"angle"</span>)
-   <span class='no'>fn_name</span> <span class='kw'>&lt;-</span> <span class='st'>'sin'</span>
-   <span class='fu'>evalb</span>(  <span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'>.</span>(<span class='no'>variable</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'>.</span>(-<span class='no'>fn_name</span>)(<span class='fu'>.</span>(<span class='no'>variable</span>))) )
-}</div><div class='img'><img src='evalb-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'>if</span>(<span class='fu'><a href='#base/ns-load.html'>requireNamespace</a></span>(<span class='st'>'graphics'</span>, quietly = <span class='fl'>TRUE</span>)) {
+   <span class='kw'>angle</span> <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>
+   <span class='kw'>variable</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#base/name.html'>as.name</a></span>(<span class='st'>"angle"</span>)
+   <span class='kw'>fn_name</span> <span class='op'>&lt;-</span> <span class='st'>'sin'</span>
+   <span class='fu'>evalb</span>(  <span class='fu'><a href='#graphics/plot.default.html'>plot</a></span>(x = <span class='fu'>.</span>(<span class='kw'>variable</span>), y = <span class='fu'>.</span>(<span class='op'>-</span><span class='kw'>fn_name</span>)(<span class='fu'>.</span>(<span class='kw'>variable</span>))) )
+}
+</div><div class='img'><img src='evalb-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -218,7 +219,7 @@ which is called "quote negation" (hence the minus-sign).</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

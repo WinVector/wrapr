@@ -173,7 +173,7 @@ Useful in writing functions that force named arguments." />
 Useful in writing functions that force named arguments.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>stop_if_dot_args</span>(<span class='no'>dot_args</span>, <span class='kw'>msg</span> <span class='kw'>=</span> <span class='st'>""</span>)</pre>
+    <pre class="usage"><span class='fu'>stop_if_dot_args</span>(<span class='kw'>dot_args</span>, msg = <span class='st'>""</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -194,14 +194,17 @@ Useful in writing functions that force named arguments.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='no'>inc</span> <span class='kw'>=</span> <span class='fl'>1</span>) {
-   <span class='fu'>stop_if_dot_args</span>(<span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>...</span>)), <span class='st'>"f"</span>)
-   <span class='no'>x</span> + <span class='no'>inc</span>
+<span class='kw'>f</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>x</span>, <span class='kw'>...</span>, <span class='kw'>inc</span> = <span class='fl'>1</span>) {
+   <span class='fu'>stop_if_dot_args</span>(<span class='fu'><a href='#base/substitute.html'>substitute</a></span>(<span class='fu'><a href='#base/list.html'>list</a></span>(<span class='kw'>...</span>)), <span class='st'>"f"</span>)
+   <span class='kw'>x</span> <span class='op'>+</span> <span class='kw'>inc</span>
 }
-<span class='fu'>f</span>(<span class='fl'>7</span>)</div><div class='output co'>#&gt; [1] 8</div><div class='input'><span class='fu'>f</span>(<span class='fl'>7</span>, <span class='kw'>inc</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; [1] 9</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/conditions.html'>tryCatch</a></span>(
+<span class='fu'>f</span>(<span class='fl'>7</span>)
+</div><div class='output co'>#&gt; [1] 8</div><div class='input'><span class='fu'>f</span>(<span class='fl'>7</span>, inc = <span class='fl'>2</span>)
+</div><div class='output co'>#&gt; [1] 9</div><div class='input'><span class='fu'><a href='#base/conditions.html'>tryCatch</a></span>(
   <span class='fu'>f</span>(<span class='fl'>7</span>, <span class='fl'>2</span>),
-  <span class='kw'>error</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>e</span>) { <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>e</span>) }
-)</div><div class='output co'>#&gt; &lt;simpleError: f unexpected arguments: ‘2’&gt;</div><div class='input'>
+  error = <span class='fu'>function</span>(<span class='kw'>e</span>) { <span class='fu'><a href='#base/print.html'>print</a></span>(<span class='kw'>e</span>) }
+)
+</div><div class='output co'>#&gt; &lt;simpleError: f unexpected arguments: ‘2’&gt;</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -218,7 +221,7 @@ Useful in writing functions that force named arguments.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

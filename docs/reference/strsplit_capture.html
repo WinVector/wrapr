@@ -172,13 +172,13 @@
     </div>
 
     <pre class="usage"><span class='fu'>strsplit_capture</span>(
-  <span class='no'>x</span>,
-  <span class='no'>split</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>ignore.case</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>fixed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>perl</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>useBytes</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  <span class='kw'>x</span>,
+  <span class='kw'>split</span>,
+  <span class='kw'>...</span>,
+  ignore.case = <span class='fl'>FALSE</span>,
+  fixed = <span class='fl'>FALSE</span>,
+  perl = <span class='fl'>FALSE</span>,
+  useBytes = <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -223,7 +223,8 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'>strsplit_capture</span>(<span class='st'>"x is .(x) and x+1 is .(x+1)"</span>, <span class='st'>"\\.\\([^()]+\\)"</span>)</div><div class='output co'>#&gt; [[1]]
+<span class='fu'>strsplit_capture</span>(<span class='st'>"x is .(x) and x+1 is .(x+1)"</span>, <span class='st'>"\\.\\([^()]+\\)"</span>)
+</div><div class='output co'>#&gt; [[1]]
 #&gt; [1] "x is "
 #&gt; attr(,"is_sep")
 #&gt; [1] FALSE
@@ -259,7 +260,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

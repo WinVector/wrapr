@@ -171,7 +171,7 @@
     <p>Memoizing wrapper for vapply.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>vapplym</span>(<span class='no'>X</span>, <span class='no'>FUN</span>, <span class='no'>FUN.VALUE</span>, <span class='no'>...</span>, <span class='kw'>USE.NAMES</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>vapplym</span>(<span class='kw'>X</span>, <span class='kw'>FUN</span>, <span class='kw'>FUN.VALUE</span>, <span class='kw'>...</span>, USE.NAMES = <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -207,9 +207,10 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>fs</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) { <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='no'>x</span><span class='kw'>[[</span><span class='fl'>1</span>]]; <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='st'>"see"</span>, <span class='no'>x</span>)); <span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>sin</a></span>(<span class='no'>x</span>) }
+<span class='kw'>fs</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>x</span>) { <span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='kw'>x</span>[[<span class='fl'>1</span>]]; <span class='fu'><a href='#base/print.html'>print</a></span>(<span class='fu'><a href='#base/paste.html'>paste</a></span>(<span class='st'>"see"</span>, <span class='kw'>x</span>)); <span class='fu'><a href='#base/Trig.html'>sin</a></span>(<span class='kw'>x</span>) }
 <span class='co'># should only print "see" twice, not 6 times</span>
-<span class='fu'>vapplym</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>1</span>), <span class='no'>fs</span>, <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>numeric</a></span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; [1] "see 0"
+<span class='fu'>vapplym</span>(<span class='fu'><a href='#base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>1</span>), <span class='kw'>fs</span>, <span class='fu'><a href='#base/numeric.html'>numeric</a></span>(<span class='fl'>1</span>))
+</div><div class='output co'>#&gt; [1] "see 0"
 #&gt; [1] "see 1"</div><div class='output co'>#&gt; [1] 0.000000 0.841471 0.841471 0.000000 0.000000 0.841471</div><div class='input'>
 </div></pre>
   </div>
@@ -227,7 +228,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

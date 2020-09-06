@@ -168,15 +168,15 @@
     </div>
 
     <div class="ref-description">
-    <p>Produce an ordering permutation from a list of vectors.  Essentially a non-<code>...</code> interface to <code><a href='https://rdrr.io/r/base/order.html'>order</a></code>.</p>
+    <p>Produce an ordering permutation from a list of vectors.  Essentially a non-<code>...</code> interface to <code><a href='#base/order.html'>order</a></code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>orderv</span>(
-  <span class='no'>columns</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>na.last</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>decreasing</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"auto"</span>, <span class='st'>"shell"</span>, <span class='st'>"radix"</span>)
+  <span class='kw'>columns</span>,
+  <span class='kw'>...</span>,
+  na.last = <span class='fl'>TRUE</span>,
+  decreasing = <span class='fl'>FALSE</span>,
+  method = <span class='fu'><a href='#base/c.html'>c</a></span>(<span class='st'>"auto"</span>, <span class='st'>"shell"</span>, <span class='st'>"radix"</span>)
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -192,15 +192,15 @@
     </tr>
     <tr>
       <th>na.last</th>
-      <td><p>(passed to <code><a href='https://rdrr.io/r/base/order.html'>order</a></code>) for controlling the treatment of NAs. If TRUE, missing values in the data are put last; if FALSE, they are put first; if NA, they are removed.</p></td>
+      <td><p>(passed to <code><a href='#base/order.html'>order</a></code>) for controlling the treatment of NAs. If TRUE, missing values in the data are put last; if FALSE, they are put first; if NA, they are removed.</p></td>
     </tr>
     <tr>
       <th>decreasing</th>
-      <td><p>(passed to <code><a href='https://rdrr.io/r/base/order.html'>order</a></code>) logical. Should the sort order be increasing or decreasing? For the "radix" method, this can be a vector of length equal to the number of arguments in <code>...</code>. For the other methods, it must be length one.</p></td>
+      <td><p>(passed to <code><a href='#base/order.html'>order</a></code>) logical. Should the sort order be increasing or decreasing? For the "radix" method, this can be a vector of length equal to the number of arguments in <code>...</code>. For the other methods, it must be length one.</p></td>
     </tr>
     <tr>
       <th>method</th>
-      <td><p>(passed to <code><a href='https://rdrr.io/r/base/order.html'>order</a></code>) the method to be used: partial matches are allowed. The default ("auto") implies "radix" for short numeric vectors, integer vectors, logical vectors and factors. Otherwise, it implies "shell". For details of methods "shell", "quick", and "radix", see the help for <code><a href='https://rdrr.io/r/base/sort.html'>sort</a></code>.</p></td>
+      <td><p>(passed to <code><a href='#base/order.html'>order</a></code>) the method to be used: partial matches are allowed. The default ("auto") implies "radix" for short numeric vectors, integer vectors, logical vectors and factors. Otherwise, it implies "shell". For details of methods "shell", "quick", and "radix", see the help for <code><a href='#base/sort.html'>sort</a></code>.</p></td>
     </tr>
     </table>
 
@@ -209,18 +209,20 @@
     <p>ordering permutation</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/r/base/order.html'>order</a></code>, <code><a href='sortv.html'>sortv</a></code></p></div>
+    <div class='dont-index'><p><code><a href='#base/order.html'>order</a></code>, <code><a href='sortv.html'>sortv</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>1</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>6</span>:<span class='fl'>1</span>)
-<span class='no'>d</span>[<span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span>(<span class='no'>d</span>$<span class='no'>x</span>, <span class='no'>d</span>$<span class='no'>y</span>), , <span class='kw'>drop</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>]</div><div class='output co'>#&gt;   x y
+<span class='kw'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#base/data.frame.html'>data.frame</a></span>(x = <span class='fu'><a href='#base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>1</span>), y = <span class='fl'>6</span><span class='op'>:</span><span class='fl'>1</span>)
+<span class='kw'>d</span>[<span class='fu'><a href='#base/order.html'>order</a></span>(<span class='kw'>d</span><span class='op'>$</span><span class='kw'>x</span>, <span class='kw'>d</span><span class='op'>$</span><span class='kw'>y</span>), , drop = <span class='fl'>FALSE</span>]
+</div><div class='output co'>#&gt;   x y
 #&gt; 6 1 1
 #&gt; 5 1 2
 #&gt; 2 2 5
 #&gt; 1 2 6
 #&gt; 4 3 3
-#&gt; 3 3 4</div><div class='input'><span class='no'>d</span>[<span class='fu'>orderv</span>(<span class='no'>d</span>), , <span class='kw'>drop</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>]</div><div class='output co'>#&gt;   x y
+#&gt; 3 3 4</div><div class='input'><span class='kw'>d</span>[<span class='fu'>orderv</span>(<span class='kw'>d</span>), , drop = <span class='fl'>FALSE</span>]
+</div><div class='output co'>#&gt;   x y
 #&gt; 6 1 1
 #&gt; 5 1 2
 #&gt; 2 2 5
@@ -243,7 +245,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

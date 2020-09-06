@@ -118,13 +118,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="named_map_builder_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Named Map Builder</h1>
                         <h4 class="author">John Mount</h4>
             
-            <h4 class="date">2020-08-10</h4>
+            <h4 class="date">2020-09-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/named_map_builder.Rmd"><code>vignettes/named_map_builder.Rmd</code></a></small>
       <div class="hidden name"><code>named_map_builder.Rmd</code></div>
@@ -135,35 +135,40 @@
     
 <p>“named map builder” is an operator written as “<code>:=</code>”. Named map builder is a <em>very</em> simple bit of code that performs a very simple task: it adds names to vectors or lists (making them work more like maps).</p>
 <p>Here are some examples:</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"wrapr"</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="#base/library.html">library</a></span>(<span class="st"><a href="https://github.com/WinVector/wrapr">"wrapr"</a></span>)
 
-<span class="st">'a'</span> <span class="kw">:=</span> <span class="fl">5</span></pre></body></html></div>
+<span class="st">'a'</span> <span class="op">:=</span> <span class="fl">5</span></pre></div>
 <pre><code>## a 
 ## 5</code></pre>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'a'</span> <span class="kw">:=</span> <span class="fl">5</span>, <span class="st">'b'</span> <span class="kw">:=</span> <span class="fl">6</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="fu"><a href="#base/c.html">c</a></span>(<span class="st">'a'</span> <span class="op">:=</span> <span class="fl">5</span>, <span class="st">'b'</span> <span class="op">:=</span> <span class="fl">6</span>)</pre></div>
 <pre><code>## a b 
 ## 5 6</code></pre>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'a'</span>, <span class="st">'b'</span>) <span class="kw">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">5</span>, <span class="fl">6</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="fu"><a href="#base/c.html">c</a></span>(<span class="st">'a'</span>, <span class="st">'b'</span>) <span class="op">:=</span> <span class="fu"><a href="#base/c.html">c</a></span>(<span class="fl">5</span>, <span class="fl">6</span>)</pre></div>
 <pre><code>## a b 
 ## 5 6</code></pre>
 <p>The left-side argument of the <code>:=</code> operator is called “the names”, and the right-side argument is called “the values”. The <code>:=</code> operators returns the values with the names set to names.</p>
 <p><code>:=</code> is a left-over assignment operator in <code>R</code>. It is part of the syntax, but by default not defined.</p>
 <p><code>data.table</code> has long used <code>:=</code> to denote “in-place assignment” as in the following.</p>
-<pre><code><a href="https://Rdatatable.gitlab.io/data.table/reference">library("data.table")
+<pre><code><a href="http://r-datatable.com">library("data.table")
 
 data.table(x = 1)[, y := x + 1][]
 #    x y
 # 1: 1 2</a></code></pre>
-<p><code>dplyr</code> later adopted the <code>:=</code> notation as this allows for substitution on the left-hand sides of assignments. <a href="https://winvector.github.io/wrapr/articles/QuotingConcatinate.html"><code><a href="../reference/qc.html">wrapr::qc()</a></code></a> uses the <code>:=</code> for the same purpose.</p>
+<p><code>dplyr</code> later adopted the <code>:=</code> notation as this allows for substitution on the left-hand sides of assignments. <a href="https://winvector.github.io/wrapr/articles/QuotingConcatinate.html"><code>wrapr::qc()</code></a> uses the <code>:=</code> for the same purpose.</p>
 <p>A key use of the named map builder is the following:</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">`:=`</span> <span class="kw">&lt;-</span> <span class="kw pkg">wrapr</span><span class="kw ns">::</span><span class="no">`:=`</span> <span class="co"># in case data.tables "catch calls" definition is active</span>
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="kw">`:=`</span> <span class="op">&lt;-</span> <span class="kw">wrapr</span>::<span class="kw">`:=`</span> <span class="co"># in case data.tables "catch calls" definition is active</span>
 
-<span class="no">key</span> <span class="kw">=</span> <span class="st">'keycode'</span>
-<span class="no">key</span> <span class="kw">:=</span> <span class="st">'value'</span></pre></body></html></div>
+<span class="kw">key</span> <span class="op">=</span> <span class="st">'keycode'</span>
+<span class="kw">key</span> <span class="op">:=</span> <span class="st">'value'</span></pre></div>
 <pre><code>## keycode 
 ## "value"</code></pre>
-<p>Notice the value inside the variable <code>key</code> was used as the array name, this differs from what is easily done with <code>R</code>’s native <code><a href="https://rdrr.io/r/base/c.html">c(key = 'value')</a></code> style notation.</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/help.html">help</a></span>(<span class="no">`:=`</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">'wrapr'</span>)</pre></body></html></div>
+<p>Notice the value inside the variable <code>key</code> was used as the array name, this differs from what is easily done with <code>R</code>’s native <code><a href="#base/c.html">c(key = 'value')</a></code> style notation.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit">
+<span class="fu"><a href="#utils/help.html">help</a></span>(<span class="kw">`:=`</span>, package = <span class="st">'wrapr'</span>)</pre></div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -179,7 +184,7 @@ data.table(x = 1)[, y := x + 1][]
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

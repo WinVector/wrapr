@@ -171,7 +171,7 @@
     <p>Wrap fn, so it will save arguments on failure.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>DebugFnW</span>(<span class='no'>saveDest</span>, <span class='no'>fn</span>)</pre>
+    <pre class="usage"><span class='fu'>DebugFnW</span>(<span class='kw'>saveDest</span>, <span class='kw'>fn</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -191,51 +191,58 @@
     <p>wrapped function that saves state on error.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/r/utils/debugger.html'>dump.frames</a></code>, <code><a href='DebugFn.html'>DebugFn</a></code>, <code>DebugFnW</code>,  <code><a href='DebugFnWE.html'>DebugFnWE</a></code>, <code><a href='DebugPrintFn.html'>DebugPrintFn</a></code>, <code><a href='DebugFnE.html'>DebugFnE</a></code>, <code><a href='DebugPrintFnE.html'>DebugPrintFnE</a></code>
+    <div class='dont-index'><p><code><a href='#utils/debugger.html'>dump.frames</a></code>, <code><a href='DebugFn.html'>DebugFn</a></code>, <code>DebugFnW</code>,  <code><a href='DebugFnWE.html'>DebugFnWE</a></code>, <code><a href='DebugPrintFn.html'>DebugPrintFn</a></code>, <code><a href='DebugFnE.html'>DebugFnE</a></code>, <code><a href='DebugPrintFnE.html'>DebugPrintFnE</a></code>
 Operator idea from: https://gist.github.com/nassimhaddad/c9c327d10a91dcf9a3370d30dff8ac3d .
 Please see: <code><a href='../articles/DebugFnW.html'>vignette("DebugFnW", package="wrapr")</a></code>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>saveDest</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(<span class='st'>'debug'</span>),<span class='st'>'.RDS'</span>)
-<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>i</span>) { (<span class='fl'>1</span>:<span class='fl'>10</span>)<span class='kw'>[[</span><span class='no'>i</span>]] }
-<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'>DebugFnW</span>(<span class='no'>saveDest</span>,<span class='no'>f</span>)
+<span class='kw'>saveDest</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#base/paste.html'>paste0</a></span>(<span class='fu'><a href='#base/tempfile.html'>tempfile</a></span>(<span class='st'>'debug'</span>),<span class='st'>'.RDS'</span>)
+<span class='kw'>f</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>i</span>) { (<span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>)[[<span class='kw'>i</span>]] }
+<span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='fu'>DebugFnW</span>(<span class='kw'>saveDest</span>,<span class='kw'>f</span>)
 <span class='co'># correct run</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/Fdist.html'>df</a></span>(<span class='fl'>5</span>)</div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='co'># now re-run</span>
+<span class='fu'><a href='#stats/Fdist.html'>df</a></span>(<span class='fl'>5</span>)
+</div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='co'># now re-run</span>
 <span class='co'># capture error on incorrect run</span>
-<span class='fu'><a href='https://rdrr.io/r/base/conditions.html'>tryCatch</a></span>(
-   <span class='fu'><a href='https://rdrr.io/r/stats/Fdist.html'>df</a></span>(<span class='fl'>12</span>),
-   <span class='kw'>error</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>e</span>) { <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>e</span>) })</div><div class='output co'>#&gt; &lt;simpleError in value[[3L]](cond): wrapr::DebugFnW: wrote '/var/folders/7f/sdjycp_d08n8wwytsbgwqgsw0000gn/T//Rtmp2uwrAo/debug33fab486057.RDS' on catching 'Error in (1:10)[[i]]: subscript out of bounds'
+<span class='fu'><a href='#base/conditions.html'>tryCatch</a></span>(
+   <span class='fu'><a href='#stats/Fdist.html'>df</a></span>(<span class='fl'>12</span>),
+   error = <span class='fu'>function</span>(<span class='kw'>e</span>) { <span class='fu'><a href='#base/print.html'>print</a></span>(<span class='kw'>e</span>) })
+</div><div class='output co'>#&gt; &lt;simpleError in value[[3L]](cond): wrapr::DebugFnW: wrote '/var/folders/7f/sdjycp_d08n8wwytsbgwqgsw0000gn/T//Rtmp0D5feD/debug15a937784e69c.RDS' on catching 'Error in (1:10)[[i]]: subscript out of bounds'
 #&gt;  You can reproduce the error with:
-#&gt; 'p &lt;- readRDS('/var/folders/7f/sdjycp_d08n8wwytsbgwqgsw0000gn/T//Rtmp2uwrAo/debug33fab486057.RDS'); do.call(p$fn, p$args)'&gt;</div><div class='input'><span class='co'># examine details</span>
-<span class='no'>situation</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span>(<span class='no'>saveDest</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='no'>situation</span>)</div><div class='output co'>#&gt; List of 4
+#&gt; 'p &lt;- readRDS('/var/folders/7f/sdjycp_d08n8wwytsbgwqgsw0000gn/T//Rtmp0D5feD/debug15a937784e69c.RDS'); do.call(p$fn, p$args)'&gt;</div><div class='input'><span class='co'># examine details</span>
+<span class='kw'>situation</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#base/readRDS.html'>readRDS</a></span>(<span class='kw'>saveDest</span>)
+<span class='fu'><a href='#utils/str.html'>str</a></span>(<span class='kw'>situation</span>)
+</div><div class='output co'>#&gt; List of 4
 #&gt;  $ fn       :function (i)  
 #&gt;   ..- attr(*, "srcref")= 'srcref' int [1:8] 3 6 3 32 6 32 3 3
-#&gt;   .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x7f9e8aa02f70&gt; 
+#&gt;   .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x7f83baa62208&gt; 
 #&gt;  $ args     :List of 1
 #&gt;   ..$ : num 12
 #&gt;  $ namedargs: language df(12)
 #&gt;  $ fn_name  : chr "f"</div><div class='input'><span class='co'># fix and re-run</span>
-<span class='no'>situation</span>$<span class='no'>args</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='kw'>&lt;-</span> <span class='fl'>6</span>
-<span class='fu'><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></span>(<span class='no'>situation</span>$<span class='no'>fn</span>,<span class='no'>situation</span>$<span class='no'>args</span>)</div><div class='output co'>#&gt; [1] 6</div><div class='input'><span class='co'># clean up</span>
-<span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.remove</a></span>(<span class='no'>saveDest</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+<span class='kw'>situation</span><span class='op'>$</span><span class='kw'>args</span>[[<span class='fl'>1</span>]] <span class='op'>&lt;-</span> <span class='fl'>6</span>
+<span class='fu'><a href='#base/do.call.html'>do.call</a></span>(<span class='kw'>situation</span><span class='op'>$</span><span class='kw'>fn</span>,<span class='kw'>situation</span><span class='op'>$</span><span class='kw'>args</span>)
+</div><div class='output co'>#&gt; [1] 6</div><div class='input'><span class='co'># clean up</span>
+<span class='fu'><a href='#base/files.html'>file.remove</a></span>(<span class='kw'>saveDest</span>)
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
 
-<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>i</span>) { (<span class='fl'>1</span>:<span class='fl'>10</span>)<span class='kw'>[[</span><span class='no'>i</span>]] }
-<span class='no'>curEnv</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>environment</a></span>()
-<span class='no'>writeBack</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>sit</span>) {
-   <span class='fu'><a href='https://rdrr.io/r/base/assign.html'>assign</a></span>(<span class='st'>'lastError'</span>, <span class='no'>sit</span>, <span class='kw'>envir</span><span class='kw'>=</span><span class='no'>curEnv</span>)
+<span class='kw'>f</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>i</span>) { (<span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>)[[<span class='kw'>i</span>]] }
+<span class='kw'>curEnv</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#base/environment.html'>environment</a></span>()
+<span class='kw'>writeBack</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>sit</span>) {
+   <span class='fu'><a href='#base/assign.html'>assign</a></span>(<span class='st'>'lastError'</span>, <span class='kw'>sit</span>, envir=<span class='kw'>curEnv</span>)
 }
-<span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='no'>writeBack</span>,<span class='st'>'name'</span>) <span class='kw'>&lt;-</span> <span class='st'>'writeBack'</span>
-<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'>DebugFnW</span>(<span class='no'>writeBack</span>,<span class='no'>f</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/conditions.html'>tryCatch</a></span>(
-   <span class='fu'><a href='https://rdrr.io/r/stats/Fdist.html'>df</a></span>(<span class='fl'>12</span>),
-   <span class='kw'>error</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>e</span>) { <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>e</span>) })</div><div class='output co'>#&gt; &lt;simpleError in value[[3L]](cond): wrapr::DebugFnW: wrote error to user function: 'writeBack' on catching 'Error in (1:10)[[i]]: subscript out of bounds'
+<span class='fu'><a href='#base/attr.html'>attr</a></span>(<span class='kw'>writeBack</span>,<span class='st'>'name'</span>) <span class='op'>&lt;-</span> <span class='st'>'writeBack'</span>
+<span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='fu'>DebugFnW</span>(<span class='kw'>writeBack</span>,<span class='kw'>f</span>)
+<span class='fu'><a href='#base/conditions.html'>tryCatch</a></span>(
+   <span class='fu'><a href='#stats/Fdist.html'>df</a></span>(<span class='fl'>12</span>),
+   error = <span class='fu'>function</span>(<span class='kw'>e</span>) { <span class='fu'><a href='#base/print.html'>print</a></span>(<span class='kw'>e</span>) })
+</div><div class='output co'>#&gt; &lt;simpleError in value[[3L]](cond): wrapr::DebugFnW: wrote error to user function: 'writeBack' on catching 'Error in (1:10)[[i]]: subscript out of bounds'
 #&gt;  You can reproduce the error with:
-#&gt;  'do.call(p$fn, p$args)' (replace 'p' with actual variable name)&gt;</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='no'>lastError</span>)</div><div class='output co'>#&gt; List of 4
+#&gt;  'do.call(p$fn, p$args)' (replace 'p' with actual variable name)&gt;</div><div class='input'><span class='fu'><a href='#utils/str.html'>str</a></span>(<span class='kw'>lastError</span>)
+</div><div class='output co'>#&gt; List of 4
 #&gt;  $ fn       :function (i)  
 #&gt;   ..- attr(*, "srcref")= 'srcref' int [1:8] 22 6 22 32 6 32 22 22
-#&gt;   .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x7f9e8a239b00&gt; 
+#&gt;   .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x7f83ba178e48&gt; 
 #&gt;  $ args     :List of 1
 #&gt;   ..$ : num 12
 #&gt;  $ namedargs: language df(12)
@@ -257,7 +264,7 @@ Please see: <code><a href='../articles/DebugFnW.html'>vignette("DebugFnW", packa
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

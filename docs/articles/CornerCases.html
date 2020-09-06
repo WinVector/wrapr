@@ -118,13 +118,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="CornerCases_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Corner Cases</h1>
                         <h4 class="author">John Mount</h4>
             
-            <h4 class="date">2020-08-10</h4>
+            <h4 class="date">2020-09-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/CornerCases.Rmd"><code>vignettes/CornerCases.Rmd</code></a></small>
       <div class="hidden name"><code>CornerCases.Rmd</code></div>
@@ -134,56 +134,61 @@
     
     
 <p><code><a href="../reference/let.html">wrapr::let()</a></code> is designed to get several important corner cases correct: including substitutions that are disjoint from the expression and symbol swaps.</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"wrapr"</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="#base/library.html">library</a></span>(<span class="st"><a href="https://github.com/WinVector/wrapr">"wrapr"</a></span>)
 
-<span class="no">X</span> <span class="kw">&lt;-</span> <span class="fl">1</span>
-<span class="no">Y</span> <span class="kw">&lt;-</span> <span class="fl">2</span>
-
-<span class="fu"><a href="../reference/let.html">let</a></span>(
- <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(),
-  <span class="kw">debugPrint</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-  <span class="no">X</span> + <span class="no">Y</span>
-)</pre></body></html></div>
-<pre><code>## list()
-## X + Y</code></pre>
-<pre><code>## [1] 3</code></pre>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="../reference/let.html">let</a></span>(
- <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(),
-  <span class="kw">debugPrint</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-  <span class="kw">subsMethod</span> <span class="kw">=</span> <span class="st">'langsubs'</span>,
-  <span class="no">X</span> + <span class="no">Y</span>
-)</pre></body></html></div>
-<pre><code>## list()
-## X + Y</code></pre>
-<pre><code>## [1] 3</code></pre>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="../reference/let.html">let</a></span>(
- <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(),
-  <span class="kw">debugPrint</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-  <span class="kw">subsMethod</span> <span class="kw">=</span> <span class="st">'stringsubs'</span>,
-  <span class="no">X</span> + <span class="no">Y</span>
-)</pre></body></html></div>
-<pre><code>## list()
-## X + Y</code></pre>
-<pre><code>## [1] 3</code></pre>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="../reference/let.html">let</a></span>(
- <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(),
-  <span class="kw">debugPrint</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-  <span class="kw">subsMethod</span> <span class="kw">=</span> <span class="st">'subsubs'</span>,
-  <span class="no">X</span> + <span class="no">Y</span>
-)</pre></body></html></div>
-<pre><code>## list()
-## X + Y</code></pre>
-<pre><code>## [1] 3</code></pre>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"wrapr"</span>)
-
-<span class="no">X</span> <span class="kw">&lt;-</span> <span class="fl">1</span>
-<span class="no">Y</span> <span class="kw">&lt;-</span> <span class="fl">2</span>
+<span class="kw">X</span> <span class="op">&lt;-</span> <span class="fl">1</span>
+<span class="kw">Y</span> <span class="op">&lt;-</span> <span class="fl">2</span>
 
 <span class="fu"><a href="../reference/let.html">let</a></span>(
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">X</span><span class="kw">=</span><span class="st">'Y'</span>, <span class="kw">Y</span><span class="kw">=</span><span class="st">'X'</span>),
-  <span class="kw">debugPrint</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-  <span class="no">X</span> + <span class="no">Y</span>
-)</pre></body></html></div>
+ <span class="fu"><a href="#base/c.html">c</a></span>(),
+  debugPrint = <span class="fl">TRUE</span>,
+  <span class="kw">X</span> <span class="op">+</span> <span class="kw">Y</span>
+)</pre></div>
+<pre><code>## list()
+## X + Y</code></pre>
+<pre><code>## [1] 3</code></pre>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="fu"><a href="../reference/let.html">let</a></span>(
+ <span class="fu"><a href="#base/c.html">c</a></span>(),
+  debugPrint = <span class="fl">TRUE</span>,
+  subsMethod = <span class="st">'langsubs'</span>,
+  <span class="kw">X</span> <span class="op">+</span> <span class="kw">Y</span>
+)</pre></div>
+<pre><code>## list()
+## X + Y</code></pre>
+<pre><code>## [1] 3</code></pre>
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="fu"><a href="../reference/let.html">let</a></span>(
+ <span class="fu"><a href="#base/c.html">c</a></span>(),
+  debugPrint = <span class="fl">TRUE</span>,
+  subsMethod = <span class="st">'stringsubs'</span>,
+  <span class="kw">X</span> <span class="op">+</span> <span class="kw">Y</span>
+)</pre></div>
+<pre><code>## list()
+## X + Y</code></pre>
+<pre><code>## [1] 3</code></pre>
+<div class="sourceCode" id="cb10"><pre class="downlit">
+<span class="fu"><a href="../reference/let.html">let</a></span>(
+ <span class="fu"><a href="#base/c.html">c</a></span>(),
+  debugPrint = <span class="fl">TRUE</span>,
+  subsMethod = <span class="st">'subsubs'</span>,
+  <span class="kw">X</span> <span class="op">+</span> <span class="kw">Y</span>
+)</pre></div>
+<pre><code>## list()
+## X + Y</code></pre>
+<pre><code>## [1] 3</code></pre>
+<div class="sourceCode" id="cb13"><pre class="downlit">
+<span class="fu"><a href="#base/library.html">library</a></span>(<span class="st"><a href="https://github.com/WinVector/wrapr">"wrapr"</a></span>)
+
+<span class="kw">X</span> <span class="op">&lt;-</span> <span class="fl">1</span>
+<span class="kw">Y</span> <span class="op">&lt;-</span> <span class="fl">2</span>
+
+<span class="fu"><a href="../reference/let.html">let</a></span>(
+  <span class="fu"><a href="#base/c.html">c</a></span>(X=<span class="st">'Y'</span>, Y=<span class="st">'X'</span>),
+  debugPrint = <span class="fl">TRUE</span>,
+  <span class="kw">X</span> <span class="op">+</span> <span class="kw">Y</span>
+)</pre></div>
 <pre><code>## $X
 ## [1] "Y"
 ## 
@@ -192,12 +197,13 @@
 ## 
 ## Y + X</code></pre>
 <pre><code>## [1] 3</code></pre>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="../reference/let.html">let</a></span>(
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">X</span><span class="kw">=</span><span class="st">'Y'</span>, <span class="kw">Y</span><span class="kw">=</span><span class="st">'X'</span>),
-  <span class="kw">debugPrint</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-  <span class="kw">subsMethod</span> <span class="kw">=</span> <span class="st">'langsubs'</span>,
-  <span class="no">X</span> + <span class="no">Y</span>
-)</pre></body></html></div>
+<div class="sourceCode" id="cb16"><pre class="downlit">
+<span class="fu"><a href="../reference/let.html">let</a></span>(
+  <span class="fu"><a href="#base/c.html">c</a></span>(X=<span class="st">'Y'</span>, Y=<span class="st">'X'</span>),
+  debugPrint = <span class="fl">TRUE</span>,
+  subsMethod = <span class="st">'langsubs'</span>,
+  <span class="kw">X</span> <span class="op">+</span> <span class="kw">Y</span>
+)</pre></div>
 <pre><code>## $X
 ## [1] "Y"
 ## 
@@ -206,12 +212,13 @@
 ## 
 ## Y + X</code></pre>
 <pre><code>## [1] 3</code></pre>
-<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="fu"><a href="../reference/let.html">let</a></span>(
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">X</span><span class="kw">=</span><span class="st">'Y'</span>, <span class="kw">Y</span><span class="kw">=</span><span class="st">'X'</span>),
-  <span class="kw">debugPrint</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-  <span class="kw">subsMethod</span> <span class="kw">=</span> <span class="st">'stringsubs'</span>,
-  <span class="no">X</span> + <span class="no">Y</span>
-)</pre></body></html></div>
+<div class="sourceCode" id="cb19"><pre class="downlit">
+<span class="fu"><a href="../reference/let.html">let</a></span>(
+  <span class="fu"><a href="#base/c.html">c</a></span>(X=<span class="st">'Y'</span>, Y=<span class="st">'X'</span>),
+  debugPrint = <span class="fl">TRUE</span>,
+  subsMethod = <span class="st">'stringsubs'</span>,
+  <span class="kw">X</span> <span class="op">+</span> <span class="kw">Y</span>
+)</pre></div>
 <pre><code>## $X
 ## [1] "Y"
 ## 
@@ -220,12 +227,13 @@
 ## 
 ## expression(Y + X)</code></pre>
 <pre><code>## [1] 3</code></pre>
-<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="fu"><a href="../reference/let.html">let</a></span>(
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">X</span><span class="kw">=</span><span class="st">'Y'</span>, <span class="kw">Y</span><span class="kw">=</span><span class="st">'X'</span>),
-  <span class="kw">debugPrint</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-  <span class="kw">subsMethod</span> <span class="kw">=</span> <span class="st">'subsubs'</span>,
-  <span class="no">X</span> + <span class="no">Y</span>
-)</pre></body></html></div>
+<div class="sourceCode" id="cb22"><pre class="downlit">
+<span class="fu"><a href="../reference/let.html">let</a></span>(
+  <span class="fu"><a href="#base/c.html">c</a></span>(X=<span class="st">'Y'</span>, Y=<span class="st">'X'</span>),
+  debugPrint = <span class="fl">TRUE</span>,
+  subsMethod = <span class="st">'subsubs'</span>,
+  <span class="kw">X</span> <span class="op">+</span> <span class="kw">Y</span>
+)</pre></div>
 <pre><code>## $X
 ## [1] "Y"
 ## 
@@ -249,7 +257,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

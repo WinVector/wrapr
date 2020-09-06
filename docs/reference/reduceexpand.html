@@ -177,9 +177,9 @@ The two operators are the same, the variation just allowing the user to choose t
 The mnemonic is: "data goes on the dot-side of the operator."</p>
     </div>
 
-    <pre class="usage"><span class='no'>f</span> <span class='kw'>%|.%</span> <span class='no'>args</span>
+    <pre class="usage"><span class='kw'>f</span> <span class='op'>%|.%</span> <span class='kw'>args</span>
 
-<span class='no'>args</span> <span class='kw'>%.|%</span> <span class='no'>f</span></pre>
+<span class='kw'>args</span> <span class='op'>%.|%</span> <span class='kw'>f</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -199,7 +199,7 @@ The mnemonic is: "data goes on the dot-side of the operator."</p>
     <p>f(args) where args elements become individual arguments of f.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Note: the reduce operation is implemented by <code><a href='https://rdrr.io/r/base/do.call.html'>do.call()</a></code>, so has
+    <p>Note: the reduce operation is implemented by <code><a href='#base/do.call.html'>do.call()</a></code>, so has
 standard R named argument semantics.</p>
     <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
 
@@ -210,13 +210,15 @@ standard R named argument semantics.</p>
 </ul>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></code>, <code><a href='https://rdrr.io/r/base/list.html'>list</a></code>, <code><a href='https://rdrr.io/r/base/c.html'>c</a></code></p></div>
+    <div class='dont-index'><p><code><a href='#base/do.call.html'>do.call</a></code>, <code><a href='#base/list.html'>list</a></code>, <code><a href='#base/c.html'>c</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>args</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='st'>'prefix_'</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>3</span>), <span class='st'>'_suffix'</span>)
-<span class='no'>args</span> <span class='kw'>%.|%</span> <span class='no'>paste0</span></div><div class='output co'>#&gt; [1] "prefix_1_suffix" "prefix_2_suffix" "prefix_3_suffix"</div><div class='input'><span class='co'># prefix_1_suffix" "prefix_2_suffix" "prefix_3_suffix"</span>
-<span class='no'>paste0</span> <span class='kw'>%|.%</span> <span class='no'>args</span></div><div class='output co'>#&gt; [1] "prefix_1_suffix" "prefix_2_suffix" "prefix_3_suffix"</div><div class='input'># prefix_1_suffix" "prefix_2_suffix" "prefix_3_suffix"
+<span class='kw'>args</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#base/list.html'>list</a></span>(<span class='st'>'prefix_'</span>, <span class='fu'><a href='#base/c.html'>c</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>), <span class='st'>'_suffix'</span>)
+<span class='kw'>args</span> <span class='op'>%.|%</span> <span class='kw'>paste0</span>
+</div><div class='output co'>#&gt; [1] "prefix_1_suffix" "prefix_2_suffix" "prefix_3_suffix"</div><div class='input'><span class='co'># prefix_1_suffix" "prefix_2_suffix" "prefix_3_suffix"</span>
+<span class='kw'>paste0</span> <span class='op'>%|.%</span> <span class='kw'>args</span>
+</div><div class='output co'>#&gt; [1] "prefix_1_suffix" "prefix_2_suffix" "prefix_3_suffix"</div><div class='input'><span class='co'># prefix_1_suffix" "prefix_2_suffix" "prefix_3_suffix"</span>
 
 </div></pre>
   </div>
@@ -234,7 +236,7 @@ standard R named argument semantics.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

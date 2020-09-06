@@ -174,12 +174,12 @@ For formal documentation please see <a href='https://github.com/WinVector/wrapr/
     </div>
 
     <pre class="usage"><span class='fu'>apply_right</span>(
-  <span class='no'>pipe_left_arg</span>,
-  <span class='no'>pipe_right_arg</span>,
-  <span class='no'>pipe_environment</span>,
-  <span class='no'>left_arg_name</span>,
-  <span class='no'>pipe_string</span>,
-  <span class='no'>right_arg_name</span>
+  <span class='kw'>pipe_left_arg</span>,
+  <span class='kw'>pipe_right_arg</span>,
+  <span class='kw'>pipe_environment</span>,
+  <span class='kw'>left_arg_name</span>,
+  <span class='kw'>pipe_string</span>,
+  <span class='kw'>right_arg_name</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -221,21 +221,23 @@ For formal documentation please see <a href='https://github.com/WinVector/wrapr/
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># simulate a function pointer</span>
-<span class='no'>apply_right.list</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>pipe_left_arg</span>,
-                             <span class='no'>pipe_right_arg</span>,
-                             <span class='no'>pipe_environment</span>,
-                             <span class='no'>left_arg_name</span>,
-                             <span class='no'>pipe_string</span>,
-                             <span class='no'>right_arg_name</span>) {
-  <span class='no'>pipe_right_arg</span>$<span class='fu'>f</span>(<span class='no'>pipe_left_arg</span>)
+<span class='kw'>apply_right.list</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>pipe_left_arg</span>,
+                             <span class='kw'>pipe_right_arg</span>,
+                             <span class='kw'>pipe_environment</span>,
+                             <span class='kw'>left_arg_name</span>,
+                             <span class='kw'>pipe_string</span>,
+                             <span class='kw'>right_arg_name</span>) {
+  <span class='kw'>pipe_right_arg</span><span class='op'>$</span><span class='fu'>f</span>(<span class='kw'>pipe_left_arg</span>)
 }
 
-<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>f</span><span class='kw'>=</span><span class='no'>sin</span>)
-<span class='fl'>2</span> <span class='kw'>%.&gt;%</span> <span class='no'>f</span></div><div class='output co'>#&gt; <span class='error'>Error: wrapr::apply_right_S4 default called with classes:</span>
+<span class='kw'>f</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#base/list.html'>list</a></span>(f=<span class='kw'>sin</span>)
+<span class='fl'>2</span> <span class='op'>%.&gt;%</span> <span class='kw'>f</span>
+</div><div class='output co'>#&gt; <span class='error'>Error: wrapr::apply_right_S4 default called with classes:</span>
 #&gt; <span class='error'>  numeric </span>
 #&gt; <span class='error'> f list </span>
-#&gt; <span class='error'>  must have a more specific S4 method defined to dispatch</span></div><div class='input'><span class='no'>f</span>$<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='no'>cos</span>
-<span class='fl'>2</span> <span class='kw'>%.&gt;%</span> <span class='no'>f</span></div><div class='output co'>#&gt; <span class='error'>Error: wrapr::apply_right_S4 default called with classes:</span>
+#&gt; <span class='error'>  must have a more specific S4 method defined to dispatch</span></div><div class='input'><span class='kw'>f</span><span class='op'>$</span><span class='kw'>f</span> <span class='op'>&lt;-</span> <span class='kw'>cos</span>
+<span class='fl'>2</span> <span class='op'>%.&gt;%</span> <span class='kw'>f</span>
+</div><div class='output co'>#&gt; <span class='error'>Error: wrapr::apply_right_S4 default called with classes:</span>
 #&gt; <span class='error'>  numeric </span>
 #&gt; <span class='error'> f list </span>
 #&gt; <span class='error'>  must have a more specific S4 method defined to dispatch</span></div><div class='input'>
@@ -255,7 +257,7 @@ For formal documentation please see <a href='https://github.com/WinVector/wrapr/
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

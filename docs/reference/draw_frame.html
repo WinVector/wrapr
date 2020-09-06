@@ -172,11 +172,11 @@
     </div>
 
     <pre class="usage"><span class='fu'>draw_frame</span>(
-  <span class='no'>x</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>time_format</span> <span class='kw'>=</span> <span class='st'>"%Y-%m-%d %H:%M:%S"</span>,
-  <span class='kw'>formatC_options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  <span class='kw'>adjust_for_auto_indent</span> <span class='kw'>=</span> <span class='fl'>2</span>
+  <span class='kw'>x</span>,
+  <span class='kw'>...</span>,
+  time_format = <span class='st'>"%Y-%m-%d %H:%M:%S"</span>,
+  formatC_options = <span class='fu'><a href='#base/list.html'>list</a></span>(),
+  adjust_for_auto_indent = <span class='fl'>2</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -213,14 +213,16 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>tc_name</span> <span class='kw'>&lt;-</span> <span class='st'>"training"</span>
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='build_frame.html'>build_frame</a></span>(
-  <span class='st'>"measure"</span>                   , <span class='no'>tc_name</span>, <span class='st'>"validation"</span>, <span class='st'>"idx"</span> <span class='kw'>|</span>
-  <span class='st'>"minus binary cross entropy"</span>, <span class='fl'>5</span>      , <span class='fl'>7</span>           , <span class='fl'>1L</span>    <span class='kw'>|</span>
+<span class='kw'>tc_name</span> <span class='op'>&lt;-</span> <span class='st'>"training"</span>
+<span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='build_frame.html'>build_frame</a></span>(
+  <span class='st'>"measure"</span>                   , <span class='kw'>tc_name</span>, <span class='st'>"validation"</span>, <span class='st'>"idx"</span> <span class='op'>|</span>
+  <span class='st'>"minus binary cross entropy"</span>, <span class='fl'>5</span>      , <span class='fl'>7</span>           , <span class='fl'>1L</span>    <span class='op'>|</span>
   <span class='st'>"accuracy"</span>                  , <span class='fl'>0.8</span>    , <span class='fl'>0.6</span>         , <span class='fl'>2L</span>    )
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>)</div><div class='output co'>#&gt;                      measure training validation idx
+<span class='fu'><a href='#base/print.html'>print</a></span>(<span class='kw'>x</span>)
+</div><div class='output co'>#&gt;                      measure training validation idx
 #&gt; 1 minus binary cross entropy      5.0        7.0   1
-#&gt; 2                   accuracy      0.8        0.6   2</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span>(<span class='fu'>draw_frame</span>(<span class='no'>x</span>))</div><div class='output co'>#&gt; x &lt;- wrapr::build_frame(
+#&gt; 2                   accuracy      0.8        0.6   2</div><div class='input'><span class='fu'><a href='#base/cat.html'>cat</a></span>(<span class='fu'>draw_frame</span>(<span class='kw'>x</span>))
+</div><div class='output co'>#&gt; x &lt;- wrapr::build_frame(
 #&gt;    "measure"                     , "training", "validation", "idx" |
 #&gt;      "minus binary cross entropy", 5         , 7           , 1L    |
 #&gt;      "accuracy"                  , 0.8       , 0.6         , 2L    )</div><div class='input'>
@@ -241,7 +243,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

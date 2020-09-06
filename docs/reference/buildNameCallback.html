@@ -171,7 +171,7 @@
     <p>Build a custom writeback function that writes state into a user named variable.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>buildNameCallback</span>(<span class='no'>varName</span>)</pre>
+    <pre class="usage"><span class='fu'>buildNameCallback</span>(<span class='kw'>varName</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -189,28 +189,31 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># user function</span>
-<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>i</span>) { (<span class='fl'>1</span>:<span class='fl'>10</span>)<span class='kw'>[[</span><span class='no'>i</span>]] }
+<span class='kw'>f</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>i</span>) { (<span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>)[[<span class='kw'>i</span>]] }
 <span class='co'># capture last error in variable called "lastError"</span>
-<span class='no'>writeBack</span> <span class='kw'>&lt;-</span> <span class='fu'>buildNameCallback</span>(<span class='st'>'lastError'</span>)
+<span class='kw'>writeBack</span> <span class='op'>&lt;-</span> <span class='fu'>buildNameCallback</span>(<span class='st'>'lastError'</span>)
 <span class='co'># wrap function with writeBack</span>
-<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='DebugFnW.html'>DebugFnW</a></span>(<span class='no'>writeBack</span>,<span class='no'>f</span>)
+<span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='DebugFnW.html'>DebugFnW</a></span>(<span class='kw'>writeBack</span>,<span class='kw'>f</span>)
 <span class='co'># capture error (Note: tryCatch not needed for user code!)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/conditions.html'>tryCatch</a></span>(
-  <span class='fu'><a href='https://rdrr.io/r/stats/Fdist.html'>df</a></span>(<span class='fl'>12</span>),
-   <span class='kw'>error</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>e</span>) { <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>e</span>) })</div><div class='output co'>#&gt; &lt;simpleError in value[[3L]](cond): wrapr::DebugFnW: wrote error to user function: 'writing to variable: "lastError"' on catching 'Error in (1:10)[[i]]: subscript out of bounds'
+<span class='fu'><a href='#base/conditions.html'>tryCatch</a></span>(
+  <span class='fu'><a href='#stats/Fdist.html'>df</a></span>(<span class='fl'>12</span>),
+   error = <span class='fu'>function</span>(<span class='kw'>e</span>) { <span class='fu'><a href='#base/print.html'>print</a></span>(<span class='kw'>e</span>) })
+</div><div class='output co'>#&gt; &lt;simpleError in value[[3L]](cond): wrapr::DebugFnW: wrote error to user function: 'writing to variable: "lastError"' on catching 'Error in (1:10)[[i]]: subscript out of bounds'
 #&gt;  You can reproduce the error with:
 #&gt;  'do.call(p$fn, p$args)' (replace 'p' with actual variable name)&gt;</div><div class='input'><span class='co'># examine error</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='no'>lastError</span>)</div><div class='output co'>#&gt; List of 4
+<span class='fu'><a href='#utils/str.html'>str</a></span>(<span class='kw'>lastError</span>)
+</div><div class='output co'>#&gt; List of 4
 #&gt;  $ fn       :function (i)  
 #&gt;   ..- attr(*, "srcref")= 'srcref' int [1:8] 3 6 3 32 6 32 3 3
-#&gt;   .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x7f9e8a660d70&gt; 
+#&gt;   .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x7f83bba02328&gt; 
 #&gt;  $ args     :List of 1
 #&gt;   ..$ : num 12
 #&gt;  $ namedargs: language df(12)
 #&gt;  $ fn_name  : chr "f"</div><div class='input'><span class='co'># redo call, perhaps debugging</span>
-<span class='fu'><a href='https://rdrr.io/r/base/conditions.html'>tryCatch</a></span>(
- <span class='fu'><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></span>(<span class='no'>lastError</span>$<span class='no'>fn_name</span>, <span class='no'>lastError</span>$<span class='no'>args</span>),
-   <span class='kw'>error</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>e</span>) { <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>e</span>) })</div><div class='output co'>#&gt; &lt;simpleError in (1:10)[[i]]: subscript out of bounds&gt;</div><div class='input'>
+<span class='fu'><a href='#base/conditions.html'>tryCatch</a></span>(
+ <span class='fu'><a href='#base/do.call.html'>do.call</a></span>(<span class='kw'>lastError</span><span class='op'>$</span><span class='kw'>fn_name</span>, <span class='kw'>lastError</span><span class='op'>$</span><span class='kw'>args</span>),
+   error = <span class='fu'>function</span>(<span class='kw'>e</span>) { <span class='fu'><a href='#base/print.html'>print</a></span>(<span class='kw'>e</span>) })
+</div><div class='output co'>#&gt; &lt;simpleError in (1:10)[[i]]: subscript out of bounds&gt;</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -227,7 +230,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

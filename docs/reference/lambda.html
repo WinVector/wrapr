@@ -171,7 +171,7 @@
     <p>Mostly just a place-holder so lambda-symbol form has somewhere safe to hang its help entry.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>lambda</span>(<span class='no'>...</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())</pre>
+    <pre class="usage"><span class='fu'>lambda</span>(<span class='kw'>...</span>, env = <span class='fu'><a href='#base/sys.parent.html'>parent.frame</a></span>())</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -200,10 +200,12 @@
 <span class='co'># print(intToUtf8(0x03BB))</span>
 
 <span class='co'># example: square numbers</span>
-<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span>(<span class='fl'>1</span>:<span class='fl'>4</span>, <span class='fu'>lambda</span>(<span class='no'>x</span>, <span class='no'>x</span>^<span class='fl'>2</span>))</div><div class='output co'>#&gt; [1]  1  4  9 16</div><div class='input'>
+<span class='fu'><a href='#base/lapply.html'>sapply</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, <span class='fu'>lambda</span>(<span class='kw'>x</span>, <span class='kw'>x</span><span class='op'>^</span><span class='fl'>2</span>))
+</div><div class='output co'>#&gt; [1]  1  4  9 16</div><div class='input'>
 <span class='co'># example more than one argument</span>
-<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='fu'>lambda</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>x</span>+<span class='no'>y</span>)
-<span class='fu'>f</span>(<span class='fl'>2</span>,<span class='fl'>4</span>)</div><div class='output co'>#&gt; [1] 6</div><div class='input'>
+<span class='kw'>f</span> <span class='op'>&lt;-</span> <span class='fu'>lambda</span>(<span class='kw'>x</span>, <span class='kw'>y</span>, <span class='kw'>x</span><span class='op'>+</span><span class='kw'>y</span>)
+<span class='fu'>f</span>(<span class='fl'>2</span>,<span class='fl'>4</span>)
+</div><div class='output co'>#&gt; [1] 6</div><div class='input'>
 
 </div></pre>
   </div>
@@ -221,7 +223,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

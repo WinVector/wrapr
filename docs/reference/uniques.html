@@ -171,11 +171,11 @@ base::unique(x, incomparables = incomparables, MARGIN = MARGIN, fromLast = fromL
 
     <div class="ref-description">
     <p>Check that <code>...</code> is empty and if so call
-<code><a href='https://rdrr.io/r/base/unique.html'>base::unique(x, incomparables = incomparables, MARGIN = MARGIN, fromLast = fromLast)</a></code>
+<code><a href='#base/unique.html'>base::unique(x, incomparables = incomparables, MARGIN = MARGIN, fromLast = fromLast)</a></code>
 (else throw an error)</p>
     </div>
 
-    <pre class="usage"><span class='fu'>uniques</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>incomparables</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>MARGIN</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>fromLast</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>uniques</span>(<span class='kw'>x</span>, <span class='kw'>...</span>, incomparables = <span class='fl'>FALSE</span>, MARGIN = <span class='fl'>1</span>, fromLast = <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -208,13 +208,17 @@ base::unique(x, incomparables = incomparables, MARGIN = MARGIN, fromLast = fromL
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>)
-<span class='no'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"b"</span>, <span class='st'>"c"</span>)
+<span class='kw'>x</span> <span class='op'>=</span> <span class='fu'><a href='#base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>)
+<span class='kw'>y</span> <span class='op'>=</span> <span class='fu'><a href='#base/c.html'>c</a></span>(<span class='st'>"b"</span>, <span class='st'>"c"</span>)
 
 <span class='co'># task: get unique items in x plus y</span>
-<span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>x</span>, <span class='no'>y</span>))   <span class='co'># correct answer</span></div><div class='output co'>#&gt; [1] "a" "b" "c"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='no'>x</span>, <span class='no'>y</span>)      <span class='co'># oops forgot to wrap arguments, quietly get wrong answer</span></div><div class='output co'>#&gt; [1] "a" "b"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/conditions.html'>tryCatch</a></span>(
-   <span class='fu'>uniques</span>(<span class='no'>x</span>, <span class='no'>y</span>), <span class='co'># uniques catches the error</span>
-   <span class='kw'>error</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>e</span>) { <span class='no'>e</span> })</div><div class='output co'>#&gt; &lt;simpleError: wrapr::uniques unexpected arguments: ‘y’&gt;</div><div class='input'><span class='fu'>uniques</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>x</span>, <span class='no'>y</span>))  <span class='co'># uniques works like base::unique in most case</span></div><div class='output co'>#&gt; [1] "a" "b" "c"</div><div class='input'>
+<span class='fu'><a href='#base/unique.html'>unique</a></span>(<span class='fu'><a href='#base/c.html'>c</a></span>(<span class='kw'>x</span>, <span class='kw'>y</span>))   <span class='co'># correct answer</span>
+</div><div class='output co'>#&gt; [1] "a" "b" "c"</div><div class='input'><span class='fu'><a href='#base/unique.html'>unique</a></span>(<span class='kw'>x</span>, <span class='kw'>y</span>)      <span class='co'># oops forgot to wrap arguments, quietly get wrong answer</span>
+</div><div class='output co'>#&gt; [1] "a" "b"</div><div class='input'><span class='fu'><a href='#base/conditions.html'>tryCatch</a></span>(
+   <span class='fu'>uniques</span>(<span class='kw'>x</span>, <span class='kw'>y</span>), <span class='co'># uniques catches the error</span>
+   error = <span class='fu'>function</span>(<span class='kw'>e</span>) { <span class='kw'>e</span> })
+</div><div class='output co'>#&gt; &lt;simpleError: wrapr::uniques unexpected arguments: ‘y’&gt;</div><div class='input'><span class='fu'>uniques</span>(<span class='fu'><a href='#base/c.html'>c</a></span>(<span class='kw'>x</span>, <span class='kw'>y</span>))  <span class='co'># uniques works like base::unique in most case</span>
+</div><div class='output co'>#&gt; [1] "a" "b" "c"</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -231,7 +235,7 @@ base::unique(x, incomparables = incomparables, MARGIN = MARGIN, fromLast = fromL
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

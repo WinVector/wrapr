@@ -171,7 +171,7 @@
     <p>Build an anonymous function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>makeFunction_se</span>(<span class='no'>params</span>, <span class='no'>body</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())</pre>
+    <pre class="usage"><span class='fu'>makeFunction_se</span>(<span class='kw'>params</span>, <span class='kw'>body</span>, env = <span class='fu'><a href='#base/sys.parent.html'>parent.frame</a></span>())</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -199,11 +199,13 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='fu'>makeFunction_se</span>(<span class='fu'><a href='https://rdrr.io/r/base/name.html'>as.name</a></span>(<span class='st'>'x'</span>), <span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span>({<span class='no'>x</span>*<span class='no'>x</span>}))
-<span class='fu'>f</span>(<span class='fl'>7</span>)</div><div class='output co'>#&gt; [1] 49</div><div class='input'>
+<span class='kw'>f</span> <span class='op'>&lt;-</span> <span class='fu'>makeFunction_se</span>(<span class='fu'><a href='#base/name.html'>as.name</a></span>(<span class='st'>'x'</span>), <span class='fu'><a href='#base/substitute.html'>substitute</a></span>({<span class='kw'>x</span><span class='op'>*</span><span class='kw'>x</span>}))
+<span class='fu'>f</span>(<span class='fl'>7</span>)
+</div><div class='output co'>#&gt; [1] 49</div><div class='input'>
 
-<span class='no'>g</span> <span class='kw'>&lt;-</span> <span class='fu'>makeFunction_se</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/name.html'>as.name</a></span>(<span class='st'>'x'</span>), <span class='fu'><a href='https://rdrr.io/r/base/name.html'>as.name</a></span>(<span class='st'>'y'</span>)), <span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span>({ <span class='no'>x</span> + <span class='fl'>3</span>*<span class='no'>y</span> }))
-<span class='fu'>g</span>(<span class='fl'>1</span>,<span class='fl'>100</span>)</div><div class='output co'>#&gt; [1] 301</div><div class='input'>
+<span class='kw'>g</span> <span class='op'>&lt;-</span> <span class='fu'>makeFunction_se</span>(<span class='fu'><a href='#base/c.html'>c</a></span>(<span class='fu'><a href='#base/name.html'>as.name</a></span>(<span class='st'>'x'</span>), <span class='fu'><a href='#base/name.html'>as.name</a></span>(<span class='st'>'y'</span>)), <span class='fu'><a href='#base/substitute.html'>substitute</a></span>({ <span class='kw'>x</span> <span class='op'>+</span> <span class='fl'>3</span><span class='op'>*</span><span class='kw'>y</span> }))
+<span class='fu'>g</span>(<span class='fl'>1</span>,<span class='fl'>100</span>)
+</div><div class='output co'>#&gt; [1] 301</div><div class='input'>
 
 </div></pre>
   </div>
@@ -221,7 +223,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

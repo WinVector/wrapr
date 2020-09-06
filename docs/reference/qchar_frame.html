@@ -177,7 +177,7 @@ first "|" (or other infix operator) determines number of columns
 Names are treated as character types.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>qchar_frame</span>(<span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>qchar_frame</span>(<span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -201,24 +201,28 @@ as a name in some places may fail if the dot looks like a function call.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>loss_name</span> <span class='kw'>&lt;-</span> <span class='st'>"loss"</span>
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>qchar_frame</span>(
-   <span class='no'>measure</span>,                      <span class='no'>training</span>,     <span class='no'>validation</span> <span class='kw'>|</span>
-   <span class='st'>"minus binary cross entropy"</span>, <span class='fu'>.</span>(<span class='no'>loss_name</span>), <span class='no'>val_loss</span>   <span class='kw'>|</span>
-   <span class='no'>accuracy</span>,                     <span class='no'>acc</span>,          <span class='no'>val_acc</span>    )
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>)</div><div class='output co'>#&gt;                      measure training validation
+<span class='kw'>loss_name</span> <span class='op'>&lt;-</span> <span class='st'>"loss"</span>
+<span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'>qchar_frame</span>(
+   <span class='kw'>measure</span>,                      <span class='kw'>training</span>,     <span class='kw'>validation</span> <span class='op'>|</span>
+   <span class='st'>"minus binary cross entropy"</span>, <span class='fu'>.</span>(<span class='kw'>loss_name</span>), <span class='kw'>val_loss</span>   <span class='op'>|</span>
+   <span class='kw'>accuracy</span>,                     <span class='kw'>acc</span>,          <span class='kw'>val_acc</span>    )
+<span class='fu'><a href='#base/print.html'>print</a></span>(<span class='kw'>x</span>)
+</div><div class='output co'>#&gt;                      measure training validation
 #&gt; 1 minus binary cross entropy     loss   val_loss
-#&gt; 2                   accuracy      acc    val_acc</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; 'data.frame':	2 obs. of  3 variables:
+#&gt; 2                   accuracy      acc    val_acc</div><div class='input'><span class='fu'><a href='#utils/str.html'>str</a></span>(<span class='kw'>x</span>)
+</div><div class='output co'>#&gt; 'data.frame':	2 obs. of  3 variables:
 #&gt;  $ measure   : chr  "minus binary cross entropy" "accuracy"
 #&gt;  $ training  : chr  "loss" "acc"
-#&gt;  $ validation: chr  "val_loss" "val_acc"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span>(<span class='fu'><a href='draw_frame.html'>draw_frame</a></span>(<span class='no'>x</span>))</div><div class='output co'>#&gt; x &lt;- wrapr::build_frame(
+#&gt;  $ validation: chr  "val_loss" "val_acc"</div><div class='input'><span class='fu'><a href='#base/cat.html'>cat</a></span>(<span class='fu'><a href='draw_frame.html'>draw_frame</a></span>(<span class='kw'>x</span>))
+</div><div class='output co'>#&gt; x &lt;- wrapr::build_frame(
 #&gt;    "measure"                     , "training", "validation" |
 #&gt;      "minus binary cross entropy", "loss"    , "val_loss"   |
 #&gt;      "accuracy"                  , "acc"     , "val_acc"    )</div><div class='input'>
 <span class='fu'>qchar_frame</span>(
-  <span class='no'>x</span> <span class='kw'>|</span>
-  <span class='fl'>1</span> <span class='kw'>|</span>
-  <span class='fl'>2</span> ) <span class='kw'>%.&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='no'>.</span>)</div><div class='output co'>#&gt; 'data.frame':	2 obs. of  1 variable:
+  <span class='kw'>x</span> <span class='op'>|</span>
+  <span class='fl'>1</span> <span class='op'>|</span>
+  <span class='fl'>2</span> ) <span class='op'>%.&gt;%</span> <span class='fu'><a href='#utils/str.html'>str</a></span>(<span class='kw'>.</span>)
+</div><div class='output co'>#&gt; 'data.frame':	2 obs. of  1 variable:
 #&gt;  $ x: chr  "1" "2"</div><div class='input'>
 </div></pre>
   </div>
@@ -236,7 +240,7 @@ as a name in some places may fail if the dot looks like a function call.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

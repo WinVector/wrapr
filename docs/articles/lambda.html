@@ -118,13 +118,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="lambda_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>lambda Function Builder</h1>
                         <h4 class="author">John Mount</h4>
             
-            <h4 class="date">2020-08-10</h4>
+            <h4 class="date">2020-09-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/lambda.Rmd"><code>vignettes/lambda.Rmd</code></a></small>
       <div class="hidden name"><code>lambda.Rmd</code></div>
@@ -135,23 +135,28 @@
     
 <p>The <a href="https://cran.r-project.org"><code>CRAN</code></a> version of the <a href="https://www.r-project.org"><code>R</code></a> package <a href="https://CRAN.R-project.org/package=wrapr"><code>wrapr</code></a> package now includes a concise anonymous function constructor: <code>l()</code>.</p>
 <p>To use it please do the following: attach <code>wrapr</code> and ask it to place a definition for <code>l()</code> in your environment:</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"wrapr"</span>)
-<span class="kw pkg">wrapr</span><span class="kw ns">::</span><span class="fu"><a href="../reference/defineLambda.html">defineLambda</a></span>(<span class="kw">name</span> <span class="kw">=</span> <span class="st">"l"</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span>()</pre></body></html></div>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="#base/library.html">library</a></span>(<span class="st"><a href="https://github.com/WinVector/wrapr">"wrapr"</a></span>)
+<span class="kw">wrapr</span>::<span class="fu"><a href="../reference/defineLambda.html">defineLambda</a></span>(name = <span class="st">"l"</span>)
+<span class="fu"><a href="#base/ls.html">ls</a></span>()</pre></div>
 <pre><code>## [1] "l"</code></pre>
 <p>Note: throughout this document we are using the letter “<code>l</code>” as a stand-in for the Greek letter lambda, as this non-ASCII character can cause formatting problems in some situations.</p>
 <p>You can use <code>l()</code> to define functions. The syntax is: <code>l(arg [, arg]*, body [, env=env])</code>. That is we write a <code>l()</code>-call (which you can do by cutting and pasting) and list the desired function arguments and then the function body. For example the function that squares numbers is:</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu">l</span>(<span class="no">x</span>, <span class="no">x</span>^<span class="fl">2</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="fu">l</span>(<span class="kw">x</span>, <span class="kw">x</span><span class="op">^</span><span class="fl">2</span>)</pre></div>
 <pre><code>## function (x) 
 ## x^2</code></pre>
 <p>We can use such a function to square the first four positive integers as follows:</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(<span class="fl">1</span>:<span class="fl">4</span>, <span class="fu">l</span>(<span class="no">x</span>, <span class="no">x</span>^<span class="fl">2</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="fu"><a href="#base/lapply.html">sapply</a></span>(<span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fu">l</span>(<span class="kw">x</span>, <span class="kw">x</span><span class="op">^</span><span class="fl">2</span>))</pre></div>
 <pre><code>## [1]  1  4  9 16</code></pre>
 <p>Dot-pipe style notation does not need the <code>l()</code> factory as it treats pipe stages as expressions parameterized over the variable “<code>.</code>”:</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fl">1</span>:<span class="fl">4</span> <span class="kw">%.&gt;%</span> { <span class="no">.</span>^<span class="fl">2</span> }</pre></body></html></div>
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="fl">1</span><span class="op">:</span><span class="fl">4</span> <span class="op">%.&gt;%</span> { <span class="kw">.</span><span class="op">^</span><span class="fl">2</span> }</pre></div>
 <pre><code>## [1]  1  4  9 16</code></pre>
 <p>And we can also build functions that take more than one argument as follows:</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu">l</span>(<span class="no">x</span>, <span class="no">y</span>, <span class="no">x</span> + <span class="fl">3</span>*<span class="no">y</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb9"><pre class="downlit">
+<span class="fu">l</span>(<span class="kw">x</span>, <span class="kw">y</span>, <span class="kw">x</span> <span class="op">+</span> <span class="fl">3</span><span class="op">*</span><span class="kw">y</span>)</pre></div>
 <pre><code>## function (x, y) 
 ## x + 3 * y</code></pre>
   </div>
@@ -169,7 +174,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

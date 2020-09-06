@@ -171,7 +171,7 @@
     <p>format a map.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>map_to_char</span>(<span class='no'>mp</span>, <span class='no'>...</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>" "</span>, <span class='kw'>assignment</span> <span class='kw'>=</span> <span class='st'>"="</span>, <span class='kw'>quote_fn</span> <span class='kw'>=</span> <span class='kw pkg'>base</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/r/base/shQuote.html'>shQuote</a></span>)</pre>
+    <pre class="usage"><span class='fu'>map_to_char</span>(<span class='kw'>mp</span>, <span class='kw'>...</span>, sep = <span class='st'>" "</span>, assignment = <span class='st'>"="</span>, quote_fn = <span class='kw'>base</span>::<span class='kw'><a href='#base/shQuote.html'>shQuote</a></span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -203,11 +203,15 @@
     <p>character formatted representation</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/r/base/dput.html'>dput</a></code>, <code><a href='https://rdrr.io/r/utils/capture.output.html'>capture.output</a></code></p></div>
+    <div class='dont-index'><p><code><a href='#base/dput.html'>dput</a></code>, <code><a href='#utils/capture.output.html'>capture.output</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span>(<span class='fu'>map_to_char</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'a'</span> <span class='kw'>=</span> <span class='st'>'b'</span>, <span class='st'>'c'</span> <span class='kw'>=</span> <span class='st'>'d'</span>)))</div><div class='output co'>#&gt; c('a' = 'b', 'c' = 'd')</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span>(<span class='fu'>map_to_char</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'a'</span> <span class='kw'>=</span> <span class='st'>'b'</span>, <span class='st'>'d'</span>, <span class='st'>'e'</span> <span class='kw'>=</span> <span class='st'>'f'</span>)))</div><div class='output co'>#&gt; c('a' = 'b', 'd', 'e' = 'f')</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span>(<span class='fu'>map_to_char</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'a'</span> <span class='kw'>=</span> <span class='st'>'b'</span>, <span class='st'>'d'</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='st'>'e'</span> <span class='kw'>=</span> <span class='st'>'f'</span>)))</div><div class='output co'>#&gt; c('a' = 'b', 'd' = NA, 'e' = 'f')</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span>(<span class='fu'>map_to_char</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>NA</span>, <span class='fl'>2</span>)))</div><div class='output co'>#&gt; c('1', NA, '2')</div><div class='input'>
+<span class='fu'><a href='#base/cat.html'>cat</a></span>(<span class='fu'>map_to_char</span>(<span class='fu'><a href='#base/c.html'>c</a></span>(<span class='st'>'a'</span> = <span class='st'>'b'</span>, <span class='st'>'c'</span> = <span class='st'>'d'</span>)))
+</div><div class='output co'>#&gt; c('a' = 'b', 'c' = 'd')</div><div class='input'><span class='fu'><a href='#base/cat.html'>cat</a></span>(<span class='fu'>map_to_char</span>(<span class='fu'><a href='#base/c.html'>c</a></span>(<span class='st'>'a'</span> = <span class='st'>'b'</span>, <span class='st'>'d'</span>, <span class='st'>'e'</span> = <span class='st'>'f'</span>)))
+</div><div class='output co'>#&gt; c('a' = 'b', 'd', 'e' = 'f')</div><div class='input'><span class='fu'><a href='#base/cat.html'>cat</a></span>(<span class='fu'>map_to_char</span>(<span class='fu'><a href='#base/c.html'>c</a></span>(<span class='st'>'a'</span> = <span class='st'>'b'</span>, <span class='st'>'d'</span> = <span class='fl'>NA</span>, <span class='st'>'e'</span> = <span class='st'>'f'</span>)))
+</div><div class='output co'>#&gt; c('a' = 'b', 'd' = NA, 'e' = 'f')</div><div class='input'><span class='fu'><a href='#base/cat.html'>cat</a></span>(<span class='fu'>map_to_char</span>(<span class='fu'><a href='#base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>NA</span>, <span class='fl'>2</span>)))
+</div><div class='output co'>#&gt; c('1', NA, '2')</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -224,7 +228,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

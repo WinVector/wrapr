@@ -118,13 +118,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="wrapr_applicable_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>wrapr_applicable</h1>
                         <h4 class="author">John Mount, Win-Vector LLC</h4>
             
-            <h4 class="date">2020-08-10</h4>
+            <h4 class="date">2020-09-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/wrapr_applicable.Rmd"><code>vignettes/wrapr_applicable.Rmd</code></a></small>
       <div class="hidden name"><code>wrapr_applicable.Rmd</code></div>
@@ -139,20 +139,22 @@
 <a href="#basic-wrapr" class="anchor"></a>Basic <code>wrapr</code>
 </h2>
 <p>The <code>wrapr</code> pipe operators (<code><a href="../reference/dot_arrow.html">%.&gt;%</a></code> and <code><a href="../reference/dot_arrow.html">%&gt;.%</a></code>) are roughly defined as: <code>a %&gt;.% b ~ { . &lt;- a; b };</code>. This works under the assumption that <code>b</code> is an expression with free-instances of “<code>.</code>”. A typical use is:</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"wrapr"</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="#base/library.html">library</a></span>(<span class="st"><a href="https://github.com/WinVector/wrapr">"wrapr"</a></span>)
 
-<span class="fl">5</span> <span class="kw">%.&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span>(<span class="no">.</span>)
-<span class="co">#&gt; [1] -0.9589243</span></pre></body></html></div>
+<span class="fl">5</span> <span class="op">%.&gt;%</span> <span class="fu"><a href="#base/Trig.html">sin</a></span>(<span class="kw">.</span>)
+<span class="co">#&gt; [1] -0.9589243</span></pre></div>
 <p>The above is performed by standard <code>S3</code> dispatch on the left argument of an exported generic functions called <code><a href="../reference/apply_left.html">apply_left()</a></code> and <code><a href="../reference/apply_right.html">apply_right()</a></code>. A formal description of <code>wrapr</code> piping can be found <a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf">here</a>.</p>
 </div>
 <div id="dereferencing-and-function-evaluation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#dereferencing-and-function-evaluation" class="anchor"></a>Dereferencing and function evaluation</h2>
 <p><code>wrapr</code> works primarily over expressions and “<code>.</code>”. <code>wrapr</code> does tries to de-reference names found in the right-hand side of pipe stages, and also dispatches functions. One can also write the following.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fl">5</span> <span class="kw">%.&gt;%</span> <span class="no">sin</span>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="fl">5</span> <span class="op">%.&gt;%</span> <span class="kw">sin</span>
 <span class="co">#&gt; [1] -0.9589243</span>
-<span class="fl">5</span> <span class="kw">%.&gt;%</span> <span class="kw pkg">base</span><span class="kw ns">::</span><span class="no"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span>
-<span class="co">#&gt; [1] -0.9589243</span></pre></body></html></div>
+<span class="fl">5</span> <span class="op">%.&gt;%</span> <span class="kw">base</span>::<span class="kw"><a href="#base/Trig.html">sin</a></span> 
+<span class="co">#&gt; [1] -0.9589243</span></pre></div>
 </div>
 <div id="wrapr_applicable" class="section level2">
 <h2 class="hasAnchor">
@@ -160,31 +162,32 @@
 </h2>
 <p>Arbitrary objects ask <code>wrapr</code> to treat them as special expressions by overriding one or more of <code><a href="../reference/apply_left.html">apply_left()</a></code> and <code><a href="../reference/apply_right.html">apply_right()</a></code> for the <code>S3</code> class they wish managed.</p>
 <p>For example:</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">function_reference</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">f</span> <span class="kw">=</span> <span class="no">sin</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span>(<span class="no">function_reference</span>) <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"wrapr_applicable"</span>, <span class="st">"ourclass"</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="kw">function_reference</span> <span class="op">&lt;-</span> <span class="fu"><a href="#base/list.html">list</a></span>(f = <span class="kw">sin</span>)
+<span class="fu"><a href="#base/class.html">class</a></span>(<span class="kw">function_reference</span>) <span class="op">&lt;-</span> <span class="fu"><a href="#base/c.html">c</a></span>(<span class="st">"wrapr_applicable"</span>, <span class="st">"ourclass"</span>)
 
-<span class="no">apply_right.ourclass</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">pipe_left_arg</span>,
-                                 <span class="no">pipe_right_arg</span>,
-                                 <span class="no">pipe_environment</span>,
-                                 <span class="no">left_arg_name</span>,
-                                 <span class="no">pipe_string</span>,
-                                 <span class="no">right_arg_name</span>) {
-  <span class="no">pipe_right_arg</span>$<span class="fu">f</span>(<span class="no">pipe_left_arg</span>)
+<span class="kw">apply_right.ourclass</span> <span class="op">&lt;-</span> <span class="fu">function</span>(<span class="kw">pipe_left_arg</span>,
+                                 <span class="kw">pipe_right_arg</span>,
+                                 <span class="kw">pipe_environment</span>,
+                                 <span class="kw">left_arg_name</span>,
+                                 <span class="kw">pipe_string</span>,
+                                 <span class="kw">right_arg_name</span>) {
+  <span class="kw">pipe_right_arg</span><span class="op">$</span><span class="fu">f</span>(<span class="kw">pipe_left_arg</span>)
 }
 
-<span class="no">function_reference</span>
+<span class="kw">function_reference</span>
 <span class="co">#&gt; $f</span>
 <span class="co">#&gt; function (x)  .Primitive("sin")</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; attr(,"class")</span>
 <span class="co">#&gt; [1] "wrapr_applicable" "ourclass"</span>
 
-<span class="fl">5</span> <span class="kw">%.&gt;%</span> <span class="no">function_reference</span>
+<span class="fl">5</span> <span class="op">%.&gt;%</span> <span class="kw">function_reference</span>
 <span class="co">#&gt; [1] -0.9589243</span>
 
-<span class="no">function_reference</span>$<span class="no">f</span> <span class="kw">&lt;-</span> <span class="no">sqrt</span>
-<span class="fl">5</span> <span class="kw">%.&gt;%</span> <span class="no">function_reference</span>
-<span class="co">#&gt; [1] 2.236068</span></pre></body></html></div>
+<span class="kw">function_reference</span><span class="op">$</span><span class="kw">f</span> <span class="op">&lt;-</span> <span class="kw">sqrt</span>
+<span class="fl">5</span> <span class="op">%.&gt;%</span> <span class="kw">function_reference</span>
+<span class="co">#&gt; [1] 2.236068</span></pre></div>
 <p>The signature arguments work as follows:</p>
 <ul>
 <li>
@@ -202,28 +205,29 @@
 </ul>
 <p>This functionality allows arbitrary objects to directly specify their intended pipeline behavior.</p>
 <p>Let’s use a debugging function to see the values of all of the arguments.</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">apply_right.ourclass</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">pipe_left_arg</span>,
-                                 <span class="no">pipe_right_arg</span>,
-                                 <span class="no">pipe_environment</span>,
-                                 <span class="no">left_arg_name</span>,
-                                 <span class="no">pipe_string</span>,
-                                 <span class="no">right_arg_name</span>) {
-  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="st">"pipe_left_arg"</span>)
-  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">pipe_left_arg</span>)
-  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="st">"pipe_right_arg"</span>)
-  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">pipe_right_arg</span>)
-  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="st">"pipe_environment"</span>)
-  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">pipe_environment</span>)
-  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="st">"left_arg_name"</span>)
-  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">left_arg_name</span>)
-  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="st">"pipe_string"</span>)
-  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">pipe_string</span>)
-  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="st">"right_arg_name"</span>)
-  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">right_arg_name</span>)
-  <span class="no">pipe_right_arg</span>$<span class="fu">f</span>(<span class="no">pipe_left_arg</span>)
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="kw">apply_right.ourclass</span> <span class="op">&lt;-</span> <span class="fu">function</span>(<span class="kw">pipe_left_arg</span>,
+                                 <span class="kw">pipe_right_arg</span>,
+                                 <span class="kw">pipe_environment</span>,
+                                 <span class="kw">left_arg_name</span>,
+                                 <span class="kw">pipe_string</span>,
+                                 <span class="kw">right_arg_name</span>) {
+  <span class="fu"><a href="#base/print.html">print</a></span>(<span class="st">"pipe_left_arg"</span>)
+  <span class="fu"><a href="#base/print.html">print</a></span>(<span class="kw">pipe_left_arg</span>)
+  <span class="fu"><a href="#base/print.html">print</a></span>(<span class="st">"pipe_right_arg"</span>)
+  <span class="fu"><a href="#base/print.html">print</a></span>(<span class="kw">pipe_right_arg</span>)
+  <span class="fu"><a href="#base/print.html">print</a></span>(<span class="st">"pipe_environment"</span>)
+  <span class="fu"><a href="#base/print.html">print</a></span>(<span class="kw">pipe_environment</span>)
+  <span class="fu"><a href="#base/print.html">print</a></span>(<span class="st">"left_arg_name"</span>)
+  <span class="fu"><a href="#base/print.html">print</a></span>(<span class="kw">left_arg_name</span>)
+  <span class="fu"><a href="#base/print.html">print</a></span>(<span class="st">"pipe_string"</span>)
+  <span class="fu"><a href="#base/print.html">print</a></span>(<span class="kw">pipe_string</span>)
+  <span class="fu"><a href="#base/print.html">print</a></span>(<span class="st">"right_arg_name"</span>)
+  <span class="fu"><a href="#base/print.html">print</a></span>(<span class="kw">right_arg_name</span>)
+  <span class="kw">pipe_right_arg</span><span class="op">$</span><span class="fu">f</span>(<span class="kw">pipe_left_arg</span>)
 }
 
-<span class="fl">5</span> <span class="kw">%.&gt;%</span> <span class="no">function_reference</span>
+<span class="fl">5</span> <span class="op">%.&gt;%</span> <span class="kw">function_reference</span>
 <span class="co">#&gt; [1] "pipe_left_arg"</span>
 <span class="co">#&gt; [1] 5</span>
 <span class="co">#&gt; [1] "pipe_right_arg"</span>
@@ -242,9 +246,9 @@
 <span class="co">#&gt; function_reference</span>
 <span class="co">#&gt; [1] 2.236068</span>
 
-<span class="no">a</span> <span class="kw">&lt;-</span> <span class="fl">5</span>
+<span class="kw">a</span> <span class="op">&lt;-</span> <span class="fl">5</span>
 
-<span class="no">a</span> <span class="kw">%.&gt;%</span> <span class="no">function_reference</span>
+<span class="kw">a</span> <span class="op">%.&gt;%</span> <span class="kw">function_reference</span>
 <span class="co">#&gt; [1] "pipe_left_arg"</span>
 <span class="co">#&gt; [1] 5</span>
 <span class="co">#&gt; [1] "pipe_right_arg"</span>
@@ -261,7 +265,7 @@
 <span class="co">#&gt; [1] "%.&gt;%"</span>
 <span class="co">#&gt; [1] "right_arg_name"</span>
 <span class="co">#&gt; function_reference</span>
-<span class="co">#&gt; [1] 2.236068</span></pre></body></html></div>
+<span class="co">#&gt; [1] 2.236068</span></pre></div>
 </div>
 <div id="conclusion" class="section level2">
 <h2 class="hasAnchor">
@@ -285,7 +289,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

@@ -174,14 +174,14 @@ Mnemonic: "expr code symbols are on the left, external data and function argumen
     </div>
 
     <pre class="usage"><span class='fu'>let</span>(
-  <span class='no'>alias</span>,
-  <span class='no'>expr</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>(),
-  <span class='kw'>subsMethod</span> <span class='kw'>=</span> <span class='st'>"langsubs"</span>,
-  <span class='kw'>strict</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>eval</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>debugPrint</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  <span class='kw'>alias</span>,
+  <span class='kw'>expr</span>,
+  <span class='kw'>...</span>,
+  envir = <span class='fu'><a href='#base/sys.parent.html'>parent.frame</a></span>(),
+  subsMethod = <span class='st'>"langsubs"</span>,
+  strict = <span class='fl'>TRUE</span>,
+  eval = <span class='fl'>TRUE</span>,
+  debugPrint = <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -232,8 +232,8 @@ Transformation is performed by substitution, so please be wary of unintended nam
 <p>Something like <code>let</code> is only useful to get control of a function that is parameterized
 (in the sense it take column names) but non-standard (in that it takes column names from
 non-standard evaluation argument name capture, and not as simple variables or parameters).  So  <code>wrapr:let</code> is not
-useful for non-parameterized functions (functions that work only over values such as <code><a href='https://rdrr.io/r/base/sum.html'>base::sum</a></code>),
-and not useful for functions take parameters in straightforward way (such as <code><a href='https://rdrr.io/r/base/merge.html'>base::merge</a></code>'s "<code>by</code>" argument).
+useful for non-parameterized functions (functions that work only over values such as <code><a href='#base/sum.html'>base::sum</a></code>),
+and not useful for functions take parameters in straightforward way (such as <code><a href='#base/merge.html'>base::merge</a></code>'s "<code>by</code>" argument).
 <code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>dplyr::mutate</a></code> is an example where
 we can use a <code>let</code> helper.   <code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>dplyr::mutate</a></code> is
 parameterized (in the sense it can work over user supplied columns and expressions), but column names are captured through non-standard evaluation
@@ -243,7 +243,7 @@ parameterized (in the sense it can work over user supplied columns and expressio
 <p>The intent from is from the user perspective to have (if
 <code>a &lt;- 1; b &lt;- 2</code>):
 <code>let(c(z = 'a'), z+b)</code> to behave a lot like
-<code><a href='https://rdrr.io/r/base/eval.html'>eval(substitute(z+b, c(z=quote(a))))</a></code>.</p>
+<code><a href='#base/eval.html'>eval(substitute(z+b, c(z=quote(a))))</a></code>.</p>
 <p><code>let</code> deliberately checks that it is mapping only to legal <code>R</code> names;
 this is to discourage the use of <code>let</code> to make names to arbitrary values, as
 that is the more properly left to <code>R</code>'s environment systems.
@@ -256,33 +256,34 @@ back-ticks) are forbidden.  It is suggested that substitution targets be written
 Please see <a href='https://github.com/WinVector/wrapr/blob/master/extras/MacrosInR.md'>https://github.com/WinVector/wrapr/blob/master/extras/MacrosInR.md</a> for a discussion of macro tools in <code>R</code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/r/base/bquote.html'>bquote</a></code>, <code><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></code></p></div>
+    <div class='dont-index'><p><code><a href='#base/bquote.html'>bquote</a></code>, <code><a href='#base/do.call.html'>do.call</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
-  <span class='kw'>Sepal_Length</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5.8</span>,<span class='fl'>5.7</span>),
-  <span class='kw'>Sepal_Width</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4.0</span>,<span class='fl'>4.4</span>),
-  <span class='kw'>Species</span><span class='kw'>=</span><span class='st'>'setosa'</span>)
+<span class='kw'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#base/data.frame.html'>data.frame</a></span>(
+  Sepal_Length=<span class='fu'><a href='#base/c.html'>c</a></span>(<span class='fl'>5.8</span>,<span class='fl'>5.7</span>),
+  Sepal_Width=<span class='fu'><a href='#base/c.html'>c</a></span>(<span class='fl'>4.0</span>,<span class='fl'>4.4</span>),
+  Species=<span class='st'>'setosa'</span>)
 
-<span class='no'>mapping</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='qc.html'>qc</a></span>(
-  <span class='kw'>AREA_COL</span> <span class='kw'>=</span> <span class='no'>Sepal_area</span>,
-  <span class='kw'>LENGTH_COL</span> <span class='kw'>=</span> <span class='no'>Sepal_Length</span>,
-  <span class='kw'>WIDTH_COL</span> <span class='kw'>=</span> <span class='no'>Sepal_Width</span>
+<span class='kw'>mapping</span> <span class='op'>&lt;-</span> <span class='fu'><a href='qc.html'>qc</a></span>(
+  AREA_COL = <span class='kw'>Sepal_area</span>,
+  LENGTH_COL = <span class='kw'>Sepal_Length</span>,
+  WIDTH_COL = <span class='kw'>Sepal_Width</span>
 )
 
 <span class='co'># let-block notation</span>
 <span class='fu'>let</span>(
-  <span class='no'>mapping</span>,
-  <span class='no'>d</span> <span class='kw'>%.&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/transform.html'>transform</a></span>(<span class='no'>.</span>, <span class='kw'>AREA_COL</span> <span class='kw'>=</span> <span class='no'>LENGTH_COL</span> * <span class='no'>WIDTH_COL</span>)
-)</div><div class='output co'>#&gt;   Sepal_Length Sepal_Width Species Sepal_area
+  <span class='kw'>mapping</span>,
+  <span class='kw'>d</span> <span class='op'>%.&gt;%</span>
+    <span class='fu'><a href='#base/transform.html'>transform</a></span>(<span class='kw'>.</span>, AREA_COL = <span class='kw'>LENGTH_COL</span> <span class='op'>*</span> <span class='kw'>WIDTH_COL</span>)
+)
+</div><div class='output co'>#&gt;   Sepal_Length Sepal_Width Species Sepal_area
 #&gt; 1          5.8         4.0  setosa      23.20
 #&gt; 2          5.7         4.4  setosa      25.08</div><div class='input'>
 
-# Note: in packages can make assignment such as:
-#   AREA_COL &lt;- LENGTH_COL &lt;- WIDTH_COL &lt;- NULL
-# prior to code so targets don't look like unbound names.
+<span class='co'># Note: in packages can make assignment such as:</span>
+<span class='co'>#   AREA_COL &lt;- LENGTH_COL &lt;- WIDTH_COL &lt;- NULL</span>
+<span class='co'># prior to code so targets don't look like unbound names.</span>
 
 
 </div></pre>
@@ -301,7 +302,7 @@ Please see <a href='https://github.com/WinVector/wrapr/blob/master/extras/Macros
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

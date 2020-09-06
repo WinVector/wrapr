@@ -118,13 +118,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="wrapr_Eager_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>wrapr Eager Evaluation</h1>
                         <h4 class="author">John Mount, Win-Vector LLC</h4>
             
-            <h4 class="date">2020-08-10</h4>
+            <h4 class="date">2020-09-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/wrapr_Eager.Rmd"><code>vignettes/wrapr_Eager.Rmd</code></a></small>
       <div class="hidden name"><code>wrapr_Eager.Rmd</code></div>
@@ -134,39 +134,46 @@
     
     
 <p><a href="https://github.com/WinVector/wrapr"><code>wrapr</code></a> dot arrow piping is designed to emphasize a <code>a %.&gt;% b</code> “is nearly” <code>{. &lt;- a; b}</code> semantics. In many cases this makes a piped expression of the form <code>a %.&gt;% b(.)</code> look very much like <code>b(a)</code>. This leads to the observation that “wrapr explicit dot notation” appears to need one more dot than the common “<a href="https://CRAN.R-project.org/package=magrittr"><code>magrittr</code></a> dot is a new implicit first argument notation.”</p>
-<p>There are some special rules around things like names. For example <code>5 %.&gt;% sin</code> is <em>not</em> valued as <code>sin</code>, which would be the strict interpretation of <code>{. &lt;- 5; sin}</code>. Instead it is expanded to something closer <code>{. &lt;- 5; sin(.)}</code>, which intentionally looks very much like <code><a href="https://rdrr.io/r/base/Trig.html">sin(5)</a></code>. In more complicated cases the user can signal they wish for an eager evaluation of this style by writing on outer <code>.()</code> container.</p>
+<p>There are some special rules around things like names. For example <code>5 %.&gt;% sin</code> is <em>not</em> valued as <code>sin</code>, which would be the strict interpretation of <code>{. &lt;- 5; sin}</code>. Instead it is expanded to something closer <code>{. &lt;- 5; sin(.)}</code>, which intentionally looks very much like <code><a href="#base/Trig.html">sin(5)</a></code>. In more complicated cases the user can signal they wish for an eager evaluation of this style by writing on outer <code>.()</code> container.</p>
 <p>And <code>wrapr</code> now also exposes an “eager” annotation such that function evaluations or array indexing operations so-annotated are interpreted as <code>a %.&gt;% f(...)</code> is interpreted roughly as <code>{. &lt;- a; _f &lt;- eval(f(...)); _f(.)}</code>, where <code>_f</code> is a notional temporary variable (not visible or produces as a side-effect). This effect is used in <code>wrapr</code>’s “pipe to array” variation of the <code>unpack</code> notation (example <a href="https://win-vector.com/2020/01/21/using-unpack-to-manage-your-r-environment/">here</a>).</p>
 <p>This eager effect can be gotten by setting the appropriate attribute as we see below.</p>
 <p>For array notation:</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">wrapr</span>)</pre></body></html></div>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">lst</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="no">sin</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="#base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/WinVector/wrapr">wrapr</a></span>)</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="kw">lst</span> <span class="op">&lt;-</span> <span class="fu"><a href="#base/list.html">list</a></span>(<span class="kw">sin</span>)
 
 <span class="co"># without the attribute, the function is returned</span>
-<span class="fl">4</span> <span class="kw">%.&gt;%</span> <span class="no">lst</span><span class="kw">[[</span><span class="fl">1</span>]]
-<span class="co">#&gt; function (x)  .Primitive("sin")</span></pre></body></html></div>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="co"># an outer .() signals for eager eval from the pipeline</span>
-<span class="fl">4</span> <span class="kw">%.&gt;%</span> <span class="fu">.</span>(<span class="no">lst</span><span class="kw">[[</span><span class="fl">1</span>]])
-<span class="co">#&gt; [1] -0.7568025</span></pre></body></html></div>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="co"># with the attribute, the array is always de-referenced</span>
+<span class="fl">4</span> <span class="op">%.&gt;%</span> <span class="kw">lst</span>[[<span class="fl">1</span>]]
+<span class="co">#&gt; function (x)  .Primitive("sin")</span></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="co"># an outer .() signals for eager eval from the pipeline</span>
+<span class="fl">4</span> <span class="op">%.&gt;%</span> <span class="fu">.</span>(<span class="kw">lst</span>[[<span class="fl">1</span>]])
+<span class="co">#&gt; [1] -0.7568025</span></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="co"># with the attribute, the array is always de-referenced</span>
 <span class="co"># before the pipe execution allowing the function</span>
 <span class="co"># to be evaluated using the piped-in value.</span>
-<span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span>(<span class="no">lst</span>, <span class="st">'dotpipe_eager_eval_bracket'</span>) <span class="kw">&lt;-</span> <span class="fl">TRUE</span>
+<span class="fu"><a href="#base/attr.html">attr</a></span>(<span class="kw">lst</span>, <span class="st">'dotpipe_eager_eval_bracket'</span>) <span class="op">&lt;-</span> <span class="fl">TRUE</span>
 
-<span class="fl">4</span> <span class="kw">%.&gt;%</span> <span class="no">lst</span><span class="kw">[[</span><span class="fl">1</span>]]
-<span class="co">#&gt; [1] -0.7568025</span></pre></body></html></div>
+<span class="fl">4</span> <span class="op">%.&gt;%</span> <span class="kw">lst</span>[[<span class="fl">1</span>]]
+<span class="co">#&gt; [1] -0.7568025</span></pre></div>
 <p>For functions:</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="co"># without the attribute the result is sin</span>
-<span class="no">f</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">...</span>) { <span class="no">sin</span> }
-<span class="fl">4</span> <span class="kw">%.&gt;%</span> <span class="fu">f</span>()
-<span class="co">#&gt; function (x)  .Primitive("sin")</span></pre></body></html></div>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="co"># an outer .() signals for eager eval from the pipeline</span>
-<span class="fl">4</span> <span class="kw">%.&gt;%</span> <span class="fu">.</span>(<span class="fu">f</span>())
-<span class="co">#&gt; [1] -0.7568025</span></pre></body></html></div>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="co"># with the attribute the result is sin(4)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span>(<span class="no">f</span>, <span class="st">'dotpipe_eager_eval_function'</span>) <span class="kw">&lt;-</span> <span class="fl">TRUE</span>
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="co"># without the attribute the result is sin</span>
+<span class="kw">f</span> <span class="op">&lt;-</span> <span class="fu">function</span>(<span class="kw">...</span>) { <span class="kw">sin</span> }
+<span class="fl">4</span> <span class="op">%.&gt;%</span> <span class="fu">f</span>()
+<span class="co">#&gt; function (x)  .Primitive("sin")</span></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="co"># an outer .() signals for eager eval from the pipeline</span>
+<span class="fl">4</span> <span class="op">%.&gt;%</span> <span class="fu">.</span>(<span class="fu">f</span>())
+<span class="co">#&gt; [1] -0.7568025</span></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="co"># with the attribute the result is sin(4)</span>
+<span class="fu"><a href="#base/attr.html">attr</a></span>(<span class="kw">f</span>, <span class="st">'dotpipe_eager_eval_function'</span>) <span class="op">&lt;-</span> <span class="fl">TRUE</span>
 
-<span class="fl">4</span> <span class="kw">%.&gt;%</span> <span class="fu">f</span>()
-<span class="co">#&gt; [1] -0.7568025</span></pre></body></html></div>
+<span class="fl">4</span> <span class="op">%.&gt;%</span> <span class="fu">f</span>()
+<span class="co">#&gt; [1] -0.7568025</span></pre></div>
 <p>Essentially objects with this attribute have an implicit <code>.()</code> “eager eval” on them.</p>
   </div>
 
@@ -183,7 +190,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

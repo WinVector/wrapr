@@ -118,13 +118,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="unpack_multiple_assignment_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Multiple Assignment with unpack</h1>
                         <h4 class="author">Nina Zumel and John Mount</h4>
             
-            <h4 class="date">2020-08-10</h4>
+            <h4 class="date">2020-09-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/unpack_multiple_assignment.Rmd"><code>vignettes/unpack_multiple_assignment.Rmd</code></a></small>
       <div class="hidden name"><code>unpack_multiple_assignment.Rmd</code></div>
@@ -133,15 +133,16 @@
 
     
     
-<p>In <code>R</code> there are many functions that return named lists or other structures keyed by names. Often, you want to unpack the elements of such a list into separate variables, for ease of use. One example is the use of <code><a href="https://rdrr.io/r/base/split.html">split()</a></code> to partition a larger data frame into a named list of smaller data frames, each corresponding to some grouping.</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">wrapr</span>)
+<p>In <code>R</code> there are many functions that return named lists or other structures keyed by names. Often, you want to unpack the elements of such a list into separate variables, for ease of use. One example is the use of <code><a href="#base/split.html">split()</a></code> to partition a larger data frame into a named list of smaller data frames, each corresponding to some grouping.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="#base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/WinVector/wrapr">wrapr</a></span>)
 <span class="co"># example data</span>
-<span class="no">d</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(
-  <span class="kw">x</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fl">9</span>,
-  <span class="kw">group</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'train'</span>, <span class="st">'calibrate'</span>, <span class="st">'test'</span>),
-  <span class="kw">stringsAsFactors</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<span class="kw">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="#base/data.frame.html">data.frame</a></span>(
+  x = <span class="fl">1</span><span class="op">:</span><span class="fl">9</span>,
+  group = <span class="fu"><a href="#base/c.html">c</a></span>(<span class="st">'train'</span>, <span class="st">'calibrate'</span>, <span class="st">'test'</span>),
+  stringsAsFactors = <span class="fl">FALSE</span>)
 
-<span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="no">d</span>)</pre></body></html></div>
+<span class="kw">knitr</span>::<span class="fu"><a href="#knitr/kable.html">kable</a></span>(<span class="kw">d</span>)</pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">x</th>
@@ -186,8 +187,9 @@
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="co"># split the d by group</span>
-(<span class="no">parts</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span>(<span class="no">d</span>, <span class="no">d</span>$<span class="no">group</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="co"># split the d by group</span>
+(<span class="kw">parts</span> <span class="op">&lt;-</span> <span class="fu"><a href="#base/split.html">split</a></span>(<span class="kw">d</span>, <span class="kw">d</span><span class="op">$</span><span class="kw">group</span>))</pre></div>
 <pre><code>## $calibrate
 ##   x     group
 ## 2 2 calibrate
@@ -205,80 +207,83 @@
 ## 1 1 train
 ## 4 4 train
 ## 7 7 train</code></pre>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">train_data</span> <span class="kw">&lt;-</span> <span class="no">parts</span>$<span class="no">train</span>
-<span class="no">calibrate_data</span> <span class="kw">&lt;-</span> <span class="no">parts</span>$<span class="no">calibrate</span>
-<span class="no">test_data</span> <span class="kw">&lt;-</span> <span class="no">parts</span>$<span class="no">test</span>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="kw">train_data</span> <span class="op">&lt;-</span> <span class="kw">parts</span><span class="op">$</span><span class="kw">train</span>
+<span class="kw">calibrate_data</span> <span class="op">&lt;-</span> <span class="kw">parts</span><span class="op">$</span><span class="kw">calibrate</span>
+<span class="kw">test_data</span> <span class="op">&lt;-</span> <span class="kw">parts</span><span class="op">$</span><span class="kw">test</span>
 
-<span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="no">train_data</span>)</pre></body></html></div>
+<span class="kw">knitr</span>::<span class="fu"><a href="#knitr/kable.html">kable</a></span>(<span class="kw">train_data</span>)</pre></div>
 <table class="table">
 <thead><tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">x</th>
 <th align="left">group</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>1</td>
+<td align="left">1</td>
 <td align="right">1</td>
 <td align="left">train</td>
 </tr>
 <tr class="even">
-<td>4</td>
+<td align="left">4</td>
 <td align="right">4</td>
 <td align="left">train</td>
 </tr>
 <tr class="odd">
-<td>7</td>
+<td align="left">7</td>
 <td align="right">7</td>
 <td align="left">train</td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="no">calibrate_data</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="kw">knitr</span>::<span class="fu"><a href="#knitr/kable.html">kable</a></span>(<span class="kw">calibrate_data</span>)</pre></div>
 <table class="table">
 <thead><tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">x</th>
 <th align="left">group</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>2</td>
+<td align="left">2</td>
 <td align="right">2</td>
 <td align="left">calibrate</td>
 </tr>
 <tr class="even">
-<td>5</td>
+<td align="left">5</td>
 <td align="right">5</td>
 <td align="left">calibrate</td>
 </tr>
 <tr class="odd">
-<td>8</td>
+<td align="left">8</td>
 <td align="right">8</td>
 <td align="left">calibrate</td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="no">test_data</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="kw">knitr</span>::<span class="fu"><a href="#knitr/kable.html">kable</a></span>(<span class="kw">test_data</span>)</pre></div>
 <table class="table">
 <thead><tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">x</th>
 <th align="left">group</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>3</td>
+<td align="left">3</td>
 <td align="right">3</td>
 <td align="left">test</td>
 </tr>
 <tr class="even">
-<td>6</td>
+<td align="left">6</td>
 <td align="right">6</td>
 <td align="left">test</td>
 </tr>
 <tr class="odd">
-<td>9</td>
+<td align="left">9</td>
 <td align="right">9</td>
 <td align="left">test</td>
 </tr>
@@ -288,164 +293,170 @@
 <div id="basic-unpack-example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#basic-unpack-example" class="anchor"></a>Basic <code>unpack()</code> example</h2>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="co"># clear out the earlier results</span>
-<span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span>(<span class="kw">list</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span>, <span class="st">'parts'</span>))
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="co"># clear out the earlier results</span>
+<span class="fu"><a href="#base/rm.html">rm</a></span>(list = <span class="fu"><a href="#base/c.html">c</a></span>(<span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span>, <span class="st">'parts'</span>))
 
 <span class="co"># split d and unpack the smaller data frames into separate variables</span>
-<span class="fu"><a href="../reference/unpack.html">unpack</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span>(<span class="no">d</span>, <span class="no">d</span>$<span class="no">group</span>),
-       <span class="kw">train_data</span> <span class="kw">=</span> <span class="no">train</span>,
-       <span class="kw">test_data</span> <span class="kw">=</span> <span class="no">test</span>,
-       <span class="kw">calibrate_data</span> <span class="kw">=</span> <span class="no">calibrate</span>)
+<span class="fu"><a href="../reference/unpack.html">unpack</a></span>(<span class="fu"><a href="#base/split.html">split</a></span>(<span class="kw">d</span>, <span class="kw">d</span><span class="op">$</span><span class="kw">group</span>),
+       train_data = <span class="kw">train</span>,
+       test_data = <span class="kw">test</span>,
+       calibrate_data = <span class="kw">calibrate</span>)
 
-<span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="no">train_data</span>)</pre></body></html></div>
+<span class="kw">knitr</span>::<span class="fu"><a href="#knitr/kable.html">kable</a></span>(<span class="kw">train_data</span>)</pre></div>
 <table class="table">
 <thead><tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">x</th>
 <th align="left">group</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>1</td>
+<td align="left">1</td>
 <td align="right">1</td>
 <td align="left">train</td>
 </tr>
 <tr class="even">
-<td>4</td>
+<td align="left">4</td>
 <td align="right">4</td>
 <td align="left">train</td>
 </tr>
 <tr class="odd">
-<td>7</td>
+<td align="left">7</td>
 <td align="right">7</td>
 <td align="left">train</td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="no">calibrate_data</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="kw">knitr</span>::<span class="fu"><a href="#knitr/kable.html">kable</a></span>(<span class="kw">calibrate_data</span>)</pre></div>
 <table class="table">
 <thead><tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">x</th>
 <th align="left">group</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>2</td>
+<td align="left">2</td>
 <td align="right">2</td>
 <td align="left">calibrate</td>
 </tr>
 <tr class="even">
-<td>5</td>
+<td align="left">5</td>
 <td align="right">5</td>
 <td align="left">calibrate</td>
 </tr>
 <tr class="odd">
-<td>8</td>
+<td align="left">8</td>
 <td align="right">8</td>
 <td align="left">calibrate</td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="no">test_data</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb9"><pre class="downlit">
+<span class="kw">knitr</span>::<span class="fu"><a href="#knitr/kable.html">kable</a></span>(<span class="kw">test_data</span>)</pre></div>
 <table class="table">
 <thead><tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">x</th>
 <th align="left">group</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>3</td>
+<td align="left">3</td>
 <td align="right">3</td>
 <td align="left">test</td>
 </tr>
 <tr class="even">
-<td>6</td>
+<td align="left">6</td>
 <td align="right">6</td>
 <td align="left">test</td>
 </tr>
 <tr class="odd">
-<td>9</td>
+<td align="left">9</td>
 <td align="right">9</td>
 <td align="left">test</td>
 </tr>
 </tbody>
 </table>
 <p>You can also use <code>unpack</code> with an assignment notation similar to the notation used with the<br><a href="https://CRAN.R-project.org/package=zeallot"><code>zeallot::%&lt;-%</code></a> pipe:</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="co"># split d and unpack the smaller data frames into separate variables</span>
-<span class="no">unpack</span>[<span class="kw">traind</span> <span class="kw">=</span> <span class="no">train</span>, <span class="kw">testd</span> <span class="kw">=</span> <span class="no">test</span>, <span class="kw">cald</span> <span class="kw">=</span> <span class="no">calibrate</span>] <span class="kw">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span>(<span class="no">d</span>, <span class="no">d</span>$<span class="no">group</span>)
+<div class="sourceCode" id="cb10"><pre class="downlit">
+<span class="co"># split d and unpack the smaller data frames into separate variables</span>
+<span class="kw">unpack</span>[traind = <span class="kw">train</span>, testd = <span class="kw">test</span>, cald = <span class="kw">calibrate</span>] <span class="op">:=</span> <span class="fu"><a href="#base/split.html">split</a></span>(<span class="kw">d</span>, <span class="kw">d</span><span class="op">$</span><span class="kw">group</span>)
 
-<span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="no">traind</span>)</pre></body></html></div>
+<span class="kw">knitr</span>::<span class="fu"><a href="#knitr/kable.html">kable</a></span>(<span class="kw">traind</span>)</pre></div>
 <table class="table">
 <thead><tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">x</th>
 <th align="left">group</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>1</td>
+<td align="left">1</td>
 <td align="right">1</td>
 <td align="left">train</td>
 </tr>
 <tr class="even">
-<td>4</td>
+<td align="left">4</td>
 <td align="right">4</td>
 <td align="left">train</td>
 </tr>
 <tr class="odd">
-<td>7</td>
+<td align="left">7</td>
 <td align="right">7</td>
 <td align="left">train</td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="no">cald</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb11"><pre class="downlit">
+<span class="kw">knitr</span>::<span class="fu"><a href="#knitr/kable.html">kable</a></span>(<span class="kw">cald</span>)</pre></div>
 <table class="table">
 <thead><tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">x</th>
 <th align="left">group</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>2</td>
+<td align="left">2</td>
 <td align="right">2</td>
 <td align="left">calibrate</td>
 </tr>
 <tr class="even">
-<td>5</td>
+<td align="left">5</td>
 <td align="right">5</td>
 <td align="left">calibrate</td>
 </tr>
 <tr class="odd">
-<td>8</td>
+<td align="left">8</td>
 <td align="right">8</td>
 <td align="left">calibrate</td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="no">testd</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb12"><pre class="downlit">
+<span class="kw">knitr</span>::<span class="fu"><a href="#knitr/kable.html">kable</a></span>(<span class="kw">testd</span>)</pre></div>
 <table class="table">
 <thead><tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">x</th>
 <th align="left">group</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>3</td>
+<td align="left">3</td>
 <td align="right">3</td>
 <td align="left">test</td>
 </tr>
 <tr class="even">
-<td>6</td>
+<td align="left">6</td>
 <td align="right">6</td>
 <td align="left">test</td>
 </tr>
 <tr class="odd">
-<td>9</td>
+<td align="left">9</td>
 <td align="right">9</td>
 <td align="left">test</td>
 </tr>
@@ -455,238 +466,247 @@
 <h3 class="hasAnchor">
 <a href="#reusing-the-list-names-as-variables" class="anchor"></a>Reusing the list names as variables</h3>
 <p>If you are willing to assign the elements of the list into variables with the same names, you can just use the names:</p>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="../reference/unpack.html">unpack</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span>(<span class="no">d</span>, <span class="no">d</span>$<span class="no">group</span>), <span class="no">train</span>, <span class="no">test</span>, <span class="no">calibrate</span>)
+<div class="sourceCode" id="cb13"><pre class="downlit">
+<span class="fu"><a href="../reference/unpack.html">unpack</a></span>(<span class="fu"><a href="#base/split.html">split</a></span>(<span class="kw">d</span>, <span class="kw">d</span><span class="op">$</span><span class="kw">group</span>), <span class="kw">train</span>, <span class="kw">test</span>, <span class="kw">calibrate</span>)
 
-<span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="no">train</span>)</pre></body></html></div>
+<span class="kw">knitr</span>::<span class="fu"><a href="#knitr/kable.html">kable</a></span>(<span class="kw">train</span>)</pre></div>
 <table class="table">
 <thead><tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">x</th>
 <th align="left">group</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>1</td>
+<td align="left">1</td>
 <td align="right">1</td>
 <td align="left">train</td>
 </tr>
 <tr class="even">
-<td>4</td>
+<td align="left">4</td>
 <td align="right">4</td>
 <td align="left">train</td>
 </tr>
 <tr class="odd">
-<td>7</td>
+<td align="left">7</td>
 <td align="right">7</td>
 <td align="left">train</td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="no">calibrate</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb14"><pre class="downlit">
+<span class="kw">knitr</span>::<span class="fu"><a href="#knitr/kable.html">kable</a></span>(<span class="kw">calibrate</span>)</pre></div>
 <table class="table">
 <thead><tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">x</th>
 <th align="left">group</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>2</td>
+<td align="left">2</td>
 <td align="right">2</td>
 <td align="left">calibrate</td>
 </tr>
 <tr class="even">
-<td>5</td>
+<td align="left">5</td>
 <td align="right">5</td>
 <td align="left">calibrate</td>
 </tr>
 <tr class="odd">
-<td>8</td>
+<td align="left">8</td>
 <td align="right">8</td>
 <td align="left">calibrate</td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="no">test</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb15"><pre class="downlit">
+<span class="kw">knitr</span>::<span class="fu"><a href="#knitr/kable.html">kable</a></span>(<span class="kw">test</span>)</pre></div>
 <table class="table">
 <thead><tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">x</th>
 <th align="left">group</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>3</td>
+<td align="left">3</td>
 <td align="right">3</td>
 <td align="left">test</td>
 </tr>
 <tr class="even">
-<td>6</td>
+<td align="left">6</td>
 <td align="right">6</td>
 <td align="left">test</td>
 </tr>
 <tr class="odd">
-<td>9</td>
+<td align="left">9</td>
 <td align="right">9</td>
 <td align="left">test</td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="co"># try the unpack[] assignment notation</span>
+<div class="sourceCode" id="cb16"><pre class="downlit">
+<span class="co"># try the unpack[] assignment notation</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span>(<span class="kw">list</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'train'</span>, <span class="st">'test'</span>, <span class="st">'calibrate'</span>))
+<span class="fu"><a href="#base/rm.html">rm</a></span>(list = <span class="fu"><a href="#base/c.html">c</a></span>(<span class="st">'train'</span>, <span class="st">'test'</span>, <span class="st">'calibrate'</span>))
 
-<span class="no">unpack</span>[<span class="no">test</span>, <span class="no">train</span>, <span class="no">calibrate</span>] <span class="kw">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span>(<span class="no">d</span>, <span class="no">d</span>$<span class="no">group</span>)
+<span class="kw">unpack</span>[<span class="kw">test</span>, <span class="kw">train</span>, <span class="kw">calibrate</span>] <span class="op">:=</span> <span class="fu"><a href="#base/split.html">split</a></span>(<span class="kw">d</span>, <span class="kw">d</span><span class="op">$</span><span class="kw">group</span>)
 
-<span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="no">train</span>)</pre></body></html></div>
+<span class="kw">knitr</span>::<span class="fu"><a href="#knitr/kable.html">kable</a></span>(<span class="kw">train</span>)</pre></div>
 <table class="table">
 <thead><tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">x</th>
 <th align="left">group</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>1</td>
+<td align="left">1</td>
 <td align="right">1</td>
 <td align="left">train</td>
 </tr>
 <tr class="even">
-<td>4</td>
+<td align="left">4</td>
 <td align="right">4</td>
 <td align="left">train</td>
 </tr>
 <tr class="odd">
-<td>7</td>
+<td align="left">7</td>
 <td align="right">7</td>
 <td align="left">train</td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="no">calibrate</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb17"><pre class="downlit">
+<span class="kw">knitr</span>::<span class="fu"><a href="#knitr/kable.html">kable</a></span>(<span class="kw">calibrate</span>)</pre></div>
 <table class="table">
 <thead><tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">x</th>
 <th align="left">group</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>2</td>
+<td align="left">2</td>
 <td align="right">2</td>
 <td align="left">calibrate</td>
 </tr>
 <tr class="even">
-<td>5</td>
+<td align="left">5</td>
 <td align="right">5</td>
 <td align="left">calibrate</td>
 </tr>
 <tr class="odd">
-<td>8</td>
+<td align="left">8</td>
 <td align="right">8</td>
 <td align="left">calibrate</td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="no">test</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb18"><pre class="downlit">
+<span class="kw">knitr</span>::<span class="fu"><a href="#knitr/kable.html">kable</a></span>(<span class="kw">test</span>)</pre></div>
 <table class="table">
 <thead><tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">x</th>
 <th align="left">group</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>3</td>
+<td align="left">3</td>
 <td align="right">3</td>
 <td align="left">test</td>
 </tr>
 <tr class="even">
-<td>6</td>
+<td align="left">6</td>
 <td align="right">6</td>
 <td align="left">test</td>
 </tr>
 <tr class="odd">
-<td>9</td>
+<td align="left">9</td>
 <td align="right">9</td>
 <td align="left">test</td>
 </tr>
 </tbody>
 </table>
 <p>Mixed notation is allowed:</p>
-<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span>(<span class="kw">list</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'train'</span>, <span class="st">'test'</span>, <span class="st">'calibrate'</span>))
-<span class="fu"><a href="../reference/unpack.html">unpack</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span>(<span class="no">d</span>, <span class="no">d</span>$<span class="no">group</span>), <span class="no">train</span>, <span class="kw">holdout</span><span class="kw">=</span><span class="no">test</span>, <span class="no">calibrate</span>)
+<div class="sourceCode" id="cb19"><pre class="downlit">
+<span class="fu"><a href="#base/rm.html">rm</a></span>(list = <span class="fu"><a href="#base/c.html">c</a></span>(<span class="st">'train'</span>, <span class="st">'test'</span>, <span class="st">'calibrate'</span>))
+<span class="fu"><a href="../reference/unpack.html">unpack</a></span>(<span class="fu"><a href="#base/split.html">split</a></span>(<span class="kw">d</span>, <span class="kw">d</span><span class="op">$</span><span class="kw">group</span>), <span class="kw">train</span>, holdout=<span class="kw">test</span>, <span class="kw">calibrate</span>)
 
-<span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="no">train</span>)</pre></body></html></div>
+<span class="kw">knitr</span>::<span class="fu"><a href="#knitr/kable.html">kable</a></span>(<span class="kw">train</span>)</pre></div>
 <table class="table">
 <thead><tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">x</th>
 <th align="left">group</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>1</td>
+<td align="left">1</td>
 <td align="right">1</td>
 <td align="left">train</td>
 </tr>
 <tr class="even">
-<td>4</td>
+<td align="left">4</td>
 <td align="right">4</td>
 <td align="left">train</td>
 </tr>
 <tr class="odd">
-<td>7</td>
+<td align="left">7</td>
 <td align="right">7</td>
 <td align="left">train</td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="no">calibrate</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb20"><pre class="downlit">
+<span class="kw">knitr</span>::<span class="fu"><a href="#knitr/kable.html">kable</a></span>(<span class="kw">calibrate</span>)</pre></div>
 <table class="table">
 <thead><tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">x</th>
 <th align="left">group</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>2</td>
+<td align="left">2</td>
 <td align="right">2</td>
 <td align="left">calibrate</td>
 </tr>
 <tr class="even">
-<td>5</td>
+<td align="left">5</td>
 <td align="right">5</td>
 <td align="left">calibrate</td>
 </tr>
 <tr class="odd">
-<td>8</td>
+<td align="left">8</td>
 <td align="right">8</td>
 <td align="left">calibrate</td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="no">holdout</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb21"><pre class="downlit">
+<span class="kw">knitr</span>::<span class="fu"><a href="#knitr/kable.html">kable</a></span>(<span class="kw">holdout</span>)</pre></div>
 <table class="table">
 <thead><tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">x</th>
 <th align="left">group</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>3</td>
+<td align="left">3</td>
 <td align="right">3</td>
 <td align="left">test</td>
 </tr>
 <tr class="even">
-<td>6</td>
+<td align="left">6</td>
 <td align="right">6</td>
 <td align="left">test</td>
 </tr>
 <tr class="odd">
-<td>9</td>
+<td align="left">9</td>
 <td align="right">9</td>
 <td align="left">test</td>
 </tr>
@@ -697,73 +717,78 @@
 <h3 class="hasAnchor">
 <a href="#unpacking-only-parts-of-a-list" class="anchor"></a>Unpacking only parts of a list</h3>
 <p>You can also unpack only a subset of the list’s elements:</p>
-<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span>(<span class="kw">list</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'train'</span>, <span class="st">'holdout'</span>, <span class="st">'calibrate'</span>))
+<div class="sourceCode" id="cb22"><pre class="downlit">
+<span class="fu"><a href="#base/rm.html">rm</a></span>(list = <span class="fu"><a href="#base/c.html">c</a></span>(<span class="st">'train'</span>, <span class="st">'holdout'</span>, <span class="st">'calibrate'</span>))
 
-<span class="fu"><a href="../reference/unpack.html">unpack</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span>(<span class="no">d</span>, <span class="no">d</span>$<span class="no">group</span>), <span class="no">train</span>, <span class="no">test</span>)
+<span class="fu"><a href="../reference/unpack.html">unpack</a></span>(<span class="fu"><a href="#base/split.html">split</a></span>(<span class="kw">d</span>, <span class="kw">d</span><span class="op">$</span><span class="kw">group</span>), <span class="kw">train</span>, <span class="kw">test</span>)
 
-<span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="no">train</span>)</pre></body></html></div>
+<span class="kw">knitr</span>::<span class="fu"><a href="#knitr/kable.html">kable</a></span>(<span class="kw">train</span>)</pre></div>
 <table class="table">
 <thead><tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">x</th>
 <th align="left">group</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>1</td>
+<td align="left">1</td>
 <td align="right">1</td>
 <td align="left">train</td>
 </tr>
 <tr class="even">
-<td>4</td>
+<td align="left">4</td>
 <td align="right">4</td>
 <td align="left">train</td>
 </tr>
 <tr class="odd">
-<td>7</td>
+<td align="left">7</td>
 <td align="right">7</td>
 <td align="left">train</td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="no">test</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb23"><pre class="downlit">
+<span class="kw">knitr</span>::<span class="fu"><a href="#knitr/kable.html">kable</a></span>(<span class="kw">test</span>)</pre></div>
 <table class="table">
 <thead><tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">x</th>
 <th align="left">group</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>3</td>
+<td align="left">3</td>
 <td align="right">3</td>
 <td align="left">test</td>
 </tr>
 <tr class="even">
-<td>6</td>
+<td align="left">6</td>
 <td align="right">6</td>
 <td align="left">test</td>
 </tr>
 <tr class="odd">
-<td>9</td>
+<td align="left">9</td>
 <td align="right">9</td>
 <td align="left">test</td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="co"># we didn't unpack the calibrate set</span>
-<span class="no">calibrate</span></pre></body></html></div>
+<div class="sourceCode" id="cb24"><pre class="downlit">
+<span class="co"># we didn't unpack the calibrate set</span>
+<span class="kw">calibrate</span></pre></div>
 <pre><code>## Error in eval(expr, envir, enclos): object 'calibrate' not found</code></pre>
 </div>
 <div id="unpack-checks-for-unknown-elements" class="section level3">
 <h3 class="hasAnchor">
 <a href="#unpack-checks-for-unknown-elements" class="anchor"></a><code>unpack</code> checks for unknown elements</h3>
 <p>If <code>unpack</code> is asked to unpack an element it doesn’t recognize, it throws an error. In this case, none of the elements are unpacked, as <code>unpack</code> is deliberately an atomic operation.</p>
-<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="co"># the split call will not return an element called "holdout"</span>
-<span class="fu"><a href="../reference/unpack.html">unpack</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span>(<span class="no">d</span>, <span class="no">d</span>$<span class="no">group</span>), <span class="kw">training</span> <span class="kw">=</span> <span class="no">train</span>, <span class="kw">testing</span> <span class="kw">=</span> <span class="no">holdout</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb26"><pre class="downlit">
+<span class="co"># the split call will not return an element called "holdout"</span>
+<span class="fu"><a href="../reference/unpack.html">unpack</a></span>(<span class="fu"><a href="#base/split.html">split</a></span>(<span class="kw">d</span>, <span class="kw">d</span><span class="op">$</span><span class="kw">group</span>), training = <span class="kw">train</span>, testing = <span class="kw">holdout</span>)</pre></div>
 <pre><code>## Error in write_values_into_env(unpack_environment = unpack_environment, : wrapr::unpack all source names must be in value, missing: 'holdout'.</code></pre>
-<div class="sourceCode" id="cb28"><html><body><pre class="r"><span class="co"># train was not unpacked either</span>
-<span class="no">training</span></pre></body></html></div>
+<div class="sourceCode" id="cb28"><pre class="downlit">
+<span class="co"># train was not unpacked either</span>
+<span class="kw">training</span></pre></div>
 <pre><code>## Error in eval(expr, envir, enclos): object 'training' not found</code></pre>
 </div>
 </div>
@@ -809,7 +834,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

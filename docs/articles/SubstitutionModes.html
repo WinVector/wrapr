@@ -118,13 +118,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="SubstitutionModes_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Substitution Modes</h1>
                         <h4 class="author">John Mount</h4>
             
-            <h4 class="date">2020-08-10</h4>
+            <h4 class="date">2020-09-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/SubstitutionModes.Rmd"><code>vignettes/SubstitutionModes.Rmd</code></a></small>
       <div class="hidden name"><code>SubstitutionModes.Rmd</code></div>
@@ -139,33 +139,35 @@
 <p><code><a href="../reference/let.html">wrapr::let()</a></code> now has three substitution implementations:</p>
 <ul>
 <li>Language substitution (<code>subsMethod='langsubs'</code> the new default). In this mode user code is captured as an abstract syntax tree (or parse tree) and substitution is performed only on nodes known to be symbols or behaving in a symbol-role (<code>"X"</code> in <code>d$"X"</code> is one such example).</li>
-<li>Substitute substitution (<code>subsMethod='subsubs'</code>). In this mode substitution is performed by <code>R</code>’s own <code><a href="https://rdrr.io/r/base/substitute.html">base::substitute()</a></code>.</li>
+<li>Substitute substitution (<code>subsMethod='subsubs'</code>). In this mode substitution is performed by <code>R</code>’s own <code><a href="#base/substitute.html">base::substitute()</a></code>.</li>
 <li>String substitution (<code>subsMethod='stringsubs'</code>, the previous default now deprecated). In this mode user code is captured as text and then string replacement on word-boundaries is used to substitute in variable re-mappings.</li>
 </ul>
 <p>The semantics of the three methods can be illustrated by showing the effects of substituting the variable name “<code>y</code>” for “<code>X</code>” and the function “<code>sin</code>” for “<code>F</code>” in the somewhat complicated block of statements:</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r">  {
-    <span class="no">d</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="st">"X"</span> <span class="kw">=</span> <span class="st">"X"</span>, <span class="kw">X2</span> <span class="kw">=</span> <span class="st">"XX"</span>, <span class="kw">d</span> <span class="kw">=</span> <span class="no">X</span>*<span class="no">X</span>, <span class="kw">.X</span> <span class="kw">=</span> <span class="no">X_</span>)
-    <span class="no">X</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">X</span> <span class="kw">=</span> <span class="no">d</span>$<span class="no">X</span>, <span class="kw">X2</span> <span class="kw">=</span> <span class="no">d</span>$<span class="st">"X"</span>, <span class="kw">v1</span> <span class="kw">=</span> <span class="no">`X`</span>, <span class="kw">v2</span> <span class="kw">=</span> <span class="no">` X`</span>, <span class="fu"><a href="https://rdrr.io/r/base/logical.html">F</a></span>(<span class="fl">1</span>:<span class="fl">2</span>))
-    <span class="no">X</span>$<span class="no">a</span>
-    <span class="st">"X"</span>$<span class="no">a</span>
-    <span class="no">X</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">X</span>, <span class="no">...</span>) { <span class="no">X</span> + <span class="fl">1</span> }
-  }</pre></body></html></div>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+  {
+    <span class="kw">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="#base/data.frame.html">data.frame</a></span>(<span class="st">"X"</span> = <span class="st">"X"</span>, X2 = <span class="st">"XX"</span>, d = <span class="kw">X</span><span class="op">*</span><span class="kw">X</span>, .X = <span class="kw">X_</span>)
+    <span class="kw">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="#base/list.html">list</a></span>(X = <span class="kw">d</span><span class="op">$</span><span class="kw">X</span>, X2 = <span class="kw">d</span><span class="op">$</span><span class="st">"X"</span>, v1 = <span class="kw">`X`</span>, v2 = <span class="kw">` X`</span>, <span class="fu"><a href="#base/logical.html">F</a></span>(<span class="fl">1</span><span class="op">:</span><span class="fl">2</span>))
+    <span class="kw">X</span><span class="op">$</span><span class="kw">a</span>
+    <span class="st">"X"</span><span class="op">$</span><span class="kw">a</span>
+    <span class="kw">X</span> <span class="op">=</span> <span class="fu">function</span>(<span class="kw">X</span>, <span class="kw">...</span>) { <span class="kw">X</span> <span class="op">+</span> <span class="fl">1</span> }
+  }</pre></div>
 <p>This block a lot of different examples and corner-cases.</p>
 <div id="language-substitution-subsmethodlangsubs" class="section level4">
 <h4 class="hasAnchor">
 <a href="#language-substitution-subsmethodlangsubs" class="anchor"></a>Language substitution (<code>subsMethod='langsubs'</code>)</h4>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"wrapr"</span>)
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="fu"><a href="#base/library.html">library</a></span>(<span class="st"><a href="https://github.com/WinVector/wrapr">"wrapr"</a></span>)
 
 <span class="fu"><a href="../reference/let.html">let</a></span>(
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">X</span> <span class="kw">=</span> <span class="st">'y'</span>, <span class="kw">F</span> <span class="kw">=</span> <span class="st">'sin'</span>),
+  <span class="fu"><a href="#base/c.html">c</a></span>(X = <span class="st">'y'</span>, F = <span class="st">'sin'</span>), 
   {
-    <span class="no">d</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="st">"X"</span> <span class="kw">=</span> <span class="st">"X"</span>, <span class="kw">X2</span> <span class="kw">=</span> <span class="st">"XX"</span>, <span class="kw">d</span> <span class="kw">=</span> <span class="no">X</span>*<span class="no">X</span>, <span class="kw">.X</span> <span class="kw">=</span> <span class="no">X_</span>)
-    <span class="no">X</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">X</span> <span class="kw">=</span> <span class="no">d</span>$<span class="no">X</span>, <span class="kw">X2</span> <span class="kw">=</span> <span class="no">d</span>$<span class="st">"X"</span>, <span class="kw">v1</span> <span class="kw">=</span> <span class="no">`X`</span>, <span class="kw">v2</span> <span class="kw">=</span> <span class="no">` X`</span>, <span class="fu"><a href="https://rdrr.io/r/base/logical.html">F</a></span>(<span class="fl">1</span>:<span class="fl">2</span>))
-    <span class="no">X</span>$<span class="no">a</span>
-    <span class="st">"X"</span>$<span class="no">a</span>
-    <span class="no">X</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">X</span>, <span class="no">...</span>) { <span class="no">X</span> + <span class="fl">1</span> }
+    <span class="kw">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="#base/data.frame.html">data.frame</a></span>(<span class="st">"X"</span> = <span class="st">"X"</span>, X2 = <span class="st">"XX"</span>, d = <span class="kw">X</span><span class="op">*</span><span class="kw">X</span>, .X = <span class="kw">X_</span>)
+    <span class="kw">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="#base/list.html">list</a></span>(X = <span class="kw">d</span><span class="op">$</span><span class="kw">X</span>, X2 = <span class="kw">d</span><span class="op">$</span><span class="st">"X"</span>, v1 = <span class="kw">`X`</span>, v2 = <span class="kw">` X`</span>, <span class="fu"><a href="#base/logical.html">F</a></span>(<span class="fl">1</span><span class="op">:</span><span class="fl">2</span>))
+    <span class="kw">X</span><span class="op">$</span><span class="kw">a</span>
+    <span class="st">"X"</span><span class="op">$</span><span class="kw">a</span>
+    <span class="kw">X</span> <span class="op">=</span> <span class="fu">function</span>(<span class="kw">X</span>, <span class="kw">...</span>) { <span class="kw">X</span> <span class="op">+</span> <span class="fl">1</span> }
   },
-  <span class="kw">eval</span> <span class="kw">=</span> <span class="fl">FALSE</span>, <span class="kw">subsMethod</span> <span class="kw">=</span> <span class="st">'langsubs'</span>)</pre></body></html></div>
+  eval = <span class="fl">FALSE</span>, subsMethod = <span class="st">'langsubs'</span>)</pre></div>
 <pre><code>## {
 ##     d &lt;- data.frame(y = "X", X2 = "XX", d = y * y, .X = X_)
 ##     y &lt;- list(y = d$y, X2 = d$y, v1 = y, v2 = ` X`, sin(1:2))
@@ -180,16 +182,17 @@
 <div id="string-substitution-subsmethodstringsubs" class="section level4">
 <h4 class="hasAnchor">
 <a href="#string-substitution-subsmethodstringsubs" class="anchor"></a>String substitution (<code>subsMethod='stringsubs'</code>)</h4>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="../reference/let.html">let</a></span>(
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">X</span> <span class="kw">=</span> <span class="st">'y'</span>, <span class="kw">F</span> <span class="kw">=</span> <span class="st">'sin'</span>),
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="fu"><a href="../reference/let.html">let</a></span>(
+  <span class="fu"><a href="#base/c.html">c</a></span>(X = <span class="st">'y'</span>, F = <span class="st">'sin'</span>), 
   {
-    <span class="no">d</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="st">"X"</span> <span class="kw">=</span> <span class="st">"X"</span>, <span class="kw">X2</span> <span class="kw">=</span> <span class="st">"XX"</span>, <span class="kw">d</span> <span class="kw">=</span> <span class="no">X</span>*<span class="no">X</span>, <span class="kw">.X</span> <span class="kw">=</span> <span class="no">X_</span>)
-    <span class="no">X</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">X</span> <span class="kw">=</span> <span class="no">d</span>$<span class="no">X</span>, <span class="kw">X2</span> <span class="kw">=</span> <span class="no">d</span>$<span class="st">"X"</span>, <span class="kw">v1</span> <span class="kw">=</span> <span class="no">`X`</span>, <span class="kw">v2</span> <span class="kw">=</span> <span class="no">` X`</span>, <span class="fu"><a href="https://rdrr.io/r/base/logical.html">F</a></span>(<span class="fl">1</span>:<span class="fl">2</span>))
-    <span class="no">X</span>$<span class="no">a</span>
-    <span class="st">"X"</span>$<span class="no">a</span>
-    <span class="no">X</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">X</span>, <span class="no">...</span>) { <span class="no">X</span> + <span class="fl">1</span> }
+    <span class="kw">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="#base/data.frame.html">data.frame</a></span>(<span class="st">"X"</span> = <span class="st">"X"</span>, X2 = <span class="st">"XX"</span>, d = <span class="kw">X</span><span class="op">*</span><span class="kw">X</span>, .X = <span class="kw">X_</span>)
+    <span class="kw">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="#base/list.html">list</a></span>(X = <span class="kw">d</span><span class="op">$</span><span class="kw">X</span>, X2 = <span class="kw">d</span><span class="op">$</span><span class="st">"X"</span>, v1 = <span class="kw">`X`</span>, v2 = <span class="kw">` X`</span>, <span class="fu"><a href="#base/logical.html">F</a></span>(<span class="fl">1</span><span class="op">:</span><span class="fl">2</span>))
+    <span class="kw">X</span><span class="op">$</span><span class="kw">a</span>
+    <span class="st">"X"</span><span class="op">$</span><span class="kw">a</span>
+    <span class="kw">X</span> <span class="op">=</span> <span class="fu">function</span>(<span class="kw">X</span>, <span class="kw">...</span>) { <span class="kw">X</span> <span class="op">+</span> <span class="fl">1</span> }
   },
-  <span class="kw">eval</span> <span class="kw">=</span> <span class="fl">FALSE</span>, <span class="kw">subsMethod</span> <span class="kw">=</span> <span class="st">'stringsubs'</span>)</pre></body></html></div>
+  eval = <span class="fl">FALSE</span>, subsMethod = <span class="st">'stringsubs'</span>)</pre></div>
 <pre><code>## expression({
 ##     d &lt;- data.frame(y = "y", X2 = "XX", d = y * y, .y = X_)
 ##     y &lt;- list(y = d$y, X2 = d$y, v1 = y, v2 = ` y`, sin(1:2))
@@ -206,15 +209,16 @@
 <div id="substitute-substitution-subsmethodsubsubs" class="section level4">
 <h4 class="hasAnchor">
 <a href="#substitute-substitution-subsmethodsubsubs" class="anchor"></a>Substitute substitution (<code>subsMethod='subsubs'</code>)</h4>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="../reference/let.html">let</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">X</span> <span class="kw">=</span> <span class="st">'y'</span>, <span class="kw">F</span> <span class="kw">=</span> <span class="st">'sin'</span>),
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="fu"><a href="../reference/let.html">let</a></span>(<span class="fu"><a href="#base/c.html">c</a></span>(X = <span class="st">'y'</span>, F = <span class="st">'sin'</span>), 
     {
-      <span class="no">d</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="st">"X"</span> <span class="kw">=</span> <span class="st">"X"</span>, <span class="kw">X2</span> <span class="kw">=</span> <span class="st">"XX"</span>, <span class="kw">d</span> <span class="kw">=</span> <span class="no">X</span>*<span class="no">X</span>, <span class="kw">.X</span> <span class="kw">=</span> <span class="no">X_</span>)
-      <span class="no">X</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">X</span> <span class="kw">=</span> <span class="no">d</span>$<span class="no">X</span>, <span class="kw">X2</span> <span class="kw">=</span> <span class="no">d</span>$<span class="st">"X"</span>, <span class="kw">v1</span> <span class="kw">=</span> <span class="no">`X`</span>, <span class="kw">v2</span> <span class="kw">=</span> <span class="no">` X`</span>, <span class="fu"><a href="https://rdrr.io/r/base/logical.html">F</a></span>(<span class="fl">1</span>:<span class="fl">2</span>))
-      <span class="no">X</span>$<span class="no">a</span>
-      <span class="st">"X"</span>$<span class="no">a</span>
-      <span class="no">X</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">X</span>, <span class="no">...</span>) { <span class="no">X</span> + <span class="fl">1</span> }
+      <span class="kw">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="#base/data.frame.html">data.frame</a></span>(<span class="st">"X"</span> = <span class="st">"X"</span>, X2 = <span class="st">"XX"</span>, d = <span class="kw">X</span><span class="op">*</span><span class="kw">X</span>, .X = <span class="kw">X_</span>)
+      <span class="kw">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="#base/list.html">list</a></span>(X = <span class="kw">d</span><span class="op">$</span><span class="kw">X</span>, X2 = <span class="kw">d</span><span class="op">$</span><span class="st">"X"</span>, v1 = <span class="kw">`X`</span>, v2 = <span class="kw">` X`</span>, <span class="fu"><a href="#base/logical.html">F</a></span>(<span class="fl">1</span><span class="op">:</span><span class="fl">2</span>))
+      <span class="kw">X</span><span class="op">$</span><span class="kw">a</span>
+      <span class="st">"X"</span><span class="op">$</span><span class="kw">a</span>
+      <span class="kw">X</span> <span class="op">=</span> <span class="fu">function</span>(<span class="kw">X</span>, <span class="kw">...</span>) { <span class="kw">X</span> <span class="op">+</span> <span class="fl">1</span> }
     },
-    <span class="kw">eval</span> <span class="kw">=</span> <span class="fl">FALSE</span>, <span class="kw">subsMethod</span> <span class="kw">=</span> <span class="st">'subsubs'</span>)</pre></body></html></div>
+    eval = <span class="fl">FALSE</span>, subsMethod = <span class="st">'subsubs'</span>)</pre></div>
 <pre><code>## {
 ##     d &lt;- data.frame(X = "X", X2 = "XX", d = y * y, .X = X_)
 ##     y &lt;- list(X = d$y, X2 = d$X, v1 = y, v2 = ` X`, sin(1:2))
@@ -224,7 +228,7 @@
 ##         y + 1
 ##     }
 ## }</code></pre>
-<p>Notice <code><a href="https://rdrr.io/r/base/substitute.html">base::substitute()</a></code> doesn’t re-write left-hand-sides of argument bindings. This is why I originally didn’t consider using this implementation. Re-writing left-hand-sides of assignments is critical in expressions such as <code><a href="https://dplyr.tidyverse.org/reference/mutate.html">dplyr::mutate( RESULTCOL = INPUTCOL + 1)</a></code>. Also <code><a href="https://rdrr.io/r/base/substitute.html">base::substitute()</a></code> doesn’t special case the <code>d$"X"</code> situation (but that really isn’t very important).</p>
+<p>Notice <code><a href="#base/substitute.html">base::substitute()</a></code> doesn’t re-write left-hand-sides of argument bindings. This is why I originally didn’t consider using this implementation. Re-writing left-hand-sides of assignments is critical in expressions such as <code><a href="https://dplyr.tidyverse.org/reference/mutate.html">dplyr::mutate( RESULTCOL = INPUTCOL + 1)</a></code>. Also <code><a href="#base/substitute.html">base::substitute()</a></code> doesn’t special case the <code>d$"X"</code> situation (but that really isn’t very important).</p>
 </div>
 </div>
 <div id="conclusion" class="section level2">
@@ -249,7 +253,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>
