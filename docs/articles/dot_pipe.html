@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.3</span>
       </span>
     </div>
 
@@ -124,7 +124,7 @@
       <h1 data-toc-skip>Dot Pipe</h1>
                         <h4 class="author">John Mount</h4>
             
-            <h4 class="date">2020-09-06</h4>
+            <h4 class="date">2020-10-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/dot_pipe.Rmd"><code>vignettes/dot_pipe.Rmd</code></a></small>
       <div class="hidden name"><code>dot_pipe.Rmd</code></div>
@@ -140,36 +140,36 @@
 <p>That is: <code><a href="../reference/dot_arrow.html">%.&gt;%</a></code> does not alter any function arguments that are not explicitly named. <code><a href="../reference/dot_arrow.html">%.&gt;%</a></code> is designed to be explicit and simple.</p>
 <p>The following two expressions should be equivalent:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="#base/library.html">library</a></span>(<span class="st"><a href="https://github.com/WinVector/wrapr">"wrapr"</a></span>)
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/WinVector/wrapr">"wrapr"</a></span><span class="op">)</span>
 
-<span class="fu"><a href="#base/Trig.html">cos</a></span>(<span class="fu"><a href="#base/Log.html">exp</a></span>(<span class="fu"><a href="#base/Trig.html">sin</a></span>(<span class="fl">4</span>)))</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/Trig.html">cos</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="fl">4</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></pre></div>
 <pre><code>## [1] 0.8919465</code></pre>
 <div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fl">4</span> <span class="op">%.&gt;%</span> <span class="fu"><a href="#base/Trig.html">sin</a></span>(<span class="kw">.</span>) <span class="op">%.&gt;%</span> <span class="fu"><a href="#base/Log.html">exp</a></span>(<span class="kw">.</span>) <span class="op">%.&gt;%</span> <span class="fu"><a href="#base/Trig.html">cos</a></span>(<span class="kw">.</span>)</pre></div>
+<span class="fl">4</span> <span class="op">%.&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span> <span class="op">%.&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span> <span class="op">%.&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">cos</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span></pre></div>
 <pre><code>## [1] 0.8919465</code></pre>
 <p>The notation is quite powerful as it treats pipe stages as expression parameterized over the variable “<code>.</code>”. This means you do not need to introduce functions to express stages. The following is a valid dot-pipe:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="fl">1</span><span class="op">:</span><span class="fl">4</span> <span class="op">%.&gt;%</span> <span class="kw">.</span><span class="op">^</span><span class="fl">2</span> </pre></div>
+<span class="fl">1</span><span class="op">:</span><span class="fl">4</span> <span class="op">%.&gt;%</span> <span class="va">.</span><span class="op">^</span><span class="fl">2</span> </pre></div>
 <pre><code>## [1]  1  4  9 16</code></pre>
 <p>The notation is also very regular in that many variations of expression work as expected. Example:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="fl">5</span> <span class="op">%.&gt;%</span> <span class="fu"><a href="#base/Trig.html">sin</a></span>(<span class="kw">.</span>)</pre></div>
+<span class="fl">5</span> <span class="op">%.&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span></pre></div>
 <pre><code>## [1] -0.9589243</code></pre>
 <div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="fl">5</span> <span class="op">%.&gt;%</span> <span class="kw">base</span>::<span class="fu"><a href="#base/Trig.html">sin</a></span>(<span class="kw">.</span>)</pre></div>
+<span class="fl">5</span> <span class="op">%.&gt;%</span> <span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span></pre></div>
 <pre><code>## [1] -0.9589243</code></pre>
 <p>Regularity can be a <em>big</em> advantage in teaching and comprehension. Please see <a href="https://win-vector.com/2017/07/07/in-praise-of-syntactic-sugar/">“In Praise of Syntactic Sugar”</a> for discussion.</p>
 <p>The dot arrow pipe has S3/S4 dispatch (please see ). However as the right-hand side of the pipe is normally held unevaluated, we don’t know the type except in special cases (such as the rigth-hand side being referred to by a name or variable). To force the evaluation of a pipe term, simply wrap it in .().</p>
 <p>A detail of R-style pipes is the right argument is held unevalauted (unless it is a name), so we can’t always use the class of the right hand side to dispatch. To work around this we suggest using <code>.()</code> notation, which in the context of the pipe means “evaluate early.” An example is given below:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit">
-<span class="kw">f</span> <span class="op">&lt;-</span> <span class="fu">function</span>() { <span class="kw">sin</span> }
+<span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span> <span class="va">sin</span> <span class="op">}</span>
 
 <span class="co"># returns f() ignoring dot, not what we want</span>
-<span class="fl">5</span> <span class="op">%.&gt;%</span> <span class="fu">f</span>()</pre></div>
+<span class="fl">5</span> <span class="op">%.&gt;%</span> <span class="fu">f</span><span class="op">(</span><span class="op">)</span></pre></div>
 <pre><code>## function (x)  .Primitive("sin")</code></pre>
 <div class="sourceCode" id="cb13"><pre class="downlit">
 <span class="co"># evaluates f() early then evaluates result with .-substitution rules</span>
-<span class="fl">5</span> <span class="op">%.&gt;%</span> <span class="fu">.</span>(<span class="fu">f</span>())</pre></div>
+<span class="fl">5</span> <span class="op">%.&gt;%</span> <span class="fu">.</span><span class="op">(</span><span class="fu">f</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></pre></div>
 <pre><code>## [1] -0.9589243</code></pre>
   </div>
 
@@ -186,7 +186,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

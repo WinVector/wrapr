@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.3</span>
       </span>
     </div>
 
@@ -171,14 +171,14 @@
     <p>Sort a data.frame by a set of columns.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sortv</span>(
-  <span class='kw'>data</span>,
-  <span class='kw'>colnames</span>,
-  <span class='kw'>...</span>,
-  na.last = <span class='fl'>TRUE</span>,
-  decreasing = <span class='fl'>FALSE</span>,
-  method = <span class='fu'><a href='#base/c.html'>c</a></span>(<span class='st'>"auto"</span>, <span class='st'>"shell"</span>, <span class='st'>"radix"</span>)
-)</pre>
+    <pre class="usage"><span class='fu'>sortv</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  <span class='va'>colnames</span>,
+  <span class='va'>...</span>,
+  na.last <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  decreasing <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"auto"</span>, <span class='st'>"shell"</span>, <span class='st'>"radix"</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -197,15 +197,15 @@
     </tr>
     <tr>
       <th>na.last</th>
-      <td><p>(passed to <code><a href='#base/order.html'>order</a></code>) for controlling the treatment of NAs. If TRUE, missing values in the data are put last; if FALSE, they are put first; if NA, they are removed.</p></td>
+      <td><p>(passed to <code><a href='https://rdrr.io/r/base/order.html'>order</a></code>) for controlling the treatment of NAs. If TRUE, missing values in the data are put last; if FALSE, they are put first; if NA, they are removed.</p></td>
     </tr>
     <tr>
       <th>decreasing</th>
-      <td><p>(passed to <code><a href='#base/order.html'>order</a></code>) logical. Should the sort order be increasing or decreasing? For the "radix" method, this can be a vector of length equal to the number of arguments in <code>...</code>. For the other methods, it must be length one.</p></td>
+      <td><p>(passed to <code><a href='https://rdrr.io/r/base/order.html'>order</a></code>) logical. Should the sort order be increasing or decreasing? For the "radix" method, this can be a vector of length equal to the number of arguments in <code>...</code>. For the other methods, it must be length one.</p></td>
     </tr>
     <tr>
       <th>method</th>
-      <td><p>(passed to <code><a href='#base/order.html'>order</a></code>) the method to be used: partial matches are allowed. The default ("auto") implies "radix" for short numeric vectors, integer vectors, logical vectors and factors. Otherwise, it implies "shell". For details of methods "shell", "quick", and "radix", see the help for <code><a href='#base/sort.html'>sort</a></code>.</p></td>
+      <td><p>(passed to <code><a href='https://rdrr.io/r/base/order.html'>order</a></code>) the method to be used: partial matches are allowed. The default ("auto") implies "radix" for short numeric vectors, integer vectors, logical vectors and factors. Otherwise, it implies "shell". For details of methods "shell", "quick", and "radix", see the help for <code><a href='https://rdrr.io/r/base/sort.html'>sort</a></code>.</p></td>
     </tr>
     </table>
 
@@ -218,8 +218,8 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='kw'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#base/data.frame.html'>data.frame</a></span>(x = <span class='fu'><a href='#base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>1</span>), y = <span class='fl'>6</span><span class='op'>:</span><span class='fl'>1</span>)
-<span class='fu'>sortv</span>(<span class='kw'>d</span>, <span class='fu'><a href='#base/c.html'>c</a></span>(<span class='st'>"x"</span>, <span class='st'>"y"</span>))
+<span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>)</span>, y <span class='op'>=</span> <span class='fl'>6</span><span class='op'>:</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='fu'>sortv</span><span class='op'>(</span><span class='va'>d</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"x"</span>, <span class='st'>"y"</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;   x y
 #&gt; 6 1 1
 #&gt; 5 1 2
@@ -243,7 +243,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.3</span>
       </span>
     </div>
 
@@ -124,7 +124,7 @@
       <h1 data-toc-skip>bquote</h1>
                         <h4 class="author">John Mount</h4>
             
-            <h4 class="date">2020-09-06</h4>
+            <h4 class="date">2020-10-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/bquote.Rmd"><code>vignettes/bquote.Rmd</code></a></small>
       <div class="hidden name"><code>bquote.Rmd</code></div>
@@ -139,18 +139,18 @@
 <a href="#string-interpolation" class="anchor"></a>String-interpolation</h2>
 <p><a href="https://en.wikipedia.org/wiki/String_interpolation">String-interpolation</a> is the name for substituting value into a string. For example:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="#base/library.html">library</a></span>(<span class="st"><a href="https://github.com/WinVector/wrapr">"wrapr"</a></span>)
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/WinVector/wrapr">"wrapr"</a></span><span class="op">)</span>
 
-<span class="kw">variable</span> <span class="op">&lt;-</span> <span class="st">"angle"</span>
+<span class="va">variable</span> <span class="op">&lt;-</span> <span class="st">"angle"</span>
 
-<span class="fu"><a href="../reference/sinterp.html">sinterp</a></span>(
+<span class="fu"><a href="../reference/sinterp.html">sinterp</a></span><span class="op">(</span>
   <span class="st">'variable name is .(variable)'</span>
-)</pre></div>
+<span class="op">)</span></pre></div>
 <pre><code>## [1] "variable name is \"angle\""</code></pre>
 <p>Notice the “<code>.(variable)</code>” portion was replaced with the actual variable name “<code>angle</code>”. For string interpolation we are intentionally using the “<code>.()</code>” notation that Thomas Lumley’s picked in 2003 when he introduced quasi-quotation into <code>R</code> (a different concept than string-interpolation, but the topic of our next section).</p>
 <p>String interpolation is a common need, and there are many <a href="https://www.r-project.org"><code>R</code></a> packages that supply variations of such functionality:</p>
 <ul>
-<li><code><a href="#base/sprintf.html">base::sprintf</a></code></li>
+<li><code><a href="https://rdrr.io/r/base/sprintf.html">base::sprintf</a></code></li>
 <li><a href="https://CRAN.R-project.org/package=R.utils"><code>R.utils::gstring()</code></a></li>
 <li><a href="https://CRAN.R-project.org/package=rprintf"><code>rprintf::rprintf()</code></a></li>
 <li><a href="https://CRAN.R-project.org/package=stringr"><code>stringr::str_interp()</code></a></li>
@@ -164,76 +164,76 @@
 <a href="#quasi-quotation" class="anchor"></a>Quasi-quotation</h2>
 <p>A related idea is <a href="https://en.wikipedia.org/wiki/Grave_accent#Use_in_programming">“quasi-quotation”</a> which substitutes a value into a general expression. For example:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="kw">angle</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>
-<span class="kw">variable_name</span> <span class="op">&lt;-</span> <span class="fu"><a href="#base/name.html">as.name</a></span>(<span class="st">"angle"</span>)
+<span class="va">angle</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>
+<span class="va">variable_name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/name.html">as.name</a></span><span class="op">(</span><span class="st">"angle"</span><span class="op">)</span>
 
-<span class="co">if</span>(<span class="fu"><a href="#base/ns-load.html">requireNamespace</a></span>(<span class="st">"graphics"</span>, quietly = <span class="fl">TRUE</span>)) {
-  <span class="fu"><a href="../reference/evalb.html">evalb</a></span>(
+<span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span><span class="op">(</span><span class="st">"graphics"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu"><a href="../reference/evalb.html">evalb</a></span><span class="op">(</span>
     
-    <span class="fu"><a href="#graphics/plot.default.html">plot</a></span>(x = <span class="fu">.</span>(<span class="op">-</span><span class="kw">variable_name</span>), 
-         y = <span class="fu"><a href="#base/Trig.html">sin</a></span>(<span class="fu">.</span>(<span class="op">-</span><span class="kw">variable_name</span>)))
+    <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu">.</span><span class="op">(</span><span class="op">-</span><span class="va">variable_name</span><span class="op">)</span>, 
+         y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="fu">.</span><span class="op">(</span><span class="op">-</span><span class="va">variable_name</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
     
-  )
-}</pre></div>
+  <span class="op">)</span>
+<span class="op">}</span></pre></div>
 <p><img src="bquote_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
-<p>Notice how in the above plot the actual variable name “<code>angle</code>” was substituted into the <code><a href="#graphics/plot.default.html">graphics::plot()</a></code> arguments, allowing this name to appear on the axis labels.</p>
+<p>Notice how in the above plot the actual variable name “<code>angle</code>” was substituted into the <code><a href="https://rdrr.io/r/graphics/plot.default.html">graphics::plot()</a></code> arguments, allowing this name to appear on the axis labels.</p>
 <p>We can also use strings in place of names by using the <code>.(-)</code> “strip quotes to convert strings to name notation.”</p>
 <div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="kw">angle</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>
-<span class="kw">variable_string</span> <span class="op">&lt;-</span> <span class="st">"angle"</span>
+<span class="va">angle</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>
+<span class="va">variable_string</span> <span class="op">&lt;-</span> <span class="st">"angle"</span>
 
-<span class="co">if</span>(<span class="fu"><a href="#base/ns-load.html">requireNamespace</a></span>(<span class="st">"graphics"</span>, quietly = <span class="fl">TRUE</span>)) {
-  <span class="fu"><a href="../reference/evalb.html">evalb</a></span>(
+<span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span><span class="op">(</span><span class="st">"graphics"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu"><a href="../reference/evalb.html">evalb</a></span><span class="op">(</span>
     
-    <span class="fu"><a href="#graphics/plot.default.html">plot</a></span>(x = <span class="fu">.</span>(<span class="op">-</span><span class="kw">variable_string</span>), 
-         y = <span class="fu"><a href="#base/Trig.html">sin</a></span>(<span class="fu">.</span>(<span class="op">-</span><span class="kw">variable_string</span>)))
+    <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu">.</span><span class="op">(</span><span class="op">-</span><span class="va">variable_string</span><span class="op">)</span>, 
+         y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="fu">.</span><span class="op">(</span><span class="op">-</span><span class="va">variable_string</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
     
-  )
-}</pre></div>
+  <span class="op">)</span>
+<span class="op">}</span></pre></div>
 <p><img src="bquote_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
-<p><code><a href="../reference/evalb.html">evalb()</a></code> is a very simple function built on top of <code><a href="#base/bquote.html">base::bquote()</a></code>.</p>
-<p>All <code><a href="../reference/evalb.html">evalb()</a></code> does is: call <code><a href="#base/bquote.html">bquote()</a></code> as intended, with the extension that <code>.(-x)</code> is shorthand for <code>.(as.name(x))</code>.</p>
+<p><code><a href="../reference/evalb.html">evalb()</a></code> is a very simple function built on top of <code><a href="https://rdrr.io/r/base/bquote.html">base::bquote()</a></code>.</p>
+<p>All <code><a href="../reference/evalb.html">evalb()</a></code> does is: call <code><a href="https://rdrr.io/r/base/bquote.html">bquote()</a></code> as intended, with the extension that <code>.(-x)</code> is shorthand for <code>.(as.name(x))</code>.</p>
 <p>And we see the un-executed code with the substitutions performed.</p>
 <p>There are many <code>R</code> quasi-quotation systems including:</p>
 <ul>
-<li><code><a href="#base/bquote.html">base::bquote()</a></code></li>
+<li><code><a href="https://rdrr.io/r/base/bquote.html">base::bquote()</a></code></li>
 <li><a href="https://CRAN.R-project.org/package=gtools"><code>gtools::strmacro()</code></a></li>
 <li><a href="https://CRAN.R-project.org/package=lazyeval"><code>lazyeval</code></a></li>
 <li><a href="https://winvector.github.io/wrapr/reference/let.html"><code>wrapr::let()</code></a></li>
 <li><a href="https://rlang.r-lib.org/reference/as_quosure.html"><code>rlang::as_quosure()</code></a></li>
 <li><a href="https://CRAN.R-project.org/package=nseval"><code>nseval</code></a></li>
 </ul>
-<p>If you don’t want to wrap your <code><a href="#graphics/plot.default.html">plot()</a></code> call in <code><a href="../reference/evalb.html">evalb()</a></code> you can instead pre-adapt the function. Below we create a new function <code>plotb()</code> that is intended as shorthand for <code>eval(bquote(plot(…)))</code>.</p>
+<p>If you don’t want to wrap your <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> call in <code><a href="../reference/evalb.html">evalb()</a></code> you can instead pre-adapt the function. Below we create a new function <code>plotb()</code> that is intended as shorthand for <code>eval(bquote(plot(…)))</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="kw">plotb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bquote_function.html">bquote_function</a></span>(<span class="kw">graphics</span>::<span class="kw"><a href="#graphics/plot.default.html">plot</a></span>)
+<span class="va">plotb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bquote_function.html">bquote_function</a></span><span class="op">(</span><span class="fu">graphics</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">)</span>
 
-<span class="co">if</span>(<span class="fu"><a href="#base/ns-load.html">requireNamespace</a></span>(<span class="st">"graphics"</span>, quietly = <span class="fl">TRUE</span>)) {
-  <span class="fu">plotb</span>(x = <span class="fu">.</span>(<span class="op">-</span><span class="kw">variable</span>), 
-        y = <span class="fu"><a href="#base/Trig.html">sin</a></span>(<span class="fu">.</span>(<span class="op">-</span><span class="kw">variable</span>)))
-}</pre></div>
+<span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span><span class="op">(</span><span class="st">"graphics"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu">plotb</span><span class="op">(</span>x <span class="op">=</span> <span class="fu">.</span><span class="op">(</span><span class="op">-</span><span class="va">variable</span><span class="op">)</span>, 
+        y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="fu">.</span><span class="op">(</span><span class="op">-</span><span class="va">variable</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="op">}</span></pre></div>
 <p><img src="bquote_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 <p>The <code>wrapr</code> <a href="https://winvector.github.io/wrapr/reference/dot_arrow.html">dot arrow pipe</a> also uses the <code>bquote</code>-style escape to specify “extra execution”. For example.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="kw">f</span> <span class="op">&lt;-</span> <span class="fu">function</span>() { 
-  <span class="kw">sin</span>
-}
+<span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span> 
+  <span class="va">sin</span>
+<span class="op">}</span>
 
 <span class="co"># pipe 5 to the value of f()</span>
 <span class="co"># the .() says to evaluate f() before the</span>
 <span class="co"># piping</span>
-<span class="fl">5</span> <span class="op">%.&gt;%</span> <span class="fu">.</span>(<span class="fu">f</span>())</pre></div>
+<span class="fl">5</span> <span class="op">%.&gt;%</span> <span class="fu">.</span><span class="op">(</span><span class="fu">f</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></pre></div>
 <pre><code>## [1] -0.9589243</code></pre>
 <div class="sourceCode" id="cb8"><pre class="downlit">
 <span class="co"># evaluate "f()"" with . = 5</span>
 <span class="co"># not interesting as "f()"" is "dot free" </span>
-<span class="fl">5</span> <span class="op">%.&gt;%</span> <span class="fu">f</span>()</pre></div>
+<span class="fl">5</span> <span class="op">%.&gt;%</span> <span class="fu">f</span><span class="op">(</span><span class="op">)</span></pre></div>
 <pre><code>## function (x)  .Primitive("sin")</code></pre>
 <p>We can annotate any function as “eager eval” as follows.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="fu"><a href="#base/attr.html">attr</a></span>(<span class="kw">f</span>, <span class="st">'dotpipe_eager_eval_function'</span>) <span class="op">&lt;-</span> <span class="fl">TRUE</span>
+<span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">f</span>, <span class="st">'dotpipe_eager_eval_function'</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span>
 
 <span class="co"># now evalutates pipe on f() result.</span>
-<span class="fl">5</span> <span class="op">%.&gt;%</span> <span class="fu">f</span>()</pre></div>
+<span class="fl">5</span> <span class="op">%.&gt;%</span> <span class="fu">f</span><span class="op">(</span><span class="op">)</span></pre></div>
 <pre><code>## [1] -0.9589243</code></pre>
 </div>
 <div id="conclusion" class="section level2">
@@ -258,7 +258,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

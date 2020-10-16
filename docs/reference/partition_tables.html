@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.3</span>
       </span>
     </div>
 
@@ -171,15 +171,15 @@
     <p>Partition a set of tables into a list of sets of tables.  Note: removes rownames.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>partition_tables</span>(
-  <span class='kw'>tables_used</span>,
-  <span class='kw'>partition_column</span>,
-  <span class='kw'>...</span>,
-  source_usage = <span class='kw'>NULL</span>,
-  source_limit = <span class='kw'>NULL</span>,
-  tables = <span class='kw'>NULL</span>,
-  env = <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>partition_tables</span><span class='op'>(</span>
+  <span class='va'>tables_used</span>,
+  <span class='va'>partition_column</span>,
+  <span class='va'>...</span>,
+  source_usage <span class='op'>=</span> <span class='cn'>NULL</span>,
+  source_limit <span class='op'>=</span> <span class='cn'>NULL</span>,
+  tables <span class='op'>=</span> <span class='cn'>NULL</span>,
+  env <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -223,10 +223,10 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='kw'>d1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#base/data.frame.html'>data.frame</a></span>(a = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>, g = <span class='fu'><a href='#base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>2</span>))
-<span class='kw'>d2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#base/data.frame.html'>data.frame</a></span>(x = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, g = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>)
-<span class='kw'>d3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#base/data.frame.html'>data.frame</a></span>(y = <span class='fl'>1</span>)
-<span class='fu'>partition_tables</span>(<span class='fu'><a href='#base/c.html'>c</a></span>(<span class='st'>"d1"</span>, <span class='st'>"d2"</span>, <span class='st'>"d3"</span>), <span class='st'>"g"</span>, tables = <span class='fu'><a href='#base/list.html'>list</a></span>(d1 = <span class='kw'>d1</span>, d2 = <span class='kw'>d2</span>, d3 = <span class='kw'>d3</span>))
+<span class='va'>d1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>a <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>, g <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>d2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, g <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>)</span>
+<span class='va'>d3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>y <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+<span class='fu'>partition_tables</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"d1"</span>, <span class='st'>"d2"</span>, <span class='st'>"d3"</span><span class='op'>)</span>, <span class='st'>"g"</span>, tables <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>d1 <span class='op'>=</span> <span class='va'>d1</span>, d2 <span class='op'>=</span> <span class='va'>d2</span>, d3 <span class='op'>=</span> <span class='va'>d3</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $`1`
 #&gt; $`1`$d1
 #&gt;   a g
@@ -288,7 +288,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

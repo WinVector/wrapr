@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.3</span>
       </span>
     </div>
 
@@ -171,7 +171,7 @@
     <p>Inline version of <code>let</code>-block.</p>
     </div>
 
-    <pre class="usage"><span class='kw'>a</span> <span class='op'>%in_block%</span> <span class='kw'>b</span></pre>
+    <pre class="usage"><span class='va'>a</span> <span class='op'>%in_block%</span> <span class='va'>b</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -195,33 +195,33 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='kw'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#base/data.frame.html'>data.frame</a></span>(
-  Sepal_Length=<span class='fu'><a href='#base/c.html'>c</a></span>(<span class='fl'>5.8</span>,<span class='fl'>5.7</span>),
-  Sepal_Width=<span class='fu'><a href='#base/c.html'>c</a></span>(<span class='fl'>4.0</span>,<span class='fl'>4.4</span>),
-  Species=<span class='st'>'setosa'</span>)
+<span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>
+  Sepal_Length<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5.8</span>,<span class='fl'>5.7</span><span class='op'>)</span>,
+  Sepal_Width<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>4.0</span>,<span class='fl'>4.4</span><span class='op'>)</span>,
+  Species<span class='op'>=</span><span class='st'>'setosa'</span><span class='op'>)</span>
 
 <span class='co'># let-block notation</span>
-<span class='fu'><a href='let.html'>let</a></span>(
-  <span class='fu'><a href='qc.html'>qc</a></span>(
-    AREA_COL = <span class='kw'>Sepal_area</span>,
-    LENGTH_COL = <span class='kw'>Sepal_Length</span>,
-    WIDTH_COL = <span class='kw'>Sepal_Width</span>
-  ),
-  <span class='kw'>d</span> <span class='op'>%.&gt;%</span>
-    <span class='fu'><a href='#base/transform.html'>transform</a></span>(<span class='kw'>.</span>, AREA_COL = <span class='kw'>LENGTH_COL</span> <span class='op'>*</span> <span class='kw'>WIDTH_COL</span>)
-)
+<span class='fu'><a href='let.html'>let</a></span><span class='op'>(</span>
+  <span class='fu'><a href='qc.html'>qc</a></span><span class='op'>(</span>
+    AREA_COL <span class='op'>=</span> <span class='va'>Sepal_area</span>,
+    LENGTH_COL <span class='op'>=</span> <span class='va'>Sepal_Length</span>,
+    WIDTH_COL <span class='op'>=</span> <span class='va'>Sepal_Width</span>
+  <span class='op'>)</span>,
+  <span class='va'>d</span> <span class='op'>%.&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/transform.html'>transform</a></span><span class='op'>(</span><span class='va'>.</span>, AREA_COL <span class='op'>=</span> <span class='va'>LENGTH_COL</span> <span class='op'>*</span> <span class='va'>WIDTH_COL</span><span class='op'>)</span>
+<span class='op'>)</span>
 </div><div class='output co'>#&gt;   Sepal_Length Sepal_Width Species Sepal_area
 #&gt; 1          5.8         4.0  setosa      23.20
 #&gt; 2          5.7         4.4  setosa      25.08</div><div class='input'>
 <span class='co'># %in_block% notation</span>
-<span class='fu'><a href='qc.html'>qc</a></span>(
-  AREA_COL = <span class='kw'>Sepal_area</span>,
-  LENGTH_COL = <span class='kw'>Sepal_Length</span>,
-  WIDTH_COL = <span class='kw'>Sepal_Width</span>
-) <span class='op'>%in_block%</span> {
-  <span class='kw'>d</span> <span class='op'>%.&gt;%</span>
-    <span class='fu'><a href='#base/transform.html'>transform</a></span>(<span class='kw'>.</span>, AREA_COL = <span class='kw'>LENGTH_COL</span> <span class='op'>*</span> <span class='kw'>WIDTH_COL</span>)
-}
+<span class='fu'><a href='qc.html'>qc</a></span><span class='op'>(</span>
+  AREA_COL <span class='op'>=</span> <span class='va'>Sepal_area</span>,
+  LENGTH_COL <span class='op'>=</span> <span class='va'>Sepal_Length</span>,
+  WIDTH_COL <span class='op'>=</span> <span class='va'>Sepal_Width</span>
+<span class='op'>)</span> <span class='op'>%in_block%</span> <span class='op'>{</span>
+  <span class='va'>d</span> <span class='op'>%.&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/transform.html'>transform</a></span><span class='op'>(</span><span class='va'>.</span>, AREA_COL <span class='op'>=</span> <span class='va'>LENGTH_COL</span> <span class='op'>*</span> <span class='va'>WIDTH_COL</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div><div class='output co'>#&gt;   Sepal_Length Sepal_Width Species Sepal_area
 #&gt; 1          5.8         4.0  setosa      23.20
 #&gt; 2          5.7         4.4  setosa      25.08</div><div class='input'>
@@ -245,7 +245,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

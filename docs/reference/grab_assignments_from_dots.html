@@ -73,7 +73,7 @@ Suggested capture code is: substitute(list(...)). Allows bquote .() substitution
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.3</span>
       </span>
     </div>
 
@@ -169,15 +169,15 @@ Suggested capture code is: substitute(list(...)). Allows bquote .() substitution
     </div>
 
     <div class="ref-description">
-    <p>Re-write captured <code>...</code> arguments as a <code><a href='#base/c.html'>c(DESTINATION = TARGET)</a></code> character vector.
-Suggested capture code is: <code><a href='#base/substitute.html'>substitute(list(...))</a></code>. Allows <code>bquote</code> <code>.()</code> substitution.</p>
+    <p>Re-write captured <code>...</code> arguments as a <code><a href='https://rdrr.io/r/base/c.html'>c(DESTINATION = TARGET)</a></code> character vector.
+Suggested capture code is: <code><a href='https://rdrr.io/r/base/substitute.html'>substitute(list(...))</a></code>. Allows <code>bquote</code> <code>.()</code> substitution.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>grab_assignments_from_dots</span>(
-  <span class='kw'>captured_args</span>,
-  unpack_environment = <span class='fu'><a href='#base/sys.parent.html'>parent.frame</a></span>(),
-  allow_dot_on_left = <span class='fl'>FALSE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>grab_assignments_from_dots</span><span class='op'>(</span>
+  <span class='va'>captured_args</span>,
+  unpack_environment <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span><span class='op'>(</span><span class='op'>)</span>,
+  allow_dot_on_left <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -202,12 +202,12 @@ Suggested capture code is: <code><a href='#base/substitute.html'>substitute(list
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='kw'>f</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>...</span>) {
-  <span class='kw'>unpack_environment</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#base/sys.parent.html'>parent.frame</a></span>(n = <span class='fl'>1</span>)
-  <span class='kw'>orig_args</span> <span class='op'>&lt;-</span> <span class='fu'><a href='#base/substitute.html'>substitute</a></span>(<span class='fu'><a href='#base/list.html'>list</a></span>(<span class='kw'>...</span>))
-  <span class='fu'>grab_assignments_from_dots</span>(<span class='kw'>orig_args</span>, <span class='kw'>unpack_environment</span>)
-}
-<span class='fu'>f</span>(<span class='kw'>a</span>, c = <span class='kw'>d</span>, <span class='kw'>e</span> <span class='op'>:=</span> <span class='kw'>f</span>, <span class='kw'>g</span> <span class='op'>&lt;-</span> <span class='kw'>h</span>, <span class='kw'>i</span> <span class='op'>-&gt;</span> <span class='kw'>j</span>)
+<span class='va'>f</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>unpack_environment</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+  <span class='va'>orig_args</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='fu'>grab_assignments_from_dots</span><span class='op'>(</span><span class='va'>orig_args</span>, <span class='va'>unpack_environment</span><span class='op'>)</span>
+<span class='op'>}</span>
+<span class='fu'>f</span><span class='op'>(</span><span class='va'>a</span>, c <span class='op'>=</span> <span class='va'>d</span>, <span class='va'>e</span> <span class='op'>:=</span> <span class='va'>f</span>, <span class='va'>g</span> <span class='op'>&lt;-</span> <span class='va'>h</span>, <span class='va'>i</span> <span class='op'>-&gt;</span> <span class='va'>j</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;       c   e   g   j 
 #&gt; "a" "d" "f" "h" "i" </div><div class='input'><span class='co'># should equal c('a', 'c' = 'd', 'e' = 'f', 'g' = 'h', 'j' = 'i')</span>
 
@@ -227,7 +227,7 @@ Suggested capture code is: <code><a href='#base/substitute.html'>substitute(list
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

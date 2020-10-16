@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.3</span>
       </span>
     </div>
 
@@ -171,13 +171,13 @@
     <p>Render a simple data.frame in build_frame format.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>draw_frame</span>(
-  <span class='kw'>x</span>,
-  <span class='kw'>...</span>,
-  time_format = <span class='st'>"%Y-%m-%d %H:%M:%S"</span>,
-  formatC_options = <span class='fu'><a href='#base/list.html'>list</a></span>(),
-  adjust_for_auto_indent = <span class='fl'>2</span>
-)</pre>
+    <pre class="usage"><span class='fu'>draw_frame</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>...</span>,
+  time_format <span class='op'>=</span> <span class='st'>"%Y-%m-%d %H:%M:%S"</span>,
+  formatC_options <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  adjust_for_auto_indent <span class='op'>=</span> <span class='fl'>2</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -213,15 +213,15 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='kw'>tc_name</span> <span class='op'>&lt;-</span> <span class='st'>"training"</span>
-<span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='build_frame.html'>build_frame</a></span>(
-  <span class='st'>"measure"</span>                   , <span class='kw'>tc_name</span>, <span class='st'>"validation"</span>, <span class='st'>"idx"</span> <span class='op'>|</span>
+<span class='va'>tc_name</span> <span class='op'>&lt;-</span> <span class='st'>"training"</span>
+<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='build_frame.html'>build_frame</a></span><span class='op'>(</span>
+  <span class='st'>"measure"</span>                   , <span class='va'>tc_name</span>, <span class='st'>"validation"</span>, <span class='st'>"idx"</span> <span class='op'>|</span>
   <span class='st'>"minus binary cross entropy"</span>, <span class='fl'>5</span>      , <span class='fl'>7</span>           , <span class='fl'>1L</span>    <span class='op'>|</span>
-  <span class='st'>"accuracy"</span>                  , <span class='fl'>0.8</span>    , <span class='fl'>0.6</span>         , <span class='fl'>2L</span>    )
-<span class='fu'><a href='#base/print.html'>print</a></span>(<span class='kw'>x</span>)
+  <span class='st'>"accuracy"</span>                  , <span class='fl'>0.8</span>    , <span class='fl'>0.6</span>         , <span class='fl'>2L</span>    <span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                      measure training validation idx
 #&gt; 1 minus binary cross entropy      5.0        7.0   1
-#&gt; 2                   accuracy      0.8        0.6   2</div><div class='input'><span class='fu'><a href='#base/cat.html'>cat</a></span>(<span class='fu'>draw_frame</span>(<span class='kw'>x</span>))
+#&gt; 2                   accuracy      0.8        0.6   2</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'>draw_frame</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; x &lt;- wrapr::build_frame(
 #&gt;    "measure"                     , "training", "validation", "idx" |
 #&gt;      "minus binary cross entropy", 5         , 7           , 1L    |
@@ -243,7 +243,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

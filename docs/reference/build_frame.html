@@ -75,7 +75,7 @@ Names are de-referenced." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.3</span>
       </span>
     </div>
 
@@ -177,7 +177,7 @@ first "|" (or other infix operator) determines number of columns
 Names are de-referenced.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>build_frame</span>(<span class='kw'>...</span>, cf_eval_environment = <span class='fu'><a href='#base/sys.parent.html'>parent.frame</a></span>())</pre>
+    <pre class="usage"><span class='fu'>build_frame</span><span class='op'>(</span><span class='va'>...</span>, cf_eval_environment <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -201,27 +201,27 @@ Names are de-referenced.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='kw'>tc_name</span> <span class='op'>&lt;-</span> <span class='st'>"training"</span>
-<span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'>build_frame</span>(
-   <span class='st'>"measure"</span>,                   <span class='kw'>tc_name</span>, <span class='st'>"validation"</span> <span class='op'>|</span>
+<span class='va'>tc_name</span> <span class='op'>&lt;-</span> <span class='st'>"training"</span>
+<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'>build_frame</span><span class='op'>(</span>
+   <span class='st'>"measure"</span>,                   <span class='va'>tc_name</span>, <span class='st'>"validation"</span> <span class='op'>|</span>
    <span class='st'>"minus binary cross entropy"</span>,      <span class='fl'>5</span>, <span class='op'>-</span><span class='fl'>7</span>           <span class='op'>|</span>
-   <span class='st'>"accuracy"</span>,                      <span class='fl'>0.8</span>, <span class='fl'>0.6</span>          )
-<span class='fu'><a href='#base/print.html'>print</a></span>(<span class='kw'>x</span>)
+   <span class='st'>"accuracy"</span>,                      <span class='fl'>0.8</span>, <span class='fl'>0.6</span>          <span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                      measure training validation
 #&gt; 1 minus binary cross entropy      5.0       -7.0
-#&gt; 2                   accuracy      0.8        0.6</div><div class='input'><span class='fu'><a href='#utils/str.html'>str</a></span>(<span class='kw'>x</span>)
+#&gt; 2                   accuracy      0.8        0.6</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 'data.frame':	2 obs. of  3 variables:
 #&gt;  $ measure   : chr  "minus binary cross entropy" "accuracy"
 #&gt;  $ training  : num  5 0.8
-#&gt;  $ validation: num  -7 0.6</div><div class='input'><span class='fu'><a href='#base/cat.html'>cat</a></span>(<span class='fu'><a href='draw_frame.html'>draw_frame</a></span>(<span class='kw'>x</span>))
+#&gt;  $ validation: num  -7 0.6</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='draw_frame.html'>draw_frame</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; x &lt;- wrapr::build_frame(
 #&gt;    "measure"                     , "training", "validation" |
 #&gt;      "minus binary cross entropy", 5         , -7           |
 #&gt;      "accuracy"                  , 0.8       , 0.6          )</div><div class='input'>
-<span class='fu'>build_frame</span>(
+<span class='fu'>build_frame</span><span class='op'>(</span>
   <span class='st'>"x"</span> <span class='op'>|</span>
   <span class='op'>-</span><span class='fl'>1</span>  <span class='op'>|</span>
-  <span class='fl'>2</span>   )
+  <span class='fl'>2</span>   <span class='op'>)</span>
 </div><div class='output co'>#&gt;    x
 #&gt; 1 -1
 #&gt; 2  2</div><div class='input'>
@@ -241,7 +241,7 @@ Names are de-referenced.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

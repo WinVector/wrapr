@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.3</span>
       </span>
     </div>
 
@@ -171,14 +171,14 @@
     <p>For formal documentation please see <a href='https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf'>https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>apply_left</span>(
-  <span class='kw'>pipe_left_arg</span>,
-  <span class='kw'>pipe_right_arg</span>,
-  <span class='kw'>pipe_environment</span>,
-  <span class='kw'>left_arg_name</span>,
-  <span class='kw'>pipe_string</span>,
-  <span class='kw'>right_arg_name</span>
-)</pre>
+    <pre class="usage"><span class='fu'>apply_left</span><span class='op'>(</span>
+  <span class='va'>pipe_left_arg</span>,
+  <span class='va'>pipe_right_arg</span>,
+  <span class='va'>pipe_environment</span>,
+  <span class='va'>left_arg_name</span>,
+  <span class='va'>pipe_string</span>,
+  <span class='va'>right_arg_name</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -218,43 +218,43 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='kw'>apply_left.character</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>pipe_left_arg</span>,
-                                 <span class='kw'>pipe_right_arg</span>,
-                                 <span class='kw'>pipe_environment</span>,
-                                 <span class='kw'>left_arg_name</span>,
-                                 <span class='kw'>pipe_string</span>,
-                                 <span class='kw'>right_arg_name</span>) {
-  <span class='co'>if</span>(<span class='fu'><a href='#base/is.language.html'>is.language</a></span>(<span class='kw'>pipe_right_arg</span>)) {
-    <span class='kw'>wrapr</span>::<span class='fu'><a href='apply_left_default.html'>apply_left_default</a></span>(<span class='kw'>pipe_left_arg</span>,
-                              <span class='kw'>pipe_right_arg</span>,
-                              <span class='kw'>pipe_environment</span>,
-                              <span class='kw'>left_arg_name</span>,
-                              <span class='kw'>pipe_string</span>,
-                              <span class='kw'>right_arg_name</span>)
-  } <span class='co'>else</span> {
-    <span class='fu'><a href='#base/paste.html'>paste</a></span>(<span class='kw'>pipe_left_arg</span>, <span class='kw'>pipe_right_arg</span>)
-  }
-}
-<span class='fu'>setMethod</span>(
-  <span class='kw'>wrapr</span>::<span class='kw'><a href='apply_right_S4.html'>apply_right_S4</a></span>,
-  signature = <span class='fu'><a href='#base/c.html'>c</a></span>(pipe_left_arg = <span class='st'>"character"</span>, pipe_right_arg = <span class='st'>"character"</span>),
-  <span class='fu'>function</span>(<span class='kw'>pipe_left_arg</span>,
-           <span class='kw'>pipe_right_arg</span>,
-           <span class='kw'>pipe_environment</span>,
-           <span class='kw'>left_arg_name</span>,
-           <span class='kw'>pipe_string</span>,
-           <span class='kw'>right_arg_name</span>) {
-    <span class='fu'><a href='#base/paste.html'>paste</a></span>(<span class='kw'>pipe_left_arg</span>, <span class='kw'>pipe_right_arg</span>)
-  })
+<span class='va'>apply_left.character</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>pipe_left_arg</span>,
+                                 <span class='va'>pipe_right_arg</span>,
+                                 <span class='va'>pipe_environment</span>,
+                                 <span class='va'>left_arg_name</span>,
+                                 <span class='va'>pipe_string</span>,
+                                 <span class='va'>right_arg_name</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='kw'>if</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/is.language.html'>is.language</a></span><span class='op'>(</span><span class='va'>pipe_right_arg</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='fu'>wrapr</span><span class='fu'>::</span><span class='fu'><a href='apply_left_default.html'>apply_left_default</a></span><span class='op'>(</span><span class='va'>pipe_left_arg</span>,
+                              <span class='va'>pipe_right_arg</span>,
+                              <span class='va'>pipe_environment</span>,
+                              <span class='va'>left_arg_name</span>,
+                              <span class='va'>pipe_string</span>,
+                              <span class='va'>right_arg_name</span><span class='op'>)</span>
+  <span class='op'>}</span> <span class='kw'>else</span> <span class='op'>{</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='va'>pipe_left_arg</span>, <span class='va'>pipe_right_arg</span><span class='op'>)</span>
+  <span class='op'>}</span>
+<span class='op'>}</span>
+<span class='kw'>setMethod</span><span class='op'>(</span>
+  <span class='fu'>wrapr</span><span class='fu'>::</span><span class='va'><a href='apply_right_S4.html'>apply_right_S4</a></span>,
+  signature <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>pipe_left_arg <span class='op'>=</span> <span class='st'>"character"</span>, pipe_right_arg <span class='op'>=</span> <span class='st'>"character"</span><span class='op'>)</span>,
+  <span class='kw'>function</span><span class='op'>(</span><span class='va'>pipe_left_arg</span>,
+           <span class='va'>pipe_right_arg</span>,
+           <span class='va'>pipe_environment</span>,
+           <span class='va'>left_arg_name</span>,
+           <span class='va'>pipe_string</span>,
+           <span class='va'>right_arg_name</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='va'>pipe_left_arg</span>, <span class='va'>pipe_right_arg</span><span class='op'>)</span>
+  <span class='op'>}</span><span class='op'>)</span>
 
 <span class='st'>"a"</span> <span class='op'>%.&gt;%</span> <span class='fl'>5</span> <span class='op'>%.&gt;%</span> <span class='fl'>7</span>
 </div><div class='output co'>#&gt; <span class='error'>Error: wrapr::apply_left.default does not allow piping into obvious concrete right-argument (clearly can't depend on left argument):</span>
 #&gt; <span class='error'>  character </span>
 #&gt; <span class='error'>  numeric</span></div><div class='input'>
-<span class='st'>"a"</span> <span class='op'>%.&gt;%</span> <span class='fu'><a href='#base/chartr.html'>toupper</a></span>(<span class='kw'>.</span>)
+<span class='st'>"a"</span> <span class='op'>%.&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/chartr.html'>toupper</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] "A"</div><div class='input'>
-<span class='kw'>q</span> <span class='op'>&lt;-</span> <span class='st'>"z"</span>
-<span class='st'>"a"</span> <span class='op'>%.&gt;%</span> <span class='kw'>q</span>
+<span class='va'>q</span> <span class='op'>&lt;-</span> <span class='st'>"z"</span>
+<span class='st'>"a"</span> <span class='op'>%.&gt;%</span> <span class='va'>q</span>
 </div><div class='output co'>#&gt; [1] "a z"</div><div class='input'>
 
 </div></pre>
@@ -273,7 +273,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

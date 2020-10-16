@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.3</span>
       </span>
     </div>
 
@@ -171,15 +171,15 @@
     <p>Please see <a href='https://win-vector.com/2014/05/30/trimming-the-fat-from-glm-models-in-r/'>https://win-vector.com/2014/05/30/trimming-the-fat-from-glm-models-in-r/</a> for discussion.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>clean_fit_lm</span>(
-  <span class='kw'>outcome</span>,
-  <span class='kw'>variables</span>,
-  <span class='kw'>data</span>,
-  <span class='kw'>...</span>,
-  intercept = <span class='fl'>TRUE</span>,
-  weights = <span class='kw'>NULL</span>,
-  env = <span class='fu'><a href='#base/environment.html'>baseenv</a></span>()
-)</pre>
+    <pre class="usage"><span class='fu'>clean_fit_lm</span><span class='op'>(</span>
+  <span class='va'>outcome</span>,
+  <span class='va'>variables</span>,
+  <span class='va'>data</span>,
+  <span class='va'>...</span>,
+  intercept <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  weights <span class='op'>=</span> <span class='cn'>NULL</span>,
+  env <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>baseenv</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -220,25 +220,25 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='kw'>mk_data_example</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>k</span>) {
-  <span class='fu'><a href='#base/data.frame.html'>data.frame</a></span>(
-    x1 = <span class='fu'><a href='#base/rep.html'>rep</a></span>(<span class='fu'><a href='#base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"b"</span>), <span class='kw'>k</span>),
-    x2 = <span class='fu'><a href='#base/rep.html'>rep</a></span>(<span class='fu'><a href='#base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>1</span>), <span class='kw'>k</span>),
-    y = <span class='fu'><a href='#base/rep.html'>rep</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, <span class='kw'>k</span>),
-    yC = <span class='fu'><a href='#base/rep.html'>rep</a></span>(<span class='fu'><a href='#base/c.html'>c</a></span>(<span class='fl'>FALSE</span>, <span class='fl'>TRUE</span>, <span class='fl'>TRUE</span>, <span class='fl'>TRUE</span>), <span class='kw'>k</span>),
-    stringsAsFactors = <span class='fl'>FALSE</span>)
-}
+<span class='va'>mk_data_example</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>k</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>
+    x1 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"a"</span>, <span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"b"</span><span class='op'>)</span>, <span class='va'>k</span><span class='op'>)</span>,
+    x2 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span>, <span class='va'>k</span><span class='op'>)</span>,
+    y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, <span class='va'>k</span><span class='op'>)</span>,
+    yC <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>FALSE</span>, <span class='cn'>TRUE</span>, <span class='cn'>TRUE</span>, <span class='cn'>TRUE</span><span class='op'>)</span>, <span class='va'>k</span><span class='op'>)</span>,
+    stringsAsFactors <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='op'>}</span>
 
-<span class='kw'>res_lm</span> <span class='op'>&lt;-</span> <span class='fu'>clean_fit_lm</span>(<span class='st'>"y"</span>, <span class='fu'><a href='#base/c.html'>c</a></span>(<span class='st'>"x1"</span>, <span class='st'>"x2"</span>),
-                       <span class='fu'>mk_data_example</span>(<span class='fl'>1</span>))
-<span class='fu'><a href='#base/length.html'>length</a></span>(<span class='fu'><a href='#base/serialize.html'>serialize</a></span>(<span class='kw'>res_lm</span><span class='op'>$</span><span class='kw'>model</span>, <span class='kw'>NULL</span>))
+<span class='va'>res_lm</span> <span class='op'>&lt;-</span> <span class='fu'>clean_fit_lm</span><span class='op'>(</span><span class='st'>"y"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"x1"</span>, <span class='st'>"x2"</span><span class='op'>)</span>,
+                       <span class='fu'>mk_data_example</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/serialize.html'>serialize</a></span><span class='op'>(</span><span class='va'>res_lm</span><span class='op'>$</span><span class='va'>model</span>, <span class='cn'>NULL</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] 1506</div><div class='input'>
-<span class='kw'>res_lm</span> <span class='op'>&lt;-</span> <span class='fu'>clean_fit_lm</span>(<span class='st'>"y"</span>, <span class='fu'><a href='#base/c.html'>c</a></span>(<span class='st'>"x1"</span>, <span class='st'>"x2"</span>),
-                       <span class='fu'>mk_data_example</span>(<span class='fl'>10000</span>))
-<span class='fu'><a href='#base/length.html'>length</a></span>(<span class='fu'><a href='#base/serialize.html'>serialize</a></span>(<span class='kw'>res_lm</span><span class='op'>$</span><span class='kw'>model</span>, <span class='kw'>NULL</span>))
+<span class='va'>res_lm</span> <span class='op'>&lt;-</span> <span class='fu'>clean_fit_lm</span><span class='op'>(</span><span class='st'>"y"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"x1"</span>, <span class='st'>"x2"</span><span class='op'>)</span>,
+                       <span class='fu'>mk_data_example</span><span class='op'>(</span><span class='fl'>10000</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/serialize.html'>serialize</a></span><span class='op'>(</span><span class='va'>res_lm</span><span class='op'>$</span><span class='va'>model</span>, <span class='cn'>NULL</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] 1506</div><div class='input'>
-<span class='fu'><a href='#stats/predict.html'>predict</a></span>(<span class='kw'>res_lm</span><span class='op'>$</span><span class='kw'>model</span>,
-        newdata = <span class='fu'>mk_data_example</span>(<span class='fl'>1</span>))
+<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>res_lm</span><span class='op'>$</span><span class='va'>model</span>,
+        newdata <span class='op'>=</span> <span class='fu'>mk_data_example</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;   1   2   3   4 
 #&gt; 1.5 1.5 3.0 4.0 </div><div class='input'>
 </div></pre>
@@ -257,7 +257,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

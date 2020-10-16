@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.3</span>
       </span>
     </div>
 
@@ -124,7 +124,7 @@
       <h1 data-toc-skip>Named Arguments</h1>
                         <h4 class="author">John Mount, Win-Vector LLC</h4>
             
-            <h4 class="date">2020-09-06</h4>
+            <h4 class="date">2020-10-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/Named_Arguments.Rmd"><code>vignettes/Named_Arguments.Rmd</code></a></small>
       <div class="hidden name"><code>Named_Arguments.Rmd</code></div>
@@ -147,25 +147,25 @@
 <span class="co">#'</span>
 <span class="co">#' f(7) # returns 8</span>
 <span class="co">#'</span>
-<span class="kw">f</span> <span class="op">&lt;-</span> <span class="fu">function</span>(<span class="kw">x</span>, <span class="kw">...</span>, <span class="kw">inc</span> = <span class="fl">1</span>) {
-   <span class="kw">wrapr</span>::<span class="fu"><a href="../reference/stop_if_dot_args.html">stop_if_dot_args</a></span>(<span class="fu"><a href="#base/substitute.html">substitute</a></span>(<span class="fu"><a href="#base/list.html">list</a></span>(<span class="kw">...</span>)), <span class="st">"f"</span>)
-   <span class="kw">x</span> <span class="op">+</span> <span class="kw">inc</span>
-}
+<span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span>, <span class="va">inc</span> <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">{</span>
+   <span class="fu">wrapr</span><span class="fu">::</span><span class="fu"><a href="../reference/stop_if_dot_args.html">stop_if_dot_args</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/substitute.html">substitute</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">...</span><span class="op">)</span><span class="op">)</span>, <span class="st">"f"</span><span class="op">)</span>
+   <span class="va">x</span> <span class="op">+</span> <span class="va">inc</span>
+<span class="op">}</span>
 
-<span class="fu">f</span>(<span class="fl">7</span>)</pre></div>
+<span class="fu">f</span><span class="op">(</span><span class="fl">7</span><span class="op">)</span></pre></div>
 <pre><code>## [1] 8</code></pre>
 <div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fu">f</span>(<span class="fl">7</span>, inc = <span class="fl">2</span>)</pre></div>
+<span class="fu">f</span><span class="op">(</span><span class="fl">7</span>, inc <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></pre></div>
 <pre><code>## [1] 9</code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="fu"><a href="#base/conditions.html">tryCatch</a></span>(
-  <span class="fu">f</span>(<span class="fl">7</span>, q = <span class="kw">mtcars</span>),
-  error = <span class="fu">function</span>(<span class="kw">e</span>) { <span class="fu"><a href="#base/print.html">print</a></span>(<span class="kw">e</span>) })</pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/conditions.html">tryCatch</a></span><span class="op">(</span>
+  <span class="fu">f</span><span class="op">(</span><span class="fl">7</span>, q <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span>,
+  error <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="op">}</span><span class="op">)</span></pre></div>
 <pre><code>## &lt;simpleError: f unexpected arguments: q = 'mtcars'&gt;</code></pre>
 <div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="fu"><a href="#base/conditions.html">tryCatch</a></span>(
-  <span class="fu">f</span>(<span class="fl">7</span>, <span class="fl">2</span>),
-  error = <span class="fu">function</span>(<span class="kw">e</span>) { <span class="fu"><a href="#base/print.html">print</a></span>(<span class="kw">e</span>) })</pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/conditions.html">tryCatch</a></span><span class="op">(</span>
+  <span class="fu">f</span><span class="op">(</span><span class="fl">7</span>, <span class="fl">2</span><span class="op">)</span>,
+  error <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="op">}</span><span class="op">)</span></pre></div>
 <pre><code>## &lt;simpleError: f unexpected arguments: '2'&gt;</code></pre>
 <p>By R function evaluation rules: any unexpected/undeclared arguments are captured by the “<code>…</code>” argument. Then “wrapr::stop_if_dot_args()” inspects for such values and reports an error if there are such. The “f” string is returned as part of the error, I chose the name of the function as in this case. The “substitute(list(…))” part is R’s way of making the contents of “…” available for inspection.</p>
 <p>You can also use the technique on required arguments. <a href="https://winvector.github.io/wrapr/reference/stop_if_dot_args.html">wrapr::stop_if_dot_args()</a> is a simple low-dependency helper function intended to make writing code such as the above easier. This is under the rubric that hidden errors are worse than thrown exceptions. It is best to find and signal problems early, and near the cause.</p>
@@ -191,7 +191,7 @@ If you have a procedure with 10 parameters, you probably missed some.
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -217,9 +217,6 @@
     <loc>https://winvector.github.io/wrapr//reference/run_package_tests.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/wrapr//reference/run_wrapr_tests.html</loc>
-  </url>
-  <url>
     <loc>https://winvector.github.io/wrapr//reference/seqi.html</loc>
   </url>
   <url>
@@ -244,7 +241,7 @@
     <loc>https://winvector.github.io/wrapr//reference/sub-.Unpacker.html</loc>
   </url>
   <url>
-    <loc>https://winvector.github.io/wrapr//reference/subset-.unpacker.html</loc>
+    <loc>https://winvector.github.io/wrapr//reference/subset-.Unpacker.html</loc>
   </url>
   <url>
     <loc>https://winvector.github.io/wrapr//reference/to.html</loc>

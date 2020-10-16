@@ -42,8 +42,8 @@
 <meta property="og:title" content="Run package tests. — run_package_tests" />
 <meta property="og:description" content="For all files with names of the form &quot;^test_.+\.R$&quot; in the package directory unit_tests
 run all functions with names of the form &quot;^test_.+$&quot; as RUnit tests.
-Attaches RUnit and pkg, requires RUnit.
-Stops on error." />
+Attaches RUnit and pkg, requires RUnit
+Stops on error. We now suggest using tinytest instead of this and RUnit." />
 
 
 
@@ -75,7 +75,7 @@ Stops on error." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.3</span>
       </span>
     </div>
 
@@ -171,25 +171,25 @@ Stops on error." />
     </div>
 
     <div class="ref-description">
-    <p>For all files with names of the form "^test_.+\.R$" in the package directory unit_tests
-run all functions with names of the form "^test_.+$" as RUnit tests.
-Attaches RUnit and pkg, requires RUnit.
-Stops on error.</p>
+    <p>For all files with names of the form <code>"^test_.+\.R$"</code> in the package directory unit_tests
+run all functions with names of the form <code>"^test_.+$"</code> as <code>RUnit</code> tests.
+Attaches <code>RUnit</code> and pkg, requires <code>RUnit</code>
+Stops on error. We now suggest using <code>tinytest</code> instead of this and <code>RUnit</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>run_package_tests</span>(
-  <span class='kw'>pkg</span>,
-  <span class='kw'>...</span>,
-  verbose = <span class='fl'>TRUE</span>,
-  package_test_dirs = <span class='st'>"unit_tests"</span>,
-  test_dirs = <span class='fu'><a href='#base/character.html'>character</a></span>(<span class='fl'>0</span>),
-  stop_on_issue = <span class='fl'>TRUE</span>,
-  stop_if_no_tests = <span class='fl'>TRUE</span>,
-  require_RUnit_attached = <span class='fl'>FALSE</span>,
-  require_pkg_attached = <span class='fl'>TRUE</span>,
-  rngKind = <span class='st'>"Mersenne-Twister"</span>,
-  rngNormalKind = <span class='st'>"Inversion"</span>
-)</pre>
+    <pre class="usage"><span class='fu'>run_package_tests</span><span class='op'>(</span>
+  <span class='va'>pkg</span>,
+  <span class='va'>...</span>,
+  verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  package_test_dirs <span class='op'>=</span> <span class='st'>"unit_tests"</span>,
+  test_dirs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>)</span>,
+  stop_on_issue <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  stop_if_no_tests <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  require_RUnit_attached <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  require_pkg_attached <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  rngKind <span class='op'>=</span> <span class='st'>"Mersenne-Twister"</span>,
+  rngNormalKind <span class='op'>=</span> <span class='st'>"Inversion"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -263,7 +263,7 @@ version is GPL-3, works derived from it must be distributed GPL-3.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
