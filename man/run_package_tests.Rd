@@ -45,10 +45,10 @@ run_package_tests(
 RUnit test results (invisible).
 }
 \description{
-For all files with names of the form "^test_.+\\.R$" in the package directory unit_tests
-run all functions with names of the form "^test_.+$" as RUnit tests.
-Attaches RUnit and pkg, requires RUnit.
-Stops on error.
+For all files with names of the form \code{"^test_.+\\.R$"} in the package directory unit_tests
+run all functions with names of the form \code{"^test_.+$"} as \code{RUnit} tests.
+Attaches \code{RUnit} and pkg, requires \code{RUnit}
+Stops on error. We now suggest using \code{tinytest} instead of this and \code{RUnit}.
 }
 \details{
 Based on \code{Rcpp/doRUnit.R}.  This

@@ -7,11 +7,13 @@ test_fn_test <- function() {
   }
 
   r1 <- 5 %.>% f
-  RUnit::checkEquals(sin(5), r1)
+  expect_equal(sin(5), r1)
 
   class(f) <- "SOME_ODD_NAME"
   r2 <- 5 %.>% f
-  RUnit::checkEquals(sin(5), r2)
+  expect_equal(sin(5), r2)
 
   invisible(NULL)
 }
+
+test_fn_test()

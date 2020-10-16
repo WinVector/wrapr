@@ -7,14 +7,16 @@ test_slots <- function() {
 
   expect <- myTrack@x
   v1 <- myTrack %.>% .@x
-  RUnit::checkEquals(expect, v1)
+  expect_equal(expect, v1)
 
   let(
     c(X = 'x'),
     v2 <- myTrack@X
   )
-  RUnit::checkEquals(expect, v2)
+  expect_equal(expect, v2)
 
   invisible(NULL)
 }
+
+test_slots()
 

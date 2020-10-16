@@ -13,7 +13,7 @@ test_dot_quote <- function() {
   #     "truth: FALSE", "tFpF"       , "tFpT"       |
   #     "truth: TRUE" , "tTpF"       , "tTpT"       )
   #
-  # RUnit::checkEquals(a, b)
+  # expect_equal(a, b)
 
   c <- wrapr::qchar_frame(
     TRUE  , FALSE |
@@ -23,7 +23,10 @@ test_dot_quote <- function() {
     "TRUE"  , "FALSE" |
       "TRUE", "FALSE" )
 
-  RUnit::checkEquals(c, d)
+  expect_equal(c, d)
 
   invisible(NULL)
 }
+
+test_dot_quote()
+

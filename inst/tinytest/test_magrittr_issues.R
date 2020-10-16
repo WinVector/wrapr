@@ -13,29 +13,29 @@ test_magrittr_issues <- function() {
   plus1 <- function(x) x + 1
   plus2 <- plus1 %.>% compose(plus1, .)
   res <- plus2(5)
-  RUnit::checkEquals(7, res)
+  expect_equal(7, res)
 
   # https://github.com/tidyverse/magrittr/issues/38
   8 %.>% assign("x", .)
-  RUnit::checkEquals(8, x)
+  expect_equal(8, x)
 
   # similar to
   # https://github.com/tidyverse/magrittr/issues/105
   res <- 9 %.>% base::sin
-  RUnit::checkEquals(sin(9), res)
+  expect_equal(sin(9), res)
 
 
   # https://github.com/tidyverse/magrittr/issues/156
   # not an issue for magritter with dot notations
   flist <- list(f = sin)
   res <- 5 %.>% flist$f
-  RUnit::checkEquals(sin(5), res)
+  expect_equal(sin(5), res)
   res <- 5 %.>% flist[['f']]
-  RUnit::checkEquals(sin(5), res)
+  expect_equal(sin(5), res)
 
 
   # https://github.com/tidyverse/magrittr/issues/32
-  RUnit::checkException(
+  expect_error(
     5 %.>% return(.)
   )
 
@@ -50,11 +50,11 @@ test_magrittr_issues <- function() {
   v2 <- NA
   v1 <- f(1)
   v2 <- 1 %.>% f
-  RUnit::checkEquals(v1, v2)
+  expect_equal(v1, v2)
 
   # https://github.com/tidyverse/magrittr/issues/121
   res <- 1:3 %.>% .[-1][-1]
-  RUnit::checkEquals(3, res)
+  expect_equal(3, res)
 
   # # . getting captured in various environments
   # # wrapr is more explicit with . so has more of these dangling refs
@@ -62,3 +62,6 @@ test_magrittr_issues <- function() {
 
   invisible(NULL)
 }
+
+test_magrittr_issues()
+

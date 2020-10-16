@@ -2,16 +2,16 @@
 test_pipe_quote_name <- function() {
   q1 <- x %.>% quote
   e1 <- quote(x)
-  RUnit::checkEquals(e1, q1)
+  expect_equal(e1, q1)
 
 
   x <- -5
 
   q2 <- x %.>% quote
-  RUnit::checkEquals(e1, q2)
+  expect_equal(e1, q2)
 
   v0 <- x %.>% abs
-  RUnit::checkEquals(5, v0)
+  expect_equal(5, v0)
 
   # would like x %.>% substitute to equal
   # as.name("x").  Instead we have the slightly weaker
@@ -21,7 +21,7 @@ test_pipe_quote_name <- function() {
 
   vA <- substitute(x) # -5 in test, as.name("x") if run in global env
   vB <- x %.>% substitute # -5 in test, as.name("x") if run in global env
-  RUnit::checkEquals(vA, vB)
+  expect_equal(vA, vB)
 
   f1 <- function() {
     x <- -5
@@ -30,7 +30,7 @@ test_pipe_quote_name <- function() {
     v1
   }
   v1 <- f1()
-  RUnit::checkEquals(-5, v1)
+  expect_equal(-5, v1)
 
   f2 <- function() {
     x <- -5
@@ -39,9 +39,12 @@ test_pipe_quote_name <- function() {
     v2
   }
   v2 <- f2()
-  RUnit::checkEquals(-5, v2)
-  RUnit::checkEquals(v1, v2)
+  expect_equal(-5, v2)
+  expect_equal(v1, v2)
 
 
   invisible(NULL)
 }
+
+test_pipe_quote_name()
+

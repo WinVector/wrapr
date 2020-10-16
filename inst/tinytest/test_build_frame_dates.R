@@ -11,9 +11,12 @@ test_build_frame_dates <- function() {
                   measure = c("AUC", "R2", "AUC", "R2"),
                   value = c(as.Date("2019-03-11") , as.Date("2019-03-12"), as.Date("2019-03-13") , as.Date("2019-03-14") ),
                   stringsAsFactors = FALSE)
-  RUnit::checkTrue("Date" %in% class(d1$date))
-  RUnit::checkTrue("Date" %in% class(d1$value))
-  RUnit::checkTrue(wrapr::check_equiv_frames(d1, d))
+  expect_true("Date" %in% class(d1$date))
+  expect_true("Date" %in% class(d1$value))
+  expect_true(wrapr::check_equiv_frames(d1, d))
 
   invisible(NULL)
 }
+
+test_build_frame_dates()
+

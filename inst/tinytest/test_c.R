@@ -13,8 +13,10 @@ test_c <- function() {
                       stringsAsFactors = FALSE)
       X <- list(X = d$X, X2 = d$"X", v1 = `X`, v2 = ` X`, fX = F(1:3))
     })
-  RUnit::checkEquals(y$X2, 'X')
+  expect_equal(y$X2, 'X')
 
   invisible(NULL)
 }
+
+test_c()
 

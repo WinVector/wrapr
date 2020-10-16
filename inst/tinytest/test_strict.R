@@ -1,7 +1,7 @@
 
 test_strict <- function() {
   # some strictness from wrapr pipe
-  RUnit::checkException(
+  expect_error(
     5 %.>% sin()
   )
 
@@ -9,15 +9,18 @@ test_strict <- function() {
     x %.>% return(.)
     return(7)
   }
-  RUnit::checkException(
+  expect_error(
     badf(7)
   )
 
-  RUnit::checkEquals(sin(5), 5 %.>% sin(.))
+  expect_equal(sin(5), 5 %.>% sin(.))
 
-  RUnit::checkEquals(sin(5), 5 %.>% (sin(.)))
+  expect_equal(sin(5), 5 %.>% (sin(.)))
 
-  RUnit::checkEquals(sin(5), 5 %.>% {sin(.)})
+  expect_equal(sin(5), 5 %.>% {sin(.)})
 
   invisible(NULL)
 }
+
+test_strict()
+

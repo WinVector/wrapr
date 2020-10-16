@@ -1,4 +1,8 @@
 
+# wrapr 2.0.3 2020-10-16
+
+ * Move to tinytest.
+
 # wrapr 2.0.2 2020-08-10
 
  * dot-function (f.).

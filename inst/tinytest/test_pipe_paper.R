@@ -65,7 +65,7 @@ test_pipe_paper <- function() {
     assign("apply_left.character", apply_left.character, envir = .GlobalEnv)
     `%+%` <- wrapr::`%.>%`
     res <- "a" %+% "b" %+% "c"
-    RUnit::checkEquals("abc", res)
+    expect_equal("abc", res)
     rm(list = "apply_left.character",  envir = .GlobalEnv)
   }
 
@@ -96,3 +96,7 @@ test_pipe_paper <- function() {
 
   invisible(NULL)
 }
+
+test_pipe_paper()
+
+

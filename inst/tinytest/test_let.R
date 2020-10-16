@@ -18,7 +18,9 @@ test_let <- function() {
         dres <- d
         dres$RankColumn <- dres$RankColumn - 1
       })
-  RUnit::checkEquals(dres$rank, c(0,1))
+  expect_equal(dres$rank, c(0,1))
 
   invisible(NULL)
 }
+
+test_let()

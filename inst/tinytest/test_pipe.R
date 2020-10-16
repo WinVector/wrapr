@@ -22,13 +22,16 @@ test_pipe <- function() {
     transform(., kpl = mpg * 0.4251) %.>%
     aggregate(. ~ cyl, data = ., FUN = function(.) { mean(.) %.>% round(., 2) })
 
-  RUnit::checkEquals(expect, res)
+  expect_equal(expect, res)
 
   lst <- list(h = sin)
   res <- 5 %.>% lst$h
-  RUnit::checkEquals(sin(5), res)
+  expect_equal(sin(5), res)
   res <- 5 %.>% lst[['h']]
-  RUnit::checkEquals(sin(5), res)
+  expect_equal(sin(5), res)
 
   invisible(NULL)
 }
+
+test_pipe()
+

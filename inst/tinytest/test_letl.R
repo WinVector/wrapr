@@ -16,8 +16,11 @@ test_letl <- function() {
       dlan$NEWCOL <- 7,
       subsMethod= 'langsubs'
   )
-  #RUnit::checkEquals(dsub, dstr)
-  RUnit::checkEquals(dstr, dlan)
+  #expect_equal(dsub, dstr)
+  expect_equal(dstr, dlan)
 
   invisible(NULL)
 }
+
+test_letl()
+

@@ -3,7 +3,7 @@ test_build_frame <- function() {
   testBFRT <- function(d) {
     txt <- draw_frame(d)
     d2 <- eval(parse(text = txt))
-    RUnit::checkEquals(d, d2)
+    expect_equal(d, d2)
   }
 
   d <- data.frame(
@@ -31,7 +31,7 @@ test_build_frame <- function() {
     training = c("loss", "acc"),
     validation = c("val_loss", "val_acc"),
     stringsAsFactors = FALSE)
-  RUnit::checkEquals(d1, d2)
+  expect_equal(d1, d2)
 
   d1 <- qchar_frame(
     x |
@@ -40,7 +40,7 @@ test_build_frame <- function() {
   d2 <- data.frame(
     x = c("1", "2"),
     stringsAsFactors = FALSE)
-  RUnit::checkEquals(d1, d2)
+  expect_equal(d1, d2)
 
   d1 <- data.frame(
     idx = c(1L, 2L),
@@ -53,3 +53,6 @@ test_build_frame <- function() {
 
   invisible(NULL)
 }
+
+test_build_frame()
+

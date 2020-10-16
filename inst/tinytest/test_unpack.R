@@ -9,8 +9,8 @@ test_unpack_unpack <- function() {
 
   unpack[train_set = train, test_set = test] <- split(d, d$g)
   # train_set and test_set now correctly split
-  RUnit::checkTrue(test_set$g[[1]] == 'test')
-  RUnit::checkTrue(train_set$g[[1]] == 'train')
+  expect_true(test_set$g[[1]] == 'test')
+  expect_true(train_set$g[[1]] == 'train')
   rm(list = c('train_set', 'test_set'))
 
   # again with self in local environment
@@ -21,35 +21,39 @@ test_unpack_unpack <- function() {
                   stringsAsFactors = FALSE)
   unpack[train_set = train, test_set = test] <- split(d, d$g)
   # train_set and test_set now correctly split
-  RUnit::checkTrue(test_set$g[[1]] == 'test')
-  RUnit::checkTrue(train_set$g[[1]] == 'train')
+  expect_true(test_set$g[[1]] == 'test')
+  expect_true(train_set$g[[1]] == 'train')
   rm(list = c('train_set', 'test_set'))
 
   split(d, d$g) %.>% unpack[train_set = train, test_set = test]
   # train_set and test_set now correctly split
-  RUnit::checkTrue(test_set$g[[1]] == 'test')
-  RUnit::checkTrue(train_set$g[[1]] == 'train')
+  expect_true(test_set$g[[1]] == 'test')
+  expect_true(train_set$g[[1]] == 'train')
   rm(list = c('train_set', 'test_set'))
 
   # named unpacking NEWNAME = OLDNAME implicit form
   # values are matched by name, not index
   unpack[train, test] <- split(d, d$g)
-  RUnit::checkTrue(test$g[[1]] == 'test')
-  RUnit::checkTrue(train$g[[1]] == 'train')
+  expect_true(test$g[[1]] == 'test')
+  expect_true(train$g[[1]] == 'train')
   rm(list = c('train', 'test'))
 
   # function version
   unpack(split(d, d$g), train, test)
-  RUnit::checkTrue(test$g[[1]] == 'test')
-  RUnit::checkTrue(train$g[[1]] == 'train')
+  expect_true(test$g[[1]] == 'test')
+  expect_true(train$g[[1]] == 'train')
   rm(list = c('train', 'test'))
 
   # pipe version
   split(d, d$g) %.>% unpack(., train, test)
-  RUnit::checkTrue(test$g[[1]] == 'test')
-  RUnit::checkTrue(train$g[[1]] == 'train')
+  expect_true(test$g[[1]] == 'test')
+  expect_true(train$g[[1]] == 'train')
   rm(list = c('train', 'test'))
 }
+
+test_unpack_unpack()
+
+
 
 test_unpack_to <- function() {
   # named unpacking
@@ -60,8 +64,8 @@ test_unpack_to <- function() {
 
   to[train_set = train, test_set = test] <- split(d, d$g)
   # train_set and test_set now correctly split
-  RUnit::checkTrue(test_set$g[[1]] == 'test')
-  RUnit::checkTrue(train_set$g[[1]] == 'train')
+  expect_true(test_set$g[[1]] == 'test')
+  expect_true(train_set$g[[1]] == 'train')
   rm(list = c('train_set', 'test_set'))
 
   # again with self in local environment
@@ -72,37 +76,45 @@ test_unpack_to <- function() {
                   stringsAsFactors = FALSE)
   to[train_set = train, test_set = test] <- split(d, d$g)
   # train_set and test_set now correctly split
-  RUnit::checkTrue(test_set$g[[1]] == 'test')
-  RUnit::checkTrue(train_set$g[[1]] == 'train')
+  expect_true(test_set$g[[1]] == 'test')
+  expect_true(train_set$g[[1]] == 'train')
   rm(list = c('train_set', 'test_set'))
 
   split(d, d$g) %.>% to[train_set = train, test_set = test]
   # train_set and test_set now correctly split
-  RUnit::checkTrue(test_set$g[[1]] == 'test')
-  RUnit::checkTrue(train_set$g[[1]] == 'train')
+  expect_true(test_set$g[[1]] == 'test')
+  expect_true(train_set$g[[1]] == 'train')
   rm(list = c('train_set', 'test_set'))
 
   # named unpacking NEWNAME = OLDNAME implicit form
   # values are matched by name, not index
   to[train, test] <- split(d, d$g)
-  RUnit::checkTrue(test$g[[1]] == 'test')
-  RUnit::checkTrue(train$g[[1]] == 'train')
+  expect_true(test$g[[1]] == 'test')
+  expect_true(train$g[[1]] == 'train')
   rm(list = c('train', 'test'))
 
   # pipe version (no dot)
   split(d, d$g) %.>% to(train, test)
-  RUnit::checkTrue(test$g[[1]] == 'test')
-  RUnit::checkTrue(train$g[[1]] == 'train')
+  expect_true(test$g[[1]] == 'test')
+  expect_true(train$g[[1]] == 'train')
   rm(list = c('train', 'test'))
 }
+
+test_unpack_to()
+
+
 
 
 test_partial_unpack_specification <- function() {
   list(a = 1, b = 2) -> to[e = a, b]
-  RUnit::checkEquals(e, 1)
-  RUnit::checkEquals(b, 2)
+  expect_equal(e, 1)
+  expect_equal(b, 2)
   invisible(NULL)
 }
+
+test_partial_unpack_specification()
+
+
 
 test_grab_rewrite <- function() {
   f <- function(...) {
@@ -111,16 +123,22 @@ test_grab_rewrite <- function() {
     grab_assignments_from_dots(args)
   }
   v <- f(a, c = d, e := f, g <- h, i -> j)
-  RUnit::checkTrue(identical(v, c('a', 'c' = 'd', 'e' = 'f', 'g' = 'h', 'j' = 'i')))
+  expect_true(identical(v, c('a', 'c' = 'd', 'e' = 'f', 'g' = 'h', 'j' = 'i')))
 }
+
+test_grab_rewrite()
 
 
 test_partial_unpack_specification2 <- function() {
   list(a = 1, b = 2) -> to[e <- a, b]
-  RUnit::checkEquals(e, 1)
-  RUnit::checkEquals(b, 2)
+  expect_equal(e, 1)
+  expect_equal(b, 2)
   invisible(NULL)
 }
+
+test_partial_unpack_specification2()
+
+
 
 test_unpack_bquote_position <- function() {
   aname <- 'a'
@@ -130,11 +148,14 @@ test_unpack_bquote_position <- function() {
   # allowed
   unpack(data.frame(a = 1, b = 2), a = .(aname), b)
   # not allowed
-  RUnit::checkException(unpack(data.frame(a = 1, b = 2), .(aname), b), silent = TRUE)
+  expect_error(unpack(data.frame(a = 1, b = 2), .(aname), b))
   # not allowed
-  RUnit::checkException(unpack(data.frame(a = 1, b = 2), .(aname) := a, b), silent = TRUE)
+  expect_error(unpack(data.frame(a = 1, b = 2), .(aname) := a, b))
   # not allowed
-  RUnit::checkException(unpack(data.frame(a = 1, b = 2), x = .(aname) := a, b), silent = TRUE)
+  expect_error(unpack(data.frame(a = 1, b = 2), x = .(aname) := a, b))
 }
+
+test_unpack_bquote_position()
+
 
 
