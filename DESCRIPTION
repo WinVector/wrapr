@@ -1,7 +1,7 @@
 Package: wrapr
 Type: Package
 Title: Wrap R Tools for Debugging and Parametric Programming
-Version: 2.0.3
+Version: 2.0.4
 Date: 2020-10-16
 Authors@R: c(
     person("John", "Mount", email = "jmount@win-vector.com", role = c("aut", "cre")),

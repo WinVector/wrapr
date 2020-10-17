@@ -1,5 +1,5 @@
 
-# wrapr 2.0.3 2020-10-16
+# wrapr 2.0.4 2020-10-16
 
  * Move to tinytest.
 
