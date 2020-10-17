@@ -47,7 +47,7 @@ The notation is also very regular in that many variations of expression work as 
 
 Regularity can be a *big* advantage in teaching and comprehension. Please see ["In Praise of Syntactic Sugar"](https://win-vector.com/2017/07/07/in-praise-of-syntactic-sugar/) for discussion.
 
-The dot arrow pipe has S3/S4 dispatch (please see \url{https://journal.r-project.org/archive/2018/RJ-2018-042/index.html}).
+The dot arrow pipe has S3/S4 dispatch (please see ["Dot-Pipe: an S3 Extensible Pipe for R"](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html)).
 However as the right-hand side of the pipe is normally held unevaluated, we don't know the type except in special
 cases (such as the rigth-hand side being referred to by a name or variable).  To force the evaluation of a pipe term,
 simply wrap it in .().
