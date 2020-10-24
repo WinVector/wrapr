@@ -134,21 +134,22 @@ checkColsFormUniqueKeys <- function(data, keyColNames) {
 
 
 
-#' Check two data.frames are equivilent after sorting columns and rows.
+#' Check two data.frames are equivalent after sorting columns and rows.
 #'
-#' Confirm two dataframes are equivilent after reordering columns and rows.
+#' Confirm two dataframes are equivalent after reordering columns and rows.
 #'
 #' @param d1 data.frame 1
 #' @param d2 data.frame 2
 #' @param ... force later arguments to bind by name
 #' @param tolerance numeric comparision tolerance
-#' @return logical TRUE if equivilent
+#' @return logical TRUE if equivalent
 #'
 #' @export
 #'
 check_equiv_frames <- function(d1, d2,
                                ...,
                                tolerance = sqrt(.Machine$double.eps)) {
+  wrapr::stop_if_dot_args(substitute(list(...)), "wrapr::check_equiv_frames")
   if( (!is.data.frame(d1)) != (!is.data.frame(d2)) ) {
     return(FALSE)
   }

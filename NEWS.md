@@ -1,4 +1,9 @@
 
+# wrapr 2.0.5 2020-10-24
+
+ * More ... checks.
+ * Remove RUnit suggest / test function.
+
 # wrapr 2.0.4 2020-10-16
 
  * Move to tinytest.

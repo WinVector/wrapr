@@ -2,7 +2,7 @@
 % Please edit documentation in R/compare_frames.R
 \name{check_equiv_frames}
 \alias{check_equiv_frames}
-\title{Check two data.frames are equivilent after sorting columns and rows.}
+\title{Check two data.frames are equivalent after sorting columns and rows.}
 \usage{
 check_equiv_frames(d1, d2, ..., tolerance = sqrt(.Machine$double.eps))
 }
@@ -16,8 +16,8 @@ check_equiv_frames(d1, d2, ..., tolerance = sqrt(.Machine$double.eps))
 \item{tolerance}{numeric comparision tolerance}
 }
 \value{
-logical TRUE if equivilent
+logical TRUE if equivalent
 }
 \description{
-Confirm two dataframes are equivilent after reordering columns and rows.
+Confirm two dataframes are equivalent after reordering columns and rows.
 }

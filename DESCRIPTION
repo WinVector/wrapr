@@ -1,8 +1,8 @@
 Package: wrapr
 Type: Package
 Title: Wrap R Tools for Debugging and Parametric Programming
-Version: 2.0.4
-Date: 2020-10-16
+Version: 2.0.5
+Date: 2020-10-24
 Authors@R: c(
     person("John", "Mount", email = "jmount@win-vector.com", role = c("aut", "cre")),
     person("Nina", "Zumel", email = "nzumel@win-vector.com", role = c("aut")),
@@ -32,7 +32,6 @@ Suggests:
     knitr,
     graphics,
     rmarkdown,
-    RUnit,
     R.rsp, 
     tinytest
 VignetteBuilder: knitr, R.rsp
