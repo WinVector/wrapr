@@ -30,6 +30,9 @@ grab_assignments_from_dots <- function(captured_args, unpack_environment = paren
     nms <- names(captured_args)
     for(i in seqi(2, length(captured_args))) {
       ai <- captured_args[[i]]
+      if(missing(ai)) {
+        stop("unexpected missing argument, this is often the symptom of an extra comma in your argument list")
+      }
       # .(a) := a case
       if(is.call(ai) && (as.character(ai[[1]])[[1]] == ':=')) {
         if((length(ai) >= 2) && is.call(ai[[2]]) && (as.character(ai[[2]])[[1]] == '.')) {

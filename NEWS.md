@@ -1,7 +1,8 @@
 
-# wrapr 2.0.5 2020-10-24
+# wrapr 2.0.5 2020-11-04
 
  * More ... checks.
+ * Better error message for extra comman in unpack.
  * Remove RUnit suggest / test function.
 
 # wrapr 2.0.4 2020-10-16
