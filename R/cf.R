@@ -75,6 +75,13 @@ to_vector <- function(lst) {
 #'
 build_frame <- function(..., cf_eval_environment = parent.frame()) {
   v <- as.list(substitute(list(...)))
+  lengths <- vapply(
+    v,
+    function(vi) {nchar(paste(as.character(vi), collapse = ''))},
+    numeric(1))
+  if(any(lengths <= 0)) {
+    stop("empty entry, this is often caused by an extra comma")
+  }
   v <- lapply(seqi(2, length(v)), function(i) {v[[i]]})
   force(cf_eval_environment)
   lv <- length(v)
@@ -382,6 +389,13 @@ qchar_frame <- function(...) {
   if(lv<1) {
     return(data.frame())
   }
+  lengths <- vapply(
+    v,
+    function(vi) {nchar(paste(as.character(vi), collapse = ''))},
+    numeric(1))
+  if(any(lengths <= 0)) {
+    stop("empty entry, this is often caused by an extra comma")
+  }
   # inspect input
   cls <- vapply(v, class, character(1))
   if(length(setdiff(cls, c("call", "character", "name", "numeric", "integer", "logical", "factor")))>0) {
@@ -419,7 +433,7 @@ qchar_frame <- function(...) {
   ncell <- length(vu)
   nrow <- ncell/ncol
   if(abs(nrow - round(nrow))>0.1) {
-    stop("wrapr::qchar_frame confused as to cell count")
+    stop("wrapr::qchar_frame confused as to cell count (this can be an extra comma or mis-placed separator)")
   }
   fr <- as.data.frame(matrix(data = vu[-seq_len(ncol)],
                              ncol=ncol,
