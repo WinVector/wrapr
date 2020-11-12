@@ -64,6 +64,9 @@ qc <- function(..., .wrapr_private_var_env = parent.frame()) {
     2:length(.wrapr_private_var_args),
     function(.wrapr_private_var_i) {
       .wrapr_private_var_ei <- .wrapr_private_var_args[[.wrapr_private_var_i]]
+      if(missing(.wrapr_private_var_ei)) {
+        stop("saw missing argument to qc, the cause is often an extra comma in the argument list")
+      }
       .wrapr_private_var_ni <- NULL
       if(.wrapr_private_var_i<=length(.wrapr_private_var_names)) {
         .wrapr_private_var_ni <- .wrapr_private_var_names[[.wrapr_private_var_i]]
