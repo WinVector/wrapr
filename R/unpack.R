@@ -689,6 +689,8 @@ to <- UnpackerP(object_name = "to")
 #' @param ... argument names to write to
 #' @return value passed in (invisible)
 #'
+#' @seealso \code{\link{pack}}
+#'
 #' @examples
 #'
 #' # named unpacking

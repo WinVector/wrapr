@@ -72,3 +72,6 @@ print(test)
 rm(list = c('train', 'test'))
 
 }
+\seealso{
+\code{\link{pack}}
+}
