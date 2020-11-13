@@ -22,7 +22,7 @@
 #' pack(1, 2)  # list('1' = 1, '2' = 2)
 #'
 #' v <- pack(x = 8, y = 9)  # list(x = 8, y = 9)
-#' unpack[x, y] <- v
+#' v -> unpack[x, y]
 #' print(x)  # 8
 #' print(y)  # 9
 #'
