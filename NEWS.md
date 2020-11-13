@@ -1,5 +1,5 @@
 
-# wrapr 2.0.5 2020-11-12
+# wrapr 2.0.5 2020-11-13
 
  * More ... checks.
  * Better error message for extra comman in unpack.

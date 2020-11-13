@@ -106,6 +106,9 @@ qae <- function(...) {
   rhs <- character(len-1)
   for(i in (2:len)) {
     ei <- ae_terms[[i]]
+    if(missing(ei)) {
+      stop("saw missing argument, often this is caused by an extra comma")
+    }
     ni <- nms[[i]]
     li <- length(ei)
     vi <- ""
