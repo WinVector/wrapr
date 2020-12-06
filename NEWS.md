@@ -1,5 +1,5 @@
 
-# wrapr 2.0.6 2020-11-13
+# wrapr 2.0.6 2020-12-06
 
  * Bump version.
  * Add pack().
