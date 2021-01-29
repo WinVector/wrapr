@@ -1,7 +1,7 @@
 
 #' Parse argument as a vector of values allowing "blank separators".
 #'
-#' Accepts simple string that do not include escapes. Separates data on whitespace, comma, and pipe.
+#' Accepts simple strings that do not include escapes. Separates data on whitespace, comma, and pipe.
 #' Pattern matching adapted for US English.
 #' Suggested by Emil Erik Pula Bellamy Begtrup-Bright \url{https://github.com/WinVector/wrapr/issues/12}.
 #'
