@@ -55,8 +55,8 @@ bc <- function(s) {
   if(!is.null(num)) {
     return(num)
   }
-  single_quote_str_all <- "(^'([^']*)'$)"
-  double_quote_str_all <- '(^"([^"]*)"$)'
+  single_quote_str_all <- paste0('^', single_quote_str, '$')
+  double_quote_str_all <-  paste0('^', double_quote_str, '$')
   quoted <- paste(
     single_quote_str_all,
     double_quote_str_all,
