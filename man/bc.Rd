@@ -13,8 +13,9 @@ bc(s)
 vector of values
 }
 \description{
-Accepts simple string that do not include escapes. Separates data on whitespace, comma, and pipe.
-Pattern matching adapted for US English.
+Accepts simple strings that do not include escapes. Separates data on whitespace, separating symbols.
+Words are assumed to start with '.', '_', or \code{getOption('wrapr.bc.alphabet')} (defaults to \code{[A-Za-z]} equivalent).
+Separating symbols are whitespace and \code{getOption('wrapr.bc.seps')} (defaults to \code{,|}).
 Suggested by Emil Erik Pula Bellamy Begtrup-Bright \url{https://github.com/WinVector/wrapr/issues/12}.
 }
 \examples{
@@ -22,5 +23,6 @@ Suggested by Emil Erik Pula Bellamy Begtrup-Bright \url{https://github.com/WinVe
 bc('1 2 "c", d') # returns c("1", "2", "c", "d")
 bc('1 2 3') # returns c(1, 2, 3)
 bc('1 2 "3"') # returns c("1", "2", "3")
+bc('1,2|3.4') # returns c(1, 2, 3.4)
 
 }
