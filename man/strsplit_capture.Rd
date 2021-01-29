@@ -21,13 +21,13 @@ strsplit_capture(
 
 \item{...}{force later arguments to bind by name}
 
-\item{ignore.case}{passed to gregexpr}
+\item{ignore.case}{passed to \code{gregexpr}}
 
-\item{fixed}{passed to gregexpr}
+\item{fixed}{passed to \code{gregexpr}}
 
-\item{perl}{passed to gregexpr}
+\item{perl}{passed to \code{gregexpr}}
 
-\item{useBytes}{passed to gregexpr}
+\item{useBytes}{passed to \code{gregexpr}}
 }
 \value{
 list of string segments annotated with is_sep.
