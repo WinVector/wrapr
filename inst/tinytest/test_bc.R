@@ -38,4 +38,21 @@ expect_error(
   bc('0x70x7')
 )
 
+expect_equal(
+  bc("'x\\''"),
+  "x\\'"
+)
 
+expect_error(
+  bc("'x''")
+)
+
+
+expect_equal(
+  bc("TRUE FALSE"),
+  c(TRUE, FALSE)
+)
+
+expect_error(
+  bc("'x' y 7 + 3")
+)

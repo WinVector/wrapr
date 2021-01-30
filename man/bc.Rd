@@ -4,16 +4,20 @@
 \alias{bc}
 \title{Blank Concatenate. Parse argument as a vector of values allowing "blank separators".}
 \usage{
-bc(s)
+bc(s, ..., strict = TRUE)
 }
 \arguments{
 \item{s}{string to parse}
+
+\item{...}{force later arguments to be set by name}
+
+\item{strict}{logical, if TRUE throw exception on confusing input}
 }
 \value{
 vector of values
 }
 \description{
-Accepts simple strings that do not include escapes. Separates data on whitespace, separating symbols.
+Separates string data on whitespace and separating symbols into an array.
 Words are assumed to start with '.', '_', or \code{getOption('wrapr.bc.alphabet')} (defaults to \code{[A-Za-z]} equivalent).
 Separating symbols are whitespace and \code{getOption('wrapr.bc.seps')} (defaults to \code{,|}).
 }

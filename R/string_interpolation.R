@@ -41,7 +41,7 @@ strsplit_capture <- function(x, split,
   idxs <- as.integer(matches)
   if((length(idxs)<1) || (idxs[[1]]<1)) {
     attr(x, "is_sep") <- FALSE
-    return(x)
+    return(list(x))
   }
   match_posns <- logical(nchar(x)+1)
   match_posns[idxs] <- TRUE
