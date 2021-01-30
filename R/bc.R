@@ -30,6 +30,7 @@ bc <- function(s) {
   double_quote_str <- '("([^"]*)")'
   number_l <- '([+-]?(\\d)+[.]?(\\d)*([eE][+-]?(\\d)+)?)'
   number_r <- '([+-]?(\\d)*[.]?(\\d)+([eE][+-]?(\\d)+)?)'
+  hex <- '(0[xX][0-9a-fA-F]+)'
   word <- paste0('([._', getOption('wrapr.bc.alphabet') ,']([._', getOption('wrapr.bc.alphabet') ,']|\\d)*)')
   space <- '(\\s+)'
   sep <- paste0('((\\s|[', sep_symbols, '])+)')
@@ -38,6 +39,7 @@ bc <- function(s) {
     double_quote_str,
     number_l,
     number_r,
+    hex,
     word,
     space,
     sep,

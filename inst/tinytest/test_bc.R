@@ -18,8 +18,8 @@ expect_equal(
   c(1, 2, 3.4)
 )
 
-expect_equal(
-  bc('w9'),
-  'w9'
-)
 
+expect_equal(
+  bc('0xF7 10'),
+  c(247, 10)
+)
