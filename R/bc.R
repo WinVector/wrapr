@@ -2,7 +2,6 @@
 #' Blank Concatenate. Parse argument as a vector of values allowing "blank separators".
 #'
 #' Separates string data on whitespace and separating symbols into an array.
-#' Words are assumed to start with '.', '_', or \code{getOption('wrapr.bc.alphabet')} (defaults to \code{[A-Za-z]} equivalent).
 #' Separating symbols are whitespace and \code{getOption('wrapr.bc.seps')} (defaults to \code{,|}).
 #'
 #' Can throw exception on lack of explicit value separators, example: \code{bc('"a""b"')}.
@@ -10,6 +9,7 @@
 #'
 #' @param s string to parse
 #' @param ... force later arguments to be set by name
+#' @param sep_symbols characters to consider separators
 #' @param strict logical, if TRUE throw exception on confusing input
 #' @return vector of values
 #'
@@ -25,6 +25,7 @@
 bc <- function(
   s,
   ...,
+  sep_symbols = ',|',
   strict = TRUE) {
   # check arguments
   if(!is.character(s)) {
@@ -35,23 +36,24 @@ bc <- function(
   }
   wrapr::stop_if_dot_args(substitute(list(...)), "wrapr::bc")
 
+  # replace all white-space with space
+  s <- gsub('\\s+', ' ', s)
+
   # tear up string
-  sep_symbols <- getOption('wrapr.bc.seps')
-  # single_quote_str <- "('[^']*')"  # no escapes
   single_quote_str <- "('((\\\\.)|[^'])*')"  # with escapes
   double_quote_str <- gsub("'", '"', single_quote_str, fixed = TRUE)
   number_l <- '([+-]?(\\d)+[.]?(\\d)*([eE][+-]?(\\d)+)?)'
-  number_r <- '([+-]?(\\d)*[.]?(\\d)+([eE][+-]?(\\d)+)?)'
+  number_r <- '([+-]?(\\d)*[.]?(\\d)+([eE][+-]?(\\d)+)?)'  # can overlap with other number: 1.1
   hex <- '(0[xX][0-9a-fA-F]+)'
-  word <- paste0('([._', getOption('wrapr.bc.alphabet') ,']+)')
-  sep_regexp <- paste0('((\\s|[', sep_symbols, '])+)')
+  symbol_regexp <- paste0('([^0-9 \\\'"', sep_symbols,'+-][^ \\\'"', sep_symbols,']*)')  # can overlap with number: .4
+  sep_regexp <- paste0('([ ', sep_symbols, ']+)')
   pattern <- paste(
     single_quote_str,
     double_quote_str,
     number_l,
     number_r,
     hex,
-    word,
+    symbol_regexp,
     sep_regexp,
     sep = '|')
   toks <- strsplit_capture(s,
@@ -81,7 +83,7 @@ bc <- function(
   }
 
   # limit down to non-separator regions
-  is_waste <- paste0('^(\\s|[', sep_symbols, '])*$')
+  is_waste <- paste0('^([ ', sep_symbols, ']*)$')
   indices <- grep(is_waste, toks, invert = TRUE)
 
   # special case length 0
