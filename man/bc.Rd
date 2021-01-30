@@ -2,7 +2,7 @@
 % Please edit documentation in R/bc.R
 \name{bc}
 \alias{bc}
-\title{Parse argument as a vector of values allowing "blank separators".}
+\title{Blank Concatenate. Parse argument as a vector of values allowing "blank separators".}
 \usage{
 bc(s)
 }
@@ -16,6 +16,9 @@ vector of values
 Accepts simple strings that do not include escapes. Separates data on whitespace, separating symbols.
 Words are assumed to start with '.', '_', or \code{getOption('wrapr.bc.alphabet')} (defaults to \code{[A-Za-z]} equivalent).
 Separating symbols are whitespace and \code{getOption('wrapr.bc.seps')} (defaults to \code{,|}).
+}
+\details{
+Can throw exception on lack of explicit value separators, example: \code{bc('"a""b"')}.
 Suggested by Emil Erik Pula Bellamy Begtrup-Bright \url{https://github.com/WinVector/wrapr/issues/12}.
 }
 \examples{

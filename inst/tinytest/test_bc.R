@@ -23,3 +23,19 @@ expect_equal(
   bc('0xF7 10'),
   c(247, 10)
 )
+
+expect_equal(
+  bc(''),
+  NULL
+)
+
+expect_equal(
+  bc('0x7,0x7'),
+  c(7, 7)
+)
+
+expect_error(
+  bc('0x70x7')
+)
+
+
