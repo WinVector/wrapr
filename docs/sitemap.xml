@@ -55,6 +55,9 @@
     <loc>https://winvector.github.io/wrapr//reference/as_named_list.html</loc>
   </url>
   <url>
+    <loc>https://winvector.github.io/wrapr//reference/bc.html</loc>
+  </url>
+  <url>
     <loc>https://winvector.github.io/wrapr//reference/bquote_call.html</loc>
   </url>
   <url>
@@ -178,6 +181,9 @@
     <loc>https://winvector.github.io/wrapr//reference/orderv.html</loc>
   </url>
   <url>
+    <loc>https://winvector.github.io/wrapr//reference/pack.html</loc>
+  </url>
+  <url>
     <loc>https://winvector.github.io/wrapr//reference/parLapplyLBm.html</loc>
   </url>
   <url>
@@ -212,9 +218,6 @@
   </url>
   <url>
     <loc>https://winvector.github.io/wrapr//reference/returnCapture.html</loc>
-  </url>
-  <url>
-    <loc>https://winvector.github.io/wrapr//reference/run_package_tests.html</loc>
   </url>
   <url>
     <loc>https://winvector.github.io/wrapr//reference/seqi.html</loc>
