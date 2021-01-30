@@ -56,3 +56,13 @@ expect_equal(
 expect_error(
   bc("'x' y 7 + 3")
 )
+
+expect_equal(
+  bc('"a|b" "c,d",f "g e"|q,"t\\"z"'),
+  c("a|b", "c,d", "f", "g e", "q", "t\\\"z")
+)
+
+expect_equal(
+  bc('"a|b"    "c,d"    "f"      "g e"    "q"      "t\\\"z"'),
+    c("a|b",   "c,d",   "f",     "g e",   "q",     "t\\\"z")
+)
