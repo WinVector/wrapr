@@ -31,8 +31,8 @@ bc <- function(s) {
 
   # tear up string
   sep_symbols <- getOption('wrapr.bc.seps')
-  single_quote_str <- "('([^']*)')"
-  double_quote_str <- '("([^"]*)")'
+  single_quote_str <- "('[^']*')"
+  double_quote_str <- gsub("'", '"', single_quote_str, fixed = TRUE)
   number_l <- '([+-]?(\\d)+[.]?(\\d)*([eE][+-]?(\\d)+)?)'
   number_r <- '([+-]?(\\d)*[.]?(\\d)+([eE][+-]?(\\d)+)?)'
   hex <- '(0[xX][0-9a-fA-F]+)'
