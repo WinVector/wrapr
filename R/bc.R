@@ -2,7 +2,6 @@
 #' Blank Concatenate. Parse argument as a vector of values allowing "blank separators".
 #'
 #' Separates string data on whitespace and separating symbols into an array.
-#' Separating symbols are whitespace and \code{getOption('wrapr.bc.seps')} (defaults to \code{,|}).
 #'
 #' Can throw exception on lack of explicit value separators, example: \code{bc('"a""b"')}.
 #' Suggested by Emil Erik Pula Bellamy Begtrup-Bright \url{https://github.com/WinVector/wrapr/issues/12}.

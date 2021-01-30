@@ -20,7 +20,6 @@ vector of values
 }
 \description{
 Separates string data on whitespace and separating symbols into an array.
-Separating symbols are whitespace and \code{getOption('wrapr.bc.seps')} (defaults to \code{,|}).
 }
 \details{
 Can throw exception on lack of explicit value separators, example: \code{bc('"a""b"')}.
