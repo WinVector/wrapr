@@ -1,5 +1,5 @@
 
-# wrapr 2.0.7 2021-01-30
+# wrapr 2.0.7 2021-02-03
 
  * Add bc() blank-separated parsing, suggested by Emil Erik Pula Bellamy Begtrup-Bright \url{https://github.com/WinVector/wrapr/issues/12}.
  * Fix strsplit_capture empty-return type.

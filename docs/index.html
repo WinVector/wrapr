@@ -167,12 +167,12 @@
 <li>
 <a href="https://winvector.github.io/wrapr/reference/sortv.html"><code>sortv()</code></a> (sort a data.frame by a set of columns).</li>
 </ul>
-<!-- end list --><div class="sourceCode" id="cb1"><pre class="downlit">
+<div class="sourceCode" id="cb1"><pre class="downlit">
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/WinVector/wrapr">wrapr</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html">packageVersion</a></span><span class="op">(</span><span class="st">"wrapr"</span><span class="op">)</span>
- <span class="co">#  [1] '2.0.2'</span>
+ <span class="co">#  [1] '2.0.7'</span>
 <span class="fu"><a href="https://rdrr.io/r/base/date.html">date</a></span><span class="op">(</span><span class="op">)</span>
- <span class="co">#  [1] "Mon Aug 10 15:24:46 2020"</span></pre></div>
+ <span class="co">#  [1] "Wed Feb  3 07:32:56 2021"</span></pre></div>
 </div>
 <div id="-dot-pipe-or-dot-arrow" class="section level2">
 <h2 class="hasAnchor">
@@ -217,28 +217,28 @@
 <p>Regularity can be a <em>big</em> advantage in teaching and comprehension. Please see <a href="https://win-vector.com/2017/07/07/in-praise-of-syntactic-sugar/">“In Praise of Syntactic Sugar”</a> for more details. Some formal documentation can be found <a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf">here</a>.</p>
 <ul>
 <li>
-<p>Some obvious “dot-free”" right-hand sides are rejected. Pipelines are meant to move values through a sequence of transforms, and not just for side-effects. Example: <code>5 %.&gt;% 6</code> deliberately stops as <code>6</code> is a right-hand side that obviously does not use its incoming value. This check is only applied to values, not functions on the right-hand side.</p>
+Some obvious “dot-free”" right-hand sides are rejected. Pipelines are meant to move values through a sequence of transforms, and not just for side-effects. Example: <code>5 %.&gt;% 6</code> deliberately stops as <code>6</code> is a right-hand side that obviously does not use its incoming value. This check is only applied to values, not functions on the right-hand side.
 </li>
 <li>
-<p>Trying to pipe into a an “zero argument function evaluation expression” such as <code><a href="https://rdrr.io/r/base/Trig.html">sin()</a></code> is prohibited as it looks too much like the user declaring <code><a href="https://rdrr.io/r/base/Trig.html">sin()</a></code> takes no arguments. One must pipe into either a function, function name, or an non-trivial expression (such as <code><a href="https://rdrr.io/r/base/Trig.html">sin(.)</a></code>). A useful error message is returned to the user: <code>wrapr::pipe does not allow direct piping into a no-argument function call expression (such as "sin()" please use sin(.))</code>.</p>
+Trying to pipe into a an “zero argument function evaluation expression” such as <code><a href="https://rdrr.io/r/base/Trig.html">sin()</a></code> is prohibited as it looks too much like the user declaring <code><a href="https://rdrr.io/r/base/Trig.html">sin()</a></code> takes no arguments. One must pipe into either a function, function name, or an non-trivial expression (such as <code><a href="https://rdrr.io/r/base/Trig.html">sin(.)</a></code>). A useful error message is returned to the user: <code>wrapr::pipe does not allow direct piping into a no-argument function call expression (such as "sin()" please use sin(.))</code>.
 </li>
 <li>
-<p>Some reserved words can not be piped into. One example is <code>5 %.&gt;% return(.)</code> is prohibited as the obvious pipe implementation would not actually escape from user functions as users may intend.</p>
+Some reserved words can not be piped into. One example is <code>5 %.&gt;% return(.)</code> is prohibited as the obvious pipe implementation would not actually escape from user functions as users may intend.
 </li>
 <li>
-<p>Obvious de-references (such as <code><a href="https://rdrr.io/r/base/Extract.html">$</a></code>, <code><a href="https://rdrr.io/r/base/ns-dblcolon.html">::</a></code>, <code><a href="https://rdrr.io/r/base/slotOp.html">@</a></code>, and a few more) on the right-hand side are treated performed (example: <code>5 %.&gt;% base::sin(.)</code>).</p>
+Obvious de-references (such as <code><a href="https://rdrr.io/r/base/Extract.html">$</a></code>, <code><a href="https://rdrr.io/r/base/ns-dblcolon.html">::</a></code>, <code><a href="https://rdrr.io/r/base/slotOp.html">@</a></code>, and a few more) on the right-hand side are treated performed (example: <code>5 %.&gt;% base::sin(.)</code>).
 </li>
 <li>
-<p>Outer parenthesis on the right-hand side are removed (example: <code>5 %.&gt;% (sin(.))</code>).</p>
+Outer parenthesis on the right-hand side are removed (example: <code>5 %.&gt;% (sin(.))</code>).
 </li>
 <li>
-<p>Anonymous function constructions are evaluated so the function can be applied (example: <code>5 %.&gt;% function(x) {x+1}</code> returns 6, just as <code>5 %.&gt;% (function(x) {x+1})(.)</code> does).</p>
+Anonymous function constructions are evaluated so the function can be applied (example: <code>5 %.&gt;% function(x) {x+1}</code> returns 6, just as <code>5 %.&gt;% (function(x) {x+1})(.)</code> does).
 </li>
 <li>
-<p>Checks and transforms are not performed on items inside braces (example: <code>5 %.&gt;% { function(x) {x+1} }</code> returns <code>function(x) {x+1}</code>, not 6).</p>
+Checks and transforms are not performed on items inside braces (example: <code>5 %.&gt;% { function(x) {x+1} }</code> returns <code>function(x) {x+1}</code>, not 6).
 </li>
 <li>
-<p>The dot arrow pipe has S3/S4 dispatch (please see ). However as the right-hand side of the pipe is normally held unevaluated, we don’t know the type except in special cases (such as the rigth-hand side being referred to by a name or variable). To force the evaluation of a pipe term, simply wrap it in <code>.()</code>.</p>
+The dot arrow pipe has S3/S4 dispatch (please see ). However as the right-hand side of the pipe is normally held unevaluated, we don’t know the type except in special cases (such as the rigth-hand side being referred to by a name or variable). To force the evaluation of a pipe term, simply wrap it in <code>.()</code>.
 </li>
 </ul>
 <p>The dot pipe is also user configurable through standard <code>S3</code>/<code>S4</code> methods.</p>
@@ -270,23 +270,23 @@
 <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">train_data</span><span class="op">)</span></pre></div>
 <table class="table">
 <thead><tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">x</th>
 <th align="left">group</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>1</td>
+<td align="left">1</td>
 <td align="right">1</td>
 <td align="left">train</td>
 </tr>
 <tr class="even">
-<td>4</td>
+<td align="left">4</td>
 <td align="right">4</td>
 <td align="left">train</td>
 </tr>
 <tr class="odd">
-<td>7</td>
+<td align="left">7</td>
 <td align="right">7</td>
 <td align="left">train</td>
 </tr>
@@ -496,7 +496,6 @@
 <span class="op">)</span></pre></div>
 <p><img src="tools/README-unnamed-chunk-3-1.png"><!-- --></p>
 <div class="sourceCode" id="cb20"><pre class="downlit">
-
 <span class="co"># alter string</span>
 <span class="fu"><a href="reference/si.html">si</a></span><span class="op">(</span><span class="st">"plot(x = .(variable), y = .(variable))"</span><span class="op">)</span>
  <span class="co">#  [1] "plot(x = \"angle\", y = \"angle\")"</span></pre></div>

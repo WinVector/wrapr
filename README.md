@@ -10,62 +10,55 @@ for writing and debugging `R` code.
 
 ![](https://github.com/WinVector/wrapr/raw/master/tools/wraprs.png)
 
-## Introduction
+Introduction
+------------
 
 Primary `wrapr` services include:
 
-  - [`%.>%`](https://winvector.github.io/wrapr/reference/dot_arrow.html)
-    (dot arrow
-    pipe)
-  - [`unpack`](https://winvector.github.io/wrapr/reference/unpack.html)/[`to`](https://winvector.github.io/wrapr/reference/to.html)
-    (assign to multiple
-    values)
-  - [`as_named_list`](https://winvector.github.io/wrapr/reference/as_named_list.html)
-    (build up a named list
-    quickly)
-  - [`build_frame()`](https://winvector.github.io/wrapr/reference/build_frame.html)
+-   [`%.>%`](https://winvector.github.io/wrapr/reference/dot_arrow.html)
+    (dot arrow pipe)
+-   [`unpack`](https://winvector.github.io/wrapr/reference/unpack.html)/[`to`](https://winvector.github.io/wrapr/reference/to.html)
+    (assign to multiple values)
+-   [`as_named_list`](https://winvector.github.io/wrapr/reference/as_named_list.html)
+    (build up a named list quickly)
+-   [`build_frame()`](https://winvector.github.io/wrapr/reference/build_frame.html)
     /
     [`draw_frame()`](https://winvector.github.io/wrapr/reference/draw_frame.html)
     ( `data.frame` builders and formatters )
-  - [`qc()`](https://winvector.github.io/wrapr/reference/qc.html)
-    (quoting
-    concatenate)
-  - [`:=`](https://winvector.github.io/wrapr/reference/named_map_builder.html)
+-   [`qc()`](https://winvector.github.io/wrapr/reference/qc.html)
+    (quoting concatenate)
+-   [`:=`](https://winvector.github.io/wrapr/reference/named_map_builder.html)
     (named map builder)
-  - [`%?%`](https://winvector.github.io/wrapr/reference/coalesce.html)
+-   [`%?%`](https://winvector.github.io/wrapr/reference/coalesce.html)
     (coalesce)
-  - [`%.|%`](https://winvector.github.io/wrapr/reference/reduceexpand.html)
-    (reduce/expand
-    args)
-  - [`uniques()`](https://winvector.github.io/wrapr/reference/uniques.html)
-    (safe `unique()`
-    replacement)
-  - [`partition_tables()`](https://winvector.github.io/wrapr/reference/partition_tables.html)
+-   [`%.|%`](https://winvector.github.io/wrapr/reference/reduceexpand.html)
+    (reduce/expand args)
+-   [`uniques()`](https://winvector.github.io/wrapr/reference/uniques.html)
+    (safe `unique()` replacement)
+-   [`partition_tables()`](https://winvector.github.io/wrapr/reference/partition_tables.html)
     /
     [`execute_parallel()`](https://winvector.github.io/wrapr/reference/execute_parallel.html)
-  - [`DebugFnW()`](https://winvector.github.io/wrapr/reference/DebugFnW.html)
-    (function debug
-    wrappers)
-  - [`λ()`](https://winvector.github.io/wrapr/reference/defineLambda.html)
+-   [`DebugFnW()`](https://winvector.github.io/wrapr/reference/DebugFnW.html)
+    (function debug wrappers)
+-   [`λ()`](https://winvector.github.io/wrapr/reference/defineLambda.html)
     (anonymous function builder)
-  - [`let()`](https://winvector.github.io/wrapr/reference/let.html) (let
+-   [`let()`](https://winvector.github.io/wrapr/reference/let.html) (let
     block)
-  - [`evalb()`/`si()`](https://winvector.github.io/wrapr/articles/bquote.html)
+-   [`evalb()`/`si()`](https://winvector.github.io/wrapr/articles/bquote.html)
     (evaluate with `bquote` / string interpolation)
-  - [`sortv()`](https://winvector.github.io/wrapr/reference/sortv.html)
+-   [`sortv()`](https://winvector.github.io/wrapr/reference/sortv.html)
     (sort a data.frame by a set of columns).
-
-<!-- end list -->
 
 ``` r
 library(wrapr)
 packageVersion("wrapr")
- #  [1] '2.0.2'
+ #  [1] '2.0.7'
 date()
- #  [1] "Mon Aug 10 15:24:46 2020"
+ #  [1] "Wed Feb  3 07:32:56 2021"
 ```
 
-## [`%.>%` (dot pipe or dot arrow)](https://winvector.github.io/wrapr/articles/dot_pipe.html)
+[`%.>%` (dot pipe or dot arrow)](https://winvector.github.io/wrapr/articles/dot_pipe.html)
+------------------------------------------------------------------------------------------
 
 `%.>%` dot arrow pipe is a pipe with intended semantics:
 
@@ -127,76 +120,50 @@ for more details. Some formal documentation can be found
 [here](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf).
 
 <ul>
-
 <li>
-
 Some obvious “dot-free”" right-hand sides are rejected. Pipelines are
 meant to move values through a sequence of transforms, and not just for
 side-effects. Example: `5 %.>% 6` deliberately stops as `6` is a
 right-hand side that obviously does not use its incoming value. This
 check is only applied to values, not functions on the right-hand side.
-
 </li>
-
 <li>
-
 Trying to pipe into a an “zero argument function evaluation expression”
 such as `sin()` is prohibited as it looks too much like the user
 declaring `sin()` takes no arguments. One must pipe into either a
 function, function name, or an non-trivial expression (such as
-`sin(.)`). A useful error message is returned to the user: `wrapr::pipe
-does not allow direct piping into a no-argument function call expression
-(such as "sin()" please use sin(.))`.
-
+`sin(.)`). A useful error message is returned to the user:
+`wrapr::pipe does not allow direct piping into a no-argument function call expression (such as "sin()" please use sin(.))`.
 </li>
-
 <li>
-
-Some reserved words can not be piped into. One example is `5 %.>%
-return(.)` is prohibited as the obvious pipe implementation would not
-actually escape from user functions as users may intend.
-
+Some reserved words can not be piped into. One example is
+`5 %.>% return(.)` is prohibited as the obvious pipe implementation
+would not actually escape from user functions as users may intend.
 </li>
-
 <li>
-
 Obvious de-references (such as `$`, `::`, `@`, and a few more) on the
 right-hand side are treated performed (example: `5 %.>% base::sin(.)`).
-
 </li>
-
 <li>
-
-Outer parenthesis on the right-hand side are removed (example: `5 %.>%
-(sin(.))`).
-
+Outer parenthesis on the right-hand side are removed (example:
+`5 %.>% (sin(.))`).
 </li>
-
 <li>
-
 Anonymous function constructions are evaluated so the function can be
-applied (example: `5 %.>% function(x) {x+1}` returns 6, just as `5 %.>%
-(function(x) {x+1})(.)` does).
-
+applied (example: `5 %.>% function(x) {x+1}` returns 6, just as
+`5 %.>% (function(x) {x+1})(.)` does).
 </li>
-
 <li>
-
 Checks and transforms are not performed on items inside braces (example:
 `5 %.>% { function(x) {x+1} }` returns `function(x) {x+1}`, not 6).
-
 </li>
-
 <li>
-
 The dot arrow pipe has S3/S4 dispatch (please see ). However as the
 right-hand side of the pipe is normally held unevaluated, we don’t know
 the type except in special cases (such as the rigth-hand side being
 referred to by a name or variable). To force the evaluation of a pipe
 term, simply wrap it in `.()`.
-
 </li>
-
 </ul>
 
 The dot pipe is also user configurable through standard `S3`/`S4`
@@ -213,7 +180,8 @@ Journal](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html).
       url = {https://journal.r-project.org/archive/2018/RJ-2018-042/index.html}
     }
 
-## [`unpack`](https://winvector.github.io/wrapr/reference/unpack.html)/[`to`](https://winvector.github.io/wrapr/reference/to.html) multiple assignments
+[`unpack`](https://winvector.github.io/wrapr/reference/unpack.html)/[`to`](https://winvector.github.io/wrapr/reference/to.html) multiple assignments
+----------------------------------------------------------------------------------------------------------------------------------------------------
 
 Unpack a named list into the current environment by name (for a
 positional based multiple assignment operator please see
@@ -236,13 +204,14 @@ unpack[
 knitr::kable(train_data)
 ```
 
-|   | x | group |
-| - | -: | :---- |
-| 1 | 1 | train |
-| 4 | 4 | train |
-| 7 | 7 | train |
+|     |   x | group |
+|:----|----:|:------|
+| 1   |   1 | train |
+| 4   |   4 | train |
+| 7   |   7 | train |
 
-## [`as_named_list`](https://winvector.github.io/wrapr/reference/as_named_list.html)
+[`as_named_list`](https://winvector.github.io/wrapr/reference/as_named_list.html)
+---------------------------------------------------------------------------------
 
 Build up named lists. [Very convenient for managing workspaces when used
 with used with
@@ -269,7 +238,8 @@ as_named_list(train_data, calibrate_data, test_data)
  #  9 9  test
 ```
 
-## [`build_frame()`](https://winvector.github.io/wrapr/reference/build_frame.html) / [`draw_frame()`](https://winvector.github.io/wrapr/reference/draw_frame.html)
+[`build_frame()`](https://winvector.github.io/wrapr/reference/build_frame.html) / [`draw_frame()`](https://winvector.github.io/wrapr/reference/draw_frame.html)
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 [`build_frame()`](https://winvector.github.io/wrapr/reference/build_frame.html)
 is a convenient way to type in a small example `data.frame` in natural
@@ -300,7 +270,8 @@ cat(draw_frame(x))
  #       "accuracy"                  , 0.8       , 0.6          )
 ```
 
-## [`qc()` (quoting concatenate)](https://winvector.github.io/wrapr/reference/qc.html)
+[`qc()` (quoting concatenate)](https://winvector.github.io/wrapr/reference/qc.html)
+-----------------------------------------------------------------------------------
 
 `qc()` is a quoting variation on `R`’s concatenate operator `c()`. This
 code such as the following:
@@ -325,10 +296,10 @@ qc(.(aname) := x, b = .(yvalue))
  #     "x"  "six"
 ```
 
-Notice the `:=` notation is required for syntacitic
-reasons.
+Notice the `:=` notation is required for syntacitic reasons.
 
-## [`:=` (named map builder)](https://winvector.github.io/seplyr/articles/named_map_builder.html)
+[`:=` (named map builder)](https://winvector.github.io/seplyr/articles/named_map_builder.html)
+----------------------------------------------------------------------------------------------
 
 `:=` is the “named map builder”. It allows code such as the following:
 
@@ -365,7 +336,8 @@ c('a' := 'x', 'b' := 'y')
 The named map builder is [designed to synergize with
 `seplyr`](https://winvector.github.io/seplyr/articles/named_map_builder.html).
 
-## [`%?%` (coalesce)](https://winvector.github.io/wrapr/reference/coalesce.html)
+[`%?%` (coalesce)](https://winvector.github.io/wrapr/reference/coalesce.html)
+-----------------------------------------------------------------------------
 
 The coalesce operator tries to replace elements of its first argument
 with elements from its second argument. In particular `%?%` replaces
@@ -378,13 +350,14 @@ c(1, NA) %?% list(NA, 20)
  #  [1]  1 20
 ```
 
-## [`%.|%` (reduce/expand args)](https://winvector.github.io/wrapr/reference/reduceexpand.html)
+[`%.|%` (reduce/expand args)](https://winvector.github.io/wrapr/reference/reduceexpand.html)
+--------------------------------------------------------------------------------------------
 
-`x %.|% f` stands for `f(x[[1]], x[[2]], ..., x[[length(x)]])`. `v %|.%
-x` also stands for `f(x[[1]], x[[2]], ..., x[[length(x)]])`. The two
-operators are the same, the variation just allowing the user to choose
-the order they write things. The mnemonic is: “data goes on the dot-side
-of the operator.”
+`x %.|% f` stands for `f(x[[1]], x[[2]], ..., x[[length(x)]])`.
+`v %|.% x` also stands for `f(x[[1]], x[[2]], ..., x[[length(x)]])`. The
+two operators are the same, the variation just allowing the user to
+choose the order they write things. The mnemonic is: “data goes on the
+dot-side of the operator.”
 
 ``` r
 args <- list('prefix_', c(1:3), '_suffix')
@@ -398,7 +371,8 @@ paste0 %|.% args
 # prefix_1_suffix" "prefix_2_suffix" "prefix_3_suffix"
 ```
 
-## [`DebugFnW()`](https://winvector.github.io/wrapr/articles/DebugFnW.html)
+[`DebugFnW()`](https://winvector.github.io/wrapr/articles/DebugFnW.html)
+------------------------------------------------------------------------
 
 `DebugFnW()` wraps a function for debugging. If the function throws an
 exception the execution context (function arguments, function name, and
@@ -406,10 +380,10 @@ more) is captured and stored for the user. The function call can then be
 reconstituted, inspected and even re-run with a step-debugger. Please
 see our [free debugging video
 series](https://youtu.be/-P9UzQuJSH8?list=PLAKBwakacHbQT51nPHex1on3YNCCmggZA)
-and `vignette('DebugFnW', package='wrapr')` for
-examples.
+and `vignette('DebugFnW', package='wrapr')` for examples.
 
-## [`λ()` (anonymous function builder)](https://winvector.github.io/wrapr/articles/lambda.html)
+[`λ()` (anonymous function builder)](https://winvector.github.io/wrapr/articles/lambda.html)
+--------------------------------------------------------------------------------------------
 
 `λ()` is a concise abstract function creator or “[lambda
 abstraction](https://en.wikipedia.org/wiki/Lambda_calculus)”. It is a
@@ -427,7 +401,8 @@ sapply(1:4, λ(x, x^2))
  #  [1]  1  4  9 16
 ```
 
-## [`let()`](https://winvector.github.io/wrapr/articles/let.html)
+[`let()`](https://winvector.github.io/wrapr/articles/let.html)
+--------------------------------------------------------------
 
 `let()` allows execution of arbitrary code with substituted variable
 names (note this is subtly different than binding values for names as
@@ -492,10 +467,10 @@ formal documentation can be found
 `wrapr::let()` was inspired by `gtools::strmacro()` and
 `base::bquote()`, please see
 [here](https://github.com/WinVector/wrapr/blob/master/extras/bquote.md)
-for some notes on macro methods in
-`R`.
+for some notes on macro methods in `R`.
 
-# [`evalb()`/`si()`](https://winvector.github.io/wrapr/articles/bquote.html) (evaluate with `bquote` / string interpolation)
+[`evalb()`/`si()`](https://winvector.github.io/wrapr/articles/bquote.html) (evaluate with `bquote` / string interpolation)
+==========================================================================================================================
 
 `wrapr` supplies unified notation for quasi-quotation and string
 interpolation.
@@ -513,16 +488,15 @@ evalb(
 ![](tools/README-unnamed-chunk-3-1.png)<!-- -->
 
 ``` r
-
 # alter string
 si("plot(x = .(variable), y = .(variable))")
  #  [1] "plot(x = \"angle\", y = \"angle\")"
 ```
 
-The extra `.(-x)` form is a shortcut for
-`.(as.name(x))`.
+The extra `.(-x)` form is a shortcut for `.(as.name(x))`.
 
-# [`sortv()`](https://winvector.github.io/wrapr/reference/sortv.html) (sort a data.frame by a set of columns)
+[`sortv()`](https://winvector.github.io/wrapr/reference/sortv.html) (sort a data.frame by a set of columns)
+===========================================================================================================
 
 This is the sort command that is missing from `R`: sort a `data.frame`
 by a chosen set of columns specified in a variable.
@@ -544,7 +518,8 @@ sortv(d, order_cols)
  #  3 3 4 3
 ```
 
-## Installation
+Installation
+------------
 
 Install with:
 
@@ -552,17 +527,18 @@ Install with:
 install.packages("wrapr")
 ```
 
-## More Information
+More Information
+----------------
 
 More details on `wrapr` capabilities can be found in the following two
-technical
-    articles:
+technical articles:
 
-  - [let](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf)
-  - [R Journal “Dot-Pipe: an S3 Extensible Pipe for
+-   [let](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf)
+-   [R Journal “Dot-Pipe: an S3 Extensible Pipe for
     R”"](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html)
 
-## Note
+Note
+----
 
 Note: `wrapr` is meant only for “tame names”, that is: variables and
 column names that are also valid *simple* (without quotes) `R` variables

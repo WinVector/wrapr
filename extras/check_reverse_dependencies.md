@@ -9,13 +9,13 @@ package = "wrapr"
 packageVersion(package)
 ```
 
-    ## [1] '2.0.6'
+    ## [1] '2.0.7'
 
 ``` r
 date()
 ```
 
-    ## [1] "Sun Dec  6 08:58:12 2020"
+    ## [1] "Wed Feb  3 07:38:59 2021"
 
 ``` r
 parallelCluster <- NULL
@@ -35,7 +35,7 @@ setwd(td)
 print(td)
 ```
 
-    ## [1] "/var/folders/7f/sdjycp_d08n8wwytsbgwqgsw0000gn/T//RtmppRhPVD"
+    ## [1] "/var/folders/7f/sdjycp_d08n8wwytsbgwqgsw0000gn/T//RtmpwAQ2Nc"
 
 ``` r
 options(repos = repos)
@@ -83,46 +83,46 @@ if(!is.null(parallelCluster)) {
 ```
 
     ## [[1]]
+    ## [1] id     title  status
+    ## <0 rows> (or 0-length row.names)
+    ## 
+    ## [[2]]
+    ##   id   title  status
+    ## 1  4  rquery WORKING
+    ## 2  8 WVPlots WORKING
+    ## 
+    ## [[3]]
+    ##   id       title  status
+    ## 1  2 RcppDynProg WORKING
+    ## 2  4      rquery WORKING
+    ## 3  5      seplyr WORKING
+    ## 4  8     WVPlots WORKING
+    ## 
+    ## [[4]]
+    ##   id   title  status
+    ## 1  8 WVPlots WORKING
+    ## 
+    ## [[5]]
+    ##   id       title  status
+    ## 1  2 RcppDynProg WORKING
+    ## 2  4      rquery WORKING
+    ## 3  8     WVPlots WORKING
+    ## 
+    ## [[6]]
     ##   id       title  status
     ## 1  2 RcppDynProg WORKING
     ## 2  4      rquery WORKING
     ## 3  5      seplyr WORKING
     ## 4  7      vtreat WORKING
     ## 5  8     WVPlots WORKING
-    ## 
-    ## [[2]]
-    ##   id   title  status
-    ## 1  4  rquery WORKING
-    ## 2  7  vtreat WORKING
-    ## 3  8 WVPlots WORKING
-    ## 
-    ## [[3]]
-    ## [1] id     title  status
-    ## <0 rows> (or 0-length row.names)
-    ## 
-    ## [[4]]
-    ##   id  title  status
-    ## 1  7 vtreat WORKING
-    ## 
-    ## [[5]]
-    ##   id       title  status
-    ## 1  2 RcppDynProg WORKING
-    ## 2  4      rquery WORKING
-    ## 3  7      vtreat WORKING
-    ## 4  8     WVPlots WORKING
-    ## 
-    ## [[6]]
-    ##   id  title  status
-    ## 1  4 rquery WORKING
-    ## 2  7 vtreat WORKING
 
 ``` r
 summariseQueue(package=package, directory=td)
 ```
 
-    ## Test of wrapr 2.0.6 had 8 successes, 0 failures, and 0 skipped packages. 
-    ## Ran from 2020-12-06 08:58:16 to 2020-12-06 08:59:37 for 1.35 mins 
-    ## Average of 10.125 secs relative to 37.683 secs using 6 runners
+    ## Test of wrapr 2.0.7 had 8 successes, 0 failures, and 0 skipped packages. 
+    ## Ran from 2021-02-03 07:39:03 to 2021-02-03 07:40:23 for 1.333 mins 
+    ## Average of 10 secs relative to 38.594 secs using 6 runners
     ## 
     ## Failed packages:   
     ## 
