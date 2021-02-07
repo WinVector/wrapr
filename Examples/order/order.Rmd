@@ -66,4 +66,7 @@ d[orderv(d), , drop = FALSE] %.>%
 Essentially `orderv(d)` is shorthand for `do.call(base::order, as.list(d))`, which places the columns of the `data.frame` as the `...`-arguments of the `order()` call.
 
 
+Edit: an earlier great fix can be found <a href="http://www.markvanderloo.eu/yaRb/2014/08/15/sort-data-frame/">here</a>.
+
+
 
