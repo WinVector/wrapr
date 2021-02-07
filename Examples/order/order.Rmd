@@ -1,0 +1,69 @@
+---
+title: "It Has Always Been Wrong to Call order on a data.frame"
+output: github_document
+---
+
+In [`R`](https://www.r-project.org) it has always been incorrect to call `order()` on a `data.frame`. Such a call doesn't return a sort-order of the rows, and previously did not return an error. For example.
+
+```{r}
+d <- data.frame(
+  x = c(2, 2, 3, 3, 1, 1), 
+  y = 6:1)
+
+knitr::kable(d)
+```
+
+```{r}
+order(d)
+```
+
+Notice the above result has more than 12 items, so it is not a row order. It appears there is [a desire to make this sort of mal-use signalling](https://stat.ethz.ch/pipermail/r-devel/2020-May/079500.html), and it is [now available as an optional error-check](https://stat.ethz.ch/pipermail/r-package-devel/2021q1/006551.html). In fact we are starting to see packages kicked-off [`CRAN`](https://cran.r-project.org) for not fixing this issue. 
+
+Recent CRAN package removals (from [CRANberries](https://dirk.eddelbuettel.com/cranberries/cran/removed/), triggered by failing to respond when contacted to fix the `order()` error, (error resolves as "cannot xtfrm data frames") include:
+
+  * [ACCLMA](https://cran-archive.r-project.org/web/checks/2021/2021-02-05_check_results_ACCLMA.html)
+  * [ahp](https://cran-archive.r-project.org/web/checks/2021/2021-02-05_check_results_ahp.html)
+  * [aMNLFA](https://cran-archive.r-project.org/web/checks/2021/2021-02-05_check_results_aMNLFA.html)
+  * [astrochron](https://cran-archive.r-project.org/web/checks/2021/2021-02-05_check_results_astrochron.html)
+  * [EasyMARK](https://cran-archive.r-project.org/web/checks/2021/2021-02-05_check_results_EasyMARK.html)
+  * [forestSAS](https://cran-archive.r-project.org/web/checks/2021/2021-02-05_check_results_forestSAS.html)
+  * [gee4](https://cran-archive.r-project.org/web/checks/2021/2021-02-05_check_results_gee4.html)
+  * [goeveg](https://cran-archive.r-project.org/web/checks/2021/2021-02-05_check_results_goeveg.html)
+  * [jmdl](https://cran-archive.r-project.org/web/checks/2021/2021-02-05_check_results_jmdl.html)
+  * [LncMod](https://cran-archive.r-project.org/web/checks/2021/2021-02-05_check_results_LncMod.html)
+  * [LN0SCIs](https://cran-archive.r-project.org/web/checks/2021/2021-02-05_check_results_LN0SCIs.html)
+  * [marindicators](https://cran-archive.r-project.org/web/checks/2021/2021-02-05_check_results_marindicators.html)
+  * [McSpatial](https://cran-archive.r-project.org/web/checks/2021/2021-02-05_check_results_McSpatial.html)
+  * [mcglm](https://cran-archive.r-project.org/web/checks/2021/2021-02-05_check_results_mcglm.html)
+  * [mpr](https://cran-archive.r-project.org/web/checks/2021/2021-02-05_check_results_mpr.html)
+  * [pompom](https://cran-archive.r-project.org/web/checks/2021/2021-02-05_check_results_pompom.html)
+  * [promotionImpact](https://cran-archive.r-project.org/web/checks/2021/2021-02-05_check_results_promotionImpact.html)
+  * [rodham](https://cran-archive.r-project.org/web/checks/2021/2021-02-05_check_results_rodham.html)
+  * [rysgran](https://cran-archive.r-project.org/web/checks/2021/2021-02-05_check_results_rysgran.html)
+  * [scan](https://cran-archive.r-project.org/web/checks/2021/2021-02-05_check_results_scan.html)
+  * [sentometrics](https://cran-archive.r-project.org/web/checks/2021/2021-02-05_check_results_sentometrics.html)
+  * [subtee](https://cran-archive.r-project.org/web/checks/2021/2021-02-05_check_results_subtee.html)
+  * [unga](https://cran-archive.r-project.org/web/checks/2021/2021-02-05_check_results_unga.html)
+  
+
+The [`wrapr` package](https://github.com/WinVector/wrapr) has supplied, for some time, the function [`orderv()`](https://winvector.github.io/wrapr/reference/orderv.html), which is suitable for ordering the rows of `data.frame`s.
+
+For example, we can calculate a row order as follows.
+
+```{r}
+library(wrapr)
+
+orderv(d)
+```
+
+And use such an order to sort data rows.
+
+```{r}
+d[orderv(d), , drop = FALSE] %.>%
+  knitr::kable(.)
+```
+
+Essentially `orderv(d)` is shorthand for `do.call(base::order, as.list(d))`, which places the columns of the `data.frame` as the `...`-arguments of the `order()` call.
+
+
+
