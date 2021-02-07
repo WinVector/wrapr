@@ -1,4 +1,10 @@
 
+# wrapr 2.0.8 2021-02-07
+
+ * Make calls to order stricture (no names, and no data.frames, 
+   see https://stat.ethz.ch/pipermail/r-devel/2020-May/079500.html 
+   and https://stat.ethz.ch/pipermail/r-package-devel/2021q1/006550.html
+   
 # wrapr 2.0.7 2021-02-03
 
  * Add bc() blank-separated parsing, suggested by Emil Erik Pula Bellamy Begtrup-Bright \url{https://github.com/WinVector/wrapr/issues/12}.

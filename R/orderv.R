@@ -30,8 +30,10 @@ orderv <- function(columns,
   if((!is.list(columns)) || (length(columns)<1)) {
     stop("wrapr::orderv columns must be a list containing at least one atomic vector")
   }
+  columns <- as.list(columns)
+  names(columns) <- NULL
   do.call(base::order, c(
-    as.list(columns),
+    columns,
     list(
       na.last = na.last,
       decreasing = decreasing,
@@ -81,7 +83,7 @@ sortv <- function(data,
     stop(paste("wrapr::sortv data colnames that are not in colnames(data):",
                paste(bads, collapse = ", ")))
   }
-  perm <- orderv(as.list(data[, colnames, drop= FALSE]),
+  perm <- orderv(as.list(data[, colnames, drop = FALSE]),
                  na.last = na.last,
                  decreasing = decreasing,
                  method = method)
