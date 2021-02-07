@@ -1,7 +1,7 @@
 Function Objects
 ================
 John Mount
-2020-02-18
+2021-02-07
 
 Composing functions and sequencing operations are core programming
 concepts.
@@ -9,14 +9,14 @@ concepts.
 Some notable realizations of sequencing or pipelining operations
 include:
 
-  - Unix’s [`|`-pipe](https://en.wikipedia.org/wiki/Pipeline_\(Unix\))
-  - [CMS Pipelines](https://en.wikipedia.org/wiki/CMS_Pipelines).
-  - `F#`’s forward pipe operator `|>`.
-  - Haskel’s Data.Function `&` operator.
-  - The [`R`](https://www.r-project.org)
+-   Unix’s [`|`-pipe](https://en.wikipedia.org/wiki/Pipeline_(Unix))
+-   [CMS Pipelines](https://en.wikipedia.org/wiki/CMS_Pipelines).
+-   `F#`’s forward pipe operator `|>`.
+-   Haskel’s Data.Function `&` operator.
+-   The [`R`](https://www.r-project.org)
     [`magrittr`](https://CRAN.R-project.org/package=magrittr) forward
     pipe.
-  - [Scikit-learn](https://scikit-learn.org/stable/index.html)’s
+-   [Scikit-learn](https://scikit-learn.org/stable/index.html)’s
     [`sklearn.pipeline.Pipeline`](https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html).
 
 The idea is: many important calculations can be considered as a sequence
@@ -37,14 +37,14 @@ makes working with pipeline notation much more powerful and much easier.
 
 The ideas are:
 
-  - The [`wrapr`](https://github.com/WinVector/wrapr) [dot arrow
+-   The [`wrapr`](https://github.com/WinVector/wrapr) [dot arrow
     pipe](https://winvector.github.io/wrapr/reference/dot_arrow.html)
     includes a detailed `S3`/`S4` configurable interface (detailed in
     the RJournal
     [here](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html)).
     These interfaces are able to treat objects as functions: i.e. they
     can pipe data into objects.
-  - The `UnaryFn` class supplies a convenient tool for the [partial
+-   The `UnaryFn` class supplies a convenient tool for the [partial
     function
     application](https://en.wikipedia.org/wiki/Partial_application)
     needed to work with pipelines. `UnaryFn` was part of `wrapr` for a
@@ -246,9 +246,9 @@ model_p@items
 In addition to the `PartialNamedFn` class we suggest looking at the
 following additional adapters:
 
-  - `srcfn()` which accepts the source code for an arbitrary expression
+-   `srcfn()` which accepts the source code for an arbitrary expression
     (quoted either with quote-marks or with `wrapr::qe()`).
-  - `wrapfn()` class which directly accepts a function (including the
+-   `wrapfn()` class which directly accepts a function (including the
     closure).
 
 Examples include:

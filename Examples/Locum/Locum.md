@@ -1,8 +1,8 @@
 Locum
 ================
 
-The [`wrapr dot arrow
-pipe`](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html)
+The
+[`wrapr dot arrow pipe`](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html)
 was designed to both be an effective [`R`](https://www.r-project.org)
 function application pipe *and* also an experimental test-bed for pipe
 effects.
