@@ -28,8 +28,8 @@ order(d)
 
     ##  [1]  5  6 12  1  2 11  3  4 10  9  8  7
 
-Notice the above result has more than 12 items, so it is not a row
-order. It appears there is [a desire to make this sort of mal-use
+Notice the above result has more than 6 items, so it is not a row order.
+It appears there is [a desire to make this sort of mal-use
 signalling](https://stat.ethz.ch/pipermail/r-devel/2020-May/079500.html),
 and it is [now available as an optional
 error-check](https://stat.ethz.ch/pipermail/r-package-devel/2021q1/006551.html).
