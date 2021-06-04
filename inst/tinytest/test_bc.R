@@ -66,3 +66,18 @@ expect_equal(
   bc('"a|b"    "c,d"    "f"      "g e"    "q"      "t\\\"z"'),
     c("a|b",   "c,d",   "f",     "g e",   "q",     "t\\\"z")
 )
+
+# From Emil Bellamy Begtrup-Bright May 27, 2021
+# test of lowercase non-english letters (Danish: æ, ø and å)
+expect_equal(
+  bc('person_id, geography, danish_letter_æ, danish_letter_ø, danish_letter_å'),
+  c("person_id", "geography", "danish_letter_æ", "danish_letter_ø", "danish_letter_å")
+)
+
+# From Emil Bellamy Begtrup-Bright May 27, 2021
+# test of mix of upcase non-english letters (Danish: Æ, Ø and Å)
+expect_equal(
+  bc('person_id, geography, danish_letter_Æ, danish_letter_Ø, danish_letter_Å'),
+  c("person_id", "geography", "danish_letter_Æ", "danish_letter_Ø", "danish_letter_Å")
+)
+
