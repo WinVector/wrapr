@@ -1,4 +1,4 @@
-pandoc: 2.11.0.2
+pandoc: 2.11.4
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
@@ -17,7 +17,7 @@ articles:
   unpack_multiple_assignment: unpack_multiple_assignment.html
   wrapr_Eager: wrapr_Eager.html
   wrapr_applicable: wrapr_applicable.html
-last_built: 2021-02-03T15:33Z
+last_built: 2021-06-10T20:50Z
 urls:
   reference: https://winvector.github.io/wrapr//reference
   article: https://winvector.github.io/wrapr//articles

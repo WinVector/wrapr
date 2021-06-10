@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.8</span>
       </span>
     </div>
 
@@ -39,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -118,13 +118,13 @@
 
       
 
-      </header><script src="Named_Arguments_files/header-attrs-2.4/header-attrs.js"></script><div class="row">
+      </header><script src="Named_Arguments_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Named Arguments</h1>
                         <h4 class="author">John Mount, Win-Vector LLC</h4>
             
-            <h4 class="date">2021-02-03</h4>
+            <h4 class="date">2021-06-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/Named_Arguments.Rmd"><code>vignettes/Named_Arguments.Rmd</code></a></small>
       <div class="hidden name"><code>Named_Arguments.Rmd</code></div>
@@ -135,8 +135,8 @@
     
 <p>R’s named function argument binding is a great aid in writing correct programs. It is a good idea, if practical, to force optional arguments to only be usable by name. To do this declare the additional arguments after “<code>…</code>” and enforce that none got lost in the “<code>…</code> trap” by using a checker such as <a href="https://winvector.github.io/wrapr/reference/stop_if_dot_args.html">wrapr::stop_if_dot_args()</a>.</p>
 <p>Example:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="co">#' Increment x by inc.</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">#' Increment x by inc.</span>
 <span class="co">#' </span>
 <span class="co">#' @param x item to add to</span>
 <span class="co">#' @param ... not used for values, forces later arguments to bind by name</span>
@@ -152,20 +152,20 @@
    <span class="va">x</span> <span class="op">+</span> <span class="va">inc</span>
 <span class="op">}</span>
 
-<span class="fu">f</span><span class="op">(</span><span class="fl">7</span><span class="op">)</span></pre></div>
+<span class="fu">f</span><span class="op">(</span><span class="fl">7</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 8</code></pre>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fu">f</span><span class="op">(</span><span class="fl">7</span>, inc <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">f</span><span class="op">(</span><span class="fl">7</span>, inc <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 9</code></pre>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/conditions.html">tryCatch</a></span><span class="op">(</span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/conditions.html">tryCatch</a></span><span class="op">(</span>
   <span class="fu">f</span><span class="op">(</span><span class="fl">7</span>, q <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span>,
-  error <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="op">}</span><span class="op">)</span></pre></div>
+  error <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="op">}</span><span class="op">)</span></code></pre></div>
 <pre><code>## &lt;simpleError: f unexpected arguments: q = 'mtcars'&gt;</code></pre>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/conditions.html">tryCatch</a></span><span class="op">(</span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/conditions.html">tryCatch</a></span><span class="op">(</span>
   <span class="fu">f</span><span class="op">(</span><span class="fl">7</span>, <span class="fl">2</span><span class="op">)</span>,
-  error <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="op">}</span><span class="op">)</span></pre></div>
+  error <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="op">}</span><span class="op">)</span></code></pre></div>
 <pre><code>## &lt;simpleError: f unexpected arguments: '2'&gt;</code></pre>
 <p>By R function evaluation rules: any unexpected/undeclared arguments are captured by the “<code>…</code>” argument. Then “wrapr::stop_if_dot_args()” inspects for such values and reports an error if there are such. The “f” string is returned as part of the error, I chose the name of the function as in this case. The “substitute(list(…))” part is R’s way of making the contents of “…” available for inspection.</p>
 <p>You can also use the technique on required arguments. <a href="https://winvector.github.io/wrapr/reference/stop_if_dot_args.html">wrapr::stop_if_dot_args()</a> is a simple low-dependency helper function intended to make writing code such as the above easier. This is under the rubric that hidden errors are worse than thrown exceptions. It is best to find and signal problems early, and near the cause.</p>

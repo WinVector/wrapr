@@ -35,6 +35,7 @@ Primary `wrapr` services include:
  * [`unpack`](https://winvector.github.io/wrapr/reference/unpack.html)/[`to`](https://winvector.github.io/wrapr/reference/to.html) (assign to multiple values)
  * [`as_named_list`](https://winvector.github.io/wrapr/reference/as_named_list.html) (build up a named list quickly)
  * [`build_frame()`](https://winvector.github.io/wrapr/reference/build_frame.html) / [`draw_frame()`](https://winvector.github.io/wrapr/reference/draw_frame.html) ( `data.frame` builders and formatters )
+ * [`bc()`](https://win-vector.com/2021/02/05/introducing-wraprbc/) (blank concatenate)
  * [`qc()`](https://winvector.github.io/wrapr/reference/qc.html) (quoting concatenate)
  * [`:=`](https://winvector.github.io/wrapr/reference/named_map_builder.html) (named map builder)
  * [`%?%`](https://winvector.github.io/wrapr/reference/coalesce.html) (coalesce)
@@ -46,6 +47,7 @@ Primary `wrapr` services include:
  * [`let()`](https://winvector.github.io/wrapr/reference/let.html) (let block)
  * [`evalb()`/`si()`](https://winvector.github.io/wrapr/articles/bquote.html) (evaluate with `bquote` / string interpolation)
  * [`sortv()`](https://winvector.github.io/wrapr/reference/sortv.html) (sort a data.frame by a set of columns).
+ * [`stop_if_dot_args()`](https://win-vector.com/2018/02/22/r-tip-force-named-arguments/) (check for unexpected arguments)
 
 ```{r}
 library(wrapr)

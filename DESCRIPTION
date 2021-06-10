@@ -2,7 +2,7 @@ Package: wrapr
 Type: Package
 Title: Wrap R Tools for Debugging and Parametric Programming
 Version: 2.0.8
-Date: 2021-06-04
+Date: 2021-06-10
 Authors@R: c(
     person("John", "Mount", email = "jmount@win-vector.com", role = c("aut", "cre")),
     person("Nina", "Zumel", email = "nzumel@win-vector.com", role = c("aut")),
@@ -19,7 +19,6 @@ Description: Tools for writing and debugging R code. Provides:
     evaluation interfaces, inspired by 'gtools::strmacro()' and 'base::bquote()'), and more.
 License: GPL-2 | GPL-3
 Encoding: UTF-8
-LazyData: true
 RoxygenNote: 7.1.1
 Depends: 
   R (>= 3.3.0)

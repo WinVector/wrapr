@@ -9,20 +9,20 @@ package = "wrapr"
 packageVersion(package)
 ```
 
-    ## [1] '2.0.7'
+    ## [1] '2.0.8'
 
 ``` r
 date()
 ```
 
-    ## [1] "Wed Feb  3 07:38:59 2021"
+    ## [1] "Thu Jun 10 13:58:58 2021"
 
 ``` r
 parallelCluster <- NULL
 ncores <- parallel::detectCores()
-if(ncores > 1) {
-  parallelCluster <- parallel::makeCluster(ncores)
-}
+#if(ncores > 1) {
+#  parallelCluster <- parallel::makeCluster(ncores)
+#}
 
 orig_dir <- getwd()
 print(orig_dir)
@@ -35,7 +35,7 @@ setwd(td)
 print(td)
 ```
 
-    ## [1] "/var/folders/7f/sdjycp_d08n8wwytsbgwqgsw0000gn/T//RtmpwAQ2Nc"
+    ## [1] "/var/folders/7f/sdjycp_d08n8wwytsbgwqgsw0000gn/T//RtmpOnzunx"
 
 ``` r
 options(repos = repos)
@@ -82,49 +82,28 @@ if(!is.null(parallelCluster)) {
 }
 ```
 
-    ## [[1]]
+    ## ## Reverse depends check of wrapr 2.0.8 
+    ## cdata_1.1.9 started at 2021-06-10 13:59:01 success at 2021-06-10 13:59:25 (1/0/0) 
+    ## RcppDynProg_0.2.0 started at 2021-06-10 13:59:25 failure at 2021-06-10 13:59:35 (1/0/1) 
+    ## rqdatatable_1.2.9 started at 2021-06-10 13:59:35 success at 2021-06-10 13:59:52 (2/0/1) 
+    ## rquery_1.4.7 started at 2021-06-10 13:59:52 success at 2021-06-10 14:00:24 (3/0/1) 
+    ## seplyr_1.0.1 started at 2021-06-10 14:00:24 success at 2021-06-10 14:00:45 (4/0/1) 
+    ## sigr_1.1.3 started at 2021-06-10 14:00:45 success at 2021-06-10 14:01:02 (5/0/1) 
+    ## vtreat_1.6.2 started at 2021-06-10 14:01:02 success at 2021-06-10 14:01:49 (6/0/1) 
+    ## WVPlots_1.3.2 started at 2021-06-10 14:01:49 success at 2021-06-10 14:02:41 (7/0/1)
+
     ## [1] id     title  status
     ## <0 rows> (or 0-length row.names)
-    ## 
-    ## [[2]]
-    ##   id   title  status
-    ## 1  4  rquery WORKING
-    ## 2  8 WVPlots WORKING
-    ## 
-    ## [[3]]
-    ##   id       title  status
-    ## 1  2 RcppDynProg WORKING
-    ## 2  4      rquery WORKING
-    ## 3  5      seplyr WORKING
-    ## 4  8     WVPlots WORKING
-    ## 
-    ## [[4]]
-    ##   id   title  status
-    ## 1  8 WVPlots WORKING
-    ## 
-    ## [[5]]
-    ##   id       title  status
-    ## 1  2 RcppDynProg WORKING
-    ## 2  4      rquery WORKING
-    ## 3  8     WVPlots WORKING
-    ## 
-    ## [[6]]
-    ##   id       title  status
-    ## 1  2 RcppDynProg WORKING
-    ## 2  4      rquery WORKING
-    ## 3  5      seplyr WORKING
-    ## 4  7      vtreat WORKING
-    ## 5  8     WVPlots WORKING
 
 ``` r
 summariseQueue(package=package, directory=td)
 ```
 
-    ## Test of wrapr 2.0.7 had 8 successes, 0 failures, and 0 skipped packages. 
-    ## Ran from 2021-02-03 07:39:03 to 2021-02-03 07:40:23 for 1.333 mins 
-    ## Average of 10 secs relative to 38.594 secs using 6 runners
+    ## Test of wrapr 2.0.8 had 7 successes, 1 failures, and 0 skipped packages. 
+    ## Ran from 2021-06-10 13:59:01 to 2021-06-10 14:02:41 for 3.667 mins 
+    ## Average of 27.5 secs relative to 27.468 secs using 1 runners
     ## 
-    ## Failed packages:   
+    ## Failed packages:  RcppDynProg 
     ## 
     ## Skipped packages:   
     ## 

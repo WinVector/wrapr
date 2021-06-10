@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.8</span>
       </span>
     </div>
 
@@ -39,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -118,13 +118,13 @@
 
       
 
-      </header><script src="let_files/header-attrs-2.4/header-attrs.js"></script><div class="row">
+      </header><script src="let_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Let</h1>
                         <h4 class="author">Nina Zumel, John Mount</h4>
             
-            <h4 class="date">2021-02-03</h4>
+            <h4 class="date">2021-06-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/let.Rmd"><code>vignettes/let.Rmd</code></a></small>
       <div class="hidden name"><code>let.Rmd</code></div>
@@ -135,26 +135,26 @@
     
 <p>The vignette demonstrates the use of <code>let</code> to standardize calls to functions that use non-standard evaluation. For a more formal description please see <a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf">here</a>.</p>
 <p>For the purposes of this discussion, <em>standard evaluation</em> of variables preserves referential transparency: that is, values and references to values behave the same.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="va">x</span> <span class="op">=</span> <span class="fl">5</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fl">5</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">x</span> <span class="op">=</span> <span class="fl">5</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fl">5</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 6</code></pre>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 6</code></pre>
-<p>Some functions in R use <em>non-standard evaluation</em> (NSE) of variables, in order to snoop variable names (for example, <code>plot</code>), or to delay or even avoid argument evaluation (for example <code>library(foobar)</code> versus <code>library("foobar")</code>).</p>
+<p>Some functions in R use <em>non-standard evaluation</em> (NSE) of variables, in order to snoop variable names (for example, <code>plot</code>), or to delay or even avoid argument evaluation (for example <code><a href="https://rdrr.io/r/base/library.html">library(foobar)</a></code> versus <code><a href="https://rdrr.io/r/base/library.html">library("foobar")</a></code>).</p>
 <p>In the case of <code>plot</code>, NSE lets <code>plot</code> use the variable names as the axis labels.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span>
 <span class="va">xvar</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span> <span class="op">-</span> <span class="fl">0.5</span>
 <span class="va">yvar</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">xvar</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">xvar</span>, <span class="va">yvar</span><span class="op">)</span> </pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">xvar</span>, <span class="va">yvar</span><span class="op">)</span> </code></pre></div>
 <p><img src="let_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
 <p>In the case of <code>library</code>, non-standard evaluation saves typing a couple of quotes. The dollar sign notation for accessing data frame columns also uses non standard evaluation.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="cn">NA</span><span class="op">)</span><span class="op">)</span>
-<span class="va">d</span><span class="op">$</span><span class="va">x</span></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="cn">NA</span><span class="op">)</span><span class="op">)</span>
+<span class="va">d</span><span class="op">$</span><span class="va">x</span></code></pre></div>
 <pre><code>## [1]  1 NA</code></pre>
 <p>Issues arise when you want to use functions that use non-standard evaluation – for brevity, I’ll call these <em>NSE expressions</em> – but you don’t know the name of the variable, as might happen when you are calling these expression from within another function. Generally in these situations, you are taking the name of the desired variable from a string. But how do you pass it to the NSE expression?</p>
 <p>For this discussion, we will demonstrate <code>let</code> to standardize calling <code>plot</code> with unknown variables. <code>let</code> takes two arguments:</p>
@@ -163,8 +163,8 @@
 <li>The NSE expression. Enclose a block of multiple expressions in brackets.</li>
 </ul>
 <p>Here’s the <code>plot</code> example again.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/WinVector/wrapr">"wrapr"</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/WinVector/wrapr">"wrapr"</a></span><span class="op">)</span>
 
 <span class="va">xvariable</span> <span class="op">=</span> <span class="st">"xvar"</span>
 <span class="va">yvariable</span> <span class="op">=</span> <span class="st">"yvar"</span>
@@ -174,20 +174,20 @@
     <span class="va">title</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">yvariable</span>, <span class="st">"vs"</span>, <span class="va">xvariable</span><span class="op">)</span>
     <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">XVARIABLE</span>, <span class="va">YVARIABLE</span>, main<span class="op">=</span><span class="va">title</span><span class="op">)</span>
   <span class="op">}</span>
-<span class="op">)</span></pre></div>
+<span class="op">)</span></code></pre></div>
 <p><img src="let_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 <p>In the above <code><a href="../reference/let.html">let()</a></code> block we are using the <code>alias</code>-convention that we specify substitution target names (in this case <code>XVARIABLE</code> and <code>YVARIABLE</code>) as upper-case analogues of the substitution name values (in this case <code>xvariable</code> and <code>yvariable</code>). This convention is very legible and makes it easy to both use value interfaces (as we did in the title <code><a href="https://rdrr.io/r/base/paste.html">paste()</a></code>) and name-capturing interfaces (<code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> itself).</p>
 <div id="implementation-details" class="section level2">
 <h2 class="hasAnchor">
 <a href="#implementation-details" class="anchor"></a>Implementation details</h2>
 <p>Roughly <code><a href="../reference/let.html">wrapr::let(A, B)</a></code> behaves like a syntactic sugar for <code><a href="https://rdrr.io/r/base/eval.html">eval(substitute(B, A))</a></code>.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="va">a</span> <span class="op">&lt;-</span> <span class="fl">1</span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">a</span> <span class="op">&lt;-</span> <span class="fl">1</span>
 <span class="va">b</span> <span class="op">&lt;-</span> <span class="fl">2</span>
-<span class="fu"><a href="../reference/let.html">let</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>z<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/substitute.html">quote</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span><span class="op">)</span>, <span class="va">z</span><span class="op">+</span><span class="va">b</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="../reference/let.html">let</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>z<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/substitute.html">quote</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span><span class="op">)</span>, <span class="va">z</span><span class="op">+</span><span class="va">b</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 3</code></pre>
-<div class="sourceCode" id="cb11"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/eval.html">eval</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/substitute.html">substitute</a></span><span class="op">(</span><span class="va">z</span><span class="op">+</span><span class="va">b</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>z<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/substitute.html">quote</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/eval.html">eval</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/substitute.html">substitute</a></span><span class="op">(</span><span class="va">z</span><span class="op">+</span><span class="va">b</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>z<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/substitute.html">quote</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 3</code></pre>
 <p>However, <code><a href="../reference/let.html">wrapr::let()</a></code> is actually implemented in terms of a de-parse and safe language token substitution.</p>
 <p><code><a href="../reference/let.html">wrapr::let()</a></code> was inspired by <code><a href="https://rdrr.io/pkg/gtools/man/defmacro.html">gtools::strmacro()</a></code> and <code><a href="https://rdrr.io/r/base/bquote.html">base::bquote()</a></code>, please see <a href="https://github.com/WinVector/wrapr/blob/master/extras/bquote.md">here</a> for some notes on macro methods in <code>R</code>.</p>

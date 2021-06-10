@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.8</span>
       </span>
     </div>
 
@@ -39,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -118,13 +118,13 @@
 
       
 
-      </header><script src="lambda_files/header-attrs-2.4/header-attrs.js"></script><div class="row">
+      </header><script src="lambda_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>lambda Function Builder</h1>
                         <h4 class="author">John Mount</h4>
             
-            <h4 class="date">2021-02-03</h4>
+            <h4 class="date">2021-06-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/lambda.Rmd"><code>vignettes/lambda.Rmd</code></a></small>
       <div class="hidden name"><code>lambda.Rmd</code></div>
@@ -135,28 +135,28 @@
     
 <p>The <a href="https://cran.r-project.org"><code>CRAN</code></a> version of the <a href="https://www.r-project.org"><code>R</code></a> package <a href="https://CRAN.R-project.org/package=wrapr"><code>wrapr</code></a> package now includes a concise anonymous function constructor: <code>l()</code>.</p>
 <p>To use it please do the following: attach <code>wrapr</code> and ask it to place a definition for <code>l()</code> in your environment:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/WinVector/wrapr">"wrapr"</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/WinVector/wrapr">"wrapr"</a></span><span class="op">)</span>
 <span class="fu">wrapr</span><span class="fu">::</span><span class="fu"><a href="../reference/defineLambda.html">defineLambda</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"l"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "l"</code></pre>
 <p>Note: throughout this document we are using the letter “<code>l</code>” as a stand-in for the Greek letter lambda, as this non-ASCII character can cause formatting problems in some situations.</p>
 <p>You can use <code>l()</code> to define functions. The syntax is: <code>l(arg [, arg]*, body [, env=env])</code>. That is we write a <code>l()</code>-call (which you can do by cutting and pasting) and list the desired function arguments and then the function body. For example the function that squares numbers is:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fu">l</span><span class="op">(</span><span class="va">x</span>, <span class="va">x</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">l</span><span class="op">(</span><span class="va">x</span>, <span class="va">x</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
 <pre><code>## function (x) 
 ## x^2</code></pre>
 <p>We can use such a function to square the first four positive integers as follows:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fu">l</span><span class="op">(</span><span class="va">x</span>, <span class="va">x</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fu">l</span><span class="op">(</span><span class="va">x</span>, <span class="va">x</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1]  1  4  9 16</code></pre>
 <p>Dot-pipe style notation does not need the <code>l()</code> factory as it treats pipe stages as expressions parameterized over the variable “<code>.</code>”:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="fl">1</span><span class="op">:</span><span class="fl">4</span> <span class="op">%.&gt;%</span> <span class="op">{</span> <span class="va">.</span><span class="op">^</span><span class="fl">2</span> <span class="op">}</span></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fl">1</span><span class="op">:</span><span class="fl">4</span> <span class="op">%.&gt;%</span> <span class="op">{</span> <span class="va">.</span><span class="op">^</span><span class="fl">2</span> <span class="op">}</span></code></pre></div>
 <pre><code>## [1]  1  4  9 16</code></pre>
 <p>And we can also build functions that take more than one argument as follows:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="fu">l</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">x</span> <span class="op">+</span> <span class="fl">3</span><span class="op">*</span><span class="va">y</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">l</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">x</span> <span class="op">+</span> <span class="fl">3</span><span class="op">*</span><span class="va">y</span><span class="op">)</span></code></pre></div>
 <pre><code>## function (x, y) 
 ## x + 3 * y</code></pre>
   </div>

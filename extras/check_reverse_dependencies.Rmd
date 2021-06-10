@@ -13,9 +13,9 @@ date()
 
 parallelCluster <- NULL
 ncores <- parallel::detectCores()
-if(ncores > 1) {
-  parallelCluster <- parallel::makeCluster(ncores)
-}
+#if(ncores > 1) {
+#  parallelCluster <- parallel::makeCluster(ncores)
+#}
 
 orig_dir <- getwd()
 print(orig_dir)
