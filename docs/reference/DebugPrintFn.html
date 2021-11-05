@@ -74,7 +74,7 @@ Please see: vignette(&quot;DebugFnW&quot;, package=&quot;wrapr&quot;)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.9</span>
       </span>
     </div>
 
@@ -212,15 +212,15 @@ Please see: <code><a href='../articles/DebugFnW.html'>vignette("DebugFnW", packa
 <span class='kw'><a href='https://rdrr.io/r/base/conditions.html'>tryCatch</a></span><span class='op'>(</span>
    <span class='fu'>DebugPrintFn</span><span class='op'>(</span><span class='va'>saveDest</span>, <span class='va'>f</span>, <span class='fl'>12</span><span class='op'>)</span>,
    error <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>e</span><span class='op'>)</span> <span class='op'>{</span> <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>e</span><span class='op'>)</span> <span class='op'>}</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;simpleError in value[[3L]](cond): wrapr::DebugPrintFn: wrote '/var/folders/7f/sdjycp_d08n8wwytsbgwqgsw0000gn/T//RtmpI4lEHU/debug1671d60f1754c.RDS' on catching 'Error in (1:10)[[i]]: subscript out of bounds'
+</div><div class='output co'>#&gt; &lt;simpleError in value[[3L]](cond): wrapr::DebugPrintFn: wrote '/var/folders/7f/sdjycp_d08n8wwytsbgwqgsw0000gn/T//Rtmpf2kzDS/debug401e5db857b5.RDS' on catching 'Error in (1:10)[[i]]: subscript out of bounds'
 #&gt;  You can reproduce the error with:
-#&gt; 'p &lt;- readRDS('/var/folders/7f/sdjycp_d08n8wwytsbgwqgsw0000gn/T//RtmpI4lEHU/debug1671d60f1754c.RDS'); do.call(p$fn, p$args)'&gt;</div><div class='input'><span class='co'># examine details</span>
+#&gt; 'p &lt;- readRDS('/var/folders/7f/sdjycp_d08n8wwytsbgwqgsw0000gn/T//Rtmpf2kzDS/debug401e5db857b5.RDS'); do.call(p$fn, p$args)'&gt;</div><div class='input'><span class='co'># examine details</span>
 <span class='va'>situation</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='va'>saveDest</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>situation</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; List of 3
 #&gt;  $ fn     :function (i)  
 #&gt;   ..- attr(*, "srcref")= 'srcref' int [1:8] 3 6 3 32 6 32 3 3
-#&gt;   .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x7fb12d9b8358&gt; 
+#&gt;   .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x7f9e90c2ae48&gt; 
 #&gt;  $ args   :List of 1
 #&gt;   ..$ : num 12
 #&gt;  $ fn_name: chr "f"</div><div class='input'><span class='co'># fix and re-run</span>

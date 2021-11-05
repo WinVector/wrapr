@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.9</span>
       </span>
     </div>
 
@@ -197,7 +197,11 @@ of evaluating them, except in the case of a nested
 call to qc() or c().  Please see the examples for
 typical uses both for named and un-named character vectors.</p>
 
-<p>qc() uses bquote() .() quasiquotation escaping notation.</p>
+<p>qc() uses bquote() .() quasiquotation escaping notation.
+Also take care: argumetns are parsed by R before being passed to
+qc(). This means 01 is interpreted as 1 and a string such as 0z1
+is a syntax error. Some notes on this can be found here:
+https://github.com/WinVector/wrapr/issues/15#issuecomment-962092462</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='qe.html'>qe</a></code>, <code><a href='qae.html'>qae</a></code>, <code><a href='https://rdrr.io/r/base/bquote.html'>bquote</a></code></p></div>
