@@ -171,7 +171,7 @@
     <p>Separates string data on whitespace and separating symbols into an array.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bc</span><span class='op'>(</span><span class='va'>s</span>, <span class='va'>...</span>, sep_symbols <span class='op'>=</span> <span class='st'>",|"</span>, strict <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>bc</span><span class='op'>(</span><span class='va'>s</span>, <span class='va'>...</span>, sep_symbols <span class='op'>=</span> <span class='st'>",|"</span>, strict <span class='op'>=</span> <span class='cn'>TRUE</span>, convert <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -192,6 +192,10 @@
       <th>strict</th>
       <td><p>logical, if TRUE throw exception on confusing input</p></td>
     </tr>
+    <tr>
+      <th>convert</th>
+      <td><p>logical, if TRUE try to convert from string type to other types</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -200,8 +204,11 @@
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Can throw exception on lack of explicit value separators, example: <code>bc('"a""b"')</code> and  non-matching portions.
-Whitespace is normalized to spaces.
+Whitespace is normalized to spaces. Attempts to split on obvious number format boundaries.
 Suggested by Emil Erik Pula Bellamy Begtrup-Bright <a href='https://github.com/WinVector/wrapr/issues/12'>https://github.com/WinVector/wrapr/issues/12</a>.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='qc.html'>qc</a></code>, <code><a href='qe.html'>qe</a></code>, <code><a href='qae.html'>qae</a></code>, <code><a href='https://rdrr.io/r/base/bquote.html'>bquote</a></code>, <code><a href='sx.html'>sx</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -209,7 +216,8 @@ Suggested by Emil Erik Pula Bellamy Begtrup-Bright <a href='https://github.com/W
 </div><div class='output co'>#&gt; [1] "1" "2" "c" "d"</div><div class='input'><span class='fu'>bc</span><span class='op'>(</span><span class='st'>'1 2 3'</span><span class='op'>)</span> <span class='co'># returns c(1, 2, 3)</span>
 </div><div class='output co'>#&gt; [1] 1 2 3</div><div class='input'><span class='fu'>bc</span><span class='op'>(</span><span class='st'>'1 2 "3"'</span><span class='op'>)</span> <span class='co'># returns c("1", "2", "3")</span>
 </div><div class='output co'>#&gt; [1] "1" "2" "3"</div><div class='input'><span class='fu'>bc</span><span class='op'>(</span><span class='st'>'1,2|3.4'</span><span class='op'>)</span> <span class='co'># returns c(1, 2, 3.4)</span>
-</div><div class='output co'>#&gt; [1] 1.0 2.0 3.4</div><div class='input'>
+</div><div class='output co'>#&gt; [1] 1.0 2.0 3.4</div><div class='input'><span class='fu'>bc</span><span class='op'>(</span><span class='st'>'01 02'</span>, convert<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='co'># returns c("01", "02")</span>
+</div><div class='output co'>#&gt; [1] "01" "02"</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

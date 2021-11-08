@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Capture arguments and environment of exception throwing function call for later debugging. — DebugFnE • wrapr</title>
+<title>Sting eXplode. Parse argument as a vector of string allowing "blank separators". — sx • wrapr</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="Capture arguments and environment of exception throwing function call for later debugging. — DebugFnE" />
-<meta property="og:description" content="Run fn, save arguments, and environment on failure.
-Please see: vignette(&quot;DebugFnW&quot;, package=&quot;wrapr&quot;)." />
+<meta property="og:title" content="Sting eXplode. Parse argument as a vector of string allowing "blank separators". — sx" />
+<meta property="og:description" content="Separates string data on whitespace and separating symbols into an array." />
 
 
 
@@ -163,71 +162,58 @@ Please see: vignette(&quot;DebugFnW&quot;, package=&quot;wrapr&quot;)." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Capture arguments and environment of exception throwing function call for later debugging.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/DebugFn.R'><code>R/DebugFn.R</code></a></small>
-    <div class="hidden name"><code>DebugFnE.Rd</code></div>
+    <h1>Sting eXplode. Parse argument as a vector of string allowing "blank separators".</h1>
+    <small class="dont-index">Source: <a href='https://github.com/WinVector/wrapr/blob/master/R/bc.R'><code>R/bc.R</code></a></small>
+    <div class="hidden name"><code>sx.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Run fn, save arguments, and environment on failure.
-Please see: <code><a href='../articles/DebugFnW.html'>vignette("DebugFnW", package="wrapr")</a></code>.</p>
+    <p>Separates string data on whitespace and separating symbols into an array.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>DebugFnE</span><span class='op'>(</span><span class='va'>saveDest</span>, <span class='va'>fn</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>sx</span><span class='op'>(</span><span class='va'>s</span>, <span class='va'>...</span>, sep_symbols <span class='op'>=</span> <span class='st'>",|"</span>, strict <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>saveDest</th>
-      <td><p>where to write captured state (determined by type): NULL random temp file, character temp file, name globalenv() variable, and function triggers callback.</p></td>
-    </tr>
-    <tr>
-      <th>fn</th>
-      <td><p>function to call</p></td>
+      <th>s</th>
+      <td><p>string to parse</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>arguments for fn</p></td>
+      <td><p>force later arguments to be set by name</p></td>
+    </tr>
+    <tr>
+      <th>sep_symbols</th>
+      <td><p>characters to consider separators</p></td>
+    </tr>
+    <tr>
+      <th>strict</th>
+      <td><p>logical, if TRUE throw exception on confusing input</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>fn(...) normally, but if fn(...) throws an exception save to saveDest RDS of list r such that do.call(r$fn,r$args) repeats the call to fn with args.</p>
+    <p>vector of values</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Can throw exception on lack of explicit value separators, example: <code><a href='bc.html'>bc('"a""b"')</a></code> and  non-matching portions.
+Whitespace is normalized to spaces.
+Suggested by Emil Erik Pula Bellamy Begtrup-Bright <a href='https://github.com/WinVector/wrapr/issues/12'>https://github.com/WinVector/wrapr/issues/12</a>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/r/utils/debugger.html'>dump.frames</a></code>, <code><a href='DebugFn.html'>DebugFn</a></code>, <code><a href='DebugFnW.html'>DebugFnW</a></code>,  <code><a href='DebugFnWE.html'>DebugFnWE</a></code>, <code><a href='DebugPrintFn.html'>DebugPrintFn</a></code>, <code>DebugFnE</code>, <code><a href='DebugPrintFnE.html'>DebugPrintFnE</a></code></p></div>
+    <div class='dont-index'><p><code><a href='qc.html'>qc</a></code>, <code><a href='qe.html'>qe</a></code>, <code><a href='qae.html'>qae</a></code>, <code><a href='https://rdrr.io/r/base/bquote.html'>bquote</a></code>, <code><a href='bc.html'>bc</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='va'>saveDest</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='st'>'debug'</span><span class='op'>)</span>,<span class='st'>'.RDS'</span><span class='op'>)</span>
-<span class='va'>f</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>i</span><span class='op'>)</span> <span class='op'>{</span> <span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span><span class='op'>[[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>}</span>
-<span class='co'># correct run</span>
-<span class='fu'>DebugFnE</span><span class='op'>(</span><span class='va'>saveDest</span>, <span class='va'>f</span>, <span class='fl'>5</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='co'># now re-run</span>
-<span class='co'># capture error on incorrect run</span>
-<span class='kw'><a href='https://rdrr.io/r/base/conditions.html'>tryCatch</a></span><span class='op'>(</span>
-   <span class='fu'>DebugFnE</span><span class='op'>(</span><span class='va'>saveDest</span>, <span class='va'>f</span>, <span class='fl'>12</span><span class='op'>)</span>,
-   error <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>e</span><span class='op'>)</span> <span class='op'>{</span> <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>e</span><span class='op'>)</span> <span class='op'>}</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;simpleError in value[[3L]](cond): wrapr::DebugFnE: wrote '/var/folders/7f/sdjycp_d08n8wwytsbgwqgsw0000gn/T//RtmptEzPcA/debugd53c27e77cd9.RDS' on catching 'Error in (1:10)[[i]]: subscript out of bounds'
-#&gt;  You can reproduce the error with:
-#&gt; 'p &lt;- readRDS('/var/folders/7f/sdjycp_d08n8wwytsbgwqgsw0000gn/T//RtmptEzPcA/debugd53c27e77cd9.RDS'); do.call(p$fn, p$args, envir= p$env)'&gt;</div><div class='input'><span class='co'># examine details</span>
-<span class='va'>situation</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='va'>saveDest</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>situation</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; List of 4
-#&gt;  $ fn     :function (i)  
-#&gt;   ..- attr(*, "srcref")= 'srcref' int [1:8] 3 6 3 32 6 32 3 3
-#&gt;   .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x7f87d195a190&gt; 
-#&gt;  $ args   :List of 1
-#&gt;   ..$ : num 12
-#&gt;  $ env    :&lt;environment: 0x7f87d195dd20&gt; 
-#&gt;  $ fn_name: chr "f"</div><div class='input'><span class='co'># fix and re-run</span>
-<span class='va'>situation</span><span class='op'>$</span><span class='va'>args</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fl'>6</span>
-<span class='fu'><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></span><span class='op'>(</span><span class='va'>situation</span><span class='op'>$</span><span class='va'>fn</span>, <span class='va'>situation</span><span class='op'>$</span><span class='va'>args</span>, envir<span class='op'>=</span><span class='va'>situation</span><span class='op'>$</span><span class='va'>env</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 6</div><div class='input'><span class='co'># clean up</span>
-<span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.remove</a></span><span class='op'>(</span><span class='va'>saveDest</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+<span class='fu'>sx</span><span class='op'>(</span><span class='st'>'1 2 "c", d'</span><span class='op'>)</span> <span class='co'># returns c("1", "2", "c", "d")</span>
+</div><div class='output co'>#&gt; [1] "1" "2" "c" "d"</div><div class='input'><span class='fu'>sx</span><span class='op'>(</span><span class='st'>'1 2 3'</span><span class='op'>)</span> <span class='co'># returns c("1", "2", "3")</span>
+</div><div class='output co'>#&gt; [1] "1" "2" "3"</div><div class='input'><span class='fu'>sx</span><span class='op'>(</span><span class='st'>'1 2 "3"'</span><span class='op'>)</span> <span class='co'># returns c("1", "2", "3")</span>
+</div><div class='output co'>#&gt; [1] "1" "2" "3"</div><div class='input'><span class='fu'>sx</span><span class='op'>(</span><span class='st'>'1,2|3.4'</span><span class='op'>)</span> <span class='co'># returns c("1", "2", "3.4")</span>
+</div><div class='output co'>#&gt; [1] "1"   "2"   "3.4"</div><div class='input'><span class='fu'>sx</span><span class='op'>(</span><span class='st'>'01 02'</span><span class='op'>)</span> <span class='co'># returns c("01", "02")</span>
+</div><div class='output co'>#&gt; [1] "01" "02"</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
