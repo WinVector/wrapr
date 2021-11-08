@@ -2,7 +2,7 @@
 % Please edit documentation in R/bc.R
 \name{sx}
 \alias{sx}
-\title{Sting eXplode. Parse argument as a vector of string allowing "blank separators".}
+\title{String eXplode. Parse argument as a vector of string allowing "blank separators".}
 \usage{
 sx(s, ..., sep_symbols = ",|", strict = TRUE)
 }
@@ -24,7 +24,7 @@ Separates string data on whitespace and separating symbols into an array.
 \details{
 Can throw exception on lack of explicit value separators, example: \code{bc('"a""b"')} and  non-matching portions.
 Whitespace is normalized to spaces.
-Suggested by Emil Erik Pula Bellamy Begtrup-Bright \url{https://github.com/WinVector/wrapr/issues/12}.
+Suggested by Emil Erik Pula Bellamy Begtrup-Bright \url{https://github.com/WinVector/wrapr/issues/15}.
 }
 \examples{
 
