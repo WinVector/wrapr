@@ -60,5 +60,5 @@ qc(a := c(a=1, b=2)) # returns c(a.a = "1", a.b = "2")
 
 }
 \seealso{
-\code{\link{qe}}, \code{\link{qae}}, \code{\link[base]{bquote}}
+\code{\link{qe}}, \code{\link{qae}}, \code{\link[base]{bquote}}, \code{\link{bc}}, \code{\link{sx}}
 }

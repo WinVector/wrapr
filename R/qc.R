@@ -22,7 +22,7 @@
 #' @param .wrapr_private_var_env environment to evaluate in
 #' @return quoted array of character items
 #'
-#' @seealso \code{\link{qe}}, \code{\link{qae}}, \code{\link[base]{bquote}}
+#' @seealso \code{\link{qe}}, \code{\link{qae}}, \code{\link[base]{bquote}}, \code{\link{bc}}, \code{\link{sx}}
 #'
 #' @examples
 #'

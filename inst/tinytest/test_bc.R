@@ -81,3 +81,14 @@ expect_equal(
   c("person_id", "geography", "danish_letter_Æ", "danish_letter_Ø", "danish_letter_Å")
 )
 
+
+expect_equal(
+  bc('01 02', convert=FALSE), c("01", "02")
+)
+
+
+expect_equal(
+  bc('01 02'), c(1, 2)
+)
+
+
