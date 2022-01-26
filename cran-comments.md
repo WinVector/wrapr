@@ -21,6 +21,14 @@
     Both notes are side-effects of test environment, not from the package.
     
     devtools::check_win_devel()
+    * using R Under development (unstable) (2022-01-25 r81562 ucrt)
+    * using platform: x86_64-w64-mingw32 (64-bit)
+    * using session charset: UTF-8
+    * checking for file 'wrapr/DESCRIPTION' ... OK
+    * checking extension type ... Package
+    * this is package 'wrapr' version '2.0.9'
+    ...
+    Status: OK
  
 ### MacOS
 
