@@ -9,13 +9,13 @@ package = "wrapr"
 packageVersion(package)
 ```
 
-    ## [1] '2.0.8'
+    ## [1] '2.0.9'
 
 ``` r
 date()
 ```
 
-    ## [1] "Thu Jun 10 13:58:58 2021"
+    ## [1] "Wed Jan 26 08:38:12 2022"
 
 ``` r
 parallelCluster <- NULL
@@ -35,7 +35,7 @@ setwd(td)
 print(td)
 ```
 
-    ## [1] "/var/folders/7f/sdjycp_d08n8wwytsbgwqgsw0000gn/T//RtmpOnzunx"
+    ## [1] "/var/folders/7f/sdjycp_d08n8wwytsbgwqgsw0000gn/T//RtmpCJChFv"
 
 ``` r
 options(repos = repos)
@@ -52,13 +52,14 @@ print(jobsdfe)
 
     ##   id       title status
     ## 1  1       cdata  READY
-    ## 2  2 RcppDynProg  READY
-    ## 3  3 rqdatatable  READY
-    ## 4  4      rquery  READY
-    ## 5  5      seplyr  READY
-    ## 6  6        sigr  READY
-    ## 7  7      vtreat  READY
-    ## 8  8     WVPlots  READY
+    ## 2  2   MultiATSM  READY
+    ## 3  3 RcppDynProg  READY
+    ## 4  4 rqdatatable  READY
+    ## 5  5      rquery  READY
+    ## 6  6      seplyr  READY
+    ## 7  7        sigr  READY
+    ## 8  8      vtreat  READY
+    ## 9  9     WVPlots  READY
 
 ``` r
 mk_fn <- function(package, directory, repos) {
@@ -82,15 +83,16 @@ if(!is.null(parallelCluster)) {
 }
 ```
 
-    ## ## Reverse depends check of wrapr 2.0.8 
-    ## cdata_1.1.9 started at 2021-06-10 13:59:01 success at 2021-06-10 13:59:25 (1/0/0) 
-    ## RcppDynProg_0.2.0 started at 2021-06-10 13:59:25 failure at 2021-06-10 13:59:35 (1/0/1) 
-    ## rqdatatable_1.2.9 started at 2021-06-10 13:59:35 success at 2021-06-10 13:59:52 (2/0/1) 
-    ## rquery_1.4.7 started at 2021-06-10 13:59:52 success at 2021-06-10 14:00:24 (3/0/1) 
-    ## seplyr_1.0.1 started at 2021-06-10 14:00:24 success at 2021-06-10 14:00:45 (4/0/1) 
-    ## sigr_1.1.3 started at 2021-06-10 14:00:45 success at 2021-06-10 14:01:02 (5/0/1) 
-    ## vtreat_1.6.2 started at 2021-06-10 14:01:02 success at 2021-06-10 14:01:49 (6/0/1) 
-    ## WVPlots_1.3.2 started at 2021-06-10 14:01:49 success at 2021-06-10 14:02:41 (7/0/1)
+    ## ## Reverse depends check of wrapr 2.0.9 
+    ## cdata_1.2.0 started at 2022-01-26 08:38:14 success at 2022-01-26 08:38:35 (1/0/0) 
+    ## MultiATSM_0.0.1 started at 2022-01-26 08:38:36 failure at 2022-01-26 08:38:39 (1/0/1) 
+    ## RcppDynProg_0.2.0 started at 2022-01-26 08:38:39 failure at 2022-01-26 08:38:45 (1/0/2) 
+    ## rqdatatable_1.3.1 started at 2022-01-26 08:38:45 success at 2022-01-26 08:39:02 (2/0/2) 
+    ## rquery_1.4.8 started at 2022-01-26 08:39:02 success at 2022-01-26 08:39:32 (3/0/2) 
+    ## seplyr_1.0.4 started at 2022-01-26 08:39:32 success at 2022-01-26 08:39:52 (4/0/2) 
+    ## sigr_1.1.4 started at 2022-01-26 08:39:52 success at 2022-01-26 08:40:10 (5/0/2) 
+    ## vtreat_1.6.3 started at 2022-01-26 08:40:10 success at 2022-01-26 08:40:58 (6/0/2) 
+    ## WVPlots_1.3.2 started at 2022-01-26 08:40:58 success at 2022-01-26 08:41:52 (7/0/2)
 
     ## [1] id     title  status
     ## <0 rows> (or 0-length row.names)
@@ -99,11 +101,11 @@ if(!is.null(parallelCluster)) {
 summariseQueue(package=package, directory=td)
 ```
 
-    ## Test of wrapr 2.0.8 had 7 successes, 1 failures, and 0 skipped packages. 
-    ## Ran from 2021-06-10 13:59:01 to 2021-06-10 14:02:41 for 3.667 mins 
-    ## Average of 27.5 secs relative to 27.468 secs using 1 runners
+    ## Test of wrapr 2.0.9 had 7 successes, 2 failures, and 0 skipped packages. 
+    ## Ran from 2022-01-26 08:38:14 to 2022-01-26 08:41:52 for 3.633 mins 
+    ## Average of 24.222 secs relative to 24.128 secs using 1 runners
     ## 
-    ## Failed packages:  RcppDynProg 
+    ## Failed packages:  MultiATSM, RcppDynProg 
     ## 
     ## Skipped packages:   
     ## 

@@ -212,20 +212,20 @@ Please see: <code><a href='../articles/DebugFnW.html'>vignette("DebugFnW", packa
 <span class='kw'><a href='https://rdrr.io/r/base/conditions.html'>tryCatch</a></span><span class='op'>(</span>
    <span class='fu'><a href='https://rdrr.io/r/stats/Fdist.html'>df</a></span><span class='op'>(</span><span class='fl'>12</span><span class='op'>)</span>,
    error <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>e</span><span class='op'>)</span> <span class='op'>{</span> <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>e</span><span class='op'>)</span> <span class='op'>}</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;simpleError in value[[3L]](cond): wrapr::DebugFnWE: wrote '/var/folders/7f/sdjycp_d08n8wwytsbgwqgsw0000gn/T//RtmpspD6Od/debug11b3d656cc5d7.RDS' on catching 'Error in (1:10)[[i]]: subscript out of bounds'
+</div><div class='output co'>#&gt; &lt;simpleError in value[[3L]](cond): wrapr::DebugFnWE: wrote '/var/folders/7f/sdjycp_d08n8wwytsbgwqgsw0000gn/T//RtmpupYvzx/debug13dd07cc0c16f.RDS' on catching 'Error in (1:10)[[i]]: subscript out of bounds'
 #&gt;  You can reproduce the error with:
-#&gt; 'p &lt;- readRDS('/var/folders/7f/sdjycp_d08n8wwytsbgwqgsw0000gn/T//RtmpspD6Od/debug11b3d656cc5d7.RDS'); do.call(p$fn, p$args, envir= p$env)'&gt;</div><div class='input'><span class='co'># examine details</span>
+#&gt; 'p &lt;- readRDS('/var/folders/7f/sdjycp_d08n8wwytsbgwqgsw0000gn/T//RtmpupYvzx/debug13dd07cc0c16f.RDS'); do.call(p$fn, p$args, envir= p$env)'&gt;</div><div class='input'><span class='co'># examine details</span>
 <span class='va'>situation</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='va'>saveDest</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>situation</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; List of 5
 #&gt;  $ fn       :function (i)  
 #&gt;   ..- attr(*, "srcref")= 'srcref' int [1:8] 3 6 3 32 6 32 3 3
-#&gt;   .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x7f9190f70cc8&gt; 
+#&gt;   .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' &lt;environment: 0x7fc757c14598&gt; 
 #&gt;  $ args     :List of 1
 #&gt;   ..$ : num 12
 #&gt;  $ namedargs: language df(12)
 #&gt;  $ fn_name  : chr "f"
-#&gt;  $ env      :&lt;environment: 0x7f9190f70948&gt; </div><div class='input'><span class='co'># fix and re-run</span>
+#&gt;  $ env      :&lt;environment: 0x7fc757c14218&gt; </div><div class='input'><span class='co'># fix and re-run</span>
 <span class='va'>situation</span><span class='op'>$</span><span class='va'>args</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fl'>6</span>
 <span class='fu'><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></span><span class='op'>(</span><span class='va'>situation</span><span class='op'>$</span><span class='va'>fn</span>, <span class='va'>situation</span><span class='op'>$</span><span class='va'>args</span>, envir<span class='op'>=</span><span class='va'>situation</span><span class='op'>$</span><span class='va'>env</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] 6</div><div class='input'><span class='co'># clean up</span>

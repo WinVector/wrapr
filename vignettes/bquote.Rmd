@@ -88,7 +88,7 @@ There are many <code>R</code> quasi-quotation systems including:
  * [<code>gtools::strmacro()</code>](https://CRAN.R-project.org/package=gtools)
  * [<code>lazyeval</code>](https://CRAN.R-project.org/package=lazyeval)
  * [<code>wrapr::let()</code>](https://winvector.github.io/wrapr/reference/let.html)
- * [<code>rlang::as_quosure()</code>](https://rlang.r-lib.org/reference/as_quosure.html)
+ * <code>rlang::as_quosure()</code>
  * [<code>nseval</code>](https://CRAN.R-project.org/package=nseval)
 
 If you don't want to wrap your <code>plot()</code> call in <code>evalb()</code> you can instead pre-adapt the function.  Below we create a new function <code>plotb()</code> that is intended as shorthand for <code>eval(bquote(plot(...)))</code>.
