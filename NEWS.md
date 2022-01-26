@@ -1,5 +1,5 @@
 
-# wrapr 2.0.9 2021-11-08
+# wrapr 2.0.9 2022-01-26
 
  * Document qc() limitations (ref: https://github.com/WinVector/wrapr/issues/15#issue-1046032267 ).
  * Add sx() for https://github.com/WinVector/wrapr/issues/15#issue-1046032267 use case.
