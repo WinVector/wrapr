@@ -4,7 +4,9 @@ check\_reverse\_dependencies
 ``` r
 repos <- c(CRAN="https://cloud.r-project.org")
 library("prrd")
-td <- tempdir()
+orig_dir <- getwd()
+# td <- tempdir()
+td <- paste0(orig_dir, '/', 'revdep_tests')
 package = "wrapr"
 packageVersion(package)
 ```
@@ -15,7 +17,7 @@ packageVersion(package)
 date()
 ```
 
-    ## [1] "Wed Jan 26 08:38:12 2022"
+    ## [1] "Wed Jan 26 10:19:34 2022"
 
 ``` r
 parallelCluster <- NULL
@@ -24,7 +26,7 @@ ncores <- parallel::detectCores()
 #  parallelCluster <- parallel::makeCluster(ncores)
 #}
 
-orig_dir <- getwd()
+
 print(orig_dir)
 ```
 
@@ -35,7 +37,7 @@ setwd(td)
 print(td)
 ```
 
-    ## [1] "/var/folders/7f/sdjycp_d08n8wwytsbgwqgsw0000gn/T//RtmpCJChFv"
+    ## [1] "/Users/johnmount/Documents/work/wrapr/extras/revdep_tests"
 
 ``` r
 options(repos = repos)
@@ -84,15 +86,15 @@ if(!is.null(parallelCluster)) {
 ```
 
     ## ## Reverse depends check of wrapr 2.0.9 
-    ## cdata_1.2.0 started at 2022-01-26 08:38:14 success at 2022-01-26 08:38:35 (1/0/0) 
-    ## MultiATSM_0.0.1 started at 2022-01-26 08:38:36 failure at 2022-01-26 08:38:39 (1/0/1) 
-    ## RcppDynProg_0.2.0 started at 2022-01-26 08:38:39 failure at 2022-01-26 08:38:45 (1/0/2) 
-    ## rqdatatable_1.3.1 started at 2022-01-26 08:38:45 success at 2022-01-26 08:39:02 (2/0/2) 
-    ## rquery_1.4.8 started at 2022-01-26 08:39:02 success at 2022-01-26 08:39:32 (3/0/2) 
-    ## seplyr_1.0.4 started at 2022-01-26 08:39:32 success at 2022-01-26 08:39:52 (4/0/2) 
-    ## sigr_1.1.4 started at 2022-01-26 08:39:52 success at 2022-01-26 08:40:10 (5/0/2) 
-    ## vtreat_1.6.3 started at 2022-01-26 08:40:10 success at 2022-01-26 08:40:58 (6/0/2) 
-    ## WVPlots_1.3.2 started at 2022-01-26 08:40:58 success at 2022-01-26 08:41:52 (7/0/2)
+    ## cdata_1.2.0 started at 2022-01-26 10:19:37 success at 2022-01-26 10:20:07 (1/0/0) 
+    ## MultiATSM_0.0.1 started at 2022-01-26 10:20:07 failure at 2022-01-26 10:20:10 (1/0/1) 
+    ## RcppDynProg_0.2.0 started at 2022-01-26 10:20:10 failure at 2022-01-26 10:20:57 (1/0/2) 
+    ## rqdatatable_1.3.1 started at 2022-01-26 10:20:57 success at 2022-01-26 10:21:17 (2/0/2) 
+    ## rquery_1.4.8 started at 2022-01-26 10:21:17 success at 2022-01-26 10:22:09 (3/0/2) 
+    ## seplyr_1.0.4 started at 2022-01-26 10:22:09 success at 2022-01-26 10:22:35 (4/0/2) 
+    ## sigr_1.1.4 started at 2022-01-26 10:22:35 success at 2022-01-26 10:23:03 (5/0/2) 
+    ## vtreat_1.6.3 started at 2022-01-26 10:23:04 success at 2022-01-26 10:24:07 (6/0/2) 
+    ## WVPlots_1.3.2 started at 2022-01-26 10:24:07 success at 2022-01-26 10:25:06 (7/0/2)
 
     ## [1] id     title  status
     ## <0 rows> (or 0-length row.names)
@@ -102,8 +104,8 @@ summariseQueue(package=package, directory=td)
 ```
 
     ## Test of wrapr 2.0.9 had 7 successes, 2 failures, and 0 skipped packages. 
-    ## Ran from 2022-01-26 08:38:14 to 2022-01-26 08:41:52 for 3.633 mins 
-    ## Average of 24.222 secs relative to 24.128 secs using 1 runners
+    ## Ran from 2022-01-26 10:19:37 to 2022-01-26 10:25:06 for 5.483 mins 
+    ## Average of 36.556 secs relative to 36.316 secs using 1 runners
     ## 
     ## Failed packages:  MultiATSM, RcppDynProg 
     ## 

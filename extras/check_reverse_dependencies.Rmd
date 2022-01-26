@@ -6,7 +6,9 @@ output: github_document
 ```{r, error=TRUE}
 repos <- c(CRAN="https://cloud.r-project.org")
 library("prrd")
-td <- tempdir()
+orig_dir <- getwd()
+# td <- tempdir()
+td <- paste0(orig_dir, '/', 'revdep_tests')
 package = "wrapr"
 packageVersion(package)
 date()
@@ -17,7 +19,7 @@ ncores <- parallel::detectCores()
 #  parallelCluster <- parallel::makeCluster(ncores)
 #}
 
-orig_dir <- getwd()
+
 print(orig_dir)
 setwd(td)
 print(td)
