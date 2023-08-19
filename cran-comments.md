@@ -1,24 +1,17 @@
 
+## Tests
 
-## Test environments
-
-
-### Windows
-
-    rhub::check_for_cran()
-
-    
     devtools::check_win_devel()
+    * using R Under development (unstable) (2023-08-18 r84986 ucrt)
+    * using platform: x86_64-w64-mingw32
 
- 
-### MacOS
 
     R CMD check --as-cran wrapr_2.1.0.tar.gz 
-
-    
-### Linux
+    * using R version 4.3.0 (2023-04-21)
+    * using platform: x86_64-apple-darwin20 (64-bit)
 
     rhub::check_for_cran()
+    skipped
 
 
 ## Downstream dependencies

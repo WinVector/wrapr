@@ -53,7 +53,7 @@ The idea is that you should not expect a user to remember the positions of more 
 
 <blockquote>
   If you have a procedure with 10 parameters, you probably missed some.
-  <p/><a href="http://pu.inf.uni-tuebingen.de/users/klaeren/epigrams.html">Alan Perlis, "Epigrams on Programming", ACM SIGPLAN Notices 17 (9), September 1982, pp. 7–13.</a>
+  <p/>Alan Perlis, "Epigrams on Programming", ACM SIGPLAN Notices 17 (9), September 1982, pp. 7–13.
 </blockquote>
 
 Note that the "<code>substitute(list(...))</code>" part is the R idiom for capturing the unevaluated contents of "<code>...</code>", I felt it best to use standard R as much a possible in favor of introducing any <em>additional</em> magic invocations.
