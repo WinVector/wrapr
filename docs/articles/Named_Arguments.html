@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,23 +33,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -106,7 +102,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://win-vector.com">Sponsor: Win-Vector LLC</a>
+  <a href="https://win-vector.com" class="external-link">Sponsor: Win-Vector LLC</a>
 </li>
       </ul>
 </div>
@@ -118,64 +114,90 @@
 
       
 
-      </header><script src="Named_Arguments_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Named Arguments</h1>
-                        <h4 class="author">John Mount, Win-Vector LLC</h4>
+                        <h4 data-toc-skip class="author">John Mount,
+Win-Vector LLC</h4>
             
-            <h4 class="date">2022-01-26</h4>
+            <h4 data-toc-skip class="date">2023-08-19</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/Named_Arguments.Rmd"><code>vignettes/Named_Arguments.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/HEAD/vignettes/Named_Arguments.Rmd" class="external-link"><code>vignettes/Named_Arguments.Rmd</code></a></small>
       <div class="hidden name"><code>Named_Arguments.Rmd</code></div>
 
     </div>
 
     
     
-<p>R’s named function argument binding is a great aid in writing correct programs. It is a good idea, if practical, to force optional arguments to only be usable by name. To do this declare the additional arguments after “<code>…</code>” and enforce that none got lost in the “<code>…</code> trap” by using a checker such as <a href="https://winvector.github.io/wrapr/reference/stop_if_dot_args.html">wrapr::stop_if_dot_args()</a>.</p>
+<p>R’s named function argument binding is a great aid in writing correct
+programs. It is a good idea, if practical, to force optional arguments
+to only be usable by name. To do this declare the additional arguments
+after “<code>…</code>” and enforce that none got lost in the
+“<code>…</code> trap” by using a checker such as
+<a href="https://winvector.github.io/wrapr/reference/stop_if_dot_args.html">wrapr::stop_if_dot_args()</a>.</p>
 <p>Example:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">#' Increment x by inc.</span>
-<span class="co">#' </span>
-<span class="co">#' @param x item to add to</span>
-<span class="co">#' @param ... not used for values, forces later arguments to bind by name</span>
-<span class="co">#' @param inc (optional) value to add</span>
-<span class="co">#' @return x+inc</span>
-<span class="co">#'</span>
-<span class="co">#' @examples</span>
-<span class="co">#'</span>
-<span class="co">#' f(7) # returns 8</span>
-<span class="co">#'</span>
-<span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span>, <span class="va">inc</span> <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">{</span>
-   <span class="fu">wrapr</span><span class="fu">::</span><span class="fu"><a href="../reference/stop_if_dot_args.html">stop_if_dot_args</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/substitute.html">substitute</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">...</span><span class="op">)</span><span class="op">)</span>, <span class="st">"f"</span><span class="op">)</span>
-   <span class="va">x</span> <span class="op">+</span> <span class="va">inc</span>
-<span class="op">}</span>
-
-<span class="fu">f</span><span class="op">(</span><span class="fl">7</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 8</code></pre>
+<code class="sourceCode R"><span><span class="co">#' Increment x by inc.</span></span>
+<span><span class="co">#' </span></span>
+<span><span class="co">#' @param x item to add to</span></span>
+<span><span class="co">#' @param ... not used for values, forces later arguments to bind by name</span></span>
+<span><span class="co">#' @param inc (optional) value to add</span></span>
+<span><span class="co">#' @return x+inc</span></span>
+<span><span class="co">#'</span></span>
+<span><span class="co">#' @examples</span></span>
+<span><span class="co">#'</span></span>
+<span><span class="co">#' f(7) # returns 8</span></span>
+<span><span class="co">#'</span></span>
+<span><span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span>, <span class="va">inc</span> <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span>   <span class="fu">wrapr</span><span class="fu">::</span><span class="fu"><a href="../reference/stop_if_dot_args.html">stop_if_dot_args</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">substitute</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">...</span><span class="op">)</span><span class="op">)</span>, <span class="st">"f"</span><span class="op">)</span></span>
+<span>   <span class="va">x</span> <span class="op">+</span> <span class="va">inc</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu">f</span><span class="op">(</span><span class="fl">7</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] 8</span></span></code></pre>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">f</span><span class="op">(</span><span class="fl">7</span>, inc <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 9</code></pre>
+<code class="sourceCode R"><span><span class="fu">f</span><span class="op">(</span><span class="fl">7</span>, inc <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] 9</span></span></code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/conditions.html">tryCatch</a></span><span class="op">(</span>
-  <span class="fu">f</span><span class="op">(</span><span class="fl">7</span>, q <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span>,
-  error <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="op">}</span><span class="op">)</span></code></pre></div>
-<pre><code>## &lt;simpleError: f unexpected arguments: q = 'mtcars'&gt;</code></pre>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span></span>
+<span>  <span class="fu">f</span><span class="op">(</span><span class="fl">7</span>, q <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span>,</span>
+<span>  error <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="op">}</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## &lt;simpleError: f unexpected arguments: q = 'mtcars'&gt;</span></span></code></pre>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/conditions.html">tryCatch</a></span><span class="op">(</span>
-  <span class="fu">f</span><span class="op">(</span><span class="fl">7</span>, <span class="fl">2</span><span class="op">)</span>,
-  error <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="op">}</span><span class="op">)</span></code></pre></div>
-<pre><code>## &lt;simpleError: f unexpected arguments: '2'&gt;</code></pre>
-<p>By R function evaluation rules: any unexpected/undeclared arguments are captured by the “<code>…</code>” argument. Then “wrapr::stop_if_dot_args()” inspects for such values and reports an error if there are such. The “f” string is returned as part of the error, I chose the name of the function as in this case. The “substitute(list(…))” part is R’s way of making the contents of “…” available for inspection.</p>
-<p>You can also use the technique on required arguments. <a href="https://winvector.github.io/wrapr/reference/stop_if_dot_args.html">wrapr::stop_if_dot_args()</a> is a simple low-dependency helper function intended to make writing code such as the above easier. This is under the rubric that hidden errors are worse than thrown exceptions. It is best to find and signal problems early, and near the cause.</p>
-<p>The idea is that you should not expect a user to remember the positions of more than 1 to 3 arguments, the rest should only be referable by name. Do not make your users count along large sequences of arguments, <a href="https://en.wikipedia.org/wiki/Subitizing">the human brain may have special cases for small sequences</a>.</p>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span></span>
+<span>  <span class="fu">f</span><span class="op">(</span><span class="fl">7</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>  error <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="op">}</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## &lt;simpleError: f unexpected arguments: '2'&gt;</span></span></code></pre>
+<p>By R function evaluation rules: any unexpected/undeclared arguments
+are captured by the “<code>…</code>” argument. Then
+“wrapr::stop_if_dot_args()” inspects for such values and reports an
+error if there are such. The "f" string is returned as part of the
+error, I chose the name of the function as in this case. The
+“substitute(list(…))” part is R’s way of making the contents of “…”
+available for inspection.</p>
+<p>You can also use the technique on required arguments.
+<a href="https://winvector.github.io/wrapr/reference/stop_if_dot_args.html">wrapr::stop_if_dot_args()</a>
+is a simple low-dependency helper function intended to make writing code
+such as the above easier. This is under the rubric that hidden errors
+are worse than thrown exceptions. It is best to find and signal problems
+early, and near the cause.</p>
+<p>The idea is that you should not expect a user to remember the
+positions of more than 1 to 3 arguments, the rest should only be
+referable by name. Do not make your users count along large sequences of
+arguments, <a href="https://en.wikipedia.org/wiki/Subitizing" class="external-link">the human
+brain may have special cases for small sequences</a>.</p>
 <blockquote>
 If you have a procedure with 10 parameters, you probably missed some.
 <p></p>
-<a href="http://pu.inf.uni-tuebingen.de/users/klaeren/epigrams.html">Alan Perlis, “Epigrams on Programming”, ACM SIGPLAN Notices 17 (9), September 1982, pp. 7–13.</a>
+<a href="http://pu.inf.uni-tuebingen.de/users/klaeren/epigrams.html" class="external-link">Alan
+Perlis, “Epigrams on Programming”, ACM SIGPLAN Notices 17 (9), September
+1982, pp. 7–13.</a>
 </blockquote>
-<p>Note that the “<code>substitute(list(…))</code>” part is the R idiom for capturing the unevaluated contents of “<code>…</code>”, I felt it best to use standard R as much a possible in favor of introducing any <em>additional</em> magic invocations.</p>
+<p>Note that the “<code>substitute(list(…))</code>” part is the R idiom
+for capturing the unevaluated contents of “<code>…</code>”, I felt it
+best to use standard R as much a possible in favor of introducing any
+<em>additional</em> magic invocations.</p>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -187,11 +209,13 @@ If you have a procedure with 10 parameters, you probably missed some.
 
 
       <footer><div class="copyright">
-  <p>Developed by John Mount, Nina Zumel.</p>
+  <p></p>
+<p>Developed by John Mount, Nina Zumel.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
@@ -199,6 +223,8 @@ If you have a procedure with 10 parameters, you probably missed some.
 
   
 
+
+  
 
   </body>
 </html>

@@ -51,9 +51,9 @@ when it is length 1).
 }
 \section{Functions}{
 \itemize{
-\item \code{\%?\%}: coalesce operator
-}}
+\item \code{coalesce_left_arg \%?\% coalesce_right_arg}: coalesce operator
 
+}}
 \examples{
 
 c(NA, NA, NA) \%?\% 5            # returns c(5, 5, 5)

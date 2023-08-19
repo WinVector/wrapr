@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,23 +33,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -106,7 +102,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://win-vector.com">Sponsor: Win-Vector LLC</a>
+  <a href="https://win-vector.com" class="external-link">Sponsor: Win-Vector LLC</a>
 </li>
       </ul>
 </div>
@@ -118,84 +114,125 @@
 
       
 
-      </header><script src="QuotingConcatinate_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Quoting Concatinate</h1>
-                        <h4 class="author">John Mount</h4>
+                        <h4 data-toc-skip class="author">John Mount</h4>
             
-            <h4 class="date">2022-01-26</h4>
+            <h4 data-toc-skip class="date">2023-08-19</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/QuotingConcatinate.Rmd"><code>vignettes/QuotingConcatinate.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/HEAD/vignettes/QuotingConcatinate.Rmd" class="external-link"><code>vignettes/QuotingConcatinate.Rmd</code></a></small>
       <div class="hidden name"><code>QuotingConcatinate.Rmd</code></div>
 
     </div>
 
     
     
-<p>In <a href="https://www.r-project.org"><code>R</code></a> data analysis code-capturing interfaces (or non-standard-evaluation/NSE interfaces are considered a fun convenience. These allow users to type column names in directly when working. However in functions and packages there can be a large interface price or code safety risk to pay for supplying the user the minor convenience of eliding a few quotation marks.</p>
-<p>Our package <a href="https://CRAN.R-project.org/package=wrapr"><code>wrapr</code></a> has the sensible design principle: NSE can be convenient to the user, but we are going to isolate it to a few methods (for safe and simple code). Users then pass the objects that those methods create as <em>values</em> to other methods. Computation is meant to be over values, so this is a good trade-off.</p>
-<p>The primary place code capturing shows up in our <code>wrapr</code> <code>R</code> package is in the <a href="https://winvector.github.io/wrapr/reference/qc.html"><code>qc()</code></a> and <a href="https://winvector.github.io/wrapr/reference/qchar_frame.html"><code>qchar_frame()</code></a> methods.</p>
-<p><code><a href="../reference/qc.html">qc()</a></code> stands for “quoting concatenate” it is much like <code>R</code>’s <code><a href="https://rdrr.io/r/base/c.html">c()</a></code> (combine), but it quotes its arguments before concatenating vectors or lists.</p>
+<p>In <a href="https://www.r-project.org" class="external-link"><code>R</code></a> data
+analysis code-capturing interfaces (or non-standard-evaluation/NSE
+interfaces are considered a fun convenience. These allow users to type
+column names in directly when working. However in functions and packages
+there can be a large interface price or code safety risk to pay for
+supplying the user the minor convenience of eliding a few quotation
+marks.</p>
+<p>Our package <a href="https://CRAN.R-project.org/package=wrapr" class="external-link"><code>wrapr</code></a>
+has the sensible design principle: NSE can be convenient to the user,
+but we are going to isolate it to a few methods (for safe and simple
+code). Users then pass the objects that those methods create as
+<em>values</em> to other methods. Computation is meant to be over
+values, so this is a good trade-off.</p>
+<p>The primary place code capturing shows up in our <code>wrapr</code>
+<code>R</code> package is in the <a href="https://winvector.github.io/wrapr/reference/qc.html"><code>qc()</code></a>
+and <a href="https://winvector.github.io/wrapr/reference/qchar_frame.html"><code>qchar_frame()</code></a>
+methods.</p>
+<p><code><a href="../reference/qc.html">qc()</a></code> stands for “quoting concatenate” it is much like
+<code>R</code>’s <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code> (combine), but it quotes its arguments
+before concatenating vectors or lists.</p>
 <p>It lets you replace this:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Petal.Width"</span>, <span class="st">"Petal.Length"</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "Petal.Width"  "Petal.Length"</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Petal.Width"</span>, <span class="st">"Petal.Length"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "Petal.Width"  "Petal.Length"</span></span></code></pre>
 <p>with this:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/WinVector/wrapr">"wrapr"</a></span><span class="op">)</span>
-   
-<span class="fu"><a href="../reference/qc.html">qc</a></span><span class="op">(</span><span class="va">Petal.Width</span>, <span class="va">Petal.Length</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "Petal.Width"  "Petal.Length"</code></pre>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/WinVector/wrapr" class="external-link">"wrapr"</a></span><span class="op">)</span></span>
+<span>   </span>
+<span><span class="fu"><a href="../reference/qc.html">qc</a></span><span class="op">(</span><span class="va">Petal.Width</span>, <span class="va">Petal.Length</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "Petal.Width"  "Petal.Length"</span></span></code></pre>
 <p>This, in turn, lets you replace this:</p>
-<pre><code><a href="https://dplyr.tidyverse.org">library("dplyr")
-
-iris %&gt;%
-  select(., Petal.Width, Petal.Length) %&gt;%
-  head(.)</a></code></pre>
+<pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://dplyr.tidyverse.org" class="external-link">"dplyr"</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">.</span>, <span class="va">Petal.Width</span>, <span class="va">Petal.Length</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span></span></code></pre>
 <p>with this:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">iris</span><span class="op">[</span>, <span class="fu"><a href="../reference/qc.html">qc</a></span><span class="op">(</span><span class="va">Petal.Width</span>, <span class="va">Petal.Length</span><span class="op">)</span><span class="op">]</span> <span class="op">%.&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span></code></pre></div>
-<pre><code>##   Petal.Width Petal.Length
-## 1         0.2          1.4
-## 2         0.2          1.4
-## 3         0.2          1.3
-## 4         0.2          1.5
-## 5         0.2          1.4
-## 6         0.4          1.7</code></pre>
-<p>We still skipped the quotes, and the NSE stuff is safely isolated from the rest of the system.</p>
-<p><code>wrapr</code> now incorporates <code><a href="https://rdrr.io/r/base/bquote.html">bquote()</a></code> based quasiquotation in a few of its interfaces.</p>
-<p>Quasiquotation was introduced into R by Thomas Lumley in 2003, and allows users to signal they want to turn off quotation for portions of their code. The user indicates they do not wish a portion of their code to be quoted (but instead want it evaluated for its value) by surrounding that portion with the function-notation “<code>.()</code>”.</p>
+<code class="sourceCode R"><span><span class="va">iris</span><span class="op">[</span>, <span class="fu"><a href="../reference/qc.html">qc</a></span><span class="op">(</span><span class="va">Petal.Width</span>, <span class="va">Petal.Length</span><span class="op">)</span><span class="op">]</span> <span class="op"><a href="../reference/dot_arrow.html">%.&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##   Petal.Width Petal.Length</span></span>
+<span><span class="co">## 1         0.2          1.4</span></span>
+<span><span class="co">## 2         0.2          1.4</span></span>
+<span><span class="co">## 3         0.2          1.3</span></span>
+<span><span class="co">## 4         0.2          1.5</span></span>
+<span><span class="co">## 5         0.2          1.4</span></span>
+<span><span class="co">## 6         0.4          1.7</span></span></code></pre>
+<p>We still skipped the quotes, and the NSE stuff is safely isolated
+from the rest of the system.</p>
+<p><code>wrapr</code> now incorporates <code><a href="https://rdrr.io/r/base/bquote.html" class="external-link">bquote()</a></code> based
+quasiquotation in a few of its interfaces.</p>
+<p>Quasiquotation was introduced into R by Thomas Lumley in 2003, and
+allows users to signal they want to turn off quotation for portions of
+their code. The user indicates they do not wish a portion of their code
+to be quoted (but instead want it evaluated for its value) by
+surrounding that portion with the function-notation
+“<code>.()</code>”.</p>
 <p>An example of this is given here.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">OTHER_SYMBOL</span> <span class="op">&lt;-</span> <span class="st">"Petal.Length"</span>
-  
-<span class="fu"><a href="../reference/qc.html">qc</a></span><span class="op">(</span><span class="va">Petal.Width</span>, <span class="va">OTHER_SYMBOL</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "Petal.Width"  "OTHER_SYMBOL"</code></pre>
+<code class="sourceCode R"><span><span class="va">OTHER_SYMBOL</span> <span class="op">&lt;-</span> <span class="st">"Petal.Length"</span></span>
+<span>  </span>
+<span><span class="fu"><a href="../reference/qc.html">qc</a></span><span class="op">(</span><span class="va">Petal.Width</span>, <span class="va">OTHER_SYMBOL</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "Petal.Width"  "OTHER_SYMBOL"</span></span></code></pre>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/qc.html">qc</a></span><span class="op">(</span><span class="va">Petal.Width</span>, <span class="fu">.</span><span class="op">(</span><span class="va">OTHER_SYMBOL</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "Petal.Width"  "Petal.Length"</code></pre>
-<p>This should be familiar to <code>data.table</code> users, as <code>data.table</code> has supported related notations for quite some time.</p>
-<p>Also, <code><a href="../reference/qc.html">qc()</a></code> is designed to have a simple “mutually recursive” relationship with <code><a href="https://rdrr.io/r/base/c.html">c()</a></code> (i.e. they call each other when they see one another). This means <code><a href="https://rdrr.io/r/base/c.html">c()</a></code> is also a quasiquotation escape-notation for <code><a href="../reference/qc.html">qc()</a></code>:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/qc.html">qc</a></span><span class="op">(</span><span class="va">Petal.Width</span>, <span class="fu">.</span><span class="op">(</span><span class="va">OTHER_SYMBOL</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "Petal.Width"  "Petal.Length"</span></span></code></pre>
+<p>This should be familiar to <code>data.table</code> users, as
+<code>data.table</code> has supported related notations for quite some
+time.</p>
+<p>Also, <code><a href="../reference/qc.html">qc()</a></code> is designed to have a simple “mutually
+recursive” relationship with <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code> (i.e. they call each other
+when they see one another). This means <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code> is also a
+quasiquotation escape-notation for <code><a href="../reference/qc.html">qc()</a></code>:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/qc.html">qc</a></span><span class="op">(</span><span class="va">Petal.Width</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">OTHER_SYMBOL</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "Petal.Width"  "Petal.Length"</code></pre>
-<p>This escape notation arises as a natural consequence of a design of <code><a href="../reference/qc.html">qc()</a></code> that calls <code><a href="https://rdrr.io/r/base/c.html">c()</a></code> instead of quoting it (i.e. delegates <code><a href="https://rdrr.io/r/base/c.html">c()</a></code>-expressions to <code><a href="https://rdrr.io/r/base/c.html">c()</a></code>). The <code>bquote()-.()</code> should be the preferred notation for regularity, and to match any other <code><a href="https://rdrr.io/r/base/bquote.html">bquote()</a></code> quasiquotation interface (such as <code><a href="../reference/qchar_frame.html">qchar_frame()</a></code> or <a href="https://win-vector.com/2018/10/16/quasiquotation-in-r-via-bquote/">even a variation of <code>dplyr</code></a>).</p>
-<p><code><a href="../reference/qc.html">qc()</a></code> also takes some trouble to work with named vectors:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/qc.html">qc</a></span><span class="op">(</span><span class="va">Petal.Width</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">OTHER_SYMBOL</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "Petal.Width"  "Petal.Length"</span></span></code></pre>
+<p>This escape notation arises as a natural consequence of a design of
+<code><a href="../reference/qc.html">qc()</a></code> that calls <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code> instead of quoting it
+(i.e. delegates <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code>-expressions to <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code>). The
+<code>bquote()-.()</code> should be the preferred notation for
+regularity, and to match any other <code><a href="https://rdrr.io/r/base/bquote.html" class="external-link">bquote()</a></code> quasiquotation
+interface (such as <code><a href="../reference/qchar_frame.html">qchar_frame()</a></code> or <a href="https://win-vector.com/2018/10/16/quasiquotation-in-r-via-bquote/" class="external-link">even
+a variation of <code>dplyr</code></a>).</p>
+<p><code><a href="../reference/qc.html">qc()</a></code> also takes some trouble to work with named
+vectors:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/qc.html">qc</a></span><span class="op">(</span>a <span class="op">=</span> <span class="va">b</span><span class="op">)</span></code></pre></div>
-<pre><code>##   a 
-## "b"</code></pre>
-<p>And we can even re-map left-hand sizes of (or names) if we use the alternate “<code>:=</code>” assignment notation.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/qc.html">qc</a></span><span class="op">(</span>a <span class="op">=</span> <span class="va">b</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##   a </span></span>
+<span><span class="co">## "b"</span></span></code></pre>
+<p>And we can even re-map left-hand sizes of (or names) if we use the
+alternate “<code>:=</code>” assignment notation.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">LEFT_NAME</span> <span class="op">=</span> <span class="st">"a"</span>
-
-<span class="fu"><a href="../reference/qc.html">qc</a></span><span class="op">(</span><span class="fu">.</span><span class="op">(</span><span class="va">LEFT_NAME</span><span class="op">)</span> <span class="op">:=</span> <span class="va">b</span><span class="op">)</span></code></pre></div>
-<pre><code>##   a 
-## "b"</code></pre>
-<p>Notice syntactically <code><a href="../reference/qc.html">qc()</a></code> fills a general niche much like the specific function <code><a href="https://ggplot2.tidyverse.org/reference/aes.html">ggplot2::aes()</a></code> fits in the <code>ggplot2</code> package.</p>
-<p>The <code><a href="../reference/qc.html">qc()</a></code> notation is very powerful and clearly indicates where which quoting rules are in effect when. We strongly suggest users look to it for code-capturing and package developers recommend it to their users.</p>
+<code class="sourceCode R"><span><span class="va">LEFT_NAME</span> <span class="op">=</span> <span class="st">"a"</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/qc.html">qc</a></span><span class="op">(</span><span class="fu">.</span><span class="op">(</span><span class="va">LEFT_NAME</span><span class="op">)</span> <span class="op">:=</span> <span class="va">b</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##   a </span></span>
+<span><span class="co">## "b"</span></span></code></pre>
+<p>Notice syntactically <code><a href="../reference/qc.html">qc()</a></code> fills a general niche much
+like the specific function <code><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">ggplot2::aes()</a></code> fits in the
+<code>ggplot2</code> package.</p>
+<p>The <code><a href="../reference/qc.html">qc()</a></code> notation is very powerful and clearly indicates
+where which quoting rules are in effect when. We strongly suggest users
+look to it for code-capturing and package developers recommend it to
+their users.</p>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -207,11 +244,13 @@ iris %&gt;%
 
 
       <footer><div class="copyright">
-  <p>Developed by John Mount, Nina Zumel.</p>
+  <p></p>
+<p>Developed by John Mount, Nina Zumel.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
@@ -219,6 +258,8 @@ iris %&gt;%
 
   
 
+
+  
 
   </body>
 </html>

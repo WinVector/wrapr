@@ -1,4 +1,9 @@
 
+# wrapr 2.1.0 2023-08-19
+
+ * Work around https://github.com/r-lib/roxygen2/issues/1491
+ * For captured_dots note in CRAN checks
+ 
 # wrapr 2.0.9 2022-01-26
 
  * Document qc() limitations (ref: https://github.com/WinVector/wrapr/issues/15#issue-1046032267 ).

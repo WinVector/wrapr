@@ -11,11 +11,11 @@ grab_assignments_from_dots(
 )
 }
 \arguments{
+\item{captured_args}{captured \code{...}.}
+
 \item{unpack_environment}{environment to look in}
 
 \item{allow_dot_on_left}{logical if TRUE allow forms like \code{.(a) = a} and \code{.(a)}.}
-
-\item{captured_dots}{captured \code{...}.}
 }
 \value{
 named character vector describing the desired mapping.

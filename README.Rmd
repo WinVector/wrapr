@@ -325,10 +325,10 @@ see [here](https://github.com/WinVector/wrapr/blob/master/extras/bquote.md) for 
 angle = 1:10
 variable <- "angle"
 
-# execute code
-evalb(
-  plot(x = .(-variable), y = sin(.(-variable)))
-)
+# # execute code
+# evalb(
+#   plot(x = .(-variable), y = sin(.(-variable)))
+# )
 
 # alter string
 si("plot(x = .(variable), y = .(variable))")

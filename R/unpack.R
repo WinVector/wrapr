@@ -5,7 +5,7 @@
 #' Re-write captured \code{...} arguments as a \code{c(DESTINATION = TARGET)} character vector.
 #' Suggested capture code is: \code{substitute(list(...))}. Allows \code{bquote} \code{.()} substitution.
 #'
-#' @param captured_dots captured \code{...}.
+#' @param captured_args captured \code{...}.
 #' @param unpack_environment environment to look in
 #' @param allow_dot_on_left logical if TRUE allow forms like \code{.(a) = a} and \code{.(a)}.
 #' @returns named character vector describing the desired mapping.

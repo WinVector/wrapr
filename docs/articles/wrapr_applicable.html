@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,23 +33,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -106,7 +102,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://win-vector.com">Sponsor: Win-Vector LLC</a>
+  <a href="https://win-vector.com" class="external-link">Sponsor: Win-Vector LLC</a>
 </li>
       </ul>
 </div>
@@ -118,159 +114,188 @@
 
       
 
-      </header><script src="wrapr_applicable_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>wrapr_applicable</h1>
-                        <h4 class="author">John Mount, Win-Vector LLC</h4>
+                        <h4 data-toc-skip class="author">John Mount,
+Win-Vector LLC</h4>
             
-            <h4 class="date">2022-01-26</h4>
+            <h4 data-toc-skip class="date">2023-08-19</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/wrapr_applicable.Rmd"><code>vignettes/wrapr_applicable.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/HEAD/vignettes/wrapr_applicable.Rmd" class="external-link"><code>vignettes/wrapr_applicable.Rmd</code></a></small>
       <div class="hidden name"><code>wrapr_applicable.Rmd</code></div>
 
     </div>
 
     
     
-<p><code>wrapr</code> includes de-referencing, function evaluation, and a new concept called <code>"wrapr_applicable"</code>. <code>"wrapr_applicable"</code> is dispatch by type of right hand side argument scheme.</p>
-<div id="basic-wrapr" class="section level2">
-<h2 class="hasAnchor">
-<a href="#basic-wrapr" class="anchor"></a>Basic <code>wrapr</code>
+<p><code>wrapr</code> includes de-referencing, function evaluation, and
+a new concept called <code>"wrapr_applicable"</code>.
+<code>"wrapr_applicable"</code> is dispatch by type of right hand side
+argument scheme.</p>
+<div class="section level2">
+<h2 id="basic-wrapr">Basic <code>wrapr</code><a class="anchor" aria-label="anchor" href="#basic-wrapr"></a>
 </h2>
-<p>The <code>wrapr</code> pipe operators (<code><a href="../reference/dot_arrow.html">%.&gt;%</a></code> and <code><a href="../reference/dot_arrow.html">%&gt;.%</a></code>) are roughly defined as: <code>a %&gt;.% b ~ { . &lt;- a; b };</code>. This works under the assumption that <code>b</code> is an expression with free-instances of “<code>.</code>”. A typical use is:</p>
+<p>The <code>wrapr</code> pipe operators (<code>%.&gt;%</code> and
+<code>%&gt;.%</code>) are roughly defined as:
+<code>a %&gt;.% b ~ { . &lt;- a; b };</code>. This works under the
+assumption that <code>b</code> is an expression with free-instances of
+“<code>.</code>”. A typical use is:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/WinVector/wrapr">"wrapr"</a></span><span class="op">)</span>
-
-<span class="fl">5</span> <span class="op">%.&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span>
-<span class="co">#&gt; [1] -0.9589243</span></code></pre></div>
-<p>The above is performed by standard <code>S3</code> dispatch on the left argument of an exported generic functions called <code><a href="../reference/apply_left.html">apply_left()</a></code> and <code><a href="../reference/apply_right.html">apply_right()</a></code>. A formal description of <code>wrapr</code> piping can be found <a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf">here</a>.</p>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/WinVector/wrapr" class="external-link">"wrapr"</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fl">5</span> <span class="op"><a href="../reference/dot_arrow.html">%.&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sin</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] -0.9589243</span></span></code></pre></div>
+<p>The above is performed by standard <code>S3</code> dispatch on the
+left argument of an exported generic functions called
+<code><a href="../reference/apply_left.html">apply_left()</a></code> and <code><a href="../reference/apply_right.html">apply_right()</a></code>. A formal
+description of <code>wrapr</code> piping can be found <a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf" class="external-link">here</a>.</p>
 </div>
-<div id="dereferencing-and-function-evaluation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#dereferencing-and-function-evaluation" class="anchor"></a>Dereferencing and function evaluation</h2>
-<p><code>wrapr</code> works primarily over expressions and “<code>.</code>”. <code>wrapr</code> does tries to de-reference names found in the right-hand side of pipe stages, and also dispatches functions. One can also write the following.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fl">5</span> <span class="op">%.&gt;%</span> <span class="va">sin</span>
-<span class="co">#&gt; [1] -0.9589243</span>
-<span class="fl">5</span> <span class="op">%.&gt;%</span> <span class="fu">base</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span> 
-<span class="co">#&gt; [1] -0.9589243</span></code></pre></div>
-</div>
-<div id="wrapr_applicable" class="section level2">
-<h2 class="hasAnchor">
-<a href="#wrapr_applicable" class="anchor"></a><code>"wrapr_applicable"</code>
+<div class="section level2">
+<h2 id="dereferencing-and-function-evaluation">Dereferencing and function evaluation<a class="anchor" aria-label="anchor" href="#dereferencing-and-function-evaluation"></a>
 </h2>
-<p>Arbitrary objects ask <code>wrapr</code> to treat them as special expressions by overriding one or more of <code><a href="../reference/apply_left.html">apply_left()</a></code> and <code><a href="../reference/apply_right.html">apply_right()</a></code> for the <code>S3</code> class they wish managed.</p>
+<p><code>wrapr</code> works primarily over expressions and
+“<code>.</code>”. <code>wrapr</code> does tries to de-reference names
+found in the right-hand side of pipe stages, and also dispatches
+functions. One can also write the following.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fl">5</span> <span class="op"><a href="../reference/dot_arrow.html">%.&gt;%</a></span> <span class="va">sin</span></span>
+<span><span class="co">#&gt; [1] -0.9589243</span></span>
+<span><span class="fl">5</span> <span class="op"><a href="../reference/dot_arrow.html">%.&gt;%</a></span> <span class="fu">base</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sin</a></span> </span>
+<span><span class="co">#&gt; [1] -0.9589243</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="wrapr_applicable">
+<code>"wrapr_applicable"</code><a class="anchor" aria-label="anchor" href="#wrapr_applicable"></a>
+</h2>
+<p>Arbitrary objects ask <code>wrapr</code> to treat them as special
+expressions by overriding one or more of <code><a href="../reference/apply_left.html">apply_left()</a></code> and
+<code><a href="../reference/apply_right.html">apply_right()</a></code> for the <code>S3</code> class they wish
+managed.</p>
 <p>For example:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">function_reference</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>f <span class="op">=</span> <span class="va">sin</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">function_reference</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"wrapr_applicable"</span>, <span class="st">"ourclass"</span><span class="op">)</span>
-
-<span class="va">apply_right.ourclass</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">pipe_left_arg</span>,
-                                 <span class="va">pipe_right_arg</span>,
-                                 <span class="va">pipe_environment</span>,
-                                 <span class="va">left_arg_name</span>,
-                                 <span class="va">pipe_string</span>,
-                                 <span class="va">right_arg_name</span><span class="op">)</span> <span class="op">{</span>
-  <span class="va">pipe_right_arg</span><span class="op">$</span><span class="fu">f</span><span class="op">(</span><span class="va">pipe_left_arg</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="va">function_reference</span>
-<span class="co">#&gt; $f</span>
-<span class="co">#&gt; function (x)  .Primitive("sin")</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; attr(,"class")</span>
-<span class="co">#&gt; [1] "wrapr_applicable" "ourclass"</span>
-
-<span class="fl">5</span> <span class="op">%.&gt;%</span> <span class="va">function_reference</span>
-<span class="co">#&gt; [1] -0.9589243</span>
-
-<span class="va">function_reference</span><span class="op">$</span><span class="va">f</span> <span class="op">&lt;-</span> <span class="va">sqrt</span>
-<span class="fl">5</span> <span class="op">%.&gt;%</span> <span class="va">function_reference</span>
-<span class="co">#&gt; [1] 2.236068</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">function_reference</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>f <span class="op">=</span> <span class="va">sin</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">function_reference</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"wrapr_applicable"</span>, <span class="st">"ourclass"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">apply_right.ourclass</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">pipe_left_arg</span>,</span>
+<span>                                 <span class="va">pipe_right_arg</span>,</span>
+<span>                                 <span class="va">pipe_environment</span>,</span>
+<span>                                 <span class="va">left_arg_name</span>,</span>
+<span>                                 <span class="va">pipe_string</span>,</span>
+<span>                                 <span class="va">right_arg_name</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">pipe_right_arg</span><span class="op">$</span><span class="fu">f</span><span class="op">(</span><span class="va">pipe_left_arg</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">function_reference</span></span>
+<span><span class="co">#&gt; $f</span></span>
+<span><span class="co">#&gt; function (x)  .Primitive("sin")</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attr(,"class")</span></span>
+<span><span class="co">#&gt; [1] "wrapr_applicable" "ourclass"</span></span>
+<span></span>
+<span><span class="fl">5</span> <span class="op"><a href="../reference/dot_arrow.html">%.&gt;%</a></span> <span class="va">function_reference</span></span>
+<span><span class="co">#&gt; [1] -0.9589243</span></span>
+<span></span>
+<span><span class="va">function_reference</span><span class="op">$</span><span class="va">f</span> <span class="op">&lt;-</span> <span class="va">sqrt</span></span>
+<span><span class="fl">5</span> <span class="op"><a href="../reference/dot_arrow.html">%.&gt;%</a></span> <span class="va">function_reference</span></span>
+<span><span class="co">#&gt; [1] 2.236068</span></span></code></pre></div>
 <p>The signature arguments work as follows:</p>
 <ul>
 <li>
 <code>pipe_left_arg</code>: The value moving down the pipeline.</li>
 <li>
-<code>pipe_right_arg</code>: The right pipeline operator (essentially “<code>self</code>” or “<code>this</code>” in object oriented terms, used for <code>S3</code> dispatch).</li>
+<code>pipe_right_arg</code>: The right pipeline operator
+(essentially “<code>self</code>” or “<code>this</code>” in object
+oriented terms, used for <code>S3</code> dispatch).</li>
 <li>
-<code>pipe_environment</code>: The environment the pipeline is working in (not usually needed).</li>
+<code>pipe_environment</code>: The environment the pipeline is
+working in (not usually needed).</li>
 <li>
-<code>left_arg_name</code>: If the left arguement was passed in by name, what that name was.</li>
+<code>left_arg_name</code>: If the left arguement was passed in by
+name, what that name was.</li>
 <li>
-<code>pipe_string</code>: The name of the pipe operator (not usually needed).</li>
+<code>pipe_string</code>: The name of the pipe operator (not usually
+needed).</li>
 <li>
-<code>right_arg_name</code>: If the right arguement was passed in by name, what that name was.</li>
+<code>right_arg_name</code>: If the right arguement was passed in by
+name, what that name was.</li>
 </ul>
-<p>This functionality allows arbitrary objects to directly specify their intended pipeline behavior.</p>
-<p>Let’s use a debugging function to see the values of all of the arguments.</p>
+<p>This functionality allows arbitrary objects to directly specify their
+intended pipeline behavior.</p>
+<p>Let’s use a debugging function to see the values of all of the
+arguments.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">apply_right.ourclass</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">pipe_left_arg</span>,
-                                 <span class="va">pipe_right_arg</span>,
-                                 <span class="va">pipe_environment</span>,
-                                 <span class="va">left_arg_name</span>,
-                                 <span class="va">pipe_string</span>,
-                                 <span class="va">right_arg_name</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="st">"pipe_left_arg"</span><span class="op">)</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">pipe_left_arg</span><span class="op">)</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="st">"pipe_right_arg"</span><span class="op">)</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">pipe_right_arg</span><span class="op">)</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="st">"pipe_environment"</span><span class="op">)</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">pipe_environment</span><span class="op">)</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="st">"left_arg_name"</span><span class="op">)</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">left_arg_name</span><span class="op">)</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="st">"pipe_string"</span><span class="op">)</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">pipe_string</span><span class="op">)</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="st">"right_arg_name"</span><span class="op">)</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">right_arg_name</span><span class="op">)</span>
-  <span class="va">pipe_right_arg</span><span class="op">$</span><span class="fu">f</span><span class="op">(</span><span class="va">pipe_left_arg</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="fl">5</span> <span class="op">%.&gt;%</span> <span class="va">function_reference</span>
-<span class="co">#&gt; [1] "pipe_left_arg"</span>
-<span class="co">#&gt; [1] 5</span>
-<span class="co">#&gt; [1] "pipe_right_arg"</span>
-<span class="co">#&gt; $f</span>
-<span class="co">#&gt; function (x)  .Primitive("sqrt")</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; attr(,"class")</span>
-<span class="co">#&gt; [1] "wrapr_applicable" "ourclass"        </span>
-<span class="co">#&gt; [1] "pipe_environment"</span>
-<span class="co">#&gt; &lt;environment: R_GlobalEnv&gt;</span>
-<span class="co">#&gt; [1] "left_arg_name"</span>
-<span class="co">#&gt; NULL</span>
-<span class="co">#&gt; [1] "pipe_string"</span>
-<span class="co">#&gt; [1] "%.&gt;%"</span>
-<span class="co">#&gt; [1] "right_arg_name"</span>
-<span class="co">#&gt; function_reference</span>
-<span class="co">#&gt; [1] 2.236068</span>
-
-<span class="va">a</span> <span class="op">&lt;-</span> <span class="fl">5</span>
-
-<span class="va">a</span> <span class="op">%.&gt;%</span> <span class="va">function_reference</span>
-<span class="co">#&gt; [1] "pipe_left_arg"</span>
-<span class="co">#&gt; [1] 5</span>
-<span class="co">#&gt; [1] "pipe_right_arg"</span>
-<span class="co">#&gt; $f</span>
-<span class="co">#&gt; function (x)  .Primitive("sqrt")</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; attr(,"class")</span>
-<span class="co">#&gt; [1] "wrapr_applicable" "ourclass"        </span>
-<span class="co">#&gt; [1] "pipe_environment"</span>
-<span class="co">#&gt; &lt;environment: R_GlobalEnv&gt;</span>
-<span class="co">#&gt; [1] "left_arg_name"</span>
-<span class="co">#&gt; a</span>
-<span class="co">#&gt; [1] "pipe_string"</span>
-<span class="co">#&gt; [1] "%.&gt;%"</span>
-<span class="co">#&gt; [1] "right_arg_name"</span>
-<span class="co">#&gt; function_reference</span>
-<span class="co">#&gt; [1] 2.236068</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">apply_right.ourclass</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">pipe_left_arg</span>,</span>
+<span>                                 <span class="va">pipe_right_arg</span>,</span>
+<span>                                 <span class="va">pipe_environment</span>,</span>
+<span>                                 <span class="va">left_arg_name</span>,</span>
+<span>                                 <span class="va">pipe_string</span>,</span>
+<span>                                 <span class="va">right_arg_name</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="st">"pipe_left_arg"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">pipe_left_arg</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="st">"pipe_right_arg"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">pipe_right_arg</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="st">"pipe_environment"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">pipe_environment</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="st">"left_arg_name"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">left_arg_name</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="st">"pipe_string"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">pipe_string</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="st">"right_arg_name"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">right_arg_name</span><span class="op">)</span></span>
+<span>  <span class="va">pipe_right_arg</span><span class="op">$</span><span class="fu">f</span><span class="op">(</span><span class="va">pipe_left_arg</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fl">5</span> <span class="op"><a href="../reference/dot_arrow.html">%.&gt;%</a></span> <span class="va">function_reference</span></span>
+<span><span class="co">#&gt; [1] "pipe_left_arg"</span></span>
+<span><span class="co">#&gt; [1] 5</span></span>
+<span><span class="co">#&gt; [1] "pipe_right_arg"</span></span>
+<span><span class="co">#&gt; $f</span></span>
+<span><span class="co">#&gt; function (x)  .Primitive("sqrt")</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attr(,"class")</span></span>
+<span><span class="co">#&gt; [1] "wrapr_applicable" "ourclass"        </span></span>
+<span><span class="co">#&gt; [1] "pipe_environment"</span></span>
+<span><span class="co">#&gt; &lt;environment: R_GlobalEnv&gt;</span></span>
+<span><span class="co">#&gt; [1] "left_arg_name"</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; [1] "pipe_string"</span></span>
+<span><span class="co">#&gt; [1] "%.&gt;%"</span></span>
+<span><span class="co">#&gt; [1] "right_arg_name"</span></span>
+<span><span class="co">#&gt; function_reference</span></span>
+<span><span class="co">#&gt; [1] 2.236068</span></span>
+<span></span>
+<span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fl">5</span></span>
+<span></span>
+<span><span class="va">a</span> <span class="op"><a href="../reference/dot_arrow.html">%.&gt;%</a></span> <span class="va">function_reference</span></span>
+<span><span class="co">#&gt; [1] "pipe_left_arg"</span></span>
+<span><span class="co">#&gt; [1] 5</span></span>
+<span><span class="co">#&gt; [1] "pipe_right_arg"</span></span>
+<span><span class="co">#&gt; $f</span></span>
+<span><span class="co">#&gt; function (x)  .Primitive("sqrt")</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attr(,"class")</span></span>
+<span><span class="co">#&gt; [1] "wrapr_applicable" "ourclass"        </span></span>
+<span><span class="co">#&gt; [1] "pipe_environment"</span></span>
+<span><span class="co">#&gt; &lt;environment: R_GlobalEnv&gt;</span></span>
+<span><span class="co">#&gt; [1] "left_arg_name"</span></span>
+<span><span class="co">#&gt; a</span></span>
+<span><span class="co">#&gt; [1] "pipe_string"</span></span>
+<span><span class="co">#&gt; [1] "%.&gt;%"</span></span>
+<span><span class="co">#&gt; [1] "right_arg_name"</span></span>
+<span><span class="co">#&gt; function_reference</span></span>
+<span><span class="co">#&gt; [1] 2.236068</span></span></code></pre></div>
 </div>
-<div id="conclusion" class="section level2">
-<h2 class="hasAnchor">
-<a href="#conclusion" class="anchor"></a>Conclusion</h2>
-<p><code>wrapr</code> values (left-hand sides of pipe expressions) are completely general. <code>wrapr</code> operators (right-hand sides of pipe expressions) are primarily intended to be expressions that have “<code>.</code>” as a free-reference. <code>wrapr</code> can also be used with right-hand sides that are function references or with arbitrary annotated objects.</p>
+<div class="section level2">
+<h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
+</h2>
+<p><code>wrapr</code> values (left-hand sides of pipe expressions) are
+completely general. <code>wrapr</code> operators (right-hand sides of
+pipe expressions) are primarily intended to be expressions that have
+“<code>.</code>” as a free-reference. <code>wrapr</code> can also be
+used with right-hand sides that are function references or with
+arbitrary annotated objects.</p>
 </div>
   </div>
 
@@ -285,11 +310,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by John Mount, Nina Zumel.</p>
+  <p></p>
+<p>Developed by John Mount, Nina Zumel.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
@@ -297,6 +324,8 @@
 
   
 
+
+  
 
   </body>
 </html>

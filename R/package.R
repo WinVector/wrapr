@@ -1,5 +1,6 @@
 
 
+#' @description
 #' \code{wrapr}: Wrap R Functions for Debugging and Parametric Programming
 #'
 #'
@@ -22,6 +23,4 @@
 #'   \item \code{let} video: \url{https://youtu.be/iKLGxzzm9Hk?list=PLAKBwakacHbQp_Z66asDnjn-0qttTO-o9}
 #'   \item Debug wrapper video: \url{https://youtu.be/zFEC9-1XSN8?list=PLAKBwakacHbQT51nPHex1on3YNCCmggZA}.}
 #'
-#' @docType package
-#' @name wrapr
-NULL
+"_PACKAGE"

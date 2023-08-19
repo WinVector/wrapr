@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,23 +33,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -106,7 +102,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://win-vector.com">Sponsor: Win-Vector LLC</a>
+  <a href="https://win-vector.com" class="external-link">Sponsor: Win-Vector LLC</a>
 </li>
       </ul>
 </div>
@@ -118,31 +114,37 @@
 
       
 
-      </header><script src="unpack_multiple_assignment_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Multiple Assignment with unpack</h1>
-                        <h4 class="author">Nina Zumel and John Mount</h4>
+                        <h4 data-toc-skip class="author">Nina Zumel and
+John Mount</h4>
             
-            <h4 class="date">2022-01-26</h4>
+            <h4 data-toc-skip class="date">2023-08-19</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/unpack_multiple_assignment.Rmd"><code>vignettes/unpack_multiple_assignment.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/HEAD/vignettes/unpack_multiple_assignment.Rmd" class="external-link"><code>vignettes/unpack_multiple_assignment.Rmd</code></a></small>
       <div class="hidden name"><code>unpack_multiple_assignment.Rmd</code></div>
 
     </div>
 
     
     
-<p>In <code>R</code> there are many functions that return named lists or other structures keyed by names. Often, you want to unpack the elements of such a list into separate variables, for ease of use. One example is the use of <code><a href="https://rdrr.io/r/base/split.html">split()</a></code> to partition a larger data frame into a named list of smaller data frames, each corresponding to some grouping.</p>
+<p>In <code>R</code> there are many functions that return named lists or
+other structures keyed by names. Often, you want to unpack the elements
+of such a list into separate variables, for ease of use. One example is
+the use of <code><a href="https://rdrr.io/r/base/split.html" class="external-link">split()</a></code> to partition a larger data frame into a
+named list of smaller data frames, each corresponding to some
+grouping.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/WinVector/wrapr">wrapr</a></span><span class="op">)</span>
-<span class="co"># example data</span>
-<span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
-  x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">9</span>,
-  group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'train'</span>, <span class="st">'calibrate'</span>, <span class="st">'test'</span><span class="op">)</span>,
-  stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/WinVector/wrapr" class="external-link">wrapr</a></span><span class="op">)</span></span>
+<span><span class="co"># example data</span></span>
+<span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">9</span>,</span>
+<span>  group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'train'</span>, <span class="st">'calibrate'</span>, <span class="st">'test'</span><span class="op">)</span>,</span>
+<span>  stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">x</th>
@@ -188,31 +190,31 @@
 </tbody>
 </table>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># split the d by group</span>
-<span class="op">(</span><span class="va">parts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## $calibrate
-##   x     group
-## 2 2 calibrate
-## 5 5 calibrate
-## 8 8 calibrate
-## 
-## $test
-##   x group
-## 3 3  test
-## 6 6  test
-## 9 9  test
-## 
-## $train
-##   x group
-## 1 1 train
-## 4 4 train
-## 7 7 train</code></pre>
+<code class="sourceCode R"><span><span class="co"># split the d by group</span></span>
+<span><span class="op">(</span><span class="va">parts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## $calibrate</span></span>
+<span><span class="co">##   x     group</span></span>
+<span><span class="co">## 2 2 calibrate</span></span>
+<span><span class="co">## 5 5 calibrate</span></span>
+<span><span class="co">## 8 8 calibrate</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $test</span></span>
+<span><span class="co">##   x group</span></span>
+<span><span class="co">## 3 3  test</span></span>
+<span><span class="co">## 6 6  test</span></span>
+<span><span class="co">## 9 9  test</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $train</span></span>
+<span><span class="co">##   x group</span></span>
+<span><span class="co">## 1 1 train</span></span>
+<span><span class="co">## 4 4 train</span></span>
+<span><span class="co">## 7 7 train</span></span></code></pre>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">train_data</span> <span class="op">&lt;-</span> <span class="va">parts</span><span class="op">$</span><span class="va">train</span>
-<span class="va">calibrate_data</span> <span class="op">&lt;-</span> <span class="va">parts</span><span class="op">$</span><span class="va">calibrate</span>
-<span class="va">test_data</span> <span class="op">&lt;-</span> <span class="va">parts</span><span class="op">$</span><span class="va">test</span>
-
-<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">train_data</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">train_data</span> <span class="op">&lt;-</span> <span class="va">parts</span><span class="op">$</span><span class="va">train</span></span>
+<span><span class="va">calibrate_data</span> <span class="op">&lt;-</span> <span class="va">parts</span><span class="op">$</span><span class="va">calibrate</span></span>
+<span><span class="va">test_data</span> <span class="op">&lt;-</span> <span class="va">parts</span><span class="op">$</span><span class="va">test</span></span>
+<span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">train_data</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
@@ -238,7 +240,7 @@
 </tbody>
 </table>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">calibrate_data</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">calibrate_data</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
@@ -264,7 +266,7 @@
 </tbody>
 </table>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">test_data</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">test_data</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
@@ -289,21 +291,24 @@
 </tr>
 </tbody>
 </table>
-<p>A multiple assignment notation allows us to assign all the smaller data frames to variables in one step, and avoid leaving a possibly large temporary variable such as <code>parts</code> in our environment. One such notation is <code><a href="../reference/unpack.html">unpack()</a></code>.</p>
-<div id="basic-unpack-example" class="section level2">
-<h2 class="hasAnchor">
-<a href="#basic-unpack-example" class="anchor"></a>Basic <code>unpack()</code> example</h2>
+<p>A multiple assignment notation allows us to assign all the smaller
+data frames to variables in one step, and avoid leaving a possibly large
+temporary variable such as <code>parts</code> in our environment. One
+such notation is <code><a href="../reference/unpack.html">unpack()</a></code>.</p>
+<div class="section level2">
+<h2 id="basic-unpack-example">Basic <code>unpack()</code> example<a class="anchor" aria-label="anchor" href="#basic-unpack-example"></a>
+</h2>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># clear out the earlier results</span>
-<span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span>, <span class="st">'parts'</span><span class="op">)</span><span class="op">)</span>
-
-<span class="co"># split d and unpack the smaller data frames into separate variables</span>
-<span class="fu"><a href="../reference/unpack.html">unpack</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span>,
-       train_data <span class="op">=</span> <span class="va">train</span>,
-       test_data <span class="op">=</span> <span class="va">test</span>,
-       calibrate_data <span class="op">=</span> <span class="va">calibrate</span><span class="op">)</span>
-
-<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">train_data</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># clear out the earlier results</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span>, <span class="st">'parts'</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># split d and unpack the smaller data frames into separate variables</span></span>
+<span><span class="fu"><a href="../reference/unpack.html">unpack</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span>,</span>
+<span>       train_data <span class="op">=</span> <span class="va">train</span>,</span>
+<span>       test_data <span class="op">=</span> <span class="va">test</span>,</span>
+<span>       calibrate_data <span class="op">=</span> <span class="va">calibrate</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">train_data</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
@@ -329,7 +334,7 @@
 </tbody>
 </table>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">calibrate_data</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">calibrate_data</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
@@ -355,7 +360,7 @@
 </tbody>
 </table>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">test_data</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">test_data</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
@@ -380,12 +385,14 @@
 </tr>
 </tbody>
 </table>
-<p>You can also use <code>unpack</code> with an assignment notation similar to the notation used with the<br><a href="https://CRAN.R-project.org/package=zeallot"><code>zeallot::%&lt;-%</code></a> pipe:</p>
+<p>You can also use <code>unpack</code> with an assignment notation
+similar to the notation used with the<br><a href="https://CRAN.R-project.org/package=zeallot" class="external-link"><code>zeallot::%&lt;-%</code></a>
+pipe:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># split d and unpack the smaller data frames into separate variables</span>
-<span class="va">unpack</span><span class="op">[</span>traind <span class="op">=</span> <span class="va">train</span>, testd <span class="op">=</span> <span class="va">test</span>, cald <span class="op">=</span> <span class="va">calibrate</span><span class="op">]</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span>
-
-<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">traind</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># split d and unpack the smaller data frames into separate variables</span></span>
+<span><span class="va">unpack</span><span class="op">[</span>traind <span class="op">=</span> <span class="va">train</span>, testd <span class="op">=</span> <span class="va">test</span>, cald <span class="op">=</span> <span class="va">calibrate</span><span class="op">]</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">traind</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
@@ -411,7 +418,7 @@
 </tbody>
 </table>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">cald</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">cald</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
@@ -437,7 +444,7 @@
 </tbody>
 </table>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">testd</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">testd</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
@@ -462,14 +469,15 @@
 </tr>
 </tbody>
 </table>
-<div id="reusing-the-list-names-as-variables" class="section level3">
-<h3 class="hasAnchor">
-<a href="#reusing-the-list-names-as-variables" class="anchor"></a>Reusing the list names as variables</h3>
-<p>If you are willing to assign the elements of the list into variables with the same names, you can just use the names:</p>
+<div class="section level3">
+<h3 id="reusing-the-list-names-as-variables">Reusing the list names as variables<a class="anchor" aria-label="anchor" href="#reusing-the-list-names-as-variables"></a>
+</h3>
+<p>If you are willing to assign the elements of the list into variables
+with the same names, you can just use the names:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/unpack.html">unpack</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span>, <span class="va">train</span>, <span class="va">test</span>, <span class="va">calibrate</span><span class="op">)</span>
-
-<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">train</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/unpack.html">unpack</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span>, <span class="va">train</span>, <span class="va">test</span>, <span class="va">calibrate</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">train</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
@@ -495,7 +503,7 @@
 </tbody>
 </table>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">calibrate</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">calibrate</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
@@ -521,7 +529,7 @@
 </tbody>
 </table>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">test</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">test</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
@@ -547,13 +555,13 @@
 </tbody>
 </table>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># try the unpack[] assignment notation</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'train'</span>, <span class="st">'test'</span>, <span class="st">'calibrate'</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">unpack</span><span class="op">[</span><span class="va">test</span>, <span class="va">train</span>, <span class="va">calibrate</span><span class="op">]</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span>
-
-<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">train</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># try the unpack[] assignment notation</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'train'</span>, <span class="st">'test'</span>, <span class="st">'calibrate'</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">unpack</span><span class="op">[</span><span class="va">test</span>, <span class="va">train</span>, <span class="va">calibrate</span><span class="op">]</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">train</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
@@ -579,7 +587,7 @@
 </tbody>
 </table>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">calibrate</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">calibrate</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
@@ -605,7 +613,7 @@
 </tbody>
 </table>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">test</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">test</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
@@ -632,10 +640,10 @@
 </table>
 <p>Mixed notation is allowed:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'train'</span>, <span class="st">'test'</span>, <span class="st">'calibrate'</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="../reference/unpack.html">unpack</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span>, <span class="va">train</span>, holdout<span class="op">=</span><span class="va">test</span>, <span class="va">calibrate</span><span class="op">)</span>
-
-<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">train</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'train'</span>, <span class="st">'test'</span>, <span class="st">'calibrate'</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/unpack.html">unpack</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span>, <span class="va">train</span>, holdout<span class="op">=</span><span class="va">test</span>, <span class="va">calibrate</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">train</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
@@ -661,7 +669,7 @@
 </tbody>
 </table>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">calibrate</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">calibrate</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
@@ -687,7 +695,7 @@
 </tbody>
 </table>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">holdout</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">holdout</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
@@ -713,16 +721,16 @@
 </tbody>
 </table>
 </div>
-<div id="unpacking-only-parts-of-a-list" class="section level3">
-<h3 class="hasAnchor">
-<a href="#unpacking-only-parts-of-a-list" class="anchor"></a>Unpacking only parts of a list</h3>
+<div class="section level3">
+<h3 id="unpacking-only-parts-of-a-list">Unpacking only parts of a list<a class="anchor" aria-label="anchor" href="#unpacking-only-parts-of-a-list"></a>
+</h3>
 <p>You can also unpack only a subset of the list’s elements:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'train'</span>, <span class="st">'holdout'</span>, <span class="st">'calibrate'</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu"><a href="../reference/unpack.html">unpack</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span>, <span class="va">train</span>, <span class="va">test</span><span class="op">)</span>
-
-<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">train</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'train'</span>, <span class="st">'holdout'</span>, <span class="st">'calibrate'</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/unpack.html">unpack</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span>, <span class="va">train</span>, <span class="va">test</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">train</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
@@ -748,7 +756,7 @@
 </tbody>
 </table>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">test</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">test</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
@@ -774,47 +782,69 @@
 </tbody>
 </table>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># we didn't unpack the calibrate set</span>
-<span class="va">calibrate</span></code></pre></div>
-<pre><code>## Error in eval(expr, envir, enclos): object 'calibrate' not found</code></pre>
+<code class="sourceCode R"><span><span class="co"># we didn't unpack the calibrate set</span></span>
+<span><span class="va">calibrate</span></span></code></pre></div>
+<pre><code><span><span class="co">## Error in eval(expr, envir, enclos): object 'calibrate' not found</span></span></code></pre>
 </div>
-<div id="unpack-checks-for-unknown-elements" class="section level3">
-<h3 class="hasAnchor">
-<a href="#unpack-checks-for-unknown-elements" class="anchor"></a><code>unpack</code> checks for unknown elements</h3>
-<p>If <code>unpack</code> is asked to unpack an element it doesn’t recognize, it throws an error. In this case, none of the elements are unpacked, as <code>unpack</code> is deliberately an atomic operation.</p>
+<div class="section level3">
+<h3 id="unpack-checks-for-unknown-elements">
+<code>unpack</code> checks for unknown elements<a class="anchor" aria-label="anchor" href="#unpack-checks-for-unknown-elements"></a>
+</h3>
+<p>If <code>unpack</code> is asked to unpack an element it doesn’t
+recognize, it throws an error. In this case, none of the elements are
+unpacked, as <code>unpack</code> is deliberately an atomic
+operation.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># the split call will not return an element called "holdout"</span>
-<span class="fu"><a href="../reference/unpack.html">unpack</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span>, training <span class="op">=</span> <span class="va">train</span>, testing <span class="op">=</span> <span class="va">holdout</span><span class="op">)</span></code></pre></div>
-<pre><code>## Error in write_values_into_env(unpack_environment = unpack_environment, : wrapr::unpack all source names must be in value, missing: 'holdout'.</code></pre>
+<code class="sourceCode R"><span><span class="co"># the split call will not return an element called "holdout"</span></span>
+<span><span class="fu"><a href="../reference/unpack.html">unpack</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span>, training <span class="op">=</span> <span class="va">train</span>, testing <span class="op">=</span> <span class="va">holdout</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Error in write_values_into_env(unpack_environment = unpack_environment, : wrapr::unpack all source names must be in value, missing: 'holdout'.</span></span></code></pre>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># train was not unpacked either</span>
-<span class="va">training</span></code></pre></div>
-<pre><code>## Error in eval(expr, envir, enclos): object 'training' not found</code></pre>
+<code class="sourceCode R"><span><span class="co"># train was not unpacked either</span></span>
+<span><span class="va">training</span></span></code></pre></div>
+<pre><code><span><span class="co">## Error in eval(expr, envir, enclos): object 'training' not found</span></span></code></pre>
 </div>
 </div>
-<div id="other-multiple-assignment-packages" class="section level2">
-<h2 class="hasAnchor">
-<a href="#other-multiple-assignment-packages" class="anchor"></a>Other multiple assignment packages</h2>
-<div id="zeallot" class="section level3">
-<h3 class="hasAnchor">
-<a href="#zeallot" class="anchor"></a><code>zeallot</code>
+<div class="section level2">
+<h2 id="other-multiple-assignment-packages">Other multiple assignment packages<a class="anchor" aria-label="anchor" href="#other-multiple-assignment-packages"></a>
+</h2>
+<div class="section level3">
+<h3 id="zeallot">
+<code>zeallot</code><a class="anchor" aria-label="anchor" href="#zeallot"></a>
 </h3>
-<p>The <a href="https://CRAN.R-project.org/package=zeallot"><code>zeallot</code></a> package already supplies excellent positional or ordered unpacking.</p>
-<p>The primary difference between <code>zeallot</code>’s <a href="https://CRAN.R-project.org/package=zeallot"><code>%&lt;-%</code></a> pipe and <code>unpack</code> is that <code>%&lt;-%</code> is a <em>positional</em> unpacker: you must unpack the list based on the <em>order</em> of the elements in the list. This style may be more appropriate in the Python world where many functions return un-named tuples of results.</p>
-<p><code>unpack</code> is a <em>named</em> unpacker: assignments are based on the <em>names</em> of elements in the list, and the assignments can be in any order. We feel this is more appropriate for R, as R has not emphasized positional unpacking; R functions tend to return named lists or named structures. For named lists or named structures it may not be safe to rely on value positions.</p>
-<p>For unpacking named lists, we recommend <code>unpack</code>. For unpacking unnamed lists, use <code>%&lt;-%</code>.</p>
+<p>The <a href="https://CRAN.R-project.org/package=zeallot" class="external-link"><code>zeallot</code></a>
+package already supplies excellent positional or ordered unpacking.</p>
+<p>The primary difference between <code>zeallot</code>’s
+<a href="https://CRAN.R-project.org/package=zeallot" class="external-link"><code>%&lt;-%</code></a>
+pipe and <code>unpack</code> is that <code>%&lt;-%</code> is a
+<em>positional</em> unpacker: you must unpack the list based on the
+<em>order</em> of the elements in the list. This style may be more
+appropriate in the Python world where many functions return un-named
+tuples of results.</p>
+<p><code>unpack</code> is a <em>named</em> unpacker: assignments are
+based on the <em>names</em> of elements in the list, and the assignments
+can be in any order. We feel this is more appropriate for R, as R has
+not emphasized positional unpacking; R functions tend to return named
+lists or named structures. For named lists or named structures it may
+not be safe to rely on value positions.</p>
+<p>For unpacking named lists, we recommend <code>unpack</code>. For
+unpacking unnamed lists, use <code>%&lt;-%</code>.</p>
 </div>
-<div id="vadr" class="section level3">
-<h3 class="hasAnchor">
-<a href="#vadr" class="anchor"></a><code>vadr</code>
+<div class="section level3">
+<h3 id="vadr">
+<code>vadr</code><a class="anchor" aria-label="anchor" href="#vadr"></a>
 </h3>
-<p><a href="https://github.com/crowding/vadr/blob/master/R/bind.R"><code>vadr::bind</code></a> supplies named unpacking, but appears to use a “<code>SOURCE = DESTINATION</code>” notation. That is the reverse of a “<code>DESTINATION = SOURCE</code>” which is how both R assignments and argument binding are already written.</p>
+<p><a href="https://github.com/crowding/vadr/blob/master/R/bind.R" class="external-link"><code>vadr::bind</code></a>
+supplies named unpacking, but appears to use a “<code>SOURCE =
+DESTINATION</code>” notation. That is the reverse of a
+“<code>DESTINATION = SOURCE</code>” which is how both R assignments and
+argument binding are already written.</p>
 </div>
-<div id="tidytidbits" class="section level3">
-<h3 class="hasAnchor">
-<a href="#tidytidbits" class="anchor"></a><code>tidytidbits</code>
+<div class="section level3">
+<h3 id="tidytidbits">
+<code>tidytidbits</code><a class="anchor" aria-label="anchor" href="#tidytidbits"></a>
 </h3>
-<p><a href="https://CRAN.R-project.org/package=tidytidbits"><code>tidytidbits</code></a> supplies positional unpacking with a <code>%=%</code> notation.</p>
+<p><a href="https://CRAN.R-project.org/package=tidytidbits" class="external-link"><code>tidytidbits</code></a>
+supplies positional unpacking with a <code>%=%</code> notation.</p>
 </div>
 </div>
   </div>
@@ -830,11 +860,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by John Mount, Nina Zumel.</p>
+  <p></p>
+<p>Developed by John Mount, Nina Zumel.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
@@ -842,6 +874,8 @@
 
   
 
+
+  
 
   </body>
 </html>

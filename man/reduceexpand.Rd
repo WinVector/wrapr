@@ -30,11 +30,11 @@ standard R named argument semantics.
 }
 \section{Functions}{
 \itemize{
-\item \code{\%|.\%}: f reduce args
+\item \code{f \%|.\% args}: f reduce args
 
-\item \code{\%.|\%}: args expand f
+\item \code{args \%.|\% f}: args expand f
+
 }}
-
 \examples{
 
 args <- list('prefix_', c(1:3), '_suffix')

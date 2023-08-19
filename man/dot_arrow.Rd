@@ -46,13 +46,13 @@ simply wrap it in .().
 }
 \section{Functions}{
 \itemize{
-\item \code{\%.>\%}: dot arrow
+\item \code{pipe_left_arg \%.>\% pipe_right_arg}: dot arrow
 
-\item \code{\%>.\%}: alias for dot arrow
+\item \code{pipe_left_arg \%>.\% pipe_right_arg}: alias for dot arrow
 
-\item \code{\%.\%}: alias for dot arrow
+\item \code{pipe_left_arg \%.\% pipe_right_arg}: alias for dot arrow
+
 }}
-
 \examples{
 
 # both should be equal:

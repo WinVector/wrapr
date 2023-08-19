@@ -1,5 +1,5 @@
 
-[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/wrapr)](https://cran.r-project.org/package=wrapr)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/wrapr)](https://cran.r-project.org/package=wrapr)
 [![status](https://tinyverse.netlify.com/badge/wrapr)](https://CRAN.R-project.org/package=wrapr)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -14,50 +14,50 @@ for writing and debugging `R` code.
 
 Primary `wrapr` services include:
 
--   [`%.>%`](https://winvector.github.io/wrapr/reference/dot_arrow.html)
-    (dot arrow pipe)
--   [`unpack`](https://winvector.github.io/wrapr/reference/unpack.html)/[`to`](https://winvector.github.io/wrapr/reference/to.html)
-    (assign to multiple values)
--   [`as_named_list`](https://winvector.github.io/wrapr/reference/as_named_list.html)
-    (build up a named list quickly)
--   [`build_frame()`](https://winvector.github.io/wrapr/reference/build_frame.html)
-    /
-    [`draw_frame()`](https://winvector.github.io/wrapr/reference/draw_frame.html)
-    ( `data.frame` builders and formatters )
--   [`bc()`](https://win-vector.com/2021/02/05/introducing-wraprbc/)
-    (blank concatenate)
--   [`qc()`](https://winvector.github.io/wrapr/reference/qc.html)
-    (quoting concatenate)
--   [`:=`](https://winvector.github.io/wrapr/reference/named_map_builder.html)
-    (named map builder)
--   [`%?%`](https://winvector.github.io/wrapr/reference/coalesce.html)
-    (coalesce)
--   [`%.|%`](https://winvector.github.io/wrapr/reference/reduceexpand.html)
-    (reduce/expand args)
--   [`uniques()`](https://winvector.github.io/wrapr/reference/uniques.html)
-    (safe `unique()` replacement)
--   [`partition_tables()`](https://winvector.github.io/wrapr/reference/partition_tables.html)
-    /
-    [`execute_parallel()`](https://winvector.github.io/wrapr/reference/execute_parallel.html)
--   [`DebugFnW()`](https://winvector.github.io/wrapr/reference/DebugFnW.html)
-    (function debug wrappers)
--   [`λ()`](https://winvector.github.io/wrapr/reference/defineLambda.html)
-    (anonymous function builder)
--   [`let()`](https://winvector.github.io/wrapr/reference/let.html) (let
-    block)
--   [`evalb()`/`si()`](https://winvector.github.io/wrapr/articles/bquote.html)
-    (evaluate with `bquote` / string interpolation)
--   [`sortv()`](https://winvector.github.io/wrapr/reference/sortv.html)
-    (sort a data.frame by a set of columns).
--   [`stop_if_dot_args()`](https://win-vector.com/2018/02/22/r-tip-force-named-arguments/)
-    (check for unexpected arguments)
+- [`%.>%`](https://winvector.github.io/wrapr/reference/dot_arrow.html)
+  (dot arrow pipe)
+- [`unpack`](https://winvector.github.io/wrapr/reference/unpack.html)/[`to`](https://winvector.github.io/wrapr/reference/to.html)
+  (assign to multiple values)
+- [`as_named_list`](https://winvector.github.io/wrapr/reference/as_named_list.html)
+  (build up a named list quickly)
+- [`build_frame()`](https://winvector.github.io/wrapr/reference/build_frame.html)
+  /
+  [`draw_frame()`](https://winvector.github.io/wrapr/reference/draw_frame.html)
+  ( `data.frame` builders and formatters )
+- [`bc()`](https://win-vector.com/2021/02/05/introducing-wraprbc/)
+  (blank concatenate)
+- [`qc()`](https://winvector.github.io/wrapr/reference/qc.html) (quoting
+  concatenate)
+- [`:=`](https://winvector.github.io/wrapr/reference/named_map_builder.html)
+  (named map builder)
+- [`%?%`](https://winvector.github.io/wrapr/reference/coalesce.html)
+  (coalesce)
+- [`%.|%`](https://winvector.github.io/wrapr/reference/reduceexpand.html)
+  (reduce/expand args)
+- [`uniques()`](https://winvector.github.io/wrapr/reference/uniques.html)
+  (safe `unique()` replacement)
+- [`partition_tables()`](https://winvector.github.io/wrapr/reference/partition_tables.html)
+  /
+  [`execute_parallel()`](https://winvector.github.io/wrapr/reference/execute_parallel.html)
+- [`DebugFnW()`](https://winvector.github.io/wrapr/reference/DebugFnW.html)
+  (function debug wrappers)
+- [`λ()`](https://winvector.github.io/wrapr/reference/defineLambda.html)
+  (anonymous function builder)
+- [`let()`](https://winvector.github.io/wrapr/reference/let.html) (let
+  block)
+- [`evalb()`/`si()`](https://winvector.github.io/wrapr/articles/bquote.html)
+  (evaluate with `bquote` / string interpolation)
+- [`sortv()`](https://winvector.github.io/wrapr/reference/sortv.html)
+  (sort a data.frame by a set of columns).
+- [`stop_if_dot_args()`](https://win-vector.com/2018/02/22/r-tip-force-named-arguments/)
+  (check for unexpected arguments)
 
 ``` r
 library(wrapr)
 packageVersion("wrapr")
- #  [1] '2.0.8'
+ #  [1] '2.1.0'
 date()
- #  [1] "Thu Jun 10 13:49:30 2021"
+ #  [1] "Sat Aug 19 09:06:13 2023"
 ```
 
 ## [`%.>%` (dot pipe or dot arrow)](https://winvector.github.io/wrapr/articles/dot_pipe.html)
@@ -123,7 +123,7 @@ for more details. Some formal documentation can be found
 
 <ul>
 <li>
-Some obvious “dot-free”" right-hand sides are rejected. Pipelines are
+Some obvious “dot-free”” right-hand sides are rejected. Pipelines are
 meant to move values through a sequence of transforms, and not just for
 side-effects. Example: `5 %.>% 6` deliberately stops as `6` is a
 right-hand side that obviously does not use its incoming value. This
@@ -470,15 +470,11 @@ interpolation.
 angle = 1:10
 variable <- "angle"
 
-# execute code
-evalb(
-  plot(x = .(-variable), y = sin(.(-variable)))
-)
-```
+# # execute code
+# evalb(
+#   plot(x = .(-variable), y = sin(.(-variable)))
+# )
 
-![](tools/README-unnamed-chunk-3-1.png)<!-- -->
-
-``` r
 # alter string
 si("plot(x = .(variable), y = .(variable))")
  #  [1] "plot(x = \"angle\", y = \"angle\")"
@@ -521,9 +517,9 @@ install.packages("wrapr")
 More details on `wrapr` capabilities can be found in the following two
 technical articles:
 
--   [let](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf)
--   [R Journal “Dot-Pipe: an S3 Extensible Pipe for
-    R”"](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html)
+- [let](https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf)
+- [R Journal “Dot-Pipe: an S3 Extensible Pipe for
+  R””](https://journal.r-project.org/archive/2018/RJ-2018-042/index.html)
 
 ## Note
 

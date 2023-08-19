@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,23 +33,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -106,7 +102,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://win-vector.com">Sponsor: Win-Vector LLC</a>
+  <a href="https://win-vector.com" class="external-link">Sponsor: Win-Vector LLC</a>
 </li>
       </ul>
 </div>
@@ -118,31 +114,34 @@
 
       
 
-      </header><script src="multi_assign_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Multiple Assignment</h1>
-                        <h4 class="author">John Mount</h4>
+                        <h4 data-toc-skip class="author">John Mount</h4>
             
-            <h4 class="date">2022-01-26</h4>
+            <h4 data-toc-skip class="date">2023-08-19</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/master/vignettes/multi_assign.Rmd"><code>vignettes/multi_assign.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/WinVector/wrapr/blob/HEAD/vignettes/multi_assign.Rmd" class="external-link"><code>vignettes/multi_assign.Rmd</code></a></small>
       <div class="hidden name"><code>multi_assign.Rmd</code></div>
 
     </div>
 
     
     
-<p><a href="https://github.com/WinVector/wrapr"><code>wrapr</code></a> now supplies a name based multiple assignment notation for <a href="https://www.r-project.org"><code>R</code></a>.</p>
-<p>In <code>R</code> there are many functions that return named lists or other structures keyed by names. Let’s start with a simple example: <code><a href="https://rdrr.io/r/base/split.html">base::split()</a></code>.</p>
+<p><a href="https://github.com/WinVector/wrapr" class="external-link"><code>wrapr</code></a>
+now supplies a name based multiple assignment notation for <a href="https://www.r-project.org" class="external-link"><code>R</code></a>.</p>
+<p>In <code>R</code> there are many functions that return named lists or
+other structures keyed by names. Let’s start with a simple example:
+<code><a href="https://rdrr.io/r/base/split.html" class="external-link">base::split()</a></code>.</p>
 <p>First some example data.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
-  x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">9</span>,
-  group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'train'</span>, <span class="st">'calibrate'</span>, <span class="st">'test'</span><span class="op">)</span>,
-  stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">9</span>,</span>
+<span>  group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'train'</span>, <span class="st">'calibrate'</span>, <span class="st">'test'</span><span class="op">)</span>,</span>
+<span>  stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">x</th>
@@ -187,14 +186,16 @@
 </tr>
 </tbody>
 </table>
-<p>One way to use <code><a href="https://rdrr.io/r/base/split.html">base::split()</a></code> is to call it on a <code>data.frame</code> and then unpack the desired portions from the returned value.</p>
+<p>One way to use <code><a href="https://rdrr.io/r/base/split.html" class="external-link">base::split()</a></code> is to call it on a
+<code>data.frame</code> and then unpack the desired portions from the
+returned value.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">parts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span>
-<span class="va">train_data</span> <span class="op">&lt;-</span> <span class="va">parts</span><span class="op">$</span><span class="va">train</span>
-<span class="va">calibrate_data</span> <span class="op">&lt;-</span> <span class="va">parts</span><span class="op">$</span><span class="va">calibrate</span>
-<span class="va">test_data</span> <span class="op">&lt;-</span> <span class="va">parts</span><span class="op">$</span><span class="va">test</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">parts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span></span>
+<span><span class="va">train_data</span> <span class="op">&lt;-</span> <span class="va">parts</span><span class="op">$</span><span class="va">train</span></span>
+<span><span class="va">calibrate_data</span> <span class="op">&lt;-</span> <span class="va">parts</span><span class="op">$</span><span class="va">calibrate</span></span>
+<span><span class="va">test_data</span> <span class="op">&lt;-</span> <span class="va">parts</span><span class="op">$</span><span class="va">test</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">train_data</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">train_data</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
@@ -220,7 +221,7 @@
 </tbody>
 </table>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">calibrate_data</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">calibrate_data</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
@@ -246,7 +247,7 @@
 </tbody>
 </table>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">test_data</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">test_data</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
@@ -271,21 +272,24 @@
 </tr>
 </tbody>
 </table>
-<p>If we use a multiple assignment notation we can collect some steps together, and avoid possibly leaving a possibly large temporary variable such as <code>parts</code> in our environment.</p>
+<p>If we use a multiple assignment notation we can collect some steps
+together, and avoid possibly leaving a possibly large temporary variable
+such as <code>parts</code> in our environment.</p>
 <p>Let’s clear out our earlier results.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span>, <span class="st">'parts'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>And now let’s apply <code><a href="https://rdrr.io/r/base/split.html">split()</a></code> and unpack the results in one step.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span>, <span class="st">'parts'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>And now let’s apply <code><a href="https://rdrr.io/r/base/split.html" class="external-link">split()</a></code> and unpack the results in
+one step.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/WinVector/wrapr">wrapr</a></span><span class="op">)</span>
-
-<span class="va">to</span><span class="op">[</span>
-  <span class="va">train_data</span> <span class="op">&lt;-</span> <span class="va">train</span>,
-  <span class="va">calibrate_data</span> <span class="op">&lt;-</span> <span class="va">calibrate</span>,
-  <span class="va">test_data</span> <span class="op">&lt;-</span> <span class="va">test</span>
-  <span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/WinVector/wrapr" class="external-link">wrapr</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">to</span><span class="op">[</span></span>
+<span>  <span class="va">train_data</span> <span class="op">&lt;-</span> <span class="va">train</span>,</span>
+<span>  <span class="va">calibrate_data</span> <span class="op">&lt;-</span> <span class="va">calibrate</span>,</span>
+<span>  <span class="va">test_data</span> <span class="op">&lt;-</span> <span class="va">test</span></span>
+<span>  <span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">train_data</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">train_data</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
@@ -311,7 +315,7 @@
 </tbody>
 </table>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">calibrate_data</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">calibrate_data</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
@@ -337,7 +341,7 @@
 </tbody>
 </table>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">test_data</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">test_data</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
@@ -362,169 +366,233 @@
 </tr>
 </tbody>
 </table>
-<p>The semantics of <code>[]&lt;-</code> imply that an object named “<code>to</code>” is left in our workspace as a side effect. However, this object is small and if there is already an object name <code>to</code> in the workspace that is not of class <code>Unpacker</code> the unpacking is aborted prior to overwriting anything. The unpacker two modes: <code>unpack</code> (a function that needs a dot in pipes) and <code>to</code> (an eager function factory that does not require a dot in pipes). The side-effect can be avoided by using <code>:=</code> for assigment.</p>
+<p>The semantics of <code>[]&lt;-</code> imply that an object named
+“<code>to</code>” is left in our workspace as a side effect. However,
+this object is small and if there is already an object name
+<code>to</code> in the workspace that is not of class
+<code>Unpacker</code> the unpacking is aborted prior to overwriting
+anything. The unpacker two modes: <code>unpack</code> (a function that
+needs a dot in pipes) and <code>to</code> (an eager function factory
+that does not require a dot in pipes). The side-effect can be avoided by
+using <code>:=</code> for assigment.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span>, <span class="st">'to'</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">to</span><span class="op">[</span>
-  <span class="va">train_data</span> <span class="op">&lt;-</span> <span class="va">train</span>,
-  <span class="va">calibrate_data</span> <span class="op">&lt;-</span> <span class="va">calibrate</span>,
-  <span class="va">test_data</span> <span class="op">&lt;-</span> <span class="va">test</span>
-  <span class="op">]</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "calibrate_data" "d"              "test_data"      "train_data"</code></pre>
-<p>Also the side-effect can be avoided by using alternate non-array update notations.</p>
-<p>We will demonstrate a few of these. First is pipe to array notation.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span>, <span class="st">'to'</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">to</span><span class="op">[</span></span>
+<span>  <span class="va">train_data</span> <span class="op">&lt;-</span> <span class="va">train</span>,</span>
+<span>  <span class="va">calibrate_data</span> <span class="op">&lt;-</span> <span class="va">calibrate</span>,</span>
+<span>  <span class="va">test_data</span> <span class="op">&lt;-</span> <span class="va">test</span></span>
+<span>  <span class="op">]</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "calibrate_data" "d"              "test_data"      "train_data"</span></span></code></pre>
+<p>Also the side-effect can be avoided by using alternate non-array
+update notations.</p>
+<p>We will demonstrate a few of these. First is pipe to array
+notation.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span> <span class="op">%.&gt;%</span> <span class="va">to</span><span class="op">[</span>
-  <span class="va">train_data</span> <span class="op">&lt;-</span> <span class="va">train</span>,
-  <span class="va">calibrate_data</span> <span class="op">&lt;-</span> <span class="va">calibrate</span>,
-  <span class="va">test_data</span> <span class="op">&lt;-</span> <span class="va">test</span>
-  <span class="op">]</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "calibrate_data" "d"              "test_data"      "train_data"</code></pre>
-<p>Note the above is the <a href="https://journal.r-project.org/archive/2018/RJ-2018-042/index.html"><code>wrapr</code> dot arrow pipe</a> (which requires explicit dots to denote pipe targets). In this case it is dispatching on the class of the right-hand side argument to get the effect. This is a common feature of the wrapr dot arrow pipe. We could get a similar effect by using right-assigment “<code><a href="https://rdrr.io/r/base/assignOps.html">-&gt;</a></code>” instead of the pipe.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span> <span class="op"><a href="../reference/dot_arrow.html">%.&gt;%</a></span> <span class="va">to</span><span class="op">[</span></span>
+<span>  <span class="va">train_data</span> <span class="op">&lt;-</span> <span class="va">train</span>,</span>
+<span>  <span class="va">calibrate_data</span> <span class="op">&lt;-</span> <span class="va">calibrate</span>,</span>
+<span>  <span class="va">test_data</span> <span class="op">&lt;-</span> <span class="va">test</span></span>
+<span>  <span class="op">]</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "calibrate_data" "d"              "test_data"      "train_data"</span></span></code></pre>
+<p>Note the above is the <a href="https://journal.r-project.org/archive/2018/RJ-2018-042/index.html" class="external-link"><code>wrapr</code>
+dot arrow pipe</a> (which requires explicit dots to denote pipe
+targets). In this case it is dispatching on the class of the right-hand
+side argument to get the effect. This is a common feature of the wrapr
+dot arrow pipe. We could get a similar effect by using right-assigment
+“<code>-&gt;</code>” instead of the pipe.</p>
 <p>We can also use a pipe function notation.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span> <span class="op">%.&gt;%</span> <span class="fu"><a href="../reference/to.html">to</a></span><span class="op">(</span>
-  <span class="va">train_data</span> <span class="op">&lt;-</span> <span class="va">train</span>,
-  <span class="va">calibrate_data</span> <span class="op">&lt;-</span> <span class="va">calibrate</span>,
-  <span class="va">test_data</span> <span class="op">&lt;-</span> <span class="va">test</span>
-<span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "calibrate_data" "d"              "test_data"      "train_data"</code></pre>
-<p>Notice piping to <code><a href="../reference/to.html">to()</a></code> is like piping to <code>to[]</code>, no dot is needed.</p>
-<p>We can not currently use the <code>magrittr</code> pipe in the above as in that case the unpacked results are lost in a temporary intermediate environment <code>magrittr</code> uses during execution.</p>
-<p>A more conventional functional form is given in <code><a href="../reference/unpack.html">unpack()</a></code>. <code><a href="../reference/unpack.html">unpack()</a></code> requires a dot in <code>wrapr</code> pipelines.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span> <span class="op"><a href="../reference/dot_arrow.html">%.&gt;%</a></span> <span class="fu"><a href="../reference/to.html">to</a></span><span class="op">(</span></span>
+<span>  <span class="va">train_data</span> <span class="op">&lt;-</span> <span class="va">train</span>,</span>
+<span>  <span class="va">calibrate_data</span> <span class="op">&lt;-</span> <span class="va">calibrate</span>,</span>
+<span>  <span class="va">test_data</span> <span class="op">&lt;-</span> <span class="va">test</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "calibrate_data" "d"              "test_data"      "train_data"</span></span></code></pre>
+<p>Notice piping to <code><a href="../reference/to.html">to()</a></code> is like piping to
+<code>to[]</code>, no dot is needed.</p>
+<p>We can not currently use the <code>magrittr</code> pipe in the above
+as in that case the unpacked results are lost in a temporary
+intermediate environment <code>magrittr</code> uses during
+execution.</p>
+<p>A more conventional functional form is given in
+<code><a href="../reference/unpack.html">unpack()</a></code>. <code><a href="../reference/unpack.html">unpack()</a></code> requires a dot in
+<code>wrapr</code> pipelines.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span> <span class="op">%.&gt;%</span> <span class="fu"><a href="../reference/unpack.html">unpack</a></span><span class="op">(</span>
-  <span class="va">.</span>,
-  <span class="va">train_data</span> <span class="op">&lt;-</span> <span class="va">train</span>,
-  <span class="va">calibrate_data</span> <span class="op">&lt;-</span> <span class="va">calibrate</span>,
-  <span class="va">test_data</span> <span class="op">&lt;-</span> <span class="va">test</span>
-<span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "calibrate_data" "d"              "test_data"      "train_data"</code></pre>
-<p>Unpack also support the pipe to array and assign to array notations. In addition, with <code><a href="../reference/unpack.html">unpack()</a></code> we could also use the conventional function notation.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span> <span class="op"><a href="../reference/dot_arrow.html">%.&gt;%</a></span> <span class="fu"><a href="../reference/unpack.html">unpack</a></span><span class="op">(</span></span>
+<span>  <span class="va">.</span>,</span>
+<span>  <span class="va">train_data</span> <span class="op">&lt;-</span> <span class="va">train</span>,</span>
+<span>  <span class="va">calibrate_data</span> <span class="op">&lt;-</span> <span class="va">calibrate</span>,</span>
+<span>  <span class="va">test_data</span> <span class="op">&lt;-</span> <span class="va">test</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "calibrate_data" "d"              "test_data"      "train_data"</span></span></code></pre>
+<p>Unpack also support the pipe to array and assign to array notations.
+In addition, with <code><a href="../reference/unpack.html">unpack()</a></code> we could also use the
+conventional function notation.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/unpack.html">unpack</a></span><span class="op">(</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span>,
-  <span class="va">train_data</span> <span class="op">&lt;-</span> <span class="va">train</span>,
-  <span class="va">calibrate_data</span> <span class="op">&lt;-</span> <span class="va">calibrate</span>,
-  <span class="va">test_data</span> <span class="op">&lt;-</span> <span class="va">test</span>
-<span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "calibrate_data" "d"              "test_data"      "train_data"</code></pre>
-<p><code><a href="../reference/to.html">to()</a></code> can not be directly used as a function. It is <em>strongly</em> suggested that the objects returned by <code>to[]</code>, <code><a href="../reference/to.html">to()</a></code>, and <code>unpack[]</code> <em>not ever</em> be stored in variables, but instead only produced, used, and discarded. The issue these are objects of class <code>"UnpackTarget"</code> and have the upack destination names already bound in. This means if one of these is used in code: a user reading the code can not tell where the side-effects are going without examining the contents of the object.</p>
-<p>The assignments in the unpacking block can be any of <code><a href="https://rdrr.io/r/base/assignOps.html">&lt;-</a></code>, <code><a href="https://rdrr.io/r/base/assignOps.html">=</a></code>, <code>:=</code>, or even <code><a href="https://rdrr.io/r/base/assignOps.html">-&gt;</a></code> (though the last one assigns left to right).</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/unpack.html">unpack</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span>,</span>
+<span>  <span class="va">train_data</span> <span class="op">&lt;-</span> <span class="va">train</span>,</span>
+<span>  <span class="va">calibrate_data</span> <span class="op">&lt;-</span> <span class="va">calibrate</span>,</span>
+<span>  <span class="va">test_data</span> <span class="op">&lt;-</span> <span class="va">test</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "calibrate_data" "d"              "test_data"      "train_data"</span></span></code></pre>
+<p><code><a href="../reference/to.html">to()</a></code> can not be directly used as a function. It is
+<em>strongly</em> suggested that the objects returned by
+<code>to[]</code>, <code><a href="../reference/to.html">to()</a></code>, and <code>unpack[]</code> <em>not
+ever</em> be stored in variables, but instead only produced, used, and
+discarded. The issue these are objects of class
+<code>"UnpackTarget"</code> and have the upack destination names already
+bound in. This means if one of these is used in code: a user reading the
+code can not tell where the side-effects are going without examining the
+contents of the object.</p>
+<p>The assignments in the unpacking block can be any of
+<code>&lt;-</code>, <code>=</code>, <code>:=</code>, or even
+<code>-&gt;</code> (though the last one assigns left to right).</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/unpack.html">unpack</a></span><span class="op">(</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span>,
-  train_data <span class="op">=</span> <span class="va">train</span>,
-  calibrate_data <span class="op">=</span> <span class="va">calibrate</span>,
-  test_data <span class="op">=</span> <span class="va">test</span>
-<span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "calibrate_data" "d"              "test_data"      "train_data"</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/unpack.html">unpack</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span>,</span>
+<span>  train_data <span class="op">=</span> <span class="va">train</span>,</span>
+<span>  calibrate_data <span class="op">=</span> <span class="va">calibrate</span>,</span>
+<span>  test_data <span class="op">=</span> <span class="va">test</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "calibrate_data" "d"              "test_data"      "train_data"</span></span></code></pre>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/unpack.html">unpack</a></span><span class="op">(</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span>,
-  <span class="va">train</span> <span class="op">-&gt;</span> <span class="va">train_data</span>,
-  <span class="va">calibrate</span> <span class="op">-&gt;</span> <span class="va">calibrate_data</span>,
-  <span class="va">test</span> <span class="op">-&gt;</span> <span class="va">test_data</span>
-<span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "calibrate_data" "d"              "test_data"      "train_data"</code></pre>
-<p>It is a caught and signaled error to attempt to unpack an item that is not there.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/unpack.html">unpack</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span>,</span>
+<span>  <span class="va">train</span> <span class="op">-&gt;</span> <span class="va">train_data</span>,</span>
+<span>  <span class="va">calibrate</span> <span class="op">-&gt;</span> <span class="va">calibrate_data</span>,</span>
+<span>  <span class="va">test</span> <span class="op">-&gt;</span> <span class="va">test_data</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "calibrate_data" "d"              "test_data"      "train_data"</span></span></code></pre>
+<p>It is a caught and signaled error to attempt to unpack an item that
+is not there.</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'train_data'</span>, <span class="st">'calibrate_data'</span>, <span class="st">'test_data'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/unpack.html">unpack</a></span><span class="op">(</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span>,
-  <span class="va">train_data</span> <span class="op">&lt;-</span> <span class="va">train</span>,
-  <span class="va">calibrate_data</span> <span class="op">&lt;-</span> <span class="va">calibrate_misspelled</span>,
-  <span class="va">test_data</span> <span class="op">&lt;-</span> <span class="va">test</span>
-<span class="op">)</span></code></pre></div>
-<pre><code>## Error in write_values_into_env(unpack_environment = unpack_environment, : wrapr::unpack all source names must be in value, missing: 'calibrate_misspelled'.</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/unpack.html">unpack</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span>,</span>
+<span>  <span class="va">train_data</span> <span class="op">&lt;-</span> <span class="va">train</span>,</span>
+<span>  <span class="va">calibrate_data</span> <span class="op">&lt;-</span> <span class="va">calibrate_misspelled</span>,</span>
+<span>  <span class="va">test_data</span> <span class="op">&lt;-</span> <span class="va">test</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Error in write_values_into_env(unpack_environment = unpack_environment, : wrapr::unpack all source names must be in value, missing: 'calibrate_misspelled'.</span></span></code></pre>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "d"</code></pre>
-<p>The unpack attempts to be atomic: preferring to unpack all values or no values.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "d"</span></span></code></pre>
+<p>The unpack attempts to be atomic: preferring to unpack all values or
+no values.</p>
 <p>Also, one does not have to unpack all slots.</p>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/unpack.html">unpack</a></span><span class="op">(</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span>,
-  <span class="va">train_data</span> <span class="op">&lt;-</span> <span class="va">train</span>,
-  <span class="va">test_data</span> <span class="op">&lt;-</span> <span class="va">test</span>
-<span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "d"          "test_data"  "train_data"</code></pre>
-<p>We can use a name alone as shorthand for <code>name &lt;- name</code> (i.e. unpacking to the same name as in the incoming object).</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/unpack.html">unpack</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span>,</span>
+<span>  <span class="va">train_data</span> <span class="op">&lt;-</span> <span class="va">train</span>,</span>
+<span>  <span class="va">test_data</span> <span class="op">&lt;-</span> <span class="va">test</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "d"          "test_data"  "train_data"</span></span></code></pre>
+<p>We can use a name alone as shorthand for <code>name &lt;- name</code>
+(i.e. unpacking to the same name as in the incoming object).</p>
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'train_data'</span>, <span class="st">'test_data'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'train_data'</span>, <span class="st">'test_data'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span> <span class="op">%.&gt;%</span>
-  <span class="va">to</span><span class="op">[</span>
-     <span class="va">train</span>,
-     <span class="va">test</span>
-     <span class="op">]</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "d"     "test"  "train"</code></pre>
-<p>We can also use <code>bquote</code> <code>.()</code> notation to use variables to specify where data is coming from.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span> <span class="op"><a href="../reference/dot_arrow.html">%.&gt;%</a></span></span>
+<span>  <span class="va">to</span><span class="op">[</span></span>
+<span>     <span class="va">train</span>,</span>
+<span>     <span class="va">test</span></span>
+<span>     <span class="op">]</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "d"     "test"  "train"</span></span></code></pre>
+<p>We can also use <code>bquote</code> <code>.()</code> notation to use
+variables to specify where data is coming from.</p>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'train'</span>, <span class="st">'test'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'train'</span>, <span class="st">'test'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">train_source</span> <span class="op">&lt;-</span> <span class="st">'train'</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span> <span class="op">%.&gt;%</span>
-  <span class="va">to</span><span class="op">[</span>
-     train_result <span class="op">=</span> <span class="fu">.</span><span class="op">(</span><span class="va">train_source</span><span class="op">)</span>,
-     <span class="va">test</span>
-     <span class="op">]</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "d"            "test"         "train_result" "train_source"</code></pre>
-<p>In all cases the user explicitly documents the intended data sources and data destinations at the place of assignment. This meas a later reader of the source code can see what the operation does, without having to know values of additional variables.</p>
+<code class="sourceCode R"><span><span class="va">train_source</span> <span class="op">&lt;-</span> <span class="st">'train'</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span> <span class="op"><a href="../reference/dot_arrow.html">%.&gt;%</a></span></span>
+<span>  <span class="va">to</span><span class="op">[</span></span>
+<span>     train_result <span class="op">=</span> <span class="fu">.</span><span class="op">(</span><span class="va">train_source</span><span class="op">)</span>,</span>
+<span>     <span class="va">test</span></span>
+<span>     <span class="op">]</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "d"            "test"         "train_result" "train_source"</span></span></code></pre>
+<p>In all cases the user explicitly documents the intended data sources
+and data destinations at the place of assignment. This meas a later
+reader of the source code can see what the operation does, without
+having to know values of additional variables.</p>
 <p>Related work includes:</p>
 <ul>
 <li>
-The <a href="https://CRAN.R-project.org/package=zeallot"><code>zeallot::%&lt;-%</code></a> arrow already supplies excellent positional or ordered unpacking. But we feel that style may be more appropriate in the Python world where many functions return un-named tuples of results. Python functions tend to have positional tuple return values <em>because</em> the Python language has had positional tuple unpacking as a core language feature for a very long time (thus positional structures have become “Pythonic”). R has not emphasized positional unpacking, so R functions tend to return named lists or named structures. For named lists or named structures it may not be safe to rely on value positions. So I feel it is more “R-like” to use named unpacking.
+The
+<a href="https://CRAN.R-project.org/package=zeallot" class="external-link"><code>zeallot::%&lt;-%</code></a>
+arrow already supplies excellent positional or ordered unpacking. But we
+feel that style may be more appropriate in the Python world where many
+functions return un-named tuples of results. Python functions tend to
+have positional tuple return values <em>because</em> the Python language
+has had positional tuple unpacking as a core language feature for a very
+long time (thus positional structures have become “Pythonic”). R has not
+emphasized positional unpacking, so R functions tend to return named
+lists or named structures. For named lists or named structures it may
+not be safe to rely on value positions. So I feel it is more “R-like” to
+use named unpacking.
 </li>
 <li>
-<a href="https://github.com/crowding/vadr/blob/master/R/bind.R"><code>vadr::bind</code></a> supplies named unpacking, but appears to use a “<code>SOURCE = DESTINATION</code>” notation. That is the reverse of a “<code>DESTINATION = SOURCE</code>” which is how both R assignments and argument binding are already written.
+<a href="https://github.com/crowding/vadr/blob/master/R/bind.R" class="external-link"><code>vadr::bind</code></a>
+supplies named unpacking, but appears to use a “<code>SOURCE =
+DESTINATION</code>” notation. That is the reverse of a
+“<code>DESTINATION = SOURCE</code>” which is how both R assignments and
+argument binding are already written.
 </li>
 <li>
-<code><a href="https://rdrr.io/r/base/attach.html">base::attach</a></code>. <code><a href="https://rdrr.io/r/base/attach.html">base::attach</a></code> adds items to the search path with names controlled by the object being attached (instead of by the user).
+<code><a href="https://rdrr.io/r/base/attach.html" class="external-link">base::attach</a></code>. <code><a href="https://rdrr.io/r/base/attach.html" class="external-link">base::attach</a></code> adds items to the
+search path with names controlled by the object being attached (instead
+of by the user).
 </li>
 <li>
-<code><a href="https://rdrr.io/r/base/with.html">base::with()</a></code>. <code><a href="../reference/unpack.html">unpack(list(a = 1, b = 2), x &lt;- a, y &lt;- b) </a></code> works a lot like <code><a href="https://rdrr.io/r/base/with.html"> with(list(a = 1, b = 2), { x &lt;&lt;- a; y &lt;&lt;-b })</a></code>.
+<code><a href="https://rdrr.io/r/base/with.html" class="external-link">base::with()</a></code>. <code>unpack(list(a = 1, b = 2), x &lt;- a, y
+&lt;- b) </code> works a lot like <code> with(list(a = 1, b = 2), { x
+&lt;&lt;- a; y &lt;&lt;-b })</code>.
 </li>
 <li>
-<a href="https://CRAN.R-project.org/package=tidytidbits"><code>tidytidbits</code></a> supplies positional unpacking with a <code>%=%</code> notation.
+<a href="https://CRAN.R-project.org/package=tidytidbits" class="external-link"><code>tidytidbits</code></a>
+supplies positional unpacking with a <code>%=%</code> notation.
 </li>
 <li>
-<a href="https://winvector.github.io/wrapr/articles/let.html"><code>wrapr::let()</code></a>. <code><a href="../reference/let.html">wrapr::let()</a></code> re-maps names during code execution using a “<code>TARGET = NEWNAME</code>” target replacement scheme, where <code>TARGET</code> acts as if it had the name stored in <code>NEWNAME</code> for the duration of the let-block.
+<a href="https://winvector.github.io/wrapr/articles/let.html"><code>wrapr::let()</code></a>.
+<code><a href="../reference/let.html">wrapr::let()</a></code> re-maps names during code execution using a
+“<code>TARGET = NEWNAME</code>” target replacement scheme, where
+<code>TARGET</code> acts as if it had the name stored in
+<code>NEWNAME</code> for the duration of the let-block.
 </li>
 </ul>
 </div>
@@ -538,11 +606,13 @@ The <a href="https://CRAN.R-project.org/package=zeallot"><code>zeallot::%&lt;-%<
 
 
       <footer><div class="copyright">
-  <p>Developed by John Mount, Nina Zumel.</p>
+  <p></p>
+<p>Developed by John Mount, Nina Zumel.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
@@ -550,6 +620,8 @@ The <a href="https://CRAN.R-project.org/package=zeallot"><code>zeallot::%&lt;-%<
 
   
 
+
+  
 
   </body>
 </html>

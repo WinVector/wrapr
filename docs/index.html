@@ -24,6 +24,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -36,23 +38,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">wrapr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -111,7 +107,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://win-vector.com">Sponsor: Win-Vector LLC</a>
+  <a href="https://win-vector.com" class="external-link">Sponsor: Win-Vector LLC</a>
 </li>
       </ul>
 </div>
@@ -128,11 +124,11 @@
 
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-<p><a href="https://winvector.github.io/wrapr/"><code>wrapr</code></a> is an <a href="https://cran.r-project.org"><code>R</code></a> package that supplies powerful tools for writing and debugging <code>R</code> code.</p>
+<p><a href="https://winvector.github.io/wrapr/"><code>wrapr</code></a> is an <a href="https://cran.r-project.org" class="external-link"><code>R</code></a> package that supplies powerful tools for writing and debugging <code>R</code> code.</p>
 <p><img src="https://github.com/WinVector/wrapr/raw/master/tools/wraprs.png"></p>
-<div id="introduction" class="section level2">
-<h2 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h2>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
 <p>Primary <code>wrapr</code> services include:</p>
 <ul>
 <li>
@@ -144,7 +140,7 @@
 <li>
 <a href="https://winvector.github.io/wrapr/reference/build_frame.html"><code>build_frame()</code></a> / <a href="https://winvector.github.io/wrapr/reference/draw_frame.html"><code>draw_frame()</code></a> ( <code>data.frame</code> builders and formatters )</li>
 <li>
-<a href="https://win-vector.com/2021/02/05/introducing-wraprbc/"><code>bc()</code></a> (blank concatenate)</li>
+<a href="https://win-vector.com/2021/02/05/introducing-wraprbc/" class="external-link"><code>bc()</code></a> (blank concatenate)</li>
 <li>
 <a href="https://winvector.github.io/wrapr/reference/qc.html"><code>qc()</code></a> (quoting concatenate)</li>
 <li>
@@ -154,7 +150,7 @@
 <li>
 <a href="https://winvector.github.io/wrapr/reference/reduceexpand.html"><code>%.|%</code></a> (reduce/expand args)</li>
 <li>
-<a href="https://winvector.github.io/wrapr/reference/uniques.html"><code>uniques()</code></a> (safe <code><a href="https://rdrr.io/r/base/unique.html">unique()</a></code> replacement)</li>
+<a href="https://winvector.github.io/wrapr/reference/uniques.html"><code>uniques()</code></a> (safe <code><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique()</a></code> replacement)</li>
 <li>
 <a href="https://winvector.github.io/wrapr/reference/partition_tables.html"><code>partition_tables()</code></a> / <a href="https://winvector.github.io/wrapr/reference/execute_parallel.html"><code>execute_parallel()</code></a>
 </li>
@@ -169,68 +165,68 @@
 <li>
 <a href="https://winvector.github.io/wrapr/reference/sortv.html"><code>sortv()</code></a> (sort a data.frame by a set of columns).</li>
 <li>
-<a href="https://win-vector.com/2018/02/22/r-tip-force-named-arguments/"><code>stop_if_dot_args()</code></a> (check for unexpected arguments)</li>
+<a href="https://win-vector.com/2018/02/22/r-tip-force-named-arguments/" class="external-link"><code>stop_if_dot_args()</code></a> (check for unexpected arguments)</li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/WinVector/wrapr">wrapr</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html">packageVersion</a></span><span class="op">(</span><span class="st">"wrapr"</span><span class="op">)</span>
- <span class="co">#  [1] '2.0.8'</span>
-<span class="fu"><a href="https://rdrr.io/r/base/date.html">date</a></span><span class="op">(</span><span class="op">)</span>
- <span class="co">#  [1] "Thu Jun 10 13:49:30 2021"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/WinVector/wrapr" class="external-link">wrapr</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"wrapr"</span><span class="op">)</span></span>
+<span> <span class="co">#  [1] '2.1.0'</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/date.html" class="external-link">date</a></span><span class="op">(</span><span class="op">)</span></span>
+<span> <span class="co">#  [1] "Sat Aug 19 09:06:13 2023"</span></span></code></pre></div>
 </div>
-<div id="-dot-pipe-or-dot-arrow" class="section level2">
-<h2 class="hasAnchor">
-<a href="#-dot-pipe-or-dot-arrow" class="anchor"></a><a href="https://winvector.github.io/wrapr/articles/dot_pipe.html"><code>%.&gt;%</code> (dot pipe or dot arrow)</a>
+<div class="section level2">
+<h2 id="id_-dot-pipe-or-dot-arrow">
+<a href="https://winvector.github.io/wrapr/articles/dot_pipe.html"><code>%.&gt;%</code> (dot pipe or dot arrow)</a><a class="anchor" aria-label="anchor" href="#id_-dot-pipe-or-dot-arrow"></a>
 </h2>
-<p><code><a href="reference/dot_arrow.html">%.&gt;%</a></code> dot arrow pipe is a pipe with intended semantics:</p>
+<p><code>%.&gt;%</code> dot arrow pipe is a pipe with intended semantics:</p>
 <blockquote>
-<p>“<code>a %.&gt;% b</code>” is to be treated <em>approximately</em> as if the user had written “<code>{ . &lt;- a; b };</code>” with “<code><a href="reference/dot_arrow.html">%.&gt;%</a></code>” being treated as left-associative.</p>
+<p>“<code>a %.&gt;% b</code>” is to be treated <em>approximately</em> as if the user had written “<code>{ . &lt;- a; b };</code>” with “<code>%.&gt;%</code>” being treated as left-associative.</p>
 </blockquote>
-<p>Other <code>R</code> pipes include <a href="https://CRAN.R-project.org/package=magrittr"><code>magrittr</code></a> and <a href="https://CRAN.R-project.org/package=pipeR"><code>pipeR</code></a>.</p>
+<p>Other <code>R</code> pipes include <a href="https://CRAN.R-project.org/package=magrittr" class="external-link"><code>magrittr</code></a> and <a href="https://CRAN.R-project.org/package=pipeR" class="external-link"><code>pipeR</code></a>.</p>
 <p>The following two expressions should be equivalent:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Trig.html">cos</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="fl">4</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
- <span class="co">#  [1] 0.8919465</span>
-
-<span class="fl">4</span> <span class="op">%.&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span> <span class="op">%.&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span> <span class="op">%.&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">cos</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span>
- <span class="co">#  [1] 0.8919465</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">cos</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sin</a></span><span class="op">(</span><span class="fl">4</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span> <span class="co">#  [1] 0.8919465</span></span>
+<span></span>
+<span><span class="fl">4</span> <span class="op"><a href="reference/dot_arrow.html">%.&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sin</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span> <span class="op"><a href="reference/dot_arrow.html">%.&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span> <span class="op"><a href="reference/dot_arrow.html">%.&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">cos</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span></span>
+<span> <span class="co">#  [1] 0.8919465</span></span></code></pre></div>
 <p>The notation is quite powerful as it treats pipe stages as expression parameterized over the variable “<code>.</code>”. This means you do not need to introduce functions to express stages. The following is a valid dot-pipe:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fl">1</span><span class="op">:</span><span class="fl">4</span> <span class="op">%.&gt;%</span> <span class="va">.</span><span class="op">^</span><span class="fl">2</span> 
- <span class="co">#  [1]  1  4  9 16</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span> <span class="op"><a href="reference/dot_arrow.html">%.&gt;%</a></span> <span class="va">.</span><span class="op">^</span><span class="fl">2</span> </span>
+<span> <span class="co">#  [1]  1  4  9 16</span></span></code></pre></div>
 <p>The notation is also very regular as we show below.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fl">1</span><span class="op">:</span><span class="fl">4</span> <span class="op">%.&gt;%</span> <span class="va">sin</span>
- <span class="co">#  [1]  0.8414710  0.9092974  0.1411200 -0.7568025</span>
-<span class="fl">1</span><span class="op">:</span><span class="fl">4</span> <span class="op">%.&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span>
- <span class="co">#  [1]  0.8414710  0.9092974  0.1411200 -0.7568025</span>
-<span class="fl">1</span><span class="op">:</span><span class="fl">4</span> <span class="op">%.&gt;%</span> <span class="fu">base</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span>
- <span class="co">#  [1]  0.8414710  0.9092974  0.1411200 -0.7568025</span>
-<span class="fl">1</span><span class="op">:</span><span class="fl">4</span> <span class="op">%.&gt;%</span> <span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span>
- <span class="co">#  [1]  0.8414710  0.9092974  0.1411200 -0.7568025</span>
-
-<span class="fl">1</span><span class="op">:</span><span class="fl">4</span> <span class="op">%.&gt;%</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span> <span class="va">x</span> <span class="op">+</span> <span class="fl">1</span> <span class="op">}</span>
- <span class="co">#  [1] 2 3 4 5</span>
-<span class="fl">1</span><span class="op">:</span><span class="fl">4</span> <span class="op">%.&gt;%</span> <span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span> <span class="va">x</span> <span class="op">+</span> <span class="fl">1</span> <span class="op">}</span><span class="op">)</span>
- <span class="co">#  [1] 2 3 4 5</span>
-
-<span class="fl">1</span><span class="op">:</span><span class="fl">4</span> <span class="op">%.&gt;%</span> <span class="op">{</span> <span class="va">.</span><span class="op">^</span><span class="fl">2</span> <span class="op">}</span> 
- <span class="co">#  [1]  1  4  9 16</span>
-<span class="fl">1</span><span class="op">:</span><span class="fl">4</span> <span class="op">%.&gt;%</span> <span class="op">(</span> <span class="va">.</span><span class="op">^</span><span class="fl">2</span> <span class="op">)</span>
- <span class="co">#  [1]  1  4  9 16</span></code></pre></div>
-<p>Regularity can be a <em>big</em> advantage in teaching and comprehension. Please see <a href="https://win-vector.com/2017/07/07/in-praise-of-syntactic-sugar/">“In Praise of Syntactic Sugar”</a> for more details. Some formal documentation can be found <a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf">here</a>.</p>
+<code class="sourceCode R"><span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span> <span class="op"><a href="reference/dot_arrow.html">%.&gt;%</a></span> <span class="va">sin</span></span>
+<span> <span class="co">#  [1]  0.8414710  0.9092974  0.1411200 -0.7568025</span></span>
+<span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span> <span class="op"><a href="reference/dot_arrow.html">%.&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sin</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span></span>
+<span> <span class="co">#  [1]  0.8414710  0.9092974  0.1411200 -0.7568025</span></span>
+<span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span> <span class="op"><a href="reference/dot_arrow.html">%.&gt;%</a></span> <span class="fu">base</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sin</a></span></span>
+<span> <span class="co">#  [1]  0.8414710  0.9092974  0.1411200 -0.7568025</span></span>
+<span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span> <span class="op"><a href="reference/dot_arrow.html">%.&gt;%</a></span> <span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sin</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span></span>
+<span> <span class="co">#  [1]  0.8414710  0.9092974  0.1411200 -0.7568025</span></span>
+<span></span>
+<span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span> <span class="op"><a href="reference/dot_arrow.html">%.&gt;%</a></span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span> <span class="va">x</span> <span class="op">+</span> <span class="fl">1</span> <span class="op">}</span></span>
+<span> <span class="co">#  [1] 2 3 4 5</span></span>
+<span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span> <span class="op"><a href="reference/dot_arrow.html">%.&gt;%</a></span> <span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span> <span class="va">x</span> <span class="op">+</span> <span class="fl">1</span> <span class="op">}</span><span class="op">)</span></span>
+<span> <span class="co">#  [1] 2 3 4 5</span></span>
+<span></span>
+<span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span> <span class="op"><a href="reference/dot_arrow.html">%.&gt;%</a></span> <span class="op">{</span> <span class="va">.</span><span class="op">^</span><span class="fl">2</span> <span class="op">}</span> </span>
+<span> <span class="co">#  [1]  1  4  9 16</span></span>
+<span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span> <span class="op"><a href="reference/dot_arrow.html">%.&gt;%</a></span> <span class="op">(</span> <span class="va">.</span><span class="op">^</span><span class="fl">2</span> <span class="op">)</span></span>
+<span> <span class="co">#  [1]  1  4  9 16</span></span></code></pre></div>
+<p>Regularity can be a <em>big</em> advantage in teaching and comprehension. Please see <a href="https://win-vector.com/2017/07/07/in-praise-of-syntactic-sugar/" class="external-link">“In Praise of Syntactic Sugar”</a> for more details. Some formal documentation can be found <a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_pipe.pdf" class="external-link">here</a>.</p>
 <ul>
 <li>
-Some obvious “dot-free”" right-hand sides are rejected. Pipelines are meant to move values through a sequence of transforms, and not just for side-effects. Example: <code>5 %.&gt;% 6</code> deliberately stops as <code>6</code> is a right-hand side that obviously does not use its incoming value. This check is only applied to values, not functions on the right-hand side.
+Some obvious “dot-free”” right-hand sides are rejected. Pipelines are meant to move values through a sequence of transforms, and not just for side-effects. Example: <code>5 %.&gt;% 6</code> deliberately stops as <code>6</code> is a right-hand side that obviously does not use its incoming value. This check is only applied to values, not functions on the right-hand side.
 </li>
 <li>
-Trying to pipe into a an “zero argument function evaluation expression” such as <code><a href="https://rdrr.io/r/base/Trig.html">sin()</a></code> is prohibited as it looks too much like the user declaring <code><a href="https://rdrr.io/r/base/Trig.html">sin()</a></code> takes no arguments. One must pipe into either a function, function name, or an non-trivial expression (such as <code><a href="https://rdrr.io/r/base/Trig.html">sin(.)</a></code>). A useful error message is returned to the user: <code>wrapr::pipe does not allow direct piping into a no-argument function call expression (such as "sin()" please use sin(.))</code>.
+Trying to pipe into a an “zero argument function evaluation expression” such as <code><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sin()</a></code> is prohibited as it looks too much like the user declaring <code><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sin()</a></code> takes no arguments. One must pipe into either a function, function name, or an non-trivial expression (such as <code>sin(.)</code>). A useful error message is returned to the user: <code>wrapr::pipe does not allow direct piping into a no-argument function call expression (such as "sin()" please use sin(.))</code>.
 </li>
 <li>
 Some reserved words can not be piped into. One example is <code>5 %.&gt;% return(.)</code> is prohibited as the obvious pipe implementation would not actually escape from user functions as users may intend.
 </li>
 <li>
-Obvious de-references (such as <code><a href="https://rdrr.io/r/base/Extract.html">$</a></code>, <code><a href="https://rdrr.io/r/base/ns-dblcolon.html">::</a></code>, <code><a href="https://rdrr.io/r/base/slotOp.html">@</a></code>, and a few more) on the right-hand side are treated performed (example: <code>5 %.&gt;% base::sin(.)</code>).
+Obvious de-references (such as <code>$</code>, <code>::</code>, <code>@</code>, and a few more) on the right-hand side are treated performed (example: <code>5 %.&gt;% base::sin(.)</code>).
 </li>
 <li>
 Outer parenthesis on the right-hand side are removed (example: <code>5 %.&gt;% (sin(.))</code>).
@@ -246,32 +242,33 @@ The dot arrow pipe has S3/S4 dispatch (please see ). However as the right-hand s
 </li>
 </ul>
 <p>The dot pipe is also user configurable through standard <code>S3</code>/<code>S4</code> methods.</p>
-<p>The dot pipe has been <a href="https://journal.r-project.org/archive/2018/RJ-2018-042/index.html">formally written up in the R Journal</a>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="sc">@</span>article{RJ<span class="dv">-2018-042</span>,</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  author <span class="ot">=</span> {John Mount and Nina Zumel},</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  title <span class="ot">=</span> {{Dot<span class="sc">-</span>Pipe<span class="sc">:</span> an S3 Extensible Pipe <span class="cf">for</span> R}},</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  year <span class="ot">=</span> {<span class="dv">2018</span>},</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  journal <span class="ot">=</span> {{The R Journal}},</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  url <span class="ot">=</span> {https<span class="sc">:</span><span class="er">//</span>journal.r<span class="sc">-</span>project.org<span class="sc">/</span>archive<span class="sc">/</span><span class="dv">2018</span><span class="sc">/</span>RJ<span class="dv">-2018-042</span><span class="sc">/</span>index.html}</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>The dot pipe has been <a href="https://journal.r-project.org/archive/2018/RJ-2018-042/index.html" class="external-link">formally written up in the R Journal</a>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="sc">@</span>article{RJ<span class="dv">-2018-042</span>,</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  author <span class="ot">=</span> {John Mount and Nina Zumel},</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  title <span class="ot">=</span> {{Dot<span class="sc">-</span>Pipe<span class="sc">:</span> an S3 Extensible Pipe <span class="cf">for</span> R}},</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  year <span class="ot">=</span> {<span class="dv">2018</span>},</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  journal <span class="ot">=</span> {{The R Journal}},</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  url <span class="ot">=</span> {https<span class="sc">:</span><span class="er">//</span>journal.r<span class="sc">-</span>project.org<span class="sc">/</span>archive<span class="sc">/</span><span class="dv">2018</span><span class="sc">/</span>RJ<span class="dv">-2018-042</span><span class="sc">/</span>index.html}</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>}</span></code></pre></div>
 </div>
-<div id="unpackto-multiple-assignments" class="section level2">
-<h2 class="hasAnchor">
-<a href="#unpackto-multiple-assignments" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/unpack.html"><code>unpack</code></a>/<a href="https://winvector.github.io/wrapr/reference/to.html"><code>to</code></a> multiple assignments</h2>
-<p>Unpack a named list into the current environment by name (for a positional based multiple assignment operator please see <a href="https://CRAN.R-project.org/package=zeallot"><code>zeallot</code></a>, for another named base multiple assigment please see <a href="https://github.com/crowding/vadr/blob/master/R/bind.R"><code>vadr::bind</code></a>).</p>
+<div class="section level2">
+<h2 id="unpackto-multiple-assignments">
+<a href="https://winvector.github.io/wrapr/reference/unpack.html"><code>unpack</code></a>/<a href="https://winvector.github.io/wrapr/reference/to.html"><code>to</code></a> multiple assignments<a class="anchor" aria-label="anchor" href="#unpackto-multiple-assignments"></a>
+</h2>
+<p>Unpack a named list into the current environment by name (for a positional based multiple assignment operator please see <a href="https://CRAN.R-project.org/package=zeallot" class="external-link"><code>zeallot</code></a>, for another named base multiple assigment please see <a href="https://github.com/crowding/vadr/blob/master/R/bind.R" class="external-link"><code>vadr::bind</code></a>).</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
-  x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">9</span>,
-  group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'train'</span>, <span class="st">'calibrate'</span>, <span class="st">'test'</span><span class="op">)</span>,
-  stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="va">unpack</span><span class="op">[</span>
-  train_data <span class="op">=</span> <span class="va">train</span>,
-  calibrate_data <span class="op">=</span> <span class="va">calibrate</span>,
-  test_data <span class="op">=</span> <span class="va">test</span>
-  <span class="op">]</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span>
-
-<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">train_data</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">9</span>,</span>
+<span>  group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'train'</span>, <span class="st">'calibrate'</span>, <span class="st">'test'</span><span class="op">)</span>,</span>
+<span>  stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">unpack</span><span class="op">[</span></span>
+<span>  train_data <span class="op">=</span> <span class="va">train</span>,</span>
+<span>  calibrate_data <span class="op">=</span> <span class="va">calibrate</span>,</span>
+<span>  test_data <span class="op">=</span> <span class="va">test</span></span>
+<span>  <span class="op">]</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">d</span><span class="op">$</span><span class="va">group</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">train_data</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
@@ -297,252 +294,254 @@ The dot arrow pipe has S3/S4 dispatch (please see ). However as the right-hand s
 </tbody>
 </table>
 </div>
-<div id="as_named_list" class="section level2">
-<h2 class="hasAnchor">
-<a href="#as_named_list" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/as_named_list.html"><code>as_named_list</code></a>
+<div class="section level2">
+<h2 id="as_named_list">
+<a href="https://winvector.github.io/wrapr/reference/as_named_list.html"><code>as_named_list</code></a><a class="anchor" aria-label="anchor" href="#as_named_list"></a>
 </h2>
-<p>Build up named lists. <a href="https://win-vector.com/2020/01/21/using-unpack-to-manage-your-r-environment/">Very convenient for managing workspaces when used with used with <code>unpack</code>/<code>to</code>.</a></p>
+<p>Build up named lists. <a href="https://win-vector.com/2020/01/21/using-unpack-to-manage-your-r-environment/" class="external-link">Very convenient for managing workspaces when used with used with <code>unpack</code>/<code>to</code>.</a></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/as_named_list.html">as_named_list</a></span><span class="op">(</span><span class="va">train_data</span>, <span class="va">calibrate_data</span>, <span class="va">test_data</span><span class="op">)</span>
- <span class="co">#  $train_data</span>
- <span class="co">#    x group</span>
- <span class="co">#  1 1 train</span>
- <span class="co">#  4 4 train</span>
- <span class="co">#  7 7 train</span>
- <span class="co">#  </span>
- <span class="co">#  $calibrate_data</span>
- <span class="co">#    x     group</span>
- <span class="co">#  2 2 calibrate</span>
- <span class="co">#  5 5 calibrate</span>
- <span class="co">#  8 8 calibrate</span>
- <span class="co">#  </span>
- <span class="co">#  $test_data</span>
- <span class="co">#    x group</span>
- <span class="co">#  3 3  test</span>
- <span class="co">#  6 6  test</span>
- <span class="co">#  9 9  test</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/as_named_list.html">as_named_list</a></span><span class="op">(</span><span class="va">train_data</span>, <span class="va">calibrate_data</span>, <span class="va">test_data</span><span class="op">)</span></span>
+<span> <span class="co">#  $train_data</span></span>
+<span> <span class="co">#    x group</span></span>
+<span> <span class="co">#  1 1 train</span></span>
+<span> <span class="co">#  4 4 train</span></span>
+<span> <span class="co">#  7 7 train</span></span>
+<span> <span class="co">#  </span></span>
+<span> <span class="co">#  $calibrate_data</span></span>
+<span> <span class="co">#    x     group</span></span>
+<span> <span class="co">#  2 2 calibrate</span></span>
+<span> <span class="co">#  5 5 calibrate</span></span>
+<span> <span class="co">#  8 8 calibrate</span></span>
+<span> <span class="co">#  </span></span>
+<span> <span class="co">#  $test_data</span></span>
+<span> <span class="co">#    x group</span></span>
+<span> <span class="co">#  3 3  test</span></span>
+<span> <span class="co">#  6 6  test</span></span>
+<span> <span class="co">#  9 9  test</span></span></code></pre></div>
 </div>
-<div id="build_frame--draw_frame" class="section level2">
-<h2 class="hasAnchor">
-<a href="#build_frame--draw_frame" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/build_frame.html"><code>build_frame()</code></a> / <a href="https://winvector.github.io/wrapr/reference/draw_frame.html"><code>draw_frame()</code></a>
+<div class="section level2">
+<h2 id="build_frame--draw_frame">
+<a href="https://winvector.github.io/wrapr/reference/build_frame.html"><code>build_frame()</code></a> / <a href="https://winvector.github.io/wrapr/reference/draw_frame.html"><code>draw_frame()</code></a>
+<a class="anchor" aria-label="anchor" href="#build_frame--draw_frame"></a>
 </h2>
 <p><a href="https://winvector.github.io/wrapr/reference/build_frame.html"><code>build_frame()</code></a> is a convenient way to type in a small example <code>data.frame</code> in natural row order. This can be very legible and saves having to perform a transpose in one’s head. <a href="https://winvector.github.io/wrapr/reference/draw_frame.html"><code>draw_frame()</code></a> is the complimentary function that formats a given <code>data.frame</code> (and is a great way to produce neatened examples).</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/build_frame.html">build_frame</a></span><span class="op">(</span>
-   <span class="st">"measure"</span>                   , <span class="st">"training"</span>, <span class="st">"validation"</span> <span class="op">|</span>
-   <span class="st">"minus binary cross entropy"</span>, <span class="fl">5</span>         , <span class="op">-</span><span class="fl">7</span>           <span class="op">|</span>
-   <span class="st">"accuracy"</span>                  , <span class="fl">0.8</span>       , <span class="fl">0.6</span>          <span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
- <span class="co">#                       measure training validation</span>
- <span class="co">#  1 minus binary cross entropy      5.0       -7.0</span>
- <span class="co">#  2                   accuracy      0.8        0.6</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
- <span class="co">#  'data.frame':   2 obs. of  3 variables:</span>
- <span class="co">#   $ measure   : chr  "minus binary cross entropy" "accuracy"</span>
- <span class="co">#   $ training  : num  5 0.8</span>
- <span class="co">#   $ validation: num  -7 0.6</span>
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="fu"><a href="reference/draw_frame.html">draw_frame</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>
- <span class="co">#  x &lt;- wrapr::build_frame(</span>
- <span class="co">#     "measure"                     , "training", "validation" |</span>
- <span class="co">#       "minus binary cross entropy", 5         , -7           |</span>
- <span class="co">#       "accuracy"                  , 0.8       , 0.6          )</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/build_frame.html">build_frame</a></span><span class="op">(</span></span>
+<span>   <span class="st">"measure"</span>                   , <span class="st">"training"</span>, <span class="st">"validation"</span> <span class="op">|</span></span>
+<span>   <span class="st">"minus binary cross entropy"</span>, <span class="fl">5</span>         , <span class="op">-</span><span class="fl">7</span>           <span class="op">|</span></span>
+<span>   <span class="st">"accuracy"</span>                  , <span class="fl">0.8</span>       , <span class="fl">0.6</span>          <span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span> <span class="co">#                       measure training validation</span></span>
+<span> <span class="co">#  1 minus binary cross entropy      5.0       -7.0</span></span>
+<span> <span class="co">#  2                   accuracy      0.8        0.6</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span> <span class="co">#  'data.frame':   2 obs. of  3 variables:</span></span>
+<span> <span class="co">#   $ measure   : chr  "minus binary cross entropy" "accuracy"</span></span>
+<span> <span class="co">#   $ training  : num  5 0.8</span></span>
+<span> <span class="co">#   $ validation: num  -7 0.6</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="reference/draw_frame.html">draw_frame</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
+<span> <span class="co">#  x &lt;- wrapr::build_frame(</span></span>
+<span> <span class="co">#     "measure"                     , "training", "validation" |</span></span>
+<span> <span class="co">#       "minus binary cross entropy", 5         , -7           |</span></span>
+<span> <span class="co">#       "accuracy"                  , 0.8       , 0.6          )</span></span></code></pre></div>
 </div>
-<div id="qc-quoting-concatenate" class="section level2">
-<h2 class="hasAnchor">
-<a href="#qc-quoting-concatenate" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/qc.html"><code>qc()</code> (quoting concatenate)</a>
+<div class="section level2">
+<h2 id="qc-quoting-concatenate">
+<a href="https://winvector.github.io/wrapr/reference/qc.html"><code>qc()</code> (quoting concatenate)</a><a class="anchor" aria-label="anchor" href="#qc-quoting-concatenate"></a>
 </h2>
-<p><code><a href="reference/qc.html">qc()</a></code> is a quoting variation on <code>R</code>’s concatenate operator <code><a href="https://rdrr.io/r/base/c.html">c()</a></code>. This code such as the following:</p>
+<p><code><a href="reference/qc.html">qc()</a></code> is a quoting variation on <code>R</code>’s concatenate operator <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code>. This code such as the following:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/qc.html">qc</a></span><span class="op">(</span>a <span class="op">=</span> <span class="va">x</span>, b <span class="op">=</span> <span class="va">y</span><span class="op">)</span>
- <span class="co">#    a   b </span>
- <span class="co">#  "x" "y"</span>
-
-<span class="fu"><a href="reference/qc.html">qc</a></span><span class="op">(</span><span class="va">one</span>, <span class="va">two</span>, <span class="va">three</span><span class="op">)</span>
- <span class="co">#  [1] "one"   "two"   "three"</span></code></pre></div>
-<p><code><a href="reference/qc.html">qc()</a></code> also allows <code><a href="https://rdrr.io/r/base/bquote.html">bquote()</a></code> driven <code>.()</code>-style argument escaping.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/qc.html">qc</a></span><span class="op">(</span>a <span class="op">=</span> <span class="va">x</span>, b <span class="op">=</span> <span class="va">y</span><span class="op">)</span></span>
+<span> <span class="co">#    a   b </span></span>
+<span> <span class="co">#  "x" "y"</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/qc.html">qc</a></span><span class="op">(</span><span class="va">one</span>, <span class="va">two</span>, <span class="va">three</span><span class="op">)</span></span>
+<span> <span class="co">#  [1] "one"   "two"   "three"</span></span></code></pre></div>
+<p><code><a href="reference/qc.html">qc()</a></code> also allows <code><a href="https://rdrr.io/r/base/bquote.html" class="external-link">bquote()</a></code> driven <code>.()</code>-style argument escaping.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">aname</span> <span class="op">&lt;-</span> <span class="st">"I_am_a"</span>
-<span class="va">yvalue</span> <span class="op">&lt;-</span> <span class="st">"six"</span>
-
-<span class="fu"><a href="reference/qc.html">qc</a></span><span class="op">(</span><span class="fu">.</span><span class="op">(</span><span class="va">aname</span><span class="op">)</span> <span class="op">:=</span> <span class="va">x</span>, b <span class="op">=</span> <span class="fu">.</span><span class="op">(</span><span class="va">yvalue</span><span class="op">)</span><span class="op">)</span>
- <span class="co">#  I_am_a      b </span>
- <span class="co">#     "x"  "six"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">aname</span> <span class="op">&lt;-</span> <span class="st">"I_am_a"</span></span>
+<span><span class="va">yvalue</span> <span class="op">&lt;-</span> <span class="st">"six"</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/qc.html">qc</a></span><span class="op">(</span><span class="fu">.</span><span class="op">(</span><span class="va">aname</span><span class="op">)</span> <span class="op">:=</span> <span class="va">x</span>, b <span class="op">=</span> <span class="fu">.</span><span class="op">(</span><span class="va">yvalue</span><span class="op">)</span><span class="op">)</span></span>
+<span> <span class="co">#  I_am_a      b </span></span>
+<span> <span class="co">#     "x"  "six"</span></span></code></pre></div>
 <p>Notice the <code>:=</code> notation is required for syntacitic reasons.</p>
 </div>
-<div id="-named-map-builder" class="section level2">
-<h2 class="hasAnchor">
-<a href="#-named-map-builder" class="anchor"></a><a href="https://winvector.github.io/seplyr/articles/named_map_builder.html"><code>:=</code> (named map builder)</a>
+<div class="section level2">
+<h2 id="id_-named-map-builder">
+<a href="https://winvector.github.io/seplyr/articles/named_map_builder.html" class="external-link"><code>:=</code> (named map builder)</a><a class="anchor" aria-label="anchor" href="#id_-named-map-builder"></a>
 </h2>
 <p><code>:=</code> is the “named map builder”. It allows code such as the following:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="st">'a'</span> <span class="op">:=</span> <span class="st">'x'</span>
- <span class="co">#    a </span>
- <span class="co">#  "x"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="st">'a'</span> <span class="op">:=</span> <span class="st">'x'</span></span>
+<span> <span class="co">#    a </span></span>
+<span> <span class="co">#  "x"</span></span></code></pre></div>
 <p>The important property of named map builder is it accepts values on the left-hand side allowing the following:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">name</span> <span class="op">&lt;-</span> <span class="st">'variableNameFromElsewhere'</span>
-<span class="va">name</span> <span class="op">:=</span> <span class="st">'newBinding'</span>
- <span class="co">#  variableNameFromElsewhere </span>
- <span class="co">#               "newBinding"</span></code></pre></div>
-<p>A nice property is <code>:=</code> commutes (in the sense of algebra or category theory) with <code>R</code>’s concatenation function <code><a href="https://rdrr.io/r/base/c.html">c()</a></code>. That is the following two statements are equivalent:</p>
+<code class="sourceCode R"><span><span class="va">name</span> <span class="op">&lt;-</span> <span class="st">'variableNameFromElsewhere'</span></span>
+<span><span class="va">name</span> <span class="op">:=</span> <span class="st">'newBinding'</span></span>
+<span> <span class="co">#  variableNameFromElsewhere </span></span>
+<span> <span class="co">#               "newBinding"</span></span></code></pre></div>
+<p>A nice property is <code>:=</code> commutes (in the sense of algebra or category theory) with <code>R</code>’s concatenation function <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code>. That is the following two statements are equivalent:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'a'</span>, <span class="st">'b'</span><span class="op">)</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'x'</span>, <span class="st">'y'</span><span class="op">)</span>
- <span class="co">#    a   b </span>
- <span class="co">#  "x" "y"</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'a'</span> <span class="op">:=</span> <span class="st">'x'</span>, <span class="st">'b'</span> <span class="op">:=</span> <span class="st">'y'</span><span class="op">)</span>
- <span class="co">#    a   b </span>
- <span class="co">#  "x" "y"</span></code></pre></div>
-<p>The named map builder is <a href="https://winvector.github.io/seplyr/articles/named_map_builder.html">designed to synergize with <code>seplyr</code></a>.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'a'</span>, <span class="st">'b'</span><span class="op">)</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'x'</span>, <span class="st">'y'</span><span class="op">)</span></span>
+<span> <span class="co">#    a   b </span></span>
+<span> <span class="co">#  "x" "y"</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'a'</span> <span class="op">:=</span> <span class="st">'x'</span>, <span class="st">'b'</span> <span class="op">:=</span> <span class="st">'y'</span><span class="op">)</span></span>
+<span> <span class="co">#    a   b </span></span>
+<span> <span class="co">#  "x" "y"</span></span></code></pre></div>
+<p>The named map builder is <a href="https://winvector.github.io/seplyr/articles/named_map_builder.html" class="external-link">designed to synergize with <code>seplyr</code></a>.</p>
 </div>
-<div id="-coalesce" class="section level2">
-<h2 class="hasAnchor">
-<a href="#-coalesce" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/coalesce.html"><code>%?%</code> (coalesce)</a>
+<div class="section level2">
+<h2 id="id_-coalesce">
+<a href="https://winvector.github.io/wrapr/reference/coalesce.html"><code>%?%</code> (coalesce)</a><a class="anchor" aria-label="anchor" href="#id_-coalesce"></a>
 </h2>
-<p>The coalesce operator tries to replace elements of its first argument with elements from its second argument. In particular <code><a href="reference/coalesce.html">%?%</a></code> replaces NULL vectors and NULL/NA entries of vectors and lists.</p>
+<p>The coalesce operator tries to replace elements of its first argument with elements from its second argument. In particular <code>%?%</code> replaces NULL vectors and NULL/NA entries of vectors and lists.</p>
 <p>Example:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="cn">NA</span><span class="op">)</span> <span class="op">%?%</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">20</span><span class="op">)</span>
- <span class="co">#  [1]  1 20</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="cn">NA</span><span class="op">)</span> <span class="op"><a href="reference/coalesce.html">%?%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">20</span><span class="op">)</span></span>
+<span> <span class="co">#  [1]  1 20</span></span></code></pre></div>
 </div>
-<div id="-reduceexpand-args" class="section level2">
-<h2 class="hasAnchor">
-<a href="#-reduceexpand-args" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/reduceexpand.html"><code>%.|%</code> (reduce/expand args)</a>
+<div class="section level2">
+<h2 id="id_-reduceexpand-args">
+<a href="https://winvector.github.io/wrapr/reference/reduceexpand.html"><code>%.|%</code> (reduce/expand args)</a><a class="anchor" aria-label="anchor" href="#id_-reduceexpand-args"></a>
 </h2>
 <p><code>x %.|% f</code> stands for <code>f(x[[1]], x[[2]], ..., x[[length(x)]])</code>. <code>v %|.% x</code> also stands for <code>f(x[[1]], x[[2]], ..., x[[length(x)]])</code>. The two operators are the same, the variation just allowing the user to choose the order they write things. The mnemonic is: “data goes on the dot-side of the operator.”</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">args</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">'prefix_'</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>, <span class="st">'_suffix'</span><span class="op">)</span>
-
-<span class="va">args</span> <span class="op">%.|%</span> <span class="va">paste0</span>
- <span class="co">#  [1] "prefix_1_suffix" "prefix_2_suffix" "prefix_3_suffix"</span>
-<span class="co"># prefix_1_suffix" "prefix_2_suffix" "prefix_3_suffix"</span>
-
-<span class="va">paste0</span> <span class="op">%|.%</span> <span class="va">args</span>
- <span class="co">#  [1] "prefix_1_suffix" "prefix_2_suffix" "prefix_3_suffix"</span>
-<span class="co"># prefix_1_suffix" "prefix_2_suffix" "prefix_3_suffix"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">args</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">'prefix_'</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>, <span class="st">'_suffix'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">args</span> <span class="op"><a href="reference/reduceexpand.html">%.|%</a></span> <span class="va">paste0</span></span>
+<span> <span class="co">#  [1] "prefix_1_suffix" "prefix_2_suffix" "prefix_3_suffix"</span></span>
+<span><span class="co"># prefix_1_suffix" "prefix_2_suffix" "prefix_3_suffix"</span></span>
+<span></span>
+<span><span class="va">paste0</span> <span class="op"><a href="reference/reduceexpand.html">%|.%</a></span> <span class="va">args</span></span>
+<span> <span class="co">#  [1] "prefix_1_suffix" "prefix_2_suffix" "prefix_3_suffix"</span></span>
+<span><span class="co"># prefix_1_suffix" "prefix_2_suffix" "prefix_3_suffix"</span></span></code></pre></div>
 </div>
-<div id="debugfnw" class="section level2">
-<h2 class="hasAnchor">
-<a href="#debugfnw" class="anchor"></a><a href="https://winvector.github.io/wrapr/articles/DebugFnW.html"><code>DebugFnW()</code></a>
+<div class="section level2">
+<h2 id="debugfnw">
+<a href="https://winvector.github.io/wrapr/articles/DebugFnW.html"><code>DebugFnW()</code></a><a class="anchor" aria-label="anchor" href="#debugfnw"></a>
 </h2>
-<p><code><a href="reference/DebugFnW.html">DebugFnW()</a></code> wraps a function for debugging. If the function throws an exception the execution context (function arguments, function name, and more) is captured and stored for the user. The function call can then be reconstituted, inspected and even re-run with a step-debugger. Please see our <a href="https://youtu.be/-P9UzQuJSH8?list=PLAKBwakacHbQT51nPHex1on3YNCCmggZA">free debugging video series</a> and <code><a href="articles/DebugFnW.html">vignette('DebugFnW', package='wrapr')</a></code> for examples.</p>
+<p><code><a href="reference/DebugFnW.html">DebugFnW()</a></code> wraps a function for debugging. If the function throws an exception the execution context (function arguments, function name, and more) is captured and stored for the user. The function call can then be reconstituted, inspected and even re-run with a step-debugger. Please see our <a href="https://youtu.be/-P9UzQuJSH8?list=PLAKBwakacHbQT51nPHex1on3YNCCmggZA" class="external-link">free debugging video series</a> and <code><a href="articles/DebugFnW.html">vignette('DebugFnW', package='wrapr')</a></code> for examples.</p>
 </div>
-<div id="λ-anonymous-function-builder" class="section level2">
-<h2 class="hasAnchor">
-<a href="#%CE%BB-anonymous-function-builder" class="anchor"></a><a href="https://winvector.github.io/wrapr/articles/lambda.html"><code>λ()</code> (anonymous function builder)</a>
+<div class="section level2">
+<h2 id="λ-anonymous-function-builder">
+<a href="https://winvector.github.io/wrapr/articles/lambda.html"><code>λ()</code> (anonymous function builder)</a><a class="anchor" aria-label="anchor" href="#%CE%BB-anonymous-function-builder"></a>
 </h2>
-<p><code>λ()</code> is a concise abstract function creator or “<a href="https://en.wikipedia.org/wiki/Lambda_calculus">lambda abstraction</a>”. It is a placeholder that allows the use of the -character for very concise function abstraction.</p>
+<p><code>λ()</code> is a concise abstract function creator or “<a href="https://en.wikipedia.org/wiki/Lambda_calculus" class="external-link">lambda abstraction</a>”. It is a placeholder that allows the use of the -character for very concise function abstraction.</p>
 <p>Example:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Make sure lambda function builder is in our enironment.</span>
-<span class="fu">wrapr</span><span class="fu">::</span><span class="fu"><a href="reference/defineLambda.html">defineLambda</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="co"># square numbers 1 through 4</span>
-<span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fu">λ</span><span class="op">(</span><span class="va">x</span>, <span class="va">x</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span>
- <span class="co">#  [1]  1  4  9 16</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Make sure lambda function builder is in our enironment.</span></span>
+<span><span class="fu">wrapr</span><span class="fu">::</span><span class="fu"><a href="reference/defineLambda.html">defineLambda</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># square numbers 1 through 4</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fu">λ</span><span class="op">(</span><span class="va">x</span>, <span class="va">x</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span> <span class="co">#  [1]  1  4  9 16</span></span></code></pre></div>
 </div>
-<div id="let" class="section level2">
-<h2 class="hasAnchor">
-<a href="#let" class="anchor"></a><a href="https://winvector.github.io/wrapr/articles/let.html"><code>let()</code></a>
+<div class="section level2">
+<h2 id="let">
+<a href="https://winvector.github.io/wrapr/articles/let.html"><code>let()</code></a><a class="anchor" aria-label="anchor" href="#let"></a>
 </h2>
-<p><code><a href="reference/let.html">let()</a></code> allows execution of arbitrary code with substituted variable names (note this is subtly different than binding values for names as with <code><a href="https://rdrr.io/r/base/substitute.html">base::substitute()</a></code> or <code><a href="https://rdrr.io/r/base/with.html">base::with()</a></code>).</p>
+<p><code><a href="reference/let.html">let()</a></code> allows execution of arbitrary code with substituted variable names (note this is subtly different than binding values for names as with <code><a href="https://rdrr.io/r/base/substitute.html" class="external-link">base::substitute()</a></code> or <code><a href="https://rdrr.io/r/base/with.html" class="external-link">base::with()</a></code>).</p>
 <p>The function is simple and powerful. It treats strings as variable names and re-writes expressions as if you had used the denoted variables. For example the following block of code is equivalent to having written “a + a”.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">a</span> <span class="op">&lt;-</span> <span class="fl">7</span>
-
-<span class="fu"><a href="reference/let.html">let</a></span><span class="op">(</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>VAR <span class="op">=</span> <span class="st">'a'</span><span class="op">)</span>,
-  
-  <span class="va">VAR</span> <span class="op">+</span> <span class="va">VAR</span>
-<span class="op">)</span>
- <span class="co">#  [1] 14</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fl">7</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/let.html">let</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>VAR <span class="op">=</span> <span class="st">'a'</span><span class="op">)</span>,</span>
+<span>  </span>
+<span>  <span class="va">VAR</span> <span class="op">+</span> <span class="va">VAR</span></span>
+<span><span class="op">)</span></span>
+<span> <span class="co">#  [1] 14</span></span></code></pre></div>
 <p>This is useful in re-adapting non-standard evaluation interfaces (NSE interfaces) so one can script or program over them.</p>
 <p>We are trying to make <code><a href="reference/let.html">let()</a></code> self teaching and self documenting (to the extent that makes sense). For example try the arguments “<code>eval=FALSE</code>” prevent execution and see what <em>would</em> have been executed, or <code>debug=TRUE</code> to have the replaced code printed in addition to being executed:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/let.html">let</a></span><span class="op">(</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>VAR <span class="op">=</span> <span class="st">'a'</span><span class="op">)</span>,
-  eval <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="op">{</span>
-    <span class="va">VAR</span> <span class="op">+</span> <span class="va">VAR</span>
-  <span class="op">}</span>
-<span class="op">)</span>
- <span class="co">#  {</span>
- <span class="co">#      a + a</span>
- <span class="co">#  }</span>
-
-<span class="fu"><a href="reference/let.html">let</a></span><span class="op">(</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>VAR <span class="op">=</span> <span class="st">'a'</span><span class="op">)</span>,
-  debugPrint <span class="op">=</span> <span class="cn">TRUE</span>,
-  <span class="op">{</span>
-    <span class="va">VAR</span> <span class="op">+</span> <span class="va">VAR</span>
-  <span class="op">}</span>
-<span class="op">)</span>
- <span class="co">#  $VAR</span>
- <span class="co">#  [1] "a"</span>
- <span class="co">#  </span>
- <span class="co">#  {</span>
- <span class="co">#      a + a</span>
- <span class="co">#  }</span>
- <span class="co">#  [1] 14</span></code></pre></div>
-<p>Please see <code><a href="articles/let.html">vignette('let', package='wrapr')</a></code> for more examples. Some formal documentation can be found <a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf">here</a>. <code><a href="reference/let.html">wrapr::let()</a></code> was inspired by <code><a href="https://rdrr.io/pkg/gtools/man/defmacro.html">gtools::strmacro()</a></code> and <code><a href="https://rdrr.io/r/base/bquote.html">base::bquote()</a></code>, please see <a href="https://github.com/WinVector/wrapr/blob/master/extras/bquote.md">here</a> for some notes on macro methods in <code>R</code>.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/let.html">let</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>VAR <span class="op">=</span> <span class="st">'a'</span><span class="op">)</span>,</span>
+<span>  eval <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="op">{</span></span>
+<span>    <span class="va">VAR</span> <span class="op">+</span> <span class="va">VAR</span></span>
+<span>  <span class="op">}</span></span>
+<span><span class="op">)</span></span>
+<span> <span class="co">#  {</span></span>
+<span> <span class="co">#      a + a</span></span>
+<span> <span class="co">#  }</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/let.html">let</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>VAR <span class="op">=</span> <span class="st">'a'</span><span class="op">)</span>,</span>
+<span>  debugPrint <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="op">{</span></span>
+<span>    <span class="va">VAR</span> <span class="op">+</span> <span class="va">VAR</span></span>
+<span>  <span class="op">}</span></span>
+<span><span class="op">)</span></span>
+<span> <span class="co">#  $VAR</span></span>
+<span> <span class="co">#  [1] "a"</span></span>
+<span> <span class="co">#  </span></span>
+<span> <span class="co">#  {</span></span>
+<span> <span class="co">#      a + a</span></span>
+<span> <span class="co">#  }</span></span>
+<span> <span class="co">#  [1] 14</span></span></code></pre></div>
+<p>Please see <code><a href="articles/let.html">vignette('let', package='wrapr')</a></code> for more examples. Some formal documentation can be found <a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf" class="external-link">here</a>. <code><a href="reference/let.html">wrapr::let()</a></code> was inspired by <code>gtools::strmacro()</code> and <code><a href="https://rdrr.io/r/base/bquote.html" class="external-link">base::bquote()</a></code>, please see <a href="https://github.com/WinVector/wrapr/blob/master/extras/bquote.md" class="external-link">here</a> for some notes on macro methods in <code>R</code>.</p>
 </div>
-<div id="evalbsi-evaluate-with-bquote--string-interpolation" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#evalbsi-evaluate-with-bquote--string-interpolation" class="anchor"></a><a href="https://winvector.github.io/wrapr/articles/bquote.html"><code>evalb()</code>/<code>si()</code></a> (evaluate with <code>bquote</code> / string interpolation)</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="evalbsi-evaluate-with-bquote--string-interpolation">
+<a href="https://winvector.github.io/wrapr/articles/bquote.html"><code>evalb()</code>/<code>si()</code></a> (evaluate with <code>bquote</code> / string interpolation)<a class="anchor" aria-label="anchor" href="#evalbsi-evaluate-with-bquote--string-interpolation"></a>
+</h1></div>
 <p><code>wrapr</code> supplies unified notation for quasi-quotation and string interpolation.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">angle</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>
-<span class="va">variable</span> <span class="op">&lt;-</span> <span class="st">"angle"</span>
-
-<span class="co"># execute code</span>
-<span class="fu"><a href="reference/evalb.html">evalb</a></span><span class="op">(</span>
-  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu">.</span><span class="op">(</span><span class="op">-</span><span class="va">variable</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="fu">.</span><span class="op">(</span><span class="op">-</span><span class="va">variable</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
-<p><img src="tools/README-unnamed-chunk-3-1.png"><!-- --></p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># alter string</span>
-<span class="fu"><a href="reference/si.html">si</a></span><span class="op">(</span><span class="st">"plot(x = .(variable), y = .(variable))"</span><span class="op">)</span>
- <span class="co">#  [1] "plot(x = \"angle\", y = \"angle\")"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">angle</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span></span>
+<span><span class="va">variable</span> <span class="op">&lt;-</span> <span class="st">"angle"</span></span>
+<span></span>
+<span><span class="co"># # execute code</span></span>
+<span><span class="co"># evalb(</span></span>
+<span><span class="co">#   plot(x = .(-variable), y = sin(.(-variable)))</span></span>
+<span><span class="co"># )</span></span>
+<span></span>
+<span><span class="co"># alter string</span></span>
+<span><span class="fu"><a href="reference/si.html">si</a></span><span class="op">(</span><span class="st">"plot(x = .(variable), y = .(variable))"</span><span class="op">)</span></span>
+<span> <span class="co">#  [1] "plot(x = \"angle\", y = \"angle\")"</span></span></code></pre></div>
 <p>The extra <code>.(-x)</code> form is a shortcut for <code>.(as.name(x))</code>.</p>
 </div>
-<div id="sortv-sort-a-dataframe-by-a-set-of-columns" class="section level1">
-<h1 class="hasAnchor">
-<a href="#sortv-sort-a-dataframe-by-a-set-of-columns" class="anchor"></a><a href="https://winvector.github.io/wrapr/reference/sortv.html"><code>sortv()</code></a> (sort a data.frame by a set of columns)</h1>
+<div class="section level1">
+<h1 id="sortv-sort-a-dataframe-by-a-set-of-columns">
+<a href="https://winvector.github.io/wrapr/reference/sortv.html"><code>sortv()</code></a> (sort a data.frame by a set of columns)<a class="anchor" aria-label="anchor" href="#sortv-sort-a-dataframe-by-a-set-of-columns"></a>
+</h1>
 <p>This is the sort command that is missing from <code>R</code>: sort a <code>data.frame</code> by a chosen set of columns specified in a variable.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
-  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">3</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, 
-  y <span class="op">=</span> <span class="fl">6</span><span class="op">:</span><span class="fl">1</span>,
-  z <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>
-<span class="va">order_cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'x'</span>, <span class="st">'y'</span><span class="op">)</span>
-
-<span class="fu"><a href="reference/sortv.html">sortv</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">order_cols</span><span class="op">)</span>
- <span class="co">#    x y z</span>
- <span class="co">#  6 1 1 6</span>
- <span class="co">#  5 1 2 5</span>
- <span class="co">#  2 2 5 2</span>
- <span class="co">#  1 2 6 1</span>
- <span class="co">#  4 3 3 4</span>
- <span class="co">#  3 3 4 3</span></code></pre></div>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">3</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>  y <span class="op">=</span> <span class="fl">6</span><span class="op">:</span><span class="fl">1</span>,</span>
+<span>  z <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span>
+<span><span class="va">order_cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'x'</span>, <span class="st">'y'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/sortv.html">sortv</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">order_cols</span><span class="op">)</span></span>
+<span> <span class="co">#    x y z</span></span>
+<span> <span class="co">#  6 1 1 6</span></span>
+<span> <span class="co">#  5 1 2 5</span></span>
+<span> <span class="co">#  2 2 5 2</span></span>
+<span> <span class="co">#  1 2 6 1</span></span>
+<span> <span class="co">#  4 3 3 4</span></span>
+<span> <span class="co">#  3 3 4 3</span></span></code></pre></div>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p>Install with:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"wrapr"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"wrapr"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="more-information" class="section level2">
-<h2 class="hasAnchor">
-<a href="#more-information" class="anchor"></a>More Information</h2>
+<div class="section level2">
+<h2 id="more-information">More Information<a class="anchor" aria-label="anchor" href="#more-information"></a>
+</h2>
 <p>More details on <code>wrapr</code> capabilities can be found in the following two technical articles:</p>
 <ul>
-<li><a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf">let</a></li>
-<li><a href="https://journal.r-project.org/archive/2018/RJ-2018-042/index.html">R Journal “Dot-Pipe: an S3 Extensible Pipe for R”"</a></li>
+<li><a href="https://github.com/WinVector/wrapr/blob/master/extras/wrapr_let.pdf" class="external-link">let</a></li>
+<li><a href="https://journal.r-project.org/archive/2018/RJ-2018-042/index.html" class="external-link">R Journal “Dot-Pipe: an S3 Extensible Pipe for R””</a></li>
 </ul>
 </div>
-<div id="note" class="section level2">
-<h2 class="hasAnchor">
-<a href="#note" class="anchor"></a>Note</h2>
+<div class="section level2">
+<h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a>
+</h2>
 <p>Note: <code>wrapr</code> is meant only for “tame names”, that is: variables and column names that are also valid <em>simple</em> (without quotes) <code>R</code> variables names.</p>
 </div>
 </div>
@@ -551,50 +550,60 @@ The dot arrow pipe has S3/S4 dispatch (please see ). However as the right-hand s
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=wrapr">https://​cloud.r-project.org/​package=wrapr</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/WinVector/wrapr/">https://​github.com/​WinVector/​wrapr/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/WinVector/wrapr/issues">https://​github.com/​WinVector/​wrapr/​issues</a>
-</li>
-</ul>
-</div>
-<div class="license">
-<h2>License</h2>
-<ul class="list-unstyled">
-<li>
-<a href="https://www.r-project.org/Licenses/GPL-2">GPL-2</a> | <a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a>
-</li>
-</ul>
-</div>
-<div class="developers">
-<h2>Developers</h2>
-<ul class="list-unstyled">
-<li>John Mount <br><small class="roles"> Author, maintainer </small>  </li>
-<li>Nina Zumel <br><small class="roles"> Author </small>  </li>
-<li><a href="authors.html">All authors...</a></li>
+<li><a href="https://cloud.r-project.org/package=wrapr" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/WinVector/wrapr/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/WinVector/wrapr/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="license">
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://cran.r-project.org/package=wrapr"><img src="https://www.r-pkg.org/badges/version/wrapr" alt="CRAN_Status_Badge"></a></li>
-<li><a href="https://CRAN.R-project.org/package=wrapr"><img src="https://tinyverse.netlify.com/badge/wrapr" alt="status"></a></li>
+<li>
+<a href="https://www.r-project.org/Licenses/GPL-2" class="external-link">GPL-2</a> | <a href="https://www.r-project.org/Licenses/GPL-3" class="external-link">GPL-3</a>
+</li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing wrapr</a></li>
+</ul>
 </div>
+
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>John Mount <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Nina Zumel <br><small class="roles"> Author </small>  </li>
+<li><a href="authors.html">More about authors...</a></li>
+</ul>
+</div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://cran.r-project.org/package=wrapr" class="external-link"><img src="https://www.r-pkg.org/badges/version/wrapr" alt="CRAN_Status_Badge"></a></li>
+<li><a href="https://CRAN.R-project.org/package=wrapr" class="external-link"><img src="https://tinyverse.netlify.com/badge/wrapr" alt="status"></a></li>
+</ul>
+</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by John Mount, Nina Zumel.</p>
+  <p></p>
+<p>Developed by John Mount, Nina Zumel.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
@@ -602,6 +611,8 @@ The dot arrow pipe has S3/S4 dispatch (please see ). However as the right-hand s
 
   
 
+
+  
 
   </body>
 </html>
